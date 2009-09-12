@@ -856,6 +856,11 @@ document is tangled these references are replaced with the named code.
 An example is provided in the [[literate-programming-example]] in this
 document.
 
+*** Requirements Documentation
+    The original requirements documentation is available at
+    [[file:requirements.org][requirements]].   As the project has evolved since the original
+    planning stages this is here mainly for historical reasons.
+
 * Footnotes
 
 [fn:1] Calling =C-c C-o= on a source-code block will open the
