@@ -861,6 +861,14 @@ document.
     [[file:requirements.org][requirements]].   As the project has evolved since the original
     planning stages this is here mainly for historical reasons.
 
+* Future development, Bugs, and Tests
+  The development of Org-babel is tracked in [[file:development.org][development]], a large
+  Org-mode file.  This file contains
+  - lists of pending development tasks
+  - lists of known and resolved bugs
+  - the Org-babel functional test suit which is implemented as a large
+    table and is run using Org-babel's spreadsheet functionality
+
 * Footnotes
 
 [fn:1] Calling =C-c C-o= on a source-code block will open the
