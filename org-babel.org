@@ -6,7 +6,6 @@
 #+AUTHOR:     Eric Schulte, Dan Davison
 #+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
 #+LANGUAGE:   en
-#+STYLE:      <style type="text/css">#outline-container-introduction{clear:both;}</style>
 
 #+begin_html
   <div id="subtitle" style="float: center; text-align: center;">
@@ -59,7 +58,7 @@
 
   1) Org-babel is now included in the contrib directory of Org-mode,
      so the first step is to update to the latest version of Org-mode
-     (see [[file:~/src/worg/org-faq.org::keeping-current-with-Org-mode-development][keeping-current-with-Org-mode-development]])
+     (see [[file:../../org-faq.org::keeping-current-with-Org-mode-development][keeping-current-with-Org-mode-development]])
 
   2) Make sure that the path to org's contrib directory is in your
      load-path and add the following to your =.emacs= and evaluate.
@@ -115,10 +114,12 @@ HTML output. Normally, when exported to HTML, source blocks are
 fontified according to their language, and the begin_src...end_src
 mark-up is omitted, like this:
 
+ruby
 #+begin_src ruby
 "This file was last evaluated on #{Date.today}"
 #+end_src
 
+shell script alternative
 #+begin_src sh
 echo "This file was last evaluated on `date`"
 #+end_src
@@ -128,10 +129,10 @@ HTML output only. However, much of this document consists of
 interactive examples, and therefore in order to get a feeling for the
 mechanics of Org-babel it might make most sense to grab the plain text
 version of this file
-#+HTML: <a href="org-babel-worg.org">org-babel-worg.org</a>
+#+HTML: <a href="org-babel-worg.org">org-babel.org</a>
 and work through it in Emacs. Alternatively the htmlized
 version of the plain text of this file at
-#+HTML: <a href="org-babel-worg.org.html">org-babel-worg.html</a>
+#+HTML: <a href="org-babel-worg.org.html">org-babel.org.html</a>
 allows the plain text version to be viewed (non-interactively) in a web browser.
 *** Source code execution
     :PROPERTIES:

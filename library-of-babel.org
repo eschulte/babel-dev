@@ -2,12 +2,11 @@
 #+SEQ_TODO: TODO PROPOSED | DONE DEFERRED REJECTED
 #+OPTIONS:  H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP:  odd hideblocks
-#+STYLE:    <link rel="stylesheet"href="stylesheet.css"type="text/css">
 
 #+begin_html
   <div id="logo">
     <p>
-      <img src="images/library-of-babel.png" />
+      <img src="../../images/babel/library-of-babel.png" alt="Library of Babel"/>
       <div id="attr">
         The Library of Babel, by Pierre Clayette
         <p>
