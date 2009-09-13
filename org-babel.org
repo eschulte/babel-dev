@@ -59,6 +59,7 @@
 * Getting started
   :PROPERTIES:
   :CUSTOM_ID: getting-started
+  :results:  silent
   :END:
 
   1) Org-babel is now included in the contrib directory of Org-mode,
