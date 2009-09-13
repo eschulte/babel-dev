@@ -514,7 +514,7 @@ b + 4
   :CUSTOM_ID: library-of-babel
   :END:
 #+begin_html 
-  <div id="logo">
+  <div id="logo" style="float: right; text-align: center; max-width: 240px; font-size: 8pt; margin-left: 1em;">
     <p>
       <img src="../../images/babel/library-of-babel.png" alt="Library of Babel"/>
       <div id="attr">

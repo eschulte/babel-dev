@@ -1,6 +1,6 @@
 #+TITLE: org-babel --- facilitating communication between programming languages and people
 #+SEQ_TODO: PROPOSED TODO STARTED | DONE DEFERRED REJECTED
-#+OPTIONS:    H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
+#+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
   
 * Tasks [46/65]
