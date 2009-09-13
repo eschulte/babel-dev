@@ -12,7 +12,7 @@
   <div id="subtitle" style="float: center; text-align: center;">
     <p>executable source code blocks in org-mode</p>
   </div>
-  <div id="logo" style="float: right; text-align: center; max-width: 240px; font-size: 8pt; margin-left: 1em;">
+  <div id="logo" style="float: left; text-align: center; max-width: 240px; font-size: 8pt; margin-left: 1em;">
     <p>
       <img src="../../images/babel/tower-of-babel.png"  alt="Tower of Babel"/>
       <div id="attr" style="margin: -0.5em;">
