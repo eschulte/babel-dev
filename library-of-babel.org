@@ -2,9 +2,10 @@
 #+SEQ_TODO: TODO PROPOSED | DONE DEFERRED REJECTED
 #+OPTIONS:  H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP:  odd hideblocks
+#+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
 
 #+begin_html
-  <div id="logo">
+  <div id="logo" style="float: left; text-align: center; max-width: 340px; font-size: 8pt; margin-left: 1em;">
     <p>
       <img src="../../images/babel/library-of-babel.png" alt="Library of Babel"/>
       <div id="attr">
