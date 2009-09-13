@@ -78,12 +78,15 @@
      list of languages, with notes on their dependencies see the
      [[#reference-and-documentation][Reference / Documentation]] section below.
      #+begin_src emacs-lisp
-       (require 'org-babel-python)
-       (require 'org-babel-ruby)
-       (require 'org-babel-R)
-       ;;
-       ;; Once you've activated languages, load the library of babel to
-       ;; make pre-built helper functions available in the languages you will be using.
+       (require 'org-babel-R)         ;; R and ess-mode
+       (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
+       (require 'org-babel-python)    ;; python, and python-mode
+     #+end_src
+
+  4) Once you've activated languages, load the library of babel to
+     make pre-built helper functions available in the languages you
+     will be using.
+     #+begin_src emacs-lisp
        (org-babel-load-library-of-babel)
      #+end_src
   
