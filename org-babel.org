@@ -6,13 +6,13 @@
 #+AUTHOR:     Eric Schulte, Dan Davison
 #+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
 #+LANGUAGE:   en
-#+STYLE:      <link rel="stylesheet"href="stylesheet.css"type="text/css">
+#+STYLE:      <style type="text/css">#outline-container-introduction{clear:both;}</style>
 
 #+begin_html
   <div id="subtitle" style="float: center; text-align: center;">
     <p>executable source code blocks in org-mode</p>
   </div>
-  <div id="logo" style="float: left; text-align: center; max-width: 240px; font-size: 8pt; margin-left: 1em;">
+  <div id="logo" style="display: none; float: left; text-align: center; max-width: 240px; font-size: 8pt; margin-left: 1em;">
     <p>
       <img src="../../images/babel/tower-of-babel.png"  alt="Tower of Babel"/>
       <div id="attr" style="margin: -0.5em;">
