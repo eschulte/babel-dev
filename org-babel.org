@@ -61,17 +61,14 @@
   :CUSTOM_ID: getting-started
   :END:
 
-  1) Grab the latest code from the git repo at [[http://github.com/eschulte/org-babel/tree/master][github/org-babel]]
-     #+begin_src sh
-     git clone git://github.com/eschulte/org-babel.git
-     #+end_src
+  1) Org-babel is now included in the contrib directory of Org-mode,
+     so the first step is to update to the latest version of Org-mode
+     (see [[file:~/src/worg/org-faq.org::keeping-current-with-Org-mode-development][keeping-current-with-Org-mode-development]])
 
-  2) Add the following lines to your .emacs, replacing the path as
-     appropriate. A good place to check that things are up and running
-     would the examples in [[* Basic org-babel functionality][Basic org-babel functionality]].
+  2) Make sure that the path to org's contrib directory is in your
+     load-path and add the following to your =.emacs= and evaluate.
      #+begin_src emacs-lisp
-       (add-to-list 'load-path "/path/to/org-babel/lisp")
-       (require 'org-babel-init)
+       (require 'org-babel-init)     
      #+end_src
 
   3) Finally, activate the subset of supported Org-babel languages
