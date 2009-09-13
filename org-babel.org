@@ -14,7 +14,7 @@
   </div>
   <div id="logo">
     <p>
-      <img src="images/tower-of-babel.png"  alt="images/tower-of-babel.png"/>
+      <img src="../../images/babel/tower-of-babel.png"  alt="Tower of Babel"/>
       <div id="attr">
         The Tower of Babel by
         <a href="http://commons.wikimedia.org/wiki/Pieter_Brueghel_the_Elder" title="">
@@ -29,11 +29,6 @@
       </p>
     </p>
   </div>
-#+end_html
-
-#+begin_html
-  <p>
-  </p>
 #+end_html
 
 * Introduction
@@ -177,7 +172,7 @@ matrix(rnorm(6), nrow=2)
 | 0.0730510956002737 | 0.0634015508602321 |   0.174013159381603 |
 
 **** [[http://ditaa.sourceforge.net/][ditaa]]
-#+begin_src ditaa :file images/blue.png :cmdline -r
+#+begin_src ditaa :file blue.png :cmdline -r
 +---------+
 | cBLU    |
 |         |
@@ -188,7 +183,7 @@ matrix(rnorm(6), nrow=2)
 #+end_src
 
 #+resname:
-[[file:images/blue.png]]
+[[file:../../images/babel/blue.png]]
 
 *** Source code block syntax
 
@@ -407,7 +402,7 @@ then graph them with R.
    #+begin_src R :session R-pie-example
    pie(dirs[,1], labels = dirs[,2])
    #+end_src
- [[file:images/dirs.png]]
+ [[file:../../images/babel/dirs.png]]
 
 * Multilingual spreadsheet plugins for org-mode
   :PROPERTIES:
@@ -521,7 +516,7 @@ b + 4
 #+begin_html 
   <div id="logo">
     <p>
-      <img src="images/library-of-babel.png" />
+      <img src="../../images/babel/library-of-babel.png" alt="Library of Babel"/>
       <div id="attr">
         The Library of Babel, by Pierre Clayette
         <p>
