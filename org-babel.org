@@ -9,13 +9,13 @@
 #+STYLE:      <link rel="stylesheet"href="stylesheet.css"type="text/css">
 
 #+begin_html
-  <div id="subtitle">
+  <div id="subtitle" style="float: center; text-align: center;">
     <p>executable source code blocks in org-mode</p>
   </div>
-  <div id="logo">
+  <div id="logo" style="float: right; text-align: center; max-width: 240px; font-size: 8pt; margin-left: 1em;">
     <p>
       <img src="../../images/babel/tower-of-babel.png"  alt="Tower of Babel"/>
-      <div id="attr">
+      <div id="attr" style="margin: -0.5em;">
         The Tower of Babel by
         <a href="http://commons.wikimedia.org/wiki/Pieter_Brueghel_the_Elder" title="">
           <b>Pieter Brueghel the Elder</b>
