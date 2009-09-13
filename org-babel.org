@@ -787,6 +787,9 @@ For a simple example of usage follow these 4 steps.
   :CUSTOM_ID: reference-and-documentation
   :END:
 *** Languages
+    :PROPERTIES:
+    :CUSTOM_ID: languages
+    :END:
     The following can be added to your .emacs and used to activate
     languages.  It includes a brief list of the requirements for each
     language.  *Note*: this also serves as the list of languages
