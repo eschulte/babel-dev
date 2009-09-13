@@ -73,9 +73,9 @@
      list of languages, with notes on their dependencies see the
      [[#reference-and-documentation][Reference / Documentation]] section below.
      #+begin_src emacs-lisp
-       (require 'org-babel-R)         ;; R and ess-mode
-       (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
-       (require 'org-babel-python)    ;; python, and python-mode
+       (require 'org-babel-R)         ;; requires R and ess-mode
+       (require 'org-babel-ruby)      ;; requires ruby, irb, ruby-mode, and inf-ruby
+       (require 'org-babel-python)    ;; requires python, and python-mode
      #+end_src
 
   4) Once you've activated languages, load the library of babel to
@@ -516,19 +516,6 @@ b + 4
   :PROPERTIES:
   :CUSTOM_ID: library-of-babel
   :END:
-#+begin_html 
-  <div id="logo" style="float: right; text-align: center; max-width: 240px; font-size: 8pt; margin-left: 1em;">
-    <p>
-      <img src="../../images/babel/library-of-babel.png" alt="Library of Babel"/>
-      <div id="attr">
-        The Library of Babel, by Pierre Clayette
-        <p>
-        <a href="http://downlode.org/Etext/library_of_babel.html">Full text of the Borges short story</a>
-        </p>
-      </div>
-    </p>  
-  </div>
-#+end_html
 
   As we saw above with the [[*Simple%20example%20of%20using%20a%20source%20block%20as%20a%20function][=square=]] example, once a source block
   function has been defined it can be called using the following short
