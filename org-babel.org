@@ -102,7 +102,9 @@
     Org-babel is all about *source code blocks* in org mode. These are
     blocks of code (in whatever language), that can occur anywhere in
     an org-mode file. For example, the following is a source block
-    containing [[http://www.ruby-lang.org/][ruby]] code:
+    containing [[http://www.ruby-lang.org/][ruby]] code (note if you don't have ruby installed the
+    ruby examples won't work, so you can try the shell script
+    alternative):
 
 : #+begin_src ruby
 : "This file was last evaluated on #{Date.today}"
@@ -110,7 +112,7 @@
 
 If you are unfamiliar with the notion of a source code block in
 org-mode, please have a look at the [[http://orgmode.org/manual/Literal-examples.html][relevant manual section]] before
-proceding.
+preceding.
 
 Note that above is what the source block looks like in the org-mode
 file. We had to take [[http://orgmode.org/manual/Literal-examples.html#Literal-examples][special steps]] to make it look that way in the
@@ -120,6 +122,10 @@ mark-up is omitted, like this:
 
 #+begin_src ruby
 "This file was last evaluated on #{Date.today}"
+#+end_src
+
+#+begin_src sh
+echo "This file was last evaluated on `date`"
 #+end_src
 
 From now on, if you are viewing the HTML version, you will see the
@@ -152,6 +158,14 @@ it!).
 
 #+resname:
 : This file was last evaluated on 2009-08-09
+
+**** Shell
+#+begin_src sh
+  echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
+#+end_src
+
+#+resname:
+: This file takes up  36K
 
 **** [[http://www.r-project.org/][R]] 
 #+begin_src R :results value
