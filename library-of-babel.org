@@ -32,8 +32,8 @@
   find useful please add them to this file and [[file:~/src/worg/worg-git.org::contribute-to-worg][contribute them]] to
   worg.
   
-  The raw Org-mode text of this file can be downloaded at 
-  #+HTML: <a href="library-of-babel.org">library-of-babel.org</a>
+  The raw Org-mode text of this file can be downloaded at
+  [[repofile:contrib/babel/library-of-babel.org][library-of-babel.org]]
 
 * Plotting code
 
