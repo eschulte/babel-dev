@@ -861,10 +861,11 @@ For a simple example of usage follow these 4 steps.
 
 *** Noweb reference syntax
 The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
-be referenced by using a =<<code-block-name>>= syntax.  When a
-document is tangled these references are replaced with the named code.
-An example is provided in the [[literate-programming-example]] in this
-document.
+be referenced by using the
+: <<code-block-name>>
+syntax.  When a document is tangled these references are replaced with
+the named code.  An example is provided in the
+[[literate-programming-example]] in this document.
 
 *** Requirements Documentation
     The original requirements documentation is available at
