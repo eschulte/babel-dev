@@ -624,7 +624,7 @@ consumption by a computer.
 
 To support these operations Org-babel relies on Org-mode's [[http://orgmode.org/manual/Exporting.html#Exporting][existing
 exporting functionality]] for *weaving* of documentation, and on the
-=org-babel-tangle= function which makes use of [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] [[reference-expansion][reference syntax]]
+=org-babel-tangle= function which makes use of [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] [[noweb-reference-syntax][reference syntax]]
 for *tangling* of code files.
 
 The [[literate-programming-example][following example]] demonstrates the process of *tangling* in
@@ -861,6 +861,10 @@ For a simple example of usage follow these 4 steps.
              be exported
 
 *** Noweb reference syntax
+    :PROPERTIES:
+    :CUSTOM_ID: noweb-reference-syntax
+    :END:
+
 The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
 be referenced by using the
 : <<code-block-name>>
