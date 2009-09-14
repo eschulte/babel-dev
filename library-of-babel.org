@@ -33,7 +33,7 @@
   worg.
   
   The raw Org-mode text of this file can be downloaded at
-  [[repofile:contrib/babel/library-of-babel.org][library-of-babel.org]]
+#+html: <a href="http://eschulte.github.com/org-babel/library-of-babel.org">library-of-babel.org</a>
 
 * Plotting code
 

@@ -543,7 +543,7 @@ b + 4
 
   Org-babel comes pre-populated with the source-code blocks located in
   the [[file:library-of-babel.org][Library of Babel]] file -- raw file at 
-  #+HTML: <a href="library-of-babel.org">library-of-babel.org</a>
+#+html: <a href="http://eschulte.github.com/org-babel/library-of-babel.org">library-of-babel.org</a>
   --. It is possible to add source-code blocks from any org-mode file
   to the library by calling
 
