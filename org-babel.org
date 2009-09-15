@@ -102,6 +102,7 @@
     alternative):
 
 : #+begin_src ruby
+: require 'date'
 : "This file was last evaluated on #{Date.today}"
 : #+end_src
 
@@ -117,6 +118,7 @@ mark-up is omitted, like this:
 
 ruby
 #+begin_src ruby
+require 'date'
 "This file was last evaluated on #{Date.today}"
 #+end_src
 
