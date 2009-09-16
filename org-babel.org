@@ -381,7 +381,7 @@ then graph them with R.
    table.
    
 #+srcname: directories
-   #+begin_src bash :results replace
+   #+begin_src sh :results replace
    cd ~ && du -sc * |grep -v total
    #+end_src
    
@@ -886,7 +886,6 @@ the named code.  An example is provided in the
   - lists of known and resolved bugs
   - the Org-babel functional test suit which is implemented as a large
     table and is run using Org-babel's spreadsheet functionality
-
 * Footnotes
 
 [fn:1] Calling =C-c C-o= on a source-code block will open the

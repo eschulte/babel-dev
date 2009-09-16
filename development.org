@@ -3,15 +3,9 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
   
-* Tasks [46/68]
-** TODO allow for stripping of header rows from table data
+* Tasks [47/68]
+** PROPOSED allow for stripping of header rows from table data
 maybe controlled by an argument
-
-** TODO dynamic clock tables (as input to source blocks)
-something like...
-
-: #+BEGIN: clocktable :maxlevel 2 :block today :scope tree1 :link t :name todays-clock
-: #+END: clocktable
 
 ** TODO allow tangle to be called on a single source block
 this should have a reasonable binding
@@ -967,6 +961,18 @@ to the command if BUFF is not given.)
     2) The function is called inside of a =write.table= function call
        writing the results to a table
     3) The table is read using =org-table-import=
+** DONE dynamic clock tables (as input to source blocks)
+something like...
+
+: #+BEGIN: clocktable :maxlevel 2 :block today :scope tree1 :link t :name todays-clock
+: #+END: clocktable
+
+These actually work given the current setup, the tables simply need to
+be named using a =#+TBLNAME:= line.
+
+: #+TBLNAME: todays-times
+: #+BEGIN: clocktable :maxlevel 2 :block today :scope tree1 :link t :name todays-clock
+: #+END: clocktable
 ** DONE figure out how to handle graphic output
    
 This is listed under [[* graphical output][graphical output]] in out objectives.
