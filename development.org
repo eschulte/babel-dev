@@ -517,6 +517,55 @@ should use a span class, and should show original source in tool-tip
    E.g. when trying to execute sass block, I did not have sass
    installed, and so shell-command returned code 127, but org-babel
    did not warn me that anything had gone wrong.
+*** Error checking in R
+    A simple thing to do is to wrap the R code in try(...), as in the
+    patch below. That results in some improved behaviour:
+    - You get the error message from R
+    - Execution halts at first error
+      E.g.
+#+begin_src R :results output :session *R*
+  f <- function() {
+      cat("hello\n")
+      x <- log("a")
+      cat("bye\n")
+  }
+#+end_src
+
+#+begin_src R :results output :session *R*
+  f()
+#+end_src
+
+#+resname:
+: + hello
+: Error in log("a") : Non-numeric argument to mathematical function
+**** patch
+diff --git a/contrib/babel/lisp/langs/org-babel-R.el b/contrib/babel/lisp/langs/org-babel-R.el
+index 1ef21db..f7360f7 100644
+--- a/contrib/babel/lisp/langs/org-babel-R.el
++++ b/contrib/babel/lisp/langs/org-babel-R.el
+@@ -103,8 +103,8 @@ last statement in BODY, as elisp."
+             (out-tmp-file (make-temp-file "R-out-functional-results")))
+         (case result-type
+           (output
+-           (with-temp-file in-tmp-file (insert body))
+-           (shell-command-to-string (format "R --slave --no-save < '%s' > '%s'"
++           (with-temp-file in-tmp-file (insert (concat "try(" body ")")))
++           (shell-command-to-string (format "R --slave --no-save < '%s' > '%s' 2>&1"
+ 					    in-tmp-file out-tmp-file))
+ 	   (with-temp-buffer (insert-file-contents out-tmp-file) (buffer-string)))
+           (value
+@@ -124,7 +124,7 @@ last statement in BODY, as elisp."
+ 						    (format "write.table(.Last.value, file=\"%s\", sep=\"\\t\", na=\"nil\",row.names=FALSE, col.names=%s, quote=FALSE)" tmp-file (if column-names-p "TRUE" "FALSE"))
+ 						    org-babel-R-eoe-indicator) "\n"))
+ 		(output
+-		 (mapconcat #'org-babel-chomp (list body org-babel-R-eoe-indicator) "\n"))))
++		 (mapconcat #'org-babel-chomp (list (concat "try\(" body "\)") org-babel-R-eoe-indicator) "\n"))))
+ 	     (raw (org-babel-comint-with-output buffer org-babel-R-eoe-output nil
+                     (insert full-body) (inferior-ess-send-input)))
+ 	     broke results)
+
+
+    
 *** DEFERRED figure out how to handle errors during evaluation
     I expect it will be hard to do this properly, but ultimately it
     would be nice to be able to specify somewhere to receive STDERR,
