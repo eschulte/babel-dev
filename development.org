@@ -320,7 +320,7 @@ buffer had no associated filename. So this is a problem which needs
 addressing. Maybe defadvice could be used on ess functions where
 necessary to make org/org-babel play nicely with ess?
 
-**** TODO C-x s steals focus
+**** DONE C-x s steals focus
      With two modified edit buffers open, make one of them the current
      buffer and issue C-x s. It will offer to save both of them, but
      the second one to be saved will become the current buffer at the
@@ -417,7 +417,7 @@ buffer."
 I think this is great, but I think it should be implemented in the
 org-mode core
 
-**** DEFERRED Rename buffer and minor mode?
+**** DONE Rename buffer and minor mode?
      Something shorter than *Org Edit Src Example* for the buffer
      name. org-babel is bringing org's source code interaction to a
      level of maturity where the 'example' is no longer
