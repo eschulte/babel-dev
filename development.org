@@ -3,7 +3,47 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
   
-* Tasks [47/68]
+* Tasks [47/69]
+** TODO Ensure that #+lob calls honour header args
+   Currently, the header args defined in a source block are not
+   honoured when that source block is referenced by a #+lob call.
+*** Example
+Here's a source block that defines the action we want to do.
+#+srcname: myplot()
+#+begin_src ditaa :file blue.png :cmdline -r :exports none
++---------+
+| cBLU    |
+|         |
+|    +----+
+|    |cPNK|
+|    |    |
++----+----+
+#+end_src
+
+And here's some more text.
+
+**** Another heading
+
+**** Finally
+  Here is where we actually want the image to appear
+
+#+lob: myplot()
+
+#+resname: myplot()
+: blue.png
+
+However, what we really wanted was for that result to be output as a
+link:
+
+[[file:blue.png]]
+
+
+*** Solutions
+    Maybe we will have to either stop using an emacs-lisp block in the
+    lob implementation, or provide some mechanism for the emacs-lisp
+    blocks to pass unused header arguments through to their :var
+    blocks.  At first glance the former seems much cleaner. [Eric]
+
 ** PROPOSED allow for stripping of header rows from table data
 maybe controlled by an argument
 
@@ -538,6 +578,9 @@ should use a span class, and should show original source in tool-tip
 #+resname:
 : + hello
 : Error in log("a") : Non-numeric argument to mathematical function
+
+
+
 **** patch
 diff --git a/contrib/babel/lisp/langs/org-babel-R.el b/contrib/babel/lisp/langs/org-babel-R.el
 index 1ef21db..f7360f7 100644
