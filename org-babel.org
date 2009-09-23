@@ -706,6 +706,10 @@ to the =hello.sh= file.
   # block-16 ends here
 #+end_src
 
+For longer snippets of code, it is probably advisable to use the
+function =org-edit-src-code=.  This gives you a new buffer that
+contains the source code with the appropriate mode turned on.
+
 *** Emacs Initialization with Org-babel
     :PROPERTIES:
     :CUSTOM_ID: literate-emacs-initialization
