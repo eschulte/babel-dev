@@ -579,11 +579,9 @@ should use a span class, and should show original source in tool-tip
 : + hello
 : Error in log("a") : Non-numeric argument to mathematical function
 
-
-
 **** patch
 diff --git a/contrib/babel/lisp/langs/org-babel-R.el b/contrib/babel/lisp/langs/org-babel-R.el
-index 1ef21db..f7360f7 100644
+index 1ef21db..45f8409 100644
 --- a/contrib/babel/lisp/langs/org-babel-R.el
 +++ b/contrib/babel/lisp/langs/org-babel-R.el
 @@ -103,8 +103,8 @@ last statement in BODY, as elisp."
@@ -592,7 +590,7 @@ index 1ef21db..f7360f7 100644
            (output
 -           (with-temp-file in-tmp-file (insert body))
 -           (shell-command-to-string (format "R --slave --no-save < '%s' > '%s'"
-+           (with-temp-file in-tmp-file (insert (concat "try(" body ")")))
++           (with-temp-file in-tmp-file (insert (concat "try({" body "})")))
 +           (shell-command-to-string (format "R --slave --no-save < '%s' > '%s' 2>&1"
  					    in-tmp-file out-tmp-file))
  	   (with-temp-buffer (insert-file-contents out-tmp-file) (buffer-string)))
@@ -602,12 +600,22 @@ index 1ef21db..f7360f7 100644
  						    org-babel-R-eoe-indicator) "\n"))
  		(output
 -		 (mapconcat #'org-babel-chomp (list body org-babel-R-eoe-indicator) "\n"))))
-+		 (mapconcat #'org-babel-chomp (list (concat "try\(" body "\)") org-babel-R-eoe-indicator) "\n"))))
++		 (mapconcat #'org-babel-chomp (list (concat "try({" body "})") org-babel-R-eoe-indicator) "\n"))))
  	     (raw (org-babel-comint-with-output buffer org-babel-R-eoe-output nil
                      (insert full-body) (inferior-ess-send-input)))
  	     broke results)
-
-
+diff --git a/contrib/babel/lisp/org-babel-ref.el b/contrib/babel/lisp/org-babel-ref.el
+index 0e8695f..060f880 100644
+--- a/contrib/babel/lisp/org-babel-ref.el
++++ b/contrib/babel/lisp/org-babel-ref.el
+@@ -139,7 +139,7 @@ return nil."
+         ('results-line (org-babel-read-result))
+         ('table (org-babel-read-table))
+         ('source-block
+-         (setq result (org-babel-execute-src-block t nil args))
++         (setq result (org-babel-execute-src-block t (org-babel-get-src-block-info) args))
+          (if (symbolp result) (format "%S" result) result))
+         ('lob (setq result (org-babel-execute-src-block t lob-info args)))))))
     
 *** DEFERRED figure out how to handle errors during evaluation
     I expect it will be hard to do this properly, but ultimately it
