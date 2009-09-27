@@ -3,10 +3,18 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
   
-* Tasks [47/69]
-** TODO Ensure that #+lob calls honour header args
+* Tasks [48/71]
+** TODO Incorporate [[http://github.com/bandresen/org-babel-screen][Benny Andresen's GNU screen interpreter]]
+** DONE Ensure that #+lob calls honour header args
    Currently, the header args defined in a source block are not
    honoured when that source block is referenced by a #+lob call.
+*** Solutions
+    Maybe we will have to either stop using an emacs-lisp block in the
+    lob implementation, or provide some mechanism for the emacs-lisp
+    blocks to pass unused header arguments through to their :var
+    blocks.  At first glance the former seems much cleaner. [Eric]
+**** Allow header args on lob line
+     commit da1f07620862a2f8701597fbd6d8ceca93183840
 *** Example
 Here's a source block that defines the action we want to do.
 #+srcname: myplot()
@@ -23,27 +31,15 @@ Here's a source block that defines the action we want to do.
 And here's some more text.
 
 **** Another heading
-
+     
 **** Finally
   Here is where we actually want the image to appear
 
-#+lob: myplot()
-
+#+lob: myplot() :file blue.png
+  
 #+resname: myplot()
-: blue.png
-
-However, what we really wanted was for that result to be output as a
-link:
-
 [[file:blue.png]]
-
-
-*** Solutions
-    Maybe we will have to either stop using an emacs-lisp block in the
-    lob implementation, or provide some mechanism for the emacs-lisp
-    blocks to pass unused header arguments through to their :var
-    blocks.  At first glance the former seems much cleaner. [Eric]
-
+** PROPOSED Allow export of results of #+lob lines
 ** PROPOSED allow for stripping of header rows from table data
 maybe controlled by an argument
 
