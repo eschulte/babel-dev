@@ -60,33 +60,76 @@ plot(data)
 ** Gnuplot
 
 * Table/Matrix manipulation
+*** Transposing a matrix
+***** Emacs lisp
+#+srcname: transpose-elisp(table)
+#+begin_src emacs-lisp
+  (apply #'mapcar* #'list table)
+#+end_src
 
-Elegant lisp code for transposing a matrix.
+***** Example usage
 
 #+tblname: transpose-example
 | 1 | 2 | 3 |
 | 4 | 5 | 6 |
 
-#+srcname: transpose
-#+begin_src emacs-lisp :var table=transpose-example
-  (apply #'mapcar* #'list table)
-#+end_src
+#+lob: transpose-elisp(table=transpose-example)
 
-#+resname:
+#+resname: transpose-elisp(table=transpose-example)
 | 1 | 4 |
 | 2 | 5 |
 | 3 | 6 |
 
-* Misc
-#+srcname: python-identity(a=1)
-#+begin_src python
-a
+*** Binding tables together by columns
+***** Emacs lisp
+#+srcname: column-bind-elisp(a=tab1, b=tab2)
+#+begin_src emacs-lisp 
+(mapcar* 'append a b)
 #+end_src
 
-#+srcname: python-add(a=1, b=2)
-#+begin_src python
-a + b
+***** R
+#+srcname: column-bind-R(a=tab3, b=tab4)
+#+begin_src R :colnames t
+cbind(a, b)
 #+end_src
 
+***** Example usage
 
+Suppose the tables are
+
+#+tblname: tab1
+| 1 | 2 | 3 |
+| 7 | 8 | 9 |
+
+#+tblname: tab2
+|  4 |  5 |  6 |
+| 10 | 11 | 12 |
+
+#+lob: column-bind-elisp(tab1, tab2)
+
+#+resname: column-bind-elisp(tab1, tab2)
+| 1 | 2 | 3 |  4 |  5 |  6 |
+| 7 | 8 | 9 | 10 | 11 | 12 |
+
+ The R code block can also cope with column names:
+
+#+tblname: tab3
+| a | b | c |
+|---+---+---|
+| 1 | 2 | 3 |
+| 7 | 8 | 9 |
+
+#+tblname: tab4
+|  d |  e |  f |
+|----+----+----|
+|  4 |  5 |  6 |
+| 10 | 11 | 12 |
+
+#+lob: column-bind-R(tab3, tab4)
+
+#+resname: column-bind-R(tab3, tab4)
+| "a" | "b" | "c" | "d" | "e" | "f" |
+|-----+-----+-----+-----+-----+-----|
+|   1 |   2 |   3 |   4 |   5 |   6 |
+|   7 |   8 |   9 |  10 |  11 |  12 |
 
