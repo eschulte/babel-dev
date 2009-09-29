@@ -2,205 +2,11 @@
 #+SEQ_TODO: PROPOSED TODO STARTED | DONE DEFERRED REJECTED
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
-  
-* Tasks [48/71]
-** TODO Incorporate [[http://github.com/bandresen/org-babel-screen][Benny Andresen's GNU screen interpreter]]
-** DONE Ensure that #+lob calls honour header args
-   Currently, the header args defined in a source block are not
-   honoured when that source block is referenced by a #+lob call.
-*** Solutions
-    Maybe we will have to either stop using an emacs-lisp block in the
-    lob implementation, or provide some mechanism for the emacs-lisp
-    blocks to pass unused header arguments through to their :var
-    blocks.  At first glance the former seems much cleaner. [Eric]
-**** Allow header args on lob line
-     commit da1f07620862a2f8701597fbd6d8ceca93183840
-*** Example
-Here's a source block that defines the action we want to do.
-#+srcname: myplot()
-#+begin_src ditaa :file blue.png :cmdline -r :exports none
-+---------+
-| cBLU    |
-|         |
-|    +----+
-|    |cPNK|
-|    |    |
-+----+----+
-#+end_src
 
-And here's some more text.
-
-**** Another heading
-     
-**** Finally
-  Here is where we actually want the image to appear
-
-#+lob: myplot() :file blue.png
-  
-#+resname: myplot()
-[[file:blue.png]]
-** PROPOSED Allow export of results of #+lob lines
-** PROPOSED allow for stripping of header rows from table data
-maybe controlled by an argument
-
+* Tasks [49/71]
+** TODO Allow export of results of #+lob lines
 ** TODO allow tangle to be called on a single source block
 this should have a reasonable binding
-
-** STARTED share org-babel [1/7]
-how should we share org-babel?
-*** DONE post to org-mode
-*** TODO post to ess mailing list
-    I'd like to not rush in to this, get some feedback from the org
-    list first and let my R usage of org-babel settle down. [DD]
-*** STARTED create a org-babel page on worg
-**** TODO Getting hold of it instructions
-     - What about non-git users?
-     - Are we moving/copying to contrib/?
-**** TODO Fixed width HTML output created by =...= is ugly!
-*** TODO create a short screencast demonstrating org-babel in action
-*** PROPOSED a peer-reviewed publication?
-
-    The following notes are biased towards statistics-oriented
-    journals because ESS and Sweave are written by people associated
-    with / in statistics departments. But I am sure there are suitable
-    journals out there for an article on using org mode for
-    reproducible research (and literate programming etc).
-
-    Clearly, we would invite Carsten to be involved with this.
-
-     ESS is described in a peer-reviewed journal article:
-     Emacs Speaks Statistics: A Multiplatform, Multipackage Development Environment for Statistical Analysis  [Abstract]
-     Journal of Computational & Graphical Statistics 13(1), 247-261
-     Rossini, A.J, Heiberger, R.M., Sparapani, R.A., Maechler, M., Hornik, K. (2004) 
-     [[http://www.amstat.org/publications/jcgs.cfm][Journal of Computational and Graphical Statistics]]
-
-     Also [[http://www.amstat.org/publications/jss.cfm][Journal of Statistical Software]] Established in 1996, the
-     Journal of Statistical Software publishes articles, book reviews,
-     code snippets, and software reviews. The contents are freely
-     available online. For both articles and code snippets, the source
-     code is published along with the paper.
-
-    Sweave has a paper: 
-
-    Friedrich Leisch and Anthony J. Rossini. Reproducible statistical
-    research. Chance, 16(2):46-50, 2003. [ bib ]
-
-    also
-
-    Friedrich Leisch. Sweave: Dynamic generation of statistical reports
-    using literate data analysis. In Wolfgang Härdle and Bernd Rönz,
-    editors, Compstat 2002 - Proceedings in Computational Statistics,
-    pages 575-580. Physica Verlag, Heidelberg, 2002. ISBN 3-7908-1517-9.
-
-    also
-
-    We could also look at the Journals publishing these [[http://www.reproducibleresearch.net/index.php/RR_links#Articles_about_RR_.28chronologically.29][Reproducible
-    Research articles]].
-    
-*** PROPOSED an article in [[http://journal.r-project.org/][The R Journal]]
-This looks good.  It seems that their main topic to software tools for
-use by R programmers, and Org-babel is certainly that.
-
-*** existing similar tools
-try to collect pointers to similar tools 
-
-Reproducible Research
-- [[http://en.wikipedia.org/wiki/Sweave][Sweave]]
-
-Literate Programming
-- [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]]
-- [[http://www-cs-faculty.stanford.edu/~knuth/cweb.html][Cweb]]
-- [[http://www.lri.fr/~filliatr/ocamlweb/][OCamlWeb]]
-
-Meta Functional Programming
-- ?
-
-Programmable Spreadsheet
-- ?
-
-*** examples
-we need to think up some good examples
-
-**** interactive tutorials
-This could be a place to use [[* org-babel assertions][org-babel assertions]].
-
-for example the first step of a tutorial could assert that the version
-of the software-package (or whatever) is equal to some value, then
-source-code blocks could be used with confidence (and executed
-directly from) the rest of the tutorial.
-
-**** answering a text-book question w/code example
-org-babel is an ideal environment enabling both the development and
-demonstrationg of the code snippets required as answers to many
-text-book questions.
-
-**** something using tables
-maybe something along the lines of calculations from collected grades
-
-**** file sizes
-Maybe something like the following which outputs sizes of directories
-under the home directory, and then instead of the trivial =emacs-lisp=
-block we could use an R block to create a nice pie chart of the
-results.
-
-#+srcname: sizes
-#+begin_src bash :results replace
-du -sc ~/*
-#+end_src
-
-#+begin_src emacs-lisp :var sizes=sizes :results replace
-(mapcar #'car sizes)
-#+end_src
-*** Answer to question on list
-From: Hector Villafuerte <hectorvd@gmail.com>
-Subject: [Orgmode] Merge tables
-Date: Wed, 19 Aug 2009 10:08:40 -0600
-To: emacs-orgmode@gnu.org
-
-Hi,
-I've just discovered Org and are truly impressed with it; using it for
-more and more tasks.
-
-Here's what I want to do: I have 2 tables with the same number of rows
-(one row per subject). I would like to make just one big table by
-copying the second table to the right of the first one. This is a
-no-brainer in a spreadsheet but my attempts in Org have failed. Any
-ideas?
-
-By the way, thanks for this great piece of software!
--- 
- hector
-
-**** Suppose the tables are as follows
-#+tblname: tab1
-| a | b | c |
-|---+---+---|
-| 1 | 2 | 3 |
-| 7 | 8 | 9 |
-
-#+tblname: tab2
-|  d |  e |  f |
-|----+----+----|
-|  4 |  5 |  6 |
-| 10 | 11 | 12 |
-
-**** Here is an answer using R in org-babel
-
-#+srcname: column-bind(a=tab1, b=tab2)
-#+begin_src R :colnames t
-cbind(a, b)
-#+end_src
-
-#+resname: column-bind
-| "a" | "b" | "c" | "d" | "e" | "f" |
-|-----+-----+-----+-----+-----+-----|
-|   1 |   2 |   3 |   4 |   5 |   6 |
-|   7 |   8 |   9 |  10 |  11 |  12 |
-
-
-**** Alternatively
-     Use org-table-export, do it in external spreadsheet software,
-     then org-table-import
 ** TODO sha1 hash based caching
    :PROPERTIES:
    :CUSTOM_ID: sha1-caching
@@ -224,8 +30,8 @@ org-feed.el has a (require 'sha1) and org-publish.el uses it too.
 -- Bernt
 #+end_quote
 
-** TODO support for working with =*Org Edit Src Example*= buffers [4/7]
-*** STARTED Patch against org source. 
+** TODO support for working with =*Org Edit Src Example*= buffers [5/7]
+*** DONE Patch against org source. 
     I've worked on several related changes to source code edit buffer
     behaviour in the org core.  My current patch (below) does the
     following. Detailed explanation / working notes are below.
@@ -335,7 +141,7 @@ org-feed.el has a (require 'sha1) and org-publish.el uses it too.
       a good thing, because one should not leave active edit buffers
       around: you should always have exited with C-c ' first.
 
-**** TODO Doesn't currently work with ess-load-file
+*** TODO Doesn't currently work with ess-load-file
      ess-load-file contains these two lines
 #+begin_src emacs-lisp
   (let ((source-buffer (get-file-buffer filename)))
@@ -628,6 +434,163 @@ index 0e8695f..060f880 100644
 
     For now I think the current behavior of returning any error
     messages generated by the source language is sufficient.
+** STARTED share org-babel [2/7]
+how should we share org-babel?
+*** DONE post to org-mode
+*** TODO post to ess mailing list
+    I'd like to not rush in to this, get some feedback from the org
+    list first and let my R usage of org-babel settle down. [DD]
+*** STARTED create a org-babel page on worg
+**** TODO Getting hold of it instructions
+     - What about non-git users?
+     - Are we moving/copying to contrib/?
+**** TODO Fixed width HTML output created by =...= is ugly!
+*** TODO create a short screencast demonstrating org-babel in action
+*** PROPOSED a peer-reviewed publication?
+
+    The following notes are biased towards statistics-oriented
+    journals because ESS and Sweave are written by people associated
+    with / in statistics departments. But I am sure there are suitable
+    journals out there for an article on using org mode for
+    reproducible research (and literate programming etc).
+
+    Clearly, we would invite Carsten to be involved with this.
+
+     ESS is described in a peer-reviewed journal article:
+     Emacs Speaks Statistics: A Multiplatform, Multipackage Development Environment for Statistical Analysis  [Abstract]
+     Journal of Computational & Graphical Statistics 13(1), 247-261
+     Rossini, A.J, Heiberger, R.M., Sparapani, R.A., Maechler, M., Hornik, K. (2004) 
+     [[http://www.amstat.org/publications/jcgs.cfm][Journal of Computational and Graphical Statistics]]
+
+     Also [[http://www.amstat.org/publications/jss.cfm][Journal of Statistical Software]] Established in 1996, the
+     Journal of Statistical Software publishes articles, book reviews,
+     code snippets, and software reviews. The contents are freely
+     available online. For both articles and code snippets, the source
+     code is published along with the paper.
+
+    Sweave has a paper: 
+
+    Friedrich Leisch and Anthony J. Rossini. Reproducible statistical
+    research. Chance, 16(2):46-50, 2003. [ bib ]
+
+    also
+
+    Friedrich Leisch. Sweave: Dynamic generation of statistical reports
+    using literate data analysis. In Wolfgang Härdle and Bernd Rönz,
+    editors, Compstat 2002 - Proceedings in Computational Statistics,
+    pages 575-580. Physica Verlag, Heidelberg, 2002. ISBN 3-7908-1517-9.
+
+    also
+
+    We could also look at the Journals publishing these [[http://www.reproducibleresearch.net/index.php/RR_links#Articles_about_RR_.28chronologically.29][Reproducible
+    Research articles]].
+    
+*** PROPOSED an article in [[http://journal.r-project.org/][The R Journal]]
+This looks good.  It seems that their main topic to software tools for
+use by R programmers, and Org-babel is certainly that.
+
+*** existing similar tools
+try to collect pointers to similar tools 
+
+Reproducible Research
+- [[http://en.wikipedia.org/wiki/Sweave][Sweave]]
+
+Literate Programming
+- [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]]
+- [[http://www-cs-faculty.stanford.edu/~knuth/cweb.html][Cweb]]
+- [[http://www.lri.fr/~filliatr/ocamlweb/][OCamlWeb]]
+
+Meta Functional Programming
+- ?
+
+Programmable Spreadsheet
+- ?
+
+*** examples
+we need to think up some good examples
+
+**** interactive tutorials
+This could be a place to use [[* org-babel assertions][org-babel assertions]].
+
+for example the first step of a tutorial could assert that the version
+of the software-package (or whatever) is equal to some value, then
+source-code blocks could be used with confidence (and executed
+directly from) the rest of the tutorial.
+
+**** answering a text-book question w/code example
+org-babel is an ideal environment enabling both the development and
+demonstrationg of the code snippets required as answers to many
+text-book questions.
+
+**** something using tables
+maybe something along the lines of calculations from collected grades
+
+**** file sizes
+Maybe something like the following which outputs sizes of directories
+under the home directory, and then instead of the trivial =emacs-lisp=
+block we could use an R block to create a nice pie chart of the
+results.
+
+#+srcname: sizes
+#+begin_src bash :results replace
+du -sc ~/*
+#+end_src
+
+#+begin_src emacs-lisp :var sizes=sizes :results replace
+(mapcar #'car sizes)
+#+end_src
+*** DONE Answer to question on list
+From: Hector Villafuerte <hectorvd@gmail.com>
+Subject: [Orgmode] Merge tables
+Date: Wed, 19 Aug 2009 10:08:40 -0600
+To: emacs-orgmode@gnu.org
+
+Hi,
+I've just discovered Org and are truly impressed with it; using it for
+more and more tasks.
+
+Here's what I want to do: I have 2 tables with the same number of rows
+(one row per subject). I would like to make just one big table by
+copying the second table to the right of the first one. This is a
+no-brainer in a spreadsheet but my attempts in Org have failed. Any
+ideas?
+
+By the way, thanks for this great piece of software!
+-- 
+ hector
+
+**** Suppose the tables are as follows
+#+tblname: tab1
+| a | b | c |
+|---+---+---|
+| 1 | 2 | 3 |
+| 7 | 8 | 9 |
+
+#+tblname: tab2
+|  d |  e |  f |
+|----+----+----|
+|  4 |  5 |  6 |
+| 10 | 11 | 12 |
+
+**** Here is an answer using R in org-babel
+
+#+srcname: column-bind(a=tab1, b=tab2)
+#+begin_src R :colnames t
+cbind(a, b)
+#+end_src
+
+#+resname: column-bind
+| "a" | "b" | "c" | "d" | "e" | "f" |
+|-----+-----+-----+-----+-----+-----|
+|   1 |   2 |   3 |   4 |   5 |   6 |
+|   7 |   8 |   9 |  10 |  11 |  12 |
+
+
+**** Alternatively
+     Use org-table-export, do it in external spreadsheet software,
+     then org-table-import
+** PROPOSED allow for stripping of header rows from table data
+maybe controlled by an argument
 ** PROPOSED Control precision of numerical output
    Does org have an option controlling precision of numbers in tables?
 ** PROPOSED allow `anonymous' function block with function call args?
@@ -1057,6 +1020,41 @@ to the command if BUFF is not given.)
     2) The function is called inside of a =write.table= function call
        writing the results to a table
     3) The table is read using =org-table-import=
+** DONE Incorporate [[http://github.com/bandresen/org-babel-screen][Benny Andresen's GNU screen interpreter]]
+** DONE Ensure that #+lob calls honour header args
+   Currently, the header args defined in a source block are not
+   honoured when that source block is referenced by a #+lob call.
+*** Solutions
+    Maybe we will have to either stop using an emacs-lisp block in the
+    lob implementation, or provide some mechanism for the emacs-lisp
+    blocks to pass unused header arguments through to their :var
+    blocks.  At first glance the former seems much cleaner. [Eric]
+**** Allow header args on lob line
+     commit da1f07620862a2f8701597fbd6d8ceca93183840
+*** Example
+Here's a source block that defines the action we want to do.
+#+srcname: myplot()
+#+begin_src ditaa :file blue.png :cmdline -r :exports none
++---------+
+| cBLU    |
+|         |
+|    +----+
+|    |cPNK|
+|    |    |
++----+----+
+#+end_src
+
+And here's some more text.
+
+**** Another heading
+     
+**** Finally
+  Here is where we actually want the image to appear
+
+#+lob: myplot() :file blue.png
+  
+#+resname: myplot()
+[[file:blue.png]]
 ** DONE dynamic clock tables (as input to source blocks)
 something like...
 
@@ -2890,16 +2888,111 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [39/44]
-** TODO blank srcname takes srcname from next line
-#+srcname: 
+* Bugs [42/46]
+** TODO o-b-execute-subtree places output outside of folded subtree
+*** Example
+    Try M-x org-babel-execute-subtree with the subtree folded and
+    point at the beginning of the heading line. The 7 output doesn't
+    appear and the 6 output ends up outside the folded heading.
+#+begin_src sh
+echo 7
+#+end_src
+
+#+begin_src sh
+echo 6
+#+end_src
+
+
+#+resname:
+: 6
+** STARTED prompt characters appearing in output with R
+   See commit 6947d0ecd2fbcc9e7d1330143ae0a51f2fe347bb which makes a
+   start on solving this.
+*** commit note
+   org-babel: prevent comint prompt characters from appearing in R output.
+
+This is a hack, but is does fix the problem (on my system at least),
+and it does demonstrate where the problem lies. It seems that the
+'raw' output often contains lines consisting of multiple concatenated
+elements, each element being of the form 'x ' where x is either '>' or
+'+'. '+' is inferior-ess-secondary-prompt, and '>' is (related to)
+inferior-ess-primary-prompt. The problem can be triggered by leaving
+blank lines in the middle of R code, and using :results output.
+
+*** example
+#+begin_src R :session *R* :results output
+3
+
+1
+#+end_src      
+
+#+resname:
+: [1] 3
+: [1] 1
+** PROPOSED allow un-named arguments
+
+#+srcname: f(x)
+#+begin_src python 
+x
+#+end_src
+
+#+lob: f(5)
+
+## produces no output
+
+ It's not essential but would be nice for this to work. To do it
+properly, would mean that we'd have to specify rules for how a string
+of supplied arguments (some possibly named) interact with the
+arguments in the definition (some possibly with defaults) to give
+values to the variables in the function body.
+** PROPOSED external shell execution can't isolate return values
+I have no idea how to do this as of yet.  The result is that when
+shell functions are run w/o a session there is no difference between
+the =output= and =value= result arguments.
+
+Yea, I don't know how to do this either.  I searched extensively on
+how to isolate the *last* output of a series of shell commands (see
+[[* last command for
+ shells][last command for shells]]).  The results of the search were basically
+that it was not possible (or at least not accomplish-able with a
+reasonable amount of effort).
+
+That fact combined with the tendancy to always use standard out in
+shell scripts led me to treat these two options (=output= and =value=)
+as identical in shell evaluation.  Not ideal but maybe good enough for
+the moment.
+
+In the `results' branch I've changed this so that they're not quite
+identical: output results in raw stdout contents, whereas value
+converts it to elisp, perhaps to a table if it looks tabular. This is
+the same for the other languages. [Dan]
+** DONE changed srcname doesn't change resname
+#+srcname: b()
+#+begin_src sh 
+   echo a
+#+end_src
+
+#+resname: b
+: a
+
+**** a sub-header
+sub-stuff
+
+**** another sub-header
+
+and finally the results
+
+#+resname: a
+: aa
+** DONE blank srcname takes srcname from next line
+   Commit 1c7009e28e5c16992b2c219808acff35b8d38c2b
+#+srcname:
 #+begin_src R :session *R*
 5
 #+end_src
 
-#+resname: #+begin_src
+#+resname:
 : 5
-
 ** DONE stripping indentation from source-code blocks
 This is a problem in [[file:lisp/org-babel-exp.el][org-babel-exp.el]].
 
@@ -3017,7 +3110,6 @@ I have this error showing up:
 
 executing Ruby source code block
 apply: Searching for program: no such file or directory, irb
-
 ** DONE problem with newlines in output when :results value
 
 #+begin_src python :results value
@@ -3136,24 +3228,22 @@ even a third"
 
 #+resname:
 : 0
-
-** TODO prompt characters appearing in output with R
-#+begin_src R :session *R* :results output
-  x <- 6
-  y <- 8
-  3
-#+end_src      
-
-#+resname:
-: > [1] 3
-
-** TODO o-b-execute-subtree overwrites heading when subtree is folded
+** DONE o-b-execute-subtree overwrites heading when subtree is folded
+   I'm not seeing this any more, so am closing this bug.
 *** Example
     Try M-x org-babel-execute-subtree with the subtree folded and
     point at the beginning of the heading line.
 #+begin_src sh
-size=5
+echo 7
 #+end_src
+
+#+begin_src sh
+echo 6
+#+end_src
+
+
+#+resname:
+: 6
 ** DONE non-orgtbl formatted lists
 for example
 
@@ -3172,44 +3262,6 @@ for example
 
 #+resname:
 | eric | schulte |
-
-** PROPOSED allow un-named arguments
-
-#+srcname: f(x)
-#+begin_src python 
-x
-#+end_src
-
-#+lob: f(5)
-
-## produces no output
-
- It's not essential but would be nice for this to work. To do it
-properly, would mean that we'd have to specify rules for how a string
-of supplied arguments (some possibly named) interact with the
-arguments in the definition (some possibly with defaults) to give
-values to the variables in the funbction body.
-** PROPOSED external shell execution can't isolate return values
-I have no idea how to do this as of yet.  The result is that when
-shell functions are run w/o a session there is no difference between
-the =output= and =value= result arguments.
-
-Yea, I don't know how to do this either.  I searched extensively on
-how to isolate the *last* output of a series of shell commands (see
-[[* last command for
- shells][last command for shells]]).  The results of the search were basically
-that it was not possible (or at least not accomplish-able with a
-reasonable amount of effort).
-
-That fact combined with the tenancy to all ways use standard out in
-shell scripts led me to treat these two options (=output= and =value=)
-as identical in shell evaluation.  Not ideal but maybe good enough for
-the moment.
-
-In the `results' branch I've changed this so that they're not quite
-identical: output results in raw stdout contents, whereas value
-converts it to elisp, perhaps to a table if it looks tabular. This is
-the same for the other languages. [Dan]
    
 ** DONE adding blank line when source-block produces no output
 
@@ -3877,34 +3929,6 @@ var
 ** DONE avoid stripping whitespace from output when :results output
    This may be partly solved by using o-b-chomp rather than o-b-trim
    in the o-b-LANG-evaluate functions.
-** DEFERRED weird escaped characters in shell prompt break shell evaluation
-   E.g. this doesn't work. Should the shell sessions set a sane prompt
-   when they start up? Or is it a question of altering
-   comint-prompt-regexp? Or altering org-babel regexps?
-   
-#+begin_src sh   
-   black=30 ; red=31 ; green=32 ; yellow=33 ; blue=34 ; magenta=35 ; cyan=36 ; white=37
-   prompt_col=$red
-   prompt_char='>'
-   export PS1="\[\033[${prompt_col}m\]\w${prompt_char} \[\033[0m\]"
-#+end_src
-
-   I just pushed a good amount of changes, could you see if your shell
-   problems still exist?
-
-   The problem's still there. Specifically, aIui, at [[file:lisp/langs/org-babel-sh.el::raw%20org%20babel%20comint%20with%20output%20buffer%20org%20babel%20sh%20eoe%20output%20nil%20insert%20full%20body%20comint%20send%20input%20nil%20t][this line]] of
-   org-babel-sh.el, raw gets the value
-
-("" "[0m Sun Jun 14 19:26:24 EDT 2009\n" "[0m org_babel_sh_eoe\n" "[0m ")
-
-   and therefore (member org-babel-sh-eoe-output ...) fails
-
-   I think that `comint-prompt-regexp' needs to be altered to match
-   the shell prompt.  This shouldn't be too difficult to do by hand,
-   using the `regexp-builder' command and should probably be part of
-   the user's regular emacs init.  I can't think of a way for us to
-   set this automatically, and we are SOL without a regexp to match
-   the prompt.
 ** DONE function calls in #+srcname: refs
    
    My srcname references don't seem to be working for function
@@ -3969,7 +3993,6 @@ var1
 
 *** Now
     I think this got fixed in the bugfixes before merging results into master.
-
 ** DONE cursor movement when evaluating source blocks
    E.g. the pie chart example. Despite the save-window-excursion in
    org-babel-execute:R. (I never learned how to do this properly: org-R
@@ -4000,7 +4023,6 @@ var1
 | 6 | .1666 |
 
 #+lob: R-plot(data=XX)
-
 ** DONE make :results replace the default?
    I'm tending to think that appending results to pre-existing results
    creates mess, and that the cleaner `replace' option should be the
@@ -4328,16 +4350,40 @@ recognition of ruby arrays as such.
 #+end_src
 
 | 1 | 2 | 3 | 4 |
+** DEFERRED weird escaped characters in shell prompt break shell evaluation
+   E.g. this doesn't work. Should the shell sessions set a sane prompt
+   when they start up? Or is it a question of altering
+   comint-prompt-regexp? Or altering org-babel regexps?
+   
+#+begin_src sh   
+   black=30 ; red=31 ; green=32 ; yellow=33 ; blue=34 ; magenta=35 ; cyan=36 ; white=37
+   prompt_col=$red
+   prompt_char='>'
+   export PS1="\[\033[${prompt_col}m\]\w${prompt_char} \[\033[0m\]"
+#+end_src
+
+   I just pushed a good amount of changes, could you see if your shell
+   problems still exist?
+
+   The problem's still there. Specifically, aIui, at [[file:lisp/langs/org-babel-sh.el::raw%20org%20babel%20comint%20with%20output%20buffer%20org%20babel%20sh%20eoe%20output%20nil%20insert%20full%20body%20comint%20send%20input%20nil%20t][this line]] of
+   org-babel-sh.el, raw gets the value
+
+("" "[0m Sun Jun 14 19:26:24 EDT 2009\n" "[0m org_babel_sh_eoe\n" "[0m ")
+
+   and therefore (member org-babel-sh-eoe-output ...) fails
+
+   I think that `comint-prompt-regexp' needs to be altered to match
+   the shell prompt.  This shouldn't be too difficult to do by hand,
+   using the `regexp-builder' command and should probably be part of
+   the user's regular emacs init.  I can't think of a way for us to
+   set this automatically, and we are SOL without a regexp to match
+   the prompt.
 ** REJECTED elisp reference fails for literal number
    That's a bug in Dan's elisp, not in org-babel.
 #+srcname: elisp-test(a=4)
 #+begin_src emacs-lisp 
 (message a)
 #+end_src
-
-
-
-
 
 : 30
 
@@ -4350,58 +4396,57 @@ org-babel functionality.
 of these tests may fail.
 
 #+TBLNAME: org-babel-tests
-| functionality           | block                      | arg |    expected |     results | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| basic evaluation        |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| emacs lisp              | basic-elisp                |     |           5 |           5 | pass |
-| shell                   | basic-shell                |     |           6 |           6 | pass |
-| ruby                    | basic-ruby                 |     |   org-babel |   org-babel | pass |
-| python                  | basic-python               |     | hello world | hello world | pass |
-| R                       | basic-R                    |     |          13 |          13 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| tables                  |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| emacs lisp              | table-elisp                |     |           3 |           3 | pass |
-| ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass |
-| python                  | table-python               |     |           5 |           5 | pass |
-| R                       | table-R                    |     |         3.5 |         3.5 | pass |
-| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass |
-| R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| source block references |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| all languages           | chained-ref-last           |     |       Array |       Array | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| source block functions  |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass |
-| run over                | Fibonacci                  |   0 |           1 |           1 | pass |
-| a                       | Fibonacci                  |   1 |           1 |           1 | pass |
-| variety                 | Fibonacci                  |   2 |           2 |           2 | pass |
-| of                      | Fibonacci                  |   3 |           3 |           3 | pass |
-| different               | Fibonacci                  |   4 |           5 |           5 | pass |
-| arguments               | Fibonacci                  |   5 |           8 |           8 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| bugs and tasks          |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| simple ruby arrays      | ruby-array-test            |     |           3 |           3 | pass |
-| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass |
-| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |           2 | pass |
-| forcing vector results  | test-forced-vector-results |     |       Array |       Array | pass |
-| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| sessions                |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| set ruby session        | set-ruby-session-var       |     |        :set |        :set | pass |
-| get from ruby session   | get-ruby-session-var       |     |           3 |           3 | pass |
-| set python session      | set-python-session-var     |     |         set |         set | pass |
-| get from python session | get-python-session-var     |     |           4 |           4 | pass |
-| set R session           | set-R-session-var          |     |         set |         set | pass |
-| get from R session      | get-R-session-var          |     |           5 |           5 | pass |
+| functionality           | block                      | arg |    expected |     results | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| basic evaluation        |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| emacs lisp              | basic-elisp                |     |           5 |           5 | pass                             |
+| shell                   | basic-shell                |     |           6 |           6 | pass                             |
+| ruby                    | basic-ruby                 |     |   org-babel |             | expected "org-babel" but was ""  |
+| python                  | basic-python               |     | hello world | hello world | pass                             |
+| R                       | basic-R                    |     |          13 |          13 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| tables                  |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| emacs lisp              | table-elisp                |     |           3 |           3 | pass                             |
+| ruby                    | table-ruby                 |     |       1-2-3 |             | expected "1-2-3" but was ""      |
+| python                  | table-python               |     |           5 |           5 | pass                             |
+| R                       | table-R                    |     |         3.5 |         3.5 | pass                             |
+| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass                             |
+| R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| source block references |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| all languages           | chained-ref-last           |     |       Array |             | expected "Array" but was ""      |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| source block functions  |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass                             |
+| run over                | Fibonacci                  |   0 |           1 |           1 | pass                             |
+| a                       | Fibonacci                  |   1 |           1 |           1 | pass                             |
+| variety                 | Fibonacci                  |   2 |           2 |           2 | pass                             |
+| of                      | Fibonacci                  |   3 |           3 |           3 | pass                             |
+| different               | Fibonacci                  |   4 |           5 |           5 | pass                             |
+| arguments               | Fibonacci                  |   5 |           8 |           8 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| bugs and tasks          |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| simple ruby arrays      | ruby-array-test            |     |           3 |             | expected "3" but was ""          |
+| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass                             |
+| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |             | expected "2" but was ""          |
+| forcing vector results  | test-forced-vector-results |     |       Array |             | expected "Array" but was ""      |
+| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| sessions                |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| set ruby session        | set-ruby-session-var       |     |        :set |      #ERROR | expected ":set" but was "#ERROR" |
+| get from ruby session   | get-ruby-session-var       |     |           3 |      #ERROR | expected "3" but was "#ERROR"    |
+| set python session      | set-python-session-var     |     |         set |         set | pass                             |
+| get from python session | get-python-session-var     |     |           4 |           4 | pass                             |
+| set R session           | set-R-session-var          |     |         set |         set | pass                             |
+| get from R session      | get-R-session-var          |     |           5 |           5 | pass                             |
 #+TBLFM: $5='(if (= (length $3) 1) (progn (message (format "running %S" '(sbe $2 (n $3)))) (sbe $2 (n $3))) (sbe $2))::$6='(if (string= $4 $5) "pass" (format "expected %S but was %S" $4 $5))
 #+TBLFM: $5=""::$6=""
-
 
 The second TBLFM line (followed by replacing '[]' with '') can be used
 to blank out the table results, in the absence of a better method.
