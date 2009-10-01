@@ -61,8 +61,9 @@
      so the first step is to update to the latest version of Org-mode
      (see [[file:../../org-faq.org::keeping-current-with-Org-mode-development][keeping-current-with-Org-mode-development]])
 
-  2) Make sure that the path to org's contrib directory is in your
-     load-path and add the following to your =.emacs= and evaluate.
+  2) Make sure that the path to org's contrib/lisp directory is in
+     your load-path and add the following to your =.emacs= and
+     evaluate.
      #+begin_src emacs-lisp
        (require 'org-babel-init)     
      #+end_src
