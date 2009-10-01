@@ -811,6 +811,7 @@ For a simple example of usage follow these 4 steps.
        ;; (require 'org-babel-python)    ;; python, and python-mode
        ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
        ;; (require 'org-babel-sass)      ;; sass, sass-mode
+       ;; (require 'org-babel-screen)    ;; screen and a terminal
        ;; (require 'org-babel-sql)       ;; none
      #+end_src
 

@@ -1,0 +1,207 @@
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) 
+#+TITLE:      org-babel-screen
+#+AUTHOR:     Benjamin Andresen
+#+EMAIL:      b.andresen@gmail.com
+#+LANGUAGE:   en
+#+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+
+#+begin_html
+  <div id="subtitle" style="float: center; text-align: center;">
+    <p>Org-babel support for interactive terminals</p>
+  </div>
+#+end_html
+  
+* Introduction
+  :PROPERTIES:
+  :CUSTOM_ID: introduction
+  :END:
+  org-babel-screen is an extension to [[file:org-babel.org][Org-babel]] and was inspired by
+  [[http://angg.twu.net/][Eduardo Ochs]]'s [[http://angg.twu.net/eev-article.html][eev]].
+
+  org-babel-screen provides the ability to write interactive [[http://en.wikipedia.org/wiki/Make_(software)][Makefiles]]
+  that can be called from inside [[http://www.gnu.org/software/emacs/][Emacs]]. Of course the whole point of
+  Makefiles is that they should run automatic.
+
+  That's exactly why the analogy isn't super useful. But to explain
+  why I still used it and why I think org-babel-screen is useful I
+  will go and show a few examples.
+
+  First install org-babel according to the directions given in the
+  [[file:org-babel.org::getting-started][org-babel manual]]. Then come back here.
+
+* Preparations
+  Now that you've installed org-babel, add the following after the
+  other org-babel related statements.
+  #+begin_src emacs-lisp
+    (require 'org-babel-screen)    ;; requires screen, terminal
+  #+end_src
+
+  There are two important variables that you might want to review
+  before using org-babel-screen:
+  /org-babel-screen-location/ and /org-babel-default-header-args:screen/
+
+  If [[http://www.gnu.org/software/screen/][GNU Screen]] is installed and recognized by your PATH you can
+  ignore /org-babel-screen-location/, otherwise change the value of
+  that variable to the absolute path of the screen binary.
+
+  The default headers arguments are a bit more interesting. If you
+  don't have [[http://invisible-island.net/xterm/][XTerm]] installed or you don't wish to use it, you need to
+  edit the value of /org-babel-default-header-args:screen/.
+  
+  This is the default:
+  #+begin_src emacs-lisp
+    (defvar org-babel-default-header-args:screen
+    '((:results . "silent") (:session . "default") (:cmd . "sh") (:terminal . "xterm"))
+    "Default arguments to use when running screen source blocks.")
+  #+end_src
+
+  The /:session/, /:cmd/ & /:terminal/ keys are the only thing that
+  matter in this mode.
+
+  You can test the default setup by executing =M-x org-babel-screen-test RET=.
+  The minibuffer will echo if the test has succeeded or not. [fn:1]
+
+* Example 1: Creating a gif out of a video file
+  :PROPERTIES:
+  :CUSTOM_ID: Example1
+  :END:
+  Let's get on with the examples though: I'm going to use [[www.mplayerhq.hu][MPlayer]], [[http://spiegl.de/qiv/][QIV]]
+  & [[www.imagemagick.org][ImageMagick]] for this. But you can follow this example without
+  them.
+
+** Set the correct settings
+    I'm setting the session name of /create-gif/ so I can have other
+    interactive terminals running without interference. Example 2 will
+    go further into this.
+
+    The /:cmd/ is zsh, because that's my favorite shell and I know how
+    to do globbing with it.
+
+    This example is very verbose, but here it goes:
+    
+    #+begin_src screen :cmd zsh :session create-gif
+      TMPDIR=/tmp/gif
+      VIDEOFILE=~/TMP/DubistTerrorist_de_divx_HD.avi
+    #+end_src
+
+** Create TMPDIR and change directory to it
+   The /:session/ parameter has to be the same as the one used in the
+   first step, the /:cmd/ parameter can be ignored though.
+   #+begin_src screen :session create-gif
+     mkdir -p $TMPDIR
+     cd $TMPDIR
+   #+end_src
+
+** Copy video to TMPDIR
+   #+begin_src screen :session create-gif
+     cp -v $VIDEOFILE .
+     VIDEOFILE=$VIDEOFILE:t
+   #+end_src
+
+** Skip through the video file to find the spot you want to extract
+   This is the first interactive step. Find the position in the video
+   of the section you want to extract. This information will be used
+   in the next step.
+   #+begin_src screen :session create-gif
+     mplayer -ao null -osdlevel 3 $VIDEOFILE
+   #+end_src
+
+** Extract those frames from the  video
+   Change the value of /START/ and optionally /SECS/.
+   For this video I've chosen 1:10 with a 10 seconds window.
+   #+begin_src screen :session create-gif
+     START=1:00
+     SECS=10
+     
+     mplayer -ao null -vo png $VIDEOFILE -ss $START -endpos $SECS
+   #+end_src
+
+** Delete the frames you don't want
+   This is the second interactive part.
+   
+   You delete the frames by pressing 'd' in qiv.
+   #+begin_src screen :session create-gif
+     qiv . 
+   #+end_src
+
+** Resize pictures
+   256 x the corresponding aspect ratio is a good size.
+   #+begin_src screen :session create-gif
+     SCALE=25%
+     
+     mkdir Small/
+     for img (*.png) { convert -scale $SCALE $img Small/$img }
+     file Small/*.png([1])
+   #+end_src
+   
+** Inspect down-scaled size
+   If the size isn't alright, redo the previous step with a different SCALE.
+   
+   #+begin_src screen :session create-gif
+     qiv Small/*.png
+   #+end_src
+   
+** Generate gif file
+   The settings here are for an endless looping gif. If the gif plays
+   to fast or too slow, you can just change the command line options
+   as you normally would.
+   #+begin_src screen :session create-gif
+     convert -delay 10 -loop 0 Small/* animation.gif
+   #+end_src
+
+** Look at the resulting gif
+   I use opera for this. If the gif is not satisfactory, repeat the
+   above steps as necessary.
+   #+begin_src screen :session create-gif
+     opera animation.gif
+   #+end_src
+   
+
+  
+* Example 2: Semi-parallel communication via netcat
+  
+  This is a very small example[fn:2], but expands on the concept of sessions
+  well. The objective is to send a message via TCP to someone else.
+  (We fake this by listening ourselves.)
+
+** Listen for message
+   Set up [[http://netcat.sourceforge.net/][netcat]] to listen to port 1234.
+
+   Notice the /:session/ parameter. Specifying =receiver= here and
+   =sender= below allows us to run this example from a single source
+   but with two interactive seesions.
+   #+begin_src screen :session receiver
+     netcat -l -p 1234
+   #+end_src
+
+** Send the message
+   Use the default shell (/:cmd/ has been omitted.) to generate a
+   message and send it to the port that is listening for it.
+   #+begin_src screen :session sender
+     {
+      echo hi
+      sleep 1
+      echo bye
+      sleep 1
+     } | netcat -c localhost 1234
+   #+end_src
+
+  After you've invoked both examples, you can see how the =receiver=
+  session sees the message send by =sender=.
+
+  How this might be useful: You could take this example further and
+  test an app that communicated via a network interface. You wouldn't
+  have a fully automatic setup yet, but the [[file:org-babel.org::reproducable-research][Reproducible Research]]
+  concept still applies.
+
+* Footnotes
+
+[fn:1] It does this by generating a random string, writing it via
+org-screen-babel to /tmp/testfile and reading it back via Emacs. If
+the validation fails afterwards, the setup doesn't work.
+
+[fn:2] The example is taken from Eev as well: [[http://angg.twu.net/eev-current/anim/channels.anim.html][channels.anim]]
+
