@@ -111,6 +111,10 @@ If you are unfamiliar with the notion of a source code block in
 org-mode, please have a look at the [[http://orgmode.org/manual/Literal-examples.html][relevant manual section]] before
 preceding.
 
+For longer snippets of code, it is advisable to use the function
+=org-edit-src-code= (=C-c '=).  This gives you a new buffer that
+contains the source code with the appropriate mode turned on.
+
 Note that above is what the source block looks like in the org-mode
 file. We had to take [[http://orgmode.org/manual/Literal-examples.html#Literal-examples][special steps]] to make it look that way in the
 HTML output. Normally, when exported to HTML, source blocks are
@@ -706,10 +710,6 @@ to the =hello.sh= file.
   echo "\-----------------------------------------------------------/"
   # block-16 ends here
 #+end_src
-
-For longer snippets of code, it is probably advisable to use the
-function =org-edit-src-code=.  This gives you a new buffer that
-contains the source code with the appropriate mode turned on.
 
 *** Emacs Initialization with Org-babel
     :PROPERTIES:
