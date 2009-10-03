@@ -818,6 +818,10 @@ For a simple example of usage follow these 4 steps.
        ;; (require 'org-babel-screen)    ;; screen and a terminal
        ;; (require 'org-babel-sql)       ;; none
      #+end_src
+**** Language specific documentation
+     Examples, special header arguments and guides on how to use it
+     are available here for the following languages:
+     - [[file:org-babel-screen.org][screen]]
 
 *** Header Arguments
      :PROPERTIES:
