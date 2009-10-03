@@ -161,8 +161,6 @@
 :     opera animation.gif
 :   #+end_src
    
-
-  
 * Example 2: Semi-parallel communication via netcat
   :PROPERTIES:
   :CUSTOM_ID: Example2
@@ -200,6 +198,25 @@
   test an app that communicated via a network interface. You wouldn't
   have a fully automatic setup yet, but the [[file:org-babel.org::reproducable-research][Reproducible Research]]
   concept still applies.
+
+* Header Arguments
+  :PROPERTIES:
+  :CUSTOM_ID: header-arguments
+  :END:
+  For general overview of header arguments look [[file:org-babel.org::header-arguments][here]].
+- session :: session name that is used by screen
+  - default value :: default
+
+- cmd :: argument must be a shell of some sort
+  - default value :: sh
+  - examples :: sh, zsh, irb, python, sqlite3
+
+- terminal :: must support -T 'title' and -e 'command'
+  - default value :: xterm
+  - examples :: xterm, urxvt, aterm, Eterm
+
+- results :: argument currently ignored
+  - default value :: silent
 
 * Footnotes
 
