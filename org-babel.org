@@ -127,6 +127,10 @@ require 'date'
 "This file was last evaluated on #{Date.today}"
 #+end_src
 
+#+resname:
+: This file was last evaluated on 2009-10-03
+
+
 shell script alternative
 #+begin_src sh
 echo "This file was last evaluated on `date`"
@@ -833,7 +837,7 @@ For a simple example of usage follow these 4 steps.
   - The following options are mutually exclusive and specify what type
     of results the code block will return
     - vector :: specifies that the results should be interpreted as a
-                multidimensional vector (even if the vector is
+                one- or two-dimensional vector (even if the vector is
                 trivial), and will be inserted into the org-mode file
                 as a table
     - scalar :: specifies that the results should be interpreted as a
