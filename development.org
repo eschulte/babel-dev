@@ -4,6 +4,41 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [50/72]
+** TODO pretty print source results
+add a result type for the display of source-code objects.  results of
+this type should be wrapped in source-code blocks.
+
+inspired by Benny's pp patch for emacs-lisp (below)
+
+#+begin_example 
+  diff --git a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el b/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
+index 39f5cc7..60671ac 100644
+--- a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
++++ b/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
+@@ -39,10 +39,14 @@
+   "Execute a block of emacs-lisp code with org-babel.  This
+ function is called by `org-babel-execute-src-block' via multiple-value-bind."
+   (message "executing emacs-lisp code block...")
+-  (save-window-excursion
+-    (let ((print-level nil) (print-length nil))
+-      (eval `(let ,(mapcar (lambda (var) `(,(car var) ',(cdr var))) vars)
+-	       ,(read (concat "(progn " body ")")))))))
++  (let ((results (cdr (assoc :results params))))
++    (save-window-excursion
++      (let ((print-level nil) (print-length nil))
++        (eval `(let ,(mapcar (lambda (var) `(,(car var) ',(cdr var))) vars)
++                 ,(read (concat "(progn " (if (string-match "pp$" results)
++                                              (concat "(pp " body ")")
++                                              body)
++                                ")"))))))))
+ 
+ (provide 'org-babel-emacs-lisp)
+ ;;; org-babel-emacs-lisp.el ends here
+#+end_example
+
+something similar for ruby exists here
+http://www.ruby-doc.org/stdlib/libdoc/pp/rdoc/index.html
+
 ** TODO Allow export of results of #+lob lines
 ** TODO allow tangle to be called on a single source block
 this should have a reasonable binding
