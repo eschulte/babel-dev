@@ -281,7 +281,7 @@ print('Two plus two is')
 #+end_src
 
 #+resname: name
-: Hello, today's date is Fri Sep  4 19:49:06 2009
+: Hello, today's date is Thu Oct  8 09:45:53 2009
 : Two plus two is
 
 Again, we got what we asked for: all the text output (stdout) from
