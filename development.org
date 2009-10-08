@@ -23,6 +23,16 @@ straightforward.  It may become more complicated when it comes to
 - ensuring that blocks aren't repeated on tangling
 - ensuring that blocks aren't repeated during session based evaluation
 
+*** additional comment (Juan Reyero)
+Sounds like a good solution.  Another possibility would be to add an
+option that makes chunks dependent on other chunks that appear earlier
+in the buffer.  It is less general, but possibly simpler to implement
+(you don't have to worry about circular dependencies) and less
+verbose.  If you could assume a functional style without side effects
+you could even track which chunks are up-to-date, and only re-compute
+from the first one not up-to-date in the buffer onwards to the chunk
+you are being asked to process.  This could be yet another option.
+
 ** TODO pretty print source results
 add a result type for the display of source-code objects.  results of
 this type should be wrapped in source-code blocks.
