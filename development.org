@@ -33,7 +33,44 @@ you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
 
-** TODO pretty print source results
+** TODO Reworking output: verbatim, pretty-print, vector/scalar etc
+   See [[*Email%20thread][emails]] on subject between ES, BA, DED.
+*** Draft of conclusions of email discussion
+    - We add two new :results options:
+       - parseable output
+       - pretty-printed output
+     - These only take effect with :results value
+     - We get rid of :results scalar
+     - We rename :results vector -> table (do we need it at all?)
+     - We force :results output to be empty for elisp
+*** Parseable output
+    - output as code block
+    - possible :results option names
+      - parseable
+      - verbatim
+      - code
+*** Pretty-printed output
+    - output as literal text block (not as code block)
+    - possible :results option names
+      - pretty
+      - pretty-print
+
+*** Language-specific implementation
+
+| language   | parseable     | pretty                      | Notes                           |
+|------------+---------------+-----------------------------+---------------------------------|
+| emacs-lisp | pp            | pp                          |                                 |
+| ruby       | ?pp           | pp                          | is pp output parseable?         |
+| python     | pprint.pprint | pprint.pprint               |                                 |
+| perl       | ?             | ?                           |                                 |
+| R          | dput          | default interpreter output? |                                 |
+| shell      | NA            | NA                          | no such thing as :results value |
+|            |               |                             |                                 |
+
+*** TODO pretty print source results
+    
+    [ see above ]
+
 add a result type for the display of source-code objects.  results of
 this type should be wrapped in source-code blocks.
 
@@ -67,6 +104,31 @@ index 39f5cc7..60671ac 100644
 
 something similar for ruby exists here
 http://www.ruby-doc.org/stdlib/libdoc/pp/rdoc/index.html
+*** TODO Finalise behaviour regarding vector/scalar output
+    [ see above ]
+*** DONE Stop spaces causing vector output
+This simple example of multilingual chaining produces vector output if
+there are spaces in the message and scalar otherwise.
+
+[Not any more]
+
+#+srcname: msg-from-R(msg=msg-from-python)
+#+begin_src R
+paste(msg, "und R", sep=" ")
+#+end_src
+
+#+resname:
+: org-babel speaks elisp y python und R
+
+#+srcname: msg-from-python(msg=msg-from-elisp)
+#+begin_src python
+msg + " y python"
+#+end_src
+
+#+srcname: msg-from-elisp(msg="org-babel speaks")
+#+begin_src emacs-lisp
+(concat msg " elisp")
+#+end_src
 
 ** TODO Allow export of results of #+lob lines
 ** Work on tangling
@@ -367,30 +429,6 @@ org-mode core
    - files of interpreted code: anything stopping us giving such files
      similar status to a source code block?
    - Would be nice to allow org and non-org files to be remote
-** TODO Finalise behaviour regarding vector/scalar output
-*** DONE Stop spaces causing vector output
-This simple example of multilingual chaining produces vector output if
-there are spaces in the message and scalar otherwise.
-
-[Not any more]
-
-#+srcname: msg-from-R(msg=msg-from-python)
-#+begin_src R
-paste(msg, "und R", sep=" ")
-#+end_src
-
-#+resname:
-: org-babel speaks elisp y python und R
-
-#+srcname: msg-from-python(msg=msg-from-elisp)
-#+begin_src python
-msg + " y python"
-#+end_src
-
-#+srcname: msg-from-elisp(msg="org-babel speaks")
-#+begin_src emacs-lisp
-(concat msg " elisp")
-#+end_src
 ** TODO command line execution
 Allow source code blocks to be called form the command line.  This
 will be easy using the =sbe= function in [[file:lisp/org-babel-table.el][org-babel-table.el]].
