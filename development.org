@@ -41,7 +41,10 @@ you are being asked to process.  This could be yet another option.
        - pretty-printed output
      - These only take effect with :results value
      - We get rid of :results scalar
-     - We rename :results vector -> table (do we need it at all?)
+     - We rename :results vector -> table (even though this will be
+       the default it is nice to have a name for it, and we need a
+       symbolic name for implementing -- and allowing users to change
+       -- the default behavior)
      - We force :results output to be empty for elisp
 *** Parseable output
     - output as code block
@@ -54,6 +57,7 @@ you are being asked to process.  This could be yet another option.
     - possible :results option names
       - pretty
       - pretty-print
+      - pp
 
 *** Language-specific implementation
 
