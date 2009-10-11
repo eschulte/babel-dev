@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [50/74]
+* Tasks [51/70]
 ** TODO add a =:requires= header argument
 this header argument would specify a named source-code block which
 should be appended to the body of the current source-code block before
@@ -129,8 +129,7 @@ msg + " y python"
 #+begin_src emacs-lisp
 (concat msg " elisp")
 #+end_src
-
-** TODO Allow export of results of #+lob lines
+** DONE Allow export of results of #+lob lines
 ** Work on tangling
 *** TODO allow tangle to be called on a single source block
 this should have a reasonable binding
@@ -434,8 +433,7 @@ Allow source code blocks to be called form the command line.  This
 will be easy using the =sbe= function in [[file:lisp/org-babel-table.el][org-babel-table.el]].
 
 This will rely upon [[* resolve references to other buffers][resolve references to other buffers]].
-
-** TODO inline source code blocks [3/5]
+** TODO inline source code blocks [5/8]
    Like the =\R{ code }= blocks
 
    not sure what the format should be, maybe just something simple
@@ -453,7 +451,8 @@ with the following default header arguments
 Need to add an interblock hook (or some such) through org-exp-blocks
 *** DONE header arguments
 We should make it possible to use header arguments.
-
+*** DONE Bring export of inline code back to life
+*** DONE Uses session even when not requested
 *** TODO fontification
 we should color these blocks differently
 
@@ -2992,7 +2991,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [44/49]
+* Bugs [45/51]
+** PROPOSED should delete temp files after evaluation
+** DONE Inline fragment not evaluated unless another code block in buffer
 ** TODO tangle is outputting multiple shebang lines with python code
 ** TODO o-b-execute-subtree places output outside of folded subtree
 *** Example

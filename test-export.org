@@ -1,0 +1,62 @@
+* R interblock
+
+4 * 78 is \R{4 * 78}.
+
+* R inline
+  
+The answer is [ src_R{matrix(200 * rnorm(6), 2, 3)} ].
+
+* Define a block for later use
+#+srcname: diagram()
+#+begin_src ditaa :cmdline -r :exports results :file pinkk.png
++---------+
+| cPNK    |
+|         |
+|    +----+
+|    |cBLU|
+|    |    |
++----+----+
+#+end_src
+
+* python block afterwards
+#+begin_src python :exports both
+2 - 199
+#+end_src
+
+* R block afterwards
+#+begin_R
+2 - 199
+#+end_R
+
+* ditaa block
+#+begin_ditaa blue.png -r -S
++---------+
+| cBLU    |
+|         |
+|    +----+
+|    |cPNK|
+|    |    |
++----+----+
+#+end_ditaa
+
+* asymptote
+
+#+begin_asy out.png
+import graph;
+
+size(0,4cm);
+
+real f(real t) {return 1+cos(t);}
+
+path g=polargraph(f,0,2pi,operator ..)--cycle;
+filldraw(g,pink);
+
+xaxis("$x$",above=true);
+yaxis("$y$",above=true);
+
+dot("$(a,0)$",(1,0),N);
+dot("$(2a,0)$",(2,0),N+E);
+#+end_asy
+
+* And finally use the ditaa block from earlier
+#+lob: diagram() :file pink.png :exports results
