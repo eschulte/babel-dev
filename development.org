@@ -3,7 +3,13 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [51/73]
+* Tasks [51/74]
+** PROPOSED add data serialization language result types (XML, YAML, JSON, etc...)
+these could be cached in source-code blocks of the appropriate
+serialization language, and could be very useful, especially for
+languages (like ruby) which support dumping object to/from these
+serialization languages.
+
 ** TODO Suitable export of #+srcname and #+resname lines
 ** PROPOSED jumping between results and source blocks (evaluation from results)
 see discussion on the Org-mode list
@@ -37,7 +43,7 @@ you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
 
-** TODO Reworking output: verbatim, pretty-print, vector/scalar etc
+** STARTED Reworking output: verbatim, pretty-print, vector/scalar etc
    See emails on subject between ES, BA, DED.
 *** Draft of conclusions of email discussion
     - We add two new :results options:
