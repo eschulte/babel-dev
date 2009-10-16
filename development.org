@@ -3,8 +3,11 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [51/72]
+* Tasks [51/73]
 ** TODO Suitable export of #+srcname and #+resname lines
+** PROPOSED jumping between results and source blocks (evaluation from results)
+see discussion on the Org-mode list
+http://thread.gmane.org/gmane.emacs.orgmode/18407/focus=18419
 ** TODO add a =:requires= header argument
 this header argument would specify a named source-code block which
 should be appended to the body of the current source-code block before
