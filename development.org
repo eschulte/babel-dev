@@ -3,7 +3,8 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [51/70]
+* Tasks [51/72]
+** TODO Suitable export of #+srcname and #+resname lines
 ** TODO add a =:requires= header argument
 this header argument would specify a named source-code block which
 should be appended to the body of the current source-code block before
@@ -34,7 +35,7 @@ from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
 
 ** TODO Reworking output: verbatim, pretty-print, vector/scalar etc
-   See [[*Email%20thread][emails]] on subject between ES, BA, DED.
+   See emails on subject between ES, BA, DED.
 *** Draft of conclusions of email discussion
     - We add two new :results options:
        - parseable output
@@ -133,6 +134,12 @@ msg + " y python"
 #+begin_src emacs-lisp
 (concat msg " elisp")
 #+end_src
+** PROPOSED :results org should be org block
+   i.e. 
+   #+begin_src org
+     ,* whatever
+   #+end_src
+   
 ** DONE Allow export of results of #+lob lines
 ** Work on tangling
 *** TODO allow tangle to be called on a single source block
@@ -2995,7 +3002,32 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [45/51]
+* Bugs [45/52]
+** TODO Juan Reyero bug report
+   
+> ... However I can't replicate this
+> behaviour under linux. I get
+>
+> #+resname:
+> : 2
+>
+> for all three examples.
+>
+> I'm using org-version 6.31trans in emacs-version 23.0.91.1 under ubuntu
+> jaunty with python 2.6.2. Is this definitely replicable under OSX?
+
+Yes, definitely.  I am using emacs version 22.3.1, and python 2.6.1.
+I have stripped bare my .emacs, and still:
+
+#+begin_src python :session :results value
+ 2
+#+end_src
+
+#+resname:
+: 0
+
+jm
+
 ** PROPOSED should delete temp files after evaluation
 ** DONE Inline fragment not evaluated unless another code block in buffer
 ** TODO tangle is outputting multiple shebang lines with python code

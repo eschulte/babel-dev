@@ -548,9 +548,7 @@ b + 4
   users, please consider adding it to the LoB; similarly, feel free to
   request help solving a problem using external code via org-babel --
   there's always a chance that other org users will be able to
-  contribute some helpful code. Org-mode demonstrates that an enormous
-  amount can be achieved using plain text and emacs lisp; the LoB is
-  intended to fill in the gaps.
+  contribute some helpful code.
 
   Org-babel comes pre-populated with the source-code blocks located in
   the [[file:library-of-babel.org][Library of Babel]] file -- raw file at 
