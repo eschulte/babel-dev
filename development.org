@@ -3,7 +3,8 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [51/74]
+* Tasks [51/76]
+** PROPOSED Support passing of data to source block on stdin?
 ** PROPOSED add data serialization language result types (XML, YAML, JSON, etc...)
 these could be cached in source-code blocks of the appropriate
 serialization language, and could be very useful, especially for
@@ -11,6 +12,38 @@ languages (like ruby) which support dumping object to/from these
 serialization languages.
 
 ** TODO Suitable export of #+srcname and #+resname lines
+** PROPOSED allow references to bound emacs lisp variables?
+   I don't *think* we can do this currently. Something like this? 
+#+begin_src emacs-lisp
+(defun org-babel-ref-literal (ref)
+  "Determine if the right side of a header argument variable
+assignment is a literal value or is a reference to some external
+resource.  If REF is literal then return it's value, otherwise
+return nil."
+  (if (boundp (intern ref)) (eval (intern ref))
+    (let ((out (org-babel-read ref)))
+      (if (equal out ref)
+	  (if (string-match "^\"\\(.+\\)\"$" ref)
+	      (read ref))
+	out))))
+#+end_src
+
+Need to be careful that an attempt is *not* made to interpret quoted
+strings as elisp variables. It would allows stuff like this
+
+#+begin_src emacs-lisp :results silent
+  (setq
+   evecfile (concat dir "/" "evecs")
+   numpcs   10)
+#+end_src
+
+#+srcname: pcaplot(evecf=evecfile, numpcs=numpcs)
+#+begin_src R :file pca.png
+  x <- matrix(scan(evecf), ncol=numpcs)
+  plot(x[,1:2], pch="+")
+#+end_src
+
+
 ** PROPOSED jumping between results and source blocks (evaluation from results)
 see discussion on the Org-mode list
 http://thread.gmane.org/gmane.emacs.orgmode/18407/focus=18419
@@ -3011,7 +3044,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [45/52]
+* Bugs [45/54]
 ** TODO Juan Reyero bug report
    
 > ... However I can't replicate this
@@ -3037,6 +3070,8 @@ I have stripped bare my .emacs, and still:
 
 jm
 
+** PROPOSED should we allow :results file without explicitly giving path?
+   I.e. should we create a file in /tmp or in the current directory?
 ** PROPOSED should delete temp files after evaluation
 ** DONE Inline fragment not evaluated unless another code block in buffer
 ** TODO tangle is outputting multiple shebang lines with python code
