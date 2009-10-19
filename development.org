@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [51/76]
+* Tasks [52/76]
 ** PROPOSED Support passing of data to source block on stdin?
 ** PROPOSED add data serialization language result types (XML, YAML, JSON, etc...)
 these could be cached in source-code blocks of the appropriate
@@ -76,19 +76,22 @@ you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
 
-** STARTED Reworking output: verbatim, pretty-print, vector/scalar etc
+** DONE Reworking output: verbatim, pretty-print, vector/scalar etc
    See emails on subject between ES, BA, DED.
 *** Draft of conclusions of email discussion
-    - We add two new :results options:
-       - parseable output
-       - pretty-printed output
-     - These only take effect with :results value
-     - We get rid of :results scalar
-     - We rename :results vector -> table (even though this will be
-       the default it is nice to have a name for it, and we need a
-       symbolic name for implementing -- and allowing users to change
-       -- the default behavior)
-     - We force :results output to be empty for elisp
+    - We add two new :results options (which only take effect
+      with :results value):
+       - [X] parseable (code) output
+       - [X] pretty-printed output
+    - We get rid of :results scalar: [EMS] I don't see why results
+      scalar is on the chopping block?  Did we want another name for
+      this value, or is it overcome by the verbatim/code options?  For
+      now I propose we leave the scalar option unchanged.
+    - [X] We rename :results vector -> table (even though this will be
+         the default it is nice to have a name for it, and we need a
+         symbolic name for implementing -- and allowing users to
+         change -- the default behavior)
+   - [X] We force :results output to be empty for elisp
 *** Parseable output
     - output as code block
     - possible :results option names
@@ -114,7 +117,7 @@ you are being asked to process.  This could be yet another option.
 | shell      | NA            | NA                          | no such thing as :results value |
 |            |               |                             |                                 |
 
-*** TODO pretty print source results
+*** DONE pretty print source results
     
     [ see above ]
 
@@ -151,7 +154,7 @@ index 39f5cc7..60671ac 100644
 
 something similar for ruby exists here
 http://www.ruby-doc.org/stdlib/libdoc/pp/rdoc/index.html
-*** TODO Finalise behaviour regarding vector/scalar output
+*** DONE Finalise behaviour regarding vector/scalar output
     [ see above ]
 *** DONE Stop spaces causing vector output
 This simple example of multilingual chaining produces vector output if
