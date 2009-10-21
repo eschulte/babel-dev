@@ -11,7 +11,38 @@ serialization language, and could be very useful, especially for
 languages (like ruby) which support dumping object to/from these
 serialization languages.
 
-** TODO Suitable export of #+srcname and #+resname lines
+** STARTED Export issues
+*** STARTED reference source blocks that are themselves excluded from export
+*** STARTED restrictions on locations of org-exp-blocks interblocks
+*** STARTED Suitable export of #+srcname and #+resname lines
+*** STARTED inline source code blocks [5/8]
+    Like the =\R{ code }= blocks
+
+    not sure what the format should be, maybe just something simple
+    like =src_lang[]{}= where lang is the name of the source code
+    language to be evaluated, =[]= is optional and contains any header
+    arguments and ={}= contains the code.
+
+**** DONE evaluation with \C-c\C-c
+Putting aside the header argument issue for now we can just run these
+with the following default header arguments
+- =:results= :: silent
+- =:exports= :: results
+
+**** DONE inline exportation
+Need to add an interblock hook (or some such) through org-exp-blocks
+**** DONE header arguments
+We should make it possible to use header arguments.
+**** DONE Bring export of inline code back to life
+**** DONE Uses session even when not requested
+**** TODO fontification
+we should color these blocks differently
+
+**** TODO refine html exportation
+should use a span class, and should show original source in tool-tip
+*** STARTED Allow export of results of #+lob lines
+*** STARTED Inline fragment not evaluated unless another code block in buffer
+
 ** PROPOSED allow references to bound emacs lisp variables?
    I don't *think* we can do this currently. Something like this? 
 #+begin_src emacs-lisp
@@ -42,7 +73,6 @@ strings as elisp variables. It would allows stuff like this
   x <- matrix(scan(evecf), ncol=numpcs)
   plot(x[,1:2], pch="+")
 #+end_src
-
 
 ** PROPOSED jumping between results and source blocks (evaluation from results)
 see discussion on the Org-mode list
@@ -75,118 +105,12 @@ verbose.  If you could assume a functional style without side effects
 you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
-
-** DONE Reworking output: verbatim, pretty-print, vector/scalar etc
-   See emails on subject between ES, BA, DED.
-*** Draft of conclusions of email discussion
-    - We add two new :results options (which only take effect
-      with :results value):
-       - [X] parseable (code) output
-       - [X] pretty-printed output
-    - We get rid of :results scalar: [EMS] I don't see why results
-      scalar is on the chopping block?  Did we want another name for
-      this value, or is it overcome by the verbatim/code options?  For
-      now I propose we leave the scalar option unchanged.
-    - [X] We rename :results vector -> table (even though this will be
-         the default it is nice to have a name for it, and we need a
-         symbolic name for implementing -- and allowing users to
-         change -- the default behavior)
-   - [X] We force :results output to be empty for elisp
-*** Parseable output
-    - output as code block
-    - possible :results option names
-      - parseable
-      - verbatim
-      - code
-*** Pretty-printed output
-    - output as literal text block (not as code block)
-    - possible :results option names
-      - pretty
-      - pretty-print
-      - pp
-
-*** Language-specific implementation
-
-| language   | parseable     | pretty                      | Notes                           |
-|------------+---------------+-----------------------------+---------------------------------|
-| emacs-lisp | pp            | pp                          |                                 |
-| ruby       | ?pp           | pp                          | is pp output parseable?         |
-| python     | pprint.pprint | pprint.pprint               |                                 |
-| perl       | ?             | ?                           |                                 |
-| R          | dput          | default interpreter output? |                                 |
-| shell      | NA            | NA                          | no such thing as :results value |
-|            |               |                             |                                 |
-
-*** DONE pretty print source results
-    
-    [ see above ]
-
-add a result type for the display of source-code objects.  results of
-this type should be wrapped in source-code blocks.
-
-inspired by Benny's pp patch for emacs-lisp (below)
-
-#+begin_example 
-  diff --git a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el b/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
-index 39f5cc7..60671ac 100644
---- a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
-+++ b/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
-@@ -39,10 +39,14 @@
-   "Execute a block of emacs-lisp code with org-babel.  This
- function is called by `org-babel-execute-src-block' via multiple-value-bind."
-   (message "executing emacs-lisp code block...")
--  (save-window-excursion
--    (let ((print-level nil) (print-length nil))
--      (eval `(let ,(mapcar (lambda (var) `(,(car var) ',(cdr var))) vars)
--	       ,(read (concat "(progn " body ")")))))))
-+  (let ((results (cdr (assoc :results params))))
-+    (save-window-excursion
-+      (let ((print-level nil) (print-length nil))
-+        (eval `(let ,(mapcar (lambda (var) `(,(car var) ',(cdr var))) vars)
-+                 ,(read (concat "(progn " (if (string-match "pp$" results)
-+                                              (concat "(pp " body ")")
-+                                              body)
-+                                ")"))))))))
- 
- (provide 'org-babel-emacs-lisp)
- ;;; org-babel-emacs-lisp.el ends here
-#+end_example
-
-something similar for ruby exists here
-http://www.ruby-doc.org/stdlib/libdoc/pp/rdoc/index.html
-*** DONE Finalise behaviour regarding vector/scalar output
-    [ see above ]
-*** DONE Stop spaces causing vector output
-This simple example of multilingual chaining produces vector output if
-there are spaces in the message and scalar otherwise.
-
-[Not any more]
-
-#+srcname: msg-from-R(msg=msg-from-python)
-#+begin_src R
-paste(msg, "und R", sep=" ")
-#+end_src
-
-#+resname:
-: org-babel speaks elisp y python und R
-
-#+srcname: msg-from-python(msg=msg-from-elisp)
-#+begin_src python
-msg + " y python"
-#+end_src
-
-#+srcname: msg-from-elisp(msg="org-babel speaks")
-#+begin_src emacs-lisp
-(concat msg " elisp")
-#+end_src
 ** PROPOSED :results org should be org block
    i.e. 
    #+begin_src org
      ,* whatever
    #+end_src
-   
-** DONE Allow export of results of #+lob lines
-** Work on tangling
+** TODO Work on tangling
 *** TODO allow tangle to be called on a single source block
 this should have a reasonable binding
 *** PROPOSED make tangled files read-only?
@@ -489,31 +413,6 @@ Allow source code blocks to be called form the command line.  This
 will be easy using the =sbe= function in [[file:lisp/org-babel-table.el][org-babel-table.el]].
 
 This will rely upon [[* resolve references to other buffers][resolve references to other buffers]].
-** TODO inline source code blocks [5/8]
-   Like the =\R{ code }= blocks
-
-   not sure what the format should be, maybe just something simple
-   like =src_lang[]{}= where lang is the name of the source code
-   language to be evaluated, =[]= is optional and contains any header
-   arguments and ={}= contains the code.
-
-*** DONE evaluation with \C-c\C-c
-Putting aside the header argument issue for now we can just run these
-with the following default header arguments
-- =:results= :: silent
-- =:exports= :: results
-
-*** DONE inline exportation
-Need to add an interblock hook (or some such) through org-exp-blocks
-*** DONE header arguments
-We should make it possible to use header arguments.
-*** DONE Bring export of inline code back to life
-*** DONE Uses session even when not requested
-*** TODO fontification
-we should color these blocks differently
-
-*** TODO refine html exportation
-should use a span class, and should show original source in tool-tip
 ** TODO LoB: re-implement plotting and analysis functions from org-R
    I'll do this soon, now that we things are a bit more settled and we
    have column names in R.
@@ -596,17 +495,33 @@ index 0e8695f..060f880 100644
 
     For now I think the current behavior of returning any error
     messages generated by the source language is sufficient.
-** STARTED share org-babel [2/7]
+** TODO Finalise argument-passing syntax
+
+#+srcname: unnamedargs(x=7)
+#+begin_src python 
+x
+#+end_src
+
+#+lob: unnamedargs(5)
+
+#+resname: unnamedargs(5)
+: 7
+
+In general we need to have a full set of rules for how a string
+of supplied arguments (some possibly named) interact with the
+arguments in the definition (some possibly with defaults) to give
+values to the variables in the function body.
+** STARTED share org-babel [3/7]
 how should we share org-babel?
 *** DONE post to org-mode
 *** TODO post to ess mailing list
     I'd like to not rush in to this, get some feedback from the org
     list first and let my R usage of org-babel settle down. [DD]
-*** STARTED create a org-babel page on worg
-**** TODO Getting hold of it instructions
+*** DONE create a org-babel page on worg
+**** DONE Getting hold of it instructions
      - What about non-git users?
      - Are we moving/copying to contrib/?
-**** TODO Fixed width HTML output created by =...= is ugly!
+**** DEFERRED Fixed width HTML output created by =...= is ugly!
 *** TODO create a short screencast demonstrating org-babel in action
 *** PROPOSED a peer-reviewed publication?
 
@@ -764,14 +679,6 @@ maybe controlled by an argument
 but with preference given to
 #+srcname blockname(arg=ref)
 ** PROPOSED allow :result as synonym for :results?
-** PROPOSED allow 'output mode to return stdout as value?
-   Maybe we should allow this. In fact, if block x is called
-   with :results output, and it references blocks y and z, then
-   shouldn't the output of x contain a concatenation of the outputs of
-   y and z, together with x's own output? That would raise the
-   question of what happens if y is defined with :results output and z
-   with :results value. I guess z's (possibly vector/tabular) output
-   would be inside a literal example block containing the whole lot.
 ** PROPOSED Creating presentations
    The [[mairix:t:@@9854.1246500519@gamaville.dokosmarshall.org][recent thread]] containing posts by Nick Dokos and Sebastian
    Vaubán on exporting to beamer looked very interesting, but I
@@ -812,6 +719,119 @@ but with preference given to
    code which reference other blocks on which they rely, this
    shouldn't be too hard to implement either on our own, or possibly
    relying on something like noweb/notangle.
+** DONE allow 'output mode to return stdout as value?
+   We do allow this now. It turned out to be necessary for lob calls using output mode.
+
+   Maybe we should allow this. In fact, if block x is called
+   with :results output, and it references blocks y and z, then
+   shouldn't the output of x contain a concatenation of the outputs of
+   y and z, together with x's own output? That would raise the
+   question of what happens if y is defined with :results output and z
+   with :results value. I guess z's (possibly vector/tabular) output
+   would be inside a literal example block containing the whole lot.
+** DONE Reworking output: verbatim, pretty-print, vector/scalar etc
+   See emails on subject between ES, BA, DED.
+*** Draft of conclusions of email discussion
+    - We add two new :results options (which only take effect
+      with :results value):
+       - [X] parseable (code) output
+       - [X] pretty-printed output
+    - We get rid of :results scalar: [EMS] I don't see why results
+      scalar is on the chopping block?  Did we want another name for
+      this value, or is it overcome by the verbatim/code options?  For
+      now I propose we leave the scalar option unchanged.
+    - [X] We rename :results vector -> table (even though this will be
+         the default it is nice to have a name for it, and we need a
+         symbolic name for implementing -- and allowing users to
+         change -- the default behavior)
+   - [X] We force :results output to be empty for elisp
+*** Parseable output
+    - output as code block
+    - possible :results option names
+      - parseable
+      - verbatim
+      - code
+*** Pretty-printed output
+    - output as literal text block (not as code block)
+    - possible :results option names
+      - pretty
+      - pretty-print
+      - pp
+
+*** Language-specific implementation
+
+| language   | parseable     | pretty                      | Notes                           |
+|------------+---------------+-----------------------------+---------------------------------|
+| emacs-lisp | pp            | pp                          |                                 |
+| ruby       | ?pp           | pp                          | is pp output parseable?         |
+| python     | pprint.pprint | pprint.pprint               |                                 |
+| perl       | ?             | ?                           |                                 |
+| R          | dput          | default interpreter output? |                                 |
+| shell      | NA            | NA                          | no such thing as :results value |
+|            |               |                             |                                 |
+
+*** DONE pretty print source results
+    
+    [ see above ]
+
+add a result type for the display of source-code objects.  results of
+this type should be wrapped in source-code blocks.
+
+inspired by Benny's pp patch for emacs-lisp (below)
+
+#+begin_example 
+  diff --git a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el b/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
+index 39f5cc7..60671ac 100644
+--- a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
++++ b/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
+@@ -39,10 +39,14 @@
+   "Execute a block of emacs-lisp code with org-babel.  This
+ function is called by `org-babel-execute-src-block' via multiple-value-bind."
+   (message "executing emacs-lisp code block...")
+-  (save-window-excursion
+-    (let ((print-level nil) (print-length nil))
+-      (eval `(let ,(mapcar (lambda (var) `(,(car var) ',(cdr var))) vars)
+-	       ,(read (concat "(progn " body ")")))))))
++  (let ((results (cdr (assoc :results params))))
++    (save-window-excursion
++      (let ((print-level nil) (print-length nil))
++        (eval `(let ,(mapcar (lambda (var) `(,(car var) ',(cdr var))) vars)
++                 ,(read (concat "(progn " (if (string-match "pp$" results)
++                                              (concat "(pp " body ")")
++                                              body)
++                                ")"))))))))
+ 
+ (provide 'org-babel-emacs-lisp)
+ ;;; org-babel-emacs-lisp.el ends here
+#+end_example
+
+something similar for ruby exists here
+http://www.ruby-doc.org/stdlib/libdoc/pp/rdoc/index.html
+*** DONE Finalise behaviour regarding vector/scalar output
+    [ see above ]
+*** DONE Stop spaces causing vector output
+This simple example of multilingual chaining produces vector output if
+there are spaces in the message and scalar otherwise.
+
+[Not any more]
+
+#+srcname: msg-from-R(msg=msg-from-python)
+#+begin_src R
+paste(msg, "und R", sep=" ")
+#+end_src
+
+#+resname:
+: org-babel speaks elisp y python und R
+
+#+srcname: msg-from-python(msg=msg-from-elisp)
+#+begin_src python
+msg + " y python"
+#+end_src
+
+#+srcname: msg-from-elisp(msg="org-babel speaks")
+#+begin_src emacs-lisp
+(concat msg " elisp")
+#+end_src
 
 ** DONE support for passing paths to files between source blocks
 Maybe this should be it's own result type (in addition to scalars and
@@ -3047,7 +3067,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [45/54]
+* Bugs [45/53]
+** PROPOSED Do we deal with indented code blocks correctly?
+   I.e. if there is whitespace before #+begin and #+end.
 ** TODO Juan Reyero bug report
    
 > ... However I can't replicate this
@@ -3076,7 +3098,6 @@ jm
 ** PROPOSED should we allow :results file without explicitly giving path?
    I.e. should we create a file in /tmp or in the current directory?
 ** PROPOSED should delete temp files after evaluation
-** DONE Inline fragment not evaluated unless another code block in buffer
 ** TODO tangle is outputting multiple shebang lines with python code
 ** TODO o-b-execute-subtree places output outside of folded subtree
 *** Example
@@ -3095,23 +3116,7 @@ echo 6
 #+resname:
 : 6
 ** TODO point should go to end of comint buffer after execution
-** PROPOSED allow un-named arguments
-
-#+srcname: f(x)
-#+begin_src python 
-x
-#+end_src
-
-#+lob: f(5)
-
-## produces no output
-
- It's not essential but would be nice for this to work. To do it
-properly, would mean that we'd have to specify rules for how a string
-of supplied arguments (some possibly named) interact with the
-arguments in the definition (some possibly with defaults) to give
-values to the variables in the function body.
-** PROPOSED external shell execution can't isolate return values
+** DEFERRED external shell execution can't isolate return values
 I have no idea how to do this as of yet.  The result is that when
 shell functions are run w/o a session there is no difference between
 the =output= and =value= result arguments.
@@ -4638,55 +4643,55 @@ org-babel functionality.
 of these tests may fail.
 
 #+TBLNAME: org-babel-tests
-| functionality           | block                      | arg |    expected |     results | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| basic evaluation        |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| emacs lisp              | basic-elisp                |     |           5 |           5 | pass |
-| shell                   | basic-shell                |     |           6 |           6 | pass |
-| ruby                    | basic-ruby                 |     |   org-babel |   org-babel | pass |
-| python                  | basic-python               |     | hello world | hello world | pass |
-| R                       | basic-R                    |     |          13 |          13 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| tables                  |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| emacs lisp              | table-elisp                |     |           3 |           3 | pass |
-| ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass |
-| python                  | table-python               |     |           5 |           5 | pass |
-| R                       | table-R                    |     |         3.5 |         3.5 | pass |
-| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass |
-| R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| source block references |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| all languages           | chained-ref-last           |     |       Array |       Array | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| source block functions  |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass |
-| run over                | Fibonacci                  |   0 |           1 |           1 | pass |
-| a                       | Fibonacci                  |   1 |           1 |           1 | pass |
-| variety                 | Fibonacci                  |   2 |           2 |           2 | pass |
-| of                      | Fibonacci                  |   3 |           3 |           3 | pass |
-| different               | Fibonacci                  |   4 |           5 |           5 | pass |
-| arguments               | Fibonacci                  |   5 |           8 |           8 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| bugs and tasks          |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| simple ruby arrays      | ruby-array-test            |     |           3 |           3 | pass |
-| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass |
-| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |           2 | pass |
-| forcing vector results  | test-forced-vector-results |     |       Array |       Array | pass |
-| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| sessions                |                            |     |             |             | pass |
-|-------------------------+----------------------------+-----+-------------+-------------+------|
-| set ruby session        | set-ruby-session-var       |     |        :set |        :set | pass |
-| get from ruby session   | get-ruby-session-var       |     |           3 |           3 | pass |
-| set python session      | set-python-session-var     |     |         set |         set | pass |
-| get from python session | get-python-session-var     |     |           4 |           4 | pass |
-| set R session           | set-R-session-var          |     |         set |         set | pass |
-| get from R session      | get-R-session-var          |     |           5 |           5 | pass |
+| functionality           | block                      | arg |    expected |     results | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| basic evaluation        |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| emacs lisp              | basic-elisp                |     |           5 |           5 | pass                             |
+| shell                   | basic-shell                |     |           6 |           6 | pass                             |
+| ruby                    | basic-ruby                 |     |   org-babel |   org-babel | pass                             |
+| python                  | basic-python               |     | hello world | hello world | pass                             |
+| R                       | basic-R                    |     |          13 |          13 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| tables                  |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| emacs lisp              | table-elisp                |     |           3 |           3 | pass                             |
+| ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass                             |
+| python                  | table-python               |     |           5 |           5 | pass                             |
+| R                       | table-R                    |     |         3.5 |         3.5 | pass                             |
+| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass                             |
+| R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| source block references |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| all languages           | chained-ref-last           |     |       Array |       Array | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| source block functions  |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass                             |
+| run over                | Fibonacci                  |   0 |           1 |           1 | pass                             |
+| a                       | Fibonacci                  |   1 |           1 |           1 | pass                             |
+| variety                 | Fibonacci                  |   2 |           2 |           2 | pass                             |
+| of                      | Fibonacci                  |   3 |           3 |           3 | pass                             |
+| different               | Fibonacci                  |   4 |           5 |           5 | pass                             |
+| arguments               | Fibonacci                  |   5 |           8 |           8 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| bugs and tasks          |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| simple ruby arrays      | ruby-array-test            |     |           3 |           3 | pass                             |
+| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass                             |
+| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |           2 | pass                             |
+| forcing vector results  | test-forced-vector-results |     |       Array |       Array | pass                             |
+| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| sessions                |                            |     |             |             | pass                             |
+|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
+| set ruby session        | set-ruby-session-var       |     |        :set |      #ERROR | expected ":set" but was "#ERROR" |
+| get from ruby session   | get-ruby-session-var       |     |           3 |      #ERROR | expected "3" but was "#ERROR"    |
+| set python session      | set-python-session-var     |     |         set |         set | pass                             |
+| get from python session | get-python-session-var     |     |           4 |           4 | pass                             |
+| set R session           | set-R-session-var          |     |         set |         set | pass                             |
+| get from R session      | get-R-session-var          |     |           5 |           5 | pass                             |
 #+TBLFM: $5='(if (= (length $3) 1) (progn (message (format "running %S" '(sbe $2 (n $3)))) (sbe $2 (n $3))) (sbe $2))::$6='(if (string= $4 $5) "pass" (format "expected %S but was %S" $4 $5))
 #+TBLFM: $5=""::$6=""
 
