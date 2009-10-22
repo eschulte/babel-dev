@@ -3,7 +3,9 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [52/76]
+* Tasks [52/78]
+** PROPOSED allow hiding of code blocks with <tab> on srcname line?
+** PROPOSED Allow hiding of results blocks?
 ** PROPOSED Support passing of data to source block on stdin?
 ** PROPOSED add data serialization language result types (XML, YAML, JSON, etc...)
 these could be cached in source-code blocks of the appropriate
@@ -3068,6 +3070,13 @@ dot("$(2a,0)$",(2,0),N+E);
 
 
 * Bugs [45/53]
+** TODO (R) session evaluation fails if no new line terminating output
+
+#+srcname: nonewline
+#+begin_src R :session
+cat("There's no newline ending this")
+#+end_src
+
 ** PROPOSED Do we deal with indented code blocks correctly?
    I.e. if there is whitespace before #+begin and #+end.
 ** TODO Juan Reyero bug report
