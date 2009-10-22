@@ -3,7 +3,18 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [52/76]
+* Tasks [52/77]
+** TODO =:hide= header argument for automatically folding source blocks
+from the mailing list
+#+begin_quote 
+ My suggestion is that if a source block has the :hide header argument
+ it should be closed by default as if the user had pressed tab. The
+ user could then press tab at the "#BEGIN_SRC ..." line to show the
+ content of the block and, maybe, the block could be closed again if
+ the cursor leaves the block. This can be useful for other blocks as
+ well.
+#+end_quote
+
 ** PROPOSED Support passing of data to source block on stdin?
 ** PROPOSED add data serialization language result types (XML, YAML, JSON, etc...)
 these could be cached in source-code blocks of the appropriate
