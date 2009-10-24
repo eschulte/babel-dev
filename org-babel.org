@@ -47,8 +47,9 @@
   Org-babel provides the following modifications to [[http://orgmode.org/manual/Literal-examples.html][the existing
   support]] for blocks of source code examples in the org-mode core.
 
-  1. Interactive source code execution
-  2. Arguments to source code blocks
+  1. Interactive and on-export execution of source code
+  2. Code blocks as functions: they can be parameterised, can refer to
+     other code blocks, and can be called remotely.
   3. Exportation of source code blocks to files (literate programming)
 
 * Getting started
@@ -98,9 +99,8 @@
     Org-babel is all about *source code blocks* in org mode. These are
     blocks of code (in whatever language), that can occur anywhere in
     an org-mode file. For example, the following is a source block
-    containing [[http://www.ruby-lang.org/][ruby]] code (note if you don't have ruby installed the
-    ruby examples won't work, so you can try the shell script
-    alternative):
+    containing [[http://www.ruby-lang.org/][ruby]] code (if you don't have ruby installed the ruby
+    examples won't work, so you can try the shell script alternative):
 
 : #+begin_src ruby
 : require 'date'
@@ -288,6 +288,19 @@ Again, we got what we asked for: all the text output (stdout) from
 python. Since we didn't print the last value (2 + 2), we didn't get it
 in our output.
 
+*** Session-based evaluation
+    For some languages, such as python, R, ruby and shell, it is
+    possible to run an interactive session as an "inferior process"
+    within emacs. This means that an environment is created containing
+    data objects that persist between different code blocks. Org-babel
+    supports evaluation of code within such sessions with the
+    =:session= header argument. If the header argument is given a
+    value then that will be used as the name of the session.
+
+    With R, the session will be under the control of [[http://ess.r-project.org/][Emacs Speaks
+    Statistics]] as usual, and the full power of ESS is thus still
+    available, both in the R session, and when switching to the R code
+    edit buffer with =C-c '=.
 *** Arguments to source code blocks
     :PROPERTIES:
     :CUSTOM_ID: arguments-to-source-code-blocks
@@ -830,24 +843,36 @@ For a simple example of usage follow these 4 steps.
      :CUSTOM_ID: header-arguments
      :END:
 
-- results :: results arguments specify what should be done with the
-             output of source-code blocks
+- =:results= :: options supplied after the =:results= header argument
+             specify what should be done with the output of
+             source-code blocks
   - The following options are mutually exclusive, and specify how the
     results should be collected from the source-code block
-    - value ::
-    - output :: 
+    - value :: The result is the /value/ of the last statement in the
+               source block
+    - output :: The result is a concatenation of the text that is
+                output by the source block (currently, this includes
+                error output).
   - The following options are mutually exclusive and specify what type
     of results the code block will return
-    - vector :: specifies that the results should be interpreted as a
-                one- or two-dimensional vector (even if the vector is
-                trivial), and will be inserted into the org-mode file
-                as a table
-    - scalar :: specifies that the results should be interpreted as a
-                scalar value, and will be inserted into the org-mode
-                file as quoted text
-    - file :: specifies that the results should be interpreted as the
-              path to a file, and will be inserted into the org-mode
-              file as a link
+    - table, vector :: the results should be interpreted as a one- or
+                       two-dimensional vector (so a "single number" is
+                       a one-dimensional vector of length one), and
+                       will be inserted into the org-mode file as a
+                       table
+    - scalar :: the results should be interpreted as a scalar value,
+                and will be inserted into the org-mode file as quoted
+                text
+    - file :: the results should be interpreted as the path to a file,
+              and will be inserted into the org-mode file as a link
+    - raw, org :: the results are interpreted as raw org code and are
+             inserted directly into the buffer
+    - html :: results enclosed in a begin_html block
+    - latex :: results enclosed in a begin_latex block
+    - code :: the result value is represented as parseable code
+    - pp :: the result value is represented as pretty-printed code
+            (emacs-lisp, python, ruby)
+
   - The following options specify how the results should be inserted
     into the org-mode file
     - replace :: the current results replace any previously inserted
