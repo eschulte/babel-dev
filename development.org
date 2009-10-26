@@ -3,7 +3,12 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [52/79]
+* Tasks [52/80]
+** PROPOSED further work on dependencies of header args?
+   For example, pp and code should probably imply value. It would be
+   possible in principle to have a general mechanism for specifying
+   and resolving dependencies, which would be used by
+   o-b-merge-params.
 ** TODO =:hide= header argument for automatically folding source blocks
 from the mailing list
 #+begin_quote 
@@ -133,10 +138,13 @@ this should have a reasonable binding
 *** PROPOSED make tangled files executable?
     At least if using shebang line
 *** PROPOSED optionally do not output comment and links
-** TODO sha1 hash based caching
+** STARTED sha1 hash based caching
    :PROPERTIES:
    :CUSTOM_ID: sha1-caching
    :END:
+
+   I've put the beginnings of a simple cache of evaluation results in
+   branch "cache" (DED)
 
 #+begin_quote 
 I wonder if we should consider some cashing of images, also for
@@ -3081,7 +3089,11 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [45/53]
+* Bugs [45/55]
+** TODO ensure file output goes to correct destination with relative file paths
+   E.g. if I use :file pca.png, but the working directory of the R
+   session is "/tmp", then we need to ensure that the org file link points
+   to the location of the file created by R.
 ** TODO (R) session evaluation fails if no new line terminating output
 
 #+srcname: nonewline
