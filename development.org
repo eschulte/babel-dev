@@ -146,6 +146,17 @@ this should have a reasonable binding
    I've put the beginnings of a simple cache of evaluation results in
    branch "cache" (DED)
 
+- We'd want some way to re-evaluate without using the cached result
+
+- I was considering using org-attach to store the cached data in the
+  attach dir for the tree. But how do we deal with unwanted accumulation
+  of files? In linux at least it's nice that /tmp gets cleared when I
+  reboot (org-babel should do more cleaning up of temp files)
+
+- We could byte-compile the cached file (good for large results?)
+
+
+
 #+begin_quote 
 I wonder if we should consider some cashing of images, also for
 export.  I think we could have an alist with sha1 hashes as keys and
@@ -3089,7 +3100,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [45/55]
+* Bugs [45/54]
 ** TODO ensure file output goes to correct destination with relative file paths
    E.g. if I use :file pca.png, but the working directory of the R
    session is "/tmp", then we need to ensure that the org file link points
@@ -3130,7 +3141,7 @@ jm
 
 ** PROPOSED should we allow :results file without explicitly giving path?
    I.e. should we create a file in /tmp or in the current directory?
-** PROPOSED should delete temp files after evaluation
+** TODO should delete temp files after evaluation
 ** TODO tangle is outputting multiple shebang lines with python code
 ** TODO o-b-execute-subtree places output outside of folded subtree
 *** Example
