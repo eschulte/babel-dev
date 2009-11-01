@@ -736,6 +736,9 @@ to the =hello.sh= file.
     :PROPERTIES:
     :CUSTOM_ID: literate-emacs-initialization
     :END:
+
+[[file:../../images/babel/dot-emacs.png]]
+
 Org-babel has special support for embedding your emacs initialization
 into Org-mode files.  The =org-babel-load-file= function can be used
 to load the emacs lisp embedded in a literate Org-mode file in the
