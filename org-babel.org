@@ -737,6 +737,7 @@ to the =hello.sh= file.
     :CUSTOM_ID: literate-emacs-initialization
     :END:
 
+#+attr_html: style="float:left;"
 [[file:../../images/babel/dot-emacs.png]]
 
 Org-babel has special support for embedding your emacs initialization
