@@ -3100,7 +3100,19 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [45/54]
+* Bugs [45/57]
+** TODO tangle needs to check that buffer has file name
+** TODO :results value fails with result ending in newline
+#+srcname: output
+#+begin_src python :results value
+  "x\n"
+#+end_src
+
+#+resname: output
+: 0
+
+** PROPOSED (org-babel-merge-params nil) --> ((:tangle . "") (:exports . "") (:results . ""))
+   Is that desirable?
 ** TODO ensure file output goes to correct destination with relative file paths
    E.g. if I use :file pca.png, but the working directory of the R
    session is "/tmp", then we need to ensure that the org file link points
