@@ -160,7 +160,7 @@ this should have a reasonable binding
 
 - We could byte-compile the cached file (good for large results?)
 
-
+*** TODO How do we distinguish a nil result from a lack of a cached result?
 
 #+begin_quote 
 I wonder if we should consider some cashing of images, also for
@@ -3104,8 +3104,46 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE emacs-lisp
 *** DONE sh
 
+    
+* Bugs [46/62]
+** TODO :results code not dealt with correctly?
 
-* Bugs [46/58]
+E.g. here in org-babel-python-evaluate. Should that be 
+(or (member "pp" result-params) (member "code" result-params))
+?
+#+begin_src emacs-lisp 
+		(format
+		 (if (member "pp" result-params)
+                     org-babel-python-pp-wrapper-method
+                   org-babel-python-wrapper-method)
+		 (let ((lines (split-string
+#+end_src
+
+** TODO python doesn't work with multiple statements per line
+   example on list
+   This is because python statements are broken up by newlines in org-babel-python-evaluate.
+
+   I think this is a somewhat uncomfortable issue. Both perl and
+   python demand a return statement. That currently means that we have
+   to separate the code into "statements" (not sure that's the right
+   term), in order to stick a "return" in front of the last one. But
+   in general, I think you would have to parse the language in order
+   to know how to break the language up in this way. It's easy to come
+   up with examples of valid python code, involving mutliline
+   statements and/or semicolons that don't work in current
+   org-babel. E.g.
+
+#+begin_src python 
+  def f(x,y):
+      return x + y
+  a = f(4,
+        5)
+  a
+#+end_src
+
+#+resname:
+
+** TODO lob does not inherit :session from file properties
 ** PROPOSED org-babel-insert-result uninvestigated worry
    What happens if org-babel-where-is-src-block-result doesn't return non-nil?
    [[git:~/babel/contrib/babel/lisp/org-babel.el::result-switches@{2009-11-04}][these lines in org-babel.el]]
