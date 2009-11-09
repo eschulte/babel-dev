@@ -732,6 +732,22 @@ to the =hello.sh= file.
   # block-16 ends here
 #+end_src
 
+In addition the following syntax can be used to insert the *results*
+of evaluating the source-code block named 'example-block'.
+
+: # <<example-block()>>
+
+Any optional arguments can be passed to example-block by placing the
+arguments inside the parenthesis following the convention defined when
+calling source block functions (see the [[library-of-babel][Library of babel]]). For example
+
+: # <<example-block(a=9)>>
+
+would set the value of argument \"a\" equal to \"9\".  Note that
+these arguments are not evaluated in the current source-code
+block but are passed literally to the \"example-block\"."
+#+end_src
+
 *** Emacs Initialization with Org-babel
     :PROPERTIES:
     :CUSTOM_ID: literate-emacs-initialization
