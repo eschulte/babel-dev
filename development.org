@@ -4838,7 +4838,6 @@ b <- 9
 b + 4
 #+end_src
 
-
 ** read tables
 
 #+tblname: test-table
@@ -4896,7 +4895,6 @@ x$var3[1]
 
 
 
-
 ** references
 
 Lets pass a references through all of our languages...
@@ -4941,7 +4939,6 @@ and Check that it is still a list
 table.class.name
 #+end_src
 
-
 ** source blocks as functions
 
 #+srcname: defun-fibb
@@ -4954,7 +4951,6 @@ table.class.name
 #+begin_src emacs-lisp :results silent :var n=7
 (fibbd n)
 #+end_src
-
 
 
 
@@ -5034,4 +5030,220 @@ a <- 5
 #+begin_src R :session
 a
 #+end_src
+
+** Clojure
+Evaluate all the cells in this table for a comprehensive test of the
+org-babel functionality.
+
+*Note*: if you have customized =org-babel-default-header-args= then some
+of these tests may fail.
+
+#+TBLNAME: org-babel-clojure-tests
+| functionality            | block                    | arg |                          expected |                           results | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| basic evaluation         |                          |     |                                   |                                   | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| clojure                  | basic-clojure            |     |                                 5 |                                 5 | pass |
+| clojure                  | hello-clojure            |     |                     hello clojure |                     hello clojure | pass |
+| ruby                     | basic-ruby               |     |                         org-babel |                         org-babel | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| tables                   |                          |     |                                   |                                   | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| clojure                  | table-clojure            |     |                                 3 |                                 3 | pass |
+| clojure                  | table-clojure-join       |     |                             1-2-3 |                             1-2-3 | pass |
+| ruby                     | table-ruby               |     |                             1-2-3 |                             1-2-3 | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| source block references  |                          |     |                                   |                                   | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| all languages            | clojure-chained-ref-last |     | class clojure.lang.PersistentList | class clojure.lang.PersistentList | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| source block functions   |                          |     |                                   |                                   | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| clojure                  | defn-fib                 |     |                        #'user/fib |                        #'user/fib | pass |
+| clojure arg1             | clojure-fibonacci        |   0 |                                 0 |                                 0 | pass |
+| clojure arg2             | clojure-fibonacci        |   1 |                                 1 |                                 1 | pass |
+| clojure arg3             | clojure-fibonacci        |   3 |                                 2 |                                 2 | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| sessions                 |                          |     |                                   |                                   | pass |
+|--------------------------+--------------------------+-----+-----------------------------------+-----------------------------------+------|
+| set ruby session         | set-python-session-var   |     |                               set |                               set | pass |
+| get from ruby session    | get-python-session-var   |     |                                 4 |                                 4 | pass |
+| set clojure session      | set-clojure-session-var  |     |                              :set |                              :set | pass |
+| get from clojure session | get-clojure-session-var  |     |                                 3 |                                 3 | pass |
+#+TBLFM: $5='(if (= (length $3) 1) (progn (message (format "running %S" '(sbe $2 (n $3)))) (sbe $2 (n $3))) (sbe $2))::$6='(if (string= $4 $5) "pass" (format "expected %S but was %S" $4 $5))
+#+TBLFM: $5=""::$6=""
+
+*** basic tests
+#+srcname: basic-clojure
+#+begin_src clojure :results silent
+(+ 1 4)
+#+end_src
+
+#+srcname: basic-clojure-table-results
+#+begin_src clojure :results value
+[ 1 2 3 4]
+#+end_src
+
+#+resname: basic-clojure-table-results
+| 1 | 2 | 3 | 4 |
+
+
+#+srcname: hello-clojure
+#+begin_src clojure :results silent
+"hello clojure"
+#+end_src
+
+#+resname: hello-clojure
+: hello clojure
+
+
+#+srcname: basic-ruby
+#+begin_src ruby :results silent
+"org-babel"
+#+end_src
+
+#+srcname: hello-clojure-output-no-session
+#+begin_src clojure :results output
+  (println "hello output-no-session clojure")
+#+end_src
+
+#+resname: hello-clojure-output-no-session
+: hello output-no-session clojure
+
+
+#+srcname: hello-clojure-output-table
+#+begin_src clojure :results output
+  (println '(6 7 8 9 ))
+#+end_src
+
+#+resname: hello-clojure-output-table
+: (6 7 8 9)
+
+*** read tables
+#+tblname: test-table
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |
+
+#+srcname: table-ruby
+#+begin_src ruby :results silent :var table=test-table
+table.first.join("-")
+#+end_src
+
+#+srcname: table-clojure
+#+begin_src clojure :results silent :var table=test-table
+(count (first table))
+#+end_src
+
+#+srcname: table-clojure-join
+#+begin_src clojure :results silent :var table=test-table
+(apply str (interpose "-" (first table)))
+#+end_src
+*** write tables
+#+srcname: writetable-clojure
+#+begin_src clojure :results replace :var table=test-table
+(list '(A B C) (reverse (first table)))
+#+end_src
+
+#+resname: writetable-clojure
+| A | B | C |
+| 3 | 2 | 1 |
+
+*** references
+
+Lets pass a references through all of our languages...
+
+Lets start by reversing the table from the previous examples
+
+#+srcname: chained-ref-first
+#+begin_src clojure :var table = test-table
+(reverse table)
+#+end_src
+
+#+resname: chained-ref-first
+| 4 | 5 | 6 |
+| 1 | 2 | 3 |
+
+Take the first part of the list
+
+#+srcname: chained-ref-second
+#+begin_src clojure :var table = chained-ref-first
+(first table)
+#+end_src
+
+#+resname: chained-ref-second
+| 4 |
+| 1 |
+
+Turn the numbers into string
+
+#+srcname: chained-ref-third
+#+begin_src clojure :var table = chained-ref-second
+(map #(format "%S" %) table)
+#+end_src
+
+#+resname: chained-ref-third
+| "(4)" | "(1)" |
+
+and Check that it is still a list
+
+#+srcname: clojure-chained-ref-last
+#+begin_src clojure :var table=chained-ref-third
+(type table)
+#+end_src
+
+*** source blocks as functions
+#+srcname: defn-fib
+#+begin_src clojure :session :results silent
+  (defn fib [n]
+    (if (<= n 1)
+      n
+      (+ (fib (dec n)) (fib (- n 2)))))
+#+end_src
+
+
+#+srcname: clojure-fibonacci
+#+begin_src clojure :session :results silent :var n=7
+  (fib n)
+#+end_src
+
+*** result replace
+0
+#+srcname: test-output
+#+begin_src clojure :results replace :var n=7
+(format "I'm going to format the number: %d" n)
+#+end_src
+
+#+resname: test-output
+: I'm going to format the number: 7
+
+*** sessions
+#+srcname: set-python-session-var
+#+begin_src python :session
+var=4
+'set'
+#+end_src
+
+#+srcname: get-python-session-var
+#+begin_src python :session
+var
+#+end_src
+
+#+srcname: set-clojure-session-var
+#+begin_src clojure :session :results silent
+(def *var* [1 2 3])
+:set
+#+end_src
+
+#+srcname: get-clojure-session-var
+#+begin_src clojure :session :results silent
+(count *var*)
+#+end_src
+
+#+srcname: hello-clojure-output
+#+begin_src clojure :session :results output
+  (println "hello clojure")
+#+end_src
+
+#+resname: hello-clojure-output
+: hello clojure
 
