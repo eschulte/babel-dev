@@ -4738,6 +4738,7 @@ recognition of ruby arrays as such.
 
 
 * Tests
+** General Tests
 Evaluate all the cells in this table for a comprehensive test of the
 org-babel functionality.
 
@@ -4801,7 +4802,7 @@ of these tests may fail.
 The second TBLFM line (followed by replacing '[]' with '') can be used
 to blank out the table results, in the absence of a better method.
 
-** basic tests
+*** basic tests
 
 #+srcname: basic-elisp
 #+begin_src emacs-lisp :results silent
@@ -4838,7 +4839,7 @@ b <- 9
 b + 4
 #+end_src
 
-** read tables
+*** read tables
 
 #+tblname: test-table
 | 1 | 2 | 3 |
@@ -4895,7 +4896,7 @@ x$var3[1]
 
 
 
-** references
+*** references
 
 Lets pass a references through all of our languages...
 
@@ -4939,7 +4940,7 @@ and Check that it is still a list
 table.class.name
 #+end_src
 
-** source blocks as functions
+*** source blocks as functions
 
 #+srcname: defun-fibb
 #+begin_src emacs-lisp :results silent
@@ -4957,7 +4958,7 @@ table.class.name
 
 
 
-** sbe tests (these don't seem to be working...)
+*** sbe tests (these don't seem to be working...)
 Testing the insertion of results into org-mode tables.
 
 #+srcname: multi-line-output
@@ -4984,7 +4985,7 @@ raise "oh nooooooooooo"
 | the first line ends here... | -:5: warning: parenthesize argument(s) for future version... |
 #+TBLFM: $1='(sbe "multi-line-output")::$2='(sbe "multi-line-error")
 
-** forcing results types tests
+*** forcing results types tests
 
 #+srcname: test-trivial-vector
 #+begin_src emacs-lisp :results vector silent
@@ -4996,7 +4997,7 @@ raise "oh nooooooooooo"
 triv.class.name
 #+end_src
 
-** sessions
+*** sessions
 
 #+srcname: set-ruby-session-var
 #+begin_src ruby :session :results silent
@@ -5031,7 +5032,7 @@ a <- 5
 a
 #+end_src
 
-** Clojure
+** Clojure Tests
 Evaluate all the cells in this table for a comprehensive test of the
 org-babel functionality.
 
