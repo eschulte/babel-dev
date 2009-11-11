@@ -3,7 +3,18 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [52/81]
+* Tasks [52/82]
+** TODO documentation
+our documentation has fallen behind our development.  We should:
+1) troll through the babel-related git logs and adjust the
+   documentation from all major commits
+2) stub out a page for each language
+3) adjust the instructions WRT =:results value= and =:results output=
+4) expand the discussion of noweb references
+5) ensure that all new header arguments (e.g. =results_switches=) are
+   represented in the documentation
+6) add the /org-babel-template.el/ new language template
+
 ** PROPOSED efficiency: avoid multiple calls to org-babel-where-is-src-block-head
    the posiion of head can be stored in the 'info' data
    structure. This would entail a bit of messing about as it would
