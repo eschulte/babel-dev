@@ -4797,9 +4797,8 @@ of these tests may fail.
 #+TBLFM: $5='(if (= (length $3) 1) (progn (message (format "running %S" '(sbe $2 (n $3)))) (sbe $2 (n $3))) (sbe $2))::$6='(if (string= $4 $5) "pass" (format "expected %S but was %S" $4 $5))
 #+TBLFM: $5=""::$6=""
 
-
-The second TBLFM line (followed by replacing '[]' with '') can be used
-to blank out the table results, in the absence of a better method.
+The second TBLFM line can be used to blank out the table results, in
+the absence of a better method.
 
 ** basic tests
 

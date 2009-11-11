@@ -300,6 +300,47 @@ in our output.
     Statistics]] as usual, and the full power of ESS is thus still
     available, both in the R session, and when switching to the R code
     edit buffer with =C-c '=.
+
+*** Summary of results output/value & sessions
+
+    The following notes apply particularly to perl, python, R and
+    ruby.
+
+Nature of Results:
+
+|        | non-session              | session                             |
+|--------+--------------------------+-------------------------------------|
+| value  | value of last expression | value of last expression            |
+| output | contents of stdout       | concatenation of interpreter output |
+
+**** :results value (non-session)
+     This is the default. The value is obtained by wrapping the code
+     in a function and evaluating that function. Therefore, code
+     should be written as if it were the body of such a function. In
+     particular, note that languages such as python and perl do not
+     automatically return a value from a function unless a =return=
+     statement is present.
+
+**** :results output (non-session)
+     The code is passed to the interpreter as an external process, and
+     the value returned is the (text) contents of stdout.
+
+**** :results value (session)
+     The code is passed to the interpreter running as an emacs
+     inferior process. The result returned is the result of the last
+     evaluation performed by the interpreter. This is obtained in a
+     language-specific manner (the value of the variable =_= in python
+     and ruby, and the value of =.Last.value= in R).
+
+**** :results output (session)
+     The code is passed to the interpreter running as an emacs
+     inferior process. The result returned is the concatenation of the
+     sequence of (text) output from the interpreter.
+
+Note that in ':results value' (session and non-session), and attempt
+is made to interpret the result as a table (a one- or two-dimensional
+vector of strings or numbers) where appropriate.
+
 *** Arguments to source code blocks
     :PROPERTIES:
     :CUSTOM_ID: arguments-to-source-code-blocks
