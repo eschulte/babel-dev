@@ -178,13 +178,15 @@ it!).
 : This file takes up  36K
 
 **** [[http://www.r-project.org/][R]] 
-#+begin_src R :results value
-matrix(rnorm(6), nrow=2)
+The top ten words in the file are
+#+begin_src R :colnames t
+  t(sort(table(tolower(scan("org-babel.org", what="", na.strings="|"))), decreasing=TRUE)[1:10])
 #+end_src
 
 #+resname:
-| -0.138279734486552 |   -2.2476234005706 | -0.0839549402407832 |
-| 0.0730510956002737 | 0.0634015508602321 |   0.174013159381603 |
+| "the" | "of" | "to" | "in" | "a" | "is" | "and" | "code" | ":" | "be" |
+|-------+------+------+------+-----+------+-------+--------+-----+------|
+|   303 |  130 |  100 |   94 |  90 |   84 |    75 |     69 |  60 |   51 |
 
 **** [[http://ditaa.sourceforge.net/][ditaa]]
 #+begin_src ditaa :file blue.png :cmdline -r
