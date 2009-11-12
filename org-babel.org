@@ -251,7 +251,7 @@ The basic syntax of source-code blocks in Org-babel is as follows:
 import time
 print("Hello, today's date is %s" % time.ctime())
 print('Two plus two is')
-2 + 2
+return 2 + 2
 #+end_src
 
 #+resname:
@@ -280,11 +280,11 @@ print('Two plus two is')
 #+end_src
 
 #+resname: name
-: Hello, today's date is Thu Oct  8 09:45:53 2009
+: Hello, today's date is Wed Nov 11 18:50:36 2009
 : Two plus two is
 
 Again, we got what we asked for: all the text output (stdout) from
-python. Since we didn't print the last value (2 + 2), we didn't get it
+python. We didn't print the last value (2 + 2), and we didn't get it
 in our output.
 
 *** Session-based evaluation
@@ -300,46 +300,6 @@ in our output.
     Statistics]] as usual, and the full power of ESS is thus still
     available, both in the R session, and when switching to the R code
     edit buffer with =C-c '=.
-
-*** Summary of results output/value & sessions
-
-    The following notes apply particularly to perl, python, R and
-    ruby.
-
-Nature of Results:
-
-|        | non-session              | session                             |
-|--------+--------------------------+-------------------------------------|
-| value  | value of last expression | value of last expression            |
-| output | contents of stdout       | concatenation of interpreter output |
-
-**** :results value (non-session)
-     This is the default. The value is obtained by wrapping the code
-     in a function and evaluating that function. Therefore, code
-     should be written as if it were the body of such a function. In
-     particular, note that languages such as python and perl do not
-     automatically return a value from a function unless a =return=
-     statement is present.
-
-**** :results output (non-session)
-     The code is passed to the interpreter as an external process, and
-     the value returned is the (text) contents of stdout.
-
-**** :results value (session)
-     The code is passed to the interpreter running as an emacs
-     inferior process. The result returned is the result of the last
-     evaluation performed by the interpreter. This is obtained in a
-     language-specific manner (the value of the variable =_= in python
-     and ruby, and the value of =.Last.value= in R).
-
-**** :results output (session)
-     The code is passed to the interpreter running as an emacs
-     inferior process. The result returned is the concatenation of the
-     sequence of (text) output from the interpreter.
-
-Note that in ':results value' (session and non-session), and attempt
-is made to interpret the result as a table (a one- or two-dimensional
-vector of strings or numbers) where appropriate.
 
 *** Arguments to source code blocks
     :PROPERTIES:
@@ -966,6 +926,84 @@ For a simple example of usage follow these 4 steps.
   - other :: any other string passed to the =tangle= header argument
              is interpreted as a file basename to which the block will
              be exported
+
+*** Evaluation results: output/value & session/non-session
+    
+    The following applies particularly to perl, python, R and ruby.
+
+Nature of Results:
+
+|        | non-session              | session                             |
+|--------+--------------------------+-------------------------------------|
+| value  | value of last expression | value of last expression            |
+| output | contents of stdout       | concatenation of interpreter output |
+
+
+Note that in ':results value' (session and non-session), the result is
+imported into org-mode as a table (a one- or two-dimensional vector of
+strings or numbers) when appropriate.
+
+**** :results value (non-session)
+     This is the default. Internally, the value is obtained by
+     wrapping the code in a function definition in the external
+     language, and evaluating that function. Therefore, code should be
+     written as if it were the body of such a function. In particular,
+     note that python does not automatically return a value from a
+     function unless a =return= statement is present, and so a
+     'return' statement will usually be required in python :results
+     value (non-session).
+
+     This is the only one of the four evaluation contexts in which the
+     code is automatically wrapped in a function definition.
+
+**** :results output (non-session)
+     The code is passed to the interpreter as an external process, and
+     the contents of the standard output stream is returned as
+     text. (In certain languages this also contains the error output
+     stream; this is an area for future work.)
+
+**** :results value (session)
+     The code is passed to the interpreter running as an interactive
+     emacs inferior process. The result returned is the result of the
+     last evaluation performed by the interpreter. (This is obtained in
+     a language-specific manner: the value of the variable =_= in
+     python and ruby, and the value of =.Last.value= in R).
+
+**** :results output (session)
+     The code is passed to the interpreter running as an interactive
+     emacs inferior process. The result returned is the concatenation
+     of the sequence of (text) output from the interactive
+     interpreter. Notice that this is not necessarily the same as what
+     would be sent to stdout if the same code were passed to a
+     non-interactive interpreter running as an external process. For
+     example, compare the following two blocks:
+
+#+begin_src python :results output
+  print "hello"
+  2
+  print "bye"
+#+end_src
+
+#+resname:
+: hello
+: bye
+
+In non-session mode, the '2' is not printed and does not appear.
+
+#+begin_src python :results output :session
+  print "hello"
+  2
+  print "bye"
+#+end_src
+
+#+resname:
+: hello
+: 2
+: bye
+
+But in session mode, the interactive interpreter receives input '2'
+and prints out its value, '2'. (Indeed, the other print statements are
+unnecessary here).
 
 *** Noweb reference syntax
     :PROPERTIES:
