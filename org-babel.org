@@ -162,45 +162,68 @@ blocks and use =C-c C-c= to run the code[fn:1] (and feel free to alter
 it!).
 
 **** Ruby
+In the org file
 : #+begin_src ruby
 : "This file was last evaluated on #{Date.today}"
 : #+end_src
 
+HTML export of code
 #+begin_src ruby
 "This file was last evaluated on #{Date.today}"
 #+end_src
 
+HTML export of results
 #+resname:
 : This file was last evaluated on 2009-08-09
 
 **** Shell
+In the org file
 : #+begin_src sh
 :   echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
 : #+end_src
 
+HTML export of code
 #+begin_src sh
   echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
 #+end_src
 
+HTML export of results
 #+resname:
 : This file takes up  36K
 
 **** [[http://www.r-project.org/][R]] 
 The top ten words in the file are
+
+In the org file
 : #+begin_src R :colnames t
 :   t(sort(table(tolower(scan("org-babel.org", what="", na.strings="|"))), decreasing=TRUE)[1:10])
 : #+end_src
 
+HTML export of code
 #+begin_src R :colnames t
   t(sort(table(tolower(scan("org-babel.org", what="", na.strings="|"))), decreasing=TRUE)[1:10])
 #+end_src
 
+HTML export of results
 #+resname:
 | "the" | "of" | "to" | "in" | "a" | "is" | "and" | "code" | ":" | "be" |
 |-------+------+------+------+-----+------+-------+--------+-----+------|
 |   303 |  130 |  100 |   94 |  90 |   84 |    75 |     69 |  60 |   51 |
 
 **** [[http://ditaa.sourceforge.net/][ditaa]]
+
+In the org file
+: #+begin_src ditaa :file blue.png :cmdline -r
+: +---------+
+: | cBLU    |
+: |         |
+: |    +----+
+: |    |cPNK|
+: |    |    |
+: +----+----+
+: #+end_src
+
+HTML export of code
 #+begin_src ditaa :file blue.png :cmdline -r
 +---------+
 | cBLU    |
@@ -211,6 +234,7 @@ The top ten words in the file are
 +----+----+
 #+end_src
 
+HTML export of results
 #+resname:
 [[file:../../images/babel/blue.png]]
 
