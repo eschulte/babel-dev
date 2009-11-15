@@ -4035,29 +4035,30 @@ more flexible to allow the source block language to handle the error.
     
 #+srcname: adder(a=0, b=99)
 #+begin_src python 
-a+b
+return a+b
 #+end_src
-
-
 
 #+srcname: one()
 #+begin_src python
-1
+return 1
 #+end_src
+
+#+resname: one
+: 1
+
 
 **** nesting
 #+srcname: level-one-nesting()
 #+begin_src python :var arg=adder(a=one(),b=one())
-arg
+return arg
 #+end_src
 
 #+resname: level-one-nesting
-
-: nil
+: 4
 
 #+srcname: level-one-nesting()
 #+begin_src python :var arg=adder(a=adder(a=one(),b=one()),b=adder(a=one(),b=one()))
-arg
+return arg
 #+end_src
 
 #+resname:
@@ -4067,8 +4068,12 @@ arg
 
 #+srcname: deeply-nested-args-bug
 #+begin_src python :var arg=adder(a=adder(a=one(),b=one()),b=adder(a=one(),b=one()))
-arg
+return arg
 #+end_src
+
+#+resname: deeply-nested-args-bug
+: 4
+
 
 #+resname:
 : 4
@@ -4839,7 +4844,7 @@ date
 
 #+srcname: basic-python
 #+begin_src python :results silent
-'hello world'
+return 'hello world'
 #+end_src
 
 
@@ -4875,7 +4880,7 @@ table.first.join("-")
 
 #+srcname: table-python
 #+begin_src python :var table=test-table
-table[1][1]
+return table[1][1]
 #+end_src
 
 #+srcname: table-R(table=test-table)
