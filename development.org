@@ -191,6 +191,34 @@ org-feed.el has a (require 'sha1) and org-publish.el uses it too.
 -- Bernt
 #+end_quote
 
+*** Cache in buffer
+***** Plus
+     - Fits cleanly into existing org-babel paradigm.
+     - Persistent across emacs processes
+***** Minus
+     - I don't think it will work for export will it?
+     - The result is editable; no promise that repeat evaluation
+       will give the original result.
+     - [Therefore difficult to confirm that cache is working]
+     - Not good for large tables
+     - sha1 hashes are ugly and not-for-humans: hide them?
+*** cache in RAM
+***** Plus
+      - Result is not editable
+      - Good for very large tables
+      - Fastest of the three
+***** Minus
+      - Not part of babel paradigm (but should be very inobtrusive)
+      - Not persistent across emacs processes
+*** cache on disk
+***** Plus
+      - Good for large tables
+      - Result is not easily editable
+      - Persistent across emacs processes
+***** Minus
+      - Not currently part of babel paradigm (but we will probably
+        want to implement external table access)
+
 ** TODO support for working with =*Org Edit Src Example*= buffers [5/7]
 *** DONE Patch against org source. 
     I've worked on several related changes to source code edit buffer
