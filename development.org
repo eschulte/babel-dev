@@ -173,7 +173,20 @@ this should have a reasonable binding
         Currently I'm leaning towards some combination of file-local
         variable (RAM) caching and in-buffer caching.  I have more
         comments in-line below.
-   
+
+    - [DED] :: I agree about caching to external files. And now that
+        the hash is hidden in the resname, I think we
+        definitely want the in-buffer mechanism. Apart from
+        anything else it improves the mechanism by which we
+        decide whether or not to over-write existing results.
+
+	The only slight drawback I can see is export: someone who
+        doesn't want the results in their org file is forced to
+        regenerate them on every export.
+
+*** TODO How well do org buffers function with large folded tables?
+    Just a question.
+
 *** cache in buffer
 ***** Plus
      - Fits cleanly into existing org-babel paradigm.
@@ -187,6 +200,8 @@ this should have a reasonable binding
          re-evaluation of the result on export.  *note* I did however
          notice two bugs when checking this out which I just pushed up
          a fix to in the ems-babel branch.
+       - So still a slight drawback, as the results must be in the org
+         buffer.
      - The result is editable; no promise that repeat evaluation will
        give the original result.  true, but that is also true of
        results stored in local variables (RAM) or on disk -- although
