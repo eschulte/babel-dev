@@ -158,19 +158,85 @@ this should have a reasonable binding
    :PROPERTIES:
    :CUSTOM_ID: sha1-caching
    :END:
+   
+   So we now have two caching solutions, one which is entirely
+   in-buffer using sha1 hashes stuffed into the resname lines, and
+   another which saves the results either in RAM or optionally on
+   disk.  It is not immediately clear which combination of the two
+   approaches would be best.
 
-   I've put the beginnings of a simple cache of evaluation results in
-   branch "cache" (DED)
+   - [EMS] :: I find the saving of cached results in external files to
+        be very upsetting.  It pollutes the user's disk, and it breaks
+        what is to me a very fundamental part of org-mode, namely the
+        fact that all data is saved in plain text in org-mode files.
 
-- We'd want some way to re-evaluate without using the cached result
-
-- I was considering using org-attach to store the cached data in the
-  attach dir for the tree. But how do we deal with unwanted accumulation
-  of files? In linux at least it's nice that /tmp gets cleared when I
-  reboot (org-babel should do more cleaning up of temp files)
-
-- We could byte-compile the cached file (good for large results?)
-
+        Currently I'm leaning towards some combination of file-local
+        variable (RAM) caching and in-buffer caching.  I have more
+        comments in-line below.
+   
+*** cache in buffer
+***** Plus
+     - Fits cleanly into existing org-babel paradigm.
+       - simple to implement -- minimal code changes
+       - doesn't rely on anything /external/ to the org-mode file
+     - Persistent across emacs sessions
+***** Minus
+     - I don't think it will work for export will it?
+       - This does work for exporting results.  If a result line is
+         already in the buffer then it will be used instead of
+         re-evaluation of the result on export.  *note* I did however
+         notice two bugs when checking this out which I just pushed up
+         a fix to in the ems-babel branch.
+     - The result is editable; no promise that repeat evaluation will
+       give the original result.  true, but that is also true of
+       results stored in local variables (RAM) or on disk -- although
+       admittedly it would be harder in those cases.  It would be cool
+       if we could automatically remove the hash when a result is
+       edited by hand...
+     - [Therefore difficult to confirm that cache is working] nope,
+       I've tested it and it works :)
+     - Not good for large tables, yes storing large tables in org-mode
+       buffers can be a pain, perhaps some sort of result folding
+       would be generally useful -- beyond cached results
+     - sha1 hashes are ugly and not-for-humans: hide them? yes, they
+       are hidden in the most recent version in branch ems-babel.  If
+       you need to know the hash value for some reason pressing =C-c
+       C-c= on the small visible portion of the hash will copy it to
+       your kill ring
+*** cache in RAM
+***** Plus
+      - Result is not editable -- without editing local variables
+      - Good for very large tables -- as long as we don't mind
+        persisting large tables in memory
+      - Fastest of the three
+***** Minus
+      - Not part of babel paradigm (but should be very unobtrusive)
+      - Not persistent across emacs sessions
+        - Not sharable (impossible to send a file to someone else and
+          include cached results)
+      - user can't read cached data
+*** cache on disk
+***** Plus
+      - Good for large tables
+      - Result is not easily editable
+      - Persistent across emacs sessions
+***** Minus
+      - Not currently part of babel paradigm
+        - (but we will probably want to implement external table
+          access) meaning tables in foreign org-mode files? because I
+          think that is already implemented.  If some other sort of
+          foreign table then I'm not sure what you mean.
+        - Not sharable (impossible to send a file to someone else and
+          include cached results)
+      - pollutes user's directories with new files
+      - saves state outside of the org-mode buffer
+      - no longer "everything in plain text"
+      - currently saving data in /tmp directories where it won't
+        survive reboot
+      - using =(format "%S" object)= to serialize data will not work
+        for large lists/tables
+      - elisp may not be the ideal serialization language
+      - the cached data is not visible or readable by the user
 *** TODO How do we distinguish a nil result from a lack of a cached result?
 
 #+begin_quote 
@@ -190,34 +256,6 @@ org-feed.el has a (require 'sha1) and org-publish.el uses it too.
 
 -- Bernt
 #+end_quote
-
-*** Cache in buffer
-***** Plus
-     - Fits cleanly into existing org-babel paradigm.
-     - Persistent across emacs processes
-***** Minus
-     - I don't think it will work for export will it?
-     - The result is editable; no promise that repeat evaluation
-       will give the original result.
-     - [Therefore difficult to confirm that cache is working]
-     - Not good for large tables
-     - sha1 hashes are ugly and not-for-humans: hide them?
-*** cache in RAM
-***** Plus
-      - Result is not editable
-      - Good for very large tables
-      - Fastest of the three
-***** Minus
-      - Not part of babel paradigm (but should be very inobtrusive)
-      - Not persistent across emacs processes
-*** cache on disk
-***** Plus
-      - Good for large tables
-      - Result is not easily editable
-      - Persistent across emacs processes
-***** Minus
-      - Not currently part of babel paradigm (but we will probably
-        want to implement external table access)
 
 ** TODO support for working with =*Org Edit Src Example*= buffers [5/7]
 *** DONE Patch against org source. 
