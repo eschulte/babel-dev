@@ -909,35 +909,54 @@ For a simple example of usage follow these 4 steps.
      :CUSTOM_ID: header-arguments
      :END:
 
-- =:results= :: options supplied after the =:results= header argument
-             specify what should be done with the output of
-             source-code blocks
-  - The following options are mutually exclusive, and specify how the
-    results should be collected from the source-code block
-    - value :: The result is the /value/ of the last statement in the
-               source block
-    - output :: The result is a concatenation of the text that is
-                output by the source block (currently, this includes
-                error output).
-  - The following options are mutually exclusive and specify what type
-    of results the code block will return
-    - table, vector :: the results should be interpreted as a one- or
-                       two-dimensional vector (so a "single number" is
-                       a one-dimensional vector of length one), and
-                       will be inserted into the org-mode file as a
-                       table
-    - scalar :: the results should be interpreted as a scalar value,
-                and will be inserted into the org-mode file as quoted
-                text
-    - file :: the results should be interpreted as the path to a file,
-              and will be inserted into the org-mode file as a link
-    - raw, org :: the results are interpreted as raw org code and are
-             inserted directly into the buffer
-    - html :: results enclosed in a begin_html block
-    - latex :: results enclosed in a begin_latex block
-    - code :: the result value is represented as parseable code
-    - pp :: the result value is represented as pretty-printed code
-            (emacs-lisp, python, ruby)
+**** :results
+     There are three types of results header arguments only one option
+     from each type may be supplied per source block.
+     1) those specifying how the results should be *collected* from
+        the source code block
+     2) those specifying what *type* of result the source code block
+        will return -- which has implications for /how/ they will be
+        inserted into the org-mode buffer
+     3) and those specifying how these results should be *handled*
+
+***** collection
+     The following options are mutually exclusive, and specify how the
+     results should be collected from the source-code block
+
+     - value :: The result is the /value/ of the last statement in the
+          source block.  In some languages (e.g. python) usage of this
+          result type will require that a =return= statement be
+          included in the body of the source code block.
+     - output :: The result is the collection of everything printed
+          (i.e. to STDOUT) during the execution of the source code
+          block.
+
+***** type
+     The following options are mutually exclusive and specify what
+     type of results the code block will return
+
+      - table, vector :: The results should be interpreted as table --
+           so if a "single number" is returned it will be converted
+           into a table with one row and one column.
+      - scalar, verbatim :: The results should be interpreted
+           literally -- meaning it will not be converted into a table.
+           The result will be inserted into the org-mode file as
+           quoted text.
+      - file :: The results will be interpreted as the path to a file,
+           and will be inserted into the org-mode buffer as a file
+           link.
+      - raw, org :: The results are interpreted as raw org code and
+           are inserted directly into the buffer.  If the results look
+           like a table they will be aligned as such by org-mode.
+      - html :: Results are assumed to be html and will be enclosed in
+           a begin_html block.
+      - latex :: Results assumed to be LaTeX and are enclosed in a
+           begin_latex block.
+      - code :: Result are assumed to be parseable code and are
+           enclosed in a code block.
+      - pp :: The result is converted to pretty-printed code
+           (currently supported by emacs-lisp, python, and ruby) and
+           is enclosed in a code block.
 
   - The following options specify how the results should be inserted
     into the org-mode file
@@ -964,6 +983,14 @@ For a simple example of usage follow these 4 steps.
   - other :: any other string passed to the =tangle= header argument
              is interpreted as a file basename to which the block will
              be exported
+
+***** handling
+      The following results options indicate what org-babel should do
+      with the results once they are collected.
+
+      - silent :: The results will be echo'd in the minibuffer but
+           will not be inserted into the org-mode buffer.
+      - replace :: The results will be inserted into the org-mode buffer.
 
 *** Evaluation results: output/value & session/non-session
     
