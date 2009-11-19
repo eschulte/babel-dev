@@ -184,6 +184,17 @@ this should have a reasonable binding
         doesn't want the results in their org file is forced to
         regenerate them on every export.
 
+    - [EMS] :: alright, that sounds good to me.  I can't think of a
+         good solution to the export problem right now.  The approach
+         taken in org-exp-blocks -- suggested by Carsten -- is to add
+         the hash to the file name where the results were stored, so I
+         guess that could be an option, but it would be fairly
+         intrusive, and it would share the problem of saving state
+         outside of the actual org-mode buffer.  So if you don't
+         object, I'll merge in the in-buffer caching, and we can keep
+         the export caching as an open issue, and possibly add the
+         RAM/local-variable caching as well.
+
 *** TODO How well do org buffers function with large folded tables?
     Just a question.
 
