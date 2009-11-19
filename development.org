@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [53/83]
+* Tasks [54/83]
 ** TODO documentation
 our documentation has fallen behind our development.  We should:
 1) troll through the babel-related git logs and adjust the
@@ -307,11 +307,13 @@ org-feed.el has a (require 'sha1) and org-publish.el uses it too.
 -- Bernt
 #+end_quote
 
-** TODO fold-able results
+** DONE fold-able results
 As mentioned in the caching discussion it will often be desirable to
 hide results in org-mode buffers.  This should be fairly easily
 implemented using the same mechanisms used to fold source-code blocks
 in tandem with the `org-babel-result-end' function.
+
+this is currently implemented in the head of the ems-babel branch
 
 ** TODO support for working with =*Org Edit Src Example*= buffers [5/7]
 *** DONE Patch against org source. 
