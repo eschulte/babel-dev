@@ -112,6 +112,11 @@ strings as elisp variables. It would allows stuff like this
 ** PROPOSED jumping between results and source blocks (evaluation from results)
 see discussion on the Org-mode list
 http://thread.gmane.org/gmane.emacs.orgmode/18407/focus=18419
+
+it is possible to *open* results from a source block, but yea I think
+jumping would be nice.  The hardest part of this implementation will
+be selecting a key sequence.
+
 ** REJECTED add a =:requires= header argument
 Given the use of noweb references we no longer need to have a need for
 this sort of functionality.
