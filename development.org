@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [53/82]
+* Tasks [53/83]
 ** TODO documentation
 our documentation has fallen behind our development.  We should:
 1) troll through the babel-related git logs and adjust the
@@ -200,11 +200,27 @@ this should have a reasonable binding
          intrusive, and it would share the problem of saving state
          outside of the actual org-mode buffer.  So if you don't
          object, I'll merge in the in-buffer caching, and we can keep
-         the export caching as an open issue, and possibly add the
-         RAM/local-variable caching as well.
+         the export caching as an open issue, then possibly add the
+         RAM/local-variable caching on top (which seems like it only
+         require a couple of lines of code).
 
 *** TODO How well do org buffers function with large folded tables?
-    Just a question.
+
+    I have no idea.  Emacs seems to be pretty capable of handling huge
+    files, but once we get to millions of lines there would probably
+    be some noticeable delays, and I doubt hiding the results behind
+    an overlay would help.
+
+    Maybe this would be a good place for some LOB functions.  One for
+    serializing data and one for reading in serialized data.  I'm
+    familiar with [[http://www.yaml.org/][YAML]] which at least has ruby, python (and I believe
+    elisp) bindings, so that's my first thought, but there are
+    probably more efficient solutions.
+    
+    Given one function for writing to a file, taking a piece of data
+    and a file-name and another function for reading from a file given
+    a file name that should be sufficient for most *large* storage
+    needs.  And there's also of course SQL support in org-babel.
 
 *** cache in buffer
 ***** Plus
@@ -290,6 +306,12 @@ org-feed.el has a (require 'sha1) and org-publish.el uses it too.
 
 -- Bernt
 #+end_quote
+
+** TODO fold-able results
+As mentioned in the caching discussion it will often be desirable to
+hide results in org-mode buffers.  This should be fairly easily
+implemented using the same mechanisms used to fold source-code blocks
+in tandem with the `org-babel-result-end' function.
 
 ** TODO support for working with =*Org Edit Src Example*= buffers [5/7]
 *** DONE Patch against org source. 
