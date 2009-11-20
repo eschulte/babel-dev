@@ -15,6 +15,21 @@ our documentation has fallen behind our development.  We should:
    represented in the documentation
 6) add the /org-babel-template.el/ new language template
 
+*** new layout
+    what should this look like? I'm thinking something like.
+
+    This is really off the cuff, so please make changes
+
+    | file#subheading        | description                                       |
+    |------------------------+---------------------------------------------------|
+    | org-babel              | introduction, setup instructions, intro examples  |
+    | org-babel-doc          | actual documentation, header arguments, etc...    |
+    | languages/             | directory to hold language specific documentation |
+    | org-babel-tests        | main general in elisp and shell only              |
+    | org-babel-tests#ruby   | ruby specific tests                               |
+    | org-babel-tests#python | python specific tests                             |
+    | etc...                 |                                                   |
+
 ** PROPOSED efficiency: avoid multiple calls to org-babel-where-is-src-block-head
    the posiion of head can be stored in the 'info' data
    structure. This would entail a bit of messing about as it would
