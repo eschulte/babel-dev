@@ -3,7 +3,29 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/83]
+* Tasks [54/87]
+** PROPOSED customizable noweb syntax
+given that some languages do allow =<<foo>>= syntax it would be
+preferable if we could make our noweb syntax customizable.
+
+** PROPOSED macro expansion
+allow some generic system of macro expansion, maybe borrowing from the
+noweb expansion system...
+
+** PROPOSED export source code block names on export
+- perhaps using an org-mode macro
+- noweb has a syntax for doing this on latex export
+- maybe even include a list of where it is used...
+
+** PROPOSED asynchronous 
+This may duplicate some of the contents of the
+[[rework-running-proc-interaction]] task.
+
+Basically it would be great to be able to run processes asynchronously
+in the background.  Emacs has support for and even encourages this, it
+would just be a question of make the changes both for sessions and
+non-session evaluation.
+
 ** TODO documentation
 our documentation has fallen behind our development.  We should:
 1) troll through the babel-related git logs and adjust the
@@ -1236,6 +1258,10 @@ mean(mean(vec))
 : 2
 
 ** DEFERRED Rework Interaction with Running Processes [2/5]
+   :PROPERTIES:
+   :CUSTOM_ID: rework-running-proc-interaction
+   :END:
+
 *** DONE robust to errors interrupting execution
 
 #+srcname: long-runner-ruby
