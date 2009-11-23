@@ -3,7 +3,17 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/87]
+* Tasks [54/89]
+** TODO inserting empty results lines
+
+check if org-babel inserts empty results lines, if so don't do this
+
+** PROPOSED function for executing source blocks
+
+Do you think a user-visible function taking the name of a file and a
+list of source-code block names in that file would be sufficient.  That
+shouldn't be hard to implement given our current setup.
+
 ** PROPOSED customizable noweb syntax
 given that some languages do allow =<<foo>>= syntax it would be
 preferable if we could make our noweb syntax customizable.
@@ -12,10 +22,30 @@ preferable if we could make our noweb syntax customizable.
 allow some generic system of macro expansion, maybe borrowing from the
 noweb expansion system...
 
-** PROPOSED export source code block names on export
+** TODO export source code block names on export
 - perhaps using an org-mode macro
 - noweb has a syntax for doing this on latex export
 - maybe even include a list of where it is used...
+
+#+begin_quote 
+: >>> That sounds like a good idea.  It would be nice to make the
+: >>> appearance
+: >>> of the exported names customizable as I can see many different
+: >>> possibilities and would prefer to leave the actual choice up to the
+: >>> user.  Would macros allow for over-definition/customization by the
+: >>> user?
+: >>
+: >> I am afraid you have to ask the Org mode developers this question.
+: >>
+: >
+: > understood :) I'll look into this
+: 
+: 
+: I don't know whether you can call Emacs Lisp functions in an Org
+: macro, but perhaps you can talk the Org developers into allowing for
+: that. Emacs Lisp functions can be over written.. Even better, you
+: could then define a hook, and have a clean extendable solution.  
+#+end_quote
 
 ** PROPOSED asynchronous 
 This may duplicate some of the contents of the
