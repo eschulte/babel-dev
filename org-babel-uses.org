@@ -1,0 +1,701 @@
+#+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) 
+#+TITLE:      Org-babel Uses
+#+AUTHOR:     Thomas S. Dye
+#+EMAIL:      tsd at tsdye dot com
+#+LANGUAGE:   en
+#+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+
+* Introduction
+  Org-babel might be described as a literate meta-language programming
+  environment for Emacs.  It leverages Org-mode for its user interface
+  and its ability to export directly to HTML and LaTeX.  It extends
+  Org-mode source code blocks by making them executable, with several
+  options for handling the results of execution.  Org-babel is
+  described by one of its authors as language agnostic; the source
+  code blocks in a document can be written in a growing list of
+  supported languages.  A document can contain source code blocks in
+  as many languages as are needed to complete the task at hand, and
+  the results of a source code block in one language can be passed to
+  a source code block in another language.  All of this is
+  accomplished with a simple syntax and a few easily mastered options.
+
+  This combination of attributes opens up so many use options that the
+  possibilities sometimes seem endless.  This document sets out some
+  scenarios of Org-babel use.  It is designed to explore a few
+  dimensions of Org-babel's use-space, with the hope that others might
+  be inspired to explore and share other dimensions of that space.
+
+  The following sections each describe a particular use scenario: the
+  problem that it was designed to solve; its software requirements;
+  its advantages and disadvantages compared to alternative approaches;
+  and a toy example meant to illustrate the structure of the Org-mode
+  file and Org-babel's place within it, and not to emulate a
+  real-world application.  The initial examples were written primarily
+  to explore the uses of LaTeX source code blocks in Org-babel, but a
+  multi-language example that mixes LaTeX and R is also included.
+  Hopefully, Org-babel users who write in other supported languages
+  can supply examples of other workflows.
+  
+
+
+* A LaTeX Form
+  This example uses Org-babel as a user interface for a LaTeX form
+  that might be used by the members of an organization.  It uses the
+  literate programming facility of Org-babel to isolate the user from
+  the sometimes arcane LaTeX constructs needed to create a
+  highly-structured form.  Org-babel can tangle multiple documents in
+  a single Org-mode file, and this ability is used to create a
+  distribution version of the form separate from one designed for the
+  file cabinet.
+
+** Requirement
+   - A working LaTeX installation.
+
+** Advantages
+   - User is isolated from the LaTeX code and thus less likely to
+     alter it inadvertently.
+   - Multiple versions of the document are created automatically.
+   - Org-mode keywords can help track data entry progress.
+
+** Disadvantages
+   - This approach is somewhat dated.  A modern organization might
+     accomplish this more cleanly with a web-based interface to a database.
+
+** Example
+
+*** TODO Your name
+    - Enter your full name on the open line below.
+#+srcname: your-name
+#+begin_src latex
+Tom Dye
+#+end_src
+
+*** TODO Your email address
+    - Enter your email address on the open line below.
+#+srcname: your-email
+#+begin_src latex
+tsd at tsdye dot com
+#+end_src
+
+*** No data entry below this line
+    - The two source blocks here each produce a LaTeX document after
+      they are tangled with a call to =org-babel-tangle=.
+
+#+begin_src latex :noweb :tangle dist-form.tex 
+  \documentclass[12pt]{article}
+  \begin{document}
+  \section{Distribution Form}
+  \begin{description}
+  \item[Name] <<your-name>>
+  \item[Email] <<your-email>>
+  \end{description}
+  \end{document}
+#+end_src
+
+#+begin_src latex :noweb :tangle file-form.tex 
+  \documentclass[10pt]{article}
+  \begin{document}
+  \section{File Form}
+  <<your-name>> can be reached at <<your-email>>.
+  \end{document}
+#+end_src
+
+* A Standardized Short Report
+  This example is similar to the previous one, but here the users are
+  expected to write substantial content.  This type of workflow might
+  be used by a small organization whose employees regularly produce
+  standard documents and where the writing tasks for any one document
+  are divided among the authors.  
+
+  The HTML export facility of Org-mode is used to produce a guide to
+  writing the standardized short report.  This HTML file can be used
+  to train new authors.  The Org-mode content also supplies
+  substantial direction to experienced authors as they write.
+  Org-mode keywords and tags are used to keep track of writing
+  assignments and progress.  Org-babel's literate programming facility
+  makes it possible to present writing tasks to the authors in an order
+  different from which they appear in the report.
+
+** Requirement
+   - A working LaTeX installation.
+
+** Advantages
+   - The integration of training material with in-file instruction can
+     be quite effective.
+   - Many authors find it easy to work from the bottom up, or from the
+     particular to the general, rather than the usual sequence of
+     general-particular-general found in reports.
+
+** Disadvantages
+   - Some features of reftex are not yet integrated into the source
+     code block editor, so writing and editing are sometimes less
+     convenient than writing to the LaTeX document directly.
+
+** Example
+   - This report must satisfy the requirements set out in [[http://hawaii.gov/dlnr/hpd/pdfs/revproc_har/275_284/pdfs/278.pdf][the Historic
+     Preservation Division rule]].
+   - Complete each of the TODO items.
+   - Mark each item DONE when you have completed it.
+   - =C-c a t= will make an agenda of items left to do in this
+     document.
+   - =C-c a m= YOURNAME will make an agenda of writing tasks assigned
+     to you.
+   
+*** TODO Field Methods
+**** TODO Include the following information: [1/7]
+      - [X] When the fieldwork was carried out.
+      - [ ] Who directed the fieldwork.
+      - [ ] The names and qualifications of crew members.
+      - [ ] Establishment of site datum and grid.
+      - [ ] Excavation tools.
+      - [ ] Assignment of contexts.
+      - [ ] Bag list.
+**** DONE Include a citation to the project plan.
+     :LOGBOOK:
+     - State "DONE"       from "TODO"       [2009-11-25 Wed 09:53]
+     :END:
+
+#+srcname: field-methods
+#+begin_src latex
+  \section{Field Methods}
+  \label{sec:field-methods}
+  
+  % Enter text below this line.
+
+  Fieldwork for the project was carried out between December 26, 2008
+  and February 3, 2009 following an approved plan \cite{plan}.
+#+end_src   
+
+*** TODO Results
+    - Note the use of Org-mode tags to assign sections to authors Veronica and Eric.
+    - Discuss the artifacts and midden recovered during excavation.
+
+
+**** TODO Artifacts						   :Veronica:
+     :LOGBOOK:
+     - State "TODO"       from "DONE"       [2009-11-25 Wed 09:44]
+     - State "DONE"       from "TODO"       [2009-11-25 Wed 09:44]
+     :END:
+     - Use Sinoto's classification of one-piece fishhooks.
+     - Cite Anell when describing two-piece fishhooks.
+     - Use Emory's classification of adzes when describing
+       cross-section.
+#+srcname: artifacts
+#+begin_src latex
+  \subsection{Description of Artifacts}
+  \label{sec:artifact-description}
+  
+  % Enter text below this line
+#+end_src
+
+**** TODO Midden						       :Eric:
+     - Use Kay for identifying and naming marine shells
+     - Cite Ziegler for information on fish habitats
+#+srcname: midden
+#+begin_src latex
+  \subsection{Midden}
+  \label{sec:midden}
+  
+  % Enter text below this line
+#+end_src
+
+**** No data entry beyond this line
+
+#+srcname: results
+#+begin_src latex :noweb
+  \section{Results}
+  \label{sec:results}
+  
+  This section presents the results of excavation.
+  
+  <<artifacts>>
+  
+  <<midden>>
+#+end_src
+
+
+*** TODO Introduction
+    - Give the reader a brief overview of the project and its results.
+
+#+srcname: intro
+#+begin_src latex
+  \section{Introduction}
+  \label{sec:introduction}
+  
+  % Text below this line
+#+end_src
+*** No data entry beyond this line
+    - The LaTeX code here sets up the environment and inserts the
+      defined source code blocks in their report order.
+    - A call to =org-babel-tangle= produces the LaTeX report document.
+
+#+begin_src latex :noweb :tangle report.tex
+  \documentclass{article}
+  \begin{document}
+  <<intro>>
+  <<field-methods>>
+  <<results>>
+  \bibliographystyle{apa} 
+  \bibliography{mybib}
+  \end{document}
+#+end_src
+
+
+
+
+* A Research Project
+  It is outrageous to think that an entire research project might fit
+  in a single computer file.  Practically speaking, it probably isn't
+  possible.  But the combination of Org-mode and Org-babel does make
+  it possible for one file to hold many, many things useful to the researcher:
+     - the project schedule; 
+     - a daily log; 
+     - notes; 
+     - a facility to track data acquisition graphically; 
+     - a complete specification of the steps taken in data analysis; 
+     - the two presentation products typically produced by researchers---an article
+       for print publication and a digital slide show; 
+     - comments; 
+     - metadata;
+     - etc.
+  
+  When the project is finished and the Org-mode file is complete, one
+  call to =org-babel-tangle= produces the LaTeX source files for the
+  print publication and the Beamer slide show.  Exporting the Org-mode
+  file, say with =C-c, C-e h=, produces an HTML file that meets most,
+  if not all, the requirements for a piece of reproducible research.
+
+  Equally outrageous---the one Org-mode file is easy to
+  set-up, use, and maintain.  A modicum of organization, along with some
+  judicious use of keywords and tags, and perhaps a custom agenda item
+  or two, makes it easy to keep track of progress and to get where you
+  want to be with no hassle.
+
+  More outrageous---the project data can be augmented or
+  corrected at any point and these changes will be reflected
+  everywhere---in the graphics, the slides, the text of the article,
+  the metadata, etc.  One can work with great confidence, knowing that
+  mistakes of logic, analysis, and execution are very likely to be
+  recorded in the Org-mode file.  Fixing an error where it occurs, and
+  only there, propagates the fix throughout the project.  As a result,
+  the researcher spends time thinking about the research, rather than
+  its organization across multiple directories, files, and
+  applications.  What fun!
+
+** Requirements
+   - A working LaTeX installation.
+   - A working R installation.
+   - Note that this example is an illustration only.  It is not fully
+     functional as it stands.
+
+** Advantages
+   - Easier and more efficient error checking and correction.
+   - On-the-fly production of reproducible research document.
+   - Comprehensive log of data analysis.
+
+** Disadvantages
+   - Some features of reftex are not yet integrated into the source
+     code block editor, so writing and editing are sometimes less
+     convenient than writing to the LaTeX document directly.
+
+** Example
+   This example shows snippets from an on-going project.  It
+   represents a first attempt to integrate Org-babel with a research
+   project. 
+
+   The schedule and daily log use Org-mode functionality in a fairly
+   simple way.  More sophisticated setups are certainly possible and
+   probably useful.
+
+   Org-babel is used to monitor data acquisition and in particular to
+   catch data entry errors as they happen.  It is also used
+   extensively in the data analysis, which provides a simple example
+   of how it might be used.
+
+*** Schedule
+   
+
+**** DONE Meet Jenny to measure adzes
+     DEADLINE: <2009-11-25 Wed 14:00>
+     :LOGBOOK:
+     - State "DONE"       from "TODO"       [2009-11-25 Wed 20:18]
+     :END:
+
+
+**** TODO Regress edge width on weight 
+     DEADLINE: <2009-11-27 Fri>
+
+*** Daily Log
+**** 09/11/25
+     - Measured adzes in trays 2 and 3.  
+     - Reworked measurement protocol for shoulder thickness on untanged adzes.
+
+**** 09/11/26
+     - Checked shoulder thickness measures on untanged adzes.  All OK now.
+
+*** Data Acquisition
+
+    - This section illustrates the use of Org-babel to track data
+      acquisition.  Queries are designed to expose unlikely data
+      values likely to be the result of data entry errors.  These
+      queries are collected in a source code block that establishes an
+      R session, reads data from the database, and creates R data
+      objects and graphics that can be used diagnostically.
+
+**** Queries
+    - Source code block r-bad-interior-landmarks checks for data entry
+      errors in the presence/absence of landmarks.  Note that if the
+      edge is present and the poll is present that the shoulder and
+      chin must be present, as well.  This query assumes that the
+      observations on chin and poll have been entered correctly.
+
+#+srcname: r-bad-interior-landmarks
+#+begin_src R
+      bad.landmarks <- dbGetQuery(con, "select * from adze where
+      edge_present = 'true' AND poll_present = 'true' AND (shoulder_present
+      = 'false' OR chin_present = 'false')")
+#+end_src
+      
+      - Plot weight to look for unusual weights.  In practice any
+        diagnostic plot that isolates outliers can be used to check
+        for possible data entry errors.
+
+#+srcname: r-complete-weight-histogram
+#+begin_src R 
+  adze.wt <- ggplot(whole.adze, aes(weight))
+  adze.wt + geom_histogram(fill="white",color="black") +
+  scale_x_log10()
+  ggsave(file = "adze_wt_log.pdf", width = 5, height = 3)
+#+end_src
+
+#+resname: r-complete-weight-histogram
+[[http://www.tsdye2.com/org-babel/adze_wt_log.pdf][file:adze_wt_log.pdf]]
+
+ 
+**** Set-up Session
+
+     - Run r-data-acquisition to refresh the output of the data
+       acquisition queries.  This is the highest-level source code
+       block.  It establishes an R session named acquire, loads
+       various R libraries, and populates the session with data
+       objects based on database queries.  The source code block
+       =<<r-complete-2>>= is defined in the following section to
+       create an R data frame of all the complete adzes in the database.
+       Then, the two source code blocks defined above are run on that
+       data frame to produce (hopefully) useful diagnostics.
+
+#+src_name r-data-acquisition
+#+begin_src R :session acquire :noweb
+  library(ggplot2)
+  library(xtable)
+  <<r-connect>>
+  <<r-complete-2>>
+  <<r-bad-interior-landmarks>>
+  <<r-complete-weight-histogram>>
+#+end_src
+
+  - The r-connect source code block can be used by other source code
+    blocks.  It is used in r-data-acquisition (above) and in
+    r-data-analysis (below).  The fictitious code shown here
+    illustrates an R connection to a database server.
+#+srcname: r-connect
+#+begin_src R
+  library(RMySQL)
+  con <- dbConnect(MySQL(), user="me", password="mine", dbname="adze", host="localhost")
+#+end_src
+
+*** Data Analysis
+    - This section illustrates how queries can be documented and
+      revised.  A simple table is developed for use in the print
+      publication and the Beamer slide show.
+
+**** Querying for Complete Adzes
+   - The first try was r-complete, which relies on a single field, *complete*, in
+     the data table.  In practice, an adze blade that is substantially
+     complete, but whose edge has been chipped away, would be
+     classified as complete because all of the attributes typically
+     recorded are present.  For certain measures, such as length, this
+     might introduce a bit of bias.
+
+#+srcname: r-complete
+#+begin_src R
+ complete.adze <- dbGetQuery(con, "select * from adze where complete = 'complete'")
+#+end_src
+
+ - A second try is somewhat more satisfying because it relies on
+   direct observation that the edge is present along with the poll.
+   For length measurements, for instance, it is a direct statement to
+   the effect that the full length of the blade was measured.
+
+#+srcname: r-complete-2
+#+begin_src R
+ whole.adze <- dbGetQuery(con, "select * from adze where edge_present = 'true' AND poll_present = 'true'")
+#+end_src
+
+
+
+
+**** Making a Table
+
+     - Here, the xtable package is used to return a LaTeX table of
+       values corresponding to the range, median, and 0.25 quantiles
+       of the adze blade weights.  This can be inserted directly into
+       a LaTeX source block, or it can be saved to a file with the
+       xtable print() function.  The file solution is attractive
+       because the table can be tweaked after it is written and
+       subsequent tangles, if necessary, will not overwrite it.  On
+       the other hand, it might be best to tweak the table after the
+       document is completely stable and doesn't need re-tangling.
+       The output of xtable is certainly useful in draft documents.
+       The R source block r-weight-quantile is designed to insert its
+       results directly in the LaTeX file.  The source block can be
+       debugged by checking that its :results output latex is a valid
+       LaTeX construct.
+
+#+srcname: r-weight-quantile
+#+begin_src R :session adze :results output
+   weight <- quantile(whole.adze$weight)
+   weight.xtable <- xtable(as.data.frame(weight))
+   caption(weight.xtable) <- 'Weights of complete adzes in the Bishop
+   Museum collection.'
+   label(weight.xtable) <- 'tab:weight_xtable'
+   print(weight.xtable, file="weight_xtable.tex", table.placement =
+   "htb!", caption.placement = "top")
+#+end_src
+
+#+resname: r-weight-quantile
+% latex table generated in R 2.9.2 by xtable 1.5-5 package
+% Wed Nov  4 08:21:58 2009
+\begin{table}[htb!]
+\begin{center}
+\caption{Weights of complete adzes in the Bishop
+Museum collection.}
+\label{tab:weight_xtable}
+\begin{tabular}{rr}
+  \hline
+ & weight \\ 
+  \hline
+0\% &   0 \\ 
+  25\% &  22 \\ 
+  50\% &  34 \\ 
+  75\% &  83 \\ 
+  100\% & 2580 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+*** Presentation of Results
+
+    - Org-babel and Org-mode make it convenient to develop a slide
+      show and a print publication side-by-side.  The literate
+      programming facility of Org-babel makes it easy to divide each
+      of the presentations up into small chunks.  Sometimes, writing
+      the slide helps the mind focus on what should appear in the
+      print publication.  Other times, writing out the print
+      publication helps define what should appear in the slide.
+
+**** Introduction
+
+ The introduction needs to set up the problem: adzes have been
+  classified according to putatively culture-historical
+  characteristics, the goal of which is to create classes of artifact
+  that have distinctive space-time distributions. In Dunnell's terms,
+  these must be stylistic classes. But, Turner's work in NZ has
+  shown that the classes thus formed are actually functional.  Thus,
+  they aren't appropriate for culture history.  The problem is that
+  they are poorly specified for functional studies.  We want to
+  develop a specifically functional classification.
+
+  - The LaTeX introduction.  Compare this with the introductory Beamer
+    slide below.
+#+srcname: latex-introduction
+#+begin_src latex :exports code
+  \section{Introduction}
+  \label{sec:introduction}
+  
+  The traditional archaeological classification of Polynesian stone
+  adzes, based on the work of
+  \citet{duff56:_moa_hunter_period_of_maori_cultur}, no longer serves a
+  useful purpose.  Duff's classification, based on the shape of the
+  cross-section, was designed for culture historical study:
+  
+  \begin{quote} the peculiarities in the distribution of adze types
+    over the scattered island groups of Polynesia are due less to the
+    nature or needs of the environment than to the successive growth,
+    diffusion, and replacement of cultural patterns.  The practical
+    layman, contrasting a `hog-backed' with a `side-hafted' adze,
+    might object that each was so shaped for specific purpose, and
+    that their distribution must be due to that purpose.  These two
+    ...
+   \endquote 
+#+end_src
+
+  - The introductory Beamer slide.
+#+srcname: beamer-introduction
+#+begin_src latex :exports code
+  \section{Introduction}
+  \label{sec:introduction}
+  
+  \begin{frame}
+    \frametitle{Duff Types Have No Practical Use}
+    \begin{itemize}
+    \item Duff Classification Based on Cross-section
+      \begin{itemize}
+      \item Used for culture history
+      \item Attributes must be stylistic
+      \end{itemize}
+    \item Turner's Experimental Work
+      \begin{itemize}
+      \item Duff's classes are broadly functional
+      \end{itemize}
+    \item Conclusion
+      \begin{itemize}
+      \item Duff's classes not useful for culture history
+      \item Cross-section not the best attribute for studying function
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+#+end_src  
+
+**** Results
+ In this section a table and a graphic generated earlier are inserted
+ into the LaTeX document.  The table is
+ inserted directly, while the graphic is inserted using its pdf file
+ representation.
+
+ - The LaTeX results source code block.  Note the references to the
+   <<r-weight-quantile>> table and to the adz_wt_log.pdf file created
+   above. 
+
+#+srcname: latex-results
+#+begin_src latex :noweb
+  The distribution of complete adze weights is summarized in
+  Table~\ref{tab:weight_xtable} and displayed graphically in
+  Figure~\ref{fig:complete-weight}.
+  
+    <<r-weight-quantile>>
+  
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=5in]{adze_wt_log}
+      \caption[Weight of complete adzes]{Weight of complete adzes on a
+        logarithmic scale.}
+      \label{fig:complete-weight}
+    \end{figure}
+#+end_src
+
+
+**** Setup
+
+     - This section contains the source code blocks that set up the
+       LaTeX and Beamer environments.
+
+        - Set up the LaTeX source file.
+#+srcname: latex-preamble
+#+begin_src latex :exports code
+\documentclass[minion,glossaries]{tsdarticle}
+\author{Thomas S. Dye and Jenny Kahn}
+\title{Notes on Adze Classification}
+\newcommand{\attr}[1]{\textbf{#1}}
+
+\begin{document}
+
+\maketitle
+#+end_src
+
+      - Set up the Beamer source file.
+#+srcname: beamer-preamble
+#+begin_src latex :exports code
+\documentclass{beamer}
+\mode<presentation>
+{
+ \usetheme{Malmoe}
+ \usecolortheme{tsdye}
+}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times} 
+\usepackage[T1]{fontenc}
+\institute{T. S. Dye \& Colleagues \\ B.P. Bishop Museum}          
+\subject{Adze Classification}
+\beamerdefaultoverlayspecification{<+->}
+\usepackage{booktabs}
+% \pgfdeclareimage[height=0.5cm]{logo}{tsd_logo}
+% \logo{\pgfuseimage{logo}}
+% \setbeameroption{show only notes}
+\let\latin\textit
+
+\title{Functional Classification of Hawaiian Adzes}
+\author{Tom Dye and Jenny Kahn}
+
+\begin{document}
+
+\maketitle
+
+#+end_src
+
+   - Close up the LaTeX source file.
+#+srcname: latex-ending
+#+begin_src latex :exports code
+% Comment or uncomment as needed
+% style=altlist another possibility
+\printglossary[type=main, style=tsdlist]
+\printglossary[type=hawaiian, style=tsdlist]
+% \printglossary[type=polynesian, style=tsdlist]
+% \printglossary[type=gazetteer, style=tsdlist]
+% \printglossary[type=acronym, style=tsdlist]
+% \printglossary[type=oldenglish, style=tsdlist]
+% \printglossary[type=bio, style=tsdlist]
+
+\addcontentsline{toc}{section}{Bibliography}
+\bibliographystyle{chicago}
+
+% Comment or uncomment as needed
+\bibliography{tsd}
+%\bibliography{tsd,local}
+
+\end{document}
+
+#+end_src
+
+   - Close up the Beamer source file.
+
+#+srcname: beamer-ending
+#+begin_src latex :exports code
+\end{document}
+#+end_src
+
+**** Master Documents
+
+   - The two source blocks here are the masters for the print document
+     and the beamer slide show.  Running =org-babel-tangle= generates
+     both the print document and the beamer slide show.
+     
+     - The master LaTeX document.  Note the ease with which it is
+       possible to rearrange the parts of the document.
+ 
+#+srcname: latex-document
+#+begin_src latex :tangle adz_print.tex
+     <<latex-preamble>>
+     <<latex-introduction>>
+     <<latex-results>>
+     ...
+     <<latex-ending>>
+#+end_src
+
+     - The master Beamer document.  Note the ease with which
+       individual slides can be rearranged.
+
+#+srcname: beamer-document
+#+begin_src latex :tangle adz_beamer.tex
+  <<beamer-preamble>>
+  <<beamer-introduction>>
+  ...
+  <<beamer-ending>>
+#+end_src
+     
