@@ -3312,6 +3312,25 @@ dot("$(2a,0)$",(2,0),N+E);
 
     
 * Bugs [46/62]
+** TODO Insert results fails if eob or ensuing lines non-empty
+This (end of buffer after block, with or without newline after
+"end_src") fails with "End of buffer"
+#+begin_src sh
+  echo output
+#+end_src
+
+This
+#+begin_src sh
+  echo output
+#+end_src
+text here
+
+results in
+
+t#+results:
+: output
+ext here
+
 ** TODO :results code not dealt with correctly?
 
 E.g. here in org-babel-python-evaluate. Should that be 
