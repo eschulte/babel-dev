@@ -76,7 +76,8 @@
   3) Activate the subset of [[#reference-and-documentation][supported Org-babel languages]] that you
      will be using by adding Emacs Lisp expressions to your
      =.emacs=.  As an example, the following three Emacs Lisp
-     expressions activate R, ruby and python.
+     expressions activate R, Ruby and Python.  Shell script and
+     Emacs-lisp are enabled by default.
      #+begin_src emacs-lisp
        (require 'org-babel-R)         ;; requires R and ess-mode
        (require 'org-babel-ruby)      ;; requires ruby, irb, ruby-mode, and inf-ruby
@@ -111,7 +112,7 @@
     Org-mode file.  Source code blocks can be entered directly into
     the Org-mode file, but it is often easier to enter code with the
     function =org-edit-src-code=, which is called with the keyboard
-    shortcut, =C-c '=.  This places the source code block in a new
+    shortcut, C-c '.  This places the source code block in a new
     buffer with the appropriate mode activated.
 
 
@@ -157,8 +158,6 @@ shell script alternative from the Org-mode version of the file:
 echo "This file was last evaluated on `date`"
 #+end_src
 
-
-
 *** Source Code Execution
     :PROPERTIES:
     :CUSTOM_ID: source-code-execution
@@ -172,7 +171,7 @@ results of execution.
 Here are examples of code blocks in three different languages,
 followed by their output. If you are viewing the Org-mode version of
 this document in Emacs, place point anywhere inside a block and press
-=C-c C-c= to run the code[fn:1] (and feel free to alter it!).
+C-c C-c to run the code[fn:1] (and feel free to alter it!).
 
 **** Ruby
 In the Org-mode file:
@@ -273,7 +272,7 @@ The basic syntax of source code blocks in Org-babel is as follows:
      Arguments]] section for a complete review of available header
      arguments.
 - body :: The source code to be evaluated.  An important key-binding
-          is =C-c '=. This calls =org-edit-special=, a function that
+          is C-c '.  This calls =org-edit-special=, a function that
           brings up an edit buffer containing the code using the Emacs
           major mode appropriate to the language.  You can edit your
           source code block as you regularly would in Emacs.
@@ -342,16 +341,17 @@ value (2 + 2), 4 does not appear in the results.
     For some languages, such as python, R, ruby and shell, it is
     possible to run an interactive session as an "inferior process"
     within Emacs. This means that an environment is created containing
-    data objects that persist between different source code blocks. Org-babel
-    supports evaluation of code within such sessions with the
-    =:session= header argument. If the header argument is given a
-    value then that will be used as the name of the session.  Thus, it
-    is possible to run concurrent sessions in the same language.
+    data objects that persist between different source code
+    blocks. Org-babel supports evaluation of code within such sessions
+    with the =:session= header argument. If the header argument is
+    given a value then that will be used as the name of the session.
+    Thus, it is possible to run separate simultaneous sessions in the
+    same language.
 
     With R, the session will be under the control of [[http://ess.r-project.org/][Emacs Speaks
     Statistics]] as usual, and the full power of ESS is thus still
     available, both in the R session, and when switching to the R code
-    edit buffer with =C-c '=.
+    edit buffer with C-c '.
 
 *** Arguments to Source Code Blocks
     :PROPERTIES:
@@ -537,7 +537,7 @@ the table formula line.
 | 0.533130449522286 |
 #+TBLFM: @2$1='(sbe "R-mean" (x "generate-data()"))
 
-To recalculate the table formula, use =C-u C-c C-c= in the
+To recalculate the table formula, use C-u C-c C-c in the
 table. Notice that as things stand the calculated value doesn't
 change, because the data (held in the table above named
 "tbl-example-data") are static. However, if you delete that data table,
@@ -549,7 +549,7 @@ therefore the calculated average value will change.
 *** Example 2: Org-babel Test Suite
 While developing Org-babel, we used a suite of tests implemented
 as a large Org-mode table.  To run the entire test suite we simply
-evaluate the table with =C-u C-c C-c=: all of the tests are run,
+evaluate the table with C-u C-c C-c: all of the tests are run,
 the results are compared with expectations, and the table is updated
 with results and pass/fail statistics.
 
@@ -1123,6 +1123,7 @@ the named code.  An example is provided in the
    Org-babel contributions are welcome! As for Org-mode, authors will
    need to sign copyright papers with the FSF; please see the
    [[http://orgmode.org/worg/org-contribute.php][instructions]] for contributing to Org-mode.
+
 ** Development documents
    The development of Org-babel is tracked in [[file:development.org][development]], a large
    Org-mode file.  This file contains
@@ -1130,10 +1131,12 @@ the named code.  An example is provided in the
    - lists of known and resolved bugs
    - the Org-babel functional test suit which is implemented as a large
      table and is run using Org-babel's spreadsheet functionality
+
 ** In the pipeline
    Support for Clojure has recently been contributed, and support for
    Oz is being planned.
+
 * Footnotes
-[fn:1] Calling =C-c C-o= on a source-code block will open the
+[fn:1] Calling C-c C-o on a source-code block will open the
 block's results in a separate buffer.
 
