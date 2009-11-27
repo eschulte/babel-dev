@@ -87,7 +87,7 @@
 ;; specified by the user will be available in the PARAMS variable.
 (defun org-babel-execute:template (body params)
   "Execute a block of Template code with org-babel.  This function is
-called by `org-babel-execute-src-block' via multiple-value-bind."
+called by `org-babel-execute-src-block'"
   (message "executing Template source code block")
   (let* ((processed-params (org-babel-process-params params))
          ;; set the session if the session variable is non-nil
