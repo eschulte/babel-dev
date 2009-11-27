@@ -35,6 +35,13 @@
 ;;
 ;; If you have questions as to any of the portions of the file defined
 ;; below please look to existing language support for guidance.
+;;
+;; If you are planning on adding a language to org-babel we would ask
+;; that if possible you fill out the FSF copyright assignment form
+;; available at http://orgmode.org/request-assign-future.txt as this
+;; will simplify the eventual inclusion of your addition into
+;; org-babel and possibly at some point into org-mode and Emacs
+;; proper.
 
 ;;; Requirements:
 
@@ -70,36 +77,35 @@
 ;; - value means that the value of the last statement in the
 ;;   source code block will be returned
 ;;
-;; Existing variables.  The following variables are already defined
-;; for use in this function.
-;; 
-;; - session :: name of the session to be used for evaluation or nil
-;;              for non-session based evaluation
-;;              
-;; - vars :: list of cons cells s.t. the car of each element is the
-;;           name of a variable and the cdr is the emacs-lisp value to
-;;           associate with the element
-;;           
-;; - result-params :: list of the values of the :results header
-;;           argument, for more information on possible values of the
-;;           :results header argument see
-;;           http://orgmode.org/worg/org-contrib/babel/org-babel.php#header-arguments
+;; The most common first step in this function is the expansion of the
+;; PARAMS argument using `org-babel-process-params'.
 ;;
-;; - result-type :: either 'output or 'value as mentioned above
+;; Please feel free to not implement options which aren't appropriate
+;; for your language (e.g. not all languages support interactive
+;; "session" evaluation).  Also you are free to define any new header
+;; arguments which you feel may be useful -- all header arguments
+;; specified by the user will be available in the PARAMS variable.
 (defun org-babel-execute:template (body params)
   "Execute a block of Template code with org-babel.  This function is
 called by `org-babel-execute-src-block' via multiple-value-bind."
   (message "executing Template source code block")
-  (let ((full-body (concat
-                    ;; prepend code to define all arguments passed to the code block
-		    (mapconcat
-		     (lambda (pair)
-		       (format "%s=%s"
-			       (car pair)
-			       (org-babel-template-var-to-template (cdr pair))))
-		     vars "\n") "\n" body "\n"))
-        ;; set the session if the session variable is non-nil
-	(session (org-babel-template-initiate-session session)))
+  (let* ((processed-params (org-babel-process-params params))
+         ;; set the session if the session variable is non-nil
+         (session (org-babel-template-initiate-session (first processed-params)))
+         ;; variables assigned for use in the block
+         (vars (second processed-params))
+         (result-params (third processed-params))
+         ;; either OUTPUT or VALUE which should behave as described above
+         (result-type (fourth processed-params))
+         (full-body (concat
+                     ;; prepend code to define all arguments passed to the code block
+                     ;; (may not be appropriate for all languages)
+                     (mapconcat
+                      (lambda (pair)
+                        (format "%s=%s"
+                                (car pair)
+                                (org-babel-template-var-to-template (cdr pair))))
+                      vars "\n") "\n" body "\n")))
     ;; actually execute the source-code block either in a session or
     ;; possibly by dropping it to a temporary file and evaluating the
     ;; file.
