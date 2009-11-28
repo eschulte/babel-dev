@@ -1,7 +1,7 @@
 #+OPTIONS:    H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
-#+TAGS:       Write(w) Update(u) Fix(f) Check(c) 
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+TITLE:      Org-babel
 #+AUTHOR:     Eric Schulte, Dan Davison
 #+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
@@ -31,6 +31,10 @@
   </div>
 #+end_html
 
+* Improving this document					   :noexport:
+** TODO Document slice indexing of tables
+** TODO Document synonymous alternatives
+   {call,lob}, {source, function, srcname}, {results, resname}
 * Introduction
   :PROPERTIES:
   :CUSTOM_ID: introduction
