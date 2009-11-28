@@ -3311,8 +3311,8 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [46/62]
-** TODO Insert results fails if eob or ensuing lines non-empty
+* Bugs [47/62]
+** DONE Insert results fails if eob or ensuing lines non-empty
 This (end of buffer after block, with or without newline after
 "end_src") fails with "End of buffer"
 #+begin_src sh
@@ -3360,7 +3360,20 @@ index 0b68be3..9e7e038 100644
                              (move-beginning-of-line 0)
 #+end_example
 
+This certainly fixes the issue above but has the effect of inserting
+additional newlines with each repeat evaluation eliminating
+idempotency of source block evaluation.  For example with the above
+patch applied evaluate the following 10 times
 
+#+begin_src emacs-lisp
+  (+ 1 1)
+#+end_src
+
+#+results:
+: 2
+
+I just committed a slight variation on the above patch which should
+fix that problem.
 
 ** TODO :results code not dealt with correctly?
 
