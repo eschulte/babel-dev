@@ -922,6 +922,7 @@ For a simple example of usage, follow these 5 steps:
        ;; (require 'org-babel-gnuplot)   ;; gnuplot, and gnuplot-mode
        ;; (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
        ;; (require 'org-babel-ocaml)     ;; ocaml, and tuareg-mode
+       ;; (require 'org-babel-clojure)   ;; clojure, clojure-mode, slime, swank-clojure
        ;; (require 'org-babel-python)    ;; python, and python-mode
        ;; (require 'org-babel-perl)      ;; perl
        ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
