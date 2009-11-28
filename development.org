@@ -3331,6 +3331,37 @@ t#+results:
 : output
 ext here
 
+My working suggestion is this (branch results-insert-bug)
+
+#+begin_example 
+commit 0ab4b84375060e750764347b3335f110b2bfee20
+Author: Dan Davison <davison@stats.ox.ac.uk>
+Date:   Fri Nov 27 14:03:25 2009 -0500
+
+    org-babel: Fix insertion of new results
+    
+    Insertion of new results was failing if the block was followed by
+    end-of-buffer. Also, if the block was followed by non-empty lines, the
+    \#+resname was being inserted away from column 0.
+
+diff --git a/contrib/babel/lisp/org-babel.el b/contrib/babel/lisp/org-babel.el
+index 0b68be3..9e7e038 100644
+--- a/contrib/babel/lisp/org-babel.el
++++ b/contrib/babel/lisp/org-babel.el
+@@ -639,7 +639,8 @@ following the source block."
+                                  (looking-at (concat org-babel-result-regexp "\n"))))
+                          ;; or (with optional insert) back up and make one ourselves
+                           (when insert
+-                            (goto-char end) (forward-char 1)
++                            (goto-char end)
++                           (insert "\n")
+                             (insert (concat "#+results" (if hash (concat "["hash"]"))
+                                             ":"(if name (concat " " name)) "\n"))
+                             (move-beginning-of-line 0)
+#+end_example
+
+
+
 ** TODO :results code not dealt with correctly?
 
 E.g. here in org-babel-python-evaluate. Should that be 
