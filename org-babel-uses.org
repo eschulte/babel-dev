@@ -37,10 +37,10 @@
   to explore the uses of LaTeX source code blocks in Org-babel, but a
   multi-language example that mixes LaTeX and R is also included.
   Hopefully, Org-babel users who write in other supported languages
-  can supply examples of other workflows.
+  can supply examples of other work-flows.
   
 
-* Data collection and analysis
+* Data Collection and Analysis
   This example uses Org-babel to automate a repeated data-collection
   and analysis task.  A Ruby code block is used to scrape data from
   the output of a computational experiment.  This data is then written
@@ -53,14 +53,14 @@
   distribution.
 
 ** Requirement
-   - A working [[http://www.ruby-lang.org/en/][Ruby]] instillation
-   - A working [[http://www.r-project.org/][R]] instillation
-   - A working [[http://www.gnuplot.info/][gnuplot]] instillation
+   - A working [[http://www.ruby-lang.org/en/][Ruby]] installation
+   - A working [[http://www.r-project.org/][R]] installation
+   - A working [[http://www.gnuplot.info/][gnuplot]] installation
 
 ** Advantages
-   - Org-babel handles the passing data between different programming
+   - Org-babel handles passing the data between different programming
      languages
-   - Raw data is persisted in tables in the Org-mode file
+   - Raw data persists in tables in the Org-mode file
    - Working notes can be collocated with the code/results to which
      they refer
    - Tasks can be saved and updated from within the same file in which
@@ -70,8 +70,8 @@
 
 ** Disadvantages
    - This approach can allow the experimenter to use whatever language
-     is most comfortable for each subtask, sometimes resulting in an
-     overly complicated work flow.  For example in the example below I
+     is most comfortable for each sub-task, sometimes resulting in an
+     overly complicated work flow.  For example, in the example below I
      did not have to learn how to calculate the mean and standard
      deviation in R since it was easier for me to do so in Ruby even
      though a full R solution would have been more efficient.
@@ -80,12 +80,12 @@
 
 *** Code for running experiment and collecting the results
 
-    This portion will not be repeatable as it would required the
+    This portion will not be repeatable as it would require the
     entire experimental setup.  It is provided for demonstration.
 
     *Ruby* run-timer-test: Runs the actual experiment.  This is
     tangled to an external file and run on the command line -- since
-    these runs can take multiple days I prefer to run them from
+    these runs can take several days, I prefer to run them 
     outside of Emacs (normally using [[http://www.gnu.org/software/screen/][screen]]).
 #+srcname: run-timer-test
 #+begin_src ruby :results silent :tangle timer :exports code
@@ -114,8 +114,9 @@
 #+end_src
 
     *Ruby* parse-output: The execution of =run-timer-test= leaves
-    results distributed across many text log files.  The following is
-    used to collect results from these files and dump them into a
+    results distributed across many text log files.  The following
+    Ruby source code block is
+    used to collect results from these files and dump them into an
     Org-mode file as a table.
 #+srcname: parse-output
 #+begin_src ruby :results output raw :exports code
@@ -144,8 +145,8 @@
 #+end_src
 
 *** Data
-    Here is fake example output from the =parse-output= Ruby
-    code-block above.
+    Here is fake example output from the =parse-output= Ruby source
+    code block above.
 
 #+tblname: example-data
 | normal_0  | 1 | 150.264 | 150.631066 | 163.0 | 1 |
@@ -190,7 +191,7 @@
 | 3 |       17.6483815 | 14.9070317402304 |
 | 4 | 43.0102596666667 | 42.1863032424348 |
 
-    *R* find the curve that best fits this data
+    *R* find the curve that best fits these data
 #+begin_src R :session R :exports code :var data=example-stddev :results output
   procs <- data$V1
   times <- data$V2
@@ -214,7 +215,7 @@ Number of iterations to convergence: 1
 Achieved convergence tolerance: 3.924e-08
 #+end_example
 
-    *gnuplot* plot the raw data, along with the errorbars and the best
+    *gnuplot* plot the raw data, along with the error bars and the best
     fit curve
 #+begin_src gnuplot :var data=example-data :var mydata=example-stddev :exports code
   set xrange [0.5:5]
