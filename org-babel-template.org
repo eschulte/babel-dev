@@ -200,7 +200,7 @@ then create.  Return the initialized session."
 ** Main
   - This source code block puts all the pieces together and directs
     the tangle of the source file.  Change the :tangle argument to a
-    file name that makes sense, unless my-org-bable-template.el makes
+    file name that makes sense, unless org-babel-generated-template.el makes
     sense in your context.
 #+begin_src emacs-lisp :noweb :tangle org-babel-generated-template.el
 <<template-preamble>>
