@@ -904,15 +904,41 @@ For a simple example of usage, follow these 5 steps:
     :PROPERTIES:
     :CUSTOM_ID: languages
     :END:
+    
+    The following table lists the languages currently supported by
+    Org-babel.  There is a [[file:org-babel-template.org][template]] to create Emacs Lisp support files for other languages.
+    
+    | Support file            | Org-babel identifier | Requirements                                |
+    |-------------------------+----------------------+---------------------------------------------|
+    | org-babel-R.el          | R                    | [[http://www.r-project.org/][R]], [[http://ess.r-project.org/][ess-mode]]                                 |
+    | org-babel-asymptote.el  | asymptote            | [[http://asymptote.sourceforge.net/][asymptote]], [[http://asymptote.sourceforge.net/doc/Editing-modes.html][asy-mode]]                         |
+    | org-babel-clojure.el    | clojure              | [[http://clojure.org/][clojure]], [[http://www.emacswiki.org/emacs/clojure-mode.el][clojure-mode]], [[http://common-lisp.net/project/slime/][slime]], [[http://clojure.codestuffs.com/][swank-clojure]] |
+    | org-babel-css.el        | css                  | none                                        |
+    | org-babel-ditaa.el      | ditaa                | [[http://ditaa.org/ditaa/][ditaa]] (bundled with Org-mode)               |
+    | org-babel-dot.el        | dot                  | [[http://www.graphviz.org/][dot]]                                         |
+    | org-babel-emacs-lisp.el | emacs-lisp           | none                                        |
+    | org-babel-gnuplot.el    | gnuplot              | [[http://www.gnuplot.info/][gnuplot]], [[http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html][gnuplot-mode]]                       |
+    | org-babel-haskell.el    | haskell              | [[http://www.haskell.org/][haskell]], [[http://projects.haskell.org/haskellmode-emacs/][haskell-mode]], [[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#inf-haskell.el:_the_best_thing_since_the_breadknife][inf-haskell]], [[http://people.cs.uu.nl/andres/lhs2tex/][lhs2TeX]] |
+    | org-babel-latex.el      | latex                | [[http://www.latex-project.org/][LaTeX]], [[http://www.gnu.org/software/auctex/][AUCTeX]], [[http://www.gnu.org/software/auctex/reftex.html][RefTeX]]                       |
+    | org-babel-ocaml.el      | ocaml                | [[http://caml.inria.fr/][Objective Caml]], [[http://www-rocq.inria.fr/~acohen/tuareg/][tuareg-mode]]                 |
+    | org-babel-perl.el       | perl                 | [[http://www.perl.org/][perl]], [[http://www.emacswiki.org/emacs/CPerlMode][cperl-mode]] (optional)                 |
+    | org-babel-python.el     | python               | [[http://www.python.org/][python]], [[https://launchpad.net/python-mode][python-mode]] (optional)              |
+    | org-babel-ruby.el       | ruby                 | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
+    | org-babel-sass.el       | sass                 | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
+    | org-babel-screen.el     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
+    | org-babel-sh.el         | sh                   | a shell                                     |
+    | org-babel-sql.el        | sql                  | none                                        |
+  
+    
+
     The following Emacs Lisp code block can be added to your =.emacs=
     and used to activate languages by uncommenting the appropriate
-    lines.  It includes a brief list of the requirements for each
-    language.  *Note*: this is the list of languages currently
-    supported by Org-babel.
+    lines.
+
      #+begin_src emacs-lisp 
        ;; Uncomment each of the following require lines if you want Org-babel
        ;; to support that language.  Each language has a comment explaining
-       ;; it's dependencies.  See the related files in lisp/langs for more
+       ;; its dependencies.  See the related files in lisp/langs for more
        ;; detailed explanations of requirements.
        ;; (require 'org-babel-R)         ;; R and ess-mode
        ;; (require 'org-babel-asymptote) ;; asymptote
@@ -930,6 +956,8 @@ For a simple example of usage, follow these 5 steps:
        ;; (require 'org-babel-screen)    ;; screen and a terminal
        ;; (require 'org-babel-sql)       ;; none
      #+end_src
+
+
 **** Language specific documentation
      Examples, special header arguments, and guides on how to use them
      are available for the following languages:
