@@ -968,7 +968,7 @@ For a simple example of usage, follow these 5 steps:
      :CUSTOM_ID: header-arguments
      :END:
 
-**** :results
+**** =:results=
      There are three types of results header argument:
      1) *collection* header arguments specify how the results should be collected from
         the source code block;
@@ -989,10 +989,12 @@ For a simple example of usage, follow these 5 steps:
           source code block.  This header argument places Org-babel in
           functional mode.  Note that in some languages, e.g., python, use of this
           result type requires that a =return= statement be
-          included in the body of the source code block.
+          included in the body of the source code block. E.g.,
+          =:results value=.
      - output :: The result is the collection of everything printed
           to stdout during the execution of the source code
-          block.  This header argument places Org-babel in scripting mode.
+          block.  This header argument places Org-babel in scripting
+          mode.  E.g., =:results output=.
 
 ***** type
      The following options are mutually exclusive and specify what
@@ -1000,105 +1002,116 @@ For a simple example of usage, follow these 5 steps:
 
       - table, vector :: The results should be interpreted as an Org-mode table.
            If a single value is returned, Org-babel will convert it
-           into a table with one row and one column.
+           into a table with one row and one column.  E.g., =:results
+           value table=.
       - scalar, verbatim :: The results should be interpreted
            literally -- meaning they will not be converted into a table.
            The results will be inserted into the Org-mode buffer as
-           quoted text.d
+           quoted text.  E.g., =:results value verbatim=.
       - file :: The results will be interpreted as the path to a file,
            and will be inserted into the Org-mode buffer as a file
-           link.
+           link.  E.g., =:results value file=.
       - raw, org :: The results are interpreted as raw Org-mode code and
            are inserted directly into the buffer.  If the results look
            like a table they will be aligned as such by Org-mode.
       - html :: Results are assumed to be HTML and will be enclosed in
-           a =begin_html= block.
+           a =begin_html= block.  E.g., =:results value html=.
       - latex :: Results assumed to be LaTeX and are enclosed in a
-           =begin_latex= block.
+           =begin_latex= block.  E.g., =:results value latex=.
       - code :: Result are assumed to be parseable code and are
-           enclosed in a code block.
+           enclosed in a code block.  E.g., =:results value code=.
       - pp :: The result is converted to pretty-printed code and is
             enclosed in a code block.  This option currently supports
-            Emacs Lisp, python, and ruby.
-
-   The following options specify how the results should be inserted
-    into the Org-mode file.
-    - replace :: the current results replace any 
-                 results from the source code block previously
-                 inserted into the Org-mode buffer.
-    - silent :: rather than being inserted into the Org-mode buffer, the
-                results are echoed in the Emacs message bar.
-- exports :: exports arguments specify what should be included in HTML
-             or LaTeX exports of the Org-mode file.
-  - code :: the body of code is included into the exported file.
-  - results :: the result of evaluating the code is included in the
-               exported file.
-  - both :: both the code and results are included in the exported
-            file.
-  - none :: nothing is included in the exported file.
-- tangle :: tangle arguments specify whether or not the source-code
-            block should be included in tangled extraction of
-            source-code files.
-  - yes :: the source-code block is exported to a source-code file
-           named after the basename (name w/o extension) of the
-           Org-mode file.
-  - no :: (default) the source-code block is not exported to a
-          source-code file.
-  - other :: any other string passed to the =tangle= header argument
-             is interpreted as a file basename to which the block will
-             be exported.
+            Emacs Lisp, python, and ruby.  E.g., =:results value pp=.
 
 ***** handling
       The following results options indicate what Org-babel should do
       with the results once they are collected.
 
       - silent :: The results will be echo'd in the minibuffer but
-           will not be inserted into the Org-mode buffer.
-      - replace :: The results will be inserted into the Org-mode buffer.
+           will not be inserted into the Org-mode buffer.  E.g.,
+           =:results output silent=.
+      - replace :: The results will be inserted into the Org-mode
+                   buffer.  E.g., =:results output replace=.
 
-*** Evaluation results: output/value & session/non-session
-    
-    The following applies particularly to perl, python, R and ruby.
+**** =:exports= 
 
-Nature of Results:
+     Specify what should be included in HTML or LaTeX exports of the
+             Org-mode file.
 
-|        | non-session              | session                             |
+      - code :: The body of code is included into the exported file.
+                E.g., =:exports code=.
+      - results :: The result of evaluating the code is included in the
+               exported file. E.g., =:exports results=.
+      - both :: Both the code and results are included in the exported
+            file. E.g., =:exports both=.
+      - none :: Nothing is included in the exported file.  E.g.,
+                =:exports none=.
+
+**** =:tangle= 
+
+     Specify whether or not the source-code block should be included
+            in tangled extraction of source-code files.
+
+      - yes :: The source-code block is exported to a source-code file
+           named after the basename (name w/o extension) of the
+           Org-mode file.  E.g., =:tangle yes=.
+      - no (default) :: The source-code block is not exported to a
+          source-code file.  E.g., =:tangle no=.
+      - other :: Any other string passed to the =:tangle= header argument
+             is interpreted as a file basename to which the block will
+             be exported.  E.g., =:tangle basename.ext=.
+
+**** =:session=
+
+     Start a session for an interpreted language where state is
+     preserved.  This applies particularly to the supported languages
+     perl, python, R and ruby.
+
+     - other :: A string passed to the =:session= header argument will
+                give the session a name.  This makes it possible to
+                have multiple sessions for each interpreted language.
+
+    Results are handled somewhat differently if a session is invoked.
+
+
+|        | non-session (default)    | session                             |
 |--------+--------------------------+-------------------------------------|
 | value  | value of last expression | value of last expression            |
 | output | contents of stdout       | concatenation of interpreter output |
 
 
-Note that in ':results value' (session and non-session), the result is
-imported into Org-mode as a table (a one- or two-dimensional vector of
-strings or numbers) when appropriate.
+Note that in =:results value= the result in both sessions and
+non-sessions is imported into Org-mode as a table (a one- or
+two-dimensional vector of strings or numbers) when appropriate.
 
-**** :results value (non-session)
-     This is the default. Internally, the value is obtained by
-     wrapping the code in a function definition in the external
-     language, and evaluating that function. Therefore, code should be
-     written as if it were the body of such a function. In particular,
-     note that python does not automatically return a value from a
-     function unless a =return= statement is present, and so a
-     'return' statement will usually be required in python :results
-     value (non-session).
+***** =:results value= (non-session)
+      This is the default. Internally, the value is obtained by
+      wrapping the code in a function definition in the external
+      language, and evaluating that function. Therefore, code should be
+      written as if it were the body of such a function. In particular,
+      note that python does not automatically return a value from a
+      function unless a =return= statement is present, and so a
+      'return' statement will usually be required in python :results
+      value (non-session).
 
-     This is the only one of the four evaluation contexts in which the
-     code is automatically wrapped in a function definition.
+      This is the only one of the four evaluation contexts in which the
+      code is automatically wrapped in a function definition.
 
-**** :results output (non-session)
-     The code is passed to the interpreter as an external process, and
-     the contents of the standard output stream is returned as
-     text. (In certain languages this also contains the error output
-     stream; this is an area for future work.)
+***** =:results output= (non-session)
+      The code is passed to the interpreter as an external process, and
+      the contents of the standard output stream is returned as
+      text. (In certain languages this also contains the error output
+      stream; this is an area for future work.)
 
-**** :results value (session)
-     The code is passed to the interpreter running as an interactive
-     Emacs inferior process. The result returned is the result of the
-     last evaluation performed by the interpreter. (This is obtained in
-     a language-specific manner: the value of the variable =_= in
-     python and ruby, and the value of =.Last.value= in R).
+***** =:results value= (session)
+      The code is passed to the interpreter running as an interactive
+      Emacs inferior process. The result returned is the result of the
+      last evaluation performed by the interpreter. (This is obtained in
+      a language-specific manner: the value of the variable =_= in
+      python and ruby, and the value of =.Last.value= in R).
 
-**** :results output (session)
+***** =:results output= (session)
      The code is passed to the interpreter running as an interactive
      Emacs inferior process. The result returned is the concatenation
      of the sequence of (text) output from the interactive
