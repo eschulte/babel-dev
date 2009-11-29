@@ -12,13 +12,14 @@
     proper.
 
 
-
 * User Defined Code
   - This section contains all of the source code blocks that need to
     be defined by the user.  It is divided into single value strings
     that are expanded in other source code blocks, simple Emacs Lisp
     expressions, and function definitions.
+
 ** Single Values
+
 *** Language name
   - Enter the name of the language in the following source code block,
     as you'd like it to appear in the Emacs Lisp program.
@@ -46,7 +47,7 @@ tpl
   - Your name as it should appear in the copyright and author lines.
 #+srcname: your-name
 #+begin_src emacs-lisp
-Eric Schulte
+Your Name
 #+end_src
 
 *** Code version
@@ -56,6 +57,7 @@ Eric Schulte
 #+end_src
 
 ** Simple Expressions
+
 *** Emacs modes required to edit source code
   - Use this section to list the requirements of this language.  Most
     languages will require that at least the language be installed on
@@ -195,8 +197,8 @@ then create.  Return the initialized session."
 #+end_src
 
 
-
 * Boilerplate
+
 ** Main
   - This source code block puts all the pieces together and directs
     the tangle of the source file.  Change the :tangle argument to a
@@ -204,19 +206,27 @@ then create.  Return the initialized session."
     sense in your context.
 #+begin_src emacs-lisp :noweb :tangle org-babel-generated-template.el
 <<template-preamble>>
+
 <<template-requirements>>
+
 <<template-support>>
+
 <<template-main>>
+
 <<template-prep-session>>
+
 <<template-translate-var>>
+
 <<template-translate-table>>
+
 <<template-initiate-session>>
+
 <<template-close>>
 #+end_src
 
-
 ** Stand-alone Source Code Blocks
    - These source code blocks typically do not need to be modified.
+
 *** Preamble
    - Create a standard preamble by expanding single values provided by
      the template user.
@@ -255,7 +265,7 @@ then create.  Return the initialized session."
      of Org-babel and expands the requirements of the new language
      provided by the template user.
 
-#+srcname template-requirements
+#+srcname: template-requirements
 #+begin_src emacs-lisp :noweb
 ;;; Code:
 (require 'org-babel)
@@ -263,9 +273,6 @@ then create.  Return the initialized session."
 <<template-require-modes>>
 
 #+end_src
-
-
-
 
 *** Supported languages
    - Uses template user supplied single values to set up the supported
