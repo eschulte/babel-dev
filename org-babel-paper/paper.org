@@ -1,0 +1,39 @@
+
+* Abstract
+  We present a new computing environment for reproducible research and
+  literate programming. In this environment a single
+  hierarchically-organised plain text source file may contain a
+  variety of elements such as source code, numerical data, links to
+  images and other files, project management data, working notes, and
+  text for publication. Source code fragments may be executed in situ
+  with graphical and text output being captured in, or linked to from,
+  the source file. Export to \LaTeX, HTML and other formats permits
+  working reports, presentations and manuscripts for publication to be
+  generated from the source file. In addition, source code extraction
+  (tangling) permits functioning pure code files to be extracted from
+  their native environment. This framework is implemented as an
+  extension to the Emacs text editor and additionally provides a very
+  rich set of features for working with the source file, including
+  sophisticated project management capabilities.
+
+* Introduction
+*** The problem addressed
+  Research projects can be described as comprising the following stages:
+1. A question or problem is identified
+2. Possible approaches to an answer or solution are conceived of.
+3. Initial implementations are made.
+4. A phase follows of alternating testing and refinement of the solution
+5. A preferred solution is finally identified
+6. The results are written up and disseminated.
+
+Traditionally, these stages are represented by changes in several
+different computer files or other records containing working notes,
+computer code, test output and pre-publication manuscripts. One of the
+challenges in carrying out such work is simply that of maintaining a
+clear picture of the current state and direction of the project.
+
+
+*** Emacs Org-mode
+*** Org-babel
+* Examples
+* Conclusion
