@@ -1,4 +1,25 @@
 
+
+* Notes
+*** Existing work on Reproducible Research
+***** Sweave
+***** Gentleman & Temple Lang (2004)
+      Robert Gentleman and Duncan Temple Lang, "Statistical Analyses
+      and Reproducible Research" (May 2004). Bioconductor Project
+      Working Papers. Working Paper 2.
+      http://www.bepress.com/bioconductor/paper2 
+***** Gentleman 2005
+      Gentleman, Robert (2005) "Reproducible Research: A Bioinformatics Case Study," Statistical Applications in Genetics and Molecular Biology: Vol. 4 : Iss. 1, Article 2.
+      DOI: 10.2202/1544-6115.1034
+      Available at: http://www.bepress.com/sagmb/vol4/iss1/art2 
+
+      At a quick glance this paper attempts to reconstruct an old
+      paper by distributing a collection of data files, R code and
+      latex/Sweave files from which the text and diagrams are
+      generated. The files are available for download from the above
+      link.
+
+
 * Abstract
   We present a new computing environment for reproducible research and
   literate programming. In this environment a single
