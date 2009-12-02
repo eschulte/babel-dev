@@ -3,7 +3,52 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/89]
+* Tasks [54/90]
+** STARTED Export issues
+*** STARTED reference source blocks that are themselves excluded from export
+*** STARTED restrictions on locations of org-exp-blocks interblocks
+*** STARTED Suitable export of #+srcname and #+resname lines
+*** STARTED inline source code blocks [5/8]
+    Like the =\R{ code }= blocks
+
+    not sure what the format should be, maybe just something simple
+    like =src_lang[]{}= where lang is the name of the source code
+    language to be evaluated, =[]= is optional and contains any header
+    arguments and ={}= contains the code.
+
+**** DONE evaluation with \C-c\C-c
+Putting aside the header argument issue for now we can just run these
+with the following default header arguments
+- =:results= :: silent
+- =:exports= :: results
+
+**** DONE inline exportation
+Need to add an interblock hook (or some such) through org-exp-blocks
+**** DONE header arguments
+We should make it possible to use header arguments.
+**** DONE Bring export of inline code back to life
+**** DONE Uses session even when not requested
+**** TODO fontification
+we should color these blocks differently
+
+**** TODO refine html exportation
+should use a span class, and should show original source in tool-tip
+*** STARTED Allow export of results of #+lob lines
+*** STARTED Inline fragment not evaluated unless another code block in buffer
+
+** TODO org-babel-sh explicitly specify the shell
+this should be possible as source-code execution shouldn't depend on
+the values of user-specific information (i.e. the user's shell)
+
+** TODO Work on tangling
+*** TODO allow tangle to be called on a single source block
+this should have a reasonable binding
+*** PROPOSED make tangled files read-only?
+     With a file-local variable setting, yea that makes sense.  Maybe
+     the header should reference the related org-mode file.
+*** PROPOSED make tangled files executable?
+    At least if using shebang line
+*** PROPOSED optionally do not output comment and links
 ** TODO inserting empty results lines
 
 check if org-babel inserts empty results lines, if so don't do this
@@ -113,38 +158,6 @@ serialization language, and could be very useful, especially for
 languages (like ruby) which support dumping object to/from these
 serialization languages.
 
-** STARTED Export issues
-*** STARTED reference source blocks that are themselves excluded from export
-*** STARTED restrictions on locations of org-exp-blocks interblocks
-*** STARTED Suitable export of #+srcname and #+resname lines
-*** STARTED inline source code blocks [5/8]
-    Like the =\R{ code }= blocks
-
-    not sure what the format should be, maybe just something simple
-    like =src_lang[]{}= where lang is the name of the source code
-    language to be evaluated, =[]= is optional and contains any header
-    arguments and ={}= contains the code.
-
-**** DONE evaluation with \C-c\C-c
-Putting aside the header argument issue for now we can just run these
-with the following default header arguments
-- =:results= :: silent
-- =:exports= :: results
-
-**** DONE inline exportation
-Need to add an interblock hook (or some such) through org-exp-blocks
-**** DONE header arguments
-We should make it possible to use header arguments.
-**** DONE Bring export of inline code back to life
-**** DONE Uses session even when not requested
-**** TODO fontification
-we should color these blocks differently
-
-**** TODO refine html exportation
-should use a span class, and should show original source in tool-tip
-*** STARTED Allow export of results of #+lob lines
-*** STARTED Inline fragment not evaluated unless another code block in buffer
-
 ** PROPOSED allow references to bound emacs lisp variables?
    I don't *think* we can do this currently. Something like this? 
 #+begin_src emacs-lisp
@@ -220,15 +233,6 @@ you are being asked to process.  This could be yet another option.
    #+begin_src org
      ,* whatever
    #+end_src
-** TODO Work on tangling
-*** TODO allow tangle to be called on a single source block
-this should have a reasonable binding
-*** PROPOSED make tangled files read-only?
-     With a file-local variable setting, yea that makes sense.  Maybe
-     the header should reference the related org-mode file.
-*** PROPOSED make tangled files executable?
-    At least if using shebang line
-*** PROPOSED optionally do not output comment and links
 ** STARTED sha1 hash based caching
    :PROPERTIES:
    :CUSTOM_ID: sha1-caching
