@@ -1159,7 +1159,7 @@ be referenced by using the
 : <<code-block-name>>
 syntax.  When a document is tangled, these references are replaced with
 the named code.  An example is provided in the
-[[literate-programming-example]].
+[[literate programming example]].
 
 *** Requirements Documentation
     The original requirements documentation is available at
@@ -1174,15 +1174,15 @@ the named code.  An example is provided in the
 
 ** Development documents
    The development of Org-babel is tracked in [[file:development.org][development]], a large
-   Org-mode file.  This file contains
-   - lists of pending development tasks
-   - lists of known and resolved bugs
+   Org-mode file.  This file contains:
+   - lists of pending development tasks;
+   - lists of known and resolved bugs; and
    - the Org-babel functional test suit which is implemented as a large
-     table and is run using Org-babel's spreadsheet functionality
+     table and is run using Org-babel's spreadsheet functionality.
 
 ** In the pipeline
    Support for Clojure has recently been contributed, and support for
-   Oz is being planned.
+   [[http://www.mozart-oz.org/][Oz]] is being planned.
 
 * Footnotes
 [fn:1] Calling C-c C-o on a source code block will open the
