@@ -603,7 +603,7 @@ For example, let's take some system diagnostics in the shell and graph them with
    pie-chart. Note how this source code block uses the =srcname=
    of the previous source code block to obtain the data.
 #+srcname: directory-pie-chart(dirs = directories)
-   #+begin_src R :session R-pie-example
+   #+begin_src R :session R-pie-example :file ../../images/babel/dirs.png
    pie(dirs[,1], labels = dirs[,2])
    #+end_src
  [[file:../../images/babel/dirs.png]]
@@ -1071,6 +1071,7 @@ For a simple example of usage, follow these 5 steps:
 **** Language specific documentation
      Examples, special header arguments, and guides on how to use them
      are available for the following languages:
+     - [[file:org-babel-R.org][R]]
      - [[file:org-babel-screen.org][screen]]
 
 *** Header Arguments
