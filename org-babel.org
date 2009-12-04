@@ -960,6 +960,7 @@ For a simple example of usage, follow these 5 steps:
 **** Language specific documentation
      Examples, special header arguments, and guides on how to use them
      are available for the following languages:
+     - [[file:org-babel-R.org][R]]
      - [[file:org-babel-screen.org][screen]]
 
 *** Header Arguments
@@ -1160,41 +1161,6 @@ be referenced by using the
 syntax.  When a document is tangled, these references are replaced with
 the named code.  An example is provided in the
 [[literate programming example]].
-*** Graphical output from R
-    If a =:file filename.ext= header arg is provided to an R block,
-    then all graphical output from the source block is captured on
-    disk, and the output of the source block is a link to the
-    resulting file (as is also the case with the graphics-only
-    languages such as gnuplot, ditaa, dot, asymptote.)
-
-    An attempt is made to find an R graphics device corresponding to
-    the file extension (currently .png, .jpg, .jpeg, .tiff, .bmp,
-    .pdf, .ps, .postscript are recognised); if that fails, png format
-    output is created.
-    
-    Additionally, values for several arguments to the R graphics
-    device can be passed using header args:
-    
-#+begin_example 
-    :width :height :bg :units :pointsize
-    :antialias :quality :compression :res :type
-    :family :title :fonts :version :paper :encoding
-    :pagecentre :colormodel :useDingbats :horizontal
-#+end_example
-    
-    Arguments to the R graphics device that are not supported as header
-    args can be passed as a string in R argument syntax, using the header
-    arg =:R-dev-args=
-    
-    An example block is (although both bg and fg can be passed directly as
-    header args)
-    
-#+begin_example 
-    #+begin_src R :file z.pdf :width 8 :height 8 :R-dev-args bg="olivedrab", fg="hotpink"
-      plot(matrix(rnorm(100), ncol=2), type="l")
-    #+end_src
-#+end_example
-
 
 *** Requirements Documentation
     The original requirements documentation is available at
