@@ -3315,7 +3315,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [47/62]
+* Bugs [48/62]
 ** DONE Insert results fails if eob or ensuing lines non-empty
 This (end of buffer after block, with or without newline after
 "end_src") fails with "End of buffer"
@@ -3392,30 +3392,6 @@ E.g. here in org-babel-python-evaluate. Should that be
 		 (let ((lines (split-string
 #+end_src
 
-** TODO python doesn't work with multiple statements per line
-   example on list
-   This is because python statements are broken up by newlines in org-babel-python-evaluate.
-
-   I think this is a somewhat uncomfortable issue. Both perl and
-   python demand a return statement. That currently means that we have
-   to separate the code into "statements" (not sure that's the right
-   term), in order to stick a "return" in front of the last one. But
-   in general, I think you would have to parse the language in order
-   to know how to break the language up in this way. It's easy to come
-   up with examples of valid python code, involving mutliline
-   statements and/or semicolons that don't work in current
-   org-babel. E.g.
-
-#+begin_src python 
-  def f(x,y):
-      return x + y
-  a = f(4,
-        5)
-  a
-#+end_src
-
-#+resname:
-
 ** TODO lob does not inherit :session from file properties
 ** PROPOSED org-babel-insert-result uninvestigated worry
    What happens if org-babel-where-is-src-block-result doesn't return non-nil?
@@ -3443,8 +3419,7 @@ E.g. here in org-babel-python-evaluate. Should that be
 cat("There's no newline ending this")
 #+end_src
 
-** PROPOSED Do we deal with indented code blocks correctly?
-   I.e. if there is whitespace before #+begin and #+end.
+** PROPOSED Allow #+srcname to be indented
 ** TODO Juan Reyero bug report
    
 > ... However I can't replicate this
@@ -3491,6 +3466,35 @@ echo 6
 #+resname:
 : 6
 ** TODO point should go to end of comint buffer after execution
+** DONE python doesn't work with multiple statements per line
+   Solved by demanding return statement in python.
+
+   example on list
+   This is because python statements are broken up by newlines in org-babel-python-evaluate.
+
+   I think this is a somewhat uncomfortable issue. Both perl and
+   python demand a return statement.
+
+   Edit: Not true for perl
+   
+   That currently means that we have to separate the code into
+   "statements" (not sure that's the right term), in order to stick a
+   "return" in front of the last one. But in general, I think you
+   would have to parse the language in order to know how to break the
+   language up in this way. It's easy to come up with examples of
+   valid python code, involving mutliline statements and/or semicolons
+   that don't work in current org-babel. E.g.
+
+#+begin_src python 
+  def f(x,y):
+      return x + y
+  a = f(4,
+        5)
+  return a ## Added return statement to demonstrate solution
+#+end_src
+
+#+results:
+: 9
 ** DEFERRED external shell execution can't isolate return values
 I have no idea how to do this as of yet.  The result is that when
 shell functions are run w/o a session there is no difference between

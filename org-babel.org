@@ -72,14 +72,14 @@
      Org-babel is included in the contrib directory of Org-mode.
 
   2) Make sure that the path to Org-mode's contrib/lisp directory is in
-     your load-path and add the following Emacs Lisp expression to your =.emacs=.
+     your load-path and add the following Emacs Lisp expression to your .emacs.
      #+begin_src emacs-lisp
        (require 'org-babel-init)     
      #+end_src
 
   3) Activate the subset of [[#reference-and-documentation][supported Org-babel languages]] that you
      will be using by adding Emacs Lisp expressions to your
-     =.emacs=.  As an example, the following three Emacs Lisp
+     .emacs.  As an example, the following three Emacs Lisp
      expressions activate R, Ruby and Python.  Shell script and
      Emacs-lisp are enabled by default.
      #+begin_src emacs-lisp
@@ -89,14 +89,14 @@
      #+end_src
 
   4) Load the Library of Babel by adding the following Emacs Lisp
-     expression to your =.emacs=.  The Library of Babel will make
+     expression to your .emacs.  The Library of Babel will make
      pre-built helper functions available in the languages you will be
      using.
      #+begin_src emacs-lisp
        (org-babel-load-library-of-babel)
      #+end_src
 
-  5) Evaluate your modified =.emacs=.
+  5) Evaluate your modified .emacs.
 
 * Basic Org-babel Functionality
   :PROPERTIES:
@@ -107,10 +107,9 @@
     :CUSTOM_ID: source-code-blocks
     :END:
 
-    Org-babel is all about *source code blocks* in Org-mode. If you
-    are unfamiliar with the notion of a source code block in Org-mode,
-    please have a look at the [[http://orgmode.org/manual/Literal-examples.html][relevant manual section]] before
-    proceeding.
+    Org-babel is all about [[http://orgmode.org/manual/Literal-examples.html][source code blocks]] in Org-mode. If you are
+    unfamiliar with the notion of a source code block in Org-mode,
+    please have a look at the [[http://orgmode.org/manual/Literal-examples.html][Org-mode manual]] before proceeding.
 
     Source code blocks in [[#reference-and-documentation][supported languages]] can occur anywhere in an
     Org-mode file.  Source code blocks can be entered directly into
@@ -132,8 +131,8 @@
 
     We had to take [[http://orgmode.org/manual/Literal-examples.html#Literal-examples][special steps]] to make it look that way in the HTML
     output. Normally, when exported to HTML, source blocks are
-    fontified according to their language, and the begin_src...end_src
-    mark-up is omitted, like this:
+    fontified according to their language, and the =begin_src=
+    ... =end_src= mark-up is omitted, like this:
 
 #+begin_src ruby
 require 'date'
@@ -227,7 +226,7 @@ HTML export of the resulting table:
 
 **** [[http://ditaa.sourceforge.net/][ditaa]]
 
-In the Org:mode file:
+In the Org-mode file:
 : #+begin_src ditaa :file blue.png :cmdline -r
 : +---------+
 : | cBLU    |
@@ -270,7 +269,7 @@ The basic syntax of source code blocks in Org-babel is as follows:
 - arguments :: Source code blocks can have [[#arguments-to-source-code-blocks][arguments]] using a familiar
                function-call syntax similar to languages such as python or R.
 - language :: The language of the code in the source-code block. Valid
-     values must be members of `org-babel-interpreters'.
+     values must be members of =org-babel-interpreters=.
 - header-arguments :: Header arguments control many facets of the
      evaluation and output of source-code blocks.  See the [[* Header Arguments][Header
      Arguments]] section for a complete review of available header
@@ -386,7 +385,7 @@ In the Org-mode file, the function looks like this:
 Now we use the source block:
 
 : #+lob: square(x=6)
-(/for information on the/ =lob= /syntax see [[library-of-babel]]/)
+(/for information on the/ =lob= /syntax see/ [[library-of-babel]])
 
 #+lob: square(x=6)
 
@@ -395,12 +394,12 @@ Now we use the source block:
 
 **** A more complex example using an Org-mode table as input
 
-     In this example we define a function called fibonacci-seq, using
-     Emacs Lisp.  The function fibonacci-seq computes a Fibonacci
+     In this example we define a function called =fibonacci-seq=, using
+     Emacs Lisp.  The function =fibonacci-seq= computes a Fibonacci
      sequence.  The function takes a single argument, in this case, a
      reference to an Org-mode table.
 
-     Here is the Org-mode table that is passed to the fibonacci-seq function:
+     Here is the Org-mode table that is passed to =fibonacci-seq=:
 
 #+tblname: fibonacci-inputs
 | 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8 |  9 | 10 |
@@ -435,7 +434,7 @@ In the Org-mode buffer the function looks like this:
 :             (mapcar #'fibonacci row)) fib-inputs)
 : #+end_src
 
-The return value of the fibonacci-seq function is a table:
+The return value of =fibonacci-seq= is a table:
 #+resname:
 | 1 | 1 | 2 |  3 |  5 |   8 |  13 |  21 |   34 |   55 |
 | 1 | 3 | 8 | 21 | 55 | 144 | 377 | 987 | 2584 | 6765 |
@@ -493,7 +492,7 @@ For example, let's take some system diagnostics in the shell and graph them with
    pie-chart. Note how this source code block uses the =srcname=
    of the previous source code block to obtain the data.
 #+srcname: directory-pie-chart(dirs = directories)
-   #+begin_src R :session R-pie-example
+   #+begin_src R :session R-pie-example :file ../../images/babel/dirs.png
    pie(dirs[,1], labels = dirs[,2])
    #+end_src
  [[file:../../images/babel/dirs.png]]
@@ -544,7 +543,7 @@ the table formula line.
 To recalculate the table formula, use C-u C-c C-c in the
 table. Notice that as things stand the calculated value doesn't
 change, because the data (held in the table above named
-"tbl-example-data") are static. However, if you delete that data table,
+=tbl-example-data=) are static. However, if you delete that data table,
 then the reference will be interpreted as a reference to the source
 block responsible for generating the data; each time the table formula
 is recalculated the source block will be evaluated again, and
@@ -668,10 +667,10 @@ reproduced and extended.
 
 Org-mode already has exceptional support for [[http://orgmode.org/manual/Exporting.html#Exporting][exporting to HTML and
 LaTeX]].  Org-babel makes Org-mode a tool for RR by *activating* the
-data and source code embedded into Org-mode documents making the
-entire document executable.  This makes it possible, and
-natural, to distribute research in a format that encourages readers to
-recreate results and perform their own analyses.
+data and source code embedded in Org-mode documents; the
+entire document becomes executable.  This makes it possible, and natural, to
+distribute research in a format that encourages readers to recreate
+results and perform their own analyses.
 
 One notable existing RR tool is [[http://en.wikipedia.org/wiki/Sweave][Sweave]], which provides a mechanism for
 embedding [[http://www.r-project.org/][R]] code into LaTeX documents.  Sweave is a mature
@@ -681,7 +680,7 @@ advantages:
  - the [[http://orgmode.org/manual/Exporting.html#Exporting][export process]] is flexible and powerful, including HTML as a
    target in addition to LaTeX; and
  - the document can make use of Org-mode features that support [[http://orgmode.org/manual/Agenda-Views.html#Agenda-Views][project
-   planning]] and [[http://orgmode.org/manual/TODO-Items.html#TODO-Items][task management]]
+   planning]] and [[http://orgmode.org/manual/TODO-Items.html#TODO-Items][task management]].
 
 * Literate Programming
   :PROPERTIES:
@@ -781,7 +780,7 @@ to include them in the output file as well.
 : #+end_src
 
 Calling =org-babel-tangle= will result in the following shell source
-code being written to the =hello.sh= file:
+code being written to the hello.sh file:
 
 #+srcname: hello-world-output
 #+begin_src sh 
@@ -799,11 +798,11 @@ code being written to the =hello.sh= file:
 #+end_src
 
 In addition, the following syntax can be used to insert the *results*
-of evaluating a source code block, in this case one named 'example-block'.
+of evaluating a source code block, in this case one named =example-block=.
 
 : # <<example-block()>>
 
-Any optional arguments can be passed to example-block() by placing the
+Any optional arguments can be passed to =example-block()= by placing the
 arguments inside the parentheses following the convention defined when
 calling source block functions (see the [[library-of-babel][Library of babel]]). For example,
 
@@ -811,7 +810,7 @@ calling source block functions (see the [[library-of-babel][Library of babel]]).
 
 sets the value of argument \"a\" equal to \"9\".  Note that
 these arguments are not evaluated in the current source-code
-block but are passed literally to example-block().
+block but are passed literally to =example-block()=.
 #+end_src
 
 *** Emacs Initialization with Org-babel
@@ -826,7 +825,7 @@ Org-babel has special support for embedding your Emacs initialization
 into Org-mode files.  The =org-babel-load-file= function can be used
 to load the Emacs Lisp source code blocks embedded in a literate
 Org-mode file in the same way that you might load a regular Emacs Lisp
-file, such as =.emacs=.
+file, such as .emacs.
 
 This allows you to make use of the nice features of Org-mode, such as folding, tags,
 notes, HTML export, etc., to organize and maintain your Emacs initialization.
@@ -908,30 +907,30 @@ For a simple example of usage, follow these 5 steps:
     The following table lists the languages currently supported by
     Org-babel.  There is a [[file:org-babel-template.org][template]] to create Emacs Lisp support files for other languages.
     
-    | Support file            | Org-babel identifier | Requirements                                |
-    |-------------------------+----------------------+---------------------------------------------|
-    | org-babel-R.el          | R                    | [[http://www.r-project.org/][R]], [[http://ess.r-project.org/][ess-mode]]                                 |
-    | org-babel-asymptote.el  | asymptote            | [[http://asymptote.sourceforge.net/][asymptote]], [[http://asymptote.sourceforge.net/doc/Editing-modes.html][asy-mode]]                         |
-    | org-babel-clojure.el    | clojure              | [[http://clojure.org/][clojure]], [[http://www.emacswiki.org/emacs/clojure-mode.el][clojure-mode]], [[http://common-lisp.net/project/slime/][slime]], [[http://clojure.codestuffs.com/][swank-clojure]] |
-    | org-babel-css.el        | css                  | none                                        |
-    | org-babel-ditaa.el      | ditaa                | [[http://ditaa.org/ditaa/][ditaa]] (bundled with Org-mode)               |
-    | org-babel-dot.el        | dot                  | [[http://www.graphviz.org/][dot]]                                         |
-    | org-babel-emacs-lisp.el | emacs-lisp           | none                                        |
-    | org-babel-gnuplot.el    | gnuplot              | [[http://www.gnuplot.info/][gnuplot]], [[http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html][gnuplot-mode]]                       |
-    | org-babel-haskell.el    | haskell              | [[http://www.haskell.org/][haskell]], [[http://projects.haskell.org/haskellmode-emacs/][haskell-mode]], [[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#inf-haskell.el:_the_best_thing_since_the_breadknife][inf-haskell]], [[http://people.cs.uu.nl/andres/lhs2tex/][lhs2TeX]] |
-    | org-babel-latex.el      | latex                | [[http://www.latex-project.org/][LaTeX]], [[http://www.gnu.org/software/auctex/][AUCTeX]], [[http://www.gnu.org/software/auctex/reftex.html][RefTeX]]                       |
-    | org-babel-ocaml.el      | ocaml                | [[http://caml.inria.fr/][Objective Caml]], [[http://www-rocq.inria.fr/~acohen/tuareg/][tuareg-mode]]                 |
-    | org-babel-perl.el       | perl                 | [[http://www.perl.org/][perl]], [[http://www.emacswiki.org/emacs/CPerlMode][cperl-mode]] (optional)                 |
-    | org-babel-python.el     | python               | [[http://www.python.org/][python]], [[https://launchpad.net/python-mode][python-mode]] (optional)              |
-    | org-babel-ruby.el       | ruby                 | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
-    | org-babel-sass.el       | sass                 | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
-    | org-babel-screen.el     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
-    | org-babel-sh.el         | sh                   | a shell                                     |
-    | org-babel-sql.el        | sql                  | none                                        |
+    | Language       | Support file            | Org-babel identifier | Requirements                                |
+    |----------------+-------------------------+----------------------+---------------------------------------------|
+    | R              | org-babel-R.el          | R                    | [[http://www.r-project.org/][R]], [[http://ess.r-project.org/][ess-mode]]                                 |
+    | Asymptote      | org-babel-asymptote.el  | asymptote            | [[http://asymptote.sourceforge.net/][asymptote]], [[http://asymptote.sourceforge.net/doc/Editing-modes.html][asy-mode]]                         |
+    | Clojure        | org-babel-clojure.el    | clojure              | [[http://clojure.org/][clojure]], [[http://www.emacswiki.org/emacs/clojure-mode.el][clojure-mode]], [[http://common-lisp.net/project/slime/][slime]], [[http://clojure.codestuffs.com/][swank-clojure]] |
+    | css            | org-babel-css.el        | css                  | none                                        |
+    | ditaa          | org-babel-ditaa.el      | ditaa                | [[http://ditaa.org/ditaa/][ditaa]] (bundled with Org-mode)               |
+    | Graphviz       | org-babel-dot.el        | dot                  | [[http://www.graphviz.org/][dot]]                                         |
+    | Emacs Lisp     | org-babel-emacs-lisp.el | emacs-lisp           | none                                        |
+    | gnuplot        | org-babel-gnuplot.el    | gnuplot              | [[http://www.gnuplot.info/][gnuplot]], [[http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html][gnuplot-mode]]                       |
+    | Haskell        | org-babel-haskell.el    | haskell              | [[http://www.haskell.org/][haskell]], [[http://projects.haskell.org/haskellmode-emacs/][haskell-mode]], [[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#inf-haskell.el:_the_best_thing_since_the_breadknife][inf-haskell]], [[http://people.cs.uu.nl/andres/lhs2tex/][lhs2tex]] |
+    | LaTeX          | org-babel-latex.el      | latex                | [[http://www.latex-project.org/][latex]], [[http://www.gnu.org/software/auctex/][auctex]], [[http://www.gnu.org/software/auctex/reftex.html][reftex]]                       |
+    | Objective Caml | org-babel-ocaml.el      | ocaml                | [[http://caml.inria.fr/][ocaml]], [[http://www-rocq.inria.fr/~acohen/tuareg/][tuareg-mode]]                          |
+    | Perl           | org-babel-perl.el       | perl                 | [[http://www.perl.org/][perl]], [[http://www.emacswiki.org/emacs/CPerlMode][cperl-mode]] (optional)                 |
+    | Python         | org-babel-python.el     | python               | [[http://www.python.org/][python]], [[https://launchpad.net/python-mode][python-mode]] (optional)              |
+    | Ruby           | org-babel-ruby.el       | ruby                 | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
+    | Sass           | org-babel-sass.el       | sass                 | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
+    | GNU Screen     | org-babel-screen.el     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
+    | shell          | org-babel-sh.el         | sh                   | a shell                                     |
+    | SQL            | org-babel-sql.el        | sql                  | none                                        |
   
     
 
-    The following Emacs Lisp code block can be added to your =.emacs=
+    The following Emacs Lisp code block can be added to your .emacs
     and used to activate languages by uncommenting the appropriate
     lines.
 
@@ -1014,6 +1013,7 @@ For a simple example of usage, follow these 5 steps:
       - raw, org :: The results are interpreted as raw Org-mode code and
            are inserted directly into the buffer.  If the results look
            like a table they will be aligned as such by Org-mode.
+           E.g., =:results value raw=.
       - html :: Results are assumed to be HTML and will be enclosed in
            a =begin_html= block.  E.g., =:results value html=.
       - latex :: Results assumed to be LaTeX and are enclosed in a
@@ -1028,7 +1028,7 @@ For a simple example of usage, follow these 5 steps:
       The following results options indicate what Org-babel should do
       with the results once they are collected.
 
-      - silent :: The results will be echo'd in the minibuffer but
+      - silent :: The results will be echoed in the minibuffer but
            will not be inserted into the Org-mode buffer.  E.g.,
            =:results output silent=.
       - replace :: The results will be inserted into the Org-mode
@@ -1075,43 +1075,45 @@ For a simple example of usage, follow these 5 steps:
     Results are handled somewhat differently if a session is invoked.
 
 
-|        | non-session (default)    | session                             |
-|--------+--------------------------+-------------------------------------|
-| value  | value of last expression | value of last expression            |
-| output | contents of stdout       | concatenation of interpreter output |
+|          | non-session (default)    | =:session=                          |
+|----------+--------------------------+-------------------------------------|
+| =value=  | value of last expression | value of last expression            |
+| =output= | contents of stdout       | concatenation of interpreter output |
 
 
 Note that in =:results value= the result in both sessions and
 non-sessions is imported into Org-mode as a table (a one- or
 two-dimensional vector of strings or numbers) when appropriate.
 
-***** =:results value= (non-session)
-      This is the default. Internally, the value is obtained by
-      wrapping the code in a function definition in the external
-      language, and evaluating that function. Therefore, code should be
-      written as if it were the body of such a function. In particular,
-      note that python does not automatically return a value from a
-      function unless a =return= statement is present, and so a
-      'return' statement will usually be required in python :results
-      value (non-session).
+***** Non-session
+****** =:results value=
+       This is the default. Internally, the value is obtained by
+       wrapping the code in a function definition in the external
+       language, and evaluating that function. Therefore, code should be
+       written as if it were the body of such a function. In particular,
+       note that python does not automatically return a value from a
+       function unless a =return= statement is present, and so a
+       'return' statement will usually be required in python :results
+       value (non-session).
 
-      This is the only one of the four evaluation contexts in which the
-      code is automatically wrapped in a function definition.
+       This is the only one of the four evaluation contexts in which the
+       code is automatically wrapped in a function definition.
 
-***** =:results output= (non-session)
-      The code is passed to the interpreter as an external process, and
-      the contents of the standard output stream is returned as
-      text. (In certain languages this also contains the error output
-      stream; this is an area for future work.)
+****** =:results output=
+       The code is passed to the interpreter as an external process, and
+       the contents of the standard output stream is returned as
+       text. (In certain languages this also contains the error output
+       stream; this is an area for future work.)
 
-***** =:results value= (session)
-      The code is passed to the interpreter running as an interactive
-      Emacs inferior process. The result returned is the result of the
-      last evaluation performed by the interpreter. (This is obtained in
-      a language-specific manner: the value of the variable =_= in
-      python and ruby, and the value of =.Last.value= in R).
+***** =:session=
+****** =:results value=
+       The code is passed to the interpreter running as an interactive
+       Emacs inferior process. The result returned is the result of the
+       last evaluation performed by the interpreter. (This is obtained in
+       a language-specific manner: the value of the variable =_= in
+       python and ruby, and the value of =.Last.value= in R).
 
-***** =:results output= (session)
+****** =:results output= 
      The code is passed to the interpreter running as an interactive
      Emacs inferior process. The result returned is the concatenation
      of the sequence of (text) output from the interactive
@@ -1143,7 +1145,7 @@ In non-session mode, the '2' is not printed and does not appear.
 : 2
 : bye
 
-But in session mode, the interactive interpreter receives input '2'
+But in =:session= mode, the interactive interpreter receives input '2'
 and prints out its value, '2'. (Indeed, the other print statements are
 unnecessary here).
 
@@ -1157,12 +1159,47 @@ be referenced by using the
 : <<code-block-name>>
 syntax.  When a document is tangled, these references are replaced with
 the named code.  An example is provided in the
-[[literate-programming-example]].
+[[literate programming example]].
+*** Graphical output from R
+    If a =:file filename.ext= header arg is provided to an R block,
+    then all graphical output from the source block is captured on
+    disk, and the output of the source block is a link to the
+    resulting file (as is also the case with the graphics-only
+    languages such as gnuplot, ditaa, dot, asymptote.)
+
+    An attempt is made to find an R graphics device corresponding to
+    the file extension (currently .png, .jpg, .jpeg, .tiff, .bmp,
+    .pdf, .ps, .postscript are recognised); if that fails, png format
+    output is created.
+    
+    Additionally, values for several arguments to the R graphics
+    device can be passed using header args:
+    
+#+begin_example 
+    :width :height :bg :units :pointsize
+    :antialias :quality :compression :res :type
+    :family :title :fonts :version :paper :encoding
+    :pagecentre :colormodel :useDingbats :horizontal
+#+end_example
+    
+    Arguments to the R graphics device that are not supported as header
+    args can be passed as a string in R argument syntax, using the header
+    arg =:R-dev-args=
+    
+    An example block is (although both bg and fg can be passed directly as
+    header args)
+    
+#+begin_example 
+    #+begin_src R :file z.pdf :width 8 :height 8 :R-dev-args bg="olivedrab", fg="hotpink"
+      plot(matrix(rnorm(100), ncol=2), type="l")
+    #+end_src
+#+end_example
+
 
 *** Requirements Documentation
     The original requirements documentation is available at
-    [[file:requirements.org][requirements]].   As the project has evolved since the original
-    planning stages this is here mainly for historical reasons.
+    [[file:requirements.org][requirements]].   Because the project has evolved since this
+    documentation was written, it is here mainly for historical reasons.
 
 * Development
 ** Contributing
@@ -1172,17 +1209,17 @@ the named code.  An example is provided in the
 
 ** Development documents
    The development of Org-babel is tracked in [[file:development.org][development]], a large
-   Org-mode file.  This file contains
-   - lists of pending development tasks
-   - lists of known and resolved bugs
+   Org-mode file.  This file contains:
+   - lists of pending development tasks;
+   - lists of known and resolved bugs; and
    - the Org-babel functional test suit which is implemented as a large
-     table and is run using Org-babel's spreadsheet functionality
+     table and is run using Org-babel's spreadsheet functionality.
 
 ** In the pipeline
    Support for Clojure has recently been contributed, and support for
-   Oz is being planned.
+   [[http://www.mozart-oz.org/][Oz]] is being planned.
 
 * Footnotes
-[fn:1] Calling C-c C-o on a source-code block will open the
+[fn:1] Calling C-c C-o on a source code block will open the
 block's results in a separate buffer.
 
