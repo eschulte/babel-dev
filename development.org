@@ -3,7 +3,13 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/91]
+* Tasks [54/92]
+** TODO documentation odds and ends
+this is just a place to hold random notes for items that should make
+it into the documentation at some point.
+
+- org-src-preserve-indentation
+
 ** TODO strip ansi-color characters (sh)
 This should definitely be done in org-babel-sh, I don't think it is
 common enough to move the functionality to org-babel-comint, but I
