@@ -3,7 +3,19 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/92]
+* Tasks [54/93]
+** PROPOSED byte-compile elisp on tangle
+from mailing list
+
+#+begin_quote 
+  1) When the org configuration file aren't changed, a way to automatically load
+  their tangled version (bytecompiled ?) in order to improve the initialization
+  time of Emacs.
+#+end_quote
+
+- are there times when this wouldn't be desirable?
+- maybe this should be controlled by *another* header argument
+
 ** TODO documentation odds and ends
 this is just a place to hold random notes for items that should make
 it into the documentation at some point.
