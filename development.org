@@ -3,7 +3,23 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/91]
+* Tasks [54/92]
+** PROPOSED Remote sessions
+   I'd like to be able to have a session running on a remote machine,
+   and interact with it from org-babel running locally.
+
+   I just learned that one can do this in ESS, as follows:
+   1. M-x shell
+   2. ssh user@remote_host
+   3. R
+   4. M-x ess-remote
+
+   ess-remote "captures" the shell buffer in which the remote R
+   process is running and "turns it into" an inferior ESS process,
+   which behaves just like a local iESS process.
+
+   What would a general org-babel mechanism for remote sessions be?
+
 ** TODO strip ansi-color characters (sh)
 This should definitely be done in org-babel-sh, I don't think it is
 common enough to move the functionality to org-babel-comint, but I
