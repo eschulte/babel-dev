@@ -76,7 +76,8 @@ woefully out of date.
  - 'results' can now be used as an alias for 'resname'
  - 'source' or 'function' can now be used as aliases for 'srcname'
 
-
+** TODO Useful variables
+   - # -*- org-src-preserve-indentation: t -*-
 ** TODO Language specific header arguments
    -    org-babel: capture graphical output from R
 
