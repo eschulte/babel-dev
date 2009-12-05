@@ -22,13 +22,41 @@
   </div>
 #+end_html
 
+* Notes                                                            :noexport:
+** Template Design
+  - What the user wants to know:
+    - Required software
+    - How to install it
+    - How to configure it in Org-babel
+    - Org-babel conventions that might affect the language
+    - How it modifies Org-babel
+    - Common ways to use it
+** Queries
+   - Eric, I think you should name your starter kit Literate Emacs
+     Starter Kit (LESK).  I've taken the liberty of labeling the link
+     to it that way below.  Is that OK?
+   - I think LESK is a couple of steps away from being useful to Lisp
+     illiterates (like me).  I'm thinking of LESK for Lisp
+     IlliteraTEs, or LESK LITE.  Is that anathema?
+ 
+** Comments
+   - I'm not sure how you two use tags.  I've used :Fix on Dan's
+     Graphical output, because I think it should be parceled out to
+     various sections of the template, and not because I think it
+     needs fixing in and of itself.
 
-
-* Using ESS with Org-babel
-   [[http://ess.r-project.org/][Emacs Speaks Statistics]] should be installed when using [[http://www.r-project.org/][R]] code in
-   org-babel, and is required for session-based evaluation.
-
-* Graphical output from R
+* Requirements                                                       :Update:
+** [[http://ess.r-project.org/][Emacs Speaks Statistics]] 
+   Required for session-based evaluation.
+*** Installation using  [[http://github.com/eschulte/emacs-starter-kit/tree/master][Literate Emacs Starter Kit]]                    :Write:
+* Configuration in Org-babel                                          :Write:
+** Variables
+* Language Specific Conventions                                       :Write:
+** Missing Values
+* Additions to Org-babel                                              :Write:
+** Header Arguments
+* Common Idioms                                                       :Write:
+* Graphical output from R                                               :Fix:
     If a =:file filename.ext= header arg is provided to an R block,
     then all graphical output from the source block is captured on
     disk, and the output of the source block is a link to the
