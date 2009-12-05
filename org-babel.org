@@ -960,8 +960,8 @@ For a simple example of usage, follow these 5 steps:
 **** Language specific documentation
      Examples, special header arguments, and guides on how to use them
      are available for the following languages:
-     - [[file:org-babel-R.org][R]]
-     - [[file:org-babel-screen.org][screen]]
+     - [[file:org-babel-doc-R.org][R]]
+     - [[file:org-babel-doc-screen.org][screen]]
 
 *** Header Arguments
      :PROPERTIES:
