@@ -35,6 +35,118 @@
 ** TODO Document slice indexing of tables
 ** TODO Document synonymous alternatives
    {call,lob}, {source, function, srcname}, {results, resname}
+** TODO Describe useful functions
+   - `org-babel-execute-buffer'
+   - `org-babel-execute-subtree'
+
+** TODO Language support
+ Hopefully we will be breaking out a separate section for
+each language, and expanding the portion which documents the actual
+usage of header-arguments and noweb references as those sections are
+woefully out of date.
+
+** TODO Developments
+- org-babel can now cache the results of source block execution to avoid
+ rerunning the same calculation.  The cache uses a sha1 hash key of the
+ source code body and the header arguments to determine if
+ recalculation is required.  These hash keys are kept mostly hidden in
+ the #+resname line of the results of the block.  This behavior is
+ turned off by default.  It is controlled through the :cache
+ and :nocache header arguments.  To enable caching on a single block
+ add the :cache header argument, to enable global caching change the
+ value of your `org-babel-default-header-args' variable as follows
+
+ (setq org-babel-default-header-args
+       (cons '(:cache)
+             (assq-delete-all :nocache org-babel-default-header-args)))
+
+- It is now possible to fold results by tabbing on the beginning of the
+ #+resname line.  This can be done automatically to all results on
+ opening of a file by adding the following to your org-mode hook
+
+ (add-hook 'org-mode-hook 'org-babel-result-hide-all)
+
+- allow header argument values to be lisp forms, for example the
+ following is now valid
+
+ :file (format "%s/images/pca-scatter.png" dir)
+
+- aliases
+ - 'call' can now be used as an alias for 'lob'
+ - 'results' can now be used as an alias for 'resname'
+ - 'source' or 'function' can now be used as aliases for 'srcname'
+
+** TODO Useful variables
+   - # -*- org-src-preserve-indentation: t -*-
+** TODO Language specific header arguments
+   -    org-babel: capture graphical output from R
+
+   If a [:file filename.ext] header arg is provided, then all graphical
+   output from the source block is captured on disk, and output of the
+   source block is a link to the resulting file, as with the
+   graphics-only languages such as gnuplot, ditaa, dot, asymptote. An
+   attempt is made to find a graphics device corresponding to the file
+   extension (currently .png, .jpg, .jpeg, .tiff, .bmp, .pdf, .ps,
+   .postscript are recognised); if that fails, png format output is
+   created.
+
+   Additionally, values for several arguments to the R graphics
+   device can be passed using header args:
+
+   :width :height :bg :units :pointsize
+   :antialias :quality :compression :res :type
+   :family :title :fonts :version :paper :encoding
+   :pagecentre :colormodel :useDingbats :horizontal
+
+   Arguments to the R graphics device that are not supported as header
+   args can be passed as a string in R argument syntax, using the header
+   arg :R-dev-args
+
+   An example block is (although both bg and fg can be passed directly as
+   header args)
+
+   \#+begin_src R :file z.pdf :width 8 :height 8 :R-dev-args bg="olivedrab", fg="hotpink"
+     plot(matrix(rnorm(100), ncol=2), type="l")
+   \#+end_src
+
+   - Yes, I think we do want a version of this for python and ruby et al. In
+your example, the filename is created in python. I suggest doing it
+slightly differently, something like this.
+
+#+srcname: fileoutput
+#+begin_src python :file outfile.txt
+ def savetofile(result, filename):
+     with open(filename, 'w') as f:
+         f.write(str(result))
+ savetofile(78, 'outfile.txt')
+ 55
+#+end_src
+
+#+resname: fileoutput
+[[file:outfile.txt]]
+
+This functionality is now available for ruby & python in branch
+ded-babel of git://repo.or.cz/org-mode/babel.git.
+
+So here, if you specify :file <filepath> ruby/python blindly outputs a
+link to <filepath>, regardless of the contents of the
+code. Responsibility for creating useful contents of <filepath> lies
+with the code. Notice that with this you have to specify the output file
+twice: once as an org-babel directive, and once in the python code. This
+is in contrast to the graphics languages (dot, ditaa, asymptote), where
+the results *automatically* get sent to the file specified by :file. The
+same is also true now for graphical output from R.
+
+The difference with python, ruby et al is that they might create file
+output in a variety of ways which we can't anticipate, so we can't
+automatically send output to the file. In contrast, the graphics
+language *always* create file output and always do it in the same
+way. [And in R it is possible to divert all graphical output to file] A
+possible extension of the above might be to use a "magic variable" so
+that a python variable is created e.g. __org_babel_output_file__ that
+always holds a string corresponding to the file specified by :file. Eric
+may have further ideas / views here. 
+
 * Introduction
   :PROPERTIES:
   :CUSTOM_ID: introduction
@@ -1179,7 +1291,7 @@ the named code.  An example is provided in the
    Org-mode file.  This file contains:
    - lists of pending development tasks;
    - lists of known and resolved bugs; and
-   - the Org-babel functional test suit which is implemented as a large
+   - the Org-babel functional test suite, which is implemented as a large
      table and is run using Org-babel's spreadsheet functionality.
 
 ** In the pipeline
