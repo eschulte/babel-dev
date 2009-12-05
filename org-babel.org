@@ -962,6 +962,7 @@ For a simple example of usage, follow these 5 steps:
      are available for the following languages:
      - [[file:org-babel-doc-R.org][R]]
      - [[file:org-babel-doc-screen.org][screen]]
+     - [[file:org-babel-doc-C.org][C and Make]]
 
 *** Header Arguments
      :PROPERTIES:

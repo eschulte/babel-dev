@@ -1,0 +1,26 @@
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+TITLE:      Using C and makefile code with org-babel
+#+AUTHOR:     Dan Davison
+#+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
+#+LANGUAGE:   en
+#+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+
+
+* Introduction
+Org babel does not support compilation of C code. However the
+following configuration code allows C (and GNU Make) code to be
+tangled. It also allows upper-case "C" to be used as a synonym for "c"
+in org-src-mode, so that C-c ' on a "begin_src C" block will work.
+
+#+begin_src emacs-lisp
+  (add-to-list 'org-src-lang-modes '("C" . c))
+  
+  (org-babel-add-interpreter "C")
+  (add-to-list 'org-babel-tangle-langs '("C" "c"))
+  
+  (org-babel-add-interpreter "makefile")
+  (add-to-list 'org-babel-tangle-langs '("makefile"))
+#+end_src
