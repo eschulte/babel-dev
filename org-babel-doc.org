@@ -631,11 +631,11 @@ runif(n=5, min=0, max=1)
 #+end_src
 
 #+resname: tbl-example-data
-| 0.850250755203888 |
-| 0.745323235634714 |
-| 0.845673063071445 |
-| 0.761818468105048 |
-| 0.525476417969912 |
+| 0.836685163900256 |
+| 0.696652316721156 |
+| 0.382423302158713 |
+| 0.987541858805344 |
+| 0.994794291909784 |
 
 Now we define a source block to calculate the mean.
 #+srcname: R-mean(x)
@@ -649,8 +649,8 @@ the table formula line.
 #+tblname: summaries
 |              mean |
 |-------------------|
-| 0.533130449522286 |
-#+TBLFM: @2$1='(sbe "R-mean" (x "generate-data()"))
+| 0.779619386699051 |
+#+TBLFM: @2$1='(sbe "R-mean" (x "tbl-example-data()"))
 
 To recalculate the table formula, use C-u C-c C-c in the
 table. Notice that as things stand the calculated value doesn't
@@ -1039,34 +1039,34 @@ For a simple example of usage, follow these 5 steps:
     | GNU Screen     | org-babel-screen.el     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
     | shell          | org-babel-sh.el         | sh                   | a shell                                     |
     | SQL            | org-babel-sql.el        | sql                  | none                                        |
-  
+    
     
 
     The following Emacs Lisp code block can be added to your .emacs
     and used to activate languages by uncommenting the appropriate
     lines.
 
-     #+begin_src emacs-lisp 
-       ;; Uncomment each of the following require lines if you want Org-babel
-       ;; to support that language.  Each language has a comment explaining
-       ;; its dependencies.  See the related files in lisp/langs for more
-       ;; detailed explanations of requirements.
-       ;; (require 'org-babel-R)         ;; R and ess-mode
-       ;; (require 'org-babel-asymptote) ;; asymptote
-       ;; (require 'org-babel-css)       ;; none
-       ;; (require 'org-babel-ditaa)     ;; ditaa
-       ;; (require 'org-babel-dot)       ;; dot
-       ;; (require 'org-babel-gnuplot)   ;; gnuplot, and gnuplot-mode
-       ;; (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
-       ;; (require 'org-babel-ocaml)     ;; ocaml, and tuareg-mode
-       ;; (require 'org-babel-clojure)   ;; clojure, clojure-mode, slime, swank-clojure
-       ;; (require 'org-babel-python)    ;; python, and python-mode
-       ;; (require 'org-babel-perl)      ;; perl
-       ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
-       ;; (require 'org-babel-sass)      ;; sass, sass-mode
-       ;; (require 'org-babel-screen)    ;; screen and a terminal
-       ;; (require 'org-babel-sql)       ;; none
-     #+end_src
+    #+begin_src emacs-lisp 
+    ;; Uncomment each of the following require lines if you want Org-babel
+    ;; to support that language.  Each language has a comment explaining
+    ;; its dependencies.  See the related files in lisp/langs for more
+    ;; detailed explanations of requirements.
+    ;; (require 'org-babel-R)         ;; R and ess-mode
+    ;; (require 'org-babel-asymptote) ;; asymptote
+    ;; (require 'org-babel-css)       ;; none
+    ;; (require 'org-babel-ditaa)     ;; ditaa
+    ;; (require 'org-babel-dot)       ;; dot
+    ;; (require 'org-babel-gnuplot)   ;; gnuplot, and gnuplot-mode
+    ;; (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
+    ;; (require 'org-babel-ocaml)     ;; ocaml, and tuareg-mode
+    ;; (require 'org-babel-clojure)   ;; clojure, clojure-mode, slime, swank-clojure
+    ;; (require 'org-babel-python)    ;; python, and python-mode
+    ;; (require 'org-babel-perl)      ;; perl
+    ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
+    ;; (require 'org-babel-sass)      ;; sass, sass-mode
+    ;; (require 'org-babel-screen)    ;; screen and a terminal
+    ;; (require 'org-babel-sql)       ;; none
+    #+end_src
 
 
 **** Language specific documentation
@@ -1077,9 +1077,9 @@ For a simple example of usage, follow these 5 steps:
      - [[file:org-babel-doc-C.org][C and Make]]
 
 *** Header Arguments
-     :PROPERTIES:
-     :CUSTOM_ID: header-arguments
-     :END:
+    :PROPERTIES:
+    :CUSTOM_ID: header-arguments
+    :END:
 
 **** =:results=
      There are three types of results header argument:
@@ -1095,86 +1095,86 @@ For a simple example of usage, follow these 5 steps:
         block.
 
 ***** collection
-     The following options are mutually exclusive, and specify how the
-     results should be collected from the source-code block.
+      The following options are mutually exclusive, and specify how the
+      results should be collected from the source-code block.
 
-     - value :: The result is the value of the last statement in the
-          source code block.  This header argument places Org-babel in
-          functional mode.  Note that in some languages, e.g., python, use of this
-          result type requires that a =return= statement be
-          included in the body of the source code block. E.g.,
-          =:results value=.
+      - value :: The result is the value of the last statement in the
+                 source code block.  This header argument places Org-babel in
+                 functional mode.  Note that in some languages, e.g., python, use of this
+                 result type requires that a =return= statement be
+                 included in the body of the source code block. E.g.,
+                 =:results value=.
      - output :: The result is the collection of everything printed
-          to stdout during the execution of the source code
-          block.  This header argument places Org-babel in scripting
-          mode.  E.g., =:results output=.
+                 to stdout during the execution of the source code
+                 block.  This header argument places Org-babel in scripting
+                 mode.  E.g., =:results output=.
 
 ***** type
-     The following options are mutually exclusive and specify what
-     type of results the code block will return.
+      The following options are mutually exclusive and specify what
+      type of results the code block will return.
 
       - table, vector :: The results should be interpreted as an Org-mode table.
-           If a single value is returned, Org-babel will convert it
-           into a table with one row and one column.  E.g., =:results
-           value table=.
+                         If a single value is returned, Org-babel will convert it
+                         into a table with one row and one column.  E.g., =:results
+                         value table=.
       - scalar, verbatim :: The results should be interpreted
            literally -- meaning they will not be converted into a table.
            The results will be inserted into the Org-mode buffer as
            quoted text.  E.g., =:results value verbatim=.
       - file :: The results will be interpreted as the path to a file,
-           and will be inserted into the Org-mode buffer as a file
-           link.  E.g., =:results value file=.
+                and will be inserted into the Org-mode buffer as a file
+                link.  E.g., =:results value file=.
       - raw, org :: The results are interpreted as raw Org-mode code and
-           are inserted directly into the buffer.  If the results look
-           like a table they will be aligned as such by Org-mode.
-           E.g., =:results value raw=.
+                    are inserted directly into the buffer.  If the results look
+                    like a table they will be aligned as such by Org-mode.
+                    E.g., =:results value raw=.
       - html :: Results are assumed to be HTML and will be enclosed in
-           a =begin_html= block.  E.g., =:results value html=.
+                a =begin_html= block.  E.g., =:results value html=.
       - latex :: Results assumed to be LaTeX and are enclosed in a
-           =begin_latex= block.  E.g., =:results value latex=.
+                 =begin_latex= block.  E.g., =:results value latex=.
       - code :: Result are assumed to be parseable code and are
-           enclosed in a code block.  E.g., =:results value code=.
+                enclosed in a code block.  E.g., =:results value code=.
       - pp :: The result is converted to pretty-printed code and is
-            enclosed in a code block.  This option currently supports
-            Emacs Lisp, python, and ruby.  E.g., =:results value pp=.
+              enclosed in a code block.  This option currently supports
+              Emacs Lisp, python, and ruby.  E.g., =:results value pp=.
 
 ***** handling
       The following results options indicate what Org-babel should do
       with the results once they are collected.
 
       - silent :: The results will be echoed in the minibuffer but
-           will not be inserted into the Org-mode buffer.  E.g.,
-           =:results output silent=.
+                  will not be inserted into the Org-mode buffer.  E.g.,
+                  =:results output silent=.
       - replace :: The results will be inserted into the Org-mode
                    buffer.  E.g., =:results output replace=.
 
 **** =:exports= 
 
      Specify what should be included in HTML or LaTeX exports of the
-             Org-mode file.
+     Org-mode file.
 
-      - code :: The body of code is included into the exported file.
-                E.g., =:exports code=.
+     - code :: The body of code is included into the exported file.
+               E.g., =:exports code=.
       - results :: The result of evaluating the code is included in the
-               exported file. E.g., =:exports results=.
+                   exported file. E.g., =:exports results=.
       - both :: Both the code and results are included in the exported
-            file. E.g., =:exports both=.
+                file. E.g., =:exports both=.
       - none :: Nothing is included in the exported file.  E.g.,
                 =:exports none=.
 
 **** =:tangle= 
 
      Specify whether or not the source-code block should be included
-            in tangled extraction of source-code files.
+     in tangled extraction of source-code files.
 
-      - yes :: The source-code block is exported to a source-code file
-           named after the basename (name w/o extension) of the
-           Org-mode file.  E.g., =:tangle yes=.
+     - yes :: The source-code block is exported to a source-code file
+              named after the basename (name w/o extension) of the
+              Org-mode file.  E.g., =:tangle yes=.
       - no (default) :: The source-code block is not exported to a
-          source-code file.  E.g., =:tangle no=.
+                        source-code file.  E.g., =:tangle no=.
       - other :: Any other string passed to the =:tangle= header argument
-             is interpreted as a file basename to which the block will
-             be exported.  E.g., =:tangle basename.ext=.
+                 is interpreted as a file basename to which the block will
+                 be exported.  E.g., =:tangle basename.ext=.
 
 **** =:session=
 
@@ -1186,18 +1186,18 @@ For a simple example of usage, follow these 5 steps:
                 give the session a name.  This makes it possible to
                 have multiple sessions for each interpreted language.
 
-    Results are handled somewhat differently if a session is invoked.
+                Results are handled somewhat differently if a session is invoked.
 
 
-|          | non-session (default)    | =:session=                          |
-|----------+--------------------------+-------------------------------------|
-| =value=  | value of last expression | value of last expression            |
-| =output= | contents of stdout       | concatenation of interpreter output |
+                |          | non-session (default)    | =:session=                          |
+                |----------+--------------------------+-------------------------------------|
+                | =value=  | value of last expression | value of last expression            |
+                | =output= | contents of stdout       | concatenation of interpreter output |
 
 
-Note that in =:results value= the result in both sessions and
-non-sessions is imported into Org-mode as a table (a one- or
-two-dimensional vector of strings or numbers) when appropriate.
+                Note that in =:results value= the result in both sessions and
+                non-sessions is imported into Org-mode as a table (a one- or
+                two-dimensional vector of strings or numbers) when appropriate.
 
 ***** Non-session
 ****** =:results value=
@@ -1228,52 +1228,52 @@ two-dimensional vector of strings or numbers) when appropriate.
        python and ruby, and the value of =.Last.value= in R).
 
 ****** =:results output= 
-     The code is passed to the interpreter running as an interactive
-     Emacs inferior process. The result returned is the concatenation
-     of the sequence of (text) output from the interactive
-     interpreter. Notice that this is not necessarily the same as what
-     would be sent to stdout if the same code were passed to a
-     non-interactive interpreter running as an external process. For
-     example, compare the following two blocks:
+       The code is passed to the interpreter running as an interactive
+       Emacs inferior process. The result returned is the concatenation
+       of the sequence of (text) output from the interactive
+       interpreter. Notice that this is not necessarily the same as what
+       would be sent to stdout if the same code were passed to a
+       non-interactive interpreter running as an external process. For
+       example, compare the following two blocks:
 
 #+begin_src python :results output
-  print "hello"
-  2
-  print "bye"
+       print "hello"
+       2
+       print "bye"
 #+end_src
 
 #+resname:
-: hello
-: bye
+       : hello
+       : bye
 
-In non-session mode, the '2' is not printed and does not appear.
+       In non-session mode, the '2' is not printed and does not appear.
 
 #+begin_src python :results output :session
-  print "hello"
-  2
-  print "bye"
+       print "hello"
+       2
+       print "bye"
 #+end_src
 
 #+resname:
-: hello
-: 2
-: bye
+       : hello
+       : 2
+       : bye
 
-But in =:session= mode, the interactive interpreter receives input '2'
-and prints out its value, '2'. (Indeed, the other print statements are
-unnecessary here).
+       But in =:session= mode, the interactive interpreter receives input '2'
+       and prints out its value, '2'. (Indeed, the other print statements are
+       unnecessary here).
 
 *** Noweb reference syntax
     :PROPERTIES:
     :CUSTOM_ID: noweb-reference-syntax
     :END:
 
-The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
-be referenced by using the
-: <<code-block-name>>
-syntax.  When a document is tangled, these references are replaced with
-the named code.  An example is provided in the
-[[literate programming example]].
+    The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
+    be referenced by using the
+    : <<code-block-name>>
+    syntax.  When a document is tangled, these references are replaced with
+    the named code.  An example is provided in the
+    [[literate programming example]].
 
 *** Requirements Documentation
     The original requirements documentation is available at

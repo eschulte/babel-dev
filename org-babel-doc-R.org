@@ -49,6 +49,9 @@
 ** [[http://ess.r-project.org/][Emacs Speaks Statistics]] 
    Required for session-based evaluation.
 *** Installation using  [[http://github.com/eschulte/emacs-starter-kit/tree/master][Literate Emacs Starter Kit]]                    :Write:
+    - unpack ess-VERSION.tgz in .emacs.d/src
+    - for me, this created ess-5.6, need an alias named ess?
+    - where to put (require 'ess-site)?
 * Configuration in Org-babel                                          :Write:
 ** Variables
 * Language Specific Conventions                                       :Write:
