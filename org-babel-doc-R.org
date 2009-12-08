@@ -58,6 +58,9 @@
 ** Missing Values
 * Additions to Org-babel                                              :Write:
 ** Header Arguments
+| Header arg  | Meaning                        |
+|-------------+--------------------------------|
+| :colnames t | Include column names in output |
 * Common Idioms                                                       :Write:
 * Graphical output from R                                               :Fix:
     If a =:file filename.ext= header arg is provided to an R block,
