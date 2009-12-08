@@ -3,7 +3,9 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/94]
+* Tasks [54/95]
+** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
+   I think we may want to set this variable to 'others
 ** PROPOSED Remote sessions
    I'd like to be able to have a session running on a remote machine,
    and interact with it from org-babel running locally.
