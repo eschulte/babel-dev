@@ -97,3 +97,40 @@
       plot(matrix(rnorm(100), ncol=2), type="l")
     #+end_src
 #+end_example
+* Examples
+** Outputting latex code from R
+This example summarises a linear regression fit. Usually the org-babel
+user should not have to be involved in latex code generation, as this
+is the responsibility of org-mode's latex export engine. But in this
+example, neither the printed representation nor the value of
+summary(lm(y ~ x)) is at all tabular, and it would therefore require
+some work to get the information in to an org table. However, the
+xtable package can be used to output a latex table. Using ':results
+latex' in org-babel ensures that this is stored as a latex block in
+the org buffer and thus can be included correctly in latex-based
+export targets.
+
+#+begin_src R :results output latex
+library(xtable)
+x <- rnorm(100)
+y <- x + rnorm(100)
+xtable(summary(lm(y ~ x)))
+#+end_src
+
+#+results:
+#+BEGIN_LaTeX
+% latex table generated in R 2.9.2 by xtable 1.5-5 package
+% Wed Dec  9 17:17:53 2009
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & -0.0743 & 0.0969 & -0.77 & 0.4454 \\ 
+  x & 1.0707 & 0.0923 & 11.60 & 0.0000 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+#+END_LaTeX
