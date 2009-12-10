@@ -156,3 +156,8 @@ xtable(summary(lm(y ~ x)))
 \end{center}
 \end{table}
 #+END_LaTeX
+** ess-switch-to-end-of-ESS
+   When in an org mode R code edit buffer with an associated R
+   session, ess-switch-to-end-of-ESS will bring the R session buffer
+   into view and place point at the prompt. ESS binds this to C-c C-z
+   and C-M-r by default.
