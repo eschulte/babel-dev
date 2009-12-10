@@ -3356,7 +3356,16 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [48/62]
+* Bugs [48/63]
+** TODO Error in R if block is merely defining a function
+First idea which occurs to me is we could check whether the object
+inherits from a blacklist of classes before attempting to write.table.
+#+begin_example 
+> write.table(.Last.value, file="/tmp/org-babel-R1932_XQ", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+Error in as.data.frame.default(x[[i]], optional = TRUE) : 
+  cannot coerce class "function" into a data.frame
+#+end_example
+
 ** DONE Insert results fails if eob or ensuing lines non-empty
 This (end of buffer after block, with or without newline after
 "end_src") fails with "End of buffer"
