@@ -30,7 +30,7 @@
     </p>
   </div>
 #+end_html
-
+  
 * Improving this document					   :noexport:
 ** TODO Document slice indexing of tables
 ** TODO Document synonymous alternatives
@@ -44,7 +44,8 @@
 each language, and expanding the portion which documents the actual
 usage of header-arguments and noweb references as those sections are
 woefully out of date.
-
+** TODO Document noweb references
+*** TODO Why is :noweb needed for execution but not for tangling?
 ** TODO Developments
 - org-babel can now cache the results of source block execution to avoid
  rerunning the same calculation.  The cache uses a sha1 hash key of the
@@ -70,11 +71,6 @@ woefully out of date.
  following is now valid
 
  :file (format "%s/images/pca-scatter.png" dir)
-
-- aliases
- - 'call' can now be used as an alias for 'lob'
- - 'results' can now be used as an alias for 'resname'
- - 'source' or 'function' can now be used as aliases for 'srcname'
 
 ** TODO Useful variables
    - # -*- org-src-preserve-indentation: t -*-
