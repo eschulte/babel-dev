@@ -54,15 +54,9 @@
     - where to put (require 'ess-site)?
 * Configuration in Org-babel                                          :Write:
 ** Variables
-* Language Specific Conventions                                       :Write:
+* Language-specific Features 					      :Write:
 ** Missing Values
-* Additions to Org-babel                                              :Write:
-** Header Arguments
-| Header arg  | Meaning                        |
-|-------------+--------------------------------|
-| :colnames t | Include column names in output |
-* Common Idioms                                                       :Write:
-* Graphical output from R                                               :Fix:
+** Graphical output 							:Fix:
     If a =:file filename.ext= header arg is provided to an R block,
     then all graphical output from the source block is captured on
     disk, and the output of the source block is a link to the
@@ -97,7 +91,35 @@
       plot(matrix(rnorm(100), ncol=2), type="l")
     #+end_src
 #+end_example
-* Examples
+* Additions to Org-babel                                              :Write:
+** Header Arguments
+| Header arg  | Meaning                        |
+|-------------+--------------------------------|
+| :colnames t | Include column names in output |
+* Common Idioms 						      :Write:
+* Tips for usage
+** Debugging
+   This section contains some tips on how to proceed if your R code is
+   not doing what you had hoped.
+*** Use =:session=
+    Evaluate your code using the =:session= header argument, then
+    visit the R buffer (i.e. the buffer containing the "inferior ESS"
+    process). Then you can inspect the objects that have been created,
+    and try out some lines of code. Useful R functions for inspecting
+    objects include (as always in R, type a "?" followed by the name
+    of the function to get help with the function)
+    - str
+    - dim
+    - summary
+*** Use ESS to step through evaluation line-by-line
+    1. Use C-c ' to visit the edit buffer for your code block
+    2. Use ess-eval-line-and-step to evaluate each line in turn
+
+In addition to ess-eval-line-and-step, there are several other ESS
+functions with names beginning ess-eval-*. They evaluate lines and
+regions in different ways; it's worth looking at their descriptions
+(C-h f).
+    
 ** Outputting latex code from R
 This example summarises a linear regression fit. Usually the org-babel
 user should not have to be involved in latex code generation, as this
