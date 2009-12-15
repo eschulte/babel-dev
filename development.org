@@ -3,7 +3,41 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/95]
+* Tasks [54/97]
+** PROPOSED :width and :height set dimensions in latex output?
+   See email thread started by Graham Smith 12 Dec.
+
+   Should we be setting ATTR_LaTeX in this situation?
+
+#+begin_src org
+  ,#+options toc:nil
+  ,#+title: R latex graphics
+  ,  
+  ,Text before figure.
+  ,#+CAPTION:    Trial boxplots with babel
+  ,#+LABEL:      fig:trial boxplots
+  ,#+ATTR_LaTeX: width=5cm
+  ,#+srcname:Boxplots Summary
+  ,#+begin_src R :session BirdData :file BoxplotSummary.pdf :exports both
+  ,  Wingcrd <- rnorm(100, 20) ; Tarsus <- rnorm(100, 5) ;
+  ,  Head <- rnorm(100, 3) ; Wt <- rnorm(100, 40)
+  ,  boxplot(Wingcrd,Tarsus,Head,Wt,names=c("Wingcrd","Tarsus","Head","Wt"))
+  ,#+end_src
+  
+  ,#+results: Boxplots
+  ,[[file:BoxplotSummary.pdf]]
+  
+  ,Text after figure.
+#+end_src
+
+
+** PROPOSED Make some org-babel commands available from edit buffer?
+   I'm not sure about this, but it's often occurred to me that it
+   would be nice to be able issue org-babel-tangle without switching
+   back to the org buffer. IIrc Org-src-mode already saves the
+   necessary information (e.g. parent buffer, start of block). Maybe
+   even C-c C-c could be allowed in the edit buffer? This would be via
+   a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
 ** PROPOSED Remote sessions
