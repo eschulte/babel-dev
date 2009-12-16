@@ -3,7 +3,11 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [54/93]
+* Tasks [54/94]
+** TODO indent noweb references to the level of the initial ref
+augment `org-babel-expand-noweb-references' so that it rigidly indents
+the body of the block to the depth of the original noweb reference.
+
 ** PROPOSED byte-compile elisp on tangle
 from mailing list
 
