@@ -7,6 +7,33 @@
 ** TODO indent noweb references to the level of the initial ref
 augment `org-babel-expand-noweb-references' so that it rigidly indents
 the body of the block to the depth of the original noweb reference.
+
+#+begin_quote Sébastien
+In fact, a better specification is: copy whatever (any character) is in front
+of `<<<code here>>>' in front of every line of the referenced block (same
+amount of characters, be it spaces or something else).
+
+That way, a commented SQL source block like the following would be correctly
+outputted:
+
+    -- -- set flag
+    -- UPDATE dossier
+    -- SET DossierSentToSector = @now
+    -- WHERE ID
+    --     IN (SELECT actID_fk
+    --         FROM actions
+    --         WHERE (actID = 338 AND actEtat = 3))
+    --     AND F1SignDate < @firstDayOfThisMonth
+    --     AND DossierSentToSector IS NULL
+    --     AND
+    --     <<ConditionForSector>>
+
+Currently, the first line of the "condition" block is commented, the others
+not, resulting in incorrect code being tangled.
+
+With the above "spec", I guess all cases are covered. What do you think?
+#+end_quote
+
 ** PROPOSED :width and :height set dimensions in latex output?
    See email thread started by Graham Smith 12 Dec.
 
@@ -32,7 +59,6 @@ the body of the block to the depth of the original noweb reference.
   
   ,Text after figure.
 #+end_src
-
 
 ** PROPOSED Make some org-babel commands available from edit buffer?
    I'm not sure about this, but it's often occurred to me that it
