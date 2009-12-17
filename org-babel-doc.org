@@ -3,7 +3,7 @@
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+TITLE:      Org-babel
-#+AUTHOR:     Eric Schulte, Dan Davison
+#+AUTHOR:     Eric Schulte, Dan Davison, Tom Dye
 #+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
 #+LANGUAGE:   en
 #+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
@@ -30,11 +30,119 @@
     </p>
   </div>
 #+end_html
-
+  
 * Improving this document					   :noexport:
 ** TODO Document slice indexing of tables
 ** TODO Document synonymous alternatives
    {call,lob}, {source, function, srcname}, {results, resname}
+** TODO Describe useful functions
+   - `org-babel-execute-buffer'
+   - `org-babel-execute-subtree'
+
+** TODO Language support
+ Hopefully we will be breaking out a separate section for
+each language, and expanding the portion which documents the actual
+usage of header-arguments and noweb references as those sections are
+woefully out of date.
+** TODO Document noweb references
+*** TODO Why is :noweb needed for execution but not for tangling?
+** TODO Developments
+- org-babel can now cache the results of source block execution to avoid
+ rerunning the same calculation.  The cache uses a sha1 hash key of the
+ source code body and the header arguments to determine if
+ recalculation is required.  These hash keys are kept mostly hidden in
+ the #+resname line of the results of the block.  This behavior is
+ turned off by default.  It is controlled through the :cache
+ and :nocache header arguments.  To enable caching on a single block
+ add the :cache header argument, to enable global caching change the
+ value of your `org-babel-default-header-args' variable as follows
+
+ (setq org-babel-default-header-args
+       (cons '(:cache)
+             (assq-delete-all :nocache org-babel-default-header-args)))
+
+- It is now possible to fold results by tabbing on the beginning of the
+ #+resname line.  This can be done automatically to all results on
+ opening of a file by adding the following to your org-mode hook
+
+ (add-hook 'org-mode-hook 'org-babel-result-hide-all)
+
+- allow header argument values to be lisp forms, for example the
+ following is now valid
+
+ :file (format "%s/images/pca-scatter.png" dir)
+
+** TODO Useful variables
+   - # -*- org-src-preserve-indentation: t -*-
+** TODO Language specific header arguments
+   -    org-babel: capture graphical output from R
+
+   If a [:file filename.ext] header arg is provided, then all graphical
+   output from the source block is captured on disk, and output of the
+   source block is a link to the resulting file, as with the
+   graphics-only languages such as gnuplot, ditaa, dot, asymptote. An
+   attempt is made to find a graphics device corresponding to the file
+   extension (currently .png, .jpg, .jpeg, .tiff, .bmp, .pdf, .ps,
+   .postscript are recognised); if that fails, png format output is
+   created.
+
+   Additionally, values for several arguments to the R graphics
+   device can be passed using header args:
+
+   :width :height :bg :units :pointsize
+   :antialias :quality :compression :res :type
+   :family :title :fonts :version :paper :encoding
+   :pagecentre :colormodel :useDingbats :horizontal
+
+   Arguments to the R graphics device that are not supported as header
+   args can be passed as a string in R argument syntax, using the header
+   arg :R-dev-args
+
+   An example block is (although both bg and fg can be passed directly as
+   header args)
+
+   \#+begin_src R :file z.pdf :width 8 :height 8 :R-dev-args bg="olivedrab", fg="hotpink"
+     plot(matrix(rnorm(100), ncol=2), type="l")
+   \#+end_src
+
+   - Yes, I think we do want a version of this for python and ruby et al. In
+your example, the filename is created in python. I suggest doing it
+slightly differently, something like this.
+
+#+srcname: fileoutput
+#+begin_src python :file outfile.txt
+ def savetofile(result, filename):
+     with open(filename, 'w') as f:
+         f.write(str(result))
+ savetofile(78, 'outfile.txt')
+ 55
+#+end_src
+
+#+resname: fileoutput
+[[file:outfile.txt]]
+
+This functionality is now available for ruby & python in branch
+ded-babel of git://repo.or.cz/org-mode/babel.git.
+
+So here, if you specify :file <filepath> ruby/python blindly outputs a
+link to <filepath>, regardless of the contents of the
+code. Responsibility for creating useful contents of <filepath> lies
+with the code. Notice that with this you have to specify the output file
+twice: once as an org-babel directive, and once in the python code. This
+is in contrast to the graphics languages (dot, ditaa, asymptote), where
+the results *automatically* get sent to the file specified by :file. The
+same is also true now for graphical output from R.
+
+The difference with python, ruby et al is that they might create file
+output in a variety of ways which we can't anticipate, so we can't
+automatically send output to the file. In contrast, the graphics
+language *always* create file output and always do it in the same
+way. [And in R it is possible to divert all graphical output to file] A
+possible extension of the above might be to use a "magic variable" so
+that a python variable is created e.g. __org_babel_output_file__ that
+always holds a string corresponding to the file specified by :file. Eric
+may have further ideas / views here. 
+
 * Introduction
   :PROPERTIES:
   :CUSTOM_ID: introduction
@@ -519,11 +627,11 @@ runif(n=5, min=0, max=1)
 #+end_src
 
 #+resname: tbl-example-data
-| 0.850250755203888 |
-| 0.745323235634714 |
-| 0.845673063071445 |
-| 0.761818468105048 |
-| 0.525476417969912 |
+| 0.836685163900256 |
+| 0.696652316721156 |
+| 0.382423302158713 |
+| 0.987541858805344 |
+| 0.994794291909784 |
 
 Now we define a source block to calculate the mean.
 #+srcname: R-mean(x)
@@ -537,8 +645,8 @@ the table formula line.
 #+tblname: summaries
 |              mean |
 |-------------------|
-| 0.533130449522286 |
-#+TBLFM: @2$1='(sbe "R-mean" (x "generate-data()"))
+| 0.779619386699051 |
+#+TBLFM: @2$1='(sbe "R-mean" (x "tbl-example-data()"))
 
 To recalculate the table formula, use C-u C-c C-c in the
 table. Notice that as things stand the calculated value doesn't
@@ -927,34 +1035,34 @@ For a simple example of usage, follow these 5 steps:
     | GNU Screen     | org-babel-screen.el     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
     | shell          | org-babel-sh.el         | sh                   | a shell                                     |
     | SQL            | org-babel-sql.el        | sql                  | none                                        |
-  
+    
     
 
     The following Emacs Lisp code block can be added to your .emacs
     and used to activate languages by uncommenting the appropriate
     lines.
 
-     #+begin_src emacs-lisp 
-       ;; Uncomment each of the following require lines if you want Org-babel
-       ;; to support that language.  Each language has a comment explaining
-       ;; its dependencies.  See the related files in lisp/langs for more
-       ;; detailed explanations of requirements.
-       ;; (require 'org-babel-R)         ;; R and ess-mode
-       ;; (require 'org-babel-asymptote) ;; asymptote
-       ;; (require 'org-babel-css)       ;; none
-       ;; (require 'org-babel-ditaa)     ;; ditaa
-       ;; (require 'org-babel-dot)       ;; dot
-       ;; (require 'org-babel-gnuplot)   ;; gnuplot, and gnuplot-mode
-       ;; (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
-       ;; (require 'org-babel-ocaml)     ;; ocaml, and tuareg-mode
-       ;; (require 'org-babel-clojure)   ;; clojure, clojure-mode, slime, swank-clojure
-       ;; (require 'org-babel-python)    ;; python, and python-mode
-       ;; (require 'org-babel-perl)      ;; perl
-       ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
-       ;; (require 'org-babel-sass)      ;; sass, sass-mode
-       ;; (require 'org-babel-screen)    ;; screen and a terminal
-       ;; (require 'org-babel-sql)       ;; none
-     #+end_src
+    #+begin_src emacs-lisp 
+    ;; Uncomment each of the following require lines if you want Org-babel
+    ;; to support that language.  Each language has a comment explaining
+    ;; its dependencies.  See the related files in lisp/langs for more
+    ;; detailed explanations of requirements.
+    ;; (require 'org-babel-R)         ;; R and ess-mode
+    ;; (require 'org-babel-asymptote) ;; asymptote
+    ;; (require 'org-babel-css)       ;; none
+    ;; (require 'org-babel-ditaa)     ;; ditaa
+    ;; (require 'org-babel-dot)       ;; dot
+    ;; (require 'org-babel-gnuplot)   ;; gnuplot, and gnuplot-mode
+    ;; (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
+    ;; (require 'org-babel-ocaml)     ;; ocaml, and tuareg-mode
+    ;; (require 'org-babel-clojure)   ;; clojure, clojure-mode, slime, swank-clojure
+    ;; (require 'org-babel-python)    ;; python, and python-mode
+    ;; (require 'org-babel-perl)      ;; perl
+    ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
+    ;; (require 'org-babel-sass)      ;; sass, sass-mode
+    ;; (require 'org-babel-screen)    ;; screen and a terminal
+    ;; (require 'org-babel-sql)       ;; none
+    #+end_src
 
 
 **** Language specific documentation
@@ -965,9 +1073,9 @@ For a simple example of usage, follow these 5 steps:
      - [[file:org-babel-doc-C.org][C and Make]]
 
 *** Header Arguments
-     :PROPERTIES:
-     :CUSTOM_ID: header-arguments
-     :END:
+    :PROPERTIES:
+    :CUSTOM_ID: header-arguments
+    :END:
 
 **** =:results=
      There are three types of results header argument:
@@ -983,86 +1091,86 @@ For a simple example of usage, follow these 5 steps:
         block.
 
 ***** collection
-     The following options are mutually exclusive, and specify how the
-     results should be collected from the source-code block.
+      The following options are mutually exclusive, and specify how the
+      results should be collected from the source-code block.
 
-     - value :: The result is the value of the last statement in the
-          source code block.  This header argument places Org-babel in
-          functional mode.  Note that in some languages, e.g., python, use of this
-          result type requires that a =return= statement be
-          included in the body of the source code block. E.g.,
-          =:results value=.
+      - value :: The result is the value of the last statement in the
+                 source code block.  This header argument places Org-babel in
+                 functional mode.  Note that in some languages, e.g., python, use of this
+                 result type requires that a =return= statement be
+                 included in the body of the source code block. E.g.,
+                 =:results value=.
      - output :: The result is the collection of everything printed
-          to stdout during the execution of the source code
-          block.  This header argument places Org-babel in scripting
-          mode.  E.g., =:results output=.
+                 to stdout during the execution of the source code
+                 block.  This header argument places Org-babel in scripting
+                 mode.  E.g., =:results output=.
 
 ***** type
-     The following options are mutually exclusive and specify what
-     type of results the code block will return.
+      The following options are mutually exclusive and specify what
+      type of results the code block will return.
 
       - table, vector :: The results should be interpreted as an Org-mode table.
-           If a single value is returned, Org-babel will convert it
-           into a table with one row and one column.  E.g., =:results
-           value table=.
+                         If a single value is returned, Org-babel will convert it
+                         into a table with one row and one column.  E.g., =:results
+                         value table=.
       - scalar, verbatim :: The results should be interpreted
            literally -- meaning they will not be converted into a table.
            The results will be inserted into the Org-mode buffer as
            quoted text.  E.g., =:results value verbatim=.
       - file :: The results will be interpreted as the path to a file,
-           and will be inserted into the Org-mode buffer as a file
-           link.  E.g., =:results value file=.
+                and will be inserted into the Org-mode buffer as a file
+                link.  E.g., =:results value file=.
       - raw, org :: The results are interpreted as raw Org-mode code and
-           are inserted directly into the buffer.  If the results look
-           like a table they will be aligned as such by Org-mode.
-           E.g., =:results value raw=.
+                    are inserted directly into the buffer.  If the results look
+                    like a table they will be aligned as such by Org-mode.
+                    E.g., =:results value raw=.
       - html :: Results are assumed to be HTML and will be enclosed in
-           a =begin_html= block.  E.g., =:results value html=.
+                a =begin_html= block.  E.g., =:results value html=.
       - latex :: Results assumed to be LaTeX and are enclosed in a
-           =begin_latex= block.  E.g., =:results value latex=.
+                 =begin_latex= block.  E.g., =:results value latex=.
       - code :: Result are assumed to be parseable code and are
-           enclosed in a code block.  E.g., =:results value code=.
+                enclosed in a code block.  E.g., =:results value code=.
       - pp :: The result is converted to pretty-printed code and is
-            enclosed in a code block.  This option currently supports
-            Emacs Lisp, python, and ruby.  E.g., =:results value pp=.
+              enclosed in a code block.  This option currently supports
+              Emacs Lisp, python, and ruby.  E.g., =:results value pp=.
 
 ***** handling
       The following results options indicate what Org-babel should do
       with the results once they are collected.
 
       - silent :: The results will be echoed in the minibuffer but
-           will not be inserted into the Org-mode buffer.  E.g.,
-           =:results output silent=.
+                  will not be inserted into the Org-mode buffer.  E.g.,
+                  =:results output silent=.
       - replace :: The results will be inserted into the Org-mode
                    buffer.  E.g., =:results output replace=.
 
 **** =:exports= 
 
      Specify what should be included in HTML or LaTeX exports of the
-             Org-mode file.
+     Org-mode file.
 
-      - code :: The body of code is included into the exported file.
-                E.g., =:exports code=.
+     - code :: The body of code is included into the exported file.
+               E.g., =:exports code=.
       - results :: The result of evaluating the code is included in the
-               exported file. E.g., =:exports results=.
+                   exported file. E.g., =:exports results=.
       - both :: Both the code and results are included in the exported
-            file. E.g., =:exports both=.
+                file. E.g., =:exports both=.
       - none :: Nothing is included in the exported file.  E.g.,
                 =:exports none=.
 
 **** =:tangle= 
 
      Specify whether or not the source-code block should be included
-            in tangled extraction of source-code files.
+     in tangled extraction of source-code files.
 
-      - yes :: The source-code block is exported to a source-code file
-           named after the basename (name w/o extension) of the
-           Org-mode file.  E.g., =:tangle yes=.
+     - yes :: The source-code block is exported to a source-code file
+              named after the basename (name w/o extension) of the
+              Org-mode file.  E.g., =:tangle yes=.
       - no (default) :: The source-code block is not exported to a
-          source-code file.  E.g., =:tangle no=.
+                        source-code file.  E.g., =:tangle no=.
       - other :: Any other string passed to the =:tangle= header argument
-             is interpreted as a file basename to which the block will
-             be exported.  E.g., =:tangle basename.ext=.
+                 is interpreted as a file basename to which the block will
+                 be exported.  E.g., =:tangle basename.ext=.
 
 **** =:session=
 
@@ -1074,18 +1182,18 @@ For a simple example of usage, follow these 5 steps:
                 give the session a name.  This makes it possible to
                 have multiple sessions for each interpreted language.
 
-    Results are handled somewhat differently if a session is invoked.
+                Results are handled somewhat differently if a session is invoked.
 
 
-|          | non-session (default)    | =:session=                          |
-|----------+--------------------------+-------------------------------------|
-| =value=  | value of last expression | value of last expression            |
-| =output= | contents of stdout       | concatenation of interpreter output |
+                |          | non-session (default)    | =:session=                          |
+                |----------+--------------------------+-------------------------------------|
+                | =value=  | value of last expression | value of last expression            |
+                | =output= | contents of stdout       | concatenation of interpreter output |
 
 
-Note that in =:results value= the result in both sessions and
-non-sessions is imported into Org-mode as a table (a one- or
-two-dimensional vector of strings or numbers) when appropriate.
+                Note that in =:results value= the result in both sessions and
+                non-sessions is imported into Org-mode as a table (a one- or
+                two-dimensional vector of strings or numbers) when appropriate.
 
 ***** Non-session
 ****** =:results value=
@@ -1116,52 +1224,52 @@ two-dimensional vector of strings or numbers) when appropriate.
        python and ruby, and the value of =.Last.value= in R).
 
 ****** =:results output= 
-     The code is passed to the interpreter running as an interactive
-     Emacs inferior process. The result returned is the concatenation
-     of the sequence of (text) output from the interactive
-     interpreter. Notice that this is not necessarily the same as what
-     would be sent to stdout if the same code were passed to a
-     non-interactive interpreter running as an external process. For
-     example, compare the following two blocks:
+       The code is passed to the interpreter running as an interactive
+       Emacs inferior process. The result returned is the concatenation
+       of the sequence of (text) output from the interactive
+       interpreter. Notice that this is not necessarily the same as what
+       would be sent to stdout if the same code were passed to a
+       non-interactive interpreter running as an external process. For
+       example, compare the following two blocks:
 
 #+begin_src python :results output
-  print "hello"
-  2
-  print "bye"
+       print "hello"
+       2
+       print "bye"
 #+end_src
 
 #+resname:
-: hello
-: bye
+       : hello
+       : bye
 
-In non-session mode, the '2' is not printed and does not appear.
+       In non-session mode, the '2' is not printed and does not appear.
 
 #+begin_src python :results output :session
-  print "hello"
-  2
-  print "bye"
+       print "hello"
+       2
+       print "bye"
 #+end_src
 
 #+resname:
-: hello
-: 2
-: bye
+       : hello
+       : 2
+       : bye
 
-But in =:session= mode, the interactive interpreter receives input '2'
-and prints out its value, '2'. (Indeed, the other print statements are
-unnecessary here).
+       But in =:session= mode, the interactive interpreter receives input '2'
+       and prints out its value, '2'. (Indeed, the other print statements are
+       unnecessary here).
 
 *** Noweb reference syntax
     :PROPERTIES:
     :CUSTOM_ID: noweb-reference-syntax
     :END:
 
-The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
-be referenced by using the
-: <<code-block-name>>
-syntax.  When a document is tangled, these references are replaced with
-the named code.  An example is provided in the
-[[literate programming example]].
+    The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
+    be referenced by using the
+    : <<code-block-name>>
+    syntax.  When a document is tangled, these references are replaced with
+    the named code.  An example is provided in the
+    [[literate programming example]].
 
 *** Requirements Documentation
     The original requirements documentation is available at
@@ -1179,7 +1287,7 @@ the named code.  An example is provided in the
    Org-mode file.  This file contains:
    - lists of pending development tasks;
    - lists of known and resolved bugs; and
-   - the Org-babel functional test suit which is implemented as a large
+   - the Org-babel functional test suite, which is implemented as a large
      table and is run using Org-babel's spreadsheet functionality.
 
 ** In the pipeline

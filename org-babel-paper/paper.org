@@ -19,7 +19,8 @@
       generated. The files are available for download from the above
       link.
 
-
+***** Tom Short
+      https://stat.ethz.ch/pipermail/ess-help/2009-August/005474.html
 * Abstract
   We present a new computing environment for reproducible research and
   literate programming. In this environment a single

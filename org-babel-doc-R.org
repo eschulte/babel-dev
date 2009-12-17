@@ -3,7 +3,7 @@
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+TITLE:      Org-babel-R
-#+AUTHOR:     Eric Schulte, Dan Davison
+#+AUTHOR:     Eric Schulte, Dan Davison, Tom Dye
 #+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
 #+LANGUAGE:   en
 #+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
@@ -22,13 +22,41 @@
   </div>
 #+end_html
 
+* Notes                                                            :noexport:
+** Template Design
+  - What the user wants to know:
+    - Required software
+    - How to install it
+    - How to configure it in Org-babel
+    - Org-babel conventions that might affect the language
+    - How it modifies Org-babel
+    - Common ways to use it
+** Queries
+   - Eric, I think you should name your starter kit Literate Emacs
+     Starter Kit (LESK).  I've taken the liberty of labeling the link
+     to it that way below.  Is that OK?
+   - I think LESK is a couple of steps away from being useful to Lisp
+     illiterates (like me).  I'm thinking of LESK for Lisp
+     IlliteraTEs, or LESK LITE.  Is that anathema?
+ 
+** Comments
+   - I'm not sure how you two use tags.  I've used :Fix on Dan's
+     Graphical output, because I think it should be parceled out to
+     various sections of the template, and not because I think it
+     needs fixing in and of itself.
 
-
-* Using ESS with Org-babel
-   [[http://ess.r-project.org/][Emacs Speaks Statistics]] should be installed when using [[http://www.r-project.org/][R]] code in
-   org-babel, and is required for session-based evaluation.
-
-* Graphical output from R
+* Requirements                                                       :Update:
+** [[http://ess.r-project.org/][Emacs Speaks Statistics]] 
+   Required for session-based evaluation.
+*** Installation using  [[http://github.com/eschulte/emacs-starter-kit/tree/master][Literate Emacs Starter Kit]]                    :Write:
+    - unpack ess-VERSION.tgz in .emacs.d/src
+    - for me, this created ess-5.6, need an alias named ess?
+    - where to put (require 'ess-site)?
+* Configuration in Org-babel                                          :Write:
+** Variables
+* Language-specific Features 					      :Write:
+** Missing Values
+** Graphical output 							:Fix:
     If a =:file filename.ext= header arg is provided to an R block,
     then all graphical output from the source block is captured on
     disk, and the output of the source block is a link to the
@@ -63,3 +91,73 @@
       plot(matrix(rnorm(100), ncol=2), type="l")
     #+end_src
 #+end_example
+* Additions to Org-babel                                              :Write:
+** Header Arguments
+| Header arg  | Meaning                        |
+|-------------+--------------------------------|
+| :colnames t | Include column names in output |
+* Common Idioms 						      :Write:
+* Tips for usage
+** Debugging
+   This section contains some tips on how to proceed if your R code is
+   not doing what you had hoped.
+*** Use =:session=
+    Evaluate your code using the =:session= header argument, then
+    visit the R buffer (i.e. the buffer containing the "inferior ESS"
+    process). Then you can inspect the objects that have been created,
+    and try out some lines of code. Useful R functions for inspecting
+    objects include (as always in R, type a "?" followed by the name
+    of the function to get help with the function)
+    - str
+    - dim
+    - summary
+*** Use ESS to step through evaluation line-by-line
+    1. Use C-c ' to visit the edit buffer for your code block
+    2. Use ess-eval-line-and-step to evaluate each line in turn
+
+In addition to ess-eval-line-and-step, there are several other ESS
+functions with names beginning ess-eval-*. They evaluate lines and
+regions in different ways; it's worth looking at their descriptions
+(C-h f).
+    
+** Outputting latex code from R
+This example summarises a linear regression fit. Usually the org-babel
+user should not have to be involved in latex code generation, as this
+is the responsibility of org-mode's latex export engine. But in this
+example, neither the printed representation nor the value of
+summary(lm(y ~ x)) is at all tabular, and it would therefore require
+some work to get the information in to an org table. However, the
+xtable package can be used to output a latex table. Using ':results
+latex' in org-babel ensures that this is stored as a latex block in
+the org buffer and thus can be included correctly in latex-based
+export targets.
+
+#+begin_src R :results output latex
+library(xtable)
+x <- rnorm(100)
+y <- x + rnorm(100)
+xtable(summary(lm(y ~ x)))
+#+end_src
+
+#+results:
+#+BEGIN_LaTeX
+% latex table generated in R 2.9.2 by xtable 1.5-5 package
+% Wed Dec  9 17:17:53 2009
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & -0.0743 & 0.0969 & -0.77 & 0.4454 \\ 
+  x & 1.0707 & 0.0923 & 11.60 & 0.0000 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+#+END_LaTeX
+** ess-switch-to-end-of-ESS
+   When in an org mode R code edit buffer with an associated R
+   session, ess-switch-to-end-of-ESS will bring the R session buffer
+   into view and place point at the prompt. ESS binds this to C-c C-z
+   and C-M-r by default.

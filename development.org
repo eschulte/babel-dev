@@ -7,6 +7,57 @@
 ** TODO indent noweb references to the level of the initial ref
 augment `org-babel-expand-noweb-references' so that it rigidly indents
 the body of the block to the depth of the original noweb reference.
+** PROPOSED :width and :height set dimensions in latex output?
+   See email thread started by Graham Smith 12 Dec.
+
+   Should we be setting ATTR_LaTeX in this situation?
+
+#+begin_src org
+  ,#+options toc:nil
+  ,#+title: R latex graphics
+  ,  
+  ,Text before figure.
+  ,#+CAPTION:    Trial boxplots with babel
+  ,#+LABEL:      fig:trial boxplots
+  ,#+ATTR_LaTeX: width=5cm
+  ,#+srcname:Boxplots Summary
+  ,#+begin_src R :session BirdData :file BoxplotSummary.pdf :exports both
+  ,  Wingcrd <- rnorm(100, 20) ; Tarsus <- rnorm(100, 5) ;
+  ,  Head <- rnorm(100, 3) ; Wt <- rnorm(100, 40)
+  ,  boxplot(Wingcrd,Tarsus,Head,Wt,names=c("Wingcrd","Tarsus","Head","Wt"))
+  ,#+end_src
+  
+  ,#+results: Boxplots
+  ,[[file:BoxplotSummary.pdf]]
+  
+  ,Text after figure.
+#+end_src
+
+
+** PROPOSED Make some org-babel commands available from edit buffer?
+   I'm not sure about this, but it's often occurred to me that it
+   would be nice to be able issue org-babel-tangle without switching
+   back to the org buffer. IIrc Org-src-mode already saves the
+   necessary information (e.g. parent buffer, start of block). Maybe
+   even C-c C-c could be allowed in the edit buffer? This would be via
+   a new minor mode I guess.
+** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
+   I think we may want to set this variable to 'others
+** PROPOSED Remote sessions
+   I'd like to be able to have a session running on a remote machine,
+   and interact with it from org-babel running locally.
+
+   I just learned that one can do this in ESS, as follows:
+   1. M-x shell
+   2. ssh user@remote_host
+   3. R
+   4. M-x ess-remote
+
+   ess-remote "captures" the shell buffer in which the remote R
+   process is running and "turns it into" an inferior ESS process,
+   which behaves just like a local iESS process.
+
+   What would a general org-babel mechanism for remote sessions be?
 
 ** PROPOSED byte-compile elisp on tangle
 from mailing list
@@ -3342,7 +3393,16 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [48/62]
+* Bugs [48/63]
+** TODO Error in R if block is merely defining a function
+First idea which occurs to me is we could check whether the object
+inherits from a blacklist of classes before attempting to write.table.
+#+begin_example 
+> write.table(.Last.value, file="/tmp/org-babel-R1932_XQ", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+Error in as.data.frame.default(x[[i]], optional = TRUE) : 
+  cannot coerce class "function" into a data.frame
+#+end_example
+
 ** DONE Insert results fails if eob or ensuing lines non-empty
 This (end of buffer after block, with or without newline after
 "end_src") fails with "End of buffer"
@@ -5555,4 +5615,5 @@ var
 
 #+resname: hello-clojure-output
 : hello clojure
+
 
