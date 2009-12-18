@@ -1271,11 +1271,9 @@ For a simple example of usage, follow these 5 steps:
     the named code.  An example is provided in the
     [[literate programming example]].
 
-*** Requirements Documentation
-    The original requirements documentation is available at
-    [[file:requirements.org][requirements]].   Because the project has evolved since this
-    documentation was written, it is here mainly for historical reasons.
-
+*** Functions
+*** Variables
+    - org-babel-default-header-args
 * Development
 ** Contributing
    Org-babel contributions are welcome! As for Org-mode, authors will
@@ -1293,6 +1291,10 @@ For a simple example of usage, follow these 5 steps:
 ** In the pipeline
    Support for Clojure has recently been contributed, and support for
    [[http://www.mozart-oz.org/][Oz]] is being planned.
+** Requirements Documentation
+   The original requirements documentation is available at
+   [[file:requirements.org][requirements]].   Because the project has evolved since this
+   documentation was written, it is here mainly for historical reasons.
 
 * Footnotes
 [fn:1] Calling C-c C-o on a source code block will open the
