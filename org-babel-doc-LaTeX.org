@@ -101,7 +101,7 @@
   (setq org-babel-noweb-error-langs '("R" "python" "latex"))
 #+end_src
 
-* Language Specific Conventions
+* Language-specific Conventions
   - Org-babel returns raw LaTeX code on evaluation.
   - The default value for the =:exports= header argument is =results=.
 * Additions to Org-babel
