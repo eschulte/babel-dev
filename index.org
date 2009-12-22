@@ -1,0 +1,37 @@
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+TITLE:      Org-babel: Development
+#+AUTHOR:     Eric Schulte, Dan Davison, Tom Dye
+#+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
+#+LANGUAGE:   en
+#+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+
+* Comment                                                          :noexport:
+As development files will live on github I pulled this section out of
+our monolithic introduction and am placing it in a short introduction
+to the github development repo.
+
+* Development
+** Contributing
+   Org-babel contributions are welcome! As for Org-mode, authors will
+   need to sign copyright papers with the FSF; please see the
+   [[http://orgmode.org/worg/org-contribute.php][instructions]] for contributing to Org-mode.
+
+** Development documents
+   The development of Org-babel is tracked on [[http://github.com/eschulte/babel-doc][github/babel-doc]].  This
+   repository contains:
+   - lists of pending development tasks;
+   - lists of known and resolved bugs; and
+   - the Org-babel functional test suite, which is implemented as a large
+     table and is run using Org-babel's spreadsheet functionality.
+
+** In the pipeline
+   Support for Clojure has recently been contributed, and support for
+   [[http://www.mozart-oz.org/][Oz]] is being planned.
+
+** Requirements Documentation
+   The original requirements documentation is available at
+   [[file:requirements.org][requirements]].   Because the project has evolved since this
+   documentation was written, it is here mainly for historical reasons.

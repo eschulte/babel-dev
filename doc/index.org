@@ -43,5 +43,7 @@ homepage]] before continuing.
 - [[file:reference.org][Reference and Documentation]]: reference and documentation covering
   all of the features any syntactic constructs used in Org-babel.
 - [[file:uses.org][Uses]]: user-submitted descriptions of their personal Org-babel work
-  flow.  This is a great place to see how Org-babel may fit into your
+  flow -- this is a great place to see how Org-babel may fit into your
   daily life.
+- [[http://eschulte.github.com/babel-dev/][Development]]: development activity including bug reports, the TODO
+  queue, and information on how to contribute to Org-babel
