@@ -5,23 +5,25 @@
 This file contains the code to export this repo for publishing on github
 
 * Index
-Export the index in a manner amenable to jekyll processing
-#+begin_src emacs-lisp
-  (let ((index-file (expand-file-name
-                     "index.org"
-                     (file-name-directory (buffer-file-name))))
-        (yaml-front-matter '(("layout" . "default") ("title" . "Development")))
-        html)
-    ;; go to the top level tasks heading
-    (find-file index-file)
-    (setq html (org-export-as-html nil nil nil 'string t nil))
-    (with-temp-file "index.html"
-      (when yaml-front-matter
-        (insert "---\n")
-        (mapc (lambda (pair) (insert (format "%s: %s\n" (car pair) (cdr pair))))
-              yaml-front-matter)
-        (insert "---\n\n"))
-      (insert html)))
+Export the index in a manner amenable to [[http://jekyllrb.com/][jekyll]] processing
+#+begin_src emacs-lisp :results silent :exports code
+  (mapc
+   (lambda (file)
+     (let ((full-file (expand-file-name
+                        file
+                        (file-name-directory (buffer-file-name))))
+           (yaml-front-matter '(("layout" . "default")))
+           html)
+       ;; go to the top level tasks heading
+       (find-file full-file)
+       (setq html (org-export-as-html nil nil nil 'string t nil))
+       (with-temp-file "index.html"
+         (when yaml-front-matter
+           (insert "---\n")
+           (mapc (lambda (pair) (insert (format "%s: %s\n" (car pair) (cdr pair))))
+                 yaml-front-matter)
+           (insert "---\n\n"))
+         (insert html)))) '("index.org" "publish.org"))
 #+end_src
 
 * Development Updates

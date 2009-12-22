@@ -20,17 +20,18 @@ to the github development repo.
    [[http://orgmode.org/worg/org-contribute.php][instructions]] for contributing to Org-mode.
 
 ** Development documents
-   The development of Org-babel is tracked on [[http://github.com/eschulte/babel-doc][github/babel-doc]].  This
+   The development of Org-babel is tracked on [[http://github.com/eschulte/babel-dev/][github/babel-dev]].  This
    repository contains:
    - lists of pending development tasks;
    - lists of known and resolved bugs; and
-   - the Org-babel functional test suite, which is implemented as a large
-     table and is run using Org-babel's spreadsheet functionality.
+   - the Org-babel functional test suite, which is implemented as a
+     large table and is run using Org-babel's spreadsheet
+     functionality.
 
 ** Recent Activity
    #+begin_html 
      <ul>
-       {% for post in site.posts limit:5 %}
+       {% for post in site.posts limit:10 %}
        <li>
          [{{ post.date | date_to_string }}] <a href=".{{ post.url }}">{{ post.title }}</a>
        </li>
@@ -38,3 +39,5 @@ to the github development repo.
      </ul>
    #+end_html
    
+** Publication
+   This repository is published using the code at [[file:publish.org][publish.org]].
