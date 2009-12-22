@@ -519,6 +519,8 @@ org-feed.el has a (require 'sha1) and org-publish.el uses it too.
 #+end_quote
 
 ** DONE fold-able results
+   - State "DONE" from "DONE" [2009-11-19 Thu 15:47]
+
 As mentioned in the caching discussion it will often be desirable to
 hide results in org-mode buffers.  This should be fairly easily
 implemented using the same mechanisms used to fold source-code blocks
