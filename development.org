@@ -3,9 +3,9 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [55/98]
+* Tasks [57/98]
 ** DONE indent noweb references to the level of the initial ref
-   - State "DONE"       from "DONE"       [2009-12-22 Tue 12:50]
+   - State "DONE"       from "DONE"       [2009-12-17 Thu 11:22]
 augment `org-babel-expand-noweb-references' so that it rigidly indents
 the body of the block to the depth of the original noweb reference.
 
@@ -36,7 +36,6 @@ With the above "spec", I guess all cases are covered. What do you think?
 #+end_example
 
 ** PROPOSED :width and :height set dimensions in latex output?
-   - State "PROPOSED"   from ""           [2009-12-22 Tue 12:39]
    See email thread started by Graham Smith 12 Dec.
 
    Should we be setting ATTR_LaTeX in this situation?
@@ -88,7 +87,7 @@ With the above "spec", I guess all cases are covered. What do you think?
    What would a general org-babel mechanism for remote sessions be?
 
 ** TODO byte-compile elisp on tangle
-   - State "TODO"       from "PROPOSED"   [2009-12-22 Tue 12:50]
+   - State "TODO"       from "PROPOSED"   [2009-12-21 Mon 12:50]
 from mailing list
 
 #+begin_example
@@ -350,137 +349,157 @@ verbose.  If you could assume a functional style without side effects
 you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
-** PROPOSED :results org should be org block
+** REJECTED :results org should be org block
+   - State "REJECTED"   from "PROPOSED"   [2009-12-22 Tue 14:40]
+
+   The reason that =:results org= was introduced was to support
+   seamless insertion of results into an org-mode buffer.  This
+   proposal would defeat that initial purpose.  Also, the idea of org
+   source blocks in an org-mode document seems needlessly complex and
+   contorted.  Of course I could be missing something here.
+
    i.e. 
-   #+begin_src org
-     ,* whatever
-   #+end_src
-** STARTED sha1 hash based caching
+:   #+begin_src org
+:     ,* whatever
+:   #+end_src
+** DONE sha1 hash based caching
+   - State "DONE"       from "STARTED"    [2009-12-22 Tue 14:42]
    :PROPERTIES:
    :CUSTOM_ID: sha1-caching
    :END:
-   
-   So we now have two caching solutions, one which is entirely
-   in-buffer using sha1 hashes stuffed into the resname lines, and
-   another which saves the results either in RAM or optionally on
-   disk.  It is not immediately clear which combination of the two
-   approaches would be best.
 
-   - [EMS] :: I find the saving of cached results in external files to
-        be very upsetting.  It pollutes the user's disk, and it breaks
-        what is to me a very fundamental part of org-mode, namely the
-        fact that all data is saved in plain text in org-mode files.
+This has been implemented.  Results can now be cached using the
+=:cache= header argument.  See the following example.
 
-        Currently I'm leaning towards some combination of file-local
-        variable (RAM) caching and in-buffer caching.  I have more
-        comments in-line below.
+: #+begin_src emacs-lisp :cache yes
+:   (+ 1 2)
+: #+end_src
+: 
+: #+results[e1b5...]:
+: : 3
 
-    - [DED] :: I agree about caching to external files. And now that
-        the hash is hidden in the resname, I think we
-        definitely want the in-buffer mechanism. Apart from
-        anything else it improves the mechanism by which we
-        decide whether or not to over-write existing results.
+*** historical
+    So we now have two caching solutions, one which is entirely
+    in-buffer using sha1 hashes stuffed into the resname lines, and
+    another which saves the results either in RAM or optionally on
+    disk.  It is not immediately clear which combination of the two
+    approaches would be best.
 
-	The only slight drawback I can see is export: someone who
-        doesn't want the results in their org file is forced to
-        regenerate them on every export.
+    - [EMS] :: I find the saving of cached results in external files to
+         be very upsetting.  It pollutes the user's disk, and it breaks
+         what is to me a very fundamental part of org-mode, namely the
+         fact that all data is saved in plain text in org-mode files.
 
-    - [EMS] :: alright, that sounds good to me.  I can't think of a
-         good solution to the export problem right now.  The approach
-         taken in org-exp-blocks -- suggested by Carsten -- is to add
-         the hash to the file name where the results were stored, so I
-         guess that could be an option, but it would be fairly
-         intrusive, and it would share the problem of saving state
-         outside of the actual org-mode buffer.  So if you don't
-         object, I'll merge in the in-buffer caching, and we can keep
-         the export caching as an open issue, then possibly add the
-         RAM/local-variable caching on top (which seems like it only
-         require a couple of lines of code).
+         Currently I'm leaning towards some combination of file-local
+         variable (RAM) caching and in-buffer caching.  I have more
+         comments in-line below.
 
-*** TODO How well do org buffers function with large folded tables?
+     - [DED] :: I agree about caching to external files. And now that
+         the hash is hidden in the resname, I think we
+         definitely want the in-buffer mechanism. Apart from
+         anything else it improves the mechanism by which we
+         decide whether or not to over-write existing results.
 
-    I have no idea.  Emacs seems to be pretty capable of handling huge
-    files, but once we get to millions of lines there would probably
-    be some noticeable delays, and I doubt hiding the results behind
-    an overlay would help.
+	 The only slight drawback I can see is export: someone who
+         doesn't want the results in their org file is forced to
+         regenerate them on every export.
 
-    Maybe this would be a good place for some LOB functions.  One for
-    serializing data and one for reading in serialized data.  I'm
-    familiar with [[http://www.yaml.org/][YAML]] which at least has ruby, python (and I believe
-    elisp) bindings, so that's my first thought, but there are
-    probably more efficient solutions.
-    
-    Given one function for writing to a file, taking a piece of data
-    and a file-name and another function for reading from a file given
-    a file name that should be sufficient for most *large* storage
-    needs.  And there's also of course SQL support in org-babel.
+     - [EMS] :: alright, that sounds good to me.  I can't think of a
+          good solution to the export problem right now.  The approach
+          taken in org-exp-blocks -- suggested by Carsten -- is to add
+          the hash to the file name where the results were stored, so I
+          guess that could be an option, but it would be fairly
+          intrusive, and it would share the problem of saving state
+          outside of the actual org-mode buffer.  So if you don't
+          object, I'll merge in the in-buffer caching, and we can keep
+          the export caching as an open issue, then possibly add the
+          RAM/local-variable caching on top (which seems like it only
+          require a couple of lines of code).
 
-*** cache in buffer
-***** Plus
-     - Fits cleanly into existing org-babel paradigm.
-       - simple to implement -- minimal code changes
-       - doesn't rely on anything /external/ to the org-mode file
-     - Persistent across emacs sessions
-***** Minus
-     - I don't think it will work for export will it?
-       - This does work for exporting results.  If a result line is
-         already in the buffer then it will be used instead of
-         re-evaluation of the result on export.  *note* I did however
-         notice two bugs when checking this out which I just pushed up
-         a fix to in the ems-babel branch.
-       - So still a slight drawback, as the results must be in the org
-         buffer.
-     - The result is editable; no promise that repeat evaluation will
-       give the original result.  true, but that is also true of
-       results stored in local variables (RAM) or on disk -- although
-       admittedly it would be harder in those cases.  It would be cool
-       if we could automatically remove the hash when a result is
-       edited by hand...
-     - [Therefore difficult to confirm that cache is working] nope,
-       I've tested it and it works :)
-     - Not good for large tables, yes storing large tables in org-mode
-       buffers can be a pain, perhaps some sort of result folding
-       would be generally useful -- beyond cached results
-     - sha1 hashes are ugly and not-for-humans: hide them? yes, they
-       are hidden in the most recent version in branch ems-babel.  If
-       you need to know the hash value for some reason pressing =C-c
-       C-c= on the small visible portion of the hash will copy it to
-       your kill ring
-*** cache in RAM
-***** Plus
-      - Result is not editable -- without editing local variables
-      - Good for very large tables -- as long as we don't mind
-        persisting large tables in memory
-      - Fastest of the three
-***** Minus
-      - Not part of babel paradigm (but should be very unobtrusive)
-      - Not persistent across emacs sessions
-        - Not sharable (impossible to send a file to someone else and
-          include cached results)
-      - user can't read cached data
-*** cache on disk
-***** Plus
-      - Good for large tables
-      - Result is not easily editable
+**** How well do org buffers function with large folded tables?
+
+     I have no idea.  Emacs seems to be pretty capable of handling huge
+     files, but once we get to millions of lines there would probably
+     be some noticeable delays, and I doubt hiding the results behind
+     an overlay would help.
+
+     Maybe this would be a good place for some LOB functions.  One for
+     serializing data and one for reading in serialized data.  I'm
+     familiar with [[http://www.yaml.org/][YAML]] which at least has ruby, python (and I believe
+     elisp) bindings, so that's my first thought, but there are
+     probably more efficient solutions.
+     
+     Given one function for writing to a file, taking a piece of data
+     and a file-name and another function for reading from a file given
+     a file name that should be sufficient for most *large* storage
+     needs.  And there's also of course SQL support in org-babel.
+
+**** cache in buffer
+****** Plus
+      - Fits cleanly into existing org-babel paradigm.
+        - simple to implement -- minimal code changes
+        - doesn't rely on anything /external/ to the org-mode file
       - Persistent across emacs sessions
-***** Minus
-      - Not currently part of babel paradigm
-        - (but we will probably want to implement external table
-          access) meaning tables in foreign org-mode files? because I
-          think that is already implemented.  If some other sort of
-          foreign table then I'm not sure what you mean.
-        - Not sharable (impossible to send a file to someone else and
-          include cached results)
-      - pollutes user's directories with new files
-      - saves state outside of the org-mode buffer
-      - no longer "everything in plain text"
-      - currently saving data in /tmp directories where it won't
-        survive reboot
-      - using =(format "%S" object)= to serialize data will not work
-        for large lists/tables
-      - elisp may not be the ideal serialization language
-      - the cached data is not visible or readable by the user
-*** TODO How do we distinguish a nil result from a lack of a cached result?
+****** Minus
+      - I don't think it will work for export will it?
+        - This does work for exporting results.  If a result line is
+          already in the buffer then it will be used instead of
+          re-evaluation of the result on export.  *note* I did however
+          notice two bugs when checking this out which I just pushed up
+          a fix to in the ems-babel branch.
+        - So still a slight drawback, as the results must be in the org
+          buffer.
+      - The result is editable; no promise that repeat evaluation will
+        give the original result.  true, but that is also true of
+        results stored in local variables (RAM) or on disk -- although
+        admittedly it would be harder in those cases.  It would be cool
+        if we could automatically remove the hash when a result is
+        edited by hand...
+      - [Therefore difficult to confirm that cache is working] nope,
+        I've tested it and it works :)
+      - Not good for large tables, yes storing large tables in org-mode
+        buffers can be a pain, perhaps some sort of result folding
+        would be generally useful -- beyond cached results
+      - sha1 hashes are ugly and not-for-humans: hide them? yes, they
+        are hidden in the most recent version in branch ems-babel.  If
+        you need to know the hash value for some reason pressing =C-c
+        C-c= on the small visible portion of the hash will copy it to
+        your kill ring
+**** cache in RAM
+****** Plus
+       - Result is not editable -- without editing local variables
+       - Good for very large tables -- as long as we don't mind
+         persisting large tables in memory
+       - Fastest of the three
+****** Minus
+       - Not part of babel paradigm (but should be very unobtrusive)
+       - Not persistent across emacs sessions
+         - Not sharable (impossible to send a file to someone else and
+           include cached results)
+       - user can't read cached data
+**** cache on disk
+****** Plus
+       - Good for large tables
+       - Result is not easily editable
+       - Persistent across emacs sessions
+****** Minus
+       - Not currently part of babel paradigm
+         - (but we will probably want to implement external table
+           access) meaning tables in foreign org-mode files? because I
+           think that is already implemented.  If some other sort of
+           foreign table then I'm not sure what you mean.
+         - Not sharable (impossible to send a file to someone else and
+           include cached results)
+       - pollutes user's directories with new files
+       - saves state outside of the org-mode buffer
+       - no longer "everything in plain text"
+       - currently saving data in /tmp directories where it won't
+         survive reboot
+       - using =(format "%S" object)= to serialize data will not work
+         for large lists/tables
+       - elisp may not be the ideal serialization language
+       - the cached data is not visible or readable by the user
+**** How do we distinguish a nil result from a lack of a cached result?
 
 #+begin_quote 
 I wonder if we should consider some cashing of images, also for
@@ -490,7 +509,6 @@ code and the command that is used to create the image..
 
 -- Carsten
 #+end_quote
-
 
 #+begin_quote 
 (sha1 stuff) seems to work.
