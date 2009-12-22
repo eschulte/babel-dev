@@ -10,20 +10,20 @@ Export the index in a manner amenable to [[http://jekyllrb.com/][jekyll]] proces
   (mapc
    (lambda (file)
      (let ((full-file (expand-file-name
-                        file
-                        (file-name-directory (buffer-file-name))))
+                       (concat file ".org")
+                       (file-name-directory (buffer-file-name))))
            (yaml-front-matter '(("layout" . "default")))
            html)
        ;; go to the top level tasks heading
        (find-file full-file)
        (setq html (org-export-as-html nil nil nil 'string t nil))
-       (with-temp-file "index.html"
+       (with-temp-file (concat file ".html")
          (when yaml-front-matter
            (insert "---\n")
            (mapc (lambda (pair) (insert (format "%s: %s\n" (car pair) (cdr pair))))
                  yaml-front-matter)
            (insert "---\n\n"))
-         (insert html)))) '("index.org" "publish.org"))
+         (insert html)))) '("index" "publish"))
 #+end_src
 
 * Development Updates
