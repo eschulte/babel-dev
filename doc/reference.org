@@ -17,70 +17,47 @@
     :CUSTOM_ID: languages
     :END:
     
-    The following table lists the languages currently supported by
-    Org-babel.  There is a [[file:org-babel-template.org][template]] to create Emacs Lisp support files for other languages.
+    Org-babel has support for the following languages.
     
-    | Language       | Support file            | Org-babel identifier | Requirements                                |
-    |----------------+-------------------------+----------------------+---------------------------------------------|
-    | R              | org-babel-R.el          | R                    | [[http://www.r-project.org/][R]], [[http://ess.r-project.org/][ess-mode]]                                 |
-    | Asymptote      | org-babel-asymptote.el  | asymptote            | [[http://asymptote.sourceforge.net/][asymptote]], [[http://asymptote.sourceforge.net/doc/Editing-modes.html][asy-mode]]                         |
-    | Clojure        | org-babel-clojure.el    | clojure              | [[http://clojure.org/][clojure]], [[http://www.emacswiki.org/emacs/clojure-mode.el][clojure-mode]], [[http://common-lisp.net/project/slime/][slime]], [[http://clojure.codestuffs.com/][swank-clojure]] |
-    | css            | org-babel-css.el        | css                  | none                                        |
-    | ditaa          | org-babel-ditaa.el      | ditaa                | [[http://ditaa.org/ditaa/][ditaa]] (bundled with Org-mode)               |
-    | Graphviz       | org-babel-dot.el        | dot                  | [[http://www.graphviz.org/][dot]]                                         |
-    | Emacs Lisp     | org-babel-emacs-lisp.el | emacs-lisp           | none                                        |
-    | gnuplot        | org-babel-gnuplot.el    | gnuplot              | [[http://www.gnuplot.info/][gnuplot]], [[http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html][gnuplot-mode]]                       |
-    | Haskell        | org-babel-haskell.el    | haskell              | [[http://www.haskell.org/][haskell]], [[http://projects.haskell.org/haskellmode-emacs/][haskell-mode]], [[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#inf-haskell.el:_the_best_thing_since_the_breadknife][inf-haskell]], [[http://people.cs.uu.nl/andres/lhs2tex/][lhs2tex]] |
-    | LaTeX          | org-babel-latex.el      | latex                | [[http://www.latex-project.org/][latex]], [[http://www.gnu.org/software/auctex/][auctex]], [[http://www.gnu.org/software/auctex/reftex.html][reftex]]                       |
-    | Objective Caml | org-babel-ocaml.el      | ocaml                | [[http://caml.inria.fr/][ocaml]], [[http://www-rocq.inria.fr/~acohen/tuareg/][tuareg-mode]]                          |
-    | Perl           | org-babel-perl.el       | perl                 | [[http://www.perl.org/][perl]], [[http://www.emacswiki.org/emacs/CPerlMode][cperl-mode]] (optional)                 |
-    | Python         | org-babel-python.el     | python               | [[http://www.python.org/][python]], [[https://launchpad.net/python-mode][python-mode]] (optional)              |
-    | Ruby           | org-babel-ruby.el       | ruby                 | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
-    | Sass           | org-babel-sass.el       | sass                 | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
-    | GNU Screen     | org-babel-screen.el     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
-    | shell          | org-babel-sh.el         | sh                   | a shell                                     |
-    | SQL            | org-babel-sql.el        | sql                  | none                                        |
+    | Language       | Documentation            | Org-babel identifier | Requirements                                |
+    |----------------+--------------------------+----------------------+---------------------------------------------|
+    | R              | [[file:languages/org-babel-doc-R.org][org-babel-doc-R]]          | R                    | [[http://www.r-project.org/][R]], [[http://ess.r-project.org/][ess-mode]]                                 |
+    | Asymptote      | [[file:languages/org-babel-doc-asymptote.org][org-babel-doc-asymptote]]  | asymptote            | [[http://asymptote.sourceforge.net/][asymptote]], [[http://asymptote.sourceforge.net/doc/Editing-modes.html][asy-mode]]                         |
+    | Clojure        | [[file:languages/org-babel-doc-clojure.org][org-babel-doc-clojure]]    | clojure              | [[http://clojure.org/][clojure]], [[http://www.emacswiki.org/emacs/clojure-mode.el][clojure-mode]], [[http://common-lisp.net/project/slime/][slime]], [[http://clojure.codestuffs.com/][swank-clojure]] |
+    | css            | [[file:languages/org-babel-doc-css.org][org-babel-doc-css]]        | css                  | none                                        |
+    | ditaa          | [[file:languages/org-babel-doc-ditaa.org][org-babel-doc-ditaa]]      | ditaa                | [[http://ditaa.org/ditaa/][ditaa]] (bundled with Org-mode)               |
+    | Graphviz       | [[file:languages/org-babel-doc-dot.org][org-babel-doc-dot]]        | dot                  | [[http://www.graphviz.org/][dot]]                                         |
+    | Emacs Lisp     | [[file:languages/org-babel-doc-emacs-lisp.org][org-babel-doc-emacs-lisp]] | emacs-lisp           | none                                        |
+    | gnuplot        | [[file:languages/org-babel-doc-gnuplot.org][org-babel-doc-gnuplot]]    | gnuplot              | [[http://www.gnuplot.info/][gnuplot]], [[http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html][gnuplot-mode]]                       |
+    | Haskell        | [[file:languages/org-babel-doc-haskell.org][org-babel-doc-haskell]]    | haskell              | [[http://www.haskell.org/][haskell]], [[http://projects.haskell.org/haskellmode-emacs/][haskell-mode]], [[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#inf-haskell.el:_the_best_thing_since_the_breadknife][inf-haskell]], [[http://people.cs.uu.nl/andres/lhs2tex/][lhs2tex]] |
+    | LaTeX          | [[file:languages/org-babel-doc-latex.org][org-babel-doc-latex]]      | latex                | [[http://www.latex-project.org/][latex]], [[http://www.gnu.org/software/auctex/][auctex]], [[http://www.gnu.org/software/auctex/reftex.html][reftex]]                       |
+    | Objective Caml | [[file:languages/org-babel-doc-ocaml.org][org-babel-doc-ocaml]]      | ocaml                | [[http://caml.inria.fr/][ocaml]], [[http://www-rocq.inria.fr/~acohen/tuareg/][tuareg-mode]]                          |
+    | Perl           | [[file:languages/org-babel-doc-perl.org][org-babel-doc-perl]]       | perl                 | [[http://www.perl.org/][perl]], [[http://www.emacswiki.org/emacs/CPerlMode][cperl-mode]] (optional)                 |
+    | Python         | [[file:languages/org-babel-doc-python.org][org-babel-doc-python]]     | python               | [[http://www.python.org/][python]], [[https://launchpad.net/python-mode][python-mode]] (optional)              |
+    | Ruby           | [[file:languages/org-babel-doc-ruby.org][org-babel-doc-ruby]]       | ruby                 | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
+    | Sass           | [[file:languages/org-babel-doc-sass.org][org-babel-doc-sass]]       | sass                 | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
+    | GNU Screen     | [[file:languages/org-babel-doc-screen.org][org-babel-doc-screen]]     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
+    | shell          | [[file:languages/org-babel-doc-sh.org][org-babel-doc-sh]]         | sh                   | a shell                                     |
+    | SQL            | [[file:languages/org-babel-doc-sql.org][org-babel-doc-sql]]        | sql                  | none                                        |
+    | C              | [[file:languages/org-babel-doc-C.org][org-babel-doc-C]]          | C                    | none                                        |
     
-    
-
-    The following Emacs Lisp code block can be added to your .emacs
-    and used to activate languages by uncommenting the appropriate
-    lines.
-
+    To add support for a particular language to your Org-babel
+    instillation first make sure that the requirements of the language
+    are met, then add a line like the following to your Emacs
+    configuration.
     #+begin_src emacs-lisp 
-    ;; Uncomment each of the following require lines if you want Org-babel
-    ;; to support that language.  Each language has a comment explaining
-    ;; its dependencies.  See the related files in lisp/langs for more
-    ;; detailed explanations of requirements.
-    ;; (require 'org-babel-R)         ;; R and ess-mode
-    ;; (require 'org-babel-asymptote) ;; asymptote
-    ;; (require 'org-babel-css)       ;; none
-    ;; (require 'org-babel-ditaa)     ;; ditaa
-    ;; (require 'org-babel-dot)       ;; dot
-    ;; (require 'org-babel-gnuplot)   ;; gnuplot, and gnuplot-mode
-    ;; (require 'org-babel-haskell)   ;; haskell, haskell-mode, inf-haskell
-    ;; (require 'org-babel-ocaml)     ;; ocaml, and tuareg-mode
-    ;; (require 'org-babel-clojure)   ;; clojure, clojure-mode, slime, swank-clojure
-    ;; (require 'org-babel-python)    ;; python, and python-mode
-    ;; (require 'org-babel-perl)      ;; perl
-    ;; (require 'org-babel-ruby)      ;; ruby, irb, ruby-mode, and inf-ruby
-    ;; (require 'org-babel-sass)      ;; sass, sass-mode
-    ;; (require 'org-babel-screen)    ;; screen and a terminal
-    ;; (require 'org-babel-sql)       ;; none
+      (require 'org-babel-language-name)
     #+end_src
-
-
-**** Language specific documentation
-     Examples, special header arguments, and guides on how to use them
-     are available for the following languages:
-     - [[file:org-babel-doc-R.org][R]]
-     - [[file:org-babel-doc-screen.org][screen]]
-     - [[file:org-babel-doc-C.org][C and Make]]
 
 *** Header Arguments
     :PROPERTIES:
     :CUSTOM_ID: header-arguments
     :END:
+
+Definitions of all Org-babel header arguments are given below.  In
+addition some languages may add their own header arguments.  Please
+see the language-specific documentation for information on
+language-specific header arguments.
 
 **** =:results=
      There are three types of results header argument:
@@ -263,6 +240,31 @@
        But in =:session= mode, the interactive interpreter receives input '2'
        and prints out its value, '2'. (Indeed, the other print statements are
        unnecessary here).
+
+**** =:noweb=
+
+     Controls the expansion of [[noweb-reference-syntax][noweb syntax]] references in a
+     source-code block.  This header argument can have one of two
+     values either =yes= or =no=.  The default value is =no=.
+     - =no= :: no [[noweb-reference-syntax][noweb syntax]] specific action is taken on evaluating
+          source code blocks, however noweb references will still be
+          expanded during tangling
+     - =yes= :: all [[noweb-reference-syntax][noweb syntax]] references in the body of the source
+     code block will be expanded before the block is evaluated.
+
+**** =:cache=
+
+     Controls the use of in-buffer caching of source code block
+     results to avoid re-running unchanged source-code blocks.  This
+     header argument can have one of two values either =yes= or =no=.
+     The default value is =no=.
+     - =no= :: no caching takes place and the source code block will
+          be run every time it is executed
+     - =yes= :: every time the source-code block is run a sha1 hash of
+          the code and arguments passed to the block will be
+          generated.  This hash is packed into the =#+results:= line
+          of the results and will be checked on subsequent executions
+          of the source code block.
 
 *** Noweb reference syntax
     :PROPERTIES:
