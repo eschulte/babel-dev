@@ -1,14 +1,15 @@
 #+TITLE: org-babel --- facilitating communication between programming languages and people
-#+SEQ_TODO: PROPOSED TODO STARTED | DONE DEFERRED REJECTED
-#+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
+#+TODO: PROPOSED(p!) TODO(t!) STARTED(s!) | DONE(d!) DEFERRED(f!) REJECTED(r!)
+#+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
 * Tasks [55/98]
 ** DONE indent noweb references to the level of the initial ref
+   - State "DONE"       from "DONE"       [2009-12-22 Tue 12:50]
 augment `org-babel-expand-noweb-references' so that it rigidly indents
 the body of the block to the depth of the original noweb reference.
 
-#+begin_quote Sébastien
+#+begin_example
 In fact, a better specification is: copy whatever (any character) is in front
 of `<<<code here>>>' in front of every line of the referenced block (same
 amount of characters, be it spaces or something else).
@@ -32,33 +33,34 @@ Currently, the first line of the "condition" block is commented, the others
 not, resulting in incorrect code being tangled.
 
 With the above "spec", I guess all cases are covered. What do you think?
-#+end_quote
+#+end_example
 
 ** PROPOSED :width and :height set dimensions in latex output?
+   - State "PROPOSED"   from ""           [2009-12-22 Tue 12:39]
    See email thread started by Graham Smith 12 Dec.
 
    Should we be setting ATTR_LaTeX in this situation?
 
-#+begin_src org
+#+begin_example
   ,#+options toc:nil
   ,#+title: R latex graphics
-  ,  
-  ,Text before figure.
+    
+  Text before figure.
   ,#+CAPTION:    Trial boxplots with babel
   ,#+LABEL:      fig:trial boxplots
   ,#+ATTR_LaTeX: width=5cm
   ,#+srcname:Boxplots Summary
   ,#+begin_src R :session BirdData :file BoxplotSummary.pdf :exports both
-  ,  Wingcrd <- rnorm(100, 20) ; Tarsus <- rnorm(100, 5) ;
-  ,  Head <- rnorm(100, 3) ; Wt <- rnorm(100, 40)
-  ,  boxplot(Wingcrd,Tarsus,Head,Wt,names=c("Wingcrd","Tarsus","Head","Wt"))
+    Wingcrd <- rnorm(100, 20) ; Tarsus <- rnorm(100, 5) ;
+    Head <- rnorm(100, 3) ; Wt <- rnorm(100, 40)
+    boxplot(Wingcrd,Tarsus,Head,Wt,names=c("Wingcrd","Tarsus","Head","Wt"))
   ,#+end_src
   
   ,#+results: Boxplots
-  ,[[file:BoxplotSummary.pdf]]
+  [[file:BoxplotSummary.pdf]]
   
-  ,Text after figure.
-#+end_src
+  Text after figure.
+#+end_example
 
 ** PROPOSED Make some org-babel commands available from edit buffer?
    I'm not sure about this, but it's often occurred to me that it
@@ -86,13 +88,14 @@ With the above "spec", I guess all cases are covered. What do you think?
    What would a general org-babel mechanism for remote sessions be?
 
 ** TODO byte-compile elisp on tangle
+   - State "TODO"       from "PROPOSED"   [2009-12-22 Tue 12:50]
 from mailing list
 
-#+begin_quote
+#+begin_example
   1) When the org configuration file aren't changed, a way to automatically load
   their tangled version (bytecompiled ?) in order to improve the initialization
   time of Emacs.
-#+end_quote
+#+end_example
 
 - are there times when this wouldn't be desirable?
 - maybe this should be controlled by *another* header argument
@@ -100,7 +103,7 @@ from mailing list
 also we need to address some =:tangle= header argument related bugs in
 `org-babel-load-file'
 
-#+begin_quote
+#+begin_example
 2) If I include a source code block without a :tangle argument, then the .el file is truncated in odd
 ways.  For instance, if the last source code block doesn't have a tangle argument but all the source code
 blocks above it have either :tangle yes or :tangle no, then the .el file only contains the tangled source
@@ -110,7 +113,7 @@ I've had other permutations of 2)
  where only source code blocks after a :tangle no source code block get tangled.
 
 If all of the source code blocks have :tangle arguments, then all seems to be well.
-#+end_quote
+#+end_example
 
 ** TODO documentation odds and ends
 this is just a place to hold random notes for items that should make
@@ -5656,5 +5659,4 @@ var
 
 #+resname: hello-clojure-output
 : hello clojure
-
 

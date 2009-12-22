@@ -27,11 +27,14 @@ to the github development repo.
    - the Org-babel functional test suite, which is implemented as a large
      table and is run using Org-babel's spreadsheet functionality.
 
-** In the pipeline
-   Support for Clojure has recently been contributed, and support for
-   [[http://www.mozart-oz.org/][Oz]] is being planned.
-
-** Requirements Documentation
-   The original requirements documentation is available at
-   [[file:requirements.org][requirements]].   Because the project has evolved since this
-   documentation was written, it is here mainly for historical reasons.
+** Recent Activity
+   #+begin_html 
+     <ul>
+       {% for post in site.posts limit:5 %}
+       <li>
+         [{{ post.date | date_to_string }}] <a href=".{{ post.url }}">{{ post.title }}</a>
+       </li>
+       {% endfor %}
+     </ul>
+   #+end_html
+   
