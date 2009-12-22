@@ -1,0 +1,58 @@
+---
+title: TODO byte-compile elisp on tangle
+layout: default
+---
+
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1"><span class="todo TODO"> TODO</span> byte-compile elisp on tangle </h3>
+<div class="outline-text-3" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 12:50</span></span>
+</li>
+</ul>
+
+<p>from mailing list
+</p>
+
+
+
+<pre class="example">1) When the org configuration file aren't changed, a way to automatically load
+their tangled version (bytecompiled ?) in order to improve the initialization
+time of Emacs.
+</pre>
+
+
+
+<ul>
+<li>
+are there times when this wouldn't be desirable?
+</li>
+<li>
+maybe this should be controlled by <b>another</b> header argument
+
+</li>
+</ul>
+
+<p>also we need to address some <code>:tangle</code> header argument related bugs in
+`org-babel-load-file'
+</p>
+
+
+
+<pre class="example">2) If I include a source code block without a :tangle argument, then the .el file is truncated in odd
+ways.  For instance, if the last source code block doesn't have a tangle argument but all the source code
+blocks above it have either :tangle yes or :tangle no, then the .el file only contains the tangled source
+code block without the tangle argument.
+
+I've had other permutations of 2)
+ where only source code blocks after a :tangle no source code block get tangled.
+
+If all of the source code blocks have :tangle arguments, then all seems to be well.
+</pre>
+
+
+
+</div>
+</div>

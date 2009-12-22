@@ -1,0 +1,32 @@
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1"><span class="todo TODO"> TODO</span> :width and :height set dimensions in latex output? </h3>
+<div class="outline-text-3" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 10:45</span></span>
+</li>
+</ul>
+
+<p>See email thread started by Graham Smith 12 Dec.
+</p>
+<p>
+Should we be setting ATTR<sub>LaTeX</sub> in this situation?
+</p>
+<p>
+,#+options toc:nil
+,#+title: R latex graphics
+,  
+,Text before figure.
+,#+CAPTION:    Trial boxplots with babel
+,#+LABEL:      fig:trial boxplots
+,#+ATTR<sub>LaTeX</sub>: width=5cm
+,#+srcname:Boxplots Summary
+,#+begin<sub>src</sub> R :session BirdData :file BoxplotSummary.pdf :exports both
+,  Wingcrd &lt;- rnorm(100, 20) ; Tarsus &lt;- rnorm(100, 5) ;
+,  Head &lt;- rnorm(100, 3) ; Wt &lt;- rnorm(100, 40)
+,  boxplot(Wingcrd,Tarsus,Head,Wt,names=c("Wingcrd","Tarsus","Head","Wt"))
+,#+end<sub>src</sub>
+</p>
+</div>
+</div>
