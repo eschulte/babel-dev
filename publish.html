@@ -1,0 +1,102 @@
+---
+layout: default
+---
+
+
+<p>This file contains the code to export this repo for publishing on github
+</p>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Index </h2>
+<div class="outline-text-2" id="text-1">
+
+<p>Export the index in a manner amenable to <a href="http://jekyllrb.com/">jekyll</a> processing
+</p>
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>mapc
+ <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">lambda</span> <span style="color: #7f7f7f;">(</span>file<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let</span> <span style="color: #7f7f7f;">((</span>full-file <span style="color: #7f7f7f;">(</span>expand-file-name
+                     <span style="color: #7f7f7f;">(</span>concat file <span style="color: #A5C261;">".org"</span><span style="color: #7f7f7f;">)</span>
+                     <span style="color: #7f7f7f;">(</span>file-name-directory <span style="color: #7f7f7f;">(</span>buffer-file-name<span style="color: #7f7f7f;">))))</span>
+         <span style="color: #7f7f7f;">(</span>yaml-front-matter '<span style="color: #7f7f7f;">((</span><span style="color: #A5C261;">"layout"</span> . <span style="color: #A5C261;">"default"</span><span style="color: #7f7f7f;">)))</span>
+         html<span style="color: #7f7f7f;">)</span>
+     <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">go to the top level tasks heading
+</span>     <span style="color: #7f7f7f;">(</span>find-file full-file<span style="color: #7f7f7f;">)</span>
+     <span style="color: #7f7f7f;">(</span>setq html <span style="color: #7f7f7f;">(</span>org-export-as-html nil nil nil 'string t nil<span style="color: #7f7f7f;">))</span>
+     <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">with-temp-file</span> <span style="color: #7f7f7f;">(</span>concat file <span style="color: #A5C261;">".html"</span><span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">when</span> yaml-front-matter
+         <span style="color: #7f7f7f;">(</span>insert <span style="color: #A5C261;">"---\n"</span><span style="color: #7f7f7f;">)</span>
+         <span style="color: #7f7f7f;">(</span>mapc <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">lambda</span> <span style="color: #7f7f7f;">(</span>pair<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>insert <span style="color: #7f7f7f;">(</span>format <span style="color: #A5C261;">"%s: %s\n"</span> <span style="color: #7f7f7f;">(</span>car pair<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>cdr pair<span style="color: #7f7f7f;">))))</span>
+               yaml-front-matter<span style="color: #7f7f7f;">)</span>
+         <span style="color: #7f7f7f;">(</span>insert <span style="color: #A5C261;">"---\n\n"</span><span style="color: #7f7f7f;">))</span>
+       <span style="color: #7f7f7f;">(</span>insert html<span style="color: #7f7f7f;">))))</span> '<span style="color: #7f7f7f;">(</span><span style="color: #A5C261;">"index"</span> <span style="color: #A5C261;">"publish"</span><span style="color: #7f7f7f;">))</span>
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Development Updates </h2>
+<div class="outline-text-2" id="text-2">
+
+<p>This code will be used to publish posts for all TODO items which have
+an associated date/time
+</p>
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">save-excursion</span>
+  <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">map over all tasks entries
+</span>  <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let</span> <span style="color: #7f7f7f;">((</span>dev-file <span style="color: #7f7f7f;">(</span>expand-file-name
+                    <span style="color: #A5C261;">"development.org"</span>
+                    <span style="color: #7f7f7f;">(</span>file-name-directory <span style="color: #7f7f7f;">(</span>buffer-file-name<span style="color: #7f7f7f;">))))</span>
+        <span style="color: #7f7f7f;">(</span>posts-dir <span style="color: #7f7f7f;">(</span>expand-file-name
+                    <span style="color: #A5C261;">"_posts"</span>
+                    <span style="color: #7f7f7f;">(</span>file-name-directory <span style="color: #7f7f7f;">(</span>buffer-file-name<span style="color: #7f7f7f;">))))</span>
+        <span style="color: #7f7f7f;">(</span>yaml-front-matter '<span style="color: #7f7f7f;">((</span><span style="color: #A5C261;">"layout"</span> . <span style="color: #A5C261;">"default"</span><span style="color: #7f7f7f;">))))</span>
+    <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">go to the top level tasks heading
+</span>    <span style="color: #7f7f7f;">(</span>find-file dev-file<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>goto-char <span style="color: #7f7f7f;">(</span>point-min<span style="color: #7f7f7f;">))</span>
+    <span style="color: #7f7f7f;">(</span>outline-next-visible-heading 1<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>org-map-tree
+     <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">lambda</span> <span style="color: #7f7f7f;">()</span>
+       <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let*</span> <span style="color: #7f7f7f;">((</span>props <span style="color: #7f7f7f;">(</span>org-entry-properties<span style="color: #7f7f7f;">))</span>
+              <span style="color: #7f7f7f;">(</span>todo <span style="color: #7f7f7f;">(</span>cdr <span style="color: #7f7f7f;">(</span>assoc <span style="color: #A5C261;">"TODO"</span> props<span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span>time <span style="color: #7f7f7f;">(</span>cdr <span style="color: #7f7f7f;">(</span>assoc <span style="color: #A5C261;">"TIMESTAMP_IA"</span> props<span style="color: #7f7f7f;">))))</span>
+         <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">each task with a state and timestamp can be exported as a
+</span>         <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">jekyll blog post
+</span>         <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">when</span> <span style="color: #7f7f7f;">(</span>and todo time<span style="color: #7f7f7f;">)</span>
+           <span style="color: #7f7f7f;">(</span>message <span style="color: #A5C261;">"time=%s"</span> time<span style="color: #7f7f7f;">)</span>
+           <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let*</span> <span style="color: #7f7f7f;">((</span>heading <span style="color: #7f7f7f;">(</span>org-get-heading<span style="color: #7f7f7f;">))</span>
+                  <span style="color: #7f7f7f;">(</span>title <span style="color: #7f7f7f;">(</span>replace-regexp-in-string
+                          <span style="color: #A5C261;">"[:=\(\)\?]"</span> <span style="color: #A5C261;">""</span>
+                          <span style="color: #7f7f7f;">(</span>replace-regexp-in-string
+                           <span style="color: #A5C261;">"[ \t]"</span> <span style="color: #A5C261;">"-"</span> heading<span style="color: #7f7f7f;">)))</span>
+                  <span style="color: #7f7f7f;">(</span>str-time <span style="color: #7f7f7f;">(</span>and <span style="color: #7f7f7f;">(</span>string-match <span style="color: #A5C261;">"</span><span style="color: #A5C261; font-weight: bold;">\\</span><span style="color: #A5C261; font-weight: bold;">(</span><span style="color: #A5C261;">[[:digit:]\-]+</span><span style="color: #A5C261; font-weight: bold;">\\</span><span style="color: #A5C261; font-weight: bold;">)</span><span style="color: #A5C261;"> "</span> time<span style="color: #7f7f7f;">)</span>
+                                 <span style="color: #7f7f7f;">(</span>match-string 1 time<span style="color: #7f7f7f;">)))</span>
+                  <span style="color: #7f7f7f;">(</span>to-file <span style="color: #7f7f7f;">(</span>format <span style="color: #A5C261;">"%s-%s.html"</span> str-time title<span style="color: #7f7f7f;">))</span>
+                  <span style="color: #7f7f7f;">(</span>org-buffer <span style="color: #7f7f7f;">(</span>current-buffer<span style="color: #7f7f7f;">))</span>
+                  <span style="color: #7f7f7f;">(</span>yaml-front-matter <span style="color: #7f7f7f;">(</span>cons <span style="color: #7f7f7f;">(</span>cons <span style="color: #A5C261;">"title"</span> heading<span style="color: #7f7f7f;">)</span> yaml-front-matter<span style="color: #7f7f7f;">))</span>
+                  html<span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span>org-narrow-to-subtree<span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span>setq html <span style="color: #7f7f7f;">(</span>org-export-as-html nil nil nil 'string t nil<span style="color: #7f7f7f;">))</span>
+             <span style="color: #7f7f7f;">(</span>set-buffer org-buffer<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>widen<span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">with-temp-file</span> <span style="color: #7f7f7f;">(</span>expand-file-name to-file posts-dir<span style="color: #7f7f7f;">)</span>
+               <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">when</span> yaml-front-matter
+                 <span style="color: #7f7f7f;">(</span>insert <span style="color: #A5C261;">"---\n"</span><span style="color: #7f7f7f;">)</span>
+                 <span style="color: #7f7f7f;">(</span>mapc <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">lambda</span> <span style="color: #7f7f7f;">(</span>pair<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>insert <span style="color: #7f7f7f;">(</span>format <span style="color: #A5C261;">"%s: %s\n"</span> <span style="color: #7f7f7f;">(</span>car pair<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>cdr pair<span style="color: #7f7f7f;">))))</span>
+                       yaml-front-matter<span style="color: #7f7f7f;">)</span>
+                 <span style="color: #7f7f7f;">(</span>insert <span style="color: #A5C261;">"---\n\n"</span><span style="color: #7f7f7f;">))</span>
+               <span style="color: #7f7f7f;">(</span>insert html<span style="color: #7f7f7f;">))</span>
+             <span style="color: #7f7f7f;">(</span>get-buffer org-buffer<span style="color: #7f7f7f;">))))))))</span>
+</pre>
+
+
+
+
+
+</div>
+</div>
