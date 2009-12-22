@@ -59,6 +59,110 @@ addition some languages may add their own header arguments.  Please
 see the language-specific documentation for information on
 language-specific header arguments.
 
+**** =:var=
+     The =:var= header argument is used to pass arguments to
+     source-code blocks.  The specifics of how arguments are included
+     in a source-code block are language specific and should be
+     addressed in the language-specific documentation, however, the
+     syntax used to specify arguments is the same across all
+     languages.  The values passed to arguments can be or
+     - literal values
+     - values from org-mode tables
+     - the results of other source-code blocks
+
+     These values can be indexed in a manner similar to arrays -- see
+     [[var-argument-indexing][argument indexing]].
+
+     The following syntax is used to pass arguments to source-code
+     blocks using the =:var= header argument.
+
+     #+begin_example
+       :var name=assign
+     #+end_example
+
+     where =assign= can take one of the following forms
+
+     - literal value :: either a string ="string"= or a number =9=.
+     - reference :: a table name
+          
+          #+begin_example
+            ,#+tblname: example-table
+            | 1 |
+            | 2 |
+            | 3 |
+            | 4 |
+            
+            ,#+source: table-length
+            ,#+begin_src emacs-lisp :var table=example-table
+              (length table)
+            ,#+end_src
+            
+            ,#+results: table-length
+            : 4
+          #+end_example
+          
+          or a source name followed by parenthesis, so referencing the
+          named source block in the example above...
+          
+          #+begin_example
+            ,#+begin_src emacs-lisp :var length=table-length()
+              (* 2 length)
+            ,#+end_src
+            
+            ,#+results:
+            : 8
+          #+end_example
+          
+          These parenthesis can be used to pass arguments to the block
+          used to assign the variable.
+          
+          #+begin_example 
+            ,#+source: double
+            ,#+begin_src emacs-lisp :var input=8
+              (* 2 input)
+            ,#+end_src
+            
+            ,#+results: double
+            : 16
+            
+            ,#+source: squared
+            ,#+begin_src emacs-lisp :var input=double(input=1)
+              (* input input)
+            ,#+end_src
+            
+            ,#+results: squared
+            : 4
+          #+end_example
+
+***** indexable variable values
+      :PROPERTIES:
+      :CUSTOM_ID: var-argument-indexing
+      :END:
+      
+      it is now possible to only assign a portion of a value to a
+      variable in a source block.  So for example the following will
+      only assign the second and third lines of the table
+      'example-table' to the variable 'data'
+    
+      #+begin_example
+        :var data=example-table[1:2]
+      #+end_example
+    
+      and the following will only assign the second column of the
+      first row
+    
+      #+begin_example
+        :var data=example-table[0,1]
+      #+end_example
+    
+      note that all indices are 0 based
+    
+      it is possible to index into the results of source-code blocks
+      as well as tables.  any number of dimensions can be indexed as
+      long as they are separated by ','s and ranges can be indexed
+      using the ':' operator.  for more information on indexing
+      behavior see `org-babel-ref-index-list'
+      
 **** =:results=
      There are three types of results header argument:
      1) *collection* header arguments specify how the results should be collected from
@@ -126,7 +230,7 @@ language-specific header arguments.
       - replace :: The results will be inserted into the Org-mode
                    buffer.  E.g., =:results output replace=.
 
-**** =:exports= 
+**** =:exports=
 
      Specify what should be included in HTML or LaTeX exports of the
      Org-mode file.
@@ -251,6 +355,33 @@ language-specific header arguments.
           expanded during tangling
      - =yes= :: all [[noweb-reference-syntax][noweb syntax]] references in the body of the source
      code block will be expanded before the block is evaluated.
+
+***** noweb prefix lines
+
+      noweb insertions are now placed behind the line prefix of the
+      =<<>>= reference
+      
+      So, for example since the following =<<example>>= noweb
+      reference appears behind the SQL comment syntax the entire
+      inserted body will also be SQL commented
+    
+      #+begin_example 
+        -- <<example>>
+      #+end_example
+      
+    
+      expands to
+
+      #+begin_example 
+        -- this is the
+        -- multi-line body of example
+      #+end_example
+    
+      Note that noweb replacement text which does *not* contain any
+      newlines will not be affected by this change, so it is still
+      possible to use inline noweb references.
+    
+      Thanks to Sébastien Vauban for this idea.
 
 **** =:cache=
 
