@@ -2,7 +2,7 @@
 #+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) 
-#+TITLE:      Org-babel Uses
+#+TITLE:      Org-babel: Uses
 #+AUTHOR:     Thomas S. Dye
 #+EMAIL:      tsd at tsdye dot com
 #+LANGUAGE:   en
