@@ -160,15 +160,30 @@ language-specific header arguments.
         :var data=example-table[0,1]
       #+end_example
     
-    
       It is possible to index into the results of source code blocks
       as well as tables.  Any number of dimensions can be indexed.
       Dimensions are separated from one another by commas.  
 
-
-      For more information on indexing behavior see
-      =org-babel-ref-index-list=.
+      For more information on indexing behavior see the documentation
+      for the =org-babel-ref-index-list= function -- provided below.
       
+      #+begin_example 
+        org-babel-ref-index-list is a Lisp function in `org-babel-ref.el'.
+        
+        (org-babel-ref-index-list INDEX LIS)
+        
+        Return the subset of LIS indexed by INDEX.  If INDEX is
+        separated by ,s then each PORTION is assumed to index into the
+        next deepest nesting or dimension.  A valid PORTION can consist
+        of either an integer index, or two integers separated by a : in
+        which case the entire range is returned.
+      #+end_example
+
+      Note: In Emacs the documentation for any function or variable
+      can be read using the =describe-function= (M-x describe
+      function) and =describe-variable= (M-x describe variable)
+      functions respectively.
+
 **** =:results=
      There are three types of results header argument:
      1) *collection* header arguments specify how the results should be collected from
@@ -262,7 +277,7 @@ language-specific header arguments.
                         source code file.  E.g., =:tangle no=.
       - other :: Any other string passed to the =:tangle= header argument
                  is interpreted as a file basename to which the block will
-                 be exported.  E.g., =:tangle basename.ext=.
+                 be exported.  E.g., =:tangle basename=.
 
 **** =:session=
 
@@ -270,22 +285,22 @@ language-specific header arguments.
      preserved.  This applies particularly to the supported languages
      perl, python, R and ruby.
 
-     - other :: A string passed to the =:session= header argument will
-                give the session a name.  This makes it possible to
-                have multiple sessions for each interpreted language.
+     A string passed to the =:session= header argument will give the
+     session a name.  This makes it possible to have multiple sessions
+     for each interpreted language.
 
-                Results are handled somewhat differently if a session is invoked.
-
-
-                |          | non-session (default)    | =:session=                          |
-                |----------+--------------------------+-------------------------------------|
-                | =value=  | value of last expression | value of last expression            |
-                | =output= | contents of stdout       | concatenation of interpreter output |
+     Results are handled somewhat differently if a session is invoked.
 
 
-                Note that in =:results value= the result in both sessions and
-                non-sessions is imported into Org-mode as a table (a one- or
-                two-dimensional vector of strings or numbers) when appropriate.
+     |          | non-session (default)    | =:session=                          |
+     |----------+--------------------------+-------------------------------------|
+     | =value=  | value of last expression | value of last expression            |
+     | =output= | contents of stdout       | concatenation of interpreter output |
+
+
+     Note that in =:results value= the result in both sessions and
+     non-sessions is imported into Org-mode as a table (a one- or
+     two-dimensional vector of strings or numbers) when appropriate.
 
 ***** Non-session
 ****** =:results value=
@@ -417,6 +432,3 @@ language-specific header arguments.
     argument, a noweb reference is expanded before evaluation.  An
     example is provided in the [[literate programming example]].
 
-*** Functions
-*** Variables
-    - org-babel-default-header-args
