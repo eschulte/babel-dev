@@ -4,7 +4,7 @@
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+TITLE:      Org-babel: Introduction
 #+AUTHOR:     Eric Schulte, Dan Davison, Tom Dye
-#+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
+#+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk, tsd at tsdye dot com
 #+LANGUAGE:   en
 #+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
 
@@ -32,7 +32,7 @@
 #+end_html
   
 * Improving this document					   :noexport:
-** TODO Document slice indexing of tables
+** DONE Document slice indexing of tables
 ** TODO Document synonymous alternatives
    {call,lob}, {source, function, srcname}, {results, resname}
 ** TODO Describe useful functions
@@ -44,8 +44,8 @@
 each language, and expanding the portion which documents the actual
 usage of header-arguments and noweb references as those sections are
 woefully out of date.
-** TODO Document noweb references
-*** TODO Why is :noweb needed for execution but not for tangling?
+** DONE Document noweb references
+*** DONE Why is :noweb needed for execution but not for tangling?
 ** TODO Developments
 - org-babel can now cache the results of source block execution to avoid
  rerunning the same calculation.  The cache uses a sha1 hash key of the
@@ -72,7 +72,7 @@ woefully out of date.
 
  :file (format "%s/images/pca-scatter.png" dir)
 
-** TODO Useful variables
+** DONE Useful variables
    - # -*- org-src-preserve-indentation: t -*-
 ** TODO Language specific header arguments
    -    org-babel: capture graphical output from R
@@ -143,6 +143,9 @@ that a python variable is created e.g. __org_babel_output_file__ that
 always holds a string corresponding to the file specified by :file. Eric
 may have further ideas / views here. 
 
+
+** TODO What function is bound to C-c '?
+   - this document notes two different functions
 * Introduction
   :PROPERTIES:
   :CUSTOM_ID: introduction
@@ -161,10 +164,10 @@ may have further ideas / views here.
   Org-babel augments [[http://orgmode.org/manual/Literal-examples.html][Org-mode support for source code blocks]]
   by providing:
 
-  1) interactive and on-export execution of source code;
-  2) code blocks as functions that can be parameterised, refer to
+  - interactive and on-export execution of source code;
+  - code blocks as functions that can be parameterised, refer to
      other code blocks, and be called remotely; and
-  3) export to files for literate programming.
+  - export to files for literate programming.
 
 * Getting Started
   :PROPERTIES:
