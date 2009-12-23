@@ -5,7 +5,9 @@
 This file contains the code to export this repo for publishing on github
 
 * Index
-Export the index in a manner amenable to [[http://jekyllrb.com/][jekyll]] processing
+Export the index in a manner amenable to [[http://jekyllrb.com/][jekyll]] processing.  This code
+exports single files for processing by jekyll and could easily be
+reused in other projects.
 #+begin_src emacs-lisp :results silent :exports code
   (mapc
    (lambda (file)
@@ -27,8 +29,10 @@ Export the index in a manner amenable to [[http://jekyllrb.com/][jekyll]] proces
 #+end_src
 
 * Development Updates
-This code will be used to publish posts for all TODO items which have
-an associated date/time
+This code will be used to publish posts for all Task and Bug items
+which have an associated date/time.  This generates one blog post per
+headline and could easily be adapted for managing a blog through
+org-mode.
 #+begin_src emacs-lisp :results silent :exports code
   (save-excursion
     ;; map over all tasks entries
@@ -39,41 +43,44 @@ an associated date/time
                       "_posts"
                       (file-name-directory (buffer-file-name))))
           (yaml-front-matter '(("layout" . "default"))))
-      ;; go to the top level tasks heading
-      (find-file dev-file)
-      (goto-char (point-min))
-      (outline-next-visible-heading 1)
-      (org-map-tree
-       (lambda ()
-         (let* ((props (org-entry-properties))
-                (todo (cdr (assoc "TODO" props)))
-                (time (cdr (assoc "TIMESTAMP_IA" props))))
-           ;; each task with a state and timestamp can be exported as a
-           ;; jekyll blog post
-           (when (and todo time)
-             (message "time=%s" time)
-             (let* ((heading (org-get-heading))
-                    (title (replace-regexp-in-string
-                            "[:=\(\)\?]" ""
-                            (replace-regexp-in-string
-                             "[ \t]" "-" heading)))
-                    (str-time (and (string-match "\\([[:digit:]\-]+\\) " time)
-                                   (match-string 1 time)))
-                    (to-file (format "%s-%s.html" str-time title))
-                    (org-buffer (current-buffer))
-                    (yaml-front-matter (cons (cons "title" heading) yaml-front-matter))
-                    html)
-               (org-narrow-to-subtree)
-               (setq html (org-export-as-html nil nil nil 'string t nil))
-               (set-buffer org-buffer) (widen)
-               (with-temp-file (expand-file-name to-file posts-dir)
-                 (when yaml-front-matter
-                   (insert "---\n")
-                   (mapc (lambda (pair) (insert (format "%s: %s\n" (car pair) (cdr pair))))
-                         yaml-front-matter)
-                   (insert "---\n\n"))
-                 (insert html))
-               (get-buffer org-buffer))))))))
+      ;; go through both the tasks and bugs
+      (mapc
+       (lambda (top-level)
+         (find-file dev-file)
+         (goto-char (point-min))
+         (outline-next-visible-heading 1)
+         (org-map-tree
+          (lambda ()
+            (let* ((props (org-entry-properties))
+                   (todo (cdr (assoc "TODO" props)))
+                   (time (cdr (assoc "TIMESTAMP_IA" props))))
+              ;; each task with a state and timestamp can be exported as a
+              ;; jekyll blog post
+              (when (and todo time)
+                (message "time=%s" time)
+                (let* ((heading (org-get-heading))
+                       (title (replace-regexp-in-string
+                               "[:=\(\)\?]" ""
+                               (replace-regexp-in-string
+                                "[ \t]" "-" heading)))
+                       (str-time (and (string-match "\\([[:digit:]\-]+\\) " time)
+                                      (match-string 1 time)))
+                       (to-file (format "%s-%s.html" str-time title))
+                       (org-buffer (current-buffer))
+                       (yaml-front-matter (cons (cons "title" heading) yaml-front-matter))
+                       html)
+                  (org-narrow-to-subtree)
+                  (setq html (org-export-as-html nil nil nil 'string t nil))
+                  (set-buffer org-buffer) (widen)
+                  (with-temp-file (expand-file-name to-file posts-dir)
+                    (when yaml-front-matter
+                      (insert "---\n")
+                      (mapc (lambda (pair) (insert (format "%s: %s\n" (car pair) (cdr pair))))
+                            yaml-front-matter)
+                      (insert "---\n\n"))
+                    (insert html))
+                  (get-buffer org-buffer)))))))
+       '(1 2))))
 #+end_src
 
 
