@@ -14,19 +14,13 @@ our monolithic introduction and am placing it in a short introduction
 to the github development repo.
 
 * Development
-** Contributing
-   Org-babel contributions are welcome! As for Org-mode, authors will
-   need to sign copyright papers with the FSF; please see the
-   [[http://orgmode.org/worg/org-contribute.php][instructions]] for contributing to Org-mode.
-
-** Development documents
-   The development of Org-babel is tracked on [[http://github.com/eschulte/babel-dev/][github/babel-dev]].  This
-   repository contains:
-   - lists of pending development tasks;
-   - lists of known and resolved bugs; and
-   - the Org-babel functional test suite, which is implemented as a
-     large table and is run using Org-babel's spreadsheet
-     functionality.
+  The development of Org-babel is tracked on [[http://github.com/eschulte/babel-dev/][github/babel-dev]].  This
+  repository contains:
+  - lists of pending development tasks;
+  - lists of known and resolved bugs; and
+  - the Org-babel functional test suite, which is implemented as a
+    large table and is run using Org-babel's spreadsheet
+    functionality.
 
 ** Recent Activity
    #+begin_html 
@@ -38,6 +32,10 @@ to the github development repo.
        {% endfor %}
      </ul>
    #+end_html
+** Contributing
+   Org-babel contributions are welcome! As for Org-mode, authors will
+   need to sign copyright papers with the FSF; please see the
+   [[http://orgmode.org/worg/org-contribute.php][instructions]] for contributing to Org-mode.
    
 ** Publication
    This repository is published using the code at [[file:publish.org][publish.org]].

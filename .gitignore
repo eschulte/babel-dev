@@ -2,6 +2,7 @@
 .Rhistory
 blue.png
 *.pdf
+data/
 
 ## ignore automatically generated jekyll files
 _site
