@@ -42,7 +42,7 @@
     | C              | [[file:languages/org-babel-doc-C.org][org-babel-doc-C]]          | C          | none                                        |
     
     To add support for a particular language to your Org-babel
-    instillation first make sure that the requirements of the language
+    installation first make sure that the requirements of the language
     are met, then add a line like the following to your Emacs
     configuration, (replace "identifier" with one of the
     entries in the Identifier column of the table).
@@ -84,7 +84,7 @@ language-specific header arguments.
      where =assign= can take one of the following forms
 
      - literal value :: either a string ="string"= or a number =9=.
-     - reference :: a table name
+     - reference :: a table name:
           
           #+begin_example
             ,#+tblname: example-table
@@ -102,8 +102,8 @@ language-specific header arguments.
             : 4
           #+end_example
           
-          or a source name followed by parenthesis, so referencing the
-          named source block in the example above...
+          a source code block name, as assigned by =#+srcname:=,
+          followed by parentheses:
           
           #+begin_example
             ,#+begin_src emacs-lisp :var length=table-length()
@@ -114,8 +114,9 @@ language-specific header arguments.
             : 8
           #+end_example
           
-          These parenthesis can be used to pass arguments to the block
-          used to assign the variable.
+          In addition, an argument can be passed to the source code
+          block referenced by =:var=.  The argument is passed within
+          the parentheses following the source code block name:
           
           #+begin_example 
             ,#+source: double
@@ -179,10 +180,10 @@ language-specific header arguments.
         which case the entire range is returned.
       #+end_example
 
-      Note: In Emacs the documentation for any function or variable
+      *Note:* In Emacs, the documentation for any function or variable
       can be read using the =describe-function= (M-x describe
       function) and =describe-variable= (M-x describe variable)
-      functions respectively.
+      functions, respectively.
 
 **** =:results=
      There are three types of results header argument:
