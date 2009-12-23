@@ -82,6 +82,3 @@ org-mode.
                   (get-buffer org-buffer)))))))
        '(1 2))))
 #+end_src
-
-
-
