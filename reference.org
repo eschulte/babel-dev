@@ -19,34 +19,35 @@
     
     Org-babel has support for the following languages.
     
-    | Language       | Documentation            | Org-babel identifier | Requirements                                |
-    |----------------+--------------------------+----------------------+---------------------------------------------|
-    | R              | [[file:languages/org-babel-doc-R.org][org-babel-doc-R]]          | R                    | [[http://www.r-project.org/][R]], [[http://ess.r-project.org/][ess-mode]]                                 |
-    | Asymptote      | [[file:languages/org-babel-doc-asymptote.org][org-babel-doc-asymptote]]  | asymptote            | [[http://asymptote.sourceforge.net/][asymptote]], [[http://asymptote.sourceforge.net/doc/Editing-modes.html][asy-mode]]                         |
-    | Clojure        | [[file:languages/org-babel-doc-clojure.org][org-babel-doc-clojure]]    | clojure              | [[http://clojure.org/][clojure]], [[http://www.emacswiki.org/emacs/clojure-mode.el][clojure-mode]], [[http://common-lisp.net/project/slime/][slime]], [[http://clojure.codestuffs.com/][swank-clojure]] |
-    | css            | [[file:languages/org-babel-doc-css.org][org-babel-doc-css]]        | css                  | none                                        |
-    | ditaa          | [[file:languages/org-babel-doc-ditaa.org][org-babel-doc-ditaa]]      | ditaa                | [[http://ditaa.org/ditaa/][ditaa]] (bundled with Org-mode)               |
-    | Graphviz       | [[file:languages/org-babel-doc-dot.org][org-babel-doc-dot]]        | dot                  | [[http://www.graphviz.org/][dot]]                                         |
-    | Emacs Lisp     | [[file:languages/org-babel-doc-emacs-lisp.org][org-babel-doc-emacs-lisp]] | emacs-lisp           | none                                        |
-    | gnuplot        | [[file:languages/org-babel-doc-gnuplot.org][org-babel-doc-gnuplot]]    | gnuplot              | [[http://www.gnuplot.info/][gnuplot]], [[http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html][gnuplot-mode]]                       |
-    | Haskell        | [[file:languages/org-babel-doc-haskell.org][org-babel-doc-haskell]]    | haskell              | [[http://www.haskell.org/][haskell]], [[http://projects.haskell.org/haskellmode-emacs/][haskell-mode]], [[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#inf-haskell.el:_the_best_thing_since_the_breadknife][inf-haskell]], [[http://people.cs.uu.nl/andres/lhs2tex/][lhs2tex]] |
-    | LaTeX          | [[file:languages/org-babel-doc-latex.org][org-babel-doc-latex]]      | latex                | [[http://www.latex-project.org/][latex]], [[http://www.gnu.org/software/auctex/][auctex]], [[http://www.gnu.org/software/auctex/reftex.html][reftex]]                       |
-    | Objective Caml | [[file:languages/org-babel-doc-ocaml.org][org-babel-doc-ocaml]]      | ocaml                | [[http://caml.inria.fr/][ocaml]], [[http://www-rocq.inria.fr/~acohen/tuareg/][tuareg-mode]]                          |
-    | Perl           | [[file:languages/org-babel-doc-perl.org][org-babel-doc-perl]]       | perl                 | [[http://www.perl.org/][perl]], [[http://www.emacswiki.org/emacs/CPerlMode][cperl-mode]] (optional)                 |
-    | Python         | [[file:languages/org-babel-doc-python.org][org-babel-doc-python]]     | python               | [[http://www.python.org/][python]], [[https://launchpad.net/python-mode][python-mode]] (optional)              |
-    | Ruby           | [[file:languages/org-babel-doc-ruby.org][org-babel-doc-ruby]]       | ruby                 | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
-    | Sass           | [[file:languages/org-babel-doc-sass.org][org-babel-doc-sass]]       | sass                 | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
-    | GNU Screen     | [[file:languages/org-babel-doc-screen.org][org-babel-doc-screen]]     | screen               | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
-    | shell          | [[file:languages/org-babel-doc-sh.org][org-babel-doc-sh]]         | sh                   | a shell                                     |
-    | SQL            | [[file:languages/org-babel-doc-sql.org][org-babel-doc-sql]]        | sql                  | none                                        |
-    | C              | [[file:languages/org-babel-doc-C.org][org-babel-doc-C]]          | C                    | none                                        |
+    | Language       | Documentation            | Identifier | Requirements                                |
+    |----------------+--------------------------+------------+---------------------------------------------|
+    | R              | [[file:languages/org-babel-doc-R.org][org-babel-doc-R]]          | R          | [[http://www.r-project.org/][R]], [[http://ess.r-project.org/][ess-mode]]                                 |
+    | Asymptote      | [[file:languages/org-babel-doc-asymptote.org][org-babel-doc-asymptote]]  | asymptote  | [[http://asymptote.sourceforge.net/][asymptote]], [[http://asymptote.sourceforge.net/doc/Editing-modes.html][asy-mode]]                         |
+    | Clojure        | [[file:languages/org-babel-doc-clojure.org][org-babel-doc-clojure]]    | clojure    | [[http://clojure.org/][clojure]], [[http://www.emacswiki.org/emacs/clojure-mode.el][clojure-mode]], [[http://common-lisp.net/project/slime/][slime]], [[http://clojure.codestuffs.com/][swank-clojure]] |
+    | css            | [[file:languages/org-babel-doc-css.org][org-babel-doc-css]]        | css        | none                                        |
+    | ditaa          | [[file:languages/org-babel-doc-ditaa.org][org-babel-doc-ditaa]]      | ditaa      | [[http://ditaa.org/ditaa/][ditaa]] (bundled with Org-mode)               |
+    | Graphviz       | [[file:languages/org-babel-doc-dot.org][org-babel-doc-dot]]        | dot        | [[http://www.graphviz.org/][dot]]                                         |
+    | Emacs Lisp     | [[file:languages/org-babel-doc-emacs-lisp.org][org-babel-doc-emacs-lisp]] | emacs-lisp | none                                        |
+    | gnuplot        | [[file:languages/org-babel-doc-gnuplot.org][org-babel-doc-gnuplot]]    | gnuplot    | [[http://www.gnuplot.info/][gnuplot]], [[http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html][gnuplot-mode]]                       |
+    | Haskell        | [[file:languages/org-babel-doc-haskell.org][org-babel-doc-haskell]]    | haskell    | [[http://www.haskell.org/][haskell]], [[http://projects.haskell.org/haskellmode-emacs/][haskell-mode]], [[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#inf-haskell.el:_the_best_thing_since_the_breadknife][inf-haskell]], [[http://people.cs.uu.nl/andres/lhs2tex/][lhs2tex]] |
+    | LaTeX          | [[file:languages/org-babel-doc-latex.org][org-babel-doc-latex]]      | latex      | [[http://www.latex-project.org/][latex]], [[http://www.gnu.org/software/auctex/][auctex]], [[http://www.gnu.org/software/auctex/reftex.html][reftex]]                       |
+    | Objective Caml | [[file:languages/org-babel-doc-ocaml.org][org-babel-doc-ocaml]]      | ocaml      | [[http://caml.inria.fr/][ocaml]], [[http://www-rocq.inria.fr/~acohen/tuareg/][tuareg-mode]]                          |
+    | Perl           | [[file:languages/org-babel-doc-perl.org][org-babel-doc-perl]]       | perl       | [[http://www.perl.org/][perl]], [[http://www.emacswiki.org/emacs/CPerlMode][cperl-mode]] (optional)                 |
+    | Python         | [[file:languages/org-babel-doc-python.org][org-babel-doc-python]]     | python     | [[http://www.python.org/][python]], [[https://launchpad.net/python-mode][python-mode]] (optional)              |
+    | Ruby           | [[file:languages/org-babel-doc-ruby.org][org-babel-doc-ruby]]       | ruby       | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
+    | Sass           | [[file:languages/org-babel-doc-sass.org][org-babel-doc-sass]]       | sass       | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
+    | GNU Screen     | [[file:languages/org-babel-doc-screen.org][org-babel-doc-screen]]     | screen     | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
+    | shell          | [[file:languages/org-babel-doc-sh.org][org-babel-doc-sh]]         | sh         | a shell                                     |
+    | SQL            | [[file:languages/org-babel-doc-sql.org][org-babel-doc-sql]]        | sql        | none                                        |
+    | C              | [[file:languages/org-babel-doc-C.org][org-babel-doc-C]]          | C          | none                                        |
     
     To add support for a particular language to your Org-babel
     instillation first make sure that the requirements of the language
     are met, then add a line like the following to your Emacs
-    configuration.
+    configuration, (replace "identifier" with one of the
+    entries in the Identifier column of the table).
     #+begin_src emacs-lisp 
-      (require 'org-babel-language-name)
+      (require 'org-babel-identifier)
     #+end_src
 
 *** Header Arguments
@@ -61,19 +62,19 @@ language-specific header arguments.
 
 **** =:var=
      The =:var= header argument is used to pass arguments to
-     source-code blocks.  The specifics of how arguments are included
-     in a source-code block are language specific and should be
-     addressed in the language-specific documentation, however, the
+     source code blocks.  The specifics of how arguments are included
+     in a source code block are language specific and are
+     addressed in the language-specific documentation. However, the
      syntax used to specify arguments is the same across all
      languages.  The values passed to arguments can be or
      - literal values
      - values from org-mode tables
-     - the results of other source-code blocks
+     - the results of other source code blocks
 
      These values can be indexed in a manner similar to arrays -- see
      [[var-argument-indexing][argument indexing]].
 
-     The following syntax is used to pass arguments to source-code
+     The following syntax is used to pass arguments to source code
      blocks using the =:var= header argument.
 
      #+begin_example
@@ -140,28 +141,32 @@ language-specific header arguments.
       :END:
       
       it is now possible to only assign a portion of a value to a
-      variable in a source block.  So for example the following will
-      only assign the second and third lines of the table
-      'example-table' to the variable 'data'
+      variable in a source block.  The following example
+      assigns the second and third rows of the table
+      =example-table= to the variable =data=:
     
       #+begin_example
         :var data=example-table[1:2]
       #+end_example
-    
-      and the following will only assign the second column of the
-      first row
+
+      *Note:* ranges are indexed using the =:= operator.
+      *Note:* indices are 0 based.
+
+      The following example assigns the second column of the
+      first row of =example-table= to =data=:
     
       #+begin_example
         :var data=example-table[0,1]
       #+end_example
     
-      note that all indices are 0 based
     
-      it is possible to index into the results of source-code blocks
-      as well as tables.  any number of dimensions can be indexed as
-      long as they are separated by ','s and ranges can be indexed
-      using the ':' operator.  for more information on indexing
-      behavior see `org-babel-ref-index-list'
+      It is possible to index into the results of source code blocks
+      as well as tables.  Any number of dimensions can be indexed.
+      Dimensions are separated from one another by a =,=.  
+
+
+      For more information on indexing behavior see
+      =org-babel-ref-index-list=.
       
 **** =:results=
      There are three types of results header argument:
@@ -178,7 +183,7 @@ language-specific header arguments.
 
 ***** collection
       The following options are mutually exclusive, and specify how the
-      results should be collected from the source-code block.
+      results should be collected from the source code block.
 
       - value :: The result is the value of the last statement in the
                  source code block.  This header argument places Org-babel in
@@ -246,14 +251,14 @@ language-specific header arguments.
 
 **** =:tangle= 
 
-     Specify whether or not the source-code block should be included
-     in tangled extraction of source-code files.
+     Specify whether or not the source code block should be included
+     in tangled extraction of source code files.
 
-     - yes :: The source-code block is exported to a source-code file
+     - yes :: The source code block is exported to a source code file
               named after the basename (name w/o extension) of the
               Org-mode file.  E.g., =:tangle yes=.
-      - no (default) :: The source-code block is not exported to a
-                        source-code file.  E.g., =:tangle no=.
+      - no (default) :: The source code block is not exported to a
+                        source code file.  E.g., =:tangle no=.
       - other :: Any other string passed to the =:tangle= header argument
                  is interpreted as a file basename to which the block will
                  be exported.  E.g., =:tangle basename.ext=.
@@ -289,15 +294,14 @@ language-specific header arguments.
        written as if it were the body of such a function. In particular,
        note that python does not automatically return a value from a
        function unless a =return= statement is present, and so a
-       'return' statement will usually be required in python :results
-       value (non-session).
+       'return' statement will usually be required in python.
 
        This is the only one of the four evaluation contexts in which the
        code is automatically wrapped in a function definition.
 
 ****** =:results output=
        The code is passed to the interpreter as an external process, and
-       the contents of the standard output stream is returned as
+       the contents of the standard output stream are returned as
        text. (In certain languages this also contains the error output
        stream; this is an area for future work.)
 
@@ -348,8 +352,8 @@ language-specific header arguments.
 **** =:noweb=
 
      Controls the expansion of [[noweb-reference-syntax][noweb syntax]] references in a
-     source-code block.  This header argument can have one of two
-     values either =yes= or =no=.  The default value is =no=.
+     source code block.  This header argument can have one of two
+     values: =yes= or =no=.  The default value is =no=.
      - =no= :: no [[noweb-reference-syntax][noweb syntax]] specific action is taken on evaluating
           source code blocks, however noweb references will still be
           expanded during tangling
@@ -361,23 +365,23 @@ language-specific header arguments.
       noweb insertions are now placed behind the line prefix of the
       =<<>>= reference
       
-      So, for example since the following =<<example>>= noweb
-      reference appears behind the SQL comment syntax the entire
-      inserted body will also be SQL commented
+      So, for example since the =<<example>>= noweb reference in the
+      following example appears behind the SQL comment syntax, the
+      entire inserted body will also be SQL commented:
     
       #+begin_example 
         -- <<example>>
       #+end_example
       
     
-      expands to
+      This example expands to:
 
       #+begin_example 
         -- this is the
         -- multi-line body of example
       #+end_example
     
-      Note that noweb replacement text which does *not* contain any
+      Note that noweb replacement text that does *not* contain any
       newlines will not be affected by this change, so it is still
       possible to use inline noweb references.
     
@@ -386,16 +390,18 @@ language-specific header arguments.
 **** =:cache=
 
      Controls the use of in-buffer caching of source code block
-     results to avoid re-running unchanged source-code blocks.  This
-     header argument can have one of two values either =yes= or =no=.
+     results to avoid re-running unchanged source code blocks.  This
+     header argument can have one of two values: =yes= or =no=.
      The default value is =no=.
      - =no= :: no caching takes place and the source code block will
-          be run every time it is executed
-     - =yes= :: every time the source-code block is run a sha1 hash of
+          be run every time it is executed.
+     - =yes= :: every time the source code block is run a sha1 hash of
           the code and arguments passed to the block will be
           generated.  This hash is packed into the =#+results:= line
           of the results and will be checked on subsequent executions
-          of the source code block.
+          of the source code block.  If the source code block has not
+          changed since the last time it was evaluated, it will not be
+          re-evaluated. 
 
 *** Noweb reference syntax
     :PROPERTIES:
@@ -403,11 +409,12 @@ language-specific header arguments.
     :END:
 
     The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
-    be referenced by using the
+    be referenced by using the familiar noweb syntax:
     : <<code-block-name>>
-    syntax.  When a document is tangled, these references are replaced with
-    the named code.  An example is provided in the
-    [[literate programming example]].
+    When a document is tangled, these references are replaced with the
+    named code.  Depending upon the value of the =:noweb= header
+    argument, a noweb reference is expanded before evaluation.  An
+    example is provided in the [[literate programming example]].
 
 *** Functions
 *** Variables
