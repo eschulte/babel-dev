@@ -367,29 +367,21 @@ HTML export of the resulting image:
 
 The basic syntax of source code blocks in Org-babel is as follows:
 
-: #+srcname: name(arguments)
 : #+begin_src language header-arguments
 : body
 : #+end_src
 
-- name :: This name is associated with the source code block.  This is
-     similar to the =#+tblname= lines which can be used to name tables
-     in Org-mode files.  By referencing the srcname of a source-code
-     block it is possible to evaluate the block from other places in
-     the file, from other files, or from inside Org-mode tables.
-- arguments :: Source code blocks can have [[#arguments-to-source-code-blocks][arguments]] using a familiar
-               function-call syntax similar to languages such as python or R.
 - language :: The language of the code in the source-code block. Valid
      values must be members of =org-babel-interpreters=.
 - header-arguments :: Header arguments control many facets of the
-     evaluation and output of source-code blocks.  See the [[* Header Arguments][Header
+     evaluation and output of source-code blocks.  See the [[file:reference.org::#header-arguments][Header
      Arguments]] section for a complete review of available header
      arguments.
 - body :: The source code to be evaluated.  An important key-binding
-          is C-c '.  This calls =org-edit-special=, a function that
-          brings up an edit buffer containing the code using the Emacs
-          major mode appropriate to the language.  You can edit your
-          source code block as you regularly would in Emacs.
+     is C-c '.  This calls =org-edit-src-code=, a function that brings
+     up an edit buffer containing the code using the Emacs major mode
+     appropriate to the language.  You can edit your source code block
+     as you regularly would in Emacs.
 
 *** Capturing the Results of Code Evaluation
     :PROPERTIES:
@@ -836,8 +828,8 @@ Org-babel.
     :CUSTOM_ID: literate-programming-example
     :END:
 
-Tangling functionality is controlled by the =tangle= family of
-[[header-arguments]].  These arguments can be used to turn tangling on or
+Tangling functionality is controlled by the =tangle= family of [[tangle-header-arguments][Tangle
+header arguments]].  These arguments can be used to turn tangling on or
 off (the default), either for the source code block or the Org-mode
 heading level.
 
@@ -926,7 +918,7 @@ block but are passed literally to =example-block()=.
 
 *** Emacs Initialization with Org-babel
     :PROPERTIES:
-    :CUSTOM_ID: literate-emacs-initialization
+    :CUSTOM_ID: emacs-initialization
     :END:
 
 #+attr_html: style="float:left;"
@@ -942,9 +934,9 @@ This allows you to make use of the nice features of Org-mode, such as folding, t
 notes, HTML export, etc., to organize and maintain your Emacs initialization.
 
 To try this out, either see the simple [[literate-emacs-init][Literate Emacs Initialization]]
-example, or check out the Org-babel Literate
-Programming version of Phil Hagelberg's excellent [[http://github.com/technomancy/emacs-starter-kit/tree/master][emacs-starter-kit]]
-available at [[http://github.com/eschulte/emacs-starter-kit/tree/master][Org-babel-emacs-starter-kit]].
+example, or check out the Org-babel Literate Programming version of
+Phil Hagelberg's excellent [[http://github.com/technomancy/emacs-starter-kit/tree/master][emacs-starter-kit]] available at
+[[http://github.com/eschulte/emacs-starter-kit/tree/master][Org-babel-emacs-starter-kit]].
 
 ***** Literate Emacs Initialization
       :PROPERTIES:
