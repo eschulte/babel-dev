@@ -1,5 +1,6 @@
 ---
 layout: default
+title: publish
 ---
 
 
@@ -21,7 +22,8 @@ reused in other projects.
    <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let</span> <span style="color: #7f7f7f;">((</span>full-file <span style="color: #7f7f7f;">(</span>expand-file-name
                      <span style="color: #7f7f7f;">(</span>concat file <span style="color: #A5C261;">".org"</span><span style="color: #7f7f7f;">)</span>
                      <span style="color: #7f7f7f;">(</span>file-name-directory <span style="color: #7f7f7f;">(</span>buffer-file-name<span style="color: #7f7f7f;">))))</span>
-         <span style="color: #7f7f7f;">(</span>yaml-front-matter '<span style="color: #7f7f7f;">((</span><span style="color: #A5C261;">"layout"</span> . <span style="color: #A5C261;">"default"</span><span style="color: #7f7f7f;">)))</span>
+         <span style="color: #7f7f7f;">(</span>yaml-front-matter `<span style="color: #7f7f7f;">((</span><span style="color: #A5C261;">"layout"</span> . <span style="color: #A5C261;">"default"</span><span style="color: #7f7f7f;">)</span>
+                              <span style="color: #7f7f7f;">(</span><span style="color: #A5C261;">"title"</span> . ,file<span style="color: #7f7f7f;">)))</span>
          html<span style="color: #7f7f7f;">)</span>
      <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">go to the top level tasks heading
 </span>     <span style="color: #7f7f7f;">(</span>find-file full-file<span style="color: #7f7f7f;">)</span>
