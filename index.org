@@ -31,7 +31,7 @@
   </div>
 #+end_html
   
-Org-babel extends the very excellent [[http://orgmode.org/][Org-mode]] with the ability to
+Org-babel extends the very excellent Org-mode with the ability to
 execute source code within Org-mode documents.  Org-mode is an [[http://www.gnu.org/software/emacs/][Emacs]]
 major mode for doing almost anything with plain text.  If you are not
 familiar with Org-mode please take a moment to read [[http://orgmode.org/][the Org-mode

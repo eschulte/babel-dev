@@ -425,7 +425,10 @@ each more specific than the last.
        - none :: nothing is included in the exported file.  E.g.,
                  =:exports none=.
 
-***** =:tangle= 
+***** =:tangle=
+      :PROPERTIES:
+      :CUSTOM_ID: tangle-header-arguments
+      :END: 
 
       Specify whether or not the source code block should be included
       in tangled extraction of source code files.

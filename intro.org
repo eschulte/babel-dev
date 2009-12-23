@@ -825,8 +825,8 @@ Org-babel.
     :CUSTOM_ID: literate-programming-example
     :END:
 
-Tangling functionality is controlled by the =tangle= family of
-[[header-arguments]].  These arguments can be used to turn tangling on or
+Tangling functionality is controlled by the =tangle= family of [[tangle-header-arguments][Tangle
+header arguments]].  These arguments can be used to turn tangling on or
 off (the default), either for the source code block or the Org-mode
 heading level.
 
@@ -915,7 +915,7 @@ block but are passed literally to =example-block()=.
 
 *** Emacs Initialization with Org-babel
     :PROPERTIES:
-    :CUSTOM_ID: literate-emacs-initialization
+    :CUSTOM_ID: emacs-initialization
     :END:
 
 #+attr_html: style="float:left;"
@@ -931,9 +931,9 @@ This allows you to make use of the nice features of Org-mode, such as folding, t
 notes, HTML export, etc., to organize and maintain your Emacs initialization.
 
 To try this out, either see the simple [[literate-emacs-init][Literate Emacs Initialization]]
-example, or check out the Org-babel Literate
-Programming version of Phil Hagelberg's excellent [[http://github.com/technomancy/emacs-starter-kit/tree/master][emacs-starter-kit]]
-available at [[http://github.com/eschulte/emacs-starter-kit/tree/master][Org-babel-emacs-starter-kit]].
+example, or check out the Org-babel Literate Programming version of
+Phil Hagelberg's excellent [[http://github.com/technomancy/emacs-starter-kit/tree/master][emacs-starter-kit]] available at
+[[http://github.com/eschulte/emacs-starter-kit/tree/master][Org-babel-emacs-starter-kit]].
 
 ***** Literate Emacs Initialization
       :PROPERTIES:
