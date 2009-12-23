@@ -4,7 +4,7 @@
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+TITLE:      Org-babel: Reference
 #+AUTHOR:     Eric Schulte, Dan Davison, Tom Dye
-#+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk
+#+EMAIL:      schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk, tsd at tsdye dot com
 #+LANGUAGE:   en
 #+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
 
@@ -140,7 +140,7 @@ language-specific header arguments.
       :CUSTOM_ID: var-argument-indexing
       :END:
       
-      it is now possible to only assign a portion of a value to a
+      It is possible to assign a portion of a value to a
       variable in a source block.  The following example
       assigns the second and third rows of the table
       =example-table= to the variable =data=:
@@ -150,6 +150,7 @@ language-specific header arguments.
       #+end_example
 
       *Note:* ranges are indexed using the =:= operator.
+      
       *Note:* indices are 0 based.
 
       The following example assigns the second column of the
@@ -162,7 +163,7 @@ language-specific header arguments.
     
       It is possible to index into the results of source code blocks
       as well as tables.  Any number of dimensions can be indexed.
-      Dimensions are separated from one another by a =,=.  
+      Dimensions are separated from one another by commas.  
 
 
       For more information on indexing behavior see
