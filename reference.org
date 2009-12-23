@@ -269,12 +269,13 @@ each more specific than the last.
        The following options are mutually exclusive, and specify how the
        results should be collected from the source code block.
 
-       - value :: The result is the value of the last statement in the
-                  source code block.  This header argument places Org-babel in
-                  functional mode.  Note that in some languages, e.g., python, use of this
-                  result type requires that a =return= statement be
-                  included in the body of the source code block. E.g.,
-                  =:results value=.
+       - value :: This is the default value.  The result is the value
+                  of the last statement in the source code block.
+                  This header argument places Org-babel in functional
+                  mode.  Note that in some languages, e.g., python,
+                  use of this result type requires that a =return=
+                  statement be included in the body of the source code
+                  block. E.g., =:results value=.
       - output :: The result is the collection of everything printed
                   to stdout during the execution of the source code
                   block.  This header argument places Org-babel in scripting
@@ -282,7 +283,9 @@ each more specific than the last.
 
 ****** type
        The following options are mutually exclusive and specify what
-       type of results the code block will return.
+       type of results the code block will return.  By default results
+       are inserted as either a *table* or *scalar* depending on their
+       value.
 
        - table, vector :: The results should be interpreted as an Org-mode table.
                           If a single value is returned, Org-babel will convert it
@@ -316,8 +319,9 @@ each more specific than the last.
        - silent :: The results will be echoed in the minibuffer but
                    will not be inserted into the Org-mode buffer.  E.g.,
                    =:results output silent=.
-       - replace :: The results will be inserted into the Org-mode
-                    buffer.  E.g., =:results output replace=.
+       - replace :: The default value.  The results will be inserted
+                    into the Org-mode buffer.  E.g., =:results output
+                    replace=.
 
 ***** =:exports=
 
@@ -341,8 +345,8 @@ each more specific than the last.
       - yes :: The source code block is exported to a source code file
                named after the basename (name w/o extension) of the
                Org-mode file.  E.g., =:tangle yes=.
-       - no (default) :: The source code block is not exported to a
-                         source code file.  E.g., =:tangle no=.
+       - no :: The default value.  The source code block is not
+            exported to a source code file.  E.g., =:tangle no=.
        - other :: Any other string passed to the =:tangle= header argument
                   is interpreted as a file basename to which the block will
                   be exported.  E.g., =:tangle basename=.
