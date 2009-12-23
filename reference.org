@@ -12,6 +12,73 @@
   :PROPERTIES:
   :CUSTOM_ID: reference-and-documentation
   :END:
+*** Syntax
+**** Source code block
+The basic syntax of source code blocks in Org-babel is as follows:
+
+: #+begin_src language header-arguments
+: body
+: #+end_src
+
+- language :: The language of the code in the source-code block. Valid
+     values must be members of =org-babel-interpreters=.
+- header-arguments :: Header arguments control many facets of the
+     evaluation and output of source-code blocks.  See the [[header-arguments][Header
+     Arguments]] section for a complete review of available header
+     arguments.
+- body :: The source code to be evaluated.  An important key-binding
+     is C-c '.  This calls =org-edit-src-code=, a function that brings
+     up an edit buffer containing the code using the Emacs major mode
+     appropriate to the language.  You can edit your source code block
+     as you regularly would in Emacs.
+
+This syntax can be expanded by naming the source-code block.
+
+: #+source: name
+: #+begin_src language header-arguments
+:   
+: #+end_src
+
+- name :: This name is associated with the source code block.  This is
+     similar to the =#+tblname= lines which can be used to name tables
+     in Org-mode files.  By referencing the srcname of a source-code
+     block it is possible to evaluate the block from other places in
+     the file, from other files, or from inside Org-mode tables.  It
+     is also possible to pass arguments to a source-code block through
+     this =#+source:= line (see [[alternate-argument-syntax][Alternate argument syntax]]).
+
+**** Library of Babel
+[[file:library-of-babel.org][Library of Babel]] functions can be called using the following syntax.
+
+: #+lob: R-plot(data=R-plot-example-data)
+
+**** Aliases
+     A number of aliases for Org-babel keywords have emerged that may
+     be more natural than their predecessors.  The following aliases
+     could be used in the following example
+     #+begin_example
+       ,#+srcname: alias-example
+       ,#+begin_src emacs-lisp 
+         '((call lob)
+           (source function srcname)
+           (results resname))  
+       ,#+end_src
+       
+       ,#+results: alias-example
+       | call    | lob      |         |
+       | source  | function | srcname |
+       | results | resname  |         |
+     #+end_example
+       - /srcname/ could be replaced with either /source/ or /function/
+       - /results/ could be replaced with /resname/
+
+     When calling Library of Babel functions as in the following
+     example there are two acceptable keywords.  /lob/ could be
+     replaced with /call/.
+     #+begin_example
+       ,#+lob: R-plot(data=R-plot-example-data)
+     #+end_example
+
 *** Languages
     :PROPERTIES:
     :CUSTOM_ID: languages
@@ -60,7 +127,7 @@ addition, some languages may add their own header arguments.  Please
 see the language-specific documentation for information on
 language-specific header arguments.
 
-**** Setting Header Arguments
+**** Using Header Arguments
 
 The values of header arguments can be set in three different ways,
 each more specific than the last.
@@ -208,6 +275,22 @@ each more specific than the last.
              : 4
            #+end_example
 
+****** alternate argument syntax
+       :PROPERTIES:
+       :CUSTOM_ID: alternate-argument-syntax
+       :END:
+       
+       It is also possible to specify arguments in a potentially more
+       natural way using the =#+source:= line of a source code block.
+       As in the following example arguments can be packed inside of
+       parenthesis following the source name.
+       #+begin_example 
+         ,#+source: double(input=0)
+         ,#+begin_src emacs-lisp
+           (* 2 input)
+         ,#+end_src
+       #+end_example
+       
 ****** indexable variable values
        :PROPERTIES:
        :CUSTOM_ID: var-argument-indexing

@@ -364,29 +364,21 @@ HTML export of the resulting image:
 
 The basic syntax of source code blocks in Org-babel is as follows:
 
-: #+srcname: name(arguments)
 : #+begin_src language header-arguments
 : body
 : #+end_src
 
-- name :: This name is associated with the source code block.  This is
-     similar to the =#+tblname= lines which can be used to name tables
-     in Org-mode files.  By referencing the srcname of a source-code
-     block it is possible to evaluate the block from other places in
-     the file, from other files, or from inside Org-mode tables.
-- arguments :: Source code blocks can have [[#arguments-to-source-code-blocks][arguments]] using a familiar
-               function-call syntax similar to languages such as python or R.
 - language :: The language of the code in the source-code block. Valid
      values must be members of =org-babel-interpreters=.
 - header-arguments :: Header arguments control many facets of the
-     evaluation and output of source-code blocks.  See the [[* Header Arguments][Header
+     evaluation and output of source-code blocks.  See the [[file:reference.org::#header-arguments][Header
      Arguments]] section for a complete review of available header
      arguments.
 - body :: The source code to be evaluated.  An important key-binding
-          is C-c '.  This calls =org-edit-src-code=, a function that
-          brings up an edit buffer containing the code using the Emacs
-          major mode appropriate to the language.  You can edit your
-          source code block as you regularly would in Emacs.
+     is C-c '.  This calls =org-edit-src-code=, a function that brings
+     up an edit buffer containing the code using the Emacs major mode
+     appropriate to the language.  You can edit your source code block
+     as you regularly would in Emacs.
 
 *** Capturing the Results of Code Evaluation
     :PROPERTIES:
