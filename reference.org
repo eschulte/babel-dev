@@ -13,17 +13,17 @@
   :CUSTOM_ID: reference-and-documentation
   :END:
 *** Syntax
-**** Source code block
+**** Source Code Block
 The basic syntax of source code blocks in Org-babel is as follows:
 
 : #+begin_src language header-arguments
 : body
 : #+end_src
 
-- language :: The language of the code in the source-code block. Valid
+- language :: The language of the code in the source code block. Valid
      values must be members of =org-babel-interpreters=.
 - header-arguments :: Header arguments control many facets of the
-     evaluation and output of source-code blocks.  See the [[header-arguments][Header
+     evaluation and output of source code blocks.  See the [[header-arguments][Header
      Arguments]] section for a complete review of available header
      arguments.
 - body :: The source code to be evaluated.  An important key-binding
@@ -32,7 +32,7 @@ The basic syntax of source code blocks in Org-babel is as follows:
      appropriate to the language.  You can edit your source code block
      as you regularly would in Emacs.
 
-This syntax can be expanded by naming the source-code block.
+This syntax can be expanded by naming the source code block.
 
 : #+source: name
 : #+begin_src language header-arguments
@@ -41,10 +41,10 @@ This syntax can be expanded by naming the source-code block.
 
 - name :: This name is associated with the source code block.  This is
      similar to the =#+tblname= lines which can be used to name tables
-     in Org-mode files.  By referencing the srcname of a source-code
+     in Org-mode files.  By referencing the name of a source code
      block it is possible to evaluate the block from other places in
      the file, from other files, or from inside Org-mode tables.  It
-     is also possible to pass arguments to a source-code block through
+     is also possible to pass arguments to a source code block through
      this =#+source:= line (see [[alternate-argument-syntax][Alternate argument syntax]]).
 
 **** Library of Babel
@@ -69,12 +69,12 @@ This syntax can be expanded by naming the source-code block.
        | source  | function | srcname |
        | results | resname  |         |
      #+end_example
-       - /srcname/ could be replaced with either /source/ or /function/
-       - /results/ could be replaced with /resname/
+       - =#+srcname:= could be replaced with either of two aliases,  =#+source:= or =#+function:=.
+       - =#+results:= could be replaced with its alias, =#+resname:=.
 
-     When calling Library of Babel functions as in the following
-     example there are two acceptable keywords.  /lob/ could be
-     replaced with /call/.
+     When calling Library of Babel functions, as in the following
+     example, there are two acceptable keywords.  The =#+lob= call in
+     the example could be replaced with its alias, =#+call=.
      #+begin_example
        ,#+lob: R-plot(data=R-plot-example-data)
      #+end_example
@@ -151,7 +151,7 @@ each more specific than the last.
    [[#default-noweb]]  
    For example, the following example could be used to set the default value
    of =:noweb= header arguments to =yes=.  This would have the effect of 
-   expanding =:noweb= references by default when evaluating source-code blocks.
+   expanding =:noweb= references by default when evaluating source code blocks.
    #+begin_src emacs-lisp :results silent :exports code
      (setq org-babel-default-header-args
            (cons '(:noweb . "yes")
@@ -583,7 +583,7 @@ each more specific than the last.
            changed since the last time it was evaluated, it will not be
            re-evaluated. 
 
-*** Noweb reference syntax
+*** Noweb Reference Syntax
     :PROPERTIES:
     :CUSTOM_ID: noweb-reference-syntax
     :END:
@@ -613,3 +613,16 @@ each more specific than the last.
     An example that uses the Noweb reference syntax is provided in the
     [[literate programming example]].
 
+    
+*** Useful Functions
+    Two org-babel functions might prove generally useful.  Both of
+    them evaluate one or more source code blocks within a frame of
+    reference. 
+
+    - =org-babel-execute-buffer= will evaluate all of the source code
+      blocks in the buffer.  You can call it within Emacs in the usual
+      way, =M-x org-babel-execute-buffer=.
+
+    - =org-babel-execute-subtree= will evaluate all of the source code
+      blocks in the subtree that includes the point.  You can call it
+      within Emacs in the usual way, =M-x org-babel-execute-buffer=.

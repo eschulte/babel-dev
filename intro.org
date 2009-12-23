@@ -33,9 +33,9 @@
   
 * Improving this document					   :noexport:
 ** DONE Document slice indexing of tables
-** TODO Document synonymous alternatives
+** DONE Document synonymous alternatives
    {call,lob}, {source, function, srcname}, {results, resname}
-** TODO Describe useful functions
+** DONE Describe useful functions
    - `org-babel-execute-buffer'
    - `org-babel-execute-subtree'
 
@@ -144,7 +144,7 @@ always holds a string corresponding to the file specified by :file. Eric
 may have further ideas / views here. 
 
 
-** TODO What function is bound to C-c '?
+** DONE What function is bound to C-c '?
    - this document notes two different functions
 * Introduction
   :PROPERTIES:
@@ -999,6 +999,6 @@ For a simple example of usage, follow these 5 steps:
 5)  re-start Emacs to load the customizations.
 
 * Footnotes
-[fn:1] Calling C-c C-o on a source code block will open the
+[fn:1] Calling =C-c C-o= on a source code block will open the
 block's results in a separate buffer.
 
