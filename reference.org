@@ -55,282 +55,349 @@
     :CUSTOM_ID: header-arguments
     :END:
 
-Definitions of all Org-babel header arguments are given below.  In
+Definitions of all Org-babel header arguments are given [[header-argument-specific-documentation][below]].  In
 addition some languages may add their own header arguments.  Please
 see the language-specific documentation for information on
 language-specific header arguments.
 
-**** =:var=
-     The =:var= header argument is used to pass arguments to
-     source code blocks.  The specifics of how arguments are included
-     in a source code block are language specific and are
-     addressed in the language-specific documentation. However, the
-     syntax used to specify arguments is the same across all
-     languages.  The values passed to arguments can be or
-     - literal values
-     - values from org-mode tables
-     - the results of other source code blocks
+**** Setting Header Arguments
 
-     These values can be indexed in a manner similar to arrays -- see
-     [[var-argument-indexing][argument indexing]].
+The values of header arguments can be set in three different ways,
+each more specific than the last.
 
-     The following syntax is used to pass arguments to source code
-     blocks using the =:var= header argument.
+1) system-wide values of header arguments can be specified by
+   customizing the =org-babel-default-header-args= variable.
+   #+begin_example 
+     org-babel-default-header-args is a variable defined in `org-babel.el'.
+     Its value is 
+     ((:session . "none")
+      (:results . "replace")
+      (:exports . "code")
+      (:cache . "no")
+      (:noweb . "no"))
+     
+     
+     Documentation:
+     Default arguments to use when evaluating a source block.
+   #+end_example
+   For example, the following could be used to set the default value
+   of =:noweb= header arguments to "yes" having the effect of always
+   expanding =:noweb= references when evaluation source-code blocks
+   #+begin_src emacs-lisp :results silent :exports none
+     (setq org-babel-default-header-args
+           (cons '(:noweb . "yes")
+                 (assq-delete-all :noweb org-babel-default-header-args)))
+   #+end_src
 
-     #+begin_example
-       :var name=assign
-     #+end_example
+2) header arguments are also read from [[http://orgmode.org/manual/Properties-and-Columns.html#Properties-and-Columns][Org-mode properties]], which
+   means they can be set on the outline header level.  For example the
+   value of the =:cache= header argument will default to true in all
+   source code blocks under the following Org-mode outline header.
+   Properties defined in this way override the properties set in
+   =org-babel-default-header-args=.  It is convenient to use the
+   =org-set-property= function bound to C-c C-x C-p to set properties
+   in Org-mode documents.
+   #+begin_example 
+     ,* outline header
+       :PROPERTIES:
+       :cache:    yes
+       :END:
+   #+end_example
 
-     where =assign= can take one of the following forms
+3) the most common way to assign values to header arguments is at the
+   source-code block level.  This can be done by listing a sequence of
+   header arguments and their values as part of the =#+begin_src=
+   line.  Properties set in this way override both the values of
+   =org-babel-default-header-args= and header argument specified as
+   properties.  In the following example source-code block the
+   =:results= header argument is set to =silent=, meaning the results
+   of execution will not be inserted in the buffer, and the =:exports=
+   header argument is set to =code= meaning only the body of the block
+   will be preserved on export to HTML or LaTeX.
+   #+begin_example 
+     ,#+source: factorial
+     ,#+begin_src haskell :results silent :exports code
+       fac 0 = 1
+       fac n = n * fac (n-1)  
+     ,#+end_src
+   #+end_example
 
-     - literal value :: either a string ="string"= or a number =9=.
-     - reference :: a table name:
-          
-          #+begin_example
-            ,#+tblname: example-table
-            | 1 |
-            | 2 |
-            | 3 |
-            | 4 |
-            
-            ,#+source: table-length
-            ,#+begin_src emacs-lisp :var table=example-table
-              (length table)
-            ,#+end_src
-            
-            ,#+results: table-length
-            : 4
-          #+end_example
-          
-          a source code block name, as assigned by =#+srcname:=,
-          followed by parentheses:
-          
-          #+begin_example
-            ,#+begin_src emacs-lisp :var length=table-length()
-              (* 2 length)
-            ,#+end_src
-            
-            ,#+results:
-            : 8
-          #+end_example
-          
-          In addition, an argument can be passed to the source code
-          block referenced by =:var=.  The argument is passed within
-          the parentheses following the source code block name:
-          
-          #+begin_example 
-            ,#+source: double
-            ,#+begin_src emacs-lisp :var input=8
-              (* 2 input)
-            ,#+end_src
-            
-            ,#+results: double
-            : 16
-            
-            ,#+source: squared
-            ,#+begin_src emacs-lisp :var input=double(input=1)
-              (* input input)
-            ,#+end_src
-            
-            ,#+results: squared
-            : 4
-          #+end_example
-
-***** indexable variable values
+**** Header Argument Specific Documentation
       :PROPERTIES:
-      :CUSTOM_ID: var-argument-indexing
+      :CUSTOM_ID: header-argument-specific-documentation
       :END:
-      
-      It is possible to assign a portion of a value to a
-      variable in a source block.  The following example
-      assigns the second and third rows of the table
-      =example-table= to the variable =data=:
-    
+
+***** =:var=
+      The =:var= header argument is used to pass arguments to
+      source code blocks.  The specifics of how arguments are included
+      in a source code block are language specific and are
+      addressed in the language-specific documentation. However, the
+      syntax used to specify arguments is the same across all
+      languages.  The values passed to arguments can be or
+      - literal values
+      - values from org-mode tables
+      - the results of other source code blocks
+
+      These values can be indexed in a manner similar to arrays -- see
+      [[var-argument-indexing][argument indexing]].
+
+      The following syntax is used to pass arguments to source code
+      blocks using the =:var= header argument.
+
       #+begin_example
-        :var data=example-table[1:2]
+        :var name=assign
       #+end_example
 
-      *Note:* ranges are indexed using the =:= operator.
-      
-      *Note:* indices are 0 based.
+      where =assign= can take one of the following forms
 
-      The following example assigns the second column of the
-      first row of =example-table= to =data=:
-    
-      #+begin_example
-        :var data=example-table[0,1]
-      #+end_example
-    
-      It is possible to index into the results of source code blocks
-      as well as tables.  Any number of dimensions can be indexed.
-      Dimensions are separated from one another by commas.  
+      - literal value :: either a string ="string"= or a number =9=.
+      - reference :: a table name:
+           
+           #+begin_example
+             ,#+tblname: example-table
+             | 1 |
+             | 2 |
+             | 3 |
+             | 4 |
+             
+             ,#+source: table-length
+             ,#+begin_src emacs-lisp :var table=example-table
+               (length table)
+             ,#+end_src
+             
+             ,#+results: table-length
+             : 4
+           #+end_example
+           
+           a source code block name, as assigned by =#+srcname:=,
+           followed by parentheses:
+           
+           #+begin_example
+             ,#+begin_src emacs-lisp :var length=table-length()
+               (* 2 length)
+             ,#+end_src
+             
+             ,#+results:
+             : 8
+           #+end_example
+           
+           In addition, an argument can be passed to the source code
+           block referenced by =:var=.  The argument is passed within
+           the parentheses following the source code block name:
+           
+           #+begin_example 
+             ,#+source: double
+             ,#+begin_src emacs-lisp :var input=8
+               (* 2 input)
+             ,#+end_src
+             
+             ,#+results: double
+             : 16
+             
+             ,#+source: squared
+             ,#+begin_src emacs-lisp :var input=double(input=1)
+               (* input input)
+             ,#+end_src
+             
+             ,#+results: squared
+             : 4
+           #+end_example
 
-      For more information on indexing behavior see the documentation
-      for the =org-babel-ref-index-list= function -- provided below.
-      
-      #+begin_example 
-        org-babel-ref-index-list is a Lisp function in `org-babel-ref.el'.
-        
-        (org-babel-ref-index-list INDEX LIS)
-        
-        Return the subset of LIS indexed by INDEX.  If INDEX is
-        separated by ,s then each PORTION is assumed to index into the
-        next deepest nesting or dimension.  A valid PORTION can consist
-        of either an integer index, or two integers separated by a : in
-        which case the entire range is returned.
-      #+end_example
+****** indexable variable values
+       :PROPERTIES:
+       :CUSTOM_ID: var-argument-indexing
+       :END:
+       
+       It is possible to assign a portion of a value to a
+       variable in a source block.  The following example
+       assigns the second and third rows of the table
+       =example-table= to the variable =data=:
+     
+       #+begin_example
+         :var data=example-table[1:2]
+       #+end_example
 
-      *Note:* In Emacs, the documentation for any function or variable
-      can be read using the =describe-function= (M-x describe
-      function) and =describe-variable= (M-x describe variable)
-      functions, respectively.
+       *Note:* ranges are indexed using the =:= operator.
+       
+       *Note:* indices are 0 based.
 
-**** =:results=
-     There are three types of results header argument:
-     1) *collection* header arguments specify how the results should be collected from
-        the source code block;
-     2) *type* header arguments specify what type of result the source code block
-        will return -- which has implications for how they will be
-        inserted into the Org-mode buffer; and
-     3) *handling* header arguments specify how the results of
-        evaluating the source code block should be handled.
+       The following example assigns the second column of the
+       first row of =example-table= to =data=:
+     
+       #+begin_example
+         :var data=example-table[0,1]
+       #+end_example
+     
+       It is possible to index into the results of source code blocks
+       as well as tables.  Any number of dimensions can be indexed.
+       Dimensions are separated from one another by commas.  
 
-	Only one option from each type may be supplied per source code
-        block.
+       For more information on indexing behavior see the documentation
+       for the =org-babel-ref-index-list= function -- provided below.
+       
+       #+begin_example 
+         org-babel-ref-index-list is a Lisp function in `org-babel-ref.el'.
+         
+         (org-babel-ref-index-list INDEX LIS)
+         
+         Return the subset of LIS indexed by INDEX.  If INDEX is
+         separated by ,s then each PORTION is assumed to index into the
+         next deepest nesting or dimension.  A valid PORTION can consist
+         of either an integer index, or two integers separated by a : in
+         which case the entire range is returned.
+       #+end_example
 
-***** collection
-      The following options are mutually exclusive, and specify how the
-      results should be collected from the source code block.
+       *Note:* In Emacs, the documentation for any function or variable
+       can be read using the =describe-function= (M-x describe
+       function) and =describe-variable= (M-x describe variable)
+       functions, respectively.
 
-      - value :: The result is the value of the last statement in the
-                 source code block.  This header argument places Org-babel in
-                 functional mode.  Note that in some languages, e.g., python, use of this
-                 result type requires that a =return= statement be
-                 included in the body of the source code block. E.g.,
-                 =:results value=.
-     - output :: The result is the collection of everything printed
-                 to stdout during the execution of the source code
-                 block.  This header argument places Org-babel in scripting
-                 mode.  E.g., =:results output=.
+***** =:results=
+      There are three types of results header argument:
+      1) *collection* header arguments specify how the results should be collected from
+         the source code block;
+      2) *type* header arguments specify what type of result the source code block
+         will return -- which has implications for how they will be
+         inserted into the Org-mode buffer; and
+      3) *handling* header arguments specify how the results of
+         evaluating the source code block should be handled.
 
-***** type
-      The following options are mutually exclusive and specify what
-      type of results the code block will return.
+	 Only one option from each type may be supplied per source code
+         block.
 
-      - table, vector :: The results should be interpreted as an Org-mode table.
-                         If a single value is returned, Org-babel will convert it
-                         into a table with one row and one column.  E.g., =:results
-                         value table=.
-      - scalar, verbatim :: The results should be interpreted
-           literally -- meaning they will not be converted into a table.
-           The results will be inserted into the Org-mode buffer as
-           quoted text.  E.g., =:results value verbatim=.
-      - file :: The results will be interpreted as the path to a file,
-                and will be inserted into the Org-mode buffer as a file
-                link.  E.g., =:results value file=.
-      - raw, org :: The results are interpreted as raw Org-mode code and
-                    are inserted directly into the buffer.  If the results look
-                    like a table they will be aligned as such by Org-mode.
-                    E.g., =:results value raw=.
-      - html :: Results are assumed to be HTML and will be enclosed in
-                a =begin_html= block.  E.g., =:results value html=.
-      - latex :: Results assumed to be LaTeX and are enclosed in a
-                 =begin_latex= block.  E.g., =:results value latex=.
-      - code :: Result are assumed to be parseable code and are
-                enclosed in a code block.  E.g., =:results value code=.
-      - pp :: The result is converted to pretty-printed code and is
-              enclosed in a code block.  This option currently supports
-              Emacs Lisp, python, and ruby.  E.g., =:results value pp=.
+****** collection
+       The following options are mutually exclusive, and specify how the
+       results should be collected from the source code block.
 
-***** handling
-      The following results options indicate what Org-babel should do
-      with the results once they are collected.
+       - value :: The result is the value of the last statement in the
+                  source code block.  This header argument places Org-babel in
+                  functional mode.  Note that in some languages, e.g., python, use of this
+                  result type requires that a =return= statement be
+                  included in the body of the source code block. E.g.,
+                  =:results value=.
+      - output :: The result is the collection of everything printed
+                  to stdout during the execution of the source code
+                  block.  This header argument places Org-babel in scripting
+                  mode.  E.g., =:results output=.
 
-      - silent :: The results will be echoed in the minibuffer but
-                  will not be inserted into the Org-mode buffer.  E.g.,
-                  =:results output silent=.
-      - replace :: The results will be inserted into the Org-mode
-                   buffer.  E.g., =:results output replace=.
+****** type
+       The following options are mutually exclusive and specify what
+       type of results the code block will return.
 
-**** =:exports=
+       - table, vector :: The results should be interpreted as an Org-mode table.
+                          If a single value is returned, Org-babel will convert it
+                          into a table with one row and one column.  E.g., =:results
+                          value table=.
+       - scalar, verbatim :: The results should be interpreted
+            literally -- meaning they will not be converted into a table.
+            The results will be inserted into the Org-mode buffer as
+            quoted text.  E.g., =:results value verbatim=.
+       - file :: The results will be interpreted as the path to a file,
+                 and will be inserted into the Org-mode buffer as a file
+                 link.  E.g., =:results value file=.
+       - raw, org :: The results are interpreted as raw Org-mode code and
+                     are inserted directly into the buffer.  If the results look
+                     like a table they will be aligned as such by Org-mode.
+                     E.g., =:results value raw=.
+       - html :: Results are assumed to be HTML and will be enclosed in
+                 a =begin_html= block.  E.g., =:results value html=.
+       - latex :: Results assumed to be LaTeX and are enclosed in a
+                  =begin_latex= block.  E.g., =:results value latex=.
+       - code :: Result are assumed to be parseable code and are
+                 enclosed in a code block.  E.g., =:results value code=.
+       - pp :: The result is converted to pretty-printed code and is
+               enclosed in a code block.  This option currently supports
+               Emacs Lisp, python, and ruby.  E.g., =:results value pp=.
 
-     Specify what should be included in HTML or LaTeX exports of the
-     Org-mode file.
+****** handling
+       The following results options indicate what Org-babel should do
+       with the results once they are collected.
 
-     - code :: The body of code is included into the exported file.
-               E.g., =:exports code=.
-      - results :: The result of evaluating the code is included in the
-                   exported file. E.g., =:exports results=.
-      - both :: Both the code and results are included in the exported
-                file. E.g., =:exports both=.
-      - none :: Nothing is included in the exported file.  E.g.,
-                =:exports none=.
+       - silent :: The results will be echoed in the minibuffer but
+                   will not be inserted into the Org-mode buffer.  E.g.,
+                   =:results output silent=.
+       - replace :: The results will be inserted into the Org-mode
+                    buffer.  E.g., =:results output replace=.
 
-**** =:tangle= 
+***** =:exports=
 
-     Specify whether or not the source code block should be included
-     in tangled extraction of source code files.
+      Specify what should be included in HTML or LaTeX exports of the
+      Org-mode file.
 
-     - yes :: The source code block is exported to a source code file
-              named after the basename (name w/o extension) of the
-              Org-mode file.  E.g., =:tangle yes=.
-      - no (default) :: The source code block is not exported to a
-                        source code file.  E.g., =:tangle no=.
-      - other :: Any other string passed to the =:tangle= header argument
-                 is interpreted as a file basename to which the block will
-                 be exported.  E.g., =:tangle basename=.
+      - code :: The body of code is included into the exported file.
+                E.g., =:exports code=.
+       - results :: The result of evaluating the code is included in the
+                    exported file. E.g., =:exports results=.
+       - both :: Both the code and results are included in the exported
+                 file. E.g., =:exports both=.
+       - none :: Nothing is included in the exported file.  E.g.,
+                 =:exports none=.
 
-**** =:session=
+***** =:tangle= 
 
-     Start a session for an interpreted language where state is
-     preserved.  This applies particularly to the supported languages
-     perl, python, R and ruby.
+      Specify whether or not the source code block should be included
+      in tangled extraction of source code files.
 
-     A string passed to the =:session= header argument will give the
-     session a name.  This makes it possible to have multiple sessions
-     for each interpreted language.
-
-     Results are handled somewhat differently if a session is invoked.
-
-
-     |          | non-session (default)    | =:session=                          |
-     |----------+--------------------------+-------------------------------------|
-     | =value=  | value of last expression | value of last expression            |
-     | =output= | contents of stdout       | concatenation of interpreter output |
-
-
-     Note that in =:results value= the result in both sessions and
-     non-sessions is imported into Org-mode as a table (a one- or
-     two-dimensional vector of strings or numbers) when appropriate.
-
-***** Non-session
-****** =:results value=
-       This is the default. Internally, the value is obtained by
-       wrapping the code in a function definition in the external
-       language, and evaluating that function. Therefore, code should be
-       written as if it were the body of such a function. In particular,
-       note that python does not automatically return a value from a
-       function unless a =return= statement is present, and so a
-       'return' statement will usually be required in python.
-
-       This is the only one of the four evaluation contexts in which the
-       code is automatically wrapped in a function definition.
-
-****** =:results output=
-       The code is passed to the interpreter as an external process, and
-       the contents of the standard output stream are returned as
-       text. (In certain languages this also contains the error output
-       stream; this is an area for future work.)
+      - yes :: The source code block is exported to a source code file
+               named after the basename (name w/o extension) of the
+               Org-mode file.  E.g., =:tangle yes=.
+       - no (default) :: The source code block is not exported to a
+                         source code file.  E.g., =:tangle no=.
+       - other :: Any other string passed to the =:tangle= header argument
+                  is interpreted as a file basename to which the block will
+                  be exported.  E.g., =:tangle basename=.
 
 ***** =:session=
-****** =:results value=
-       The code is passed to the interpreter running as an interactive
-       Emacs inferior process. The result returned is the result of the
-       last evaluation performed by the interpreter. (This is obtained in
-       a language-specific manner: the value of the variable =_= in
-       python and ruby, and the value of =.Last.value= in R).
 
-****** =:results output= 
+      Start a session for an interpreted language where state is
+      preserved.  This applies particularly to the supported languages
+      perl, python, R and ruby.
+
+      A string passed to the =:session= header argument will give the
+      session a name.  This makes it possible to have multiple sessions
+      for each interpreted language.
+
+      Results are handled somewhat differently if a session is invoked.
+
+
+      |          | non-session (default)    | =:session=                          |
+      |----------+--------------------------+-------------------------------------|
+      | =value=  | value of last expression | value of last expression            |
+      | =output= | contents of stdout       | concatenation of interpreter output |
+
+
+      Note that in =:results value= the result in both sessions and
+      non-sessions is imported into Org-mode as a table (a one- or
+      two-dimensional vector of strings or numbers) when appropriate.
+
+****** Non-session
+******* =:results value=
+        This is the default. Internally, the value is obtained by
+        wrapping the code in a function definition in the external
+        language, and evaluating that function. Therefore, code should be
+        written as if it were the body of such a function. In particular,
+        note that python does not automatically return a value from a
+        function unless a =return= statement is present, and so a
+        'return' statement will usually be required in python.
+
+        This is the only one of the four evaluation contexts in which the
+        code is automatically wrapped in a function definition.
+
+******* =:results output=
+        The code is passed to the interpreter as an external process, and
+        the contents of the standard output stream are returned as
+        text. (In certain languages this also contains the error output
+        stream; this is an area for future work.)
+
+****** =:session=
+******* =:results value=
+        The code is passed to the interpreter running as an interactive
+        Emacs inferior process. The result returned is the result of the
+        last evaluation performed by the interpreter. (This is obtained in
+        a language-specific manner: the value of the variable =_= in
+        python and ruby, and the value of =.Last.value= in R).
+
+******* =:results output= 
        The code is passed to the interpreter running as an interactive
        Emacs inferior process. The result returned is the concatenation
        of the sequence of (text) output from the interactive
@@ -366,59 +433,59 @@ language-specific header arguments.
        and prints out its value, '2'. (Indeed, the other print statements are
        unnecessary here).
 
-**** =:noweb=
+***** =:noweb=
 
-     Controls the expansion of [[noweb-reference-syntax][noweb syntax]] references in a
-     source code block.  This header argument can have one of two
-     values: =yes= or =no=.  The default value is =no=.
-     - =no= :: no [[noweb-reference-syntax][noweb syntax]] specific action is taken on evaluating
-          source code blocks, however noweb references will still be
-          expanded during tangling
-     - =yes= :: all [[noweb-reference-syntax][noweb syntax]] references in the body of the source
-     code block will be expanded before the block is evaluated.
+      Controls the expansion of [[noweb-reference-syntax][noweb syntax]] references in a
+      source code block.  This header argument can have one of two
+      values: =yes= or =no=.  The default value is =no=.
+      - =no= :: no [[noweb-reference-syntax][noweb syntax]] specific action is taken on evaluating
+           source code blocks, however noweb references will still be
+           expanded during tangling
+      - =yes= :: all [[noweb-reference-syntax][noweb syntax]] references in the body of the source
+      code block will be expanded before the block is evaluated.
 
-***** noweb prefix lines
+****** noweb prefix lines
 
-      noweb insertions are now placed behind the line prefix of the
-      =<<>>= reference
-      
-      So, for example since the =<<example>>= noweb reference in the
-      following example appears behind the SQL comment syntax, the
-      entire inserted body will also be SQL commented:
-    
-      #+begin_example 
-        -- <<example>>
-      #+end_example
-      
-    
-      This example expands to:
+       noweb insertions are now placed behind the line prefix of the
+       =<<>>= reference
+       
+       So, for example since the =<<example>>= noweb reference in the
+       following example appears behind the SQL comment syntax, the
+       entire inserted body will also be SQL commented:
+     
+       #+begin_example 
+         -- <<example>>
+       #+end_example
+       
+     
+       This example expands to:
 
-      #+begin_example 
-        -- this is the
-        -- multi-line body of example
-      #+end_example
-    
-      Note that noweb replacement text that does *not* contain any
-      newlines will not be affected by this change, so it is still
-      possible to use inline noweb references.
-    
-      Thanks to Sébastien Vauban for this idea.
+       #+begin_example 
+         -- this is the
+         -- multi-line body of example
+       #+end_example
+     
+       Note that noweb replacement text that does *not* contain any
+       newlines will not be affected by this change, so it is still
+       possible to use inline noweb references.
+     
+       Thanks to Sébastien Vauban for this idea.
 
-**** =:cache=
+***** =:cache=
 
-     Controls the use of in-buffer caching of source code block
-     results to avoid re-running unchanged source code blocks.  This
-     header argument can have one of two values: =yes= or =no=.
-     The default value is =no=.
-     - =no= :: no caching takes place and the source code block will
-          be run every time it is executed.
-     - =yes= :: every time the source code block is run a sha1 hash of
-          the code and arguments passed to the block will be
-          generated.  This hash is packed into the =#+results:= line
-          of the results and will be checked on subsequent executions
-          of the source code block.  If the source code block has not
-          changed since the last time it was evaluated, it will not be
-          re-evaluated. 
+      Controls the use of in-buffer caching of source code block
+      results to avoid re-running unchanged source code blocks.  This
+      header argument can have one of two values: =yes= or =no=.
+      The default value is =no=.
+      - =no= :: no caching takes place and the source code block will
+           be run every time it is executed.
+      - =yes= :: every time the source code block is run a sha1 hash of
+           the code and arguments passed to the block will be
+           generated.  This hash is packed into the =#+results:= line
+           of the results and will be checked on subsequent executions
+           of the source code block.  If the source code block has not
+           changed since the last time it was evaluated, it will not be
+           re-evaluated. 
 
 *** Noweb reference syntax
     :PROPERTIES:
