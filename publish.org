@@ -14,7 +14,8 @@ reused in other projects.
      (let ((full-file (expand-file-name
                        (concat file ".org")
                        (file-name-directory (buffer-file-name))))
-           (yaml-front-matter '(("layout" . "default")))
+           (yaml-front-matter `(("layout" . "default")
+                                ("title" . ,file)))
            html)
        ;; go to the top level tasks heading
        (find-file full-file)
