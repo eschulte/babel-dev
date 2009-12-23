@@ -56,7 +56,7 @@
     :END:
 
 Definitions of all Org-babel header arguments are given [[header-argument-specific-documentation][below]].  In
-addition some languages may add their own header arguments.  Please
+addition, some languages may add their own header arguments.  Please
 see the language-specific documentation for information on
 language-specific header arguments.
 
@@ -65,8 +65,9 @@ language-specific header arguments.
 The values of header arguments can be set in three different ways,
 each more specific than the last.
 
-1) system-wide values of header arguments can be specified by
-   customizing the =org-babel-default-header-args= variable.
+***** System-wide
+      System-wide values of header arguments can be specified by
+   customizing the =org-babel-default-header-args= variable:
    #+begin_example 
      org-babel-default-header-args is a variable defined in `org-babel.el'.
      Its value is 
@@ -80,39 +81,43 @@ each more specific than the last.
      Documentation:
      Default arguments to use when evaluating a source block.
    #+end_example
-   For example, the following could be used to set the default value
-   of =:noweb= header arguments to "yes" having the effect of always
-   expanding =:noweb= references when evaluation source-code blocks
-   #+begin_src emacs-lisp :results silent :exports none
+   [[#default-noweb]]  
+   For example, the following example could be used to set the default value
+   of =:noweb= header arguments to =yes=.  This would have the effect of 
+   expanding =:noweb= references by default when evaluating source-code blocks.
+   #+begin_src emacs-lisp :results silent :exports code
      (setq org-babel-default-header-args
            (cons '(:noweb . "yes")
                  (assq-delete-all :noweb org-babel-default-header-args)))
    #+end_src
 
-2) header arguments are also read from [[http://orgmode.org/manual/Properties-and-Columns.html#Properties-and-Columns][Org-mode properties]], which
-   means they can be set on the outline header level.  For example the
+***** Org-mode Properties
+      Header arguments are also read from [[http://orgmode.org/manual/Properties-and-Columns.html#Properties-and-Columns][Org-mode properties]], which
+   means they can be set on the outline header level.  For example, the
    value of the =:cache= header argument will default to true in all
-   source code blocks under the following Org-mode outline header.
-   Properties defined in this way override the properties set in
-   =org-babel-default-header-args=.  It is convenient to use the
-   =org-set-property= function bound to C-c C-x C-p to set properties
-   in Org-mode documents.
+   source code blocks under the following example of an Org-mode outline header:
    #+begin_example 
      ,* outline header
        :PROPERTIES:
        :cache:    yes
        :END:
    #+end_example
+   Properties defined in this way override the properties set in
+   =org-babel-default-header-args=.  It is convenient to use the
+   =org-set-property= function bound to C-c C-x C-p to set properties
+   in Org-mode documents.
 
-3) the most common way to assign values to header arguments is at the
-   source-code block level.  This can be done by listing a sequence of
+***** Source Code Block
+      The most common way to assign values to header arguments is at the
+   source code block level.  This can be done by listing a sequence of
    header arguments and their values as part of the =#+begin_src=
    line.  Properties set in this way override both the values of
    =org-babel-default-header-args= and header argument specified as
-   properties.  In the following example source-code block the
+   properties.  In the following example, the
    =:results= header argument is set to =silent=, meaning the results
    of execution will not be inserted in the buffer, and the =:exports=
-   header argument is set to =code= meaning only the body of the block
+   header argument is set to =code=, meaning only the body of the
+   source code block
    will be preserved on export to HTML or LaTeX.
    #+begin_example 
      ,#+source: factorial
@@ -122,7 +127,7 @@ each more specific than the last.
      ,#+end_src
    #+end_example
 
-**** Header Argument Specific Documentation
+**** Descriptions of Header Arguments
       :PROPERTIES:
       :CUSTOM_ID: header-argument-specific-documentation
       :END:
@@ -254,22 +259,22 @@ each more specific than the last.
 
 ***** =:results=
       There are three types of results header argument:
-      1) *collection* header arguments specify how the results should be collected from
+      - *collection* header arguments specify how the results should be collected from
          the source code block;
-      2) *type* header arguments specify what type of result the source code block
+      - *type* header arguments specify what type of result the source code block
          will return -- which has implications for how they will be
          inserted into the Org-mode buffer; and
-      3) *handling* header arguments specify how the results of
+      - *handling* header arguments specify how the results of
          evaluating the source code block should be handled.
 
-	 Only one option from each type may be supplied per source code
+       *Note:* only one option from each type may be supplied per source code
          block.
 
 ****** collection
        The following options are mutually exclusive, and specify how the
        results should be collected from the source code block.
 
-       - value :: This is the default value.  The result is the value
+       - value :: This is the default.  The result is the value
                   of the last statement in the source code block.
                   This header argument places Org-babel in functional
                   mode.  Note that in some languages, e.g., python,
@@ -283,7 +288,7 @@ each more specific than the last.
 
 ****** type
        The following options are mutually exclusive and specify what
-       type of results the code block will return.  By default results
+       type of results the code block will return.  By default, results
        are inserted as either a *table* or *scalar* depending on their
        value.
 
@@ -328,13 +333,13 @@ each more specific than the last.
       Specify what should be included in HTML or LaTeX exports of the
       Org-mode file.
 
-      - code :: The body of code is included into the exported file.
-                E.g., =:exports code=.
-       - results :: The result of evaluating the code is included in the
+      - code :: the default.  The body of code is included
+                into the exported file.  E.g., =:exports code=.
+       - results :: the result of evaluating the code is included in the
                     exported file. E.g., =:exports results=.
-       - both :: Both the code and results are included in the exported
+       - both :: both the code and results are included in the exported
                  file. E.g., =:exports both=.
-       - none :: Nothing is included in the exported file.  E.g.,
+       - none :: nothing is included in the exported file.  E.g.,
                  =:exports none=.
 
 ***** =:tangle= 
@@ -342,12 +347,12 @@ each more specific than the last.
       Specify whether or not the source code block should be included
       in tangled extraction of source code files.
 
-      - yes :: The source code block is exported to a source code file
+      - yes :: the source code block is exported to a source code file
                named after the basename (name w/o extension) of the
                Org-mode file.  E.g., =:tangle yes=.
-       - no :: The default value.  The source code block is not
+      - no :: the default.  The source code block is not
             exported to a source code file.  E.g., =:tangle no=.
-       - other :: Any other string passed to the =:tangle= header argument
+      - other :: Any other string passed to the =:tangle= header argument
                   is interpreted as a file basename to which the block will
                   be exported.  E.g., =:tangle basename=.
 
@@ -356,6 +361,8 @@ each more specific than the last.
       Start a session for an interpreted language where state is
       preserved.  This applies particularly to the supported languages
       perl, python, R and ruby.
+
+      By default, a session is not started.
 
       A string passed to the =:session= header argument will give the
       session a name.  This makes it possible to have multiple sessions
@@ -441,10 +448,10 @@ each more specific than the last.
 
       Controls the expansion of [[noweb-reference-syntax][noweb syntax]] references in a
       source code block.  This header argument can have one of two
-      values: =yes= or =no=.  The default value is =no=.
-      - =no= :: no [[noweb-reference-syntax][noweb syntax]] specific action is taken on evaluating
-           source code blocks, however noweb references will still be
-           expanded during tangling
+      values: =yes= or =no=. 
+      - =no= :: the default.  No [[noweb-reference-syntax][noweb syntax]] specific action is taken
+           on evaluating source code blocks, however noweb references
+           will still be expanded during tangling.
       - =yes= :: all [[noweb-reference-syntax][noweb syntax]] references in the body of the source
       code block will be expanded before the block is evaluated.
 
@@ -480,9 +487,8 @@ each more specific than the last.
       Controls the use of in-buffer caching of source code block
       results to avoid re-running unchanged source code blocks.  This
       header argument can have one of two values: =yes= or =no=.
-      The default value is =no=.
-      - =no= :: no caching takes place and the source code block will
-           be run every time it is executed.
+      - =no= :: The default.  No caching takes place and the source
+           code block will be run every time it is executed.
       - =yes= :: every time the source code block is run a sha1 hash of
            the code and arguments passed to the block will be
            generated.  This hash is packed into the =#+results:= line
@@ -497,10 +503,27 @@ each more specific than the last.
     :END:
 
     The [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]] Literate Programming system allows named blocks of code to
-    be referenced by using the familiar noweb syntax:
+    be referenced by using the familiar Noweb syntax:
     : <<code-block-name>>
-    When a document is tangled, these references are replaced with the
-    named code.  Depending upon the value of the =:noweb= header
-    argument, a noweb reference is expanded before evaluation.  An
-    example is provided in the [[literate programming example]].
+
+    Noweb references are handled differently during evaluation and
+    tangling. 
+
+    When a document is tangled, Noweb references are replaced with the
+    named source code block.  
+
+    When a source code block is evaluated, the action depends upon the
+    value of the =:noweb= header argument.  If =:noweb yes=, then a
+    Noweb reference is expanded before evaluation.  If =:noweb no=,
+    the default, then the reference is not expanded before
+    evaluation.  
+
+    *Note:* the default value, =:noweb no=, was chosen to ensure that
+    Org-babel does not break correct code in a language, such as Ruby,
+    where =<<arg>>= is a syntactically valid construct.  If =<<arg>>= is
+    not syntactically valid in languages that you use, then please
+    consider [[*System%20wide][setting the default value]].
+    
+    An example that uses the Noweb reference syntax is provided in the
+    [[literate programming example]].
 
