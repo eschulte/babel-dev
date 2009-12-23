@@ -56,7 +56,7 @@
     :END:
 
 Definitions of all Org-babel header arguments are given [[header-argument-specific-documentation][below]].  In
-addition some languages may add their own header arguments.  Please
+addition, some languages may add their own header arguments.  Please
 see the language-specific documentation for information on
 language-specific header arguments.
 
@@ -65,8 +65,9 @@ language-specific header arguments.
 The values of header arguments can be set in three different ways,
 each more specific than the last.
 
-1) system-wide values of header arguments can be specified by
-   customizing the =org-babel-default-header-args= variable.
+***** System-wide
+      System-wide values of header arguments can be specified by
+   customizing the =org-babel-default-header-args= variable:
    #+begin_example 
      org-babel-default-header-args is a variable defined in `org-babel.el'.
      Its value is 
@@ -80,39 +81,42 @@ each more specific than the last.
      Documentation:
      Default arguments to use when evaluating a source block.
    #+end_example
-   For example, the following could be used to set the default value
-   of =:noweb= header arguments to "yes" having the effect of always
-   expanding =:noweb= references when evaluation source-code blocks
-   #+begin_src emacs-lisp :results silent :exports none
+   For example, the following example could be used to set the default value
+   of =:noweb= header arguments to =yes=.  This would have the effect of 
+   expanding =:noweb= references by default when evaluating source-code blocks.
+   #+begin_src emacs-lisp :results silent :exports code
      (setq org-babel-default-header-args
            (cons '(:noweb . "yes")
                  (assq-delete-all :noweb org-babel-default-header-args)))
    #+end_src
 
-2) header arguments are also read from [[http://orgmode.org/manual/Properties-and-Columns.html#Properties-and-Columns][Org-mode properties]], which
-   means they can be set on the outline header level.  For example the
+***** Org-mode Properties
+      Header arguments are also read from [[http://orgmode.org/manual/Properties-and-Columns.html#Properties-and-Columns][Org-mode properties]], which
+   means they can be set on the outline header level.  For example, the
    value of the =:cache= header argument will default to true in all
-   source code blocks under the following Org-mode outline header.
-   Properties defined in this way override the properties set in
-   =org-babel-default-header-args=.  It is convenient to use the
-   =org-set-property= function bound to C-c C-x C-p to set properties
-   in Org-mode documents.
+   source code blocks under the following example of an Org-mode outline header:
    #+begin_example 
      ,* outline header
        :PROPERTIES:
        :cache:    yes
        :END:
    #+end_example
+   Properties defined in this way override the properties set in
+   =org-babel-default-header-args=.  It is convenient to use the
+   =org-set-property= function bound to C-c C-x C-p to set properties
+   in Org-mode documents.
 
-3) the most common way to assign values to header arguments is at the
-   source-code block level.  This can be done by listing a sequence of
+***** Source Code Block
+      The most common way to assign values to header arguments is at the
+   source code block level.  This can be done by listing a sequence of
    header arguments and their values as part of the =#+begin_src=
    line.  Properties set in this way override both the values of
    =org-babel-default-header-args= and header argument specified as
-   properties.  In the following example source-code block the
+   properties.  In the following example, the
    =:results= header argument is set to =silent=, meaning the results
    of execution will not be inserted in the buffer, and the =:exports=
-   header argument is set to =code= meaning only the body of the block
+   header argument is set to =code=, meaning only the body of the
+   source code block
    will be preserved on export to HTML or LaTeX.
    #+begin_example 
      ,#+source: factorial
@@ -122,7 +126,7 @@ each more specific than the last.
      ,#+end_src
    #+end_example
 
-**** Header Argument Specific Documentation
+**** Descriptions of Header Arguments
       :PROPERTIES:
       :CUSTOM_ID: header-argument-specific-documentation
       :END:
