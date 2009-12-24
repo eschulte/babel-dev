@@ -37,13 +37,13 @@ major mode for doing almost anything with plain text.  If you are not
 familiar with Org-mode please take a moment to read [[http://orgmode.org/][the Org-mode
 homepage]] before continuing.
 
-- [[file:intro.org][Introductory Tutorial]]: instillation and setup instructions as well
-  as an overview of the main features of Org-babel with plenty of
-  examples -- if you are new to Org-babel this is the place to begin
+- [[file:intro.org][Introductory Tutorial]]: installation and setup instructions, as well
+  as an overview of the main features of Org-babel, with plenty of
+  examples -- if you are new to Org-babel this is the place to begin.
 - [[file:reference.org][Reference and Documentation]]: reference and documentation covering
-  all of the features any syntactic constructs used in Org-babel.
-- [[file:uses.org][Uses]]: user-submitted descriptions of their personal Org-babel work
-  flow -- this is a great place to see how Org-babel may fit into your
+  all of the features and syntactic constructs used in Org-babel.
+- [[file:uses.org][Uses]]: user-submitted descriptions of Org-babel work
+  flows -- this is a great place to see how Org-babel may fit into your
   daily life.
 - [[http://eschulte.github.com/babel-dev/][Development]]: development activity including bug reports, the TODO
-  queue, and information on how to contribute to Org-babel
+  queue, and information on how to contribute to Org-babel.

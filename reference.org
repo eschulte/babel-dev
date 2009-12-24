@@ -418,11 +418,11 @@ each more specific than the last.
 
       - code :: the default.  The body of code is included
                 into the exported file.  E.g., =:exports code=.
-       - results :: the result of evaluating the code is included in the
+      - results :: the result of evaluating the code is included in the
                     exported file. E.g., =:exports results=.
-       - both :: both the code and results are included in the exported
+      - both :: both the code and results are included in the exported
                  file. E.g., =:exports both=.
-       - none :: nothing is included in the exported file.  E.g.,
+      - none :: nothing is included in the exported file.  E.g.,
                  =:exports none=.
 
 ***** =:tangle=
@@ -451,20 +451,21 @@ each more specific than the last.
       By default, a session is not started.
 
       A string passed to the =:session= header argument will give the
-      session a name.  This makes it possible to have multiple sessions
-      for each interpreted language.
+      session a name.  This makes it possible to run concurrent
+      sessions for each interpreted language.
 
       Results are handled somewhat differently if a session is invoked.
 
 
-      |          | non-session (default)    | =:session=                          |
-      |----------+--------------------------+-------------------------------------|
-      | =value=  | value of last expression | value of last expression            |
-      | =output= | contents of stdout       | concatenation of interpreter output |
+      |                   | non-session (default)    | =:session=                          |
+      |-------------------+--------------------------+-------------------------------------|
+      | =:results value=  | value of last expression | value of last expression            |
+      | =:results output= | contents of stdout       | concatenation of interpreter output |
+      
 
 
-      Note that in =:results value= the result in both sessions and
-      non-sessions is imported into Org-mode as a table (a one- or
+      *Note:*  With =:results value=, the result in both =:session= and
+      non-session is returned to Org-mode as a table (a one- or
       two-dimensional vector of strings or numbers) when appropriate.
 
 ****** Non-session
@@ -536,26 +537,29 @@ each more specific than the last.
       source code block.  This header argument can have one of two
       values: =yes= or =no=. 
       - =no= :: the default.  No [[noweb-reference-syntax][noweb syntax]] specific action is taken
-           on evaluating source code blocks, however noweb references
+           on evaluating source code blocks/  However, noweb references
            will still be expanded during tangling.
       - =yes= :: all [[noweb-reference-syntax][noweb syntax]] references in the body of the source
-      code block will be expanded before the block is evaluated.
+                 code block will be expanded before the block is evaluated.
 
-****** noweb prefix lines
+****** Noweb Prefix Lines
 
-       noweb insertions are now placed behind the line prefix of the
-       =<<>>= reference
+       Noweb insertions are now placed behind the line prefix of the
+       =<<reference>>=.
        
-       So, for example since the =<<example>>= noweb reference in the
-       following example appears behind the SQL comment syntax, the
-       entire inserted body will also be SQL commented:
+       This behavior is illustrated in the following example.  Because
+       the =<<example>>= noweb reference appears behind the SQL
+       comment syntax, each line of the expanded noweb reference will
+       be commented.  
+
+       This source code block:
      
        #+begin_example 
          -- <<example>>
        #+end_example
        
      
-       This example expands to:
+       expands to:
 
        #+begin_example 
          -- this is the
