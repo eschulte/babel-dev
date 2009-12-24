@@ -629,4 +629,4 @@ each more specific than the last.
 
     - =org-babel-execute-subtree= will evaluate all of the source code
       blocks in the subtree that includes the point.  You can call it
-      within Emacs in the usual way, =M-x org-babel-execute-buffer=.
+      within Emacs in the usual way, =M-x org-babel-execute-subtree=.
