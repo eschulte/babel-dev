@@ -171,7 +171,7 @@ each more specific than the last.
    #+end_example
    Properties defined in this way override the properties set in
    =org-babel-default-header-args=.  It is convenient to use the
-   =org-set-property= function bound to C-c C-x C-p to set properties
+   =org-set-property= function bound to =C-c C-x p= to set properties
    in Org-mode documents.
 
 ***** Source Code Block
