@@ -1,4 +1,4 @@
-#+OPTIONS:    H:3 num:nil toc:2 \n:nil @:t ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
+#+OPTIONS:    H:3 num:nil toc:3 \n:nil @:t ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
@@ -104,7 +104,7 @@ This syntax can be expanded by naming the source code block.
     | Ruby           | [[file:languages/org-babel-doc-ruby.org][org-babel-doc-ruby]]       | ruby       | [[http://www.ruby-lang.org/][ruby]], [[http://www.ruby-lang.org/][irb]], [[http://github.com/eschulte/rinari/raw/master/util/ruby-mode.el][ruby-mode]], [[http://github.com/eschulte/rinari/raw/master/util/inf-ruby.el][inf-ruby mode]]         |
     | Sass           | [[file:languages/org-babel-doc-sass.org][org-babel-doc-sass]]       | sass       | [[http://sass-lang.com/][sass]], [[http://github.com/nex3/haml/blob/master/extra/sass-mode.el][sass-mode]]                             |
     | GNU Screen     | [[file:languages/org-babel-doc-screen.org][org-babel-doc-screen]]     | screen     | [[http://www.gnu.org/software/screen/][screen]], a terminal                          |
-    | shell          | [[file:languages/org-babel-doc-sh.org][org-babel-doc-sh]]         | sh         | a shell                                     |
+    | shell          | [[file:languages/org-babel-doc-sh.org][org-babel-doc-sh]]         | sh[fn:1]         | a shell                                     |
     | SQL            | [[file:languages/org-babel-doc-sql.org][org-babel-doc-sql]]        | sql        | none                                        |
     | C              | [[file:languages/org-babel-doc-C.org][org-babel-doc-C]]          | C          | none                                        |
     
@@ -630,3 +630,8 @@ each more specific than the last.
     - =org-babel-execute-subtree= will evaluate all of the source code
       blocks in the subtree that includes the point.  You can call it
       within Emacs in the usual way, =M-x org-babel-execute-subtree=.
+
+
+* Footnotes
+
+[fn:1] The former use of the =shell= identifier is now deprecated.
