@@ -3457,11 +3457,17 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [48/63]
+* Bugs [49/64]
+** TODO header argument values are not being collected from properties
+   - State "TODO"       from ""           [2009-12-28 Mon 16:07]
+
+Many types of header arguments are not having their values properly
+read from outline-level properties.
+
 ** TODO Error in R if block is merely defining a function
 First idea which occurs to me is we could check whether the object
 inherits from a blacklist of classes before attempting to write.table.
-#+begin_example 
+#+begin_example
 > write.table(.Last.value, file="/tmp/org-babel-R1932_XQ", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
 Error in as.data.frame.default(x[[i]], optional = TRUE) : 
   cannot coerce class "function" into a data.frame
@@ -3543,7 +3549,16 @@ E.g. here in org-babel-python-evaluate. Should that be
 		 (let ((lines (split-string
 #+end_src
 
-** TODO lob does not inherit :session from file properties
+before jumping to the solution, what's the problem here?  Are we not
+printing out results correctly when the =code= option has been
+selected?
+
+** DEFERRED lob does not inherit :session from file properties
+   - State "DEFERRED"   from "TODO"       [2009-12-28 Mon 16:07]
+
+This is now being tracked in the more general bug regarding header
+arguments from properties.
+
 ** PROPOSED org-babel-insert-result uninvestigated worry
    What happens if org-babel-where-is-src-block-result doesn't return non-nil?
    [[git:~/babel/contrib/babel/lisp/org-babel.el::result-switches@{2009-11-04}][these lines in org-babel.el]]
