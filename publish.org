@@ -49,7 +49,7 @@ org-mode.
        (lambda (top-level)
          (find-file dev-file)
          (goto-char (point-min))
-         (outline-next-visible-heading 1)
+         (outline-next-visible-heading top-level)
          (org-map-tree
           (lambda ()
             (let* ((props (org-entry-properties))
