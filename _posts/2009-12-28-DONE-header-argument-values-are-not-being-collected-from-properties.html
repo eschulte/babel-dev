@@ -1,0 +1,97 @@
+---
+title: DONE header argument values are not being collected from properties
+layout: default
+---
+
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1"><span class="done DONE"> DONE</span> header argument values are not being collected from properties </h3>
+<div class="outline-text-3" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-28 Mon 18:11</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-28 Mon 16:07</span></span>
+
+</li>
+</ul>
+
+<p>Many types of header arguments are not having their values properly
+read from outline-level properties.
+</p>
+<p>
+There were two problems here
+</p><ol>
+<li>
+we weren't searching for all needed header arguments in properties
+</li>
+<li>
+we weren't inheriting header arguments from enclosing properties
+
+</li>
+</ol>
+
+<p>both of these issues were resolved in changes to
+<code>org-babel-params-from-properties</code> (see <a href="#org-babel-params-from-properties-code">below</a>).
+</p>
+<ol>
+<li>
+we are now tracking the following properties
+
+
+
+<pre class="src src-emacs-lisp">'<span style="color: #7f7f7f;">(</span><span style="color: #A5C261;">"cache"</span> <span style="color: #A5C261;">"cmdline"</span> <span style="color: #A5C261;">"exports"</span> <span style="color: #A5C261;">"file"</span> <span style="color: #A5C261;">"noweb"</span> <span style="color: #A5C261;">"results"</span>
+               <span style="color: #A5C261;">"session"</span> <span style="color: #A5C261;">"tangle"</span> <span style="color: #A5C261;">"var"</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</li>
+<li>
+we now search the properties of enclosing headlines by adding <code>t</code>
+as the last argument to
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>org-entry-get <span style="color: #7f7f7f;">(</span>point<span style="color: #7f7f7f;">)</span> header-arg t<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+
+</li>
+</ol>
+
+</div>
+
+<div id="outline-container-org-babel-params-from-properties-code" class="outline-4">
+<h4 id="org-babel-params-from-properties-code"><a name="sec-1.1" id="sec-1.1"></a>code for `org-babel-params-from-properties' </h4>
+<div class="outline-text-4" id="text-org-babel-params-from-properties-code">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">defun</span> <span style="color: #FFC66D;">org-babel-params-from-properties</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #A5C261;">"Return an association list of any source block params which
+may be specified in the properties of the current outline entry."</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">save-match-data</span>
+    <span style="color: #7f7f7f;">(</span>delq nil
+          <span style="color: #7f7f7f;">(</span>mapcar
+           <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">lambda</span> <span style="color: #7f7f7f;">(</span>header-arg<span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let</span> <span style="color: #7f7f7f;">((</span>val <span style="color: #7f7f7f;">(</span>or <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">condition-case</span> nil
+                                <span style="color: #7f7f7f;">(</span>org-entry-get <span style="color: #7f7f7f;">(</span>point<span style="color: #7f7f7f;">)</span> header-arg t<span style="color: #7f7f7f;">)</span>
+                              <span style="color: #7f7f7f;">(</span><span style="color: #ffc0cb;">error</span> nil<span style="color: #7f7f7f;">))</span>
+                            <span style="color: #7f7f7f;">(</span>cdr <span style="color: #7f7f7f;">(</span>assoc header-arg org-file-properties<span style="color: #7f7f7f;">)))))</span>
+               <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">when</span> val
+                 <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">(message "prop %s=%s" header-arg val) ;; debugging
+</span>                 <span style="color: #7f7f7f;">(</span>cons <span style="color: #7f7f7f;">(</span>intern <span style="color: #7f7f7f;">(</span>concat <span style="color: #A5C261;">":"</span> header-arg<span style="color: #7f7f7f;">))</span> val<span style="color: #7f7f7f;">))))</span>
+           '<span style="color: #7f7f7f;">(</span><span style="color: #A5C261;">"cache"</span> <span style="color: #A5C261;">"cmdline"</span> <span style="color: #A5C261;">"exports"</span> <span style="color: #A5C261;">"file"</span> <span style="color: #A5C261;">"noweb"</span> <span style="color: #A5C261;">"results"</span>
+             <span style="color: #A5C261;">"session"</span> <span style="color: #A5C261;">"tangle"</span> <span style="color: #A5C261;">"var"</span><span style="color: #7f7f7f;">)))))</span>  
+</pre>
+
+
+
+</div>
+</div>
+</div>
