@@ -3457,12 +3457,54 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [49/64]
-** TODO header argument values are not being collected from properties
+* Bugs [50/64]
+** DONE header argument values are not being collected from properties
+   - State "DONE"       from "TODO"       [2009-12-28 Mon 18:11]
    - State "TODO"       from ""           [2009-12-28 Mon 16:07]
 
 Many types of header arguments are not having their values properly
 read from outline-level properties.
+
+There were two problems here
+1) we weren't searching for all needed header arguments in properties
+2) we weren't inheriting header arguments from enclosing properties
+
+both of these issues were resolved in changes to
+=org-babel-params-from-properties= (see [[org-babel-params-from-properties-code][below]]).
+
+1) we are now tracking the following properties
+   #+begin_src emacs-lisp :exports code
+     '("cache" "cmdline" "exports" "file" "noweb" "results"
+                    "session" "tangle" "var")
+   #+end_src
+2) we now search the properties of enclosing headlines by adding =t=
+   as the last argument to
+   #+begin_src emacs-lisp :exports code
+     (org-entry-get (point) header-arg t)
+   #+end_src
+
+*** code for `org-babel-params-from-properties'
+    :PROPERTIES:
+    :CUSTOM_ID: org-babel-params-from-properties-code
+    :END:
+#+begin_src emacs-lisp :exports code
+  (defun org-babel-params-from-properties ()
+    "Return an association list of any source block params which
+  may be specified in the properties of the current outline entry."
+    (save-match-data
+      (delq nil
+            (mapcar
+             (lambda (header-arg)
+               (let ((val (or (condition-case nil
+                                  (org-entry-get (point) header-arg t)
+                                (error nil))
+                              (cdr (assoc header-arg org-file-properties)))))
+                 (when val
+                   ;; (message "prop %s=%s" header-arg val) ;; debugging
+                   (cons (intern (concat ":" header-arg)) val))))
+             '("cache" "cmdline" "exports" "file" "noweb" "results"
+               "session" "tangle" "var")))))  
+#+end_src
 
 ** TODO Error in R if block is merely defining a function
 First idea which occurs to me is we could check whether the object
