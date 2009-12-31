@@ -49,6 +49,7 @@ org-mode.
        (lambda (top-level)
          (find-file dev-file)
          (goto-char (point-min))
+         (org-shifttab)
          (outline-next-visible-heading top-level)
          (org-show-subtree)
          (org-map-tree

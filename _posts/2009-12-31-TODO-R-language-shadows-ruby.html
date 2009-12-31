@@ -1,0 +1,64 @@
+---
+title: TODO R language shadows ruby
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> R language shadows ruby </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-31 Thu 12:57</span></span>
+
+</li>
+</ul>
+
+<p>Thanks to Daniel Doherty for submitting the following report
+</p>
+<p>
+I'm not on this mailing list, but thought this would be the right
+place to pass along a bug in org-babek that had me baffled for a long
+time.
+</p>
+<p>
+I was initializing org-babel with the following from my init.el file
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-init</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-ruby</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-R</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-python</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>org-babel-load-library-of-babel<span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+
+<p>
+When executing a ruby src block, I would get an error saying that the "r" language was not a
+babel-interpreter.
+</p>
+<p>
+When I change the order of the language initializations, the error goes away:
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-init</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-R</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-ruby</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-python</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>org-babel-load-library-of-babel<span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+
+<p>
+Now, ruby is recognized.  Looks like the function for parsing the src block is seeing the 'r' in ruby and
+stopping
+because 'R" is a valid language, but then choking when it tries to run 'r'.  
+</p>
+</div>
+</div>
