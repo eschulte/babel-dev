@@ -38,8 +38,8 @@ org-mode.
   (save-excursion
     ;; map over all tasks entries
     (let ((dev-file (expand-file-name
-                      "development.org"
-                      (file-name-directory (buffer-file-name))))
+                     "development.org"
+                     (file-name-directory (buffer-file-name))))
           (posts-dir (expand-file-name
                       "_posts"
                       (file-name-directory (buffer-file-name))))
@@ -50,6 +50,7 @@ org-mode.
          (find-file dev-file)
          (goto-char (point-min))
          (outline-next-visible-heading top-level)
+         (org-show-subtree)
          (org-map-tree
           (lambda ()
             (let* ((props (org-entry-properties))
@@ -71,8 +72,15 @@ org-mode.
                        (yaml-front-matter (cons (cons "title" heading) yaml-front-matter))
                        html)
                   (org-narrow-to-subtree)
-                  (setq html (org-export-as-html nil nil nil 'string t nil))
-                  (set-buffer org-buffer) (widen)
+                  (let ((level (- (org-outline-level) 1))
+                        (contents (buffer-substring (point-min) (point-max))))
+                    (dotimes (n level nil) (org-promote-subtree))
+                    (setq html (org-export-as-html nil nil nil 'string t nil))
+                    (set-buffer org-buffer)
+                    (delete-region (point-min) (point-max))
+                    (insert contents)
+                    (save-buffer))
+                  (widen)
                   (with-temp-file (expand-file-name to-file posts-dir)
                     (when yaml-front-matter
                       (insert "---\n")
