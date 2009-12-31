@@ -57,8 +57,8 @@ org-mode.
 <pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">save-excursion</span>
   <span style="color: #BC9458; font-style: italic;">;; </span><span style="color: #BC9458; font-style: italic;">map over all tasks entries
 </span>  <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let</span> <span style="color: #7f7f7f;">((</span>dev-file <span style="color: #7f7f7f;">(</span>expand-file-name
-                    <span style="color: #A5C261;">"development.org"</span>
-                    <span style="color: #7f7f7f;">(</span>file-name-directory <span style="color: #7f7f7f;">(</span>buffer-file-name<span style="color: #7f7f7f;">))))</span>
+                   <span style="color: #A5C261;">"development.org"</span>
+                   <span style="color: #7f7f7f;">(</span>file-name-directory <span style="color: #7f7f7f;">(</span>buffer-file-name<span style="color: #7f7f7f;">))))</span>
         <span style="color: #7f7f7f;">(</span>posts-dir <span style="color: #7f7f7f;">(</span>expand-file-name
                     <span style="color: #A5C261;">"_posts"</span>
                     <span style="color: #7f7f7f;">(</span>file-name-directory <span style="color: #7f7f7f;">(</span>buffer-file-name<span style="color: #7f7f7f;">))))</span>
@@ -69,6 +69,7 @@ org-mode.
        <span style="color: #7f7f7f;">(</span>find-file dev-file<span style="color: #7f7f7f;">)</span>
        <span style="color: #7f7f7f;">(</span>goto-char <span style="color: #7f7f7f;">(</span>point-min<span style="color: #7f7f7f;">))</span>
        <span style="color: #7f7f7f;">(</span>outline-next-visible-heading top-level<span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span>org-show-subtree<span style="color: #7f7f7f;">)</span>
        <span style="color: #7f7f7f;">(</span>org-map-tree
         <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">lambda</span> <span style="color: #7f7f7f;">()</span>
           <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let*</span> <span style="color: #7f7f7f;">((</span>props <span style="color: #7f7f7f;">(</span>org-entry-properties<span style="color: #7f7f7f;">))</span>
@@ -90,8 +91,15 @@ org-mode.
                      <span style="color: #7f7f7f;">(</span>yaml-front-matter <span style="color: #7f7f7f;">(</span>cons <span style="color: #7f7f7f;">(</span>cons <span style="color: #A5C261;">"title"</span> heading<span style="color: #7f7f7f;">)</span> yaml-front-matter<span style="color: #7f7f7f;">))</span>
                      html<span style="color: #7f7f7f;">)</span>
                 <span style="color: #7f7f7f;">(</span>org-narrow-to-subtree<span style="color: #7f7f7f;">)</span>
-                <span style="color: #7f7f7f;">(</span>setq html <span style="color: #7f7f7f;">(</span>org-export-as-html nil nil nil 'string t nil<span style="color: #7f7f7f;">))</span>
-                <span style="color: #7f7f7f;">(</span>set-buffer org-buffer<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>widen<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">let</span> <span style="color: #7f7f7f;">((</span>level <span style="color: #7f7f7f;">(</span>- <span style="color: #7f7f7f;">(</span>org-outline-level<span style="color: #7f7f7f;">)</span> 1<span style="color: #7f7f7f;">))</span>
+                      <span style="color: #7f7f7f;">(</span>contents <span style="color: #7f7f7f;">(</span>buffer-substring <span style="color: #7f7f7f;">(</span>point-min<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>point-max<span style="color: #7f7f7f;">))))</span>
+                  <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">dotimes</span> <span style="color: #7f7f7f;">(</span>n level nil<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>org-promote-subtree<span style="color: #7f7f7f;">))</span>
+                  <span style="color: #7f7f7f;">(</span>setq html <span style="color: #7f7f7f;">(</span>org-export-as-html nil nil nil 'string t nil<span style="color: #7f7f7f;">))</span>
+                  <span style="color: #7f7f7f;">(</span>set-buffer org-buffer<span style="color: #7f7f7f;">)</span>
+                  <span style="color: #7f7f7f;">(</span>delete-region <span style="color: #7f7f7f;">(</span>point-min<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>point-max<span style="color: #7f7f7f;">))</span>
+                  <span style="color: #7f7f7f;">(</span>insert contents<span style="color: #7f7f7f;">)</span>
+                  <span style="color: #7f7f7f;">(</span>save-buffer<span style="color: #7f7f7f;">))</span>
+                <span style="color: #7f7f7f;">(</span>widen<span style="color: #7f7f7f;">)</span>
                 <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">with-temp-file</span> <span style="color: #7f7f7f;">(</span>expand-file-name to-file posts-dir<span style="color: #7f7f7f;">)</span>
                   <span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">when</span> yaml-front-matter
                     <span style="color: #7f7f7f;">(</span>insert <span style="color: #A5C261;">"---\n"</span><span style="color: #7f7f7f;">)</span>
