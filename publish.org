@@ -49,7 +49,7 @@ org-mode.
        (lambda (top-level)
          (find-file dev-file)
          (goto-char (point-min))
-         (outline-next-visible-heading 1)
+         (outline-next-visible-heading top-level)
          (org-show-subtree)
          (org-map-tree
           (lambda ()
@@ -91,6 +91,3 @@ org-mode.
                   (get-buffer org-buffer)))))))
        '(1 2))))
 #+end_src
-
-
-
