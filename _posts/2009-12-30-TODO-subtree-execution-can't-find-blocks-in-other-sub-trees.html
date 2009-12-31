@@ -1,0 +1,64 @@
+---
+title: TODO subtree execution can't find blocks in other sub-trees
+layout: default
+---
+
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1"><span class="todo TODO"> TODO</span> subtree execution can't find blocks in other sub-trees </h3>
+<div class="outline-text-3" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-30 Wed 17:05</span></span>
+
+</li>
+</ul>
+
+<p>This is most likely due to the fact that `org-babel-execute-subtree'
+calls `org-narrow-to-subtree', which narrows the buffer making
+functions defined in other sub-trees invisible.  This is demonstrated
+by calling `org-babel-execute-subtree' (bound to C-c M-b s) inside of
+"tree 2" below.
+</p>
+<p>
+Thanks to Tom Dye for pointing this out.
+</p>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-4">
+<h4 id="sec-1.1">example </h4>
+<div class="outline-text-4" id="text-1.1">
+
+<ul>
+<li id="sec-1.1.1">tree 1 <br/>
+
+
+
+
+<pre class="src src-R">a <span style="color: #6D9CBE;">&lt;-</span> 1
+</pre>
+
+
+
+<pre class="example">
+1
+</pre>
+
+
+</li>
+<li id="sec-1.1.2">tree 2 <br/>
+
+
+
+<pre class="src src-R">&lt;&lt;foo&gt;&gt;
+a + 1
+</pre>
+
+
+
+</li>
+</ul>
+</div>
+</div>
+</div>
