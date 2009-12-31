@@ -3457,7 +3457,46 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [50/65]
+* Bugs [50/66]
+** TODO R language shadows ruby
+   - State "TODO"       from ""           [2009-12-31 Thu 12:57]
+   :PROPERTIES:
+   :exports:  code
+   :END:
+
+Thanks to Daniel Doherty for submitting the following report
+
+I'm not on this mailing list, but thought this would be the right
+place to pass along a bug in org-babek that had me baffled for a long
+time.
+
+I was initializing org-babel with the following from my init.el file
+
+#+begin_src emacs-lisp
+  (require 'org-babel-init)
+  (require 'org-babel-ruby)
+  (require 'org-babel-R)
+  (require 'org-babel-python)
+  (org-babel-load-library-of-babel)
+#+end_src
+
+When executing a ruby src block, I would get an error saying that the "r" language was not a
+babel-interpreter.
+
+When I change the order of the language initializations, the error goes away:
+
+#+begin_src emacs-lisp
+  (require 'org-babel-init)
+  (require 'org-babel-R)
+  (require 'org-babel-ruby)
+  (require 'org-babel-python)
+  (org-babel-load-library-of-babel)
+#+end_src
+
+Now, ruby is recognized.  Looks like the function for parsing the src block is seeing the 'r' in ruby and
+stopping
+because 'R" is a valid language, but then choking when it tries to run 'r'.  
+
 ** TODO subtree execution can't find blocks in other sub-trees
    - State "TODO"       from ""           [2009-12-30 Wed 17:05]
 
