@@ -1,0 +1,55 @@
+---
+title: STARTED Suitable export of #+srcname and #+resname lines
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> Suitable export of #+srcname and #+resname lines </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-04 Mon 15:05</span></span>
+</li>
+<li>
+State "TODO"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-04 Mon 09:31</span></span>
+
+</li>
+</ul>
+
+<p>The current fix here takes the simplest possible approach.  The name
+of a source-code block is placed in the <code>org-caption</code> text property
+and `org-export-format-source-code-or-example' then reads this
+property and adds the name to the export.
+</p>
+<pre class="example">
+#+source: square
+#+begin_src emacs-lisp :var input=1
+  (* input input)
+#+end_src
+</pre>
+
+
+<p>
+So the following block will export to the following html
+</p>
+<pre class="example">
+&lt;label&gt;square&lt;/label&gt;
+&lt;pre class="src src-emacs-lisp"&gt;
+&lt;span style="color: #7f7f7f;"&gt;(&lt;/span&gt;* input input&lt;span style="color: #7f7f7f;"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+</pre>
+
+
+<p>
+and the following latex
+</p>
+<pre class="example">
+\lstset{language=Lisp}\begin{lstlisting}[title={square}]
+(* input input)
+\end{lstlisting}
+</pre>
+
+
+</div>
+</div>
