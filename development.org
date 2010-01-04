@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [57/98]
+* Tasks [57/99]
 ** DONE indent noweb references to the level of the initial ref
    - State "DONE"       from "DONE"       [2009-12-17 Thu 11:22]
 augment `org-babel-expand-noweb-references' so that it rigidly indents
@@ -125,10 +125,36 @@ This should definitely be done in org-babel-sh, I don't think it is
 common enough to move the functionality to org-babel-comint, but I
 could be wrong...
 
+** STARTED Suitable export of #+srcname and #+resname lines
+   - State "STARTED"    from "TODO"       [2010-01-04 Mon 15:05]
+   - State "TODO"       from "STARTED"    [2010-01-04 Mon 09:31]
+
+The current fix here takes the simplest possible approach.  The name
+of a source-code block is placed in the =org-caption= text property
+and `org-export-format-source-code-or-example' then reads this
+property and adds the name to the export.
+
+: #+source: square
+: #+begin_src emacs-lisp :var input=1
+:   (* input input)
+: #+end_src
+
+So the following block will export to the following html
+
+: <label>square</label>
+: <pre class="src src-emacs-lisp">
+: <span style="color: #7f7f7f;">(</span>* input input<span style="color: #7f7f7f;">)</span>
+: </pre>
+
+and the following latex
+
+: \lstset{language=Lisp}\begin{lstlisting}[title={square}]
+: (* input input)
+: \end{lstlisting}
+
 ** STARTED Export issues
 *** STARTED reference source blocks that are themselves excluded from export
 *** STARTED restrictions on locations of org-exp-blocks interblocks
-*** STARTED Suitable export of #+srcname and #+resname lines
 *** STARTED inline source code blocks [5/8]
     Like the =\R{ code }= blocks
 
@@ -156,7 +182,6 @@ we should color these blocks differently
 should use a span class, and should show original source in tool-tip
 *** STARTED Allow export of results of #+lob lines
 *** STARTED Inline fragment not evaluated unless another code block in buffer
-
 ** TODO org-babel-sh explicitly specify the shell
 this should be possible as source-code execution shouldn't depend on
 the values of user-specific information (i.e. the user's shell)
