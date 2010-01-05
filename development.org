@@ -134,23 +134,40 @@ of a source-code block is placed in the =org-caption= text property
 and `org-export-format-source-code-or-example' then reads this
 property and adds the name to the export.
 
+So the following source-code block
+
 : #+source: square
 : #+begin_src emacs-lisp :var input=1
 :   (* input input)
 : #+end_src
 
-So the preceding block will export to the following html
+exports to the following html
 
-: <label>square</label>
-: <pre class="src src-emacs-lisp">
-: <span style="color: #7f7f7f;">(</span>* input input<span style="color: #7f7f7f;">)</span>
-: </pre>
+#+source: square
+#+begin_src emacs-lisp :var input=1
+  (* input input)
+#+end_src
 
-and the following latex
+which is the following raw html
 
-: \lstset{language=Lisp}\begin{lstlisting}[title={square}]
-: (* input input)
-: \end{lstlisting}
+#+begin_src html :exports code
+  <label class="org-src-name">square</label>
+  <pre class="src src-emacs-lisp">
+  <span style="color: #7f7f7f;">(</span>* input input<span style="color: #7f7f7f;">)</span>
+  </pre>
+#+end_src
+
+and the following raw latex
+
+#+begin_src latex :exports code
+  \lstset{language=Lisp}\begin{lstlisting}[title={square}]
+  (* input input)
+  \end{lstlisting}
+#+end_src
+
+There is much room here for stylistic improvement and hopefully this
+initial implementation will spur discussion/suggestions for how to
+improve the appearance and content of these exported source-names.
 
 ** STARTED Export issues
 *** STARTED reference source blocks that are themselves excluded from export
