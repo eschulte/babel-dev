@@ -40,7 +40,14 @@ clear picture of the current state and direction of the project.
 * Examples
 * Conclusion
 * COMMENT Notes
-*** Existing work on Reproducible Research
+*** TODO hypothesis
+We need a hypothesis that we can backup with something approaching a
+scientifically credible or "objective" test.
+
+It looks like [[http://www.cs.umd.edu/~basili/][Vic Basili]] and the [[http://www.cs.umd.edu/projects/SoftEng/tame/][ESEG]] have experience with this sort
+of thing, and they may be good people to talk to.
+
+*** Existing publications on Reproducible Research
 ***** Sweave
 ***** Gentleman & Temple Lang (2004)
       Robert Gentleman and Duncan Temple Lang, "Statistical Analyses
@@ -65,6 +72,8 @@ try to collect pointers to similar tools
 
 Reproducible Research
 - [[http://en.wikipedia.org/wiki/Sweave][Sweave]]
+- [[http://hal.cs.berkeley.edu/cil/][CIL's documentation]]
+- the tools used in generating [[http://www.cis.upenn.edu/~bcpierce/tapl/][TAPL]]
 
 Literate Programming
 - [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]]
