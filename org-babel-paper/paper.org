@@ -1,26 +1,7 @@
+#+TITLE: Org-babel
+#+OPTIONS: ^:nil
+#+STARTUP: oddeven hideblocks
 
-
-* Notes
-*** Existing work on Reproducible Research
-***** Sweave
-***** Gentleman & Temple Lang (2004)
-      Robert Gentleman and Duncan Temple Lang, "Statistical Analyses
-      and Reproducible Research" (May 2004). Bioconductor Project
-      Working Papers. Working Paper 2.
-      http://www.bepress.com/bioconductor/paper2 
-***** Gentleman 2005
-      Gentleman, Robert (2005) "Reproducible Research: A Bioinformatics Case Study," Statistical Applications in Genetics and Molecular Biology: Vol. 4 : Iss. 1, Article 2.
-      DOI: 10.2202/1544-6115.1034
-      Available at: http://www.bepress.com/sagmb/vol4/iss1/art2 
-
-      At a quick glance this paper attempts to reconstruct an old
-      paper by distributing a collection of data files, R code and
-      latex/Sweave files from which the text and diagrams are
-      generated. The files are available for download from the above
-      link.
-
-***** Tom Short
-      https://stat.ethz.ch/pipermail/ess-help/2009-August/005474.html
 * Abstract
   We present a new computing environment for reproducible research and
   literate programming. In this environment a single
@@ -54,8 +35,95 @@ computer code, test output and pre-publication manuscripts. One of the
 challenges in carrying out such work is simply that of maintaining a
 clear picture of the current state and direction of the project.
 
-
 *** Emacs Org-mode
 *** Org-babel
 * Examples
 * Conclusion
+* COMMENT Notes
+*** TODO hypothesis
+We need a hypothesis that we can backup with something approaching a
+scientifically credible or "objective" test.
+
+It looks like [[http://www.cs.umd.edu/~basili/][Vic Basili]] and the [[http://www.cs.umd.edu/projects/SoftEng/tame/][ESEG]] have experience with this sort
+of thing, and they may be good people to talk to.
+
+*** Existing publications on Reproducible Research
+***** Sweave
+***** Gentleman & Temple Lang (2004)
+      Robert Gentleman and Duncan Temple Lang, "Statistical Analyses
+      and Reproducible Research" (May 2004). Bioconductor Project
+      Working Papers. Working Paper 2.
+      http://www.bepress.com/bioconductor/paper2 
+***** Gentleman 2005
+      Gentleman, Robert (2005) "Reproducible Research: A Bioinformatics Case Study," Statistical Applications in Genetics and Molecular Biology: Vol. 4 : Iss. 1, Article 2.
+      DOI: 10.2202/1544-6115.1034
+      Available at: http://www.bepress.com/sagmb/vol4/iss1/art2 
+
+      At a quick glance this paper attempts to reconstruct an old
+      paper by distributing a collection of data files, R code and
+      latex/Sweave files from which the text and diagrams are
+      generated. The files are available for download from the above
+      link.
+
+***** Tom Short
+      https://stat.ethz.ch/pipermail/ess-help/2009-August/005474.html
+*** existing similar tools
+try to collect pointers to similar tools 
+
+Reproducible Research
+- [[http://en.wikipedia.org/wiki/Sweave][Sweave]]
+- [[http://hal.cs.berkeley.edu/cil/][CIL's documentation]]
+- the tools used in generating [[http://www.cis.upenn.edu/~bcpierce/tapl/][TAPL]]
+
+Literate Programming
+- [[http://www.cs.tufts.edu/~nr/noweb/][Noweb]]
+- [[http://www-cs-faculty.stanford.edu/~knuth/cweb.html][Cweb]]
+- [[http://www.lri.fr/~filliatr/ocamlweb/][OCamlWeb]]
+
+Meta Functional Programming
+- [[http://openendedgroup.com/field/][field]] looks to be able to move data between different programming
+  languages as long as they all run on the JVM
+
+Programmable Spreadsheet
+- ?
+
+*** TODO Select a journal
+   The following notes are biased towards statistics-oriented
+   journals because ESS and Sweave are written by people associated
+   with / in statistics departments. But I am sure there are suitable
+   journals out there for an article on using org mode for
+   reproducible research (and literate programming etc).
+
+   Clearly, we would invite Carsten to be involved with this.
+
+   ESS is described in a peer-reviewed journal article:
+   Emacs Speaks Statistics: A Multiplatform, Multipackage Development Environment for Statistical Analysis  [Abstract]
+   Journal of Computational & Graphical Statistics 13(1), 247-261
+   Rossini, A.J, Heiberger, R.M., Sparapani, R.A., Maechler, M., Hornik, K. (2004) 
+   [[http://www.amstat.org/publications/jcgs.cfm][Journal of Computational and Graphical Statistics]]
+
+   Also [[http://www.amstat.org/publications/jss.cfm][Journal of Statistical Software]] Established in 1996, the
+   Journal of Statistical Software publishes articles, book reviews,
+   code snippets, and software reviews. The contents are freely
+   available online. For both articles and code snippets, the source
+   code is published along with the paper.
+
+   [[http://journal.r-project.org/][The R Journal]] publishes papers on tools which can be used with R.
+
+   Sweave has a paper: 
+
+   Friedrich Leisch and Anthony J. Rossini. Reproducible statistical
+   research. Chance, 16(2):46-50, 2003. [ bib ]
+
+   also
+
+   Friedrich Leisch. Sweave: Dynamic generation of statistical reports
+   using literate data analysis. In Wolfgang Härdle and Bernd Rönz,
+   editors, Compstat 2002 - Proceedings in Computational Statistics,
+   pages 575-580. Physica Verlag, Heidelberg, 2002. ISBN 3-7908-1517-9.
+
+   also
+
+   We could also look at the Journals publishing [[http://www.reproducibleresearch.net/index.php/RR_links#Articles_about_RR_.28chronologically.29][these]] Reproducible
+   Research Articles.
+
