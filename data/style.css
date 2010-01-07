@@ -3,7 +3,7 @@
 .tag    { background-color: #add8e6; font-weight:normal }
 .target { }
 .timestamp { color: #8f8f8f; }
-.timestamp-kwd { color: #5f9ea0; }
+.timestamp-kwd { color: #5f9ea0; font-family: courier, monospace; }
 p.verse { margin-left: 3% }
 pre {
     border: 1pt solid #AEBDCC;
