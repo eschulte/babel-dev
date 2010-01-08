@@ -8,13 +8,6 @@
 #+LANGUAGE:   en
 #+STYLE:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
 
-#+begin_html
-  <div id="feed">
-    <a href="/babel-dev/atom.xml" type="application/atom+xml"
-       title="subscribe to track babel development">RSS Feed</a>
-  </div>
-#+end_html
-
 * Comment                                                          :noexport:
 As development files will live on github I pulled this section out of
 our monolithic introduction and am placing it in a short introduction

@@ -1,3 +1,13 @@
+#menu {
+    position: absolute;
+    left: 1em;
+}
+
+#feed {
+    background: url(/babel-dev/data/feed14.png) no-repeat;
+    padding-left: 16px;
+}
+
 /* default org css */
 html { font-size: 10pt; }
 .title  { text-align: center; }
@@ -5,7 +15,7 @@ html { font-size: 10pt; }
 .done   { color: green; }
 .tag    { background-color: #add8e6; font-weight:normal }
 .target { }
-.timestamp { color: #bebebe; }
+.timestamp { color: #8f8f8f; font-family: courier, monospace; }
 .timestamp-kwd { color: #5f9ea0; }
 p.verse { margin-left: 3% }
 pre {
@@ -29,6 +39,7 @@ div.figure p { text-align: center; }
                                font-weight:bold; }
 /* end default org css */
 
+/* exported by Emacs */
 body {
     color: #222;
     background-color: #F4F3DB;
@@ -1637,3 +1648,4 @@ pre {
     overflow: auto;
     padding: 0.5em;
  }
+/* end exported by Emacs */
