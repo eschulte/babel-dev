@@ -3,9 +3,16 @@
     left: 1em;
 }
 
+#back {
+    background: url(/babel-dev/data/org-mode14.png) no-repeat;
+    padding-left: 16px;
+    margin: 0.5em;
+}
+
 #feed {
     background: url(/babel-dev/data/feed14.png) no-repeat;
     padding-left: 16px;
+    margin: 0.5em;
 }
 
 /* default org css */
