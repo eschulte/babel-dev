@@ -27,11 +27,11 @@ I was initializing org-babel with the following from my init.el file
 
 
 
-<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-init</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-ruby</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-R</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-python</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span>org-babel-load-library-of-babel<span style="color: #7f7f7f;">)</span>
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
 </pre>
 
 
@@ -47,11 +47,11 @@ When I change the order of the language initializations, the error goes away:
 
 
 
-<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-init</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-R</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-ruby</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span><span style="color: #CC7833;">require</span> '<span style="color: #6D9CBE;">org-babel-python</span><span style="color: #7f7f7f;">)</span>
-<span style="color: #7f7f7f;">(</span>org-babel-load-library-of-babel<span style="color: #7f7f7f;">)</span>
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
 </pre>
 
 
