@@ -47,13 +47,23 @@ scientifically credible or "objective" test.
 It looks like [[http://www.cs.umd.edu/~basili/][Vic Basili]] and the [[http://www.cs.umd.edu/projects/SoftEng/tame/][ESEG]] have experience with this sort
 of thing, and they may be good people to talk to.
 
-*** Existing publications on Reproducible Research
+*** Existing Papers
+I've started collecting the actual PDFs in the [[file:reference/][reference/]] directory
+
 ***** Sweave
 ***** Gentleman & Temple Lang (2004)
       Robert Gentleman and Duncan Temple Lang, "Statistical Analyses
       and Reproducible Research" (May 2004). Bioconductor Project
       Working Papers. Working Paper 2.
       http://www.bepress.com/bioconductor/paper2 
+
+This paper introduces the idea of a "compendium" which is a collection
+of data, code, and expository text which can be used to create
+"dynamic documents".  This paper lays out the framework of what
+compendiums should look like, and what abilities would be required of
+software helping to implement a compendium.  Much of these sections
+read like advertisements for Org-babel.
+
 ***** Gentleman 2005
       Gentleman, Robert (2005) "Reproducible Research: A Bioinformatics Case Study," Statistical Applications in Genetics and Molecular Biology: Vol. 4 : Iss. 1, Article 2.
       DOI: 10.2202/1544-6115.1034
