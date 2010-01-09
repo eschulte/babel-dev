@@ -44,17 +44,9 @@ of the project.
 *** Org-babel
 * Examples
 * Conclusion
-* COMMENT Notes
-*** TODO hypothesis
-We need a hypothesis that we can backup with something approaching a
-scientifically credible or "objective" test.
-
-It looks like [[http://www.cs.umd.edu/~basili/][Vic Basili]] and the [[http://www.cs.umd.edu/projects/SoftEng/tame/][ESEG]] have experience with this sort
-of thing, and they may be good people to talk to.
-
-*** Existing Papers
+* COMMENT Related Papers
 I've started collecting the actual PDFs in the [[file:reference/][reference/]] directory
-***** Sweave
+*** Sweave
 [[file:reference/sweave.pdf][sweave.pdf]]
 #+begin_src bibtex
   @inproceedings{lmucs-papers:Leisch:2002,
@@ -72,7 +64,7 @@ I've started collecting the actual PDFs in the [[file:reference/][reference/]] d
   }  
 #+end_src
 
-***** Literate statistical analysis (Rossini)
+*** Literate statistical analysis (Rossini)
 [[file:reference/literate-stat-analysis.pdf][literate-stat-analysis.pdf]]
 #+begin_src bibtex
   @TechReport{ross:lunt:2001,
@@ -83,17 +75,20 @@ I've started collecting the actual PDFs in the [[file:reference/][reference/]] d
   }  
 #+end_src
 
-***** Emacs Speaks Statistics (Rossini)
-      [[file:reference/ess.pdf][ess.pdf]]
-      Anthony Rossini, Martin Maechler, Kurt Hornik, Richard
-      M. Heiberger, and Rodney Sparapani, "Emacs Speaks Statistics: A
-      Universal Interface for Statistical Analysis" (July 17,
-      2001). UW Biostatistics Working Paper Series. Working Paper 173.
-      http://www.bepress.com/uwbiostat/paper173
+*** Emacs Speaks Statistics (Rossini)
+    :PROPERTIES:
+    :CUSTOM_ID: ess-paper
+    :END:
+    [[file:reference/ess.pdf][ess.pdf]]
+    Anthony Rossini, Martin Maechler, Kurt Hornik, Richard
+    M. Heiberger, and Rodney Sparapani, "Emacs Speaks Statistics: A
+    Universal Interface for Statistical Analysis" (July 17,
+    2001). UW Biostatistics Working Paper Series. Working Paper 173.
+    http://www.bepress.com/uwbiostat/paper173
 
 Reading this paper makes me think we could almost get away with a
 straightforward description of org-babel.
-***** Emacs Speaks Statistics: A Multiplatform, Multipackage etc. (Rossini)
+*** Emacs Speaks Statistics: A Multiplatform, Multipackage etc. (Rossini)
       [[file:reference/jcgs-unblinded.pdf][jcgs-unblinded.pdf]]
       ESS is described in a peer-reviewed journal article:
       Emacs Speaks Statistics: A Multiplatform, Multipackage Development Environment for Statistical Analysis  [Abstract]
@@ -108,7 +103,7 @@ platform on which ESS is built. We conclude with a short history of
 the development of ESS and goals for the future.
 #+end_quote
 
-***** Gentleman & Temple Lang (2004)
+*** Gentleman & Temple Lang (2004)
       :PROPERTIES:
       :CUSTOM_ID: gentleman-lang
       :END:
@@ -128,7 +123,7 @@ read like advertisements for Org-babel.
 There are *many* nice multiline quotes in this paper that could serve
 as good motivation for org-babel.
 
-****** babel as compendium
+**** babel as compendium
 from "General Software Architecture for Compendiums" a compendium must
 have
 1) Authoring Software :: org-mode
@@ -145,7 +140,7 @@ have
    ESS paper we could talk about Emacs's integration with version
    control systems
 
-***** Gentleman (2005)
+*** Gentleman (2005)
       Gentleman, Robert (2005) "Reproducible Research: A
       Bioinformatics Case Study," Statistical Applications in Genetics
       and Molecular Biology: Vol. 4 : Iss. 1, Article 2.  DOI:
@@ -157,7 +152,7 @@ distributing a collection of data files, R code and latex/Sweave files
 from which the text and diagrams are generated. The files are
 available for download from the above link.
 
-***** Keeping Statistics Alive in Documents 
+*** Keeping Statistics Alive in Documents 
 
 requirements for software enable reproducible research
 #+begin_quote 
@@ -189,10 +184,17 @@ sort of like the compendium views of the [[gentleman-lang]] paper -- they
 are the dynamic output of processing/composing the actual persistent
 content.
 
-***** Tom Short
+*** Tom Short
       https://stat.ethz.ch/pipermail/ess-help/2009-August/005474.html
 
 While this is interesting I don't see why it belongs here.
+* COMMENT Notes
+*** TODO hypothesis
+We need a hypothesis that we can backup with something approaching a
+scientifically credible or "objective" test.
+
+It looks like [[http://www.cs.umd.edu/~basili/][Vic Basili]] and the [[http://www.cs.umd.edu/projects/SoftEng/tame/][ESEG]] have experience with this sort
+of thing, and they may be good people to talk to.
 
 *** existing similar tools
 try to collect pointers to similar tools 
@@ -254,6 +256,22 @@ Programmable Spreadsheet
 
 *** HOLD Carsten to write Org-mode introduction
     - State "HOLD"       from "TODO"       [2010-01-09 Sat 10:14] \\
-      No point bothering him until we have a good first draft, and it's
-      clear where his section would fit
 
+No point bothering him until we have a good first draft, and it's
+clear where his section would fit
+
+*** HOLD Share with RR authors
+    - State "HOLD"       from ""           [2010-01-09 Sat 10:43]
+
+After reading some of the above papers, especially the [[gentleman-lang]]
+paper and the [[ess-paper]], it seems like the authors would be interested
+to hear about Org-babel.  And (as Dan has mentioned before) the would
+probably have some interesting insights if we shared initial drafts of
+this paper with them before publication.
+
+*** TODO Share with RR.net
+    - State "TODO"       from ""           [2010-01-09 Sat 10:46]
+
+There is a collection of RR tools at
+http://reproducibleresearch.net/index.php/RR_links and I think they
+Org-babel is mature enough to deserve a place on that list.
