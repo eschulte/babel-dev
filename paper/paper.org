@@ -51,7 +51,50 @@ of thing, and they may be good people to talk to.
 I've started collecting the actual PDFs in the [[file:reference/][reference/]] directory
 
 ***** Sweave
+[[file:reference/sweave.pdf][sweave.pdf]]
+#+begin_src bibtex
+  @inproceedings{lmucs-papers:Leisch:2002,
+    author = {Friedrich Leisch},
+    title = {Sweave: Dynamic Generation of Statistical Reports Using
+                    Literate Data Analysis},
+    booktitle = {Compstat 2002 --- Proceedings in Computational
+                    Statistics},
+    pages = {575--580},
+    year = 2002,
+    editor = {Wolfgang H{\"a}rdle and Bernd R{\"o}nz},
+    publisher = {Physica Verlag, Heidelberg},
+    note = {ISBN 3-7908-1517-9},
+    url = {http://www.stat.uni-muenchen.de/~leisch/Sweave}
+  }  
+#+end_src
+
+***** Literate statistical analysis (Rossini)
+[[file:reference/literate-stat-analysis.pdf][literate-stat-analysis.pdf]]
+#+begin_src bibtex
+  @TechReport{ross:lunt:2001,
+    author =       {Rossini, A.J. and Lunt, Mark},
+    title =        {Literate Statistical Analysis},
+    institution =  {University of Washington, Biostatistics},
+    year =         2001
+  }  
+#+end_src
+
+***** Emacs Speaks Statistics (Rossini)
+      [[file:reference/ess.pdf][ess.pdf]]
+      Anthony Rossini, Martin Maechler, Kurt Hornik, Richard
+      M. Heiberger, and Rodney Sparapani, "Emacs Speaks Statistics: A
+      Universal Interface for Statistical Analysis" (July 17,
+      2001). UW Biostatistics Working Paper Series. Working Paper 173.
+      http://www.bepress.com/uwbiostat/paper173
+
+Reading this paper makes me think we could almost get away with a
+straightforward description of org-babel.
+
 ***** Gentleman & Temple Lang (2004)
+      :PROPERTIES:
+      :CUSTOM_ID: gentleman-lang
+      :END:
+      [[file:reference/stat-analy-and-repro-research.pdf][stat-analy-and-repro-research.pdf]]
       Robert Gentleman and Duncan Temple Lang, "Statistical Analyses
       and Reproducible Research" (May 2004). Bioconductor Project
       Working Papers. Working Paper 2.
@@ -64,19 +107,75 @@ compendiums should look like, and what abilities would be required of
 software helping to implement a compendium.  Much of these sections
 read like advertisements for Org-babel.
 
-***** Gentleman 2005
-      Gentleman, Robert (2005) "Reproducible Research: A Bioinformatics Case Study," Statistical Applications in Genetics and Molecular Biology: Vol. 4 : Iss. 1, Article 2.
-      DOI: 10.2202/1544-6115.1034
-      Available at: http://www.bepress.com/sagmb/vol4/iss1/art2 
+There are *many* nice multiline quotes in this paper that could serve
+as good motivation for org-babel.
 
-      At a quick glance this paper attempts to reconstruct an old
-      paper by distributing a collection of data files, R code and
-      latex/Sweave files from which the text and diagrams are
-      generated. The files are available for download from the above
-      link.
+****** babel as compendium
+from "General Software Architecture for Compendiums" a compendium must
+have
+1) Authoring Software :: org-mode
+2) Auxillary Software :: org-mode attachments should satisfy this
+3) Transformation Software :: org-babel, with tangle, and the org-mode
+   export functions
+4) Quality control Software :: the unit tests in various languages can
+   fit this bill -- else where in the paper they mention unit tests
+   would be appropriate
+5) Distribution Software :: tools for managing the history of a
+   compendium and distributing the compendium.  they seem to not know
+   about distributed version control systems -- because they are the
+   ideal solution to this issue and they aren't mentioned.  as in the
+   ESS paper we could talk about Emacs's integration with version
+   control systems
+
+***** Gentleman 2005
+      Gentleman, Robert (2005) "Reproducible Research: A
+      Bioinformatics Case Study," Statistical Applications in Genetics
+      and Molecular Biology: Vol. 4 : Iss. 1, Article 2.  DOI:
+      10.2202/1544-6115.1034 Available at:
+      http://www.bepress.com/sagmb/vol4/iss1/art2
+
+At a quick glance this paper attempts to reconstruct an old paper by
+distributing a collection of data files, R code and latex/Sweave files
+from which the text and diagrams are generated. The files are
+available for download from the above link.
+
+***** Keeping Statistics Alive in Documents 
+
+requirements for software enable reproducible research
+#+begin_quote 
+- Documents have well defined contents which are maintained in a
+  reliable way. Persistence must be supported. Document contents as
+  well as dynamic linking must be preserved if documents are stored or
+  communicated.
+- Documents are structured internally and each part has a
+  context. Structure and context relations must be
+  supported. Components should be sensitive to their context and adapt
+  to the structure and context of the embedding document, allowing
+  pre-defined components to be used in an efficient and flexible way.
+- Documents may be communicated. Sharing of documents and data must be
+  supported.  This means taking account of problems possibly which may
+  arise from duplication of information, partial or delayed access, or
+  different user environments.
+#+end_quote
+
+They talk about "linking between components" where components sound
+like
+- raw data
+- blocks of processing functionality (source-code blocks) 
+- results of processing
+The positive effects of being able to swap out components are
+discussed.
+
+Their "documents" are build by linking components.  So documents are
+sort of like the compendium views of the [[gentleman-lang]] paper -- they
+are the dynamic output of processing/composing the actual persistent
+content.
 
 ***** Tom Short
       https://stat.ethz.ch/pipermail/ess-help/2009-August/005474.html
+
+While this is interesting I don't see why it belongs here.
+
 *** existing similar tools
 try to collect pointers to similar tools 
 
@@ -96,6 +195,9 @@ Meta Functional Programming
 
 Programmable Spreadsheet
 - ?
+
+*** Bibliography
+- [[file:bib/ess-intro-graphs.bib][ess-intro-graphs.bib]] copied from [[https://svn.r-project.org/ESS/trunk/doc/ess-intro-graphs.bib][r-project]]
 
 *** TODO Select a journal
    The following notes are biased towards statistics-oriented
