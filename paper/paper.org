@@ -1,4 +1,5 @@
 #+TITLE: Org-babel
+#+TODO: TODO(t!) HOLD(h!) STARTED(s!) | DONE(d!)
 #+OPTIONS: ^:nil
 #+STARTUP: oddeven hideblocks
 
@@ -49,7 +50,6 @@ of thing, and they may be good people to talk to.
 
 *** Existing Papers
 I've started collecting the actual PDFs in the [[file:reference/][reference/]] directory
-
 ***** Sweave
 [[file:reference/sweave.pdf][sweave.pdf]]
 #+begin_src bibtex
@@ -89,6 +89,20 @@ I've started collecting the actual PDFs in the [[file:reference/][reference/]] d
 
 Reading this paper makes me think we could almost get away with a
 straightforward description of org-babel.
+***** Emacs Speaks Statistics: A Multiplatform, Multipackage etc. (Rossini)
+      [[file:reference/jcgs-unblinded.pdf][jcgs-unblinded.pdf]]
+      ESS is described in a peer-reviewed journal article:
+      Emacs Speaks Statistics: A Multiplatform, Multipackage Development Environment for Statistical Analysis  [Abstract]
+      Journal of Computational & Graphical Statistics 13(1), 247-261
+      Rossini, A.J, Heiberger, R.M., Sparapani, R.A., Maechler, M., Hornik, K. (2004) 
+
+#+begin_quote 
+   We discuss how ESS enhances a statistician's daily activities by
+presenting its features and showing how it facilitates statistical
+computing. Next, we describe the Emacs text editor, the underlying
+platform on which ESS is built. We conclude with a short history of
+the development of ESS and goals for the future.
+#+end_quote
 
 ***** Gentleman & Temple Lang (2004)
       :PROPERTIES:
@@ -127,7 +141,7 @@ have
    ESS paper we could talk about Emacs's integration with version
    control systems
 
-***** Gentleman 2005
+***** Gentleman (2005)
       Gentleman, Robert (2005) "Reproducible Research: A
       Bioinformatics Case Study," Statistical Applications in Genetics
       and Molecular Biology: Vol. 4 : Iss. 1, Article 2.  DOI:
@@ -206,19 +220,14 @@ Programmable Spreadsheet
    journals out there for an article on using org mode for
    reproducible research (and literate programming etc).
 
-   Clearly, we would invite Carsten to be involved with this.
+   - [[http://www.amstat.org/publications/jcgs.cfm][Journal of Computational and Graphical Statistics]] published a
+     paper on ESS
 
-   ESS is described in a peer-reviewed journal article:
-   Emacs Speaks Statistics: A Multiplatform, Multipackage Development Environment for Statistical Analysis  [Abstract]
-   Journal of Computational & Graphical Statistics 13(1), 247-261
-   Rossini, A.J, Heiberger, R.M., Sparapani, R.A., Maechler, M., Hornik, K. (2004) 
-   [[http://www.amstat.org/publications/jcgs.cfm][Journal of Computational and Graphical Statistics]]
-
-   Also [[http://www.amstat.org/publications/jss.cfm][Journal of Statistical Software]] Established in 1996, the
-   Journal of Statistical Software publishes articles, book reviews,
-   code snippets, and software reviews. The contents are freely
-   available online. For both articles and code snippets, the source
-   code is published along with the paper.
+   - Also [[http://www.amstat.org/publications/jss.cfm][Journal of Statistical Software]] Established in 1996, the
+     Journal of Statistical Software publishes articles, book reviews,
+     code snippets, and software reviews. The contents are freely
+     available online. For both articles and code snippets, the source
+     code is published along with the paper.
 
    [[http://journal.r-project.org/][The R Journal]] publishes papers on tools which can be used with R.
 
@@ -238,4 +247,9 @@ Programmable Spreadsheet
 
    We could also look at the Journals publishing [[http://www.reproducibleresearch.net/index.php/RR_links#Articles_about_RR_.28chronologically.29][these]] Reproducible
    Research Articles.
+
+*** HOLD Carsten to write Org-mode introduction
+    - State "HOLD"       from "TODO"       [2010-01-09 Sat 10:14] \\
+      No point bothering him until we have a good first draft, and it's
+      clear where his section would fit
 
