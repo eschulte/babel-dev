@@ -93,6 +93,42 @@ of the project.
          or generalization of the actual writing process (using LaTeX
          source code blocks)
 
+**** Figure
+     - The figure attempts to show the relationship of Org-babel to its predecessors
+     - Cylinders refer to code
+     - The wavy-bottom symbols are documents
+     - The round-cornered square is meta-data
+     - Beige is a system that produces a source code file and documentation
+     - Purple is a system that embeds executable source in a document
+     - Green is a system that produces a document and metadata
+#+srcname: paradigm-shifts
+#+begin_src ditaa :file paradigm.png :cmdline -r
+
+                                         +------+
+                                         |      |
+                                         |Babel |
+                       +-----------------+ cFF8 +------------------------\  
+                       |                 +--+---+                        |
+                  +----+-+                  |                            |
+                  | cFDA |                  |                            | 
+                  | NOWEB|                  +----------------+           |
+               /--+      +--\               |                |           |
+               |  +------+  |               |                |           |
+          +----+-+          |            +--+---+            |         +-+----+
+          |      |          |            |      |            |         |      |     
+          | WEB  |          |            |Sweave|            |         | Org  | 
+       /--+ cFDA +--\       |         /--+ cDBF +--\         |      /--+ c9FB +--\
+       |  +------+  |       |         |  +------+  |         |      |  +------+  |   
+     +-+----+  +----+-+  +--+---+   +-+----+  +----+-+  +----+-+  +-+----+  +----+-\
+     |{d}   |  | {s}  |  | {s}  |   | {d}  |  | {s}  |  | {s}  |  | {d}  |  | c9FB |
+     | cFDA |  | cFDA |  | cFDA |   | cDBF |  | cDBF |  | cDBF |  | c9FB |  |      |
+     |      |  |  1   |  |  N   |   |      |  |  1   |  |  N   |  |  N   |  |      |
+     +------+  +------+  +------+   +------+  +------+  +------+  +------+  \------+
+#+end_src
+
+#+results: paradigm-shifts
+[[file:paradigm.png]]
+
 *** Emacs Org-mode
 *** Org-babel
 * Examples
