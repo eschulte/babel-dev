@@ -240,10 +240,6 @@ sort of like the compendium views of the [[gentleman-lang]] paper -- they
 are the dynamic output of processing/composing the actual persistent
 content.
 
-*** Tom Short
-      https://stat.ethz.ch/pipermail/ess-help/2009-August/005474.html
-
-While this is interesting I don't see why it belongs here.
 * COMMENT Notes
 *** TODO hypothesis
 We need a hypothesis that we can backup with something approaching a
