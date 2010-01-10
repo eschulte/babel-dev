@@ -357,6 +357,9 @@ to hear about Org-babel.  And (as Dan has mentioned before) the would
 probably have some interesting insights if we shared initial drafts of
 this paper with them before publication.
 
+    - TD agrees with this.  The Gentleman and Lang paper was
+      the most interesting of the bunch.
+
 *** TODO Share with RR.net
     - State "TODO"       from ""           [2010-01-09 Sat 10:46]
 
