@@ -20,7 +20,8 @@
   very rich set of features for working with the source file,
   including natural environments for authoring both text and code, as
   well as sophisticated project management capabilities.
-
+** TD comments
+   - Abstract needs to mention language agnosticism
 * Introduction
 *** The problem addressed
 Research projects can be described as comprising the following stages:
@@ -39,6 +40,58 @@ transition there is the potential for losing data, code, or project
 history.  One of the challenges in carrying out such work is simply
 that of maintaining a clear picture of the current state and direction
 of the project.
+**** TD comments
+     - The introduction talks about a research project, but the abstract
+       started off with literate programming and reproducible research.
+       - I like the approach of the abstract better
+     - Rossini and others make it clear that Literate Programming,
+       Literate Statistical Practice, Document Integration of Software
+       Components, and Reproducible Research are variations on a
+       theme.
+       - Literate programming produces a computer program and its documentation
+       - Literate statistical practice produces the code for a
+         statistical analysis and its documentation
+       - Document integration of software components produces a
+         document within which software components can be executed
+       - Reproducible research produces a research paper with software
+         tools that allow the reader to reproduce the results and
+         employ the methods presented in the paper, possibly as a
+         compendium
+     - Existing software tools such as WEB, cweb, noweb, Sweave, and others
+       do one or another of these things
+       - Existing document integration of software component tools are
+         tied to particular languages: Sweave = LaTeX + S (and
+         dialects)
+       - The web family does literate programming, either tied to a
+         particular language, or language agnostic such as noweb
+       - Literate statistical practice can be achieved with a language
+         agnostic literate programming tool like noweb and ESS, though
+         I couldn't follow Rossini's description of how this might
+         work
+       - Are there any reproducible research tools (other than Org-babel)?
+     - Org-babel does them all
+       - Literate programming is org-babel-tangle + org-mode export
+       - Literate statistical practice is Org-babel source code
+         blocks + org-mode 
+       - Document integration of software components is Org-babel's
+         executable source code blocks + org-mode
+       - Reproducible research is org-babel as compendium as outlined
+         by Eric below.
+     - Meta-structure or generalization
+       - Literate programming is a meta-structure or generalization of
+         program writing and documentation writing
+       - Literate statistical practice is a meta-structure or
+         generalization of statistical analysis and documentation writing
+       - Document integration of software components is a
+         meta-structure or generalization of statistical analysis and
+         reporting of results
+       - The reproducible research compendium is "a small step from" a
+         meta-structure or generalization of statistical analysis,
+         explanation of methodology, and reporting of results
+       - Org-babel is a meta-structure or generalization of pretty
+         much the entire research process, including a meta-structure
+         or generalization of the actual writing process (using LaTeX
+         source code blocks)
 
 *** Emacs Org-mode
 *** Org-babel
@@ -46,6 +99,9 @@ of the project.
 * Conclusion
 * COMMENT Related Papers
 I've started collecting the actual PDFs in the [[file:reference/][reference/]] directory
+*** Web
+    - [[file:reference/knuthweb.pdf][Knuth]]
+    - See pg. 14 for an interesting discussion of WEB's development
 *** Sweave
 [[file:reference/sweave.pdf][sweave.pdf]]
 #+begin_src bibtex
