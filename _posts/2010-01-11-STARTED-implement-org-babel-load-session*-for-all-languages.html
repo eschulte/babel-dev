@@ -1,0 +1,82 @@
+---
+title: STARTED implement org-babel-load-session:* for all languages
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> implement org-babel-load-session:* for all languages </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-11 Mon 10:00</span></span>
+
+</li>
+</ul>
+
+<p>This is currently implemented for the following where
+</p><dl>
+<dt>NA</dt><dd>
+means the language doesn't support sessions anyways
+</dd>
+<dt>yes</dt><dd>
+means it is now implemented
+</dd>
+<dt>?? </dt><dd>
+means I need to look more closely at the language to
+determine if sessions are supported, or some prerequisite isn't
+yet implemented
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Language</th><th scope="col">org-babel-load-session: implemented</th></tr>
+</thead>
+<tbody>
+<tr><td>Asymptote</td><td>NA</td></tr>
+<tr><td>C</td><td>NA</td></tr>
+<tr><td>Clojure</td><td>yes</td></tr>
+<tr><td>css</td><td>NA</td></tr>
+<tr><td>ditaa</td><td>NA</td></tr>
+<tr><td>Graphviz</td><td>NA</td></tr>
+<tr><td>Emacs Lisp</td><td>NA</td></tr>
+<tr><td>gnuplot</td><td>yes</td></tr>
+<tr><td>Haskell</td><td>yes</td></tr>
+<tr><td>LaTeX</td><td>NA</td></tr>
+<tr><td>Objective Caml</td><td>??</td></tr>
+<tr><td>Perl</td><td>??</td></tr>
+<tr><td>Python</td><td>yes</td></tr>
+<tr><td>R</td><td>yes</td></tr>
+<tr><td>Ruby</td><td>yes</td></tr>
+<tr><td>Sass</td><td>NA</td></tr>
+<tr><td>GNU Screen</td><td>??</td></tr>
+<tr><td>shell</td><td>yes</td></tr>
+<tr><td>SQL</td><td>??</td></tr>
+</tbody>
+</table>
+
+
+</dd>
+</dl>
+
+<p>most of these all follow this simple basic form
+</p>
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-load-session:R</span> <span class="org-esk-paren">(</span>session body params<span class="org-esk-paren">)</span>
+  <span class="org-doc">"Load BODY into SESSION."</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">save-window-excursion</span>
+    <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>buffer <span class="org-esk-paren">(</span>org-babel-prep-session:R session params<span class="org-esk-paren">)))</span>
+      <span class="org-esk-paren">(</span><span class="org-keyword">with-current-buffer</span> buffer
+        <span class="org-esk-paren">(</span>goto-char <span class="org-esk-paren">(</span>process-mark <span class="org-esk-paren">(</span>get-buffer-process <span class="org-esk-paren">(</span>current-buffer<span class="org-esk-paren">))))</span>
+        <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>org-babel-chomp body<span class="org-esk-paren">)))</span>
+      buffer<span class="org-esk-paren">)))</span>
+</pre>
+
+
+
+
+</div>
+</div>

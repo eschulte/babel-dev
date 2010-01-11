@@ -3,6 +3,7 @@
 blue.png
 *.pdf
 data/
+scraps.*
 
 ## ignore automatically generated jekyll files
 _site
