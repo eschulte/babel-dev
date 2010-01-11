@@ -7,7 +7,10 @@
 ** STARTED implement org-babel-load-session:* for all languages
    - State "STARTED"    from ""           [2010-01-11 Mon 10:00]
 
-This is currently implemented for the following where
+`[[http://orgmode.org/worg/org-contrib/babel/reference.php#function-org-babel-load-in-session][org-babel-load-session:*]]' is bound to M-up and can be called from
+inside of a code block to dump the body of the block to the related
+session.  It is currently implemented for the following languages
+where...
 - NA :: means the language doesn't support sessions anyways
 - yes :: means it is now implemented
 - ??  :: means I need to look more closely at the language to
