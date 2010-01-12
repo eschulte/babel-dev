@@ -1,71 +1,74 @@
 #+TITLE: Org-babel
-#+OPTIONS: ^:nil
+#+OPTIONS: ^:nil toc:nil
 #+STARTUP: oddeven hideblocks
 
-* Paper
-** Abstract
+#+LaTeX: \begin{abstract}
 We present a new computing environment for the authoring of both prose
-and source-code. In this environment a single hierarchically-organised
+and source-code. In this environment a single hierarchically-organized
 plain text source file may contain a variety of elements such as
-source code in a variety of programming languages, data, links to
+source code in arbitrary programming languages, raw data, links to
 images and other files, project management data, working notes, and
 text for publication. Source code fragments may be executed in situ
-with graphical and text output being captured in, or linked to from,
-the source file. Export to LaTeX, HTML, Beamer and other formats
-permits working reports, presentations and manuscripts for publication
-to be generated from the source file. In addition, source code
-extraction (tangling) permits functioning pure code files to be
-extracted from the file. This framework is implemented as an extension
-to the Emacs text editor and additionally provides a very rich set of
-features for working with the source file, including natural
-environments for authoring both prose and code, as well as
-sophisticated project management capabilities.
+with graphical and text output captured in, or linked to from, the
+source file. Export to LaTeX, HTML, Beamer and other formats permits
+working reports, presentations and manuscripts for publication to be
+generated from the source file. In addition, source code extraction
+(tangling) permits functioning pure code files to be extracted from
+the file. This framework is implemented as an extension to the Emacs
+text editor and provides a very rich set of features for working with
+the source file, including natural environments for authoring both
+prose and code, as well as sophisticated project management
+capabilities.
+#+LaTeX: \end{abstract}
 
-** Introduction -- problem
-*** requirement -- computational communities need computational communication
+* Introduction -- problem
+** requirement -- computational communities need computational communication
 In this paper we present Org-babel -- a tool for *computational
-communication*.  To begin we must define some terms which we will use
-in this paper
-- code (or source code) :: will refer to the textual communication
-     with a computer.  Namely the textual source of computer programs
-     which can be can be run or executed.
-- prose :: will refer to textual communication between people in human
-     languages (e.g. English).
+communication*.  First explicit definition of some terms which will be
+used below.
+- code (or source code) :: will refer to the text written in a
+     programming language intended for use by a computer.
+- prose :: will refer to text written in a natural language
+     (e.g. English) intended for use by a person.
 - computational communication :: will refer to the communication in
      which the subject is computational objects or results.  This
      communication is unique in that it must consist of mutually
      supportive sections of both prose and code.  Computational
-     communication can take place between different people, people and
-     computers, or even the same person at different points in time.
+     communication takes place between people, people and computers,
+     or the same person at different points in time.
 
-Computational communication takes place in a variety of settings
-
+There are a variety of setting in which successful computation
+communication is paramount
 - *Scientific research* increasingly involves the use of computational
-  tools the exposition of which is vital to successfully understanding
-  of the meaning of the research results.  This is true for both
-  researchers in the computational sciences and researchers who make
-  use of computational or statistical tools or models in their work.
-- In *open source software development* individual developers must
-  communicate their ideas and their code for successful collaboration.
+  tools the exposition of which is vital to successful conveyance of
+  the meaning of the research results.  This is true not only for
+  researchers in the computational sciences but for any researchers
+  who make use of computational or statistical tools or models in
+  their work.
+- In *software development* individual developers must communicate
+  their ideas and their code for successful collaboration.
 - Without proper *documentation* the utility of computational tools is
   severely compromised [fn:1].
 - *Working notes* related to the use of computational tools are an
   important resource for developers/researchers, and increasingly the
   sharing of these notes through the internet in the form of blogs and
-  forums can play an important role in the adoption of computational
-  languages and tools [fn:2].
+  forums can play an important role in the adoption and utility of
+  computational languages and tools [fn:2].
 
-All of the communities mentioned above have a need to share both code
-and prose.  Prose alone is insufficient as it is
-#+begin_quote [[gentleman-lang]]
+In all of the situations described above prose alone in the absence of
+access to code is insufficient as it is
+#+begin_quote
 not conducive to succinct, exact expression and the audience is
 separated from the actions and details of the algorithm and often
 forced to make assumptions about the precise computational details
-#+end_quote
-while code is designed for interpretation by compilers and computers
-and is not a sufficient medium for communication between people.
 
-Portions of the need for /computational communication/ have been
+--  [[gentleman-lang]]
+#+end_quote
+
+Similarly distribution of code without expository prose is not a
+sufficient medium for communication between people.
+
+Portions of the /computational communication/ problem have been
 identified and addressed under a variety of names such as Literate
 Programming [fn:3] which adds prose to the authoring of code, or
 Reproducible Research [fn:4] which add executable code to prose
@@ -73,17 +76,22 @@ publications.  Org-babel generalizes these preceding approaches and
 provides a unified environment supporting all manner of both authoring
 and using prose and code.
 
-|       | prose                          | code              |
-|-------+--------------------------------+-------------------|
-| write | org-mode authoring environment | Emacs major modes |
-| use   | publish to variety of formats  | execute / tangle  |
+|       | prose                        | code                           |
+|-------+------------------------------+--------------------------------|
+| write | natural document authoring   | natural code authoring through |
+|       | environment through Org-mode | Emacs major modes              |
+|-------+------------------------------+--------------------------------|
+| use   | automated publishing to      | in-situ execution and          |
+|       | a variety of formats         | exportation/tangling of code   |
+|-------+------------------------------+--------------------------------|
 
 As such Org-babel provides a consistent environment in which the
 entire life cycle of a research or development project can take place.
 With the data, code and text of a project stored in a single location
 which can be exported to a variety of formats the future
-reproducibility of the work is ensured, and the burden on the author
-of sharing the work is greatly reduced.
+reproducibility of the work is ensured, and the practices of
+Reproducible Research and Literate Programming are encouraged by
+greatly reducing the burden on the author.
 
 The name "Org-babel" is a pair of literary references indicating both
 the nature of the problem in the "Tower of Babel"
@@ -103,10 +111,10 @@ Before describing the Org-babel environment in detail we will quickly
 review the existing tools each of which addresses a portion of the
 problem of *computational communication*.
 
-*** Existing Tools
+** Existing Tools
 Each of the tools listed below addresses an subset of the problem of
 computational communication.
-**** Web
+*** Web
 Literate Programming [fn:5] is the practice of writing computer
 programs in such a way that the main objective is to explain to a
 human reader what the program is intended to do.  Literate programming
@@ -121,7 +129,7 @@ such as =Noweb= can handle arbitrary programming languages.  Web tools
 enable the *authoring* of both prose and code, but provide no
 facilities for the execution of code from within documents.
 
-**** Comment Extraction
+*** Comment Extraction
 Comment extraction tools are a lighter weight alternative to literate
 programming.  Comment extraction tools can be used to extract
 documentation from comments embedded in pure code documents.  Most
@@ -133,7 +141,7 @@ programming it is much more widely used.  This is largely due to the
 fact that it requires no changes to the programmers editing
 environment and can be used directly from inside of source code files.
 
-**** Sweave
+*** Sweave
 Like Web documents Sweave documents consist of code embedded into TeX
 documents [fn:6].  Sweave only supports the R statistical programming
 language.  The code in Sweave documents is executed during publishing
@@ -141,7 +149,7 @@ the output of which can be used as figures or data in the report.  As
 such Sweave enables "dynamic reports" which can be updated
 automatically if the data or analysis change.
 
-**** Field
+*** Field
 Field [fn:7] is a text editor based on research started at the MIT
 media lab [fn:8].  Field allows code from multiple programming
 languages to be intermingled in the same document.  These code
@@ -150,7 +158,7 @@ snippets can then share data between themselves.
 Currently Field does not support exporting to human-readable
 documents, and Field only supports languages which run on the JVM.
 
-**** Notebooks
+*** Notebooks
 Notebooks are interactive systems for a user to interact with a
 programming or statistical analysis engine.  Notebooks support the
 co-mingling of code and results in a single document and some
@@ -165,20 +173,20 @@ authoring environments.
 Examples of notebook software include
 - Matlab [fn:9]
 - Sage Math [fn:10]
-** Org-babel -- solution
-Org-babel extends Emacs Org-mode with the ability to execute and
-selectively export source code blocks embedded in Org-mode documents.
-The results of code execution -- text, tables and graphics -- can be
-used as input to other source code blocks or integrated into the
-powerful publishing facilities of Org-mode.
+* Org-babel -- solution
+Org-babel extends Org-mode [fn:12] a Major mode of the Emacs text
+editor [fn:13] with the ability to execute and selectively export
+embedded source code blocks.  The results of code execution -- text,
+tables and graphics -- can be used as input to other source code
+blocks or integrated into the powerful publishing facilities of
+Org-mode.
 
 Org-babel provides a single environment supporting
 - prose document authoring -- with export to HTML, LaTeX, plain text,
   and LaTeX beamer
-- the authoring of source-code in a familiar editing environment --
-  the Emacs major mode related to the language
+- the authoring of source-code
 - the interactive and automatic execution of source code with control
-  over the flow of data into and out of the source code block
+  over the flow of data into and out of the source code blocks
 - the storage and analysis of raw data in both spreadsheet and
   notebook fashion
 - sophisticated organizational and task management facilities
@@ -189,9 +197,9 @@ supports 19 programming languages [fn:11].
 
 The majority of the features above are provided directly by the
 Org-mode project which Org-babel extends.  As such the following
-description of Org-babel will begin by describing Org-mode.
+description of Org-babel will begin with a description of Org-mode.
 
-*** Org-mode
+** Org-mode
 Thank you Carsten!
 
 - export targets (html, latex, beamer, ascii)
@@ -200,27 +208,51 @@ Thank you Carsten!
 - spreadsheets
 - more?
 
-*** Org-babel -- executable source-code in Org-mode
-*** Satisfying known computational communication needs
-**** org-babel as compendium -- RR
-**** org-babel as web -- LP
-**** org-babel as active document -- Notebook
-**** other prototypes for sharing code/data?
-*** Example Usage
-**** Knuth's prime
-**** Working Notes
-**** Research Project
-** Conclusion -- present and future
-*** Initial reaction
-*** Future Work
-**** bring outside of Emacs
-*** Discussion
-** Reference
-*** Bib
-**** Web
-     - [[file:reference/knuthweb.pdf][Knuth]]
-     - See pg. 14 for an interesting discussion of WEB's development
-**** Sweave
+** Org-babel -- executable source-code in Org-mode
+*** source-code blocks
+*** arguments to source-code blocks
+*** evaluation of source-code blocks -- session vs. external
+*** results of source-code blocks
+- results vs. output
+- incorporation into Org-mode buffer
+*** weave -- integration with Org-mode export
+*** tangling -- export source code
+** Satisfying known computational communication needs
+*** org-babel as compendium -- RR
+*** org-babel as web -- LP
+*** org-babel as active document -- Notebook
+*** other prototypes for sharing code/data?
+** Example Usage
+The following are just suggestions, maybe something from [[http://orgmode.org/worg/org-contrib/babel/intro.php][intro]] or [[http://orgmode.org/worg/org-contrib/babel/uses.php][uses]]
+would be better
+
+*** Knuth's primes
+This is the example Knuth uses in his literate programming paper.
+
+*** Working notes
+Something you would write and keep mainly for yourself but may want to
+publish at some point.
+
+*** Research Project
+Maybe something that grabs the latest data from the web, analyzes and
+reports.
+
+* Conclusion -- present and future
+** Initial reaction
+- User reactions and testimonials?
+- Hugely constrained potential user-base.  Emacs > Org-mode > Org-babel
+
+** Future Work
+*** bring outside of Emacs
+** Discussion
+???
+
+* Reference
+** COMMENT Bib
+*** Web
+    - [[file:reference/knuthweb.pdf][Knuth]]
+    - See pg. 14 for an interesting discussion of WEB's development
+*** Sweave
 [[file:reference/sweave.pdf][sweave.pdf]]
 #+begin_src bibtex
   @inproceedings{lmucs-papers:Leisch:2002,
@@ -238,7 +270,7 @@ Thank you Carsten!
   }  
 #+end_src
 
-**** Literate statistical analysis (Rossini)
+*** Literate statistical analysis (Rossini)
 [[file:reference/literate-stat-analysis.pdf][literate-stat-analysis.pdf]]
 #+begin_src bibtex
   @TechReport{ross:lunt:2001,
@@ -249,7 +281,7 @@ Thank you Carsten!
   }  
 #+end_src
 
-**** Emacs Speaks Statistics (Rossini)
+*** Emacs Speaks Statistics (Rossini)
     :PROPERTIES:
     :CUSTOM_ID: ess-paper
     :END:
@@ -262,7 +294,7 @@ Thank you Carsten!
 
 Reading this paper makes me think we could almost get away with a
 straightforward description of org-babel.
-**** Emacs Speaks Statistics: A Multiplatform, Multipackage etc. (Rossini)
+*** Emacs Speaks Statistics: A Multiplatform, Multipackage etc. (Rossini)
       [[file:reference/jcgs-unblinded.pdf][jcgs-unblinded.pdf]]
       ESS is described in a peer-reviewed journal article:
       Emacs Speaks Statistics: A Multiplatform, Multipackage Development Environment for Statistical Analysis  [Abstract]
@@ -277,7 +309,7 @@ platform on which ESS is built. We conclude with a short history of
 the development of ESS and goals for the future.
 #+end_quote
 
-**** Gentleman & Temple Lang (2004)
+*** Gentleman & Temple Lang (2004)
       :PROPERTIES:
       :CUSTOM_ID: gentleman-lang
       :END:
@@ -297,7 +329,7 @@ read like advertisements for Org-babel.
 There are *many* nice multiline quotes in this paper that could serve
 as good motivation for org-babel.
 
-***** babel as compendium
+**** babel as compendium
 from "General Software Architecture for Compendiums" a compendium must
 have
 1) Authoring Software :: org-mode
@@ -314,7 +346,7 @@ have
    ESS paper we could talk about Emacs's integration with version
    control systems
 
-**** Gentleman (2005)
+*** Gentleman (2005)
       Gentleman, Robert (2005) "Reproducible Research: A
       Bioinformatics Case Study," Statistical Applications in Genetics
       and Molecular Biology: Vol. 4 : Iss. 1, Article 2.  DOI:
@@ -326,7 +358,7 @@ distributing a collection of data files, R code and latex/Sweave files
 from which the text and diagrams are generated. The files are
 available for download from the above link.
 
-**** Keeping Statistics Alive in Documents 
+*** Keeping Statistics Alive in Documents 
 
 requirements for software enable reproducible research
 #+begin_quote 
@@ -360,7 +392,7 @@ content.
 
 * COMMENT Scrap / Figures
 
-#+begin_src ditaa :file data/existing-tools.png :cmdline -r
+#+begin_src ditaa :file data/existing-tools.png :cmdline -r :exports none
              ^
        Human |    
          Use |                                             Reproducible Research    
@@ -396,7 +428,7 @@ content.
                     Writing                                               Running  
 #+end_src
 
-#+begin_src ditaa :file data/existing-tools.png :cmdline -r
+#+begin_src ditaa :file data/existing-tools.png :cmdline -r :exports none
   +---------------------------------------------------------------------------------+
   |                          Computational Communication                            |                           
   |                                                                                 |
@@ -431,7 +463,7 @@ content.
 
 [fn:1] I'm sure there's a reference to back this up
 
-[fn:2] again -- I know this to be true but should find a reference
+[fn:2] again -- I know this to be true but should find a reference (RoR)
 
 [fn:3] knuth
 
@@ -449,4 +481,8 @@ content.
 
 [fn:10] http://www.sagemath.org/
 
-[fn:11] http://orgmode.org/worg/org-contrib/babel/reference.php#languages
+[fn:11] http://orgmode.org/worg/org-contrib/babel/reference.php
+
+[fn:12] http://orgmode.org
+
+[fn:13] http://www.gnu.org/software/emacs/
