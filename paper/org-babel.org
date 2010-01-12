@@ -149,8 +149,30 @@ Examples of notebook software include
 - Matlab [fn:9]
 - Sage Math [fn:10]
 ** Org-babel -- solution
-Org-babel provides 
+Org-babel extends Emacs Org-mode with the ability to execute and
+selectively export source code blocks embedded in Org-mode documents.
+The results of code execution -- text, tables and graphics -- can be
+used as input to other source code blocks or integrated into the
+powerful publishing facilities of Org-mode.
 
+Org-babel provides a single environment supporting
+- prose document authoring -- with export to HTML, LaTeX, plain text,
+  and LaTeX beamer
+- the authoring of source-code in a familiar editing environment --
+  the Emacs major mode related to the language
+- the interactive and automatic execution of source code with control
+  over the flow of data into and out of the source code block
+- the storage and analysis of raw data in both spreadsheet and
+  notebook fashion
+- sophisticated organizational and task management facilities
+
+The core of Org-babel is language agnostic and can easily be extended
+to provide support for new programming languages.  Org-babel currently
+supports 19 programming languages [fn:11].
+
+The majority of the features above are provided directly by the
+Org-mode project which Org-babel extends.  As such the following
+description of Org-babel will begin by describing Org-mode.
 
 *** Org-mode
 Thank you Carsten!
@@ -158,6 +180,8 @@ Thank you Carsten!
 - export targets (html, latex, beamer, ascii)
 - edit source-code
 - project/task management
+- spreadsheets
+- more?
 
 *** Org-babel -- executable source-code in Org-mode
 *** Satisfying known computational communication needs
@@ -408,3 +432,5 @@ content.
 [fn:9] http://www.mathworks.com/
 
 [fn:10] http://www.sagemath.org/
+
+[fn:11] http://orgmode.org/worg/org-contrib/babel/reference.php#languages
