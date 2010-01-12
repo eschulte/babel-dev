@@ -14,12 +14,12 @@ in this paper
      be run or executed.
 - prose :: will refer to textual communication between people in human
      languages (e.g. English).
-- computational communication :: will refer to the communication
-     between people in which the subject is computational objects or
-     results.  This communication is unique in that it must consist of
-     mutually supportive sections of both prose and code.
-     Computational communication can take place between people,
-     groups, or even the same person at different points in time.
+- computational communication :: will refer to the communication in
+     which the subject is computational objects or results.  This
+     communication is unique in that it must consist of mutually
+     supportive sections of both prose and code.  Computational
+     communication can take place between different people, people and
+     computers, or even the same person at different points in time.
 
 Computational communication takes place in a variety of settings
 
@@ -87,6 +87,43 @@ review the existing tools each of which addresses a portion of the
 problem of *computational communication*.
 
 *** Existing Tools
+Each of the tools listed below addresses an subset of the problem of
+computational communication.
+
+#+begin_src ditaa :file data/existing-tools.png :cmdline -r
+  +---------------------------------------------------------------------------------+
+  |                          Computational Communication                            |                           
+  |                                                                                 |
+  |   +-------------------------+                                                   |
+  |   |   literate programming  |                       +------------------------+  |
+  |   |   --------------------  |                       |      Noteboook         |  |
+  |   |   - Web                 |                       |      ---------         |  |
+  |   |                         |                       |      - Stuff           |  |
+  |   |                         |                       |                        |  |
+  |   |                     +---+-----------------------+-------+                |  |
+  |   |                     |     reproducible research         |                |  |
+  |   |                     |     ---------------------         |                |  |
+  | +-+-------------------+ |       - Sweave                    +----------------+  |
+  | | Comment Extraction  | |                                   |                   |
+  | | ------------------  | |                                   |                   |
+  | | - Perl POD          +-+                                   |                   |
+  | | - Ruby RDoc         | |                                   |                   |
+  | | - etc...            | |                                   |                   |
+  | |                     | |                +------------------+-----------+       |
+  | |                     | |                |      Meta Programming        |       |
+  | |                     | |                |      ----------------        |       |
+  | |                     | +----------------+      - Field                 |       |
+  | |                     |                  |                              |       |
+  | +-------------------+-+                  |                              |       |
+  |                                          |                              |       |
+  |                                          +------------------------------+       |
+  |                                                                                 |
+  +---------------------------------------------------------------------------------+
+#+end_src
+
+#+results:
+[[file:data/existing-tools.png]]
+
 **** web
 **** Sweave
 **** Field
