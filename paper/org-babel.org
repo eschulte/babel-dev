@@ -5,9 +5,23 @@
 * Paper
 ** Abstract
 ** Introduction -- problem
-*** requirement -- computational communities need computational collaboration
-Collaboration on computational projects happen in a variety of
-settings.
+*** requirement -- computational communities need computational communication
+In this paper we present Org-babel -- a tool for *computational
+communication*.  To begin we must define some terms which we will use
+in this paper
+- code :: will refer to the textual communication with a computer.
+     Namely the textual source of computer programs which can be can
+     be run or executed.
+- prose :: will refer to textual communication between people in human
+     languages (e.g. English).
+- computational communication :: will refer to the communication
+     between people in which the subject is computational objects or
+     results.  This communication is unique in that it must consist of
+     mutually supportive sections of both prose and code.
+     Computational communication can take place between people,
+     groups, or even the same person at different points in time.
+
+Computational communication takes place in a variety of settings
 
 - *Scientific research* increasingly involves the use of computational
   tools the exposition of which is vital to successfully understanding
@@ -34,12 +48,7 @@ forced to make assumptions about the precise computational details
 while code is designed for interpretation by compilers and computers
 and is not a sufficient medium for communication between people.
 
-We will use the term /computational collaboration/ -- to indicate the
-need to reuse computational tools and results between people, groups,
-or even the same person at different points in time.  This is the need
-that Org-babel addresses.
-
-Portions of the need for /computational collaboration/ have been
+Portions of the need for /computational communication/ have been
 identified and addressed under a variety of names such as Literate
 Programming [fn:3] which adds prose to the authoring of code, or
 Reproducible Research [fn:4] which add executable code to prose
@@ -75,7 +84,7 @@ one spoken language to another
 
 Before describing the Org-babel environment in detail we will quickly
 review the existing tools each of which addresses a portion of the
-problem of *computational collaboration*.
+problem of *computational communication*.
 
 *** Existing Tools
 **** web
@@ -88,7 +97,7 @@ problem of *computational collaboration*.
 *** Org-mode
 Thank you Carsten!
 *** Org-babel -- executable source-code in Org-mode
-*** Satisfying known computational collaboration needs
+*** Satisfying known computational communication needs
 **** org-babel as compendium -- RR
 **** org-babel as web -- LP
 **** org-babel as active document -- Notebook
