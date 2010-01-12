@@ -4,6 +4,23 @@
 
 * Paper
 ** Abstract
+We present a new computing environment for the authoring of both prose
+and source-code. In this environment a single hierarchically-organised
+plain text source file may contain a variety of elements such as
+source code in a variety of programming languages, data, links to
+images and other files, project management data, working notes, and
+text for publication. Source code fragments may be executed in situ
+with graphical and text output being captured in, or linked to from,
+the source file. Export to LaTeX, HTML, Beamer and other formats
+permits working reports, presentations and manuscripts for publication
+to be generated from the source file. In addition, source code
+extraction (tangling) permits functioning pure code files to be
+extracted from the file. This framework is implemented as an extension
+to the Emacs text editor and additionally provides a very rich set of
+features for working with the source file, including natural
+environments for authoring both prose and code, as well as
+sophisticated project management capabilities.
+
 ** Introduction -- problem
 *** requirement -- computational communities need computational communication
 In this paper we present Org-babel -- a tool for *computational
@@ -340,7 +357,6 @@ Their "documents" are build by linking components.  So documents are
 sort of like the compendium views of the [[gentleman-lang]] paper -- they
 are the dynamic output of processing/composing the actual persistent
 content.
-
 
 * COMMENT Scrap / Figures
 
