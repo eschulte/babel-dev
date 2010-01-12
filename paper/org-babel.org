@@ -249,6 +249,10 @@ reports.
 
 * Reference
 ** COMMENT Bib
+*** Wavelab and RR (Donoho)
+- [[file:reference/wavelab.pdf][wavelab.pdf]]
+- [[file:reference/wavelab-and-repor-research.pdf][wavelab-and-repor-research.pdf]]
+
 *** Web
     - [[file:reference/knuthweb.pdf][Knuth]]
     - See pg. 14 for an interesting discussion of WEB's development
@@ -390,74 +394,49 @@ sort of like the compendium views of the [[gentleman-lang]] paper -- they
 are the dynamic output of processing/composing the actual persistent
 content.
 
-* COMMENT Scrap / Figures
+* COMMENT Quotes
+I think it might be nice to have a grid of four quotes at the top of
+the paper to motivate and set the context.
 
-#+begin_src ditaa :file data/existing-tools.png :cmdline -r :exports none
-             ^
-       Human |    
-         Use |                                             Reproducible Research    
-             |     Literate Programming                                         
-             |                                                        
-             |                                                        
-             |                                                        
-             |                                                        
-             |                                                        
-             |                                                        
-             |                                                        
-             |                                                        
-             |                                                        
-             |                                                 Notebook
-    Personal |                                                         
-         Use |                                                         
-             |                                                         
-             |                                                         
-             |                                                         
-             |                                                         
-             |                                                         
-             |                                                         
-             |                                                         
-             |                                                                   
-             |     Comment Extraction                             Meta Programming
-             |                                                                   
-             |                                                                   
-             |                                                                   
-    Computer |                                                                   
-         Use |                                                                   
-             v                                                                   
-                  <--------------------------------------------------------------->
-                    Writing                                               Running  
-#+end_src
+Here are some I've collected so far,
 
-#+begin_src ditaa :file data/existing-tools.png :cmdline -r :exports none
-  +---------------------------------------------------------------------------------+
-  |                          Computational Communication                            |                           
-  |                                                                                 |
-  |   +-------------------------+                                                   |
-  |   |   literate programming  |                       +------------------------+  |
-  |   |   --------------------  |                       |      Noteboook         |  |
-  |   |   - Web                 |                       |      ---------         |  |
-  |   |                         |                       |      - Stuff           |  |
-  |   |                         |                       |                        |  |
-  |   |                     +---+-----------------------+-------+                |  |
-  |   |                     |     reproducible research         |                |  |
-  |   |                     |     ---------------------         |                |  |
-  | +-+-------------------+ |       - Sweave                    +----------------+  |
-  | | Comment Extraction  | |                                   |                   |
-  | | ------------------  | |                                   |                   |
-  | | - Perl POD          +-+                                   |                   |
-  | | - Ruby RDoc         | |                                   |                   |
-  | | - etc...            | |                                   |                   |
-  | |                     | |                +------------------+-----------+       |
-  | |                     | |                |      Meta Programming        |       |
-  | |                     | |                |      ----------------        |       |
-  | |                     | +----------------+      - Field                 |       |
-  | |                     |                  |                              |       |
-  | +-------------------+-+                  |                              |       |
-  |                                          |                              |       |
-  |                                          +------------------------------+       |
-  |                                                                                 |
-  +---------------------------------------------------------------------------------+
-#+end_src
+#+begin_quote
+something from Novum Organum on the foundations of science
+
+-- Francis Bacon  
+#+end_quote
+
+#+begin_quote
+An article about computational science in a scientific publication is
+*not* the scholarship itself, it is merely *advertising* of the
+scholarship.  The actual scholarship is the complete software
+development environment and complete set of instructions which
+generated the figures.
+
+-- David L. Donoho
+#+end_quote
+
+#+begin_quote 
+Let us change our traditional attitude to the construction of
+programs: Instead of imagining that our main task is to instruct a
+computer what to do, let us concentrate rather on explaining to human
+beings what we want a computer to do.
+
+-- Knuth
+#+end_quote
+
+#+begin_quote 
+You know you're brilliant, but maybe you'd like to understand what you
+did 2 weeks from now.
+
+-- Linus Torvald
+#+end_quote
+
+#+begin_quote 
+Talk is cheap. Show me the code.
+
+-- Linus Torvald
+#+end_quote
 
 * Footnotes
 
