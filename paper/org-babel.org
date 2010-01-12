@@ -9,9 +9,9 @@
 In this paper we present Org-babel -- a tool for *computational
 communication*.  To begin we must define some terms which we will use
 in this paper
-- code :: will refer to the textual communication with a computer.
-     Namely the textual source of computer programs which can be can
-     be run or executed.
+- code (or source code) :: will refer to the textual communication
+     with a computer.  Namely the textual source of computer programs
+     which can be can be run or executed.
 - prose :: will refer to textual communication between people in human
      languages (e.g. English).
 - computational communication :: will refer to the communication in
@@ -89,50 +89,76 @@ problem of *computational communication*.
 *** Existing Tools
 Each of the tools listed below addresses an subset of the problem of
 computational communication.
+**** Web
+Literate Programming [fn:5] is the practice of writing computer
+programs in such a way that the main objective is to explain to a
+human reader what the program is intended to do.  Literate programming
+consists of embedding code inside of a prose document written in the
+TeX document authoring syntax.  Programs written in this manner can be
+- tangled :: resulting in a code file suitable for use by a computer
+- woven :: resulting in a text document suitable for use by a person
 
-#+begin_src ditaa :file data/existing-tools.png :cmdline -r
-  +---------------------------------------------------------------------------------+
-  |                          Computational Communication                            |                           
-  |                                                                                 |
-  |   +-------------------------+                                                   |
-  |   |   literate programming  |                       +------------------------+  |
-  |   |   --------------------  |                       |      Noteboook         |  |
-  |   |   - Web                 |                       |      ---------         |  |
-  |   |                         |                       |      - Stuff           |  |
-  |   |                         |                       |                        |  |
-  |   |                     +---+-----------------------+-------+                |  |
-  |   |                     |     reproducible research         |                |  |
-  |   |                     |     ---------------------         |                |  |
-  | +-+-------------------+ |       - Sweave                    +----------------+  |
-  | | Comment Extraction  | |                                   |                   |
-  | | ------------------  | |                                   |                   |
-  | | - Perl POD          +-+                                   |                   |
-  | | - Ruby RDoc         | |                                   |                   |
-  | | - etc...            | |                                   |                   |
-  | |                     | |                +------------------+-----------+       |
-  | |                     | |                |      Meta Programming        |       |
-  | |                     | |                |      ----------------        |       |
-  | |                     | +----------------+      - Field                 |       |
-  | |                     |                  |                              |       |
-  | +-------------------+-+                  |                              |       |
-  |                                          |                              |       |
-  |                                          +------------------------------+       |
-  |                                                                                 |
-  +---------------------------------------------------------------------------------+
-#+end_src
+The Web family of tool enable Literate Programming.  The initial =WEB=
+tool only worked with the Pascal programming language.  Newer versions
+such as =Noweb= can handle arbitrary programming languages.  Web tools
+enable the *authoring* of both prose and code, but provide no
+facilities for the execution of code from within documents.
 
-#+results:
-[[file:data/existing-tools.png]]
+**** Comment Extraction
+Comment extraction tools are a lighter weight alternative to literate
+programming.  Comment extraction tools can be used to extract
+documentation from comments embedded in pure code documents.  Most
+major modern programming languages are supported by a comment
+extraction tool.
 
-**** web
+Although comment-extraction is much less flexible than literate
+programming it is much more widely used.  This is largely due to the
+fact that it requires no changes to the programmers editing
+environment and can be used directly from inside of source code files.
+
 **** Sweave
+Like Web documents Sweave documents consist of code embedded into TeX
+documents [fn:6].  Sweave only supports the R statistical programming
+language.  The code in Sweave documents is executed during publishing
+the output of which can be used as figures or data in the report.  As
+such Sweave enables "dynamic reports" which can be updated
+automatically if the data or analysis change.
+
 **** Field
+Field [fn:7] is a text editor based on research started at the MIT
+media lab [fn:8].  Field allows code from multiple programming
+languages to be intermingled in the same document.  These code
+snippets can then share data between themselves.
+
+Currently Field does not support exporting to human-readable
+documents, and Field only supports languages which run on the JVM.
+
 **** Notebooks
-**** Comment Documentation
-*** solution -- org-babel
+Notebooks are interactive systems for a user to interact with a
+programming or statistical analysis engine.  Notebooks support the
+co-mingling of code and results in a single document and some
+notebooks provide for exportation of the document to various formats.
+
+Notebooks are characterized by a single linear session consisting of a
+series of commands being submitted to the engine and the engine
+returning results.  While notebooks may provide features aimed at
+integrating their results into published works they are not document
+authoring environments.
+
+Examples of notebook software include
+- Matlab [fn:9]
+- Sage Math [fn:10]
 ** Org-babel -- solution
+Org-babel provides 
+
+
 *** Org-mode
 Thank you Carsten!
+
+- export targets (html, latex, beamer, ascii)
+- edit source-code
+- project/task management
+
 *** Org-babel -- executable source-code in Org-mode
 *** Satisfying known computational communication needs
 **** org-babel as compendium -- RR
@@ -292,6 +318,75 @@ are the dynamic output of processing/composing the actual persistent
 content.
 
 
+* COMMENT Scrap / Figures
+
+#+begin_src ditaa :file data/existing-tools.png :cmdline -r
+             ^
+       Human |    
+         Use |                                             Reproducible Research    
+             |     Literate Programming                                         
+             |                                                        
+             |                                                        
+             |                                                        
+             |                                                        
+             |                                                        
+             |                                                        
+             |                                                        
+             |                                                        
+             |                                                        
+             |                                                 Notebook
+    Personal |                                                         
+         Use |                                                         
+             |                                                         
+             |                                                         
+             |                                                         
+             |                                                         
+             |                                                         
+             |                                                         
+             |                                                         
+             |                                                                   
+             |     Comment Extraction                             Meta Programming
+             |                                                                   
+             |                                                                   
+             |                                                                   
+    Computer |                                                                   
+         Use |                                                                   
+             v                                                                   
+                  <--------------------------------------------------------------->
+                    Writing                                               Running  
+#+end_src
+
+#+begin_src ditaa :file data/existing-tools.png :cmdline -r
+  +---------------------------------------------------------------------------------+
+  |                          Computational Communication                            |                           
+  |                                                                                 |
+  |   +-------------------------+                                                   |
+  |   |   literate programming  |                       +------------------------+  |
+  |   |   --------------------  |                       |      Noteboook         |  |
+  |   |   - Web                 |                       |      ---------         |  |
+  |   |                         |                       |      - Stuff           |  |
+  |   |                         |                       |                        |  |
+  |   |                     +---+-----------------------+-------+                |  |
+  |   |                     |     reproducible research         |                |  |
+  |   |                     |     ---------------------         |                |  |
+  | +-+-------------------+ |       - Sweave                    +----------------+  |
+  | | Comment Extraction  | |                                   |                   |
+  | | ------------------  | |                                   |                   |
+  | | - Perl POD          +-+                                   |                   |
+  | | - Ruby RDoc         | |                                   |                   |
+  | | - etc...            | |                                   |                   |
+  | |                     | |                +------------------+-----------+       |
+  | |                     | |                |      Meta Programming        |       |
+  | |                     | |                |      ----------------        |       |
+  | |                     | +----------------+      - Field                 |       |
+  | |                     |                  |                              |       |
+  | +-------------------+-+                  |                              |       |
+  |                                          |                              |       |
+  |                                          +------------------------------+       |
+  |                                                                                 |
+  +---------------------------------------------------------------------------------+
+#+end_src
+
 * Footnotes
 
 [fn:1] I'm sure there's a reference to back this up
@@ -301,3 +396,15 @@ content.
 [fn:3] knuth
 
 [fn:4] gentleman-lang
+
+[fn:5] knuth
+
+[fn:6] Sweave
+
+[fn:7] http://openendedgroup.com/field/
+
+[fn:8] http://www.media.mit.edu/
+
+[fn:9] http://www.mathworks.com/
+
+[fn:10] http://www.sagemath.org/
