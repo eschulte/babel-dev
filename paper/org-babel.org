@@ -34,10 +34,15 @@ forced to make assumptions about the precise computational details
 while code is designed for interpretation by compilers and computers
 and is not a sufficient medium for communication between people.
 
-Portions of this need for the co-distribution of prose and code have
-been identified and addressed under a variety of names such as
-Literate Programming [fn:3] which adds prose to the authoring of code,
-to Reproducible Research [fn:4] which add executable code to prose
+We will use the term /computational collaboration/ -- to indicate the
+need to reuse computational tools and results between people, groups,
+or even the same person at different points in time.  This is the need
+that Org-babel addresses.
+
+Portions of the need for /computational collaboration/ have been
+identified and addressed under a variety of names such as Literate
+Programming [fn:3] which adds prose to the authoring of code, or
+Reproducible Research [fn:4] which add executable code to prose
 publications.  Org-babel generalizes these preceding approaches and
 provides a unified environment supporting all manner of both authoring
 and using prose and code.
@@ -47,12 +52,30 @@ and using prose and code.
 | write | org-mode authoring environment | Emacs major modes |
 | use   | publish to variety of formats  | execute / tangle  |
 
-As such it provides a consistent environment in which the entire life
-cycle of a research or development project can take place.  With the
-data, code and text of a project stored in a single location which can
-be exported to a variety of formats the future reproducibility of the
-work is ensured, and the burden on the author of sharing the work is
-greatly reduced.
+As such Org-babel provides a consistent environment in which the
+entire life cycle of a research or development project can take place.
+With the data, code and text of a project stored in a single location
+which can be exported to a variety of formats the future
+reproducibility of the work is ensured, and the burden on the author
+of sharing the work is greatly reduced.
+
+The name "Org-babel" is a pair of literary references indicating both
+the nature of the problem in the "Tower of Babel"
+#+begin_quote Genesis-11
+The LORD said, “If as one people speaking the same language they have
+begun to do this, then nothing they plan to do will be impossible for
+them.  Come, let us go down and confuse their language so they will
+not understand each other.”
+#+end_quote
+and the solution in the "Babel Fish".
+#+begin_quote The-Hitchhiker's-Guide-to-the-Galaxy
+The Babel Fish is small, yellow, and simultaneously translates from
+one spoken language to another
+#+end_quote
+
+Before describing the Org-babel environment in detail we will quickly
+review the existing tools each of which addresses a portion of the
+problem of *computational collaboration*.
 
 *** Existing Tools
 **** web
