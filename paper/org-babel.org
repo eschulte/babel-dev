@@ -1,0 +1,34 @@
+#+TITLE: Org-babel
+#+OPTIONS: ^:nil
+#+STARTUP: oddeven hideblocks
+
+* Paper
+** Abstract
+** Introduction -- problem
+*** problem/need -- computational communities need computational collaboration
+*** Existing Tools
+**** web
+**** Sweave
+**** Field
+**** Notebooks
+**** Comment Documentation
+*** solution -- org-babel
+** Org-babel -- solution
+*** Org-mode
+Thank you Carsten!
+*** Org-babel -- executable source-code in Org-mode
+*** Satisfying known computational collaboration needs
+**** org-babel as compendium -- RR
+**** org-babel as web -- LP
+**** org-babel as active document -- Notebook
+**** other prototypes for sharing code/data?
+*** Example Usage
+**** Knuth's prime
+**** Working Notes
+**** Research Project
+** Conclusion -- present and future
+*** Initial reaction
+*** Future Work
+**** bring outside of Emacs
+*** Discussion
+** Reference
