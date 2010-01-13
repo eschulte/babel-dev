@@ -3566,7 +3566,28 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [50/66]
+* Bugs [50/67]
+** TODO on export babel overwrites unrecognized source blocks
+   - State "TODO"       from ""           [2010-01-13 Wed 09:14]
+
+Thanks to Sébastien for this bug report.
+
+#+begin_quote 
+  You see that when the language is unknown to Org-babel (=Delphi= in
+  this example), it gets ignored during export, and gets replaced by
+  the previous code block!!
+
+  So, the current workaround is to take whatever other language know
+  to Babel (here: =perl=) for the export to (at least) output the
+  right code in the generated document (even if not correctly
+  highlighted).
+#+end_quote
+
+demonstrated in the attached [[file:data/babel-overwrite.org][babel-overwrite.org]]
+
+Probably has something to do with the conflicting regular expressions
+between org-babel-exp.el and org-exp-blocks.el...
+
 ** TODO R language shadows ruby
    - State "TODO"       from ""           [2009-12-31 Thu 12:57]
    :PROPERTIES:

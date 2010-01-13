@@ -1,0 +1,54 @@
+#+TITLE:     Bug in output PDF with source blocks of unknown language
+#+AUTHOR:    Seb Vauban
+#+EMAIL:     no@one.com
+#+DATE:      2010-01-13
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en_US
+
+* Context
+
+  Here is a perfectly outputted block of code:
+
+#+SRCNAME: srcModifyDBPFI.sql
+#+BEGIN_SRC sql :tangle srcModifyDBPFI.sql
+    -- add column `rolEngagDateFin' (if column does not exist yet)
+    IF NOT EXISTS (SELECT *
+                   FROM INFORMATION_SCHEMA.COLUMNS
+                   WHERE TABLE_NAME = 'rol'
+                   AND COLUMN_NAME = 'rolEngagDateFin')
+    BEGIN
+        ALTER TABLE rol
+        ADD rolEngagDateFin smalldatetime NULL
+    END
+    GO
+#+END_SRC
+
+  Here is an Excel formula (using highlighting of Delphi, being quite
+  similar -- but *unknown to Babel*):
+
+#+BEGIN_SRC Delphi
+    (frmDateFin+1)+(frmNbrSem+frmDureeVA*0)*7-1
+#+END_SRC
+
+  and its simplified version:
+
+#+BEGIN_SRC perl
+    frmDateFin+(frmNbrSem*7)
+#+END_SRC
+
+* Bug
+
+  You see that when the language is unknown to Org-babel (=Delphi= in this
+  example), it gets ignored during export, and gets replaced by the previous
+  code block!!
+
+  So, the current workaround is to take whatever other language know to Babel
+  (here: =perl=) for the export to (at least) output the right code in the
+  generated document (even if not correctly highlighted).
+
+* Other problem
+
+  The selected language must also be known by =listings=... Hence, =R= cannot
+  be chosen for language; generating otherwise an error when compiling the
+  LaTeX document.
