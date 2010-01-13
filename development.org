@@ -3616,7 +3616,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [50/67]
+* Bugs [50/68]
 ** TODO on export babel overwrites unrecognized source blocks
    - State "TODO"       from ""           [2010-01-13 Wed 09:14]
 
@@ -3852,6 +3852,34 @@ arguments from properties.
    What happens if org-babel-where-is-src-block-result doesn't return non-nil?
    [[git:~/babel/contrib/babel/lisp/org-babel.el::result-switches@{2009-11-04}][these lines in org-babel.el]]
 ** TODO tangle needs to check that buffer has file name
+** PROPOSED Tangle extension names
+   I found this patch hanging around in my repo and seem to remember
+   thinking this was a good change but can't remember now the
+   details.
+
+#+begin_example 
+   diff --git a/contrib/babel/lisp/org-babel-tangle.el b/contrib/babel/lisp/org-babel-tangle.el
+index c805373..1d7fe3b 100644
+--- a/contrib/babel/lisp/org-babel-tangle.el
++++ b/contrib/babel/lisp/org-babel-tangle.el
+@@ -102,9 +102,10 @@ exported source code blocks by language."
+                                      ((> (length tangle) 0) tangle))
+                                     target-file))
+                      (file-name (when base-name
+-                                  (if (string= base-name
+-                                               (file-name-sans-extension base-name))
+-                                      (concat base-name "." ext) base-name))))
++                                  (if (and ext
++                                          (string= base-name
++                                                   (file-name-sans-extension base-name)))
++                                     (concat base-name "." ext) base-name))))
+                 ;; ;; debugging
+                 ;; (message "tangle=%S base-name=%S file-name=%S"
+                 ;;          tangle base-name file-name)
+#+end_example
+
+
+   - State "PROPOSED"   from ""           [2010-01-13 Wed 12:50]
 ** TODO :results value fails with result ending in newline
 #+srcname: output
 #+begin_src python :results value
