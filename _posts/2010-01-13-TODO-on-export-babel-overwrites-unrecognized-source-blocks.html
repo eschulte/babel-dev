@@ -1,0 +1,42 @@
+---
+title: TODO on export babel overwrites unrecognized source blocks
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> on export babel overwrites unrecognized source blocks </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-13 Wed 09:14</span></span>
+
+</li>
+</ul>
+
+<p>Thanks to Sébastien for this bug report.
+</p>
+<blockquote>
+
+<p>You see that when the language is unknown to Org-babel (<code>Delphi</code> in
+this example), it gets ignored during export, and gets replaced by
+the previous code block!!
+</p>
+<p>
+So, the current workaround is to take whatever other language know
+to Babel (here: <code>perl</code>) for the export to (at least) output the
+right code in the generated document (even if not correctly
+highlighted).
+</p>
+</blockquote>
+
+
+<p>
+demonstrated in the attached <a href="data/babel-overwrite.html">babel-overwrite.org</a>
+</p>
+<p>
+Probably has something to do with the conflicting regular expressions
+between org-babel-exp.el and org-exp-blocks.el&hellip;
+</p>
+</div>
+</div>
