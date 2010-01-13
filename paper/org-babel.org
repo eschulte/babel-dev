@@ -1,6 +1,18 @@
 #+TITLE: Org-babel
 #+OPTIONS: ^:nil toc:nil
 #+STARTUP: oddeven hideblocks
+#+begin_latex 
+\definecolor{strings}{RGB}{60,179,113}
+\lstset{
+  keywordstyle=\color{blue},
+  commentstyle=\color{red},
+  stringstyle=\color{strings}
+}
+\hypersetup{
+  linkcolor=blue,
+  pdfborder={0 0 0 0}
+}
+#+end_latex
 
 #+LaTeX: \begin{abstract}
 We present a new computing environment for the authoring of both prose
