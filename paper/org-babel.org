@@ -648,7 +648,7 @@ generated the figures.
 -- David L. Donoho
 #+end_quote
 
-#+begin_quote 
+#+begin_quote
 Let us change our traditional attitude to the construction of
 programs: Instead of imagining that our main task is to instruct a
 computer what to do, let us concentrate rather on explaining to human
@@ -657,7 +657,7 @@ beings what we want a computer to do.
 -- Knuth
 #+end_quote
 
-#+begin_quote 
+#+begin_quote
 You know you're brilliant, but maybe you'd like to understand what you
 did 2 weeks from now.
 
@@ -665,9 +665,10 @@ did 2 weeks from now.
 #+end_quote
 
 #+begin_quote 
-Talk is cheap. Show me the code.
+  The trouble with programmers is that you can never tell what a
+  programmer is doing until it's too late.
 
--- Linus Torvald
+  -- Seymour Cray
 #+end_quote
 
 * Footnotes
