@@ -3566,8 +3566,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [50/67]
-** TODO on export babel overwrites unrecognized source blocks
+* Bugs [51/67]
+** DONE on export babel overwrites unrecognized source blocks
+   - State "DONE"       from "TODO"       [2010-01-18 Mon 13:37]
    - State "TODO"       from ""           [2010-01-13 Wed 09:14]
 
 Thanks to Sébastien for this bug report.
@@ -3587,6 +3588,23 @@ demonstrated in the attached [[file:data/babel-overwrite.org][babel-overwrite.or
 
 Probably has something to do with the conflicting regular expressions
 between org-babel-exp.el and org-exp-blocks.el...
+
+This has been fixed in the following commit
+#+begin_examle 
+: commit d154f2794741275a41d4631892335d581d7da27a
+: Author: Eric Schulte
+: Date:   Mon Jan 18 13:03:36 2010 -0700
+: 
+:     babel: no longer overwriting non-babel src blocks
+:     org-exp-blocks: adding progress-marker local variable
+:     
+:       the progress-marker local variable set inside of a let in
+:       org-exp-blocks is used to constrain searches in org-babel-exp to
+:       ensure that a babel block doesn't overwrite non-babel src blocks  
+#+end_examle
+which introduces a local variable to org-ex-blocks which is used by
+org-babel-exp to ensure that previous blocks do not overwrite the
+current block.
 
 ** TODO R language shadows ruby
    - State "TODO"       from ""           [2009-12-31 Thu 12:57]
