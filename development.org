@@ -4,6 +4,38 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [58/101]
+** TODO allow customization of shebang lines and commenting through header argument
+   - State "TODO"       from ""           [2010-02-03 Wed 13:07]
+
+this is from suggestions coming through the mailing list
+#+begin_quote 
+:     Do you think this is the sort of thing that would need to be
+:     customized on a per-block or per-file/subtree basis?
+: 
+: Yes, I think it would be useful. An example would be if I want to create two scripts, where one is
+: running on my local computer, and the other on a cluster, in which the paths might be different.
+: Also: there is, in addition to R, also Ra, with Just-In-Time compiling functionality. It might be
+: useful to be able to have two R scripts, one using R, the other Ra, for e.g. profiling. Another
+: example would be to try different versions of e.g. R.
+: 
+: So yes, I think it would be very useful to define the two additional header arguments for each
+: block:
+: 
+: :shebang NIL for default, other string for the shebang line
+: :headers NIL for default, NONE for no headers, other string for custom headers
+:  
+: 
+:     If so we may want to move this customization behind a header argument.
+: 
+: That would be great  
+#+end_quote
+
+I think the best names for these new header-arguments would be
+=:shebang= (which could be multiple lines long if stored in an elisp
+variable) and (to me at least) =:comments= is more intuitive than
+=:headers= to control the insertion of org-babel comments with links
+back to the original tangling document.
+
 ** STARTED implement org-babel-load-session:* for all languages
    - State "STARTED"    from ""           [2010-01-11 Mon 10:00]
 
