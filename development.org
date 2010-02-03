@@ -361,10 +361,16 @@ should use a span class, and should show original source in tool-tip
 this should be possible as source-code execution shouldn't depend on
 the values of user-specific information (i.e. the user's shell)
 
-*** PROPOSED Improve external shell issues under Windows (with R at least)
+*** DEFERRED Improve external shell issues under Windows (with R at least)
+    - State "DEFERRED"   from "PROPOSED"   [2010-02-03 Wed 13:21]
+    - State "PROPOSED"   from ""           [2010-01-13 Wed 12:18]
+
     I'm wondering whether we should implement some windows-specific
     hackery to make it less likely that users will have problems with
     R under windows.
+
+    If someone wants to submit a Windows specific patch I'd be happy
+    to apply it, I however have no access to a Windows machine [Eric].
 
     Two users have now mailed the list reporting that they can't get
     org-babel to work with R under Windows. The problem stems from the
@@ -373,41 +379,44 @@ the values of user-specific information (i.e. the user's shell)
     their system up so that "R" is in the shell path. One possibility
     would be to make session (ESS) the R Windows default when
     available. Another approach is suggested by this email by d.tchin:
-    - State "PROPOSED"   from ""           [2010-01-13 Wed 12:18]
+
 **** d.tchin R Windows shell email
-     From: "d.tchin" <d.tchin@voila.fr>
-     Subject: [Orgmode] Re: org-babel-R  and windows ?
-     User-Agent: Loom/3.14 (http://gmane.org/)
-     Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)
-     To: emacs-orgmode@gnu.org
+#+begin_quote 
+:      From: "d.tchin" <d.tchin@voila.fr>
+:      Subject: [Orgmode] Re: org-babel-R  and windows ?
+:      User-Agent: Loom/3.14 (http://gmane.org/)
+:      Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)
+:      To: emacs-orgmode@gnu.org
+: 
+:      Dan Davison <davison <at> stats.ox.ac.uk> writes:
+:      > The org-babel default is to invoke R as an external shell command, and I
+:      > think this is what is causing the problem. It requires that the emacs
+:      > function shell-command can use the string "R" to invoke an R process,
+:      > i.e. the R installation and the shell path must be such that this is the
+:      > case.
+: 
+:      Thank you for the information and explanation.
+:      It seems that the problem comes from the windows shell. 
+: 
+:      I try the following :  I explicitely told emacs to use bash 
+:      with the following instructions :
+:      (setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")
+:      (setq shell-file-name explicit-shell-file-name)
+: 
+:      It works with bash.
+: 
+: 
+:      > 
+:      > #+srcname:trial
+:      > #+begin_src R :session org-babel-R-session
+:      >    c(4,5,6,7,8,9)
+:      > #+end_src
+: 
+:      The "session" way works too.
+: 
+:      Thank you.  
+#+end_quote
 
-     Dan Davison <davison <at> stats.ox.ac.uk> writes:
-     > The org-babel default is to invoke R as an external shell command, and I
-     > think this is what is causing the problem. It requires that the emacs
-     > function shell-command can use the string "R" to invoke an R process,
-     > i.e. the R installation and the shell path must be such that this is the
-     > case.
-
-     Thank you for the information and explanation.
-     It seems that the problem comes from the windows shell. 
-
-     I try the following :  I explicitely told emacs to use bash 
-     with the following instructions :
-     (setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")
-     (setq shell-file-name explicit-shell-file-name)
-
-     It works with bash.
-
-
-     > 
-     > #+srcname:trial
-     > #+begin_src R :session org-babel-R-session
-     >    c(4,5,6,7,8,9)
-     > #+end_src
-
-     The "session" way works too.
-
-     Thank you.
 **** Bernd Weiss email
      http://www.mail-archive.com/emacs-orgmode@gnu.org/msg19104.html
 ** TODO Work on tangling
@@ -3648,7 +3657,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [51/68]
+* Bugs [52/68]
 ** DONE on export babel overwrites unrecognized source blocks
    - State "DONE"       from "TODO"       [2010-01-18 Mon 13:37]
    - State "TODO"       from ""           [2010-01-13 Wed 09:14]
@@ -3903,7 +3912,9 @@ arguments from properties.
    What happens if org-babel-where-is-src-block-result doesn't return non-nil?
    [[git:~/babel/contrib/babel/lisp/org-babel.el::result-switches@{2009-11-04}][these lines in org-babel.el]]
 ** TODO tangle needs to check that buffer has file name
-** PROPOSED Tangle extension names
+** DONE Tangle extension names
+   - State "DONE"       from "PROPOSED"   [2010-02-03 Wed 13:17]
+   - State "PROPOSED"   from ""           [2010-01-13 Wed 12:50]
    I found this patch hanging around in my repo and seem to remember
    thinking this was a good change but can't remember now the
    details.
@@ -3929,8 +3940,9 @@ index c805373..1d7fe3b 100644
                  ;;          tangle base-name file-name)
 #+end_example
 
+   This has been applied -- it was a good idea -- as it's now possible
+   to export a =Makefile= without an extension.
 
-   - State "PROPOSED"   from ""           [2010-01-13 Wed 12:50]
 ** TODO :results value fails with result ending in newline
 #+srcname: output
 #+begin_src python :results value
