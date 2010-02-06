@@ -250,6 +250,9 @@ of the project.
 ** Conclusion
 * COMMENT Related Papers
 I've started collecting the actual PDFs in the [[file:reference/][reference/]] directory
+*** CMU Andrew project
+very similar to Org-babel, see http://www.cs.cmu.edu/~AUIS/
+
 *** Web
     - [[file:reference/knuthweb.pdf][Knuth]]
     - See pg. 14 for an interesting discussion of WEB's development
