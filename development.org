@@ -19,7 +19,7 @@ fragments.
 :   \LaTeX
 : #+end_src
 
-[[file:../data/latex-logo.png]]
+[[file:data/latex-logo.png]]
 
 To specify that the buffer-colors should not be used for example when
 exporting to an external file the =:buffer no= header argument can be
@@ -45,7 +45,7 @@ to generate a complex figure (converted to png for web display).
 :   \end{tikzpicture}
 : #+end_src
 
-[[file:../data/fsa.png]]
+[[file:data/fsa.png]]
 
 The =:pdfwidth= and =:pdfheight= header arguments can be used to
 control the size of the generated pdf image, and the =:packages=
