@@ -3,12 +3,13 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [58/101]
-** TODO allow customization of shebang lines and commenting through header argument
+* Tasks [59/101]
+** DONE allow customization of shebang lines and commenting through header argument
+   - State "DONE"       from "TODO"       [2010-02-05 Fri 19:05]
    - State "TODO"       from ""           [2010-02-03 Wed 13:07]
 
 this is from suggestions coming through the mailing list
-#+begin_quote 
+#+begin_quote
 :     Do you think this is the sort of thing that would need to be
 :     customized on a per-block or per-file/subtree basis?
 : 
@@ -35,6 +36,20 @@ I think the best names for these new header-arguments would be
 variable) and (to me at least) =:comments= is more intuitive than
 =:headers= to control the insertion of org-babel comments with links
 back to the original tangling document.
+
+This is now implemented using the =:shebang= and =:comments= header
+arguments, so for example the following block will tangle with *no*
+comments
+
+: #+begin_src emacs-lisp :comments no
+:   (message "I should have no comments")
+: #+end_src
+
+and the following will tangle using a custom shebang line
+
+: #+begin_src ruby :shebang #!/usr/bin/ruby
+:   puts :nonstandard_shebang
+: #+end_src
 
 ** STARTED implement org-babel-load-session:* for all languages
    - State "STARTED"    from ""           [2010-01-11 Mon 10:00]

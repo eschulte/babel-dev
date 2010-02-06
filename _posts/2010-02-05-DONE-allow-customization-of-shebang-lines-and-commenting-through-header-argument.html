@@ -1,13 +1,18 @@
 ---
-title: TODO allow customization of shebang lines and commenting through header argument
+title: DONE allow customization of shebang lines and commenting through header argument
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="todo TODO"> TODO</span> allow customization of shebang lines and commenting through header argument </h2>
+<h2 id="sec-1"><span class="done DONE"> DONE</span> allow customization of shebang lines and commenting through header argument </h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-05 Fri 19:05</span></span>
+</li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-03 Wed 13:07</span></span>
 
@@ -49,5 +54,27 @@ I think the best names for these new header-arguments would be
 variable) and (to me at least) <code>:comments</code> is more intuitive than
 <code>:headers</code> to control the insertion of org-babel comments with links
 back to the original tangling document.
-</p></div>
+</p>
+<p>
+This is now implemented using the <code>:shebang</code> and <code>:comments</code> header
+arguments, so for example the following block will tangle with <b>no</b>
+comments
+</p>
+<pre class="example">
+#+begin_src emacs-lisp :comments no
+  (message "I should have no comments")
+#+end_src
+</pre>
+
+
+<p>
+and the following will tangle using a custom shebang line
+</p>
+<pre class="example">
+#+begin_src ruby :shebang #!/usr/bin/ruby
+  puts :nonstandard_shebang
+#+end_src
+</pre>
+
+</div>
 </div>
