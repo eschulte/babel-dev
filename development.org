@@ -3,7 +3,55 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [59/101]
+* Tasks [60/102]
+** DONE evaluation of latex source code blocks
+   - State "DONE"       from ""           [2010-02-06 Sat 10:04]
+
+It is now possible to generate =.png= and =.pdf= files when an
+appropriate =:file= header arguments is supplied to a latex source
+code block.
+
+for example the following block will generate a small png of the latex
+logo using the mechanisms used for in-buffer preview of latex
+fragments.
+
+: #+begin_src latex :file latex-logo.png
+:   \LaTeX
+: #+end_src
+
+[[file:../data/latex-logo.png]]
+
+To specify that the buffer-colors should not be used for example when
+exporting to an external file the =:buffer no= header argument can be
+passed to latex src blocks generating =.png= files.
+
+The following more complex example uses the excellent [[http://sourceforge.net/projects/pgf/][pgf/tikz]] package
+to generate a complex figure (converted to png for web display).
+
+: #+begin_src latex :file fsa.pdf :packages '(("" "tikz")) :pdfwidth 3in :pdfheight 3in
+:   % Define block styles
+:   \usetikzlibrary{shapes,arrows}
+:   \tikzstyle{astate} = [circle, draw, text centered, font=\footnotesize, fill=blue!25]
+:   \tikzstyle{rstate} = [circle, draw, text centered, font=\footnotesize, fill=red!25]
+: 
+:   \begin{tikzpicture}[->,>=stealth', shorten >=1pt, auto, node distance=2.8cm, semithick]
+:     \node [astate] (1) at (0,0) {1};
+:     \node [astate] (2) at (1,0) {2};
+:     \node [rstate] (3) at (2,0) {3};
+:     \path (1) edge [bend left] node {b} (2)
+:           (2) edge node {b} (3)
+:           (2) edge [bend left] node {a} (1)
+:           (3) edge [loop above] node {(a, b)} (3);
+:   \end{tikzpicture}
+: #+end_src
+
+[[file:../data/fsa.png]]
+
+The =:pdfwidth= and =:pdfheight= header arguments can be used to
+control the size of the generated pdf image, and the =:packages=
+header argument can be used to temporarily add new packages to your
+=org-export-latex-packages-alist=.
+
 ** DONE allow customization of shebang lines and commenting through header argument
    - State "DONE"       from "TODO"       [2010-02-05 Fri 19:05]
    - State "TODO"       from ""           [2010-02-03 Wed 13:07]
