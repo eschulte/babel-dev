@@ -4,22 +4,29 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [60/102]
-** DONE generate images from latex source blocks
-   - State "DONE"       from ""           [2010-02-06 Sat 09:55]
-it is now possible to generate png and pdf images from latex
-source-code blocks.  For example the following block
+** DONE evaluation of latex source code blocks
+   - State "DONE"       from ""           [2010-02-06 Sat 10:04]
+
+It is now possible to generate =.png= and =.pdf= files when an
+appropriate =:file= header arguments is supplied to a latex source
+code block.
+
+for example the following block will generate a small png of the latex
+logo using the mechanisms used for in-buffer preview of latex
+fragments.
 
 : #+begin_src latex :file latex-logo.png
 :   \LaTeX
 : #+end_src
 
-can be used to generate the following png image
-
 [[file:../data/latex-logo.png]]
 
-and the following source-code block using the very nice LaTeX [[http://sourceforge.net/projects/pgf/][tikz]]
-package, can be used to generate the following pdf file (converted to
-png for web display)
+To specify that the buffer-colors should not be used for example when
+exporting to an external file the =:buffer no= header argument can be
+passed to latex src blocks generating =.png= files.
+
+The following more complex example uses the excellent [[http://sourceforge.net/projects/pgf/][pgf/tikz]] package
+to generate a complex figure (converted to png for web display).
 
 : #+begin_src latex :file fsa.pdf :packages '(("" "tikz")) :pdfwidth 3in :pdfheight 3in
 :   % Define block styles
@@ -39,6 +46,11 @@ png for web display)
 : #+end_src
 
 [[file:../data/fsa.png]]
+
+The =:pdfwidth= and =:pdfheight= header arguments can be used to
+control the size of the generated pdf image, and the =:packages=
+header argument can be used to temporarily add new packages to your
+=org-export-latex-packages-alist=.
 
 ** DONE allow customization of shebang lines and commenting through header argument
    - State "DONE"       from "TODO"       [2010-02-05 Fri 19:05]
@@ -333,7 +345,7 @@ This should definitely be done in org-babel-sh, I don't think it is
 common enough to move the functionality to org-babel-comint, but I
 could be wrong...
 
-** STARTED Suitable export of srcname and resname lines
+** STARTED Suitable export of #+srcname and #+resname lines
    - State "STARTED"    from "TODO"       [2010-01-04 Mon 15:05]
    - State "TODO"       from "STARTED"    [2010-01-04 Mon 09:31]
 
