@@ -81,7 +81,7 @@ this need.  We will then...
 *** Org-mode
 Thank you Carsten!
 
-*** Org-babel -- executable source-code in Org-mode
+*** Org-babel -- executable and extractable source-code in Org-mode
 *** Satisfying known computational collaboration needs
 **** org-babel as compendium -- RR
 go through compendium requirements and show how org-babel fits all of
