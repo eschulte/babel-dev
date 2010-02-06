@@ -296,8 +296,15 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** PROPOSED Remote sessions
-   I'd like to be able to have a session running on a remote machine,
+** PROPOSED Remote evaluation and remote sessions
+*** Remote evaluation
+    One often wants to evaluate code on a different machine from that
+    on which emacs is running (e.g. data kept on other machine,
+    hardware advantages of other machine). One way to do this is with
+    ssh. What would the general org-babel solution for remote
+    execution be? Are there any existing emacs technologies such as tramp relevant?
+*** Remote sessions
+    I'd like to be able to have a session running on a remote machine,
    and interact with it from org-babel running locally.
 
    I just learned that one can do this in ESS, as follows:
@@ -311,7 +318,6 @@ With the above "spec", I guess all cases are covered. What do you think?
    which behaves just like a local iESS process.
 
    What would a general org-babel mechanism for remote sessions be?
-
 ** TODO byte-compile elisp on tangle
    - State "TODO"       from "PROPOSED"   [2009-12-21 Mon 12:50]
 from mailing list
