@@ -4,6 +4,12 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [58/101]
+** PROPOSED Make shell evaluation use user's $PATH
+   Shell evaluation is not picking up on the $PATH set in my
+   ~/.bashrc. I think this is a general emacs/shell issue, but it
+   would be nice to provide some guidance for users.
+   - State "PROPOSED"   from ""           [2010-01-17 Sun 20:10]
+
 ** STARTED implement org-babel-load-session:* for all languages
    - State "STARTED"    from ""           [2010-01-11 Mon 10:00]
 
