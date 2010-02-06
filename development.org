@@ -3622,7 +3622,22 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [50/68]
+* Bugs [50/69]
+** PROPOSED python 'session output' evaluation is not outputting last line 
+   This is a bit weird. The first evaluation in a session is OK, but
+   second and subsequent evaluations fail to output the last line.
+   
+#+begin_src python :session newsession :results output
+  print 'hello'
+  print 'bye'
+#+end_src
+
+#+results:
+: hello
+: bye
+
+But evaluate it again and the second line will not be output.
+
 ** TODO on export babel overwrites unrecognized source blocks
    - State "TODO"       from ""           [2010-01-13 Wed 09:14]
 
