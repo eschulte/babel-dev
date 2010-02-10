@@ -3,7 +3,12 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [60/102]
+* Tasks [60/103]
+** PROPOSED Make shell evaluation use user's $PATH
+   Shell evaluation is not picking up on the $PATH set in my
+   ~/.bashrc. I think this is a general emacs/shell issue, but it
+   would be nice to provide some guidance for users.
+   - State "PROPOSED"   from ""           [2010-01-17 Sun 20:10]
 ** DONE evaluation of latex source code blocks
    - State "DONE"       from ""           [2010-02-06 Sat 10:04]
 
@@ -98,6 +103,7 @@ and the following will tangle using a custom shebang line
 : #+begin_src ruby :shebang #!/usr/bin/ruby
 :   puts :nonstandard_shebang
 : #+end_src
+>>>>>>> origin/master:development.org
 
 ** STARTED implement org-babel-load-session:* for all languages
    - State "STARTED"    from ""           [2010-01-11 Mon 10:00]
@@ -290,8 +296,15 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** PROPOSED Remote sessions
-   I'd like to be able to have a session running on a remote machine,
+** PROPOSED Remote evaluation and remote sessions
+*** Remote evaluation
+    One often wants to evaluate code on a different machine from that
+    on which emacs is running (e.g. data kept on other machine,
+    hardware advantages of other machine). One way to do this is with
+    ssh. What would the general org-babel solution for remote
+    execution be? Are there any existing emacs technologies such as tramp relevant?
+*** Remote sessions
+    I'd like to be able to have a session running on a remote machine,
    and interact with it from org-babel running locally.
 
    I just learned that one can do this in ESS, as follows:
@@ -305,7 +318,6 @@ With the above "spec", I guess all cases are covered. What do you think?
    which behaves just like a local iESS process.
 
    What would a general org-babel mechanism for remote sessions be?
-
 ** TODO byte-compile elisp on tangle
    - State "TODO"       from "PROPOSED"   [2009-12-21 Mon 12:50]
 from mailing list
@@ -3720,7 +3732,22 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [52/68]
+* Bugs [50/69]
+** PROPOSED python 'session output' evaluation is not outputting last line 
+   This is a bit weird. The first evaluation in a session is OK, but
+   second and subsequent evaluations fail to output the last line.
+   
+#+begin_src python :session newsession :results output
+  print 'hello'
+  print 'bye'
+#+end_src
+
+#+results:
+: hello
+: bye
+
+But evaluate it again and the second line will not be output.
+
 ** DONE on export babel overwrites unrecognized source blocks
    - State "DONE"       from "TODO"       [2010-01-18 Mon 13:37]
    - State "TODO"       from ""           [2010-01-13 Wed 09:14]
