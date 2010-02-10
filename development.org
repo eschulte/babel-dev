@@ -13,18 +13,22 @@ So files can be referenced by source code blocks
   file.
   
   The raw org-mode text
-  : #+results: my-profile
-  [[file:~/.profile][: my-profile]]
-  : 
-  : #+begin_src sh :var profile=my-profile
-  :   wc $profile
-  : #+end_src
-  : 
-  : #+results:
-  : : 22 109 675 /home/eschulte/.profile
+  
+  #+begin_example 
+    ,#+results: my-profile
+    [[file:~/.profile][my-profile]]
+    
+    ,#+begin_src sh :var profile=my-profile
+      wc $profile
+    ,#+end_src
+    
+    ,#+results:
+    : 22 109 675 /home/eschulte/.profile
+  #+end_example
   
   Now exported to html
-  #+results: my-profile
+
+#+results: my-profile
   [[file:~/.profile][my-profile]]
   
   #+begin_src sh :var profile=my-profile
@@ -38,18 +42,22 @@ So files can be referenced by source code blocks
   grab IP information for the org-mode homepage.
 
   The raw org-mode text
-  : #+results: org-mode-page
-  [[http://orgmode.org/][: org-mode-page]]
-  : 
-  : #+begin_src sh :var page=org-mode-page
-  :   host $page |head -1
-  : #+end_src
-  : 
-  : #+results:
-  : : http://orgmode.org/ has address 63.123.155.104
+
+  #+begin_example 
+    ,#+results: org-mode-page
+    [[http://orgmode.org/][org-mode-page]]
+    
+    ,#+begin_src sh :var page=org-mode-page
+      host $page |head -1
+    ,#+end_src
+    
+    ,#+results:
+    : http://orgmode.org/ has address 63.123.155.104
+  #+end_example
 
   or exported to html
-  #+results: org-mode-page
+
+#+results: org-mode-page
   [[http://orgmode.org/][org-mode-page]]
   
   #+begin_src sh :var page=org-mode-page
