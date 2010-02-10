@@ -1,0 +1,105 @@
+---
+title: DONE allow reference to file type results
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> allow reference to file type results </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-09 Tue 20:29</span></span>
+
+</li>
+</ul>
+
+<p>So files can be referenced by source code blocks
+</p>
+<ul>
+<li>
+Here's a simple example counting the size of the user's <code>.profile</code>
+file.
+
+<p>
+The raw org-mode text
+</p><pre class="example">
+#+results: my-profile
+</pre>
+
+<p><a href="/home/eschulte/.profile">: my-profile</a>
+</p><pre class="example">
+
+#+begin_src sh :var profile=my-profile
+  wc $profile
+#+end_src
+
+#+results:
+: 22 109 675 /home/eschulte/.profile
+</pre>
+
+
+<p>
+Now exported to html
+<a href="/home/eschulte/.profile">my-profile</a>
+</p>
+
+
+
+<pre class="src src-sh">wc $<span class="org-variable-name">profile</span>
+
+</pre>
+
+
+
+
+<pre class="example">
+22 109 675 /home/eschulte/.profile
+</pre>
+
+
+</li>
+<li>
+Or perhaps a slightly fancier example using the <code>host</code> command to
+grab IP information for the org-mode homepage.
+
+<p>
+The raw org-mode text
+</p><pre class="example">
+#+results: org-mode-page
+</pre>
+
+<p><a href="http://orgmode.org/">: org-mode-page</a>
+</p><pre class="example">
+
+#+begin_src sh :var page=org-mode-page
+  host $page |head -1
+#+end_src
+
+#+results:
+: http://orgmode.org/ has address 63.123.155.104
+</pre>
+
+
+<p>
+or exported to html
+<a href="http://orgmode.org/">org-mode-page</a>
+</p>
+
+
+
+<pre class="src src-sh">host $<span class="org-variable-name">page</span> |head -1
+
+</pre>
+
+
+
+
+<pre class="example">
+http://orgmode.org/ has address 63.123.155.104
+</pre>
+
+</li>
+</ul>
+</div>
+</div>
