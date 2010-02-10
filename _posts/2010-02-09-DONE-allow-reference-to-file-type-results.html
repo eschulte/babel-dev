@@ -23,12 +23,12 @@ file.
 
 <p>
 The raw org-mode text
-</p><pre class="example">
-#+results: my-profile
-</pre>
+</p>
 
-<p><a href="/home/eschulte/.profile">: my-profile</a>
-</p><pre class="example">
+
+
+<pre class="example">#+results: my-profile
+[[file:~/.profile][my-profile]]
 
 #+begin_src sh :var profile=my-profile
   wc $profile
@@ -39,8 +39,11 @@ The raw org-mode text
 </pre>
 
 
+
 <p>
 Now exported to html
+</p>
+<p>
 <a href="/home/eschulte/.profile">my-profile</a>
 </p>
 
@@ -65,12 +68,12 @@ grab IP information for the org-mode homepage.
 
 <p>
 The raw org-mode text
-</p><pre class="example">
-#+results: org-mode-page
-</pre>
+</p>
 
-<p><a href="http://orgmode.org/">: org-mode-page</a>
-</p><pre class="example">
+
+
+<pre class="example">#+results: org-mode-page
+[[http://orgmode.org/][org-mode-page]]
 
 #+begin_src sh :var page=org-mode-page
   host $page |head -1
@@ -81,8 +84,11 @@ The raw org-mode text
 </pre>
 
 
+
 <p>
 or exported to html
+</p>
+<p>
 <a href="http://orgmode.org/">org-mode-page</a>
 </p>
 
