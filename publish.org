@@ -26,7 +26,7 @@ reused in other projects.
            (mapc (lambda (pair) (insert (format "%s: %s\n" (car pair) (cdr pair))))
                  yaml-front-matter)
            (insert "---\n\n"))
-         (insert html)))) '("index" "publish"))
+         (insert html)))) '("index" "publish" "dev-updates"))
 #+end_src
 
 * Development Updates

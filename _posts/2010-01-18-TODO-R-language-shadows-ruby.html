@@ -30,12 +30,13 @@ I was initializing org-babel with the following from my init.el file
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
-</pre>
+</pre></div>
 
 
 
@@ -50,12 +51,13 @@ When I change the order of the language initializations, the error goes away:
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
-</pre>
+</pre></div>
 
 
 

@@ -74,7 +74,8 @@ as the last argument to
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-params-from-properties</span> <span class="org-esk-paren">()</span>
+<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
+<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-params-from-properties</span> <span class="org-esk-paren">()</span>
   <span class="org-doc">"Return an association list of any source block params which
 may be specified in the properties of the current outline entry."</span>
   <span class="org-esk-paren">(</span><span class="org-keyword">save-match-data</span>
@@ -90,7 +91,7 @@ may be specified in the properties of the current outline entry."</span>
 </span>                 <span class="org-esk-paren">(</span>cons <span class="org-esk-paren">(</span>intern <span class="org-esk-paren">(</span>concat <span class="org-string">":"</span> header-arg<span class="org-esk-paren">))</span> val<span class="org-esk-paren">))))</span>
            '<span class="org-esk-paren">(</span><span class="org-string">"cache"</span> <span class="org-string">"cmdline"</span> <span class="org-string">"exports"</span> <span class="org-string">"file"</span> <span class="org-string">"noweb"</span> <span class="org-string">"results"</span>
              <span class="org-string">"session"</span> <span class="org-string">"tangle"</span> <span class="org-string">"var"</span><span class="org-esk-paren">)))))</span>  
-</pre>
+</pre></div>
 
 
 
