@@ -361,28 +361,27 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** PROPOSED Remote evaluation and remote sessions
-*** Remote evaluation
-    One often wants to evaluate code on a different machine from that
-    on which emacs is running (e.g. data kept on other machine,
-    hardware advantages of other machine). One way to do this is with
-    ssh. What would the general org-babel solution for remote
-    execution be? Are there any existing emacs technologies such as tramp relevant?
-*** Remote sessions
-    I'd like to be able to have a session running on a remote machine,
-   and interact with it from org-babel running locally.
+** TODO Remote execution
+   :session t :results output works already for a session running
+   remotely, but we might like to get some of the other possibilities
+   working.
+*** TODO :session t :results value
+    - State "TODO" from "PROPOSED" [2010-02-11 Thu 14:40]
 
-   I just learned that one can do this in ESS, as follows:
-   1. M-x shell
-   2. ssh user@remote_host
-   3. R
-   4. M-x ess-remote
-
-   ess-remote "captures" the shell buffer in which the remote R
-   process is running and "turns it into" an inferior ESS process,
-   which behaves just like a local iESS process.
-
-   What would a general org-babel mechanism for remote sessions be?
+      A remote session can be started using tramp (the way I do it at
+      the moment is to visit a remote file and then issue e.g. M-x
+      R. It will run on the remote machine) or M-x ssh. This will work
+      with :results output. However :results value currently (in the
+      target language) writes the data to a file on the remote machine
+      and then (in elisp) attempts to retrieve it from the local
+      machine. Thus the necessary network data transmission is not
+      currently attempted. Perhaps tramp can be used to achieve this?
+*** TODO external process evaluation on remote machines
+    - State "TODO" from "" [2010-02-11 Thu 14:49]
+      We need:
+    - A way to specify the machine on which a remote process should be
+      run (and to retrieve stdout/stderr)
+    - A way of retrieving file contents in the case of :results value.
 ** TODO byte-compile elisp on tangle
    - State "TODO"       from "PROPOSED"   [2009-12-21 Mon 12:50]
 from mailing list
@@ -3871,7 +3870,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [50/69]
+* Bugs [52/70]
 ** PROPOSED python 'session output' evaluation is not outputting last line 
    This is a bit weird. The first evaluation in a session is OK, but
    second and subsequent evaluations fail to output the last line.
