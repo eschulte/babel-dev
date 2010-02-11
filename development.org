@@ -861,7 +861,7 @@ in tandem with the `org-babel-result-end' function.
 
 this is currently implemented in the head of the ems-babel branch
 
-** TODO support for working with =*Org Edit Src Example*= buffers [5/7]
+** TODO support for working with org-src-mode edit buffers [5/7]
 *** DONE Patch against org source. 
     I've worked on several related changes to source code edit buffer
     behaviour in the org core.  My current patch (below) does the
@@ -1040,14 +1040,19 @@ assignments are made in the appropriate session.
 #+end_src
 
 *** TODO set buffer-local-process variables appropriately [DED]
+    When switching to a edit buffer for R, if :session is active then
+    we should set ess-current-process-name (or is it
+    ess-local-process-name?) to the session name. Implementation?
+    Presumably this uses org-src-mode-hook somehow.
+**** old discussion
     I think something like this would be great. You've probably
 already thought of this, but just to note it down: it would be really
 nice if org-babel's notion of a buffer's 'session/process' played
 nicely with ESS's notion of the buffer's session/process. ESS keeps
 the current process name for a buffer in a buffer-local variable
-ess-local-process-name. So one thing we will probably want to do is
-make sure that the *Org Edit Src Example* buffer sets that variable
-appropriately. [DED]
+ess-current-process-name (or is it ess-local-process-name?). So one
+thing we will probably want to do is make sure that the *Org Edit Src
+Example* buffer sets that variable appropriately. [DED]
 
 I had not thought of that, but I agree whole heartedly. [Eric]
 
