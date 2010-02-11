@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [61/104]
+* Tasks [62/104]
 ** DONE allow reference to file type results
    - State "DONE"       from "TODO"       [2010-02-09 Tue 20:29]
 
@@ -422,10 +422,79 @@ This should definitely be done in org-babel-sh, I don't think it is
 common enough to move the functionality to org-babel-comint, but I
 could be wrong...
 
-** STARTED Suitable export of #+srcname and #+resname lines
+** DONE Suitable export of #+srcname and #+resname lines
+   - State "DONE"       from "STARTED"    [2010-02-11 Thu 09:46]
    - State "STARTED"    from "TODO"       [2010-01-04 Mon 15:05]
    - State "TODO"       from "STARTED"    [2010-01-04 Mon 09:31]
+*** update -- exporting arguments with source names
 
+We are now exporting arguments with source-block names and wrapping
+source-code blocks and names in =div= which is given the
+=org-src-container= class.  This allows for styling of the name and
+block, and for explicit association of the name and block using css
+like the following which we will apply here with an HTML block
+: #+begin_html 
+:   <style type="text/css"> 
+:     .org-src-container {
+:     border-left: 4px solid gray; /* gray bar offsetting code and name */
+:     padding: 0.5em 0.5em 0.5em 1em; }
+:     .org-src-container pre {
+:       margin-left: 1em; }        /* indentation of code blocks w/names */
+:   </style> 
+: #+end_html
+#+begin_html 
+  <style type="text/css"> 
+    .org-src-container {
+    border-left: 4px solid gray; /* gray bar offsetting code and name */
+    padding: 0.5em 0.5em 0.5em 1em; }
+    .org-src-container pre {
+      margin-left: 1em; }        /* indentation of code blocks w/names */
+  </style> 
+#+end_html
+
+So, for example the following *raw* org-mode text
+
+: #+source: fibonacci
+: #+begin_src emacs-lisp :var input=0
+:   (defun fib (n)
+:     (if (> n 1)
+:         (+ (fib (- n 1)) (fib (- n 2)))
+:         1))
+:   (fib input)
+: #+end_src
+: 
+: #+results: fibonacci
+: : 1
+: 
+: now applying our Fibonacci function
+: 
+: #+call: fibonacci(input=5)
+: 
+: #+results: fibonacci(input=5)
+: : 8
+
+exports to the following *html*
+
+#+source: fibonacci
+#+begin_src emacs-lisp :var input=0
+  (defun fib (n)
+    (if (> n 1)
+        (+ (fib (- n 1)) (fib (- n 2)))
+        1))
+  (fib input)
+#+end_src
+
+#+results: fibonacci
+: 1
+
+now applying our Fibonacci function
+
+#+call: fibonacci(input=5)
+
+#+results: fibonacci(input=5)
+: 8
+
+*** older
 The current fix here takes the simplest possible approach.  The name
 of a source-code block is placed in the =org-caption= text property
 and `org-export-format-source-code-or-example' then reads this
