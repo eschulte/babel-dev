@@ -3871,6 +3871,15 @@ dot("$(2a,0)$",(2,0),N+E);
 
     
 * Bugs [52/70]
+** TODO table slicing doesn't work with function style references
+#+source: f(rs=karafet-hgR[1,3])
+#+begin_src sh :session none
+echo $rs
+#+end_src
+
+reference 'karafet-hgR[1' not found in this buffer
+ 
+   - State "TODO"       from ""           [2010-02-12 Fri 13:45]
 ** PROPOSED python 'session output' evaluation is not outputting last line 
    This is a bit weird. The first evaluation in a session is OK, but
    second and subsequent evaluations fail to output the last line.
