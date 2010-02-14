@@ -4,15 +4,38 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [62/106]
-** TODO How do we open all source blocks in buffer?
+** STARTED How do we open all source blocks in buffer?
+   - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:34]
+   - State "TODO"       from ""           [2010-02-14 Sun 11:18]
+
    This is an org-mode issue, but relevant to us. org visibility
    cycling just opens headings. An example of when you might want
    absolutely everything to be open is when using C-s to search
    through a buffer.
-   - State "TODO"       from ""           [2010-02-14 Sun 11:18]
-** TODO How do we mark a block as not to be executed?
-   E.g. by org-babel-execute-buffer
+   
+   So, currently even closed source blocks will open temporarily for
+   searching because of the way they are hidden.  Also there is the
+   `org-show-block-all'
+   #+begin_example 
+     org-show-block-all is a Lisp function in `org.el'.
+     
+     (org-show-block-all)
+     
+     Unfold all blocks in the current buffer.
+   #+end_example
+   function which will reveal all blocks in the current buffer, I
+   guess the question then becomes -- should this be bound to a key,
+   or should it somehow hook into the org visibility cycling.
+
+** STARTED How do we mark a block as not to be executed?
+   - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:35]
    - State "TODO"       from ""           [2010-02-14 Sun 11:19]
+
+   E.g. by org-babel-execute-buffer
+   
+   Hmm, should this be a new header argument, maybe =:run= which can
+   take a =yes= or =no= argument?
+
 ** DONE allow reference to file type results
    - State "DONE"       from "TODO"       [2010-02-09 Tue 20:29]
 
@@ -335,10 +358,19 @@ not, resulting in incorrect code being tangled.
 With the above "spec", I guess all cases are covered. What do you think?
 #+end_example
 
-** PROPOSED :width and :height set dimensions in latex output?
+** STARTED :width and :height set dimensions in latex output?
+   - State "STARTED"    from "PROPOSED"   [2010-02-14 Sun 10:36]
    See email thread started by Graham Smith 12 Dec.
 
    Should we be setting ATTR_LaTeX in this situation?
+   
+   So it looks like we somehow need to pass the width through to R as
+   a variable.  Are the current variable passing methods insufficient
+   for this task?  Or would it just be more convenient if the R
+   execution code automatically checked for a value of ATTR_LaTeX and
+   setup the R environment to correspond.  I don't really know R that
+   well, so I'm not sure how this would work, but it does seem like
+   it'd be handy if/once it was implemented. [Eric]
 
 #+begin_example
   ,#+options toc:nil
@@ -371,10 +403,16 @@ With the above "spec", I guess all cases are covered. What do you think?
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
 ** TODO Remote execution
+   - State "TODO"       from "TODO"       [2010-02-14 Sun 10:41]
+
    :session t :results output works already for a session running
    remotely, but we might like to get some of the other possibilities
    working.
+
 *** TODO :session t :results value
+    :PROPERTIES:
+    :CUSTOM_ID: remote-results-value
+    :END:
     - State "TODO" from "PROPOSED" [2010-02-11 Thu 14:40]
 
       A remote session can be started using tramp (the way I do it at
@@ -385,12 +423,42 @@ With the above "spec", I guess all cases are covered. What do you think?
       and then (in elisp) attempts to retrieve it from the local
       machine. Thus the necessary network data transmission is not
       currently attempted. Perhaps tramp can be used to achieve this?
+      
+      Hmm, If there is some programmatic way to detect that the
+      current buffer is visiting a remote machine, then it should be
+      easy to change the code which is writing and reading to
+      temporary files to explicitly do all such operations on the
+      local host.  I currently don't ever really run anything on a
+      remote machine, but if someone else got this going I'd be happy
+      to help iron out the details. [Eric]
+      
 *** TODO external process evaluation on remote machines
     - State "TODO" from "" [2010-02-11 Thu 14:49]
+
       We need:
     - A way to specify the machine on which a remote process should be
       run (and to retrieve stdout/stderr)
     - A way of retrieving file contents in the case of :results value.
+
+    The second of the above should be handled by the
+    [[remote-results-value]] case above.  As for telling org-babel to
+    start the process on a remote machine, it's not immediately clear
+    to me how that would work.
+    
+    The first thing that occurs to me is that maybe if we accept a
+    path so that a buffer on the remote machine can be opened using
+    tramp then we can switch to that buffer and remote execution will
+    happen naturally in a language-agnostic way.  This is a slight
+    automation of the process described above.  So something like
+    
+    : #+begin_src clojure :host my-other-machine:~/some-file
+    :   (println (System/getProperties))
+    : #+end_src
+    
+    would result in Org-babel first opening a buffer with the value of
+    =:host= and then running through the same execution pattern as
+    above.
+
 ** TODO byte-compile elisp on tangle
    - State "TODO"       from "PROPOSED"   [2009-12-21 Mon 12:50]
 from mailing list
