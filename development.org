@@ -3959,6 +3959,33 @@ echo $rs
 
 reference 'karafet-hgR[1' not found in this buffer
 
+this is now fixed in the following commit, in which ensure that
+`org-babel-ref-split-args' will maintain balanced square brackets.
+#+begin_src magit
+commit 692c569215453f4283d3ecfa24d3d6e1f2715c02
+Author: Eric Schulte
+Date:   Sun Feb 14 11:48:28 2010 -0700
+
+    babel: smarter `org-babel-ref-split-args' -- fixes bug parsing indexed function-style args
+
+	Modified contrib/babel/lisp/org-babel-ref.el
+diff --git a/contrib/babel/lisp/org-babel-ref.el b/contrib/babel/lisp/org-babel-ref.el
+index dc51020..c0e6a55 100644
+--- a/contrib/babel/lisp/org-babel-ref.el
++++ b/contrib/babel/lisp/org-babel-ref.el
+@@ -193,8 +193,8 @@ which case the entire range is returned."
+         (when (= depth 0)
+           (setq return (reverse (cons (substring buffer 0 -1) return)))
+           (setq buffer "")))
+-       ((string= holder "(") (setq depth (+ depth 1)))
+-       ((string= holder ")") (setq depth (- depth 1)))))
++       ((or (string= holder "(") (string= holder "[")) (setq depth (+ depth 1)))
++       ((or (string= holder ")") (string= holder "]")) (setq depth (- depth 1)))))
+     (mapcar #'org-babel-trim (reverse (cons buffer return)))))
+ 
+ (defun org-babel-ref-at-ref-p ()
+#+end_src
+
 ** PROPOSED python 'session output' evaluation is not outputting last line 
    This is a bit weird. The first evaluation in a session is OK, but
    second and subsequent evaluations fail to output the last line.
