@@ -3,7 +3,15 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/106]
+* Tasks [62/107]
+** TODO How do we check that block output is identical to previous output?
+   - State "TODO"       from ""           [2010-02-14 Sun 18:24]
+
+     A common situation for me is that I return to an org-babel file
+     containing several blocks with output, and the first thing I want
+     to do as a sanity check is execute all the blocks, verifying that
+     the new output is the same as the old output.
+
 ** TODO How do we open all source blocks in buffer?
    This is an org-mode issue, but relevant to us. org visibility
    cycling just opens headings. An example of when you might want
