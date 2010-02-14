@@ -30,5 +30,38 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 
 <p>
 reference 'karafet-hgR[1' not found in this buffer
-</p></div>
+</p>
+<p>
+this is now fixed in the following commit, in which ensure that
+`org-babel-ref-split-args' will maintain balanced square brackets.
+</p>
+
+
+<pre class="src src-magit">commit 692c569215453f4283d3ecfa24d3d6e1f2715c02
+Author: Eric Schulte
+Date:   Sun Feb 14 11:48:28 2010 -0700
+
+    babel: smarter `org-babel-ref-split-args' -- fixes bug parsing indexed function-style args
+
+        Modified contrib/babel/lisp/org-babel-ref.el
+diff --git a/contrib/babel/lisp/org-babel-ref.el b/contrib/babel/lisp/org-babel-ref.el
+index dc51020..c0e6a55 100644
+--- a/contrib/babel/lisp/org-babel-ref.el
++++ b/contrib/babel/lisp/org-babel-ref.el
+@@ -193,8 +193,8 @@ which case the entire range is returned.<span class="org-string">"
+         (when (= depth 0)
+           (setq return (reverse (cons (substring buffer 0 -1) return)))
+           (setq buffer "")))
+-       ((string= holder "</span>(<span class="org-string">") (setq depth (+ depth 1)))
+-       ((string= holder "</span>)<span class="org-string">") (setq depth (- depth 1)))))
++       ((or (string= holder "</span>(<span class="org-string">") (string= holder "</span>[<span class="org-string">")) (setq depth (+ depth 1)))
++       ((or (string= holder "</span>)<span class="org-string">") (string= holder "</span>]<span class="org-string">")) (setq depth (- depth 1)))))
+     (mapcar #'org-babel-trim (reverse (cons buffer return)))))
+ 
+ (defun org-babel-ref-at-ref-p ()
+</span></pre>
+
+
+
+</div>
 </div>
