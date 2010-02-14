@@ -402,7 +402,8 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** TODO Remote execution
+** PROPOSED Remote execution
+   - State "PROPOSED"   from "TODO"       [2010-02-14 Sun 14:00]
    - State "TODO"       from "TODO"       [2010-02-14 Sun 10:41]
 
    :session t :results output works already for a session running
