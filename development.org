@@ -3,7 +3,16 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/104]
+* Tasks [62/106]
+** TODO How do we open all source blocks in buffer?
+   This is an org-mode issue, but relevant to us. org visibility
+   cycling just opens headings. An example of when you might want
+   absolutely everything to be open is when using C-s to search
+   through a buffer.
+   - State "TODO"       from ""           [2010-02-14 Sun 11:18]
+** TODO How do we mark a block as not to be executed?
+   E.g. by org-babel-execute-buffer
+   - State "TODO"       from ""           [2010-02-14 Sun 11:19]
 ** DONE allow reference to file type results
    - State "DONE"       from "TODO"       [2010-02-09 Tue 20:29]
 
@@ -3940,6 +3949,10 @@ current block.
    :PROPERTIES:
    :exports:  code
    :END:
+
+   DED: I think this requires tightening up of
+   org-babel-src-block-regexp, so that the language identifiers have
+   appropriate delimiters around them.
 
 Thanks to Daniel Doherty for submitting the following report
 
