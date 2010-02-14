@@ -3,6 +3,8 @@ title: TODO R language shadows ruby
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> R language shadows ruby </h2>
 <div class="outline-text-2" id="text-1">
@@ -17,7 +19,12 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 </li>
 </ul>
 
-<p>Thanks to Daniel Doherty for submitting the following report
+<p>DED: I think this requires tightening up of
+org-babel-src-block-regexp, so that the language identifiers have
+appropriate delimiters around them.
+</p>
+<p>
+Thanks to Daniel Doherty for submitting the following report
 </p>
 <p>
 I'm not on this mailing list, but thought this would be the right
@@ -30,13 +37,13 @@ I was initializing org-babel with the following from my init.el file
 
 
 
-<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
-</pre></div>
+</pre>
+
 
 
 
@@ -51,13 +58,13 @@ When I change the order of the language initializations, the error goes away:
 
 
 
-<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
-</pre></div>
+</pre>
+
 
 
 

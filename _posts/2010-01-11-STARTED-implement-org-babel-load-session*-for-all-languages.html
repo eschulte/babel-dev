@@ -3,6 +3,8 @@ title: STARTED implement org-babel-load-session:* for all languages
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo STARTED"> STARTED</span> implement org-babel-load-session:* for all languages </h2>
 <div class="outline-text-2" id="text-1">
@@ -68,8 +70,7 @@ yet implemented
 </p>
 
 
-<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-load-session:R</span> <span class="org-esk-paren">(</span>session body params<span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-load-session:R</span> <span class="org-esk-paren">(</span>session body params<span class="org-esk-paren">)</span>
   <span class="org-doc">"Load BODY into SESSION."</span>
   <span class="org-esk-paren">(</span><span class="org-keyword">save-window-excursion</span>
     <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>buffer <span class="org-esk-paren">(</span>org-babel-prep-session:R session params<span class="org-esk-paren">)))</span>
@@ -77,7 +78,8 @@ yet implemented
         <span class="org-esk-paren">(</span>goto-char <span class="org-esk-paren">(</span>process-mark <span class="org-esk-paren">(</span>get-buffer-process <span class="org-esk-paren">(</span>current-buffer<span class="org-esk-paren">))))</span>
         <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>org-babel-chomp body<span class="org-esk-paren">)))</span>
       buffer<span class="org-esk-paren">)))</span>
-</pre></div>
+</pre>
+
 
 
 

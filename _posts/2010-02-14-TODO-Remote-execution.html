@@ -1,0 +1,105 @@
+---
+title: TODO Remote execution
+layout: default
+---
+
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> Remote execution </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-14 Sun 10:41</span></span>
+
+</li>
+</ul>
+
+<p>:session t :results output works already for a session running
+remotely, but we might like to get some of the other possibilities
+working.
+</p>
+
+</div>
+
+<div id="outline-container-remote-results-value" class="outline-3">
+<h3 id="remote-results-value"><a name="sec-1.1" id="sec-1.1"></a><span class="todo TODO"> TODO</span> :session t :results value </h3>
+<div class="outline-text-3" id="text-remote-results-value">
+
+<ul>
+<li>
+State "TODO" from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-11 Thu 14:40</span></span>
+
+<p>
+A remote session can be started using tramp (the way I do it at
+the moment is to visit a remote file and then issue e.g. M-x
+R. It will run on the remote machine) or M-x ssh. This will work
+with :results output. However :results value currently (in the
+target language) writes the data to a file on the remote machine
+and then (in elisp) attempts to retrieve it from the local
+machine. Thus the necessary network data transmission is not
+currently attempted. Perhaps tramp can be used to achieve this?
+</p>
+<p>
+Hmm, If there is some programmatic way to detect that the
+current buffer is visiting a remote machine, then it should be
+easy to change the code which is writing and reading to
+temporary files to explicitly do all such operations on the
+local host.  I currently don't ever really run anything on a
+remote machine, but if someone else got this going I'd be happy
+to help iron out the details. [Eric]
+</p>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="todo TODO"> TODO</span> external process evaluation on remote machines </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<ul>
+<li>
+State "TODO" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-11 Thu 14:49</span></span>
+
+<p>
+We need:
+</p></li>
+<li>
+A way to specify the machine on which a remote process should be
+run (and to retrieve stdout/stderr)
+</li>
+<li>
+A way of retrieving file contents in the case of :results value.
+
+</li>
+</ul>
+
+<p>The second of the above should be handled by the
+<a href="#sec-1.1">remote-results-value</a> case above.  As for telling org-babel to
+start the process on a remote machine, it's not immediately clear
+to me how that would work.
+</p>
+<p>
+The first thing that occurs to me is that maybe if we accept a
+path so that a buffer on the remote machine can be opened using
+tramp then we can switch to that buffer and remote execution will
+happen naturally in a language-agnostic way.  This is a slight
+automation of the process described above.  So something like
+</p>
+<pre class="example">
+#+begin_src clojure :host my-other-machine:~/some-file
+  (println (System/getProperties))
+#+end_src
+</pre>
+
+
+<p>
+would result in Org-babel first opening a buffer with the value of
+<code>:host</code> and then running through the same execution pattern as
+above.
+</p></div>
+</div>
+</div>
