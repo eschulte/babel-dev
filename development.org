@@ -3948,7 +3948,24 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/70]
+* Bugs [53/71]
+** TODO Haskell source blocks can't resolve references
+   - State "TODO"       from ""           [2010-02-15 Mon 09:13]
+
+so for example
+
+: #+results: haskell-hiding
+: 
+: #+begin_src haskell :var num=haskell-hiding
+:   num + 1
+: #+end_src
+
+results in a
+
+: reference 'haskell-hiding' not found in this buffer
+
+error
+
 ** DONE table slicing doesn't work with function style references
    - State "DONE"       from "TODO"       [2010-02-14 Sun 11:49]
    - State "TODO"       from ""           [2010-02-12 Fri 13:45]

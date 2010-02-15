@@ -1,0 +1,41 @@
+---
+title: TODO Haskell source blocks can't resolve references
+layout: default
+---
+
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> Haskell source blocks can't resolve references </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-15 Mon 09:13</span></span>
+
+</li>
+</ul>
+
+<p>so for example
+</p>
+<pre class="example">
+#+results: haskell-hiding
+
+#+begin_src haskell :var num=haskell-hiding
+  num + 1
+#+end_src
+</pre>
+
+
+<p>
+results in a
+</p>
+<pre class="example">
+reference 'haskell-hiding' not found in this buffer
+</pre>
+
+
+<p>
+error
+</p></div>
+</div>
