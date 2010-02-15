@@ -12,6 +12,19 @@
      to do as a sanity check is execute all the blocks, verifying that
      the new output is the same as the old output.
 
+     Maybe this would be possible if you rename the results, and then
+     write a lob function which compares two results for equality?  If
+     you put that idea into a table then you'd basically have our test
+     suite.  I guess we could also develop support for doing this sort
+     of thing automatically, although it's not clear to me how you
+     would indicate that you want to do a "checking" run by default.
+     I do like the idea however, as it seems like it will have direct
+     reproducible research applications.  Maybe we just make this a
+     header argument, and then provide some functions which call
+     individual or multiple blocks with that header argument pre-set
+     to true -- or maybe header arguments aren't the appropriate tool
+     for this situation?
+
 ** STARTED How do we open all source blocks in buffer?
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:34]
    - State "TODO"       from ""           [2010-02-14 Sun 11:18]
@@ -3988,7 +4001,24 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/70]
+* Bugs [53/71]
+** TODO Haskell source blocks can't resolve references
+   - State "TODO"       from ""           [2010-02-15 Mon 09:13]
+
+so for example
+
+: #+results: haskell-hiding
+: 
+: #+begin_src haskell :var num=haskell-hiding
+:   num + 1
+: #+end_src
+
+results in a
+
+: reference 'haskell-hiding' not found in this buffer
+
+error
+
 ** DONE table slicing doesn't work with function style references
    - State "DONE"       from "TODO"       [2010-02-14 Sun 11:49]
    - State "TODO"       from ""           [2010-02-12 Fri 13:45]
