@@ -3,7 +3,15 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/106]
+* Tasks [62/107]
+** TODO How do we check that block output is identical to previous output?
+   - State "TODO"       from ""           [2010-02-14 Sun 18:24]
+
+     A common situation for me is that I return to an org-babel file
+     containing several blocks with output, and the first thing I want
+     to do as a sanity check is execute all the blocks, verifying that
+     the new output is the same as the old output.
+
 ** STARTED How do we open all source blocks in buffer?
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:34]
    - State "TODO"       from ""           [2010-02-14 Sun 11:18]
@@ -27,6 +35,10 @@
    guess the question then becomes -- should this be bound to a key,
    or should it somehow hook into the org visibility cycling.
 
+   And should it be made interactive? If so let's raise it on
+   list. Personally I can deal with it not being part of visibility
+   cycling, so I think this item may be almost DONE.
+
 ** STARTED How do we mark a block as not to be executed?
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:35]
    - State "TODO"       from ""           [2010-02-14 Sun 11:19]
@@ -35,6 +47,10 @@
    
    Hmm, should this be a new header argument, maybe =:run= which can
    take a =yes= or =no= argument?
+
+   Perhaps, if it's the case that it won't be used often, we should
+   use =:execute= so that the terminology is kept consistent with the
+   corresponding function (like "tangle").
 
 ** DONE allow reference to file type results
    - State "DONE"       from "TODO"       [2010-02-09 Tue 20:29]
