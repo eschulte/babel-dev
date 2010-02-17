@@ -3,8 +3,6 @@ title: DONE table slicing doesn't work with function style references
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="done DONE"> DONE</span> table slicing doesn't work with function style references </h2>
 <div class="outline-text-2" id="text-1">
@@ -21,9 +19,9 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 </ul>
 
 
-<pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">rs</span>
-</pre>
-
+<div class="org-src-container"><label class="org-src-name">f(rs=karafet-hgR[1,3])</label><pre class="src src-sh">
+<span class="org-builtin">echo</span> $<span class="org-variable-name">rs</span>
+</pre></div>
 
 
 
@@ -60,7 +58,6 @@ index dc51020..c0e6a55 100644
  
  (defun org-babel-ref-at-ref-p ()
 </span></pre>
-
 
 
 </div>

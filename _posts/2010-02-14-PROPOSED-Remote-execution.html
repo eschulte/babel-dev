@@ -3,8 +3,6 @@ title: PROPOSED Remote execution
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Remote execution </h2>
 <div class="outline-text-2" id="text-1">
@@ -49,10 +47,37 @@ Hmm, If there is some programmatic way to detect that the
 current buffer is visiting a remote machine, then it should be
 easy to change the code which is writing and reading to
 temporary files to explicitly do all such operations on the
-local host.  I currently don't ever really run anything on a
+local host. [Eric]
+</p>
+<p>
+I'm not quite clear on this. With ":results value" in (say) R,
+the R process has to write the return data to file. If the R
+process is running remotely then someone (R?, emacs?, shell?)
+has to transfer the data between machines. If this is to be
+robust across languages, then we probably want to allow the
+langauge processes to continue to write locally as they do
+currently (because the ability of languages to deal with the
+network transfer will vary), and therefore we would require a
+new data transfer stage (implemented perhaps in emacs or by
+standard shell utilities) in order for the data to be read into
+org-babel [Dan]
+</p>
+<p>
+I currently don't ever really run anything on a
 remote machine, but if someone else got this going I'd be happy
 to help iron out the details. [Eric]
 </p>
+<p>
+For the record, my situation is the opposite &ndash; all the data is
+stored remotely (and the remote machines have more appropriate
+computing power than my netbook), but I don't really want to run
+emacs over ssh, for a variety of reasons (performance, code
+libraries) &ndash; so having org-babel execute remotely is very
+desirable for me. Having said that, ':session :results output'
+is working quite adequately; I've only occasionally felt the
+need for ':results value'. [Dan]
+</p>
+
 </li>
 </ul>
 </div>

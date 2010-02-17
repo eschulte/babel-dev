@@ -3,7 +3,15 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/107]
+* Tasks [63/108]
+** DONE added support for Oz
+   - State "DONE"       from ""           [2010-02-17 Wed 08:24]
+
+Thanks to Torsten Anders for sharing Org-babel support for the [[http://www.mozart-oz.org/][Oz
+programming language]]!
+
+For complete information see the [[http://orgmode.org/worg/org-contrib/babel/languages/org-babel-doc-oz.php][org-babel-doc-oz]] page on Worg.
+
 ** TODO How do we check that block output is identical to previous output?
    - State "TODO"       from ""           [2010-02-14 Sun 18:24]
 
@@ -458,9 +466,33 @@ With the above "spec", I guess all cases are covered. What do you think?
       current buffer is visiting a remote machine, then it should be
       easy to change the code which is writing and reading to
       temporary files to explicitly do all such operations on the
-      local host.  I currently don't ever really run anything on a
+      local host. [Eric]
+
+      I'm not quite clear on this. With ":results value" in (say) R,
+      the R process has to write the return data to file. If the R
+      process is running remotely then someone (R?, emacs?, shell?)
+      has to transfer the data between machines. If this is to be
+      robust across languages, then we probably want to allow the
+      langauge processes to continue to write locally as they do
+      currently (because the ability of languages to deal with the
+      network transfer will vary), and therefore we would require a
+      new data transfer stage (implemented perhaps in emacs or by
+      standard shell utilities) in order for the data to be read into
+      org-babel [Dan]
+
+      I currently don't ever really run anything on a
       remote machine, but if someone else got this going I'd be happy
       to help iron out the details. [Eric]
+
+      For the record, my situation is the opposite -- all the data is
+      stored remotely (and the remote machines have more appropriate
+      computing power than my netbook), but I don't really want to run
+      emacs over ssh, for a variety of reasons (performance, code
+      libraries) -- so having org-babel execute remotely is very
+      desirable for me. Having said that, ':session :results output'
+      is working quite adequately; I've only occasionally felt the
+      need for ':results value'. [Dan]
+
       
 *** TODO external process evaluation on remote machines
     - State "TODO" from "" [2010-02-11 Thu 14:49]
