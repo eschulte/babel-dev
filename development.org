@@ -3,7 +3,15 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/107]
+* Tasks [63/108]
+** DONE added support for Oz
+   - State "DONE"       from ""           [2010-02-17 Wed 08:24]
+
+Thanks to Torsten Anders for sharing Org-babel support for the [[http://www.mozart-oz.org/][Oz
+programming language]]!
+
+For complete information see the [[http://orgmode.org/worg/org-contrib/babel/languages/org-babel-doc-oz.php][org-babel-doc-oz]] page on Worg.
+
 ** TODO How do we check that block output is identical to previous output?
    - State "TODO"       from ""           [2010-02-14 Sun 18:24]
 
