@@ -4001,7 +4001,29 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/75]
+* Bugs [53/76]
+** TODO noweb/shell ':session :results value' bug
+   - State "TODO"       from ""           [2010-02-19 Fri 13:27]
+     
+#+source: shell-src-block
+#+begin_src sh
+echo 1
+echo 2
+#+end_src
+
+#+results: shell-src-block
+| 1 |
+| 2 |
+
+OK, but now when using noweb reference we only get the last line.
+
+#+begin_src sh :session :noweb yes :results vector
+<<shell-src-block>>
+#+end_src
+
+#+results:
+| 2 |
+
 ** TODO python :session :results value not working
    - State "TODO"       from ""           [2010-02-18 Thu 17:49]
 #+begin_src python :results value :session
