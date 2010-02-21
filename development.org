@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/109]
+* Tasks [62/109]
 ** TODO Store interpreter executable names and command-line arguments in variables
    - State "TODO"       from ""           [2010-02-20 Sat 12:22]
 ** PROPOSED More diligent cleaning up of temp files
@@ -435,12 +435,18 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** DONE Working directories and remote execution
+** TODO Working directories and remote execution
+   - State "TODO"       from "DONE"       [2010-02-21 Sun 01:16]
    - State "DONE"       from "STARTED"    [2010-02-21 Sun 00:50]
    - State "STARTED"    from "PROPOSED"   [2010-02-18 Thu 17:54]
    - State "PROPOSED"   from "TODO"       [2010-02-14 Sun 14:00]
    - State "TODO"       from "TODO"       [2010-02-14 Sun 10:41]
-     
+
+     This is working for R, ruby, python and shell. We need to extend
+     some of the changes to some of the other languages, e.g. make
+     sure that they construct remote file names when attemtping to
+     read remote data, as in 010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
+
      Working directory is specified using :dir. If this is remote,
      then processes run remotely.
 
