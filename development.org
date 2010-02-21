@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/109]
+* Tasks [63/109]
 ** TODO Store interpreter executable names and command-line arguments in variables
    - State "TODO"       from ""           [2010-02-20 Sat 12:22]
 ** PROPOSED More diligent cleaning up of temp files
@@ -435,15 +435,29 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** PROPOSED Remote execution
+** DONE Working directories and remote execution
+   - State "DONE"       from "STARTED"    [2010-02-21 Sun 00:50]
+   - State "STARTED"    from "PROPOSED"   [2010-02-18 Thu 17:54]
    - State "PROPOSED"   from "TODO"       [2010-02-14 Sun 14:00]
    - State "TODO"       from "TODO"       [2010-02-14 Sun 10:41]
+     
+     Working directory is specified using :dir. If this is remote,
+     then processes run remotely.
 
-   :session t :results output works already for a session running
-   remotely, but we might like to get some of the other possibilities
-   working.
+*** DONE Improve support for :session t :results output
+    - State "DONE"       from "TODO"       [2010-02-21 Sun 00:48]
+    - State "TODO"       from ""           [2010-02-16 Tue 13:59]
+      
+**** DEFERRED :dir has no effect on existing session
+     - State "DEFERRED"   from "TODO"       [2010-02-21 Sun 00:48]
+     - State "TODO"       from ""           [2010-02-16 Tue 15:53]
 
-*** TODO :session t :results value
+       Should we warn user in this case? (In general o-b tends to
+       silently ignore some nonsensical header args at the moment I
+       think)
+
+*** DONE :session t :results value
+    - State "DONE"       from "TODO"       [2010-02-21 Sun 00:49]
     :PROPERTIES:
     :CUSTOM_ID: remote-results-value
     :END:
@@ -489,33 +503,33 @@ With the above "spec", I guess all cases are covered. What do you think?
       is working quite adequately; I've only occasionally felt the
       need for ':results value'. [Dan]
 
-      
-*** TODO external process evaluation on remote machines
+*** DONE external process evaluation on remote machines
+    - State "DONE"       from "TODO"       [2010-02-21 Sun 00:50]
     - State "TODO" from "" [2010-02-11 Thu 14:49]
 
       We need:
-    - A way to specify the machine on which a remote process should be
-      run (and to retrieve stdout/stderr)
-    - A way of retrieving file contents in the case of :results value.
+      - A way to specify the machine on which a remote process should be
+       	run (and to retrieve stdout/stderr)
+      - A way of retrieving file contents in the case of :results value.
 
-    The second of the above should be handled by the
-    [[remote-results-value]] case above.  As for telling org-babel to
-    start the process on a remote machine, it's not immediately clear
-    to me how that would work.
-    
-    The first thing that occurs to me is that maybe if we accept a
-    path so that a buffer on the remote machine can be opened using
-    tramp then we can switch to that buffer and remote execution will
-    happen naturally in a language-agnostic way.  This is a slight
-    automation of the process described above.  So something like
-    
-    : #+begin_src clojure :host my-other-machine:~/some-file
-    :   (println (System/getProperties))
-    : #+end_src
-    
-    would result in Org-babel first opening a buffer with the value of
-    =:host= and then running through the same execution pattern as
-    above.
+      The second of the above should be handled by the
+      [[remote-results-value]] case above.  As for telling org-babel to
+      start the process on a remote machine, it's not immediately clear
+      to me how that would work.
+      
+      The first thing that occurs to me is that maybe if we accept a
+      path so that a buffer on the remote machine can be opened using
+      tramp then we can switch to that buffer and remote execution will
+      happen naturally in a language-agnostic way.  This is a slight
+      automation of the process described above.  So something like
+      
+      : #+begin_src clojure :host my-other-machine:~/some-file
+      :   (println (System/getProperties))
+      : #+end_src
+      
+      would result in Org-babel first opening a buffer with the value of
+      =:host= and then running through the same execution pattern as
+      above.
 
 ** TODO byte-compile elisp on tangle
    - State "TODO"       from "PROPOSED"   [2009-12-21 Mon 12:50]
