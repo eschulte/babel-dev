@@ -24,7 +24,7 @@
 #+end_src
 
 #+results:
-: [1] "Sat Feb 20 20:15:07 2010"
+: [1] "Sun Feb 21 01:00:49 2010"
 : Luscinia
 : [1] "/tmp"
       
@@ -34,7 +34,7 @@
 #+end_src
 
 #+results:
-: [1] "Sun Feb 21 01:15:25 2010"
+: [1] "Sun Feb 21 06:01:05 2010"
 : oak
 : [1] "/data/oak/user/davison/bench"
 
@@ -54,7 +54,7 @@ system("pwd")
 
 #+results:
 : 
-: Sat Feb 20 20:15:36 EST 2010
+: Sun Feb 21 01:01:11 EST 2010
 : true
 : Luscinia
 : true
@@ -68,7 +68,7 @@ system("pwd")
 
 #+results:
 : 
-: Sat Feb 20 20:13:12 EST 2010
+: Sun Feb 21 00:58:41 EST 2010
 : true
 : yakuba.princeton.edu
 : true
@@ -91,7 +91,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sat Feb 20 20:57:38 2010
+: Sun Feb 21 01:01:26 2010
 : ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
 : /home/dan
 ********* WORKS remote
@@ -100,7 +100,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sun Feb 21 01:57:55 2010
+: Sun Feb 21 06:01:36 2010
 : ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
 : /data/oak/user/davison/bench
 
@@ -119,7 +119,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sat Feb 20 20:58:06 EST 2010
+: Sun Feb 21 01:01:45 EST 2010
 : Luscinia
 : /tmp
 ********* WORKS remote
@@ -128,7 +128,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sun Feb 21 01:58:17 GMT 2010
+: Sun Feb 21 06:01:57 GMT 2010
 : oak
 : /home/davison/bench
 ***** WORKS non-session
@@ -142,19 +142,16 @@ system("pwd")
 #+end_src
 
 #+results:
-: [1] "Sat Feb 20 20:58:30 2010"
+: [1] "Sun Feb 21 01:02:07 2010"
 : Luscinia
 : [1] "/home/dan"
 ********* WORKS remote
-	  The implementation of :results output is currently different
-          for R versus the others, and doesn't use
-          shell-command-on-region.
 #+begin_src R :dir /davison@oak.well.ox.ac.uk:bench
   <<dir-test-R>>
 #+end_src
 
 #+results:
-: [1] "Sun Feb 21 01:59:09 2010"
+: [1] "Sun Feb 21 06:02:16 2010"
 : oak
 : [1] "/data/oak/user/davison/bench"
 
@@ -165,7 +162,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sat Feb 20 20:59:18 EST 2010
+: Sun Feb 21 01:02:29 EST 2010
 : Luscinia
 : /home/dan
 ********* WORKS remote
@@ -174,7 +171,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sun Feb 21 01:56:45 UTC 2010
+: Sun Feb 21 06:00:00 UTC 2010
 : yakuba.princeton.edu
 : /data/dan
 ******* WORKS python
@@ -184,7 +181,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sat Feb 20 20:59:32 2010
+: Sun Feb 21 01:02:40 2010
 : ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
 : /home/dan
 : 
@@ -195,7 +192,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sun Feb 21 01:59:37 2010
+: Sun Feb 21 06:02:46 2010
 : ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
 : /data/oak/user/davison/bench
 : 
@@ -207,7 +204,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sat Feb 20 20:59:47 EST 2010
+: Sun Feb 21 01:02:53 EST 2010
 : Luscinia
 : /tmp
 ********* WORKS remote
@@ -216,7 +213,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Sun Feb 21 01:59:56 UTC 2010
+: Sun Feb 21 06:03:02 UTC 2010
 : oak
 : /home/davison/bench
 *** WORKS :results value
@@ -228,17 +225,18 @@ system("pwd")
 ********* code
 #+source: dir-test-R-value
 #+begin_src R 
-  c(system("hostname", intern=TRUE), getwd())
+  c(date(), system("hostname", intern=TRUE), getwd())
 #+end_src
 
 ********* WORKS local
 #+begin_src R :session R-local :dir /tmp
-<<dir-test-R-value>>
+  <<dir-test-R-value>>
 #+end_src
 
 #+results:
-| Luscinia |
-| /tmp     |
+| Sun      | Feb | 21 | 01:03:39 | 2010 |
+| Luscinia |     |    |          |      |
+| /tmp     |     |    |          |      |
 ********* WORKS remote
 	  The data is written remotely, but currently we attempt to
           read it locally.
@@ -247,8 +245,9 @@ system("pwd")
 #+end_src
 
 #+results:
-| oak                          |
-| /data/oak/user/davison/bench |
+| Sun                          | Feb | 21 | 06:08:15 | 2010 |
+| oak                          |     |    |          |      |
+| /data/oak/user/davison/bench |     |    |          |      |
 ******* WORKS ruby
 ********* code
 #+source: dir-test-ruby-value
@@ -264,8 +263,6 @@ system("pwd")
 #+results:
 | 1 | 2 |
 ********* WORKS remote
-	  This works because results are not transferred via file for ruby :session :results value
-
 #+begin_src ruby :session ruby-remote :dir /yakuba:
 <<dir-test-ruby-value>>
 #+end_src
@@ -286,16 +283,14 @@ system("pwd")
 #+end_src
 
 #+results:
-| Sat Feb 20 21:01:46 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /tmp |
+| Sun Feb 21 01:08:50 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
 ********* WORKS remote
-	  This works because results are not transferred via file for python :session :results value
-
 #+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
 <<dir-test-python-value>>
 #+end_src
 
 #+results:
-| Sun Feb 21 02:01:57 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+| Sun Feb 21 06:08:57 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
 ******* WORKS shell
 ********* code
 #+source: dir-test-shell-value
@@ -315,15 +310,15 @@ system("pwd")
 #+end_src
 
 #+results:
-| Luscinia |
+| This is the last line |
 ********* WORKS remote
 #+begin_src sh :session sh-remote :dir /davison@oak.well.ox.ac.uk:bench :results vector
   <<dir-test-shell-value>>
 #+end_src
 
 #+results:
-| oak |
-
+| This is the last line |
+  
 ***** WORKS non-session
     :PROPERTIES:
     :session: none
@@ -335,8 +330,9 @@ system("pwd")
 #+end_src
 
 #+results:
-| Luscinia  |
-| /home/dan |
+| Sun       | Feb | 21 | 01:10:26 | 2010 |
+| Luscinia  |     |    |          |      |
+| /home/dan |     |    |          |      |
 ********* WORKS remote
 	  Runs remotely, but no results returned
 #+begin_src R :dir /davison@oak.well.ox.ac.uk:~
@@ -347,8 +343,9 @@ system("pwd")
 #+end_src
 
 #+results:
-| oak           |
-| /home/davison |
+| Sun           | Feb | 21 | 06:10:34 | 2010 |
+| oak           |     |    |          |      |
+| /home/davison |     |    |          |      |
 ******* ruby
 ********* WORKS local
 #+begin_src ruby :dir /home/dan
@@ -379,7 +376,7 @@ return [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
 
 #+results:
-| Sat Feb 20 21:27:03 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+| Sun Feb 21 01:10:57 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
 ********* WORKS remote
 	  Runs remotely but no results returned
 #+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
@@ -387,7 +384,7 @@ return [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
 
 #+results:
-| Sun Feb 21 04:47:34 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+| Sun Feb 21 06:11:10 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
 ******* shell
 ********* WORKS local
 #+begin_src sh :dir /tmp

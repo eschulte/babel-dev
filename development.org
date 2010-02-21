@@ -4019,7 +4019,22 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/77]
+* Bugs [53/78]
+** PROPOSED Revisit field delimiter behaviour
+   - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
+
+     The table below might be considered not to be the desired table,
+     in that it should perhaps have had just one column.
+
+#+begin_src R :results value
+  c(date(), system("hostname", intern=TRUE), getwd())
+#+end_src
+
+#+results:
+| Sun                 | Feb | 21 | 01:05:13 | 2010 |
+| Luscinia            |     |    |          |      |
+| /home/dan/babel-dev |     |    |          |      |
+
 ** PROPOSED shell-command-on-region calls
    Can we double check this at some point:
 
