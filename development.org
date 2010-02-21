@@ -4019,7 +4019,18 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/76]
+* Bugs [53/77]
+** PROPOSED shell-command-on-region calls
+   Can we double check this at some point:
+
+   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
+
+   Note that replace is 5th argument, not 4th:
+   
+   (shell-command-on-region start end command &optional output-buffer
+   replace error-buffer display-error-buffer)
+
+   - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
 ** TODO noweb/shell ':session :results value' bug
    - State "TODO"       from ""           [2010-02-19 Fri 13:27]
      
