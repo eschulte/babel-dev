@@ -442,13 +442,166 @@ With the above "spec", I guess all cases are covered. What do you think?
    - State "PROPOSED"   from "TODO"       [2010-02-14 Sun 14:00]
    - State "TODO"       from "TODO"       [2010-02-14 Sun 10:41]
 
-     This is working for R, ruby, python and shell. We need to extend
-     some of the changes to some of the other languages, e.g. make
-     sure that they construct remote file names when attemtping to
-     read remote data, as in 010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
-
      Working directory is specified using :dir. If this is remote,
      then processes run remotely.
+
+     This is basically working for R, ruby, python and shell (branch
+     ded-babel-remote). Tasks remaining include:
+
+*** TODO Improve the way call-process-region is handled
+    - State "TODO"       from ""           [2010-02-21 Sun 16:53]
+
+      At line 217 of org-babel.el, we rebind call-process-region so
+      that a handler from tramp is used:
+      
+#+begin_src emacs-lisp
+      (let (
+      ...
+      (call-process-region-original (symbol-function 'call-process-region))
+      result)
+    ;; (message "params=%S" params) ;; debugging
+  (flet ((call-process-region (&rest args)
+                              (apply 'org-babel-tramp-handle-call-process-region args)))
+#+end_src
+
+			      Currently, there is a bug in that if we try to run the tests, a
+      number of them fail. Furthermore, afterwards, it seems that 
+
+      (symbol-function 'call-process-region))
+
+      returns the rebound definition made in the flet, rather than the
+      original definition, despite the fact that the flet has
+      terminated.
+
+      This all needs to be fixed.
+      
+*** TODO Improve temp file creation and remote reading
+    - State "TODO"       from ""           [2010-02-21 Sun 17:02]
+      See reply from Michael Albinus
+**** Email from Dan
+     From: Dan Davison <davison@stats.ox.ac.uk>
+     Subject: retrieving output from temp file
+     User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+     Date: Sun, 21 Feb 2010 11:39:33 -0500
+     To: tramp-devel@gnu.org
+
+     I want to retrieve the contents of a file created by a shell process,
+     which might be running remotely. My code (below) works, but I am trying
+     to learn how to use tramp, and I think that this is not how it would be
+     done by someone who knew what they were doing.
+
+     (defun retrieve-output ()
+     (let ((default-directory "/user@host:dirpath")
+     (output-file (make-temp-file "zzz-")))
+     (shell-command (format "hostname > %s" output-file))
+     (insert-file-contents
+     (if (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
+
+     (defun make-remote-file-name (file)
+     (let* ((vec (tramp-dissect-file-name default-directory))
+     (user (tramp-file-name-user vec))
+     (host (tramp-file-name-host vec)))
+     (concat "/" user (when user "@") host ":" file)))
+
+     (retrieve-output)
+
+     If default-directory is not remote, then I want this to work for someone
+     who does not have tramp installed (because aIui an XEmacs user might not
+     have tramp?)
+
+     In my case I *do* need to store the output in a file. I.e. although in
+     the example above the output is created by redirecting stdout to file,
+     in general the output of the remote process will not be on stdout (the
+     output file will be created in some other way by the shell process).
+
+     One thing that feels like a hack is the way that, when the process runs
+     remotely, I manually convert the temp file path into a remote file path.
+
+     Another problem is that with my code there is no guarantee that the temp
+     file name doesn't already exist on the remote host.
+
+     Thanks a lot,
+
+     Dan
+
+**** reply from Michael Albinus
+     From: Michael Albinus <michael.albinus@gmx.de>
+     Subject: Re: retrieving output from temp file
+     User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.92 (gnu/linux)
+     Date: Sun, 21 Feb 2010 18:57:51 +0100
+     To: Dan Davison <davison@stats.ox.ac.uk>
+     Cc: tramp-devel@gnu.org
+
+     Dan Davison <davison@stats.ox.ac.uk> writes:
+
+     > I want to retrieve the contents of a file created by a shell process,
+     > which might be running remotely. My code (below) works, but I am trying
+     > to learn how to use tramp, and I think that this is not how it would be
+     > done by someone who knew what they were doing.
+
+     What about
+
+     (process-file "process" nil t)
+
+     > If default-directory is not remote, then I want this to work for someone
+     > who does not have tramp installed (because aIui an XEmacs user might not
+     > have tramp?)
+
+     It works also for a local `default-directory'. XEmacs comes with Tramp
+     2.0, but it doesn't know `process-file' (yet).
+
+     > In my case I *do* need to store the output in a file. I.e. although in
+     > the example above the output is created by redirecting stdout to file,
+     > in general the output of the remote process will not be on stdout (the
+     > output file will be created in some other way by the shell process).
+
+     This case, I would do
+
+     (defun retrieve-output ()
+     (let ((tmpfile
+     (make-temp-file
+     (concat (file-remote-p default-directory) "/tmp/zzz-"))))
+     (unwind-protect
+     (progn
+     (process-file
+     "process" nil nil nil
+     (or (file-remote-p tmpfile 'localname) tmpfile))
+     (insert-file-contents tmpfile))
+     (delete-file tmpfile))))
+
+     (retrieve-output)
+
+     I have added the local file name part of tmpfile to the `process-file'
+     call; it depends on the "process" command, where it does expect the
+     output file.
+
+     > One thing that feels like a hack is the way that, when the process runs
+     > remotely, I manually convert the temp file path into a remote file path.
+
+     `make-temp-file' works also wit a remote prefix, as you see.
+
+     > Another problem is that with my code there is no guarantee that the temp
+     > file name doesn't already exist on the remote host.
+
+     With this approach, `make-temp-file' does it for you.
+
+     > Thanks a lot,
+     >
+     > Dan
+
+     Best regards, Michael.
+
+*** TODO Extend to other languages
+    - State "TODO"       from ""           [2010-02-21 Sun 16:52]
+
+      We need to extend some of the changes to some of the other
+      languages, e.g. make sure that they construct remote file names
+      when attemtping to read remote data, as in
+      010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
+
+     
+
+
 
 *** DONE Improve support for :session t :results output
     - State "DONE"       from "TODO"       [2010-02-21 Sun 00:48]
