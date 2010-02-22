@@ -4234,6 +4234,11 @@ dot("$(2a,0)$",(2,0),N+E);
    replace error-buffer display-error-buffer)
 
    - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
+   Yes, people agree that this is a bug in emacs. A bug report has
+   been filed. So those calls should be something like
+
+   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
+
 ** TODO noweb/shell ':session :results value' bug
    - State "TODO"       from ""           [2010-02-19 Fri 13:27]
      
