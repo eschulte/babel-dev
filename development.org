@@ -435,7 +435,8 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** TODO Working directories and remote execution
+** STARTED Working directories and remote execution
+   - State "STARTED"    from "TODO"       [2010-02-22 Mon 14:41]
    - State "TODO"       from "DONE"       [2010-02-21 Sun 01:16]
    - State "DONE"       from "STARTED"    [2010-02-21 Sun 00:50]
    - State "STARTED"    from "PROPOSED"   [2010-02-18 Thu 17:54]
@@ -445,10 +446,29 @@ With the above "spec", I guess all cases are covered. What do you think?
      Working directory is specified using :dir. If this is remote,
      then processes run remotely.
 
-     This is basically working for R, ruby, python and shell (branch
-     ded-babel-remote). Tasks remaining include:
+     There is a working implementation for R, ruby, python and shell
+     (branch ded-babel-remote).
+
+     One issue discussed [[tramp-handle-call-process-region][below]] is that, as things stand in emacs,
+     shell-command-on-region does not use tramp to handle the case of
+     a remote default-directory (unlike shell-command).
+
+     The underlying reason is that call-process-region does not use
+     tramp. The current working solution is, instead of using
+     call-process-region, to use an org-babel version of the tramp
+     handler for call-process-region (this handler is present but
+     unused in tramp).
+
+     The current implementation does that only when default-directory
+     is remote; otherwise we call the emacs version of
+     call-process-region.
+
 
 *** TODO Improve the way call-process-region is handled
+    :PROPERTIES:
+    :CUSTOM_ID: tramp-handle-call-process-region
+    :END:
+
     - State "TODO"       from ""           [2010-02-21 Sun 16:53]
 
       At line 217 of org-babel.el, we rebind call-process-region so
@@ -490,20 +510,23 @@ With the above "spec", I guess all cases are covered. What do you think?
      to learn how to use tramp, and I think that this is not how it would be
      done by someone who knew what they were doing.
 
-     (defun retrieve-output ()
-     (let ((default-directory "/user@host:dirpath")
-     (output-file (make-temp-file "zzz-")))
-     (shell-command (format "hostname > %s" output-file))
-     (insert-file-contents
-     (if (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
+#+begin_src emacs-lisp 
+  (defun retrieve-output ()
+    (let ((default-directory "/user@host:dirpath")
+          (output-file (make-temp-file "zzz-")))
+      (shell-command (format "hostname > %s" output-file))
+      (insert-file-contents
+       (if (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
+  
+  (defun make-remote-file-name (file)
+    (let* ((vec (tramp-dissect-file-name default-directory))
+           (user (tramp-file-name-user vec))
+           (host (tramp-file-name-host vec)))
+      (concat "/" user (when user "@") host ":" file)))
+  
+  (retrieve-output)
+#+end_src
 
-     (defun make-remote-file-name (file)
-     (let* ((vec (tramp-dissect-file-name default-directory))
-     (user (tramp-file-name-user vec))
-     (host (tramp-file-name-host vec)))
-     (concat "/" user (when user "@") host ":" file)))
-
-     (retrieve-output)
 
      If default-directory is not remote, then I want this to work for someone
      who does not have tramp installed (because aIui an XEmacs user might not
@@ -557,19 +580,21 @@ With the above "spec", I guess all cases are covered. What do you think?
 
      This case, I would do
 
-     (defun retrieve-output ()
-     (let ((tmpfile
-     (make-temp-file
-     (concat (file-remote-p default-directory) "/tmp/zzz-"))))
-     (unwind-protect
-     (progn
-     (process-file
-     "process" nil nil nil
-     (or (file-remote-p tmpfile 'localname) tmpfile))
-     (insert-file-contents tmpfile))
-     (delete-file tmpfile))))
-
-     (retrieve-output)
+#+begin_src emacs-lisp
+  (defun retrieve-output ()
+    (let ((tmpfile
+           (make-temp-file
+            (concat (file-remote-p default-directory) "/tmp/zzz-"))))
+      (unwind-protect
+          (progn
+            (process-file
+             "process" nil nil nil
+             (or (file-remote-p tmpfile 'localname) tmpfile))
+            (insert-file-contents tmpfile))
+        (delete-file tmpfile))))
+  
+  (retrieve-output)
+#+end_src
 
      I have added the local file name part of tmpfile to the `process-file'
      call; it depends on the "process" command, where it does expect the
@@ -987,14 +1012,18 @@ noweb expansion system...
 : could then define a hook, and have a clean extendable solution.  
 #+end_quote
 
-** PROPOSED asynchronous 
-This may duplicate some of the contents of the
-[[rework-running-proc-interaction]] task.
+** PROPOSED asynchronous
+   :PROPERTIES:
+   :CUSTOM_ID: asynchronous-execution
+   :END: 
 
-Basically it would be great to be able to run processes asynchronously
-in the background.  Emacs has support for and even encourages this, it
-would just be a question of make the changes both for sessions and
-non-session evaluation.
+   This may duplicate some of the contents of the
+   [[rework-running-proc-interaction]] task.
+   
+   Basically it would be great to be able to run processes asynchronously
+   in the background.  Emacs has support for and even encourages this, it
+   would just be a question of make the changes both for sessions and
+   non-session evaluation.
 
 ** TODO documentation
 our documentation has fallen behind our development.  We should:
@@ -2168,9 +2197,9 @@ mean(mean(vec))
 #+end_src
 
 *** DEFERRED use =C-g= keyboard-quit to push processing into the background
-This may be possible using the `run-with-timer' command.
+    This may be possible using the `run-with-timer' command.
 
-I have no idea how this could work...
+    I have no idea how this could work...
 
 #+srcname: long-runner-ruby
 #+begin_src ruby :results silent
