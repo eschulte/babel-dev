@@ -1,0 +1,447 @@
+#+seq_todo: TODO DOESN'T_WORK | WORKS
+
+* Test local and remote working dirs
+    :PROPERTIES:
+    :noweb: yes
+    :END:
+*** WORKS :results output
+    :PROPERTIES:
+    :results: output
+    :END:
+***** WORKS :session
+******* WORKS R
+********* code
+#+source: dir-test-R
+#+begin_src R 
+  date()
+  system("hostname")
+  getwd()
+#+end_src
+
+********* WORKS local
+#+begin_src R :session R-local :dir /tmp
+<<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Sun Feb 21 01:00:49 2010"
+: Luscinia
+: [1] "/tmp"
+      
+********* WORKS remote
+#+begin_src R :session R-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Sun Feb 21 06:01:05 2010"
+: oak
+: [1] "/data/oak/user/davison/bench"
+
+******* WORKS ruby
+********* code
+#+source: dir-test-ruby
+#+begin_src ruby
+system("date")
+system("hostname")
+system("pwd")
+#+end_src
+
+********* WORKS local
+#+begin_src ruby :session ruby-local :dir /tmp
+<<dir-test-ruby>>
+#+end_src
+
+#+results:
+: 
+: Sun Feb 21 01:01:11 EST 2010
+: true
+: Luscinia
+: true
+: /tmp
+: true
+
+********* WORKS remote
+#+begin_src ruby :session ruby-remote :dir /yakuba:/tmp
+<<dir-test-ruby>>
+#+end_src
+
+#+results:
+: 
+: Sun Feb 21 00:58:41 EST 2010
+: true
+: yakuba.princeton.edu
+: true
+: /tmp
+: true
+******* WORKS python
+********* code
+#+source: dir-test-python
+#+begin_src python
+  import os, time
+  print time.ctime()
+  print os.uname()
+  print os.getcwd()
+  print '\n' ## We have a bug involving losing final lines
+#+end_src
+
+********* WORKS local
+#+begin_src python :session python-local :dir /home/dan/
+  <<dir-test-python>>
+#+end_src
+
+#+results:
+: Sun Feb 21 01:01:26 2010
+: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: /home/dan
+********* WORKS remote
+#+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-python>>
+#+end_src
+
+#+results:
+: Sun Feb 21 06:01:36 2010
+: ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
+: /data/oak/user/davison/bench
+
+******* WORKS shell
+********* code
+#+source: dir-test-shell
+#+begin_src sh
+  date
+  hostname
+  pwd
+#+end_src
+
+********* WORKS local
+#+begin_src sh :session sh-local :dir /tmp
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Sun Feb 21 01:01:45 EST 2010
+: Luscinia
+: /tmp
+********* WORKS remote
+#+begin_src sh :session sh-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Sun Feb 21 06:01:57 GMT 2010
+: oak
+: /home/davison/bench
+***** WORKS non-session
+    :PROPERTIES:
+    :session: none
+    :END:
+******* WORKS R
+********* WORKS local
+#+begin_src R :dir /home/dan
+<<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Sun Feb 21 01:02:07 2010"
+: Luscinia
+: [1] "/home/dan"
+********* WORKS remote
+#+begin_src R :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Sun Feb 21 06:02:16 2010"
+: oak
+: [1] "/data/oak/user/davison/bench"
+
+******* WORKS ruby
+********* WORKS local
+#+begin_src ruby :dir /home/dan
+<<dir-test-ruby>>
+#+end_src
+
+#+results:
+: Sun Feb 21 01:02:29 EST 2010
+: Luscinia
+: /home/dan
+********* WORKS remote
+#+begin_src ruby :dir /yakuba:~
+  <<dir-test-ruby>>
+#+end_src
+
+#+results:
+: Sun Feb 21 06:00:00 UTC 2010
+: yakuba.princeton.edu
+: /data/dan
+******* WORKS python
+********* WORKS local
+#+begin_src python :dir /home/dan/
+<<dir-test-python>>
+#+end_src
+
+#+results:
+: Sun Feb 21 01:02:40 2010
+: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: /home/dan
+: 
+: 
+********* WORKS remote
+#+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-python>>
+#+end_src
+
+#+results:
+: Sun Feb 21 06:02:46 2010
+: ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
+: /data/oak/user/davison/bench
+: 
+: 
+******* WORKS shell
+********* WORKS local
+#+begin_src sh :dir /tmp
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Sun Feb 21 01:02:53 EST 2010
+: Luscinia
+: /tmp
+********* WORKS remote
+#+begin_src sh :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Sun Feb 21 06:03:02 UTC 2010
+: oak
+: /home/davison/bench
+*** WORKS :results value
+    :PROPERTIES:
+    :results: value
+    :END:
+***** WORKS :session
+******* WORKS R
+********* code
+#+source: dir-test-R-value
+#+begin_src R 
+  c(date(), system("hostname", intern=TRUE), getwd())
+#+end_src
+
+********* WORKS local
+#+begin_src R :session R-local :dir /tmp
+  <<dir-test-R-value>>
+#+end_src
+
+#+results:
+| Sun      | Feb | 21 | 01:03:39 | 2010 |
+| Luscinia |     |    |          |      |
+| /tmp     |     |    |          |      |
+********* WORKS remote
+	  The data is written remotely, but currently we attempt to
+          read it locally.
+#+begin_src R :session R-remote :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-R-value>>
+#+end_src
+
+#+results:
+| Sun                          | Feb | 21 | 06:08:15 | 2010 |
+| oak                          |     |    |          |      |
+| /data/oak/user/davison/bench |     |    |          |      |
+******* WORKS ruby
+********* code
+#+source: dir-test-ruby-value
+#+begin_src ruby
+  [1, 2]
+#+end_src
+
+********* WORKS local
+#+begin_src ruby :session ruby-local :dir /tmp
+<<dir-test-ruby-value>>
+#+end_src
+
+#+results:
+| 1 | 2 |
+********* WORKS remote
+#+begin_src ruby :session ruby-remote :dir /yakuba:
+<<dir-test-ruby-value>>
+#+end_src
+
+#+results:
+| 1 | 2 |
+******* WORKS python
+********* code
+#+source: dir-test-python-value
+#+begin_src python
+  import os, time
+  [time.ctime(), os.uname(),os.getcwd()]
+#+end_src
+
+********* WORKS local
+#+begin_src python :session python-local :dir /tmp
+<<dir-test-python-value>>
+#+end_src
+
+#+results:
+| Sun Feb 21 01:08:50 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+********* WORKS remote
+#+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-python-value>>
+#+end_src
+
+#+results:
+| Sun Feb 21 06:08:57 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+******* WORKS shell
+********* code
+#+source: dir-test-shell-value
+#+begin_src sh
+  echo This is the first line
+  echo There should have been a line before me
+  echo `hostname`
+  echo `pwd`
+  echo There should be a line after me
+  echo This is the last line
+#+end_src
+
+********* WORKS local
+	  But Looks like a shell ':session :results value' bug here.
+#+begin_src sh :session sh-local :dir /tmp :results vector
+<<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This is the last line |
+********* WORKS remote
+#+begin_src sh :session sh-remote :dir /davison@oak.well.ox.ac.uk:bench :results vector
+  <<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This is the last line |
+  
+***** WORKS non-session
+    :PROPERTIES:
+    :session: none
+    :END:
+******* R
+********* WORKS local
+#+begin_src R :dir /home/dan
+  <<dir-test-R-value>>
+#+end_src
+
+#+results:
+| Sun       | Feb | 21 | 01:10:26 | 2010 |
+| Luscinia  |     |    |          |      |
+| /home/dan |     |    |          |      |
+********* WORKS remote
+	  Runs remotely, but no results returned
+#+begin_src R :dir /davison@oak.well.ox.ac.uk:~
+  <<dir-test-R-value>>
+  ## system("date >> /tmp/babel-R")
+  ## system("echo hello-from-R >> /tmp/babel-R")
+  ## system("hostname")
+#+end_src
+
+#+results:
+| Sun           | Feb | 21 | 06:10:34 | 2010 |
+| oak           |     |    |          |      |
+| /home/davison |     |    |          |      |
+******* ruby
+********* WORKS local
+#+begin_src ruby :dir /home/dan
+  <<dir-test-ruby-value>>
+#+end_src
+
+#+results:
+| 1 | 2 |
+********* WORKS remote
+	  Runs remotely, but no results returned
+#+begin_src ruby :dir /yakuba:
+  [1,2]
+#+end_src
+
+#+results:
+| 1 | 2 |
+******* python
+********* code
+#+source: dir-test-python-value-nonsession
+#+begin_src python
+import os, time
+return [time.ctime(), os.uname(),os.getcwd()]
+#+end_src
+
+********* WORKS local
+#+begin_src python :dir /home/dan/
+  <<dir-test-python-value-nonsession>>
+#+end_src
+
+#+results:
+| Sun Feb 21 01:10:57 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+********* WORKS remote
+	  Runs remotely but no results returned
+#+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-python-value-nonsession>>
+#+end_src
+
+#+results:
+| Sun Feb 21 06:11:10 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+******* shell
+********* WORKS local
+#+begin_src sh :dir /tmp
+  <<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This     | is     | the  | first | line |       |        |    |
+| There    | should | have | been  | a    | line  | before | me |
+| Luscinia |        |      |       |      |       |        |    |
+| /tmp     |        |      |       |      |       |        |    |
+| There    | should | be   | a     | line | after | me     |    |
+| This     | is     | the  | last  | line |       |        |    |
+********* WORKS remote
+#+begin_src sh :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This                | is     | the  | first | line |       |        |    |
+| There               | should | have | been  | a    | line  | before | me |
+| oak                 |        |      |       |      |       |        |    |
+| /home/davison/bench |        |      |       |      |       |        |    |
+| There               | should | be   | a     | line | after | me     |    |
+| This                | is     | the  | last  | line |       |        |    |
+
+* Test file output dir
+*** TODO ditaa
+    Output file path is relative to :dir, but link is not.
+#+begin_src ditaa :file ditaa-org-babel.png :cmdline -r :dir /tmp
++-----------+
+| cBLU      |
+| Org       |
+|    +------+
+|    |cPNK  |
+|    |babel |
+|    |      |
++----+------+
+#+end_src
+
+#+results:
+[[file:ditaa-org-babel.png]]
+
+* results value implementation
+
+Are results transferred to elisp via file?
+
+| language | session | shell process |
+|----------+---------+---------------|
+| R        | yes     | yes           |
+| ruby     | no      | yes           |
+| python   | no      | yes           |
+| shell    | no      | no            |
+| haskell  | no      | NA            |
+
+The main point is that in ruby and python, the printed values from the
+interpreter can be used as results, whereas that's not really
+attractive for R. However, one minor point is: ought we to consider
+(in the interests of consistency) not using files for ruby
+shell-process and python shell-process?

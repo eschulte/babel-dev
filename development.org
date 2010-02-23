@@ -3,14 +3,20 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/108]
+* Tasks [63/110]
 ** DONE added support for Oz
+   - State "DONE"       from "DONE"       [2010-02-23 Tue 07:33]
    - State "DONE"       from ""           [2010-02-17 Wed 08:24]
 
 Thanks to Torsten Anders for sharing Org-babel support for the [[http://www.mozart-oz.org/][Oz
 programming language]]!
 
 For complete information see the [[http://orgmode.org/worg/org-contrib/babel/languages/org-babel-doc-oz.php][org-babel-doc-oz]] page on Worg.
+
+** TODO Store interpreter executable names and command-line arguments in variables
+   - State "TODO"       from ""           [2010-02-20 Sat 12:22]
+** PROPOSED More diligent cleaning up of temp files
+   - State "PROPOSED"   from ""           [2010-02-20 Sat 12:22]
 
 ** TODO How do we check that block output is identical to previous output?
    - State "TODO"       from ""           [2010-02-14 Sun 18:24]
@@ -439,15 +445,213 @@ With the above "spec", I guess all cases are covered. What do you think?
    a new minor mode I guess.
 ** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
    I think we may want to set this variable to 'others
-** PROPOSED Remote execution
+** STARTED Working directories and remote execution
+   - State "STARTED"    from "TODO"       [2010-02-22 Mon 14:41]
+   - State "TODO"       from "DONE"       [2010-02-21 Sun 01:16]
+   - State "DONE"       from "STARTED"    [2010-02-21 Sun 00:50]
+   - State "STARTED"    from "PROPOSED"   [2010-02-18 Thu 17:54]
    - State "PROPOSED"   from "TODO"       [2010-02-14 Sun 14:00]
    - State "TODO"       from "TODO"       [2010-02-14 Sun 10:41]
 
-   :session t :results output works already for a session running
-   remotely, but we might like to get some of the other possibilities
-   working.
+     Working directory is specified using :dir. If this is remote,
+     then processes run remotely.
 
-*** TODO :session t :results value
+     There is a working implementation for R, ruby, python and shell
+     (branch ded-babel-remote).
+
+     One issue discussed [[tramp-handle-call-process-region][below]] is that, as things stand in emacs,
+     shell-command-on-region does not use tramp to handle the case of
+     a remote default-directory (unlike shell-command).
+
+     The underlying reason is that call-process-region does not use
+     tramp. The current working solution is, instead of using
+     call-process-region, to use an org-babel version of the tramp
+     handler for call-process-region (this handler is present but
+     unused in tramp).
+
+     The current implementation does that only when default-directory
+     is remote; otherwise we call the emacs version of
+     call-process-region.
+
+
+*** TODO Improve the way call-process-region is handled
+    :PROPERTIES:
+    :CUSTOM_ID: tramp-handle-call-process-region
+    :END:
+
+    - State "TODO"       from ""           [2010-02-21 Sun 16:53]
+
+      At line 217 of org-babel.el, we rebind call-process-region so
+      that a handler from tramp is used:
+      
+#+begin_src emacs-lisp
+      (let (
+      ...
+      (call-process-region-original (symbol-function 'call-process-region))
+      result)
+    ;; (message "params=%S" params) ;; debugging
+  (flet ((call-process-region (&rest args)
+                              (apply 'org-babel-tramp-handle-call-process-region args)))
+#+end_src
+
+			      Currently, there is a bug in that if we try to run the tests, a
+      number of them fail. Furthermore, afterwards, it seems that 
+
+      (symbol-function 'call-process-region))
+
+      returns the rebound definition made in the flet, rather than the
+      original definition, despite the fact that the flet has
+      terminated.
+
+      This all needs to be fixed.
+      
+*** TODO Improve temp file creation and remote reading
+    - State "TODO"       from ""           [2010-02-21 Sun 17:02]
+      See reply from Michael Albinus
+**** Email from Dan
+     From: Dan Davison <davison@stats.ox.ac.uk>
+     Subject: retrieving output from temp file
+     User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+     Date: Sun, 21 Feb 2010 11:39:33 -0500
+     To: tramp-devel@gnu.org
+
+     I want to retrieve the contents of a file created by a shell process,
+     which might be running remotely. My code (below) works, but I am trying
+     to learn how to use tramp, and I think that this is not how it would be
+     done by someone who knew what they were doing.
+
+#+begin_src emacs-lisp 
+  (defun retrieve-output ()
+    (let ((default-directory "/user@host:dirpath")
+          (output-file (make-temp-file "zzz-")))
+      (shell-command (format "hostname > %s" output-file))
+      (insert-file-contents
+       (if (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
+  
+  (defun make-remote-file-name (file)
+    (let* ((vec (tramp-dissect-file-name default-directory))
+           (user (tramp-file-name-user vec))
+           (host (tramp-file-name-host vec)))
+      (concat "/" user (when user "@") host ":" file)))
+  
+  (retrieve-output)
+#+end_src
+
+
+     If default-directory is not remote, then I want this to work for someone
+     who does not have tramp installed (because aIui an XEmacs user might not
+     have tramp?)
+
+     In my case I *do* need to store the output in a file. I.e. although in
+     the example above the output is created by redirecting stdout to file,
+     in general the output of the remote process will not be on stdout (the
+     output file will be created in some other way by the shell process).
+
+     One thing that feels like a hack is the way that, when the process runs
+     remotely, I manually convert the temp file path into a remote file path.
+
+     Another problem is that with my code there is no guarantee that the temp
+     file name doesn't already exist on the remote host.
+
+     Thanks a lot,
+
+     Dan
+
+**** reply from Michael Albinus
+     From: Michael Albinus <michael.albinus@gmx.de>
+     Subject: Re: retrieving output from temp file
+     User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.92 (gnu/linux)
+     Date: Sun, 21 Feb 2010 18:57:51 +0100
+     To: Dan Davison <davison@stats.ox.ac.uk>
+     Cc: tramp-devel@gnu.org
+
+     Dan Davison <davison@stats.ox.ac.uk> writes:
+
+     > I want to retrieve the contents of a file created by a shell process,
+     > which might be running remotely. My code (below) works, but I am trying
+     > to learn how to use tramp, and I think that this is not how it would be
+     > done by someone who knew what they were doing.
+
+     What about
+
+     (process-file "process" nil t)
+
+     > If default-directory is not remote, then I want this to work for someone
+     > who does not have tramp installed (because aIui an XEmacs user might not
+     > have tramp?)
+
+     It works also for a local `default-directory'. XEmacs comes with Tramp
+     2.0, but it doesn't know `process-file' (yet).
+
+     > In my case I *do* need to store the output in a file. I.e. although in
+     > the example above the output is created by redirecting stdout to file,
+     > in general the output of the remote process will not be on stdout (the
+     > output file will be created in some other way by the shell process).
+
+     This case, I would do
+
+#+begin_src emacs-lisp
+  (defun retrieve-output ()
+    (let ((tmpfile
+           (make-temp-file
+            (concat (file-remote-p default-directory) "/tmp/zzz-"))))
+      (unwind-protect
+          (progn
+            (process-file
+             "process" nil nil nil
+             (or (file-remote-p tmpfile 'localname) tmpfile))
+            (insert-file-contents tmpfile))
+        (delete-file tmpfile))))
+  
+  (retrieve-output)
+#+end_src
+
+     I have added the local file name part of tmpfile to the `process-file'
+     call; it depends on the "process" command, where it does expect the
+     output file.
+
+     > One thing that feels like a hack is the way that, when the process runs
+     > remotely, I manually convert the temp file path into a remote file path.
+
+     `make-temp-file' works also wit a remote prefix, as you see.
+
+     > Another problem is that with my code there is no guarantee that the temp
+     > file name doesn't already exist on the remote host.
+
+     With this approach, `make-temp-file' does it for you.
+
+     > Thanks a lot,
+     >
+     > Dan
+
+     Best regards, Michael.
+
+*** TODO Extend to other languages
+    - State "TODO"       from ""           [2010-02-21 Sun 16:52]
+
+      We need to extend some of the changes to some of the other
+      languages, e.g. make sure that they construct remote file names
+      when attemtping to read remote data, as in
+      010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
+
+     
+
+
+
+*** DONE Improve support for :session t :results output
+    - State "DONE"       from "TODO"       [2010-02-21 Sun 00:48]
+    - State "TODO"       from ""           [2010-02-16 Tue 13:59]
+      
+**** DEFERRED :dir has no effect on existing session
+     - State "DEFERRED"   from "TODO"       [2010-02-21 Sun 00:48]
+     - State "TODO"       from ""           [2010-02-16 Tue 15:53]
+
+       Should we warn user in this case? (In general o-b tends to
+       silently ignore some nonsensical header args at the moment I
+       think)
+
+*** DONE :session t :results value
+    - State "DONE"       from "TODO"       [2010-02-21 Sun 00:49]
     :PROPERTIES:
     :CUSTOM_ID: remote-results-value
     :END:
@@ -493,33 +697,33 @@ With the above "spec", I guess all cases are covered. What do you think?
       is working quite adequately; I've only occasionally felt the
       need for ':results value'. [Dan]
 
-      
-*** TODO external process evaluation on remote machines
+*** DONE external process evaluation on remote machines
+    - State "DONE"       from "TODO"       [2010-02-21 Sun 00:50]
     - State "TODO" from "" [2010-02-11 Thu 14:49]
 
       We need:
-    - A way to specify the machine on which a remote process should be
-      run (and to retrieve stdout/stderr)
-    - A way of retrieving file contents in the case of :results value.
+      - A way to specify the machine on which a remote process should be
+       	run (and to retrieve stdout/stderr)
+      - A way of retrieving file contents in the case of :results value.
 
-    The second of the above should be handled by the
-    [[remote-results-value]] case above.  As for telling org-babel to
-    start the process on a remote machine, it's not immediately clear
-    to me how that would work.
-    
-    The first thing that occurs to me is that maybe if we accept a
-    path so that a buffer on the remote machine can be opened using
-    tramp then we can switch to that buffer and remote execution will
-    happen naturally in a language-agnostic way.  This is a slight
-    automation of the process described above.  So something like
-    
-    : #+begin_src clojure :host my-other-machine:~/some-file
-    :   (println (System/getProperties))
-    : #+end_src
-    
-    would result in Org-babel first opening a buffer with the value of
-    =:host= and then running through the same execution pattern as
-    above.
+      The second of the above should be handled by the
+      [[remote-results-value]] case above.  As for telling org-babel to
+      start the process on a remote machine, it's not immediately clear
+      to me how that would work.
+      
+      The first thing that occurs to me is that maybe if we accept a
+      path so that a buffer on the remote machine can be opened using
+      tramp then we can switch to that buffer and remote execution will
+      happen naturally in a language-agnostic way.  This is a slight
+      automation of the process described above.  So something like
+      
+      : #+begin_src clojure :host my-other-machine:~/some-file
+      :   (println (System/getProperties))
+      : #+end_src
+      
+      would result in Org-babel first opening a buffer with the value of
+      =:host= and then running through the same execution pattern as
+      above.
 
 ** TODO byte-compile elisp on tangle
    - State "TODO"       from "PROPOSED"   [2009-12-21 Mon 12:50]
@@ -818,14 +1022,18 @@ noweb expansion system...
 : could then define a hook, and have a clean extendable solution.  
 #+end_quote
 
-** PROPOSED asynchronous 
-This may duplicate some of the contents of the
-[[rework-running-proc-interaction]] task.
+** PROPOSED asynchronous
+   :PROPERTIES:
+   :CUSTOM_ID: asynchronous-execution
+   :END: 
 
-Basically it would be great to be able to run processes asynchronously
-in the background.  Emacs has support for and even encourages this, it
-would just be a question of make the changes both for sessions and
-non-session evaluation.
+   This may duplicate some of the contents of the
+   [[rework-running-proc-interaction]] task.
+   
+   Basically it would be great to be able to run processes asynchronously
+   in the background.  Emacs has support for and even encourages this, it
+   would just be a question of make the changes both for sessions and
+   non-session evaluation.
 
 ** TODO documentation
 our documentation has fallen behind our development.  We should:
@@ -1999,9 +2207,9 @@ mean(mean(vec))
 #+end_src
 
 *** DEFERRED use =C-g= keyboard-quit to push processing into the background
-This may be possible using the `run-with-timer' command.
+    This may be possible using the `run-with-timer' command.
 
-I have no idea how this could work...
+    I have no idea how this could work...
 
 #+srcname: long-runner-ruby
 #+begin_src ruby :results silent
@@ -4009,7 +4217,106 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/71]
+* Bugs [53/78]
+** PROPOSED Revisit field delimiter behaviour
+   - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
+
+     The table below might be considered not to be the desired table,
+     in that it should perhaps have had just one column.
+
+#+begin_src R :results value
+  c(date(), system("hostname", intern=TRUE), getwd())
+#+end_src
+
+#+results:
+| Sun                 | Feb | 21 | 01:05:13 | 2010 |
+| Luscinia            |     |    |          |      |
+| /home/dan/babel-dev |     |    |          |      |
+
+** PROPOSED shell-command-on-region calls
+   Can we double check this at some point:
+
+   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
+
+   Note that replace is 5th argument, not 4th:
+   
+   (shell-command-on-region start end command &optional output-buffer
+   replace error-buffer display-error-buffer)
+
+   - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
+   Yes, people agree that this is a bug in emacs. A bug report has
+   been filed. So those calls should be something like
+
+   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
+
+** TODO noweb/shell ':session :results value' bug
+   - State "TODO"       from ""           [2010-02-19 Fri 13:27]
+     
+#+source: shell-src-block
+#+begin_src sh
+echo 1
+echo 2
+#+end_src
+
+#+results: shell-src-block
+| 1 |
+| 2 |
+
+OK, but now when using noweb reference we only get the last line.
+
+#+begin_src sh :session :noweb yes :results vector
+<<shell-src-block>>
+#+end_src
+
+#+results:
+| 2 |
+
+** TODO python :session :results value not working
+   - State "TODO"       from ""           [2010-02-18 Thu 17:49]
+#+begin_src python :results value :session
+import os, time
+[time.ctime(), os.uname(),os.getcwd()]
+#+end_src
+
+#+results:
+: Thu Feb 18 17:49:38 2010', ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686'), '/home/dan/babel-dev
+
+** TODO fibonacci test failing
+   - State "TODO"       from ""           [2010-02-17 Wed 15:18]
+** PROPOSED quotes getting chomped?
+   - State "PROPOSED"   from ""           [2010-02-16 Tue 16:07]
+
+     Look at second line of output below. Looks like initial and
+     terminal single quotes have been chomped.
+
+*** python
+***** code
+#+source: dir-test-python
+#+begin_src python
+  import os, time
+  print time.ctime()
+  print os.uname()
+  print os.getcwd()
+  print '\n' ## We have a bug involving losing final lines
+#+end_src
+
+***** local
+#+begin_src python :session python-local :dir /home/dan
+<<dir-test-python>>
+#+end_src
+
+#+results:
+: Tue Feb 16 16:06:23 2010
+: Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686
+: /home/dan
+
+** PROPOSED Getting "marker doesn't point anywhere"
+   - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
+     Only on first execution; second is OK. And doesn't occur when stepping through with edebug...
+#+begin_src sh :session sh-local :dir /tmp
+  hostname
+  pwd
+#+end_src
 ** TODO Haskell source blocks can't resolve references
    - State "TODO"       from ""           [2010-02-15 Mon 09:13]
 
@@ -4434,9 +4741,9 @@ echo 7
 echo 6
 #+end_src
 
-
-#+resname:
+#+results:
 : 6
+
 ** TODO point should go to end of comint buffer after execution
 ** DONE python doesn't work with multiple statements per line
    Solved by demanding return statement in python.
@@ -6000,55 +6307,55 @@ org-babel functionality.
 of these tests may fail.
 
 #+TBLNAME: org-babel-tests
-| functionality           | block                      | arg |    expected |     results | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| basic evaluation        |                            |     |             |             | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| emacs lisp              | basic-elisp                |     |           5 |           5 | pass                             |
-| shell                   | basic-shell                |     |           6 |           6 | pass                             |
-| ruby                    | basic-ruby                 |     |   org-babel |   org-babel | pass                             |
-| python                  | basic-python               |     | hello world | hello world | pass                             |
-| R                       | basic-R                    |     |          13 |          13 | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| tables                  |                            |     |             |             | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| emacs lisp              | table-elisp                |     |           3 |           3 | pass                             |
-| ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass                             |
-| python                  | table-python               |     |           5 |           5 | pass                             |
-| R                       | table-R                    |     |         3.5 |         3.5 | pass                             |
-| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass                             |
-| R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| source block references |                            |     |             |             | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| all languages           | chained-ref-last           |     |       Array |       Array | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| source block functions  |                            |     |             |             | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass                             |
-| run over                | Fibonacci                  |   0 |           1 |           1 | pass                             |
-| a                       | Fibonacci                  |   1 |           1 |           1 | pass                             |
-| variety                 | Fibonacci                  |   2 |           2 |           2 | pass                             |
-| of                      | Fibonacci                  |   3 |           3 |           3 | pass                             |
-| different               | Fibonacci                  |   4 |           5 |           5 | pass                             |
-| arguments               | Fibonacci                  |   5 |           8 |           8 | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| bugs and tasks          |                            |     |             |             | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| simple ruby arrays      | ruby-array-test            |     |           3 |           3 | pass                             |
-| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass                             |
-| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |           2 | pass                             |
-| forcing vector results  | test-forced-vector-results |     |       Array |       Array | pass                             |
-| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| sessions                |                            |     |             |             | pass                             |
-|-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
-| set ruby session        | set-ruby-session-var       |     |        :set |      #ERROR | expected ":set" but was "#ERROR" |
-| get from ruby session   | get-ruby-session-var       |     |           3 |      #ERROR | expected "3" but was "#ERROR"    |
-| set python session      | set-python-session-var     |     |         set |         set | pass                             |
-| get from python session | get-python-session-var     |     |           4 |           4 | pass                             |
-| set R session           | set-R-session-var          |     |         set |         set | pass                             |
-| get from R session      | get-R-session-var          |     |           5 |           5 | pass                             |
+| functionality           | block                      | arg |    expected |     results | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| basic evaluation        |                            |     |             |             | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| emacs lisp              | basic-elisp                |     |           5 |           5 | pass                     |
+| shell                   | basic-shell                |     |           6 |           6 | pass                     |
+| ruby                    | basic-ruby                 |     |   org-babel |   org-babel | pass                     |
+| python                  | basic-python               |     | hello world | hello world | pass                     |
+| R                       | basic-R                    |     |          13 |          13 | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| tables                  |                            |     |             |             | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| emacs lisp              | table-elisp                |     |           3 |           3 | pass                     |
+| ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass                     |
+| python                  | table-python               |     |           5 |           5 | pass                     |
+| R                       | table-R                    |     |         3.5 |         3.5 | pass                     |
+| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass                     |
+| R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| source block references |                            |     |             |             | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| all languages           | chained-ref-last           |     |       Array |       Array | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| source block functions  |                            |     |             |             | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass                     |
+| run over                | fibonacci                  |   0 |           1 |           1 | pass                     |
+| a                       | fibonacci                  |   1 |           1 |           1 | pass                     |
+| variety                 | fibonacci                  |   2 |           2 |           1 | expected "2" but was "1" |
+| of                      | fibonacci                  |   3 |           3 |           1 | expected "3" but was "1" |
+| different               | fibonacci                  |   4 |           5 |           1 | expected "5" but was "1" |
+| arguments               | fibonacci                  |   5 |           8 |           1 | expected "8" but was "1" |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| bugs and tasks          |                            |     |             |             | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| simple ruby arrays      | ruby-array-test            |     |           3 |           3 | pass                     |
+| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass                     |
+| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |           2 | pass                     |
+| forcing vector results  | test-forced-vector-results |     |       Array |       Array | pass                     |
+| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| sessions                |                            |     |             |             | pass                     |
+|-------------------------+----------------------------+-----+-------------+-------------+--------------------------|
+| set ruby session        | set-ruby-session-var       |     |        :set |        :set | pass                     |
+| get from ruby session   | get-ruby-session-var       |     |           3 |           3 | pass                     |
+| set python session      | set-python-session-var     |     |         set |         set | pass                     |
+| get from python session | get-python-session-var     |     |           4 |           4 | pass                     |
+| set R session           | set-R-session-var          |     |         set |         set | pass                     |
+| get from R session      | get-R-session-var          |     |           5 |           5 | pass                     |
 #+TBLFM: $5='(if (= (length $3) 1) (progn (message (format "running %S" '(sbe $2 (n $3)))) (sbe $2 (n $3))) (sbe $2))::$6='(if (string= $4 $5) "pass" (format "expected %S but was %S" $4 $5))
 #+TBLFM: $5=""::$6=""
 
