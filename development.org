@@ -4217,7 +4217,29 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/78]
+* Bugs [53/79]
+** TODO python doesn't like hline in tables
+   - State "TODO"       from ""           [2010-02-23 Tue 12:22]
+
+#+results: my-table
+|       Date |   Kg |
+|------------+------|
+| 2010-02-21 | 95.0 |
+| 2010-02-22 | 93.0 |
+| 2010-02-23 | 92.0 |
+| 2010-02-24 | 91.5 |
+| 2010-02-25 | 91.0 |
+| 2010-02-26 | 92.0 |
+
+#+begin_src python :var d=my-table :results output
+print str(d)
+#+end_src
+
+#+results:
+: Traceback (most recent call last):
+:   File "<stdin>", line 1, in <module>
+: NameError: name 'hline' is not defined
+
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
