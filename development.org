@@ -4386,14 +4386,42 @@ import os, time
 
 ** TODO fibonacci test failing
    - State "TODO"       from ""           [2010-02-17 Wed 15:18]
-** PROPOSED quotes getting chomped?
+** DONE quotes getting chomped?
+   - State "DONE"       from "PROPOSED"   [2010-02-23 Tue 22:25]
    - State "PROPOSED"   from ""           [2010-02-16 Tue 16:07]
 
-     Look at second line of output below. Looks like initial and
-     terminal single quotes have been chomped.
+*** commit
+commit 22fc3b2d333e0d440cdc972a6478a834180b188d
+Author: Dan Davison <davison@stats.ox.ac.uk>
+Date:   Fri Feb 19 11:34:16 2010 -0500
 
-*** python
-***** code
+    babel: Fix unquoting of strings
+    
+    Before this change we have
+    
+     #+begin_src ruby :results value :session
+     ["1", "3"]
+     #+end_src
+    
+     #+results:
+     : 1", "3
+    
+     After, we have
+    
+     #+begin_src ruby :results value :session
+     ["1", "3"]
+     #+end_src
+    
+     #+results:
+     | 1 | 3 |
+
+*** bug
+
+      Look at second line of output below. Looks like initial and
+      terminal single quotes have been chomped.
+
+**** python
+****** code
 #+source: dir-test-python
 #+begin_src python
   import os, time
@@ -4403,15 +4431,15 @@ import os, time
   print '\n' ## We have a bug involving losing final lines
 #+end_src
 
-***** local
-#+begin_src python :session python-local :dir /home/dan
-<<dir-test-python>>
+****** local
+#+begin_src python :session python-local :dir /home/dan :noweb yes :results output
+  <<dir-test-python>>
 #+end_src
 
 #+results:
-: Tue Feb 16 16:06:23 2010
-: Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686
-: /home/dan
+: Tue Feb 23 22:24:46 2010
+: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: /home/dan/babel-dev
 
 ** PROPOSED Getting "marker doesn't point anywhere"
    - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
