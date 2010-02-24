@@ -3,7 +3,81 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/110]
+* Tasks [63/112]
+** PROPOSED Handling of table column names across languages 
+   - State "PROPOSED"   from ""           [2010-02-23 Tue 20:04]
+   - State "TODO"       from ""           [2010-02-23 Tue 12:22]
+   :PROPERTIES:
+   :var: d=my-table
+   :END:
+     See also [[*Support%20rownames%20and%20other%20org%20babel%20table%20features][Support rownames and other org babel table features?]]
+     
+#+results: my-table
+|       Date |   Kg |
+|------------+------|
+| 2010-02-21 | 95.0 |
+| 2010-02-22 | 93.0 |
+| 2010-02-23 | 92.0 |
+| 2010-02-24 | 91.5 |
+| 2010-02-25 | 91.0 |
+| 2010-02-26 | 92.0 |
+
+As things stand
+
+*** python
+#+begin_src python :results value
+  return d
+#+end_src
+
+#+results:
+|       Date |   Kg |
+| 2010-02-21 | 95.0 |
+| 2010-02-22 | 93.0 |
+| 2010-02-23 | 92.0 |
+| 2010-02-24 | 91.5 |
+| 2010-02-25 | 91.0 |
+| 2010-02-26 | 92.0 |
+*** R
+#+begin_src R
+d
+#+end_src
+
+#+results:
+| 2010-02-21 |   95 |
+| 2010-02-22 |   93 |
+| 2010-02-23 |   92 |
+| 2010-02-24 | 91.5 |
+| 2010-02-25 |   91 |
+| 2010-02-26 |   92 |
+
+#+results: shell-data
+|       Date |   Kg |
+|------------+------|
+| 2010-02-21 | 95.0 |
+
+*** shell
+#+begin_src sh :var d=shell-data
+echo $d
+#+end_src
+
+Error:
+
+org-babel-sh-var-to-sh wrongly converts 'hline into "hline" resulting
+in error in orgtbl-to-generic. Could change last loine of org-babel-sh-var-to-sh
+
+    (if (stringp var) (format "%s" var) (format "%S" var))))
+
+to
+
+(cond
+ ((eq var 'hline) var)
+ ((stringp var) (format "%s" var))
+ (t (format "%S" var)))
+
+But need to think about whether the hline should even be there at this
+stage, or whether hlines and column names should have been removed (at
+least hlines as 2nd element of elisp table).
+
 ** PROPOSED How do we specify multiple :var references with property drawer?
    - State "PROPOSED"   from ""           [2010-02-23 Tue 19:58]
    :PROPERTIES:
