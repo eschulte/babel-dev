@@ -4,6 +4,19 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [63/110]
+** PROPOSED How do we specify multiple :var references with property drawer?
+   - State "PROPOSED"   from ""           [2010-02-23 Tue 19:58]
+   :PROPERTIES:
+   :var: x=1
+   :var: y=2
+   :END:
+     
+#+begin_src emacs-lisp 
+(list x y)
+#+end_src
+
+Symbol's value as variable is void: y
+
 ** DONE added support for Oz
    - State "DONE"       from "DONE"       [2010-02-23 Tue 07:33]
    - State "DONE"       from ""           [2010-02-17 Wed 08:24]
