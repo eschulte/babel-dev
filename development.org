@@ -29,6 +29,22 @@ As things stand
   return d
 #+end_src
 
+Results in error because of 'hline
+
+We could remove the hline with the following, but need to think about whether to include the column names or not.
+
+#+begin_src emacs-lisp 
+(defun org-babel-python-var-to-python (var)
+  "Convert an elisp var into a string of python source code
+specifying a var of the same value."
+  (if (listp var)
+      (concat "[" (mapconcat #'org-babel-python-var-to-python (remq 'hline var) ", ") "]")
+      ;; (concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
+    (format "%S" var)))
+#+end_src
+
+That change would give this as result:
+
 #+results:
 |       Date |   Kg |
 | 2010-02-21 | 95.0 |
@@ -4304,29 +4320,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/79]
-** TODO python doesn't like hline in tables
-   - State "TODO"       from ""           [2010-02-23 Tue 12:22]
-
-#+results: my-table
-|       Date |   Kg |
-|------------+------|
-| 2010-02-21 | 95.0 |
-| 2010-02-22 | 93.0 |
-| 2010-02-23 | 92.0 |
-| 2010-02-24 | 91.5 |
-| 2010-02-25 | 91.0 |
-| 2010-02-26 | 92.0 |
-
-#+begin_src python :var d=my-table :results output
-print str(d)
-#+end_src
-
-#+results:
-: Traceback (most recent call last):
-:   File "<stdin>", line 1, in <module>
-: NameError: name 'hline' is not defined
-
+* Bugs [54/78]
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
