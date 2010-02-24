@@ -71,6 +71,32 @@ d
 |------------+------|
 | 2010-02-21 | 95.0 |
 
+NB Is it unfortunate that a named simple vector doesn't get its names
+printed out with :colnames yes?
+
+#+begin_src R :colnames yes
+c(a=1,b=2)
+#+end_src
+
+#+results:
+| x |
+|---|
+| 1 |
+| 2 |
+
+This is because a 1d vector gets turned into a table with one column,
+and hence its names would be rownames, not column names. One has to
+transpose the vector in R to get the desired result.
+
+#+begin_src R :colnames yes
+t(c(a=1,b=2))
+#+end_src
+
+#+results:
+| a | b |
+|---+---|
+| 1 | 2 |
+
 *** shell
 #+begin_src sh :var d=shell-data
 echo $d
