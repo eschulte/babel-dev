@@ -4391,7 +4391,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [54/78]
+* Bugs [57/76]
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
@@ -4407,7 +4407,8 @@ dot("$(2a,0)$",(2,0),N+E);
 | Luscinia            |     |    |          |      |
 | /home/dan/babel-dev |     |    |          |      |
 
-** PROPOSED shell-command-on-region calls
+** TODO shell-command-on-region calls
+   - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 16:14]
    Can we double check this at some point:
 
    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
@@ -4418,42 +4419,50 @@ dot("$(2a,0)$",(2,0),N+E);
    replace error-buffer display-error-buffer)
 
    - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
+
    Yes, people agree that this is a bug in emacs. A bug report has
    been filed. So those calls should be something like
 
    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
 
-** TODO noweb/shell ':session :results value' bug
+** PROPOSED shell different results for :session and external process
+   - State "PROPOSED"   from "TODO"       [2010-02-25 Thu 16:58]
    - State "TODO"       from ""           [2010-02-19 Fri 13:27]
      
-#+source: shell-src-block
-#+begin_src sh
-echo 1
-echo 2
-#+end_src
-
-#+results: shell-src-block
-| 1 |
-| 2 |
-
-OK, but now when using noweb reference we only get the last line.
-
-#+begin_src sh :session :noweb yes :results vector
-<<shell-src-block>>
+#+begin_src sh :session yes
+  echo 1
+  echo 2
 #+end_src
 
 #+results:
-| 2 |
+: 2
 
-** TODO python :session :results value not working
+But without :session this gives
+
+#+begin_src sh
+  echo 1
+  echo 2
+#+end_src
+
+#+results:
+| 1 |
+| 2 |
+  
+** DONE python :session :results value not working
+   - State "DONE"       from "TODO"       [2010-02-25 Thu 16:59]
    - State "TODO"       from ""           [2010-02-18 Thu 17:49]
+
+     22fc3b2d333e0d440cdc972a6478a834180b188d
+     and
+     f19692578a958d42fb03048e574949231a83c2f7
+     
 #+begin_src python :results value :session
 import os, time
 [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
 
 #+results:
-: Thu Feb 18 17:49:38 2010', ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686'), '/home/dan/babel-dev
+| Thu Feb 25 16:59:00 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan/babel-dev |
 
 ** DONE fibonacci test failing
    - State "DONE"       from "TODO"       [2010-02-25 Thu 18:09]
@@ -4583,7 +4592,8 @@ index dc51020..c0e6a55 100644
  (defun org-babel-ref-at-ref-p ()
 #+end_src
 
-** PROPOSED python 'session output' evaluation is not outputting last line 
+** TODO python 'session output' evaluation is not outputting last line 
+   - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 18:13]
    This is a bit weird. The first evaluation in a session is OK, but
    second and subsequent evaluations fail to output the last line.
    
@@ -4835,11 +4845,11 @@ E.g. here in org-babel-python-evaluate. Should that be
 (or (member "pp" result-params) (member "code" result-params))
 ?
 #+begin_src emacs-lisp 
-		(format
-		 (if (member "pp" result-params)
-                     org-babel-python-pp-wrapper-method
-                   org-babel-python-wrapper-method)
-		 (let ((lines (split-string
+  (format
+   (if (member "pp" result-params)
+       org-babel-python-pp-wrapper-method
+     org-babel-python-wrapper-method)
+   (let ((lines (split-string
 #+end_src
 
 before jumping to the solution, what's the problem here?  Are we not
@@ -4887,21 +4897,17 @@ index c805373..1d7fe3b 100644
    This has been applied -- it was a good idea -- as it's now possible
    to export a =Makefile= without an extension.
 
-** TODO :results value fails with result ending in newline
+** TODO python :results value fails with result ending in newline
 #+srcname: output
 #+begin_src python :results value
-  "x\n"
+  return "x\n"
 #+end_src
 
-#+resname: output
+#+results: output
 : 0
 
 ** PROPOSED (org-babel-merge-params nil) --> ((:tangle . "") (:exports . "") (:results . ""))
    Is that desirable?
-** TODO ensure file output goes to correct destination with relative file paths
-   E.g. if I use :file pca.png, but the working directory of the R
-   session is "/tmp", then we need to ensure that the org file link points
-   to the location of the file created by R.
 ** TODO (R) session evaluation fails if no new line terminating output
 
 #+srcname: nonewline
@@ -4910,7 +4916,8 @@ cat("There's no newline ending this")
 #+end_src
 
 ** PROPOSED Allow #+srcname to be indented
-** TODO Juan Reyero bug report
+** REJECTED Juan Reyero bug report
+   - State "REJECTED"   from "TODO"   [2010-02-25 Thu 18:19]
    
 > ... However I can't replicate this
 > behaviour under linux. I get
@@ -4935,8 +4942,6 @@ I have stripped bare my .emacs, and still:
 
 jm
 
-** PROPOSED should we allow :results file without explicitly giving path?
-   I.e. should we create a file in /tmp or in the current directory?
 ** TODO should delete temp files after evaluation
 ** DONE tangle is outputting multiple shebang lines with python code
 ** TODO o-b-execute-subtree places output outside of folded subtree
@@ -6606,8 +6611,8 @@ return 'hello world'
 
 #+srcname: basic-R
 #+begin_src R :results silent
-b <- 9
-b + 4
+  b <- 9
+  b + 4
 #+end_src
 
 *** read tables
@@ -6664,8 +6669,6 @@ creating the R variables in this block.
 #+begin_src R
 x$var3[1]
 #+end_src
-
-
 
 *** references
 
