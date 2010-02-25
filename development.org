@@ -789,7 +789,15 @@ With the above "spec", I guess all cases are covered. What do you think?
      
 
 
+*** TODO Make sure file links are pointing into dir
+    - State "TODO"       from ""           [2010-02-25 Thu 18:16]
 
+      E.g. if I use :file pca.png, but the working directory of the R
+      session is "/tmp", then we need to ensure that the org file link points
+      to the location of the file created by R.
+      
+*** PROPOSED should we allow :results file without explicitly giving path?
+    I.e. should we create a file in /tmp or in the current directory?
 *** DONE Improve support for :session t :results output
     - State "DONE"       from "TODO"       [2010-02-21 Sun 00:48]
     - State "TODO"       from ""           [2010-02-16 Tue 13:59]
