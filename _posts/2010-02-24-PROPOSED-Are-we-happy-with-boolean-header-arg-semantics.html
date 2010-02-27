@@ -1,0 +1,41 @@
+---
+title: PROPOSED Are we happy with boolean header arg semantics?
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Are we happy with boolean header arg semantics? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-24 Wed 15:51</span></span>
+
+<p>
+For boolean header args like cache, noweb and colnames, the value
+is &lt;on&gt; if the header arg is yes; absent or any other value is
+&lt;off&gt;.
+</p>
+<p>
+Is it worth considering nil or absent = &lt;off&gt;, and any non-absent
+value = &lt;on&gt;, in order to be in line with lisp?
+</p>
+<p>
+I think this would also make sense from the point of view of
+least-surprise, because the default sense of those args is &lt;off&gt;;
+and anyone who is supplying them is likely to be wanting to turn
+them &lt;on&gt;, and so the only way for them to fail to do what they
+want would be if they supplied nil.
+</p>
+<p>
+In particular, users might be surprised that t, y, Y, on, Yes
+don't work.
+</p>
+<p>
+I guess we're going to have to really want to make this change to
+accept the backwards incompatibility cost, but I'm just noting it
+down. It could always be implemented by a variable.
+</p></li>
+</ul>
+</div>
+</div>
