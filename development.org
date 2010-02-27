@@ -3,7 +3,159 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/110]
+* Tasks [63/113]
+** PROPOSED Are we happy with boolean header arg semantics?
+   - State "PROPOSED"   from ""           [2010-02-24 Wed 15:51]
+     
+     For boolean header args like cache, noweb and colnames, the value
+     is <on> if the header arg is yes; absent or any other value is
+     <off>.
+
+     Is it worth considering nil or absent = <off>, and any non-absent
+     value = <on>, in order to be in line with lisp?
+
+     I think this would also make sense from the point of view of
+     least-surprise, because the default sense of those args is <off>;
+     and anyone who is supplying them is likely to be wanting to turn
+     them <on>, and so the only way for them to fail to do what they
+     want would be if they supplied nil.
+     
+     In particular, users might be surprised that t, y, Y, on, Yes
+     don't work.
+
+     I guess we're going to have to really want to make this change to
+     accept the backwards incompatibility cost, but I'm just noting it
+     down. It could always be implemented by a variable.
+
+** PROPOSED Handling of table column names across languages 
+   - State "PROPOSED"   from ""           [2010-02-23 Tue 20:04]
+   - State "TODO"       from ""           [2010-02-23 Tue 12:22]
+   :PROPERTIES:
+   :var: d=my-table
+   :END:
+     See also [[*Support%20rownames%20and%20other%20org%20babel%20table%20features][Support rownames and other org babel table features?]]
+     
+#+results: my-table
+|       Date |   Kg |
+|------------+------|
+| 2010-02-21 | 95.0 |
+| 2010-02-22 | 93.0 |
+| 2010-02-23 | 92.0 |
+| 2010-02-24 | 91.5 |
+| 2010-02-25 | 91.0 |
+| 2010-02-26 | 92.0 |
+
+As things stand
+
+*** python
+#+begin_src python :results value
+  return d
+#+end_src
+
+Results in error because of 'hline
+
+We could remove the hline with the following, but need to think about whether to include the column names or not.
+
+#+begin_src emacs-lisp 
+(defun org-babel-python-var-to-python (var)
+  "Convert an elisp var into a string of python source code
+specifying a var of the same value."
+  (if (listp var)
+      (concat "[" (mapconcat #'org-babel-python-var-to-python (remq 'hline var) ", ") "]")
+      ;; (concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
+    (format "%S" var)))
+#+end_src
+
+That change would give this as result:
+
+#+results:
+|       Date |   Kg |
+| 2010-02-21 | 95.0 |
+| 2010-02-22 | 93.0 |
+| 2010-02-23 | 92.0 |
+| 2010-02-24 | 91.5 |
+| 2010-02-25 | 91.0 |
+| 2010-02-26 | 92.0 |
+*** R
+#+begin_src R
+d
+#+end_src
+
+#+results:
+| 2010-02-21 |   95 |
+| 2010-02-22 |   93 |
+| 2010-02-23 |   92 |
+| 2010-02-24 | 91.5 |
+| 2010-02-25 |   91 |
+| 2010-02-26 |   92 |
+
+#+results: shell-data
+|       Date |   Kg |
+|------------+------|
+| 2010-02-21 | 95.0 |
+
+NB Is it unfortunate that a named simple vector doesn't get its names
+printed out with :colnames yes?
+
+#+begin_src R :colnames yes
+c(a=1,b=2)
+#+end_src
+
+#+results:
+| x |
+|---|
+| 1 |
+| 2 |
+
+This is because a 1d vector gets turned into a table with one column,
+and hence its names would be rownames, not column names. One has to
+transpose the vector in R to get the desired result.
+
+#+begin_src R :colnames yes
+t(c(a=1,b=2))
+#+end_src
+
+#+results:
+| a | b |
+|---+---|
+| 1 | 2 |
+
+*** shell
+#+begin_src sh :var d=shell-data
+echo $d
+#+end_src
+
+Error:
+
+org-babel-sh-var-to-sh wrongly converts 'hline into "hline" resulting
+in error in orgtbl-to-generic. Could change last loine of org-babel-sh-var-to-sh
+
+    (if (stringp var) (format "%s" var) (format "%S" var))))
+
+to
+
+(cond
+ ((eq var 'hline) var)
+ ((stringp var) (format "%s" var))
+ (t (format "%S" var)))
+
+But need to think about whether the hline should even be there at this
+stage, or whether hlines and column names should have been removed (at
+least hlines as 2nd element of elisp table).
+
+** PROPOSED How do we specify multiple :var references with property drawer?
+   - State "PROPOSED"   from ""           [2010-02-23 Tue 19:58]
+   :PROPERTIES:
+   :var: x=1
+   :var: y=2
+   :END:
+     
+#+begin_src emacs-lisp 
+(list x y)
+#+end_src
+
+Symbol's value as variable is void: y
+
 ** DONE added support for Oz
    - State "DONE"       from "DONE"       [2010-02-23 Tue 07:33]
    - State "DONE"       from ""           [2010-02-17 Wed 08:24]
@@ -637,7 +789,15 @@ With the above "spec", I guess all cases are covered. What do you think?
      
 
 
+*** TODO Make sure file links are pointing into dir
+    - State "TODO"       from ""           [2010-02-25 Thu 18:16]
 
+      E.g. if I use :file pca.png, but the working directory of the R
+      session is "/tmp", then we need to ensure that the org file link points
+      to the location of the file created by R.
+      
+*** PROPOSED should we allow :results file without explicitly giving path?
+    I.e. should we create a file in /tmp or in the current directory?
 *** DONE Improve support for :session t :results output
     - State "DONE"       from "TODO"       [2010-02-21 Sun 00:48]
     - State "TODO"       from ""           [2010-02-16 Tue 13:59]
@@ -817,24 +977,38 @@ So, for example the following *raw* org-mode text
 
 exports to the following *html*
 
-#+source: fibonacci
-#+begin_src emacs-lisp :var input=0
-  (defun fib (n)
-    (if (> n 1)
-        (+ (fib (- n 1)) (fib (- n 2)))
-        1))
-  (fib input)
-#+end_src
+#+begin_html 
+<div id="content">
 
-#+results: fibonacci
-: 1
+<h1 class="title">(defun fib (n)</h1>
 
+
+<div class="org-src-container"><label class="org-src-name">fibonacci(input=0)</label><pre class="src src-emacs-lisp">
+  (<span style="color: #afeeee; font-weight: bold;">if</span> (&gt; n 1)
+      (+ (fib (- n 1)) (fib (- n 2)))
+      1))
+(fib input)
+</pre></div>
+
+
+
+
+<pre class="example">
+1
+</pre>
+
+
+<p>
 now applying our Fibonacci function
+</p>
 
-#+call: fibonacci(input=5)
 
-#+results: fibonacci(input=5)
+
+<label class="org-src-name">fibonacci(input=5)</label>
+
+
 : 8
+#+end_html
 
 *** older
 The current fix here takes the simplest possible approach.  The name
@@ -4217,7 +4391,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [53/78]
+* Bugs [57/76]
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
@@ -4233,7 +4407,8 @@ dot("$(2a,0)$",(2,0),N+E);
 | Luscinia            |     |    |          |      |
 | /home/dan/babel-dev |     |    |          |      |
 
-** PROPOSED shell-command-on-region calls
+** TODO shell-command-on-region calls
+   - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 16:14]
    Can we double check this at some point:
 
    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
@@ -4244,53 +4419,98 @@ dot("$(2a,0)$",(2,0),N+E);
    replace error-buffer display-error-buffer)
 
    - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
+
    Yes, people agree that this is a bug in emacs. A bug report has
    been filed. So those calls should be something like
 
    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
 
-** TODO noweb/shell ':session :results value' bug
+** PROPOSED shell different results for :session and external process
+   - State "PROPOSED"   from "TODO"       [2010-02-25 Thu 16:58]
    - State "TODO"       from ""           [2010-02-19 Fri 13:27]
      
-#+source: shell-src-block
-#+begin_src sh
-echo 1
-echo 2
-#+end_src
-
-#+results: shell-src-block
-| 1 |
-| 2 |
-
-OK, but now when using noweb reference we only get the last line.
-
-#+begin_src sh :session :noweb yes :results vector
-<<shell-src-block>>
+#+begin_src sh :session yes
+  echo 1
+  echo 2
 #+end_src
 
 #+results:
-| 2 |
+: 2
 
-** TODO python :session :results value not working
+But without :session this gives
+
+#+begin_src sh
+  echo 1
+  echo 2
+#+end_src
+
+#+results:
+| 1 |
+| 2 |
+  
+** DONE python :session :results value not working
+   - State "DONE"       from "TODO"       [2010-02-25 Thu 16:59]
    - State "TODO"       from ""           [2010-02-18 Thu 17:49]
+
+     22fc3b2d333e0d440cdc972a6478a834180b188d
+     and
+     f19692578a958d42fb03048e574949231a83c2f7
+     
 #+begin_src python :results value :session
 import os, time
 [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
 
 #+results:
-: Thu Feb 18 17:49:38 2010', ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686'), '/home/dan/babel-dev
+| Thu Feb 25 16:59:00 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan/babel-dev |
 
-** TODO fibonacci test failing
+** DONE fibonacci test failing
+   - State "DONE"       from "TODO"       [2010-02-25 Thu 18:09]
    - State "TODO"       from ""           [2010-02-17 Wed 15:18]
-** PROPOSED quotes getting chomped?
+     
+     It was picking up a copy of the block [[*update%20exporting%20arguments%20with%20source%20names][elsewhere]], but this copy
+     had been protected with : at the beginnings of the lines, so I
+     have changhed the source and results line regexps so that they
+     match at bol with optional whitespace indentation.
+
+     82d758581071702d23be710244f2708ecf7e826b
+
+** DONE quotes getting chomped?
+   - State "DONE"       from "PROPOSED"   [2010-02-23 Tue 22:25]
    - State "PROPOSED"   from ""           [2010-02-16 Tue 16:07]
 
-     Look at second line of output below. Looks like initial and
-     terminal single quotes have been chomped.
+*** commit
+commit 22fc3b2d333e0d440cdc972a6478a834180b188d
+Author: Dan Davison <davison@stats.ox.ac.uk>
+Date:   Fri Feb 19 11:34:16 2010 -0500
 
-*** python
-***** code
+    babel: Fix unquoting of strings
+    
+    Before this change we have
+    
+     #+begin_src ruby :results value :session
+     ["1", "3"]
+     #+end_src
+    
+     #+results:
+     : 1", "3
+    
+     After, we have
+    
+     #+begin_src ruby :results value :session
+     ["1", "3"]
+     #+end_src
+    
+     #+results:
+     | 1 | 3 |
+
+*** bug
+
+      Look at second line of output below. Looks like initial and
+      terminal single quotes have been chomped.
+
+**** python
+****** code
 #+source: dir-test-python
 #+begin_src python
   import os, time
@@ -4300,15 +4520,15 @@ import os, time
   print '\n' ## We have a bug involving losing final lines
 #+end_src
 
-***** local
-#+begin_src python :session python-local :dir /home/dan
-<<dir-test-python>>
+****** local
+#+begin_src python :session python-local :dir /home/dan :noweb yes :results output
+  <<dir-test-python>>
 #+end_src
 
 #+results:
-: Tue Feb 16 16:06:23 2010
-: Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686
-: /home/dan
+: Tue Feb 23 22:24:46 2010
+: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: /home/dan/babel-dev
 
 ** PROPOSED Getting "marker doesn't point anywhere"
    - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
@@ -4372,7 +4592,8 @@ index dc51020..c0e6a55 100644
  (defun org-babel-ref-at-ref-p ()
 #+end_src
 
-** PROPOSED python 'session output' evaluation is not outputting last line 
+** TODO python 'session output' evaluation is not outputting last line 
+   - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 18:13]
    This is a bit weird. The first evaluation in a session is OK, but
    second and subsequent evaluations fail to output the last line.
    
@@ -4624,11 +4845,11 @@ E.g. here in org-babel-python-evaluate. Should that be
 (or (member "pp" result-params) (member "code" result-params))
 ?
 #+begin_src emacs-lisp 
-		(format
-		 (if (member "pp" result-params)
-                     org-babel-python-pp-wrapper-method
-                   org-babel-python-wrapper-method)
-		 (let ((lines (split-string
+  (format
+   (if (member "pp" result-params)
+       org-babel-python-pp-wrapper-method
+     org-babel-python-wrapper-method)
+   (let ((lines (split-string
 #+end_src
 
 before jumping to the solution, what's the problem here?  Are we not
@@ -4676,21 +4897,17 @@ index c805373..1d7fe3b 100644
    This has been applied -- it was a good idea -- as it's now possible
    to export a =Makefile= without an extension.
 
-** TODO :results value fails with result ending in newline
+** TODO python :results value fails with result ending in newline
 #+srcname: output
 #+begin_src python :results value
-  "x\n"
+  return "x\n"
 #+end_src
 
-#+resname: output
+#+results: output
 : 0
 
 ** PROPOSED (org-babel-merge-params nil) --> ((:tangle . "") (:exports . "") (:results . ""))
    Is that desirable?
-** TODO ensure file output goes to correct destination with relative file paths
-   E.g. if I use :file pca.png, but the working directory of the R
-   session is "/tmp", then we need to ensure that the org file link points
-   to the location of the file created by R.
 ** TODO (R) session evaluation fails if no new line terminating output
 
 #+srcname: nonewline
@@ -4699,7 +4916,8 @@ cat("There's no newline ending this")
 #+end_src
 
 ** PROPOSED Allow #+srcname to be indented
-** TODO Juan Reyero bug report
+** REJECTED Juan Reyero bug report
+   - State "REJECTED"   from "TODO"   [2010-02-25 Thu 18:19]
    
 > ... However I can't replicate this
 > behaviour under linux. I get
@@ -4724,8 +4942,6 @@ I have stripped bare my .emacs, and still:
 
 jm
 
-** PROPOSED should we allow :results file without explicitly giving path?
-   I.e. should we create a file in /tmp or in the current directory?
 ** TODO should delete temp files after evaluation
 ** DONE tangle is outputting multiple shebang lines with python code
 ** TODO o-b-execute-subtree places output outside of folded subtree
@@ -6307,55 +6523,55 @@ org-babel functionality.
 of these tests may fail.
 
 #+TBLNAME: org-babel-tests
-| functionality           | block                      | arg |    expected |     results | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| basic evaluation        |                            |     |             |             | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| emacs lisp              | basic-elisp                |     |           5 |           5 | pass                         |
-| shell                   | basic-shell                |     |           6 |           6 | pass                         |
-| ruby                    | basic-ruby                 |     |   org-babel |   org-babel | pass                         |
-| python                  | basic-python               |     | hello world | hello world | pass                         |
-| R                       | basic-R                    |     |          13 |          13 | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| tables                  |                            |     |             |             | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| emacs lisp              | table-elisp                |     |           3 |           3 | pass                         |
-| ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass                         |
-| python                  | table-python               |     |           5 |           5 | pass                         |
-| R                       | table-R                    |     |         3.5 |         3.5 | pass                         |
-| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass                         |
-| R: col names in org     | table-R-colnames-org       |     |         169 |         nil | expected "169" but was "nil" |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| source block references |                            |     |             |             | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| all languages           | chained-ref-last           |     |       Array |       Array | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| source block functions  |                            |     |             |             | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass                         |
-| run over                | test-fibonacci             |   0 |           1 |           1 | pass                         |
-| a                       | test-fibonacci             |   1 |           1 |           1 | pass                         |
-| variety                 | test-fibonacci             |   2 |           2 |           2 | pass                         |
-| of                      | test-fibonacci             |   3 |           3 |           3 | pass                         |
-| different               | test-fibonacci             |   4 |           5 |           5 | pass                         |
-| arguments               | test-fibonacci             |   5 |           8 |           8 | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| bugs and tasks          |                            |     |             |             | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| simple ruby arrays      | ruby-array-test            |     |           3 |           3 | pass                         |
-| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass                         |
-| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |           2 | pass                         |
-| forcing vector results  | test-forced-vector-results |     |       Array |       Array | pass                         |
-| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| sessions                |                            |     |             |             | pass                         |
-|-------------------------+----------------------------+-----+-------------+-------------+------------------------------|
-| set ruby session        | set-ruby-session-var       |     |        :set |        :set | pass                         |
-| get from ruby session   | get-ruby-session-var       |     |           3 |           3 | pass                         |
-| set python session      | set-python-session-var     |     |         set |         set | pass                         |
-| get from python session | get-python-session-var     |     |           4 |           4 | pass                         |
-| set R session           | set-R-session-var          |     |         set |         set | pass                         |
-| get from R session      | get-R-session-var          |     |           5 |           5 | pass                         |
+| functionality           | block                      | arg |    expected |     results | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| basic evaluation        |                            |     |             |             | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| emacs lisp              | basic-elisp                |     |           5 |           5 | pass |
+| shell                   | basic-shell                |     |           6 |           6 | pass |
+| ruby                    | basic-ruby                 |     |   org-babel |   org-babel | pass |
+| python                  | basic-python               |     | hello world | hello world | pass |
+| R                       | basic-R                    |     |          13 |          13 | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| tables                  |                            |     |             |             | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| emacs lisp              | table-elisp                |     |           3 |           3 | pass |
+| ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass |
+| python                  | table-python               |     |           5 |           5 | pass |
+| R                       | table-R                    |     |         3.5 |         3.5 | pass |
+| R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass |
+| R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| source block references |                            |     |             |             | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| all languages           | chained-ref-last           |     |       Array |       Array | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| source block functions  |                            |     |             |             | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| emacs lisp              | defun-fibb                 |     |       fibbd |       fibbd | pass |
+| run over                | test-fibonacci             |   0 |           1 |           1 | pass |
+| a                       | test-fibonacci             |   1 |           1 |           1 | pass |
+| variety                 | test-fibonacci             |   2 |           2 |           2 | pass |
+| of                      | test-fibonacci             |   3 |           3 |           3 | pass |
+| different               | test-fibonacci             |   4 |           5 |           5 | pass |
+| arguments               | test-fibonacci             |   5 |           8 |           8 | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| bugs and tasks          |                            |     |             |             | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| simple ruby arrays      | ruby-array-test            |     |           3 |           3 | pass |
+| R number evaluation     | bug-R-number-evaluation    |     |           2 |           2 | pass |
+| multi-line ruby blocks  | multi-line-ruby-test       |     |           2 |           2 | pass |
+| forcing vector results  | test-forced-vector-results |     |       Array |       Array | pass |
+| deeply nested arguments | deeply-nested-args-bug     |     |           4 |           4 | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| sessions                |                            |     |             |             | pass |
+|-------------------------+----------------------------+-----+-------------+-------------+------|
+| set ruby session        | set-ruby-session-var       |     |        :set |        :set | pass |
+| get from ruby session   | get-ruby-session-var       |     |           3 |           3 | pass |
+| set python session      | set-python-session-var     |     |         set |         set | pass |
+| get from python session | get-python-session-var     |     |           4 |           4 | pass |
+| set R session           | set-R-session-var          |     |         set |         set | pass |
+| get from R session      | get-R-session-var          |     |           5 |           5 | pass |
 #+TBLFM: $5='(if (= (length $3) 1) (progn (message (format "running %S" '(sbe $2 (n $3)))) (sbe $2 (n $3))) (sbe $2))::$6='(if (string= $4 $5) "pass" (format "expected %S but was %S" $4 $5))
 #+TBLFM: $5=""::$6=""
 
@@ -6395,8 +6611,8 @@ return 'hello world'
 
 #+srcname: basic-R
 #+begin_src R :results silent
-b <- 9
-b + 4
+  b <- 9
+  b + 4
 #+end_src
 
 *** read tables
@@ -6439,8 +6655,8 @@ sum(table$var2 - table$var3)
 #+end_src
 
 #+srcname: R-square(x=default-name-doesnt-exist)
-#+begin_src R :colnames t
-x^2
+#+begin_src R :colnames yes
+  x^2
 #+end_src
 
 This should return 169. The fact that R is able to use the column name
@@ -6502,13 +6718,17 @@ table.class.name
 
 #+srcname: defun-fibb
 #+begin_src emacs-lisp :results silent
-(defun fibbd (n) (if (< n 2) 1 (+ (fibbd (- n 1)) (fibbd (- n 2)))))
+  (defun fibbd (n)
+    (message (format "n = %d" n))
+    (if (< n 2) 1
+      (+ (fibbd (- n 1))
+         (fibbd (- n 2)))))
 #+end_src
 
 
 #+srcname: test-fibonacci
 #+begin_src emacs-lisp :results silent :var n=7
-(fibbd n)
+  (fibbd n)
 #+end_src
 
 *** sbe tests (these don't seem to be working...)
