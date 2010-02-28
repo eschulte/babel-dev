@@ -17,8 +17,7 @@ reused in other projects.
 </p>
 
 
-<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span>mapc
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>mapc
  <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>file<span class="org-esk-paren">)</span>
    <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>full-file <span class="org-esk-paren">(</span>expand-file-name
                      <span class="org-esk-paren">(</span>concat file <span class="org-string">".org"</span><span class="org-esk-paren">)</span>
@@ -36,7 +35,7 @@ reused in other projects.
                yaml-front-matter<span class="org-esk-paren">)</span>
          <span class="org-esk-paren">(</span>insert <span class="org-string">"---\n\n"</span><span class="org-esk-paren">))</span>
        <span class="org-esk-paren">(</span>insert html<span class="org-esk-paren">))))</span> '<span class="org-esk-paren">(</span><span class="org-string">"index"</span> <span class="org-string">"publish"</span> <span class="org-string">"dev-updates"</span><span class="org-esk-paren">))</span>
-</pre></div>
+</pre>
 
 
 
@@ -56,8 +55,7 @@ org-mode.
 </p>
 
 
-<div class="org-src-container"><label class="org-src-name">nil()</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span><span class="org-keyword">save-excursion</span>
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">save-excursion</span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">map over all tasks entries
 </span>  <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>dev-file <span class="org-esk-paren">(</span>expand-file-name
                    <span class="org-string">"development.org"</span>
@@ -113,7 +111,7 @@ org-mode.
                   <span class="org-esk-paren">(</span>insert html<span class="org-esk-paren">))</span>
                 <span class="org-esk-paren">(</span>get-buffer org-buffer<span class="org-esk-paren">)))))))</span>
      '<span class="org-esk-paren">(</span>1 2<span class="org-esk-paren">))))</span>
-</pre></div>
+</pre>
 
 
 

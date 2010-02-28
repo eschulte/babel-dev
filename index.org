@@ -22,6 +22,9 @@ to the github development repo.
     large table and is run using Org-babel's spreadsheet
     functionality.
 
+  Please direct any questions, suggestions or comments to the [[http://orgmode.org/index.html#sec-5.2][Org-mode
+  mailing list]], just be sure to tag your subject line with "[babel]".
+
 ** Recent Activity
    #+begin_html 
      <ul>
