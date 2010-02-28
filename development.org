@@ -3,7 +3,35 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/114]
+* Tasks [62/115]
+** PROPOSED Should tangle stop guessing file extensions?
+   - State "PROPOSED"   from ""           [2010-02-28 Sun 18:33]
+*** Email from Martin G. Skjæveland
+From: Dan Davison <davison@stats.ox.ac.uk>
+Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+Date: Sat, 27 Feb 2010 00:20:45 -0500
+To: Martin G. Skjæveland <martige@ifi.uio.no>
+Cc: emacs-orgmode <emacs-orgmode@gnu.org>
+
+"Martin G. Skjæveland" <martige@ifi.uio.no> writes:
+
+> Hi,
+>
+> running tangle with the following values
+>
+>   #+begin_src xml :tangle test.rdf
+>   ...
+>   #+end_src
+>
+> used to create a file called test.rdf. However, after a fresh git pull
+> today this now tangles to the file test.rdf.xml, which is not what I
+> want.
+
+I understand. I wonder if babel should simply assume that the user has
+entered a file name with the correct extension when :tangle is something
+other than "yes".
+
 ** PROPOSED Integration with GNU screen
    - State "PROPOSED"   from ""           [2010-02-28 Sun 15:30]
 
