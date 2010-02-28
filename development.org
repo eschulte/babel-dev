@@ -625,7 +625,6 @@ With the above "spec", I guess all cases are covered. What do you think?
      is remote; otherwise we call the emacs version of
      call-process-region.
 
-
 *** TODO Improve the way call-process-region is handled
     :PROPERTIES:
     :CUSTOM_ID: tramp-handle-call-process-region
@@ -637,17 +636,19 @@ With the above "spec", I guess all cases are covered. What do you think?
       that a handler from tramp is used:
       
 #+begin_src emacs-lisp
-      (let (
-      ...
-      (call-process-region-original (symbol-function 'call-process-region))
-      result)
+  (let (
+        ...
+        (call-process-region-original (symbol-function 'call-process-region))
+        result)
     ;; (message "params=%S" params) ;; debugging
-  (flet ((call-process-region (&rest args)
-                              (apply 'org-babel-tramp-handle-call-process-region args)))
+    (flet ((call-process-region (&rest args)
+                                (apply 'org-babel-tramp-handle-call-process-region args)))
+      ;; ...
+      ))
 #+end_src
 
-			      Currently, there is a bug in that if we try to run the tests, a
-      number of them fail. Furthermore, afterwards, it seems that 
+      Currently, there is a bug in that if we try to run the tests, a
+      number of them fail. Furthermore, afterwards, it seems that
 
       (symbol-function 'call-process-region))
 
@@ -785,9 +786,6 @@ With the above "spec", I guess all cases are covered. What do you think?
       languages, e.g. make sure that they construct remote file names
       when attemtping to read remote data, as in
       010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
-
-     
-
 
 *** TODO Make sure file links are pointing into dir
     - State "TODO"       from ""           [2010-02-25 Thu 18:16]
@@ -4450,8 +4448,7 @@ import os, time
 #+results:
 | Thu Feb 25 16:59:00 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan/babel-dev |
 
-** TODO fibonacci test failing
-   - State "TODO"       from ""           [2010-02-17 Wed 15:18]
+** DONE fibonacci test failing
 ** DONE quotes getting chomped?
    - State "DONE"       from "PROPOSED"   [2010-02-23 Tue 22:25]
    - State "PROPOSED"   from ""           [2010-02-16 Tue 16:07]
@@ -4507,7 +4504,7 @@ Date:   Fri Feb 19 11:34:16 2010 -0500
 : ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
 : /home/dan/babel-dev
 
-** PROPOSED Getting "marker doesn't point anywhere"
+** PROPOSED Getting -- marker doesn't point anywhere
    - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
      Only on first execution; second is OK. And doesn't occur when stepping through with edebug...
 #+begin_src sh :session sh-local :dir /tmp
