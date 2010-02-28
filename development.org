@@ -1320,14 +1320,39 @@ verbose.  If you could assume a functional style without side effects
 you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
-** REJECTED :results org should be org block
+** PROPOSED :results org should be org block
+   - State "PROPOSED"   from "REJECTED"   [2010-02-28 Sun 15:10]
    - State "REJECTED"   from "PROPOSED"   [2009-12-22 Tue 14:40]
 
    The reason that =:results org= was introduced was to support
    seamless insertion of results into an org-mode buffer.  This
-   proposal would defeat that initial purpose.  Also, the idea of org
-   source blocks in an org-mode document seems needlessly complex and
-   contorted.  Of course I could be missing something here.
+   proposal would defeat that initial purpose. [Eric]
+
+   No, we already have =:results raw= which is currently synonymous
+   with =org=. [Dan]
+   
+   Also, the idea of org source blocks in an org-mode document seems
+   needlessly complex and contorted.  Of course I could be missing
+   something here. [Eric]
+
+   Org already supports org source blocks (e.g. line 50
+   org-src.el). And there's at least one clear use case for them,
+   i.e. demonstrating, in HTML, what an org buffer looks like:
+
+*** Test export
+  You're reading HTML at the moment, but this is what org looks like
+  in your emacs buffer.
+
+#+begin_src org
+  ,#+SEQ_TODO: x | o
+  ,* x todo item
+  ,  SCHEDULED: <2010-02-28 Sun>
+#+end_src
+
+  I admit that I don't know how often one will want to generate org
+  blocks using babel, but I think that to use =org= as a synonym of
+  =raw= is inconsistent with =:results latex=, =:results html=,
+  =:results code=. [Dan]
 
    i.e. 
 :   #+begin_src org
