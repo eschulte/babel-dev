@@ -3,7 +3,23 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/112]
+* Tasks [62/113]
+** TODO Use org-insert-link machinery to create links
+   - State "TODO"       from ""           [2010-02-28 Sun 15:25]
+
+     One reason for doing this is to honour the variable
+     org-link-file-path-type.
+
+     Perhaps org-insert-link can be refactored along the lines of
+     
+#+begin_src emacs-lisp 
+  (defun org-insert-link (...)
+    ...
+    (insert (org-create-link ...)))
+#+end_src
+
+    in which case we could use org-create-link.
+     
 ** PROPOSED Are we happy with boolean header arg semantics?
    - State "PROPOSED"   from ""           [2010-02-24 Wed 15:51]
      
