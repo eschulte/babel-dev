@@ -1,0 +1,488 @@
+---
+title: STARTED Working directories and remote execution
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> Working directories and remote execution </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-22 Mon 14:41</span></span>
+</li>
+<li>
+State "TODO"       from "DONE" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 01:16</span></span>
+</li>
+<li>
+State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 00:50</span></span>
+</li>
+<li>
+State "STARTED"    from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-18 Thu 17:54</span></span>
+</li>
+<li>
+State "PROPOSED"   from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-14 Sun 14:00</span></span>
+</li>
+<li>
+State "TODO"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-14 Sun 10:41</span></span>
+
+<p>
+Working directory is specified using :dir. If this is remote,
+then processes run remotely.
+</p>
+<p>
+There is a working implementation for R, ruby, python and shell
+(branch ded-babel-remote).
+</p>
+<p>
+One issue discussed <a href="#sec-1.1">below</a> is that, as things stand in emacs,
+shell-command-on-region does not use tramp to handle the case of
+a remote default-directory (unlike shell-command).
+</p>
+<p>
+The underlying reason is that call-process-region does not use
+tramp. The current working solution is, instead of using
+call-process-region, to use an org-babel version of the tramp
+handler for call-process-region (this handler is present but
+unused in tramp).
+</p>
+<p>
+The current implementation does that only when default-directory
+is remote; otherwise we call the emacs version of
+call-process-region.
+</p>
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-tramp-handle-call-process-region" class="outline-3">
+<h3 id="tramp-handle-call-process-region"><a name="sec-1.1" id="sec-1.1"></a><span class="todo TODO"> TODO</span> Improve the way call-process-region is handled </h3>
+<div class="outline-text-3" id="text-tramp-handle-call-process-region">
+
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 16:53</span></span>
+
+<p>
+At line 217 of org-babel.el, we rebind call-process-region so
+that a handler from tramp is used:
+</p>
+
+</li>
+</ul>
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">(</span>
+      ...
+      <span class="org-esk-paren">(</span>call-process-region-original <span class="org-esk-paren">(</span>symbol-function 'call-process-region<span class="org-esk-paren">))</span>
+      result<span class="org-esk-paren">)</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">(message "params=%S" params) ;; debugging
+</span>  <span class="org-esk-paren">(</span><span class="org-keyword">flet</span> <span class="org-esk-paren">((</span>call-process-region <span class="org-esk-paren">(</span><span class="org-type">&amp;rest</span> args<span class="org-esk-paren">)</span>
+                              <span class="org-esk-paren">(</span>apply 'org-babel-tramp-handle-call-process-region args<span class="org-esk-paren">)))</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">...
+</span>    <span class="org-esk-paren">))</span>
+</pre>
+
+
+
+
+<p>
+Currently, there is a bug in that if we try to run the tests, a
+number of them fail. Furthermore, afterwards, it seems that
+</p>
+<p>
+(symbol-function 'call-process-region))
+</p>
+<p>
+returns the rebound definition made in the flet, rather than the
+original definition, despite the fact that the flet has
+terminated.
+</p>
+<p>
+This all needs to be fixed.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="todo TODO"> TODO</span> Improve temp file creation and remote reading </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 17:02</span></span>
+See reply from Michael Albinus
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.2.1" class="outline-4">
+<h4 id="sec-1.2.1">Email from Dan </h4>
+<div class="outline-text-4" id="text-1.2.1">
+
+<p>From: Dan Davison &lt;davison@stats.ox.ac.uk&gt;
+Subject: retrieving output from temp file
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+Date: Sun, 21 Feb 2010 11:39:33 -0500
+To: tramp-devel@gnu.org
+</p>
+<p>
+I want to retrieve the contents of a file created by a shell process,
+which might be running remotely. My code (below) works, but I am trying
+to learn how to use tramp, and I think that this is not how it would be
+done by someone who knew what they were doing.
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">retrieve-output</span> <span class="org-esk-paren">()</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>default-directory <span class="org-string">"/user@host:dirpath"</span><span class="org-esk-paren">)</span>
+        <span class="org-esk-paren">(</span>output-file <span class="org-esk-paren">(</span>make-temp-file <span class="org-string">"zzz-"</span><span class="org-esk-paren">)))</span>
+    <span class="org-esk-paren">(</span>shell-command <span class="org-esk-paren">(</span>format <span class="org-string">"hostname &gt; %s"</span> output-file<span class="org-esk-paren">))</span>
+    <span class="org-esk-paren">(</span>insert-file-contents
+     <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>file-remote-p default-directory<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>make-remote-file-name output-file<span class="org-esk-paren">)</span> output-file<span class="org-esk-paren">))))</span>
+
+<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">make-remote-file-name</span> <span class="org-esk-paren">(</span>file<span class="org-esk-paren">)</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">let*</span> <span class="org-esk-paren">((</span>vec <span class="org-esk-paren">(</span>tramp-dissect-file-name default-directory<span class="org-esk-paren">))</span>
+         <span class="org-esk-paren">(</span>user <span class="org-esk-paren">(</span>tramp-file-name-user vec<span class="org-esk-paren">))</span>
+         <span class="org-esk-paren">(</span>host <span class="org-esk-paren">(</span>tramp-file-name-host vec<span class="org-esk-paren">)))</span>
+    <span class="org-esk-paren">(</span>concat <span class="org-string">"/"</span> user <span class="org-esk-paren">(</span><span class="org-keyword">when</span> user <span class="org-string">"@"</span><span class="org-esk-paren">)</span> host <span class="org-string">":"</span> file<span class="org-esk-paren">)))</span>
+
+<span class="org-esk-paren">(</span>retrieve-output<span class="org-esk-paren">)</span>
+</pre>
+
+
+
+
+
+<p>
+If default-directory is not remote, then I want this to work for someone
+who does not have tramp installed (because aIui an XEmacs user might not
+have tramp?)
+</p>
+<p>
+In my case I <b>do</b> need to store the output in a file. I.e. although in
+the example above the output is created by redirecting stdout to file,
+in general the output of the remote process will not be on stdout (the
+output file will be created in some other way by the shell process).
+</p>
+<p>
+One thing that feels like a hack is the way that, when the process runs
+remotely, I manually convert the temp file path into a remote file path.
+</p>
+<p>
+Another problem is that with my code there is no guarantee that the temp
+file name doesn't already exist on the remote host.
+</p>
+<p>
+Thanks a lot,
+</p>
+<p>
+Dan
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1.2.2" class="outline-4">
+<h4 id="sec-1.2.2">reply from Michael Albinus </h4>
+<div class="outline-text-4" id="text-1.2.2">
+
+<p>From: Michael Albinus &lt;michael.albinus@gmx.de&gt;
+Subject: Re: retrieving output from temp file
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.92 (gnu/linux)
+Date: Sun, 21 Feb 2010 18:57:51 +0100
+To: Dan Davison &lt;davison@stats.ox.ac.uk&gt;
+Cc: tramp-devel@gnu.org
+</p>
+<p>
+Dan Davison &lt;davison@stats.ox.ac.uk&gt; writes:
+</p>
+<p>
+&gt; I want to retrieve the contents of a file created by a shell process,
+&gt; which might be running remotely. My code (below) works, but I am trying
+&gt; to learn how to use tramp, and I think that this is not how it would be
+&gt; done by someone who knew what they were doing.
+</p>
+<p>
+What about
+</p>
+<p>
+(process-file "process" nil t)
+</p>
+<p>
+&gt; If default-directory is not remote, then I want this to work for someone
+&gt; who does not have tramp installed (because aIui an XEmacs user might not
+&gt; have tramp?)
+</p>
+<p>
+It works also for a local `default-directory'. XEmacs comes with Tramp
+2.0, but it doesn't know `process-file' (yet).
+</p>
+<p>
+&gt; In my case I <b>do</b> need to store the output in a file. I.e. although in
+&gt; the example above the output is created by redirecting stdout to file,
+&gt; in general the output of the remote process will not be on stdout (the
+&gt; output file will be created in some other way by the shell process).
+</p>
+<p>
+This case, I would do
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">retrieve-output</span> <span class="org-esk-paren">()</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>tmpfile
+         <span class="org-esk-paren">(</span>make-temp-file
+          <span class="org-esk-paren">(</span>concat <span class="org-esk-paren">(</span>file-remote-p default-directory<span class="org-esk-paren">)</span> <span class="org-string">"/tmp/zzz-"</span><span class="org-esk-paren">))))</span>
+    <span class="org-esk-paren">(</span><span class="org-keyword">unwind-protect</span>
+        <span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+          <span class="org-esk-paren">(</span>process-file
+           <span class="org-string">"process"</span> nil nil nil
+           <span class="org-esk-paren">(</span>or <span class="org-esk-paren">(</span>file-remote-p tmpfile 'localname<span class="org-esk-paren">)</span> tmpfile<span class="org-esk-paren">))</span>
+          <span class="org-esk-paren">(</span>insert-file-contents tmpfile<span class="org-esk-paren">))</span>
+      <span class="org-esk-paren">(</span>delete-file tmpfile<span class="org-esk-paren">))))</span>
+
+<span class="org-esk-paren">(</span>retrieve-output<span class="org-esk-paren">)</span>
+</pre>
+
+
+
+
+<p>
+I have added the local file name part of tmpfile to the `process-file'
+call; it depends on the "process" command, where it does expect the
+output file.
+</p>
+<p>
+&gt; One thing that feels like a hack is the way that, when the process runs
+&gt; remotely, I manually convert the temp file path into a remote file path.
+</p>
+<p>
+`make-temp-file' works also wit a remote prefix, as you see.
+</p>
+<p>
+&gt; Another problem is that with my code there is no guarantee that the temp
+&gt; file name doesn't already exist on the remote host.
+</p>
+<p>
+With this approach, `make-temp-file' does it for you.
+</p>
+<p>
+&gt; Thanks a lot,
+&gt;
+&gt; Dan
+</p>
+<p>
+Best regards, Michael.
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3"><span class="todo TODO"> TODO</span> Extend to other languages </h3>
+<div class="outline-text-3" id="text-1.3">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 16:52</span></span>
+
+<p>
+We need to extend some of the changes to some of the other
+languages, e.g. make sure that they construct remote file names
+when attemtping to read remote data, as in
+010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
+</p>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4"><span class="todo TODO"> TODO</span> Make sure file links are pointing into dir </h3>
+<div class="outline-text-3" id="text-1.4">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-25 Thu 18:16</span></span>
+
+<p>
+E.g. if I use :file pca.png, but the working directory of the R
+session is "/tmp", then we need to ensure that the org file link points
+to the location of the file created by R.
+</p>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.5" class="outline-3">
+<h3 id="sec-1.5"><span class="todo PROPOSED"> PROPOSED</span> should we allow :results file without explicitly giving path? </h3>
+<div class="outline-text-3" id="text-1.5">
+
+<p>I.e. should we create a file in /tmp or in the current directory?
+</p></div>
+
+</div>
+
+<div id="outline-container-1.6" class="outline-3">
+<h3 id="sec-1.6"><span class="done DONE"> DONE</span> Improve support for :session t :results output </h3>
+<div class="outline-text-3" id="text-1.6">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 00:48</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-16 Tue 13:59</span></span>
+
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.6.1" class="outline-4">
+<h4 id="sec-1.6.1"><span class="done DEFERRED"> DEFERRED</span> :dir has no effect on existing session </h4>
+<div class="outline-text-4" id="text-1.6.1">
+
+<ul>
+<li>
+State "DEFERRED"   from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 00:48</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-16 Tue 15:53</span></span>
+
+<p>
+Should we warn user in this case? (In general o-b tends to
+silently ignore some nonsensical header args at the moment I
+think)
+</p>
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-remote-results-value" class="outline-3">
+<h3 id="remote-results-value"><a name="sec-1.7" id="sec-1.7"></a><span class="done DONE"> DONE</span> :session t :results value </h3>
+<div class="outline-text-3" id="text-remote-results-value">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 00:49</span></span>
+</li>
+<li>
+State "TODO" from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-11 Thu 14:40</span></span>
+
+<p>
+A remote session can be started using tramp (the way I do it at
+the moment is to visit a remote file and then issue e.g. M-x
+R. It will run on the remote machine) or M-x ssh. This will work
+with :results output. However :results value currently (in the
+target language) writes the data to a file on the remote machine
+and then (in elisp) attempts to retrieve it from the local
+machine. Thus the necessary network data transmission is not
+currently attempted. Perhaps tramp can be used to achieve this?
+</p>
+<p>
+Hmm, If there is some programmatic way to detect that the
+current buffer is visiting a remote machine, then it should be
+easy to change the code which is writing and reading to
+temporary files to explicitly do all such operations on the
+local host. [Eric]
+</p>
+<p>
+I'm not quite clear on this. With ":results value" in (say) R,
+the R process has to write the return data to file. If the R
+process is running remotely then someone (R?, emacs?, shell?)
+has to transfer the data between machines. If this is to be
+robust across languages, then we probably want to allow the
+langauge processes to continue to write locally as they do
+currently (because the ability of languages to deal with the
+network transfer will vary), and therefore we would require a
+new data transfer stage (implemented perhaps in emacs or by
+standard shell utilities) in order for the data to be read into
+org-babel [Dan]
+</p>
+<p>
+I currently don't ever really run anything on a
+remote machine, but if someone else got this going I'd be happy
+to help iron out the details. [Eric]
+</p>
+<p>
+For the record, my situation is the opposite &ndash; all the data is
+stored remotely (and the remote machines have more appropriate
+computing power than my netbook), but I don't really want to run
+emacs over ssh, for a variety of reasons (performance, code
+libraries) &ndash; so having org-babel execute remotely is very
+desirable for me. Having said that, ':session :results output'
+is working quite adequately; I've only occasionally felt the
+need for ':results value'. [Dan]
+</p>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.8" class="outline-3">
+<h3 id="sec-1.8"><span class="done DONE"> DONE</span> external process evaluation on remote machines </h3>
+<div class="outline-text-3" id="text-1.8">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 00:50</span></span>
+</li>
+<li>
+State "TODO" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-11 Thu 14:49</span></span>
+
+<p>
+We need:
+</p><ul>
+<li>
+A way to specify the machine on which a remote process should be
+run (and to retrieve stdout/stderr)
+</li>
+<li>
+A way of retrieving file contents in the case of :results value.
+
+</li>
+</ul>
+
+<p>The second of the above should be handled by the
+<a href="#sec-1.7">remote-results-value</a> case above.  As for telling org-babel to
+start the process on a remote machine, it's not immediately clear
+to me how that would work.
+</p>
+<p>
+The first thing that occurs to me is that maybe if we accept a
+path so that a buffer on the remote machine can be opened using
+tramp then we can switch to that buffer and remote execution will
+happen naturally in a language-agnostic way.  This is a slight
+automation of the process described above.  So something like
+</p>
+<pre class="example">
+#+begin_src clojure :host my-other-machine:~/some-file
+  (println (System/getProperties))
+#+end_src
+</pre>
+
+
+<p>
+would result in Org-babel first opening a buffer with the value of
+<code>:host</code> and then running through the same execution pattern as
+above.
+</p></li>
+</ul>
+</div>
+</div>
+</div>

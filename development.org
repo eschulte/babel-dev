@@ -4448,8 +4448,7 @@ import os, time
 #+results:
 | Thu Feb 25 16:59:00 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan/babel-dev |
 
-** TODO fibonacci test failing
-   - State "TODO"       from ""           [2010-02-17 Wed 15:18]
+** DONE fibonacci test failing
 ** DONE quotes getting chomped?
    - State "DONE"       from "PROPOSED"   [2010-02-23 Tue 22:25]
    - State "PROPOSED"   from ""           [2010-02-16 Tue 16:07]
@@ -4505,7 +4504,7 @@ Date:   Fri Feb 19 11:34:16 2010 -0500
 : ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
 : /home/dan/babel-dev
 
-** PROPOSED Getting "marker doesn't point anywhere"
+** PROPOSED Getting -- marker doesn't point anywhere
    - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
      Only on first execution; second is OK. And doesn't occur when stepping through with edebug...
 #+begin_src sh :session sh-local :dir /tmp

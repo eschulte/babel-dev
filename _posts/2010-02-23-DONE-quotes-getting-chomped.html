@@ -1,0 +1,130 @@
+---
+title: DONE quotes getting chomped?
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> quotes getting chomped? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 22:25</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-16 Tue 16:07</span></span>
+
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">commit </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<p>commit 22fc3b2d333e0d440cdc972a6478a834180b188d
+Author: Dan Davison &lt;davison@stats.ox.ac.uk&gt;
+Date:   Fri Feb 19 11:34:16 2010 -0500
+</p>
+<p>
+babel: Fix unquoting of strings
+</p>
+<p>
+Before this change we have
+</p>
+
+
+
+<pre class="src src-ruby">[<span class="org-string">"1"</span>, <span class="org-string">"3"</span>]
+</pre>
+
+
+
+
+<pre class="example">
+1", "3
+</pre>
+
+
+<p>
+After, we have
+</p>
+
+
+
+<pre class="src src-ruby">[<span class="org-string">"1"</span>, <span class="org-string">"3"</span>]
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>1</td><td>3</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2">bug </h3>
+<div class="outline-text-3" id="text-1.2">
+
+
+<p>
+Look at second line of output below. Looks like initial and
+terminal single quotes have been chomped.
+</p>
+
+</div>
+
+<div id="outline-container-1.2.1" class="outline-4">
+<h4 id="sec-1.2.1">python </h4>
+<div class="outline-text-4" id="text-1.2.1">
+
+<ul>
+<li id="sec-1.2.1.1">code <br/>
+
+
+
+<div class="org-src-container"><label class="org-src-name">dir-test-python()</label><pre class="src src-python">
+<span class="org-keyword">import</span> os, time
+<span class="org-keyword">print</span> time.ctime()
+<span class="org-keyword">print</span> os.uname()
+<span class="org-keyword">print</span> os.getcwd()
+<span class="org-keyword">print</span> <span class="org-string">'\n'</span> <span class="org-comment">## We have a bug involving losing final lines
+</span></pre></div>
+
+
+
+
+</li>
+<li id="sec-1.2.1.2">local <br/>
+
+
+
+<pre class="src src-python">&lt;&lt;<span class="org-builtin">dir</span>-test-python&gt;&gt;
+</pre>
+
+
+
+
+<pre class="example">
+Tue Feb 23 22:24:46 2010
+('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+/home/dan/babel-dev
+</pre>
+
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
