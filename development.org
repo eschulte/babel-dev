@@ -3,7 +3,19 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/113]
+* Tasks [62/114]
+** PROPOSED Integration with GNU screen
+   - State "PROPOSED"   from ""           [2010-02-28 Sun 15:30]
+
+     It might be nice to support some relationship between babel
+     sessions and screen sessions, so that babel sessions have
+     persistency (particularly useful for remote sessions).
+
+     This will be most straightforward for shell sessions. But the
+     fact that ess-remote "converts" an emacs shell session running R
+     into an inferior ESS comint R session suggests that it may be
+     possible for R also.
+
 ** TODO Use org-insert-link machinery to create links
    - State "TODO"       from ""           [2010-02-28 Sun 15:25]
 
