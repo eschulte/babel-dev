@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/113]
+* Tasks [62/112]
 ** PROPOSED Are we happy with boolean header arg semantics?
    - State "PROPOSED"   from ""           [2010-02-24 Wed 15:51]
      
@@ -167,9 +167,6 @@ For complete information see the [[http://orgmode.org/worg/org-contrib/babel/lan
 
 ** TODO Store interpreter executable names and command-line arguments in variables
    - State "TODO"       from ""           [2010-02-20 Sat 12:22]
-** PROPOSED More diligent cleaning up of temp files
-   - State "PROPOSED"   from ""           [2010-02-20 Sat 12:22]
-
 ** TODO How do we check that block output is identical to previous output?
    - State "TODO"       from ""           [2010-02-14 Sun 18:24]
 
