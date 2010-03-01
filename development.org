@@ -4336,7 +4336,7 @@ This is currently working only with emacs lisp as in the following
 example in the [[* emacs lisp source reference][emacs lisp source reference]].
 
 
-** TODO Add languages [12/16]
+** TODO Add languages [16/20]
 I'm sure there are many more that aren't listed here.  Please add
 them, and bubble any that you particularly care about up to the top.
 
@@ -4344,6 +4344,12 @@ Any new language should be implemented in a org-babel-lang.el file.
 Follow the pattern set by [[file:lisp/org-babel-script.el][org-babel-script.el]], [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and
 [[file:lisp/org-babel-R.el][org-babel-R.el]].
 
+*** DONE clojure
+    - State "DONE"       from ""           [2010-03-01 Mon 10:26]
+*** DONE oz
+    - State "DONE"       from ""           [2010-03-01 Mon 10:27]
+*** DONE screen
+    - State "DONE"       from ""           [2010-03-01 Mon 10:28]
 *** STARTED Haskell
 #+begin_src haskell
 "hello Haskell"
@@ -4480,6 +4486,8 @@ trivial [[file:lisp/langs/org-babel-css.el][org-babel-css.el]]
 #+resname: implementing-ditaa
 [[file:blue.png][blue.png]]
 
+*** DONE latex
+    - State "DONE"       from ""           [2010-03-01 Mon 10:27]
 *** DONE gnuplot [7/7]
 (see [[* file result types][file result types]])
 
