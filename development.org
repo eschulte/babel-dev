@@ -4336,7 +4336,7 @@ This is currently working only with emacs lisp as in the following
 example in the [[* emacs lisp source reference][emacs lisp source reference]].
 
 
-** TODO Add languages [11/16]
+** TODO Add languages [12/16]
 I'm sure there are many more that aren't listed here.  Please add
 them, and bubble any that you particularly care about up to the top.
 
@@ -4408,8 +4408,23 @@ let rec fib x =
 #+resname:
 | "ocaml" | "array" |
 
-*** TODO perl
+*** DONE perl
+    - State "DONE"       from "TODO"       [2010-03-01 Mon 05:22]
 This could probably be added to [[file:lisp/org-babel-script.el][org-babel-script.el]]
+
+It has been implemented on its own (for external process only). I
+think org-babel-script.el may be obsolete now.
+
+#+begin_src perl
+  $a = "1 2 3";
+  split " ", $a;
+#+end_src
+
+#+results:
+| 1 |
+| 2 |
+| 3 |
+
 *** TODO java
 *** STARTED SQL
 Things left to do
