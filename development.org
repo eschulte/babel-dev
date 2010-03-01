@@ -5195,7 +5195,38 @@ echo 6
 #+results:
 : 6
 
-** TODO point should go to end of comint buffer after execution
+** STARTED point should go to end of comint buffer after execution
+   - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:07]
+*** shell
+    OK
+#+begin_src sh :session
+echo hello
+#+end_src
+
+#+results:
+: hello
+*** R
+    OK, except for very first evaluation in a session which leaves point floating.
+#+begin_src R :session
+cat("hello\n")
+#+end_src
+
+*** python
+    Same as for R.
+#+begin_src python :session
+'goodbye'
+#+end_src
+
+#+results:
+: goodbye
+*** ruby
+    Fine, no problem.
+#+begin_src ruby :session
+'goodbye'
+#+end_src
+
+#+results:
+: goodbye
 ** DONE python doesn't work with multiple statements per line
    Solved by demanding return statement in python.
 
