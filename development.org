@@ -1885,7 +1885,7 @@ This will rely upon [[* resolve references to other buffers][resolve references 
       :END:
        Required change on line 90 of s-c-o-r
 
-****** DONE shell
+****** shell
       Shell worked from the start
 #+begin_src sh
 cat /nothere
@@ -1894,9 +1894,21 @@ cat /nothere
 #+results:
 : cat: /nothere: No such file or directory
       
-****** DONE python
+****** python
        - State "DONE"       from "TODO"       [2010-03-01 Mon 09:21]
        - State "TODO"       from ""           [2010-03-01 Mon 09:21]
+******* Exception
+#+begin_src python
+  raise Exception('Something went wrong')
+#+end_src
+
+#+results:
+: Shell command exited with code 1
+: 
+: Traceback (most recent call last):
+:   File "<stdin>", line 5, in <module>
+:   File "<stdin>", line 3, in main
+: Exception: Something went wrong
 ******* Non-empty stderr
 #+begin_src python
   import sys
@@ -1905,7 +1917,7 @@ cat /nothere
 #+end_src
 
 #+results:
-: this is on stderr!
+: None
 
 ******* No error
 #+begin_src python
@@ -1916,26 +1928,27 @@ cat /nothere
 
 #+results:
 | 1 | 2 |
-****** DONE R
+****** R
        - State "DONE"       from "TODO"       [2010-03-01 Mon 09:21]
        - State "TODO"       from ""           [2010-03-01 Mon 09:20]
-******* DONE output on stderr
-#+begin_src R
-  cat("This is on stderr\n", file=stderr())
-#+end_src
-
-#+results:
-: This is on stderr
-******* DONE Throw error
+******* Exception
 #+begin_src R
 stop("Error message!")
 #+end_src
 
 #+results:
+: Shell command exited with code 1
+: 
 : Error in main() : Error message!
 : Calls: write.table -> is.data.frame -> inherits -> main
 : Execution halted
-******* DONE no error
+******* output on stderr
+	Silent
+#+begin_src R
+  cat("This is on stderr\n", file=stderr())
+#+end_src
+
+******* no error
 #+begin_src R
 1:3
 #+end_src
@@ -1950,10 +1963,10 @@ stop("Error message!")
 #+begin_src emacs-lisp
   (error "Error message!")
 #+end_src
-****** DONE perl
+****** perl
        - State "DONE"       from "TODO"       [2010-03-01 Mon 09:37]
        - State "TODO"       from ""           [2010-03-01 Mon 09:20]
-******* DONE Compile error
+******* Compile error
        - State "DONE"       from "TODO"       [2010-03-01 Mon 09:36]
        - State "TODO"       from ""           [2010-03-01 Mon 09:20]
 #+begin_src perl
@@ -1962,9 +1975,11 @@ split " ", "1 2 3"
 #+end_src
 
 #+results:
+: Shell command exited with code 9
+: 
 : syntax error at - line 4, near "split"
 : Execution of - aborted due to compilation errors.
-******* DONE throw runtime error
+******* throw runtime error
        - State "DONE"       from "TODO"       [2010-03-01 Mon 09:36]
        - State "TODO"       from ""           [2010-03-01 Mon 09:20]
 #+begin_src perl
@@ -1972,6 +1987,8 @@ die "Error message!";
 #+end_src
 
 #+results:
+: Shell command exited with code 9
+: 
 : Error message! at - line 3.
 ******* No error
 #+begin_src perl
@@ -1982,6 +1999,45 @@ split " ", "1 2 3";
 | 1 |
 | 2 |
 | 3 |
+******* write to stderr
+#+begin_src perl
+print STDOUT "hell on stdout\n"; 
+print STDERR "hell on stderr\n"; 
+#+end_src
+
+#+results:
+: 1
+****** Ruby
+******* Exception
+#+begin_src ruby
+a = 1
+raise "Something went wrong"
+a
+#+end_src
+
+#+results:
+: Shell command exited with code 1
+: 
+: -:5:in `main': Something went wrong (RuntimeError)
+: 	from -:10
+
+******* Write to stderr
+	I'm not sure why that's 16
+#+begin_src ruby
+$stderr.write "Hello on stderr\n"
+$stdout.write "Hello on stdout\n"
+#+end_src
+
+#+results:
+: 16
+******* No error
+#+begin_src ruby
+a = 1
+a
+#+end_src
+
+#+results:
+: 1
 ***** results output
       :PROPERTIES:
       :results: output
