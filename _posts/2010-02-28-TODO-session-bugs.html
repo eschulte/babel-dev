@@ -1,0 +1,148 @@
+---
+title: TODO session bugs
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> session bugs </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-28 Sun 14:54</span></span>
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="todo PROPOSED"> PROPOSED</span> shell different results for :session and external process </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<ul>
+<li>
+State "PROPOSED"   from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-25 Thu 16:58</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-19 Fri 13:27</span></span>
+
+
+</li>
+</ul>
+
+
+<pre class="src src-sh"><span class="org-builtin">echo</span> 1
+<span class="org-builtin">echo</span> 2
+</pre>
+
+
+
+
+<pre class="example">
+2
+</pre>
+
+
+<p>
+But without :session this gives
+</p>
+
+
+
+<pre class="src src-sh"><span class="org-builtin">echo</span> 1
+<span class="org-builtin">echo</span> 2
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" />
+</colgroup>
+<tbody>
+<tr><td>1</td></tr>
+<tr><td>2</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="todo PROPOSED"> PROPOSED</span> Getting &ndash; marker doesn't point anywhere </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-16 Tue 15:48</span></span>
+Only on first execution; second is OK. And doesn't occur when stepping through with edebug&hellip;
+
+</li>
+</ul>
+
+
+<pre class="src src-sh">hostname
+<span class="org-builtin">pwd</span>
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3"><span class="todo TODO"> TODO</span> python 'session output' evaluation is not outputting last line </h3>
+<div class="outline-text-3" id="text-1.3">
+
+<ul>
+<li>
+State "TODO"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-25 Thu 18:13</span></span>
+</li>
+</ul>
+
+<p>This is a bit weird. The first evaluation in a session is OK, but
+second and subsequent evaluations fail to output the last line.
+</p>
+
+
+
+<pre class="src src-python"><span class="org-keyword">print</span> <span class="org-string">'hello'</span>
+<span class="org-keyword">print</span> <span class="org-string">'bye'</span>
+</pre>
+
+
+
+
+<pre class="example">
+hello
+bye
+</pre>
+
+
+<p>
+But evaluate it again and the second line will not be output.
+</p></div>
+
+</div>
+
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4"><span class="todo TODO"> TODO</span> (R) session evaluation fails if no new line terminating output </h3>
+<div class="outline-text-3" id="text-1.4">
+
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">nonewline()</label><pre class="src src-R">
+cat(<span class="org-string">"There's no newline ending this"</span>)
+</pre></div>
+
+
+
+
+</div>
+</div>
+</div>

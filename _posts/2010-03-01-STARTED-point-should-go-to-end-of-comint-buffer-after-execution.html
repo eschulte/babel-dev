@@ -1,0 +1,100 @@
+---
+title: STARTED point should go to end of comint buffer after execution
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> point should go to end of comint buffer after execution </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-01 Mon 10:07</span></span>
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">shell </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<p>OK
+</p>
+
+
+<pre class="src src-sh"><span class="org-builtin">echo</span> hello
+</pre>
+
+
+
+
+<pre class="example">
+hello
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2">R </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<p>OK, except for very first evaluation in a session which leaves point floating.
+</p>
+
+
+<pre class="src src-R">cat(<span class="org-string">"hello\n"</span>)
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3">python </h3>
+<div class="outline-text-3" id="text-1.3">
+
+<p>Same as for R.
+</p>
+
+
+<pre class="src src-python"><span class="org-string">'goodbye'</span>
+</pre>
+
+
+
+
+<pre class="example">
+goodbye
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4">ruby </h3>
+<div class="outline-text-3" id="text-1.4">
+
+<p>Fine, no problem.
+</p>
+
+
+<pre class="src src-ruby"><span class="org-string">'goodbye'</span>
+</pre>
+
+
+
+
+<pre class="example">
+goodbye
+</pre>
+
+</div>
+</div>
+</div>

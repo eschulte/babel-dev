@@ -1,0 +1,43 @@
+---
+title: PROPOSED Modify results value implementation
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Modify results value implementation </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-03 Wed 14:27</span></span>
+
+</li>
+</ul>
+
+<p>Are results transferred to elisp via file?
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">language</th><th scope="col">session</th><th scope="col">shell process</th></tr>
+</thead>
+<tbody>
+<tr><td>R</td><td>yes</td><td>yes</td></tr>
+<tr><td>ruby</td><td>no</td><td>yes</td></tr>
+<tr><td>python</td><td>no</td><td>yes</td></tr>
+<tr><td>shell</td><td>no</td><td>no</td></tr>
+<tr><td>haskell</td><td>no</td><td>NA</td></tr>
+</tbody>
+</table>
+
+
+<p>
+The main point is that in ruby and python, the printed values from the
+interpreter can be used as results, whereas that's not really
+attractive for R. However, one minor point is: ought we to consider
+(in the interests of consistency) not using files for ruby
+shell-process and python shell-process?
+</p></div>
+</div>

@@ -57,11 +57,14 @@ call-process-region.
 </div>
 
 <div id="outline-container-tramp-handle-call-process-region" class="outline-3">
-<h3 id="tramp-handle-call-process-region"><a name="sec-1.1" id="sec-1.1"></a><span class="todo TODO"> TODO</span> Improve the way call-process-region is handled </h3>
+<h3 id="tramp-handle-call-process-region"><a name="sec-1.1" id="sec-1.1"></a><span class="done DONE"> DONE</span> Improve the way call-process-region is handled </h3>
 <div class="outline-text-3" id="text-tramp-handle-call-process-region">
 
 
 <ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-02 Tue 14:53</span></span>
+</li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 16:53</span></span>
 
@@ -298,18 +301,40 @@ We need to extend some of the changes to some of the other
 languages, e.g. make sure that they construct remote file names
 when attemtping to read remote data, as in
 010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
+</p></li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.3.1" class="outline-4">
+<h4 id="sec-1.3.1"><span class="todo TODO"> TODO</span> Make gnuplot respond to default-directory </h4>
+<div class="outline-text-4" id="text-1.3.1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-28 Sun 15:34</span></span>
+
+<p>
+gnuplot currently uses shell-command-to-string. I think this may
+be the reason why it does not respond to a change in
+default-directory. We may want to use shell-command-on-region
+(like many other languages) or shell-command instead.
 </p>
 </li>
 </ul>
+</div>
 </div>
 
 </div>
 
 <div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="todo TODO"> TODO</span> Make sure file links are pointing into dir </h3>
+<h3 id="sec-1.4"><span class="todo STARTED"> STARTED</span> Make sure file links are pointing into dir </h3>
 <div class="outline-text-3" id="text-1.4">
 
 <ul>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-03 Wed 14:37</span></span>
+</li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-25 Thu 18:16</span></span>
 
@@ -320,6 +345,45 @@ to the location of the file created by R.
 </p>
 </li>
 </ul>
+
+</div>
+
+<div id="outline-container-1.4.1" class="outline-4">
+<h4 id="sec-1.4.1"><span class="todo TODO"> TODO</span> relation of :dir and :exports </h4>
+<div class="outline-text-4" id="text-1.4.1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-03 Wed 14:48</span></span>
+
+</li>
+</ul>
+
+<p>&gt; on export the following generates a
+&gt; broken link (link is relative but file is created in ~/images)
+&gt;
+&gt; #+begin<sub>src</sub> ditaa :file images/ditaa.png :dir ~ :export results
+&gt;
+&gt; Shall we just leave that problem as is for now, or would you prefer it
+&gt; to be solved before committing? Err, and do you happen to have a good
+&gt; solution? :)
+&gt;
+</p>
+<p>
+Hmm,
+</p>
+<p>
+I would be inclined to say we've given people alot of rope, and if
+they're digging this deep into complex combinations of header arguments
+then we can't stop themselves from hanging themselves.  If that sounds
+good to you then I'd say we're set and go ahead and commit.
+</p>
+<p>
+Since remote directories are working, the user could always put the path
+to the directory on their webserver in the :dir option, in which case
+the links may actually resolve.
+</p>
+</div>
 </div>
 
 </div>

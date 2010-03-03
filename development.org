@@ -3,7 +3,101 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/113]
+* Tasks [62/117]
+** PROPOSED Extend org executable link constructs
+   - State "PROPOSED"   from ""           [2010-03-03 Wed 14:04]
+     I just noticed the following link types in the [[http://orgmode.org/manual/External-links.html#External-links][org manual]]
+
+#+begin_example 
+   shell:ls *.org                            A shell command
+   elisp:org-agenda                          Interactive Elisp command
+   elisp:(find-file-other-frame "Elisp.org") Elisp form to evaluate
+#+end_example
+
+   The above can be placed within the standard construct:
+
+: [[link][description]]
+
+   I wonder whether we had that sufficiently in mind when we designed
+   our in-line blocks? Some possibilities that come to mind are:
+
+The above suggests that babel could extend org by supporting
+
+: [[ruby: 2+2]] and [[ruby: 2+2][description]]
+
+etc. 
+
+And perhaps header args in {} rather than []
+
+: [[ruby{:session}]] and [[ruby{:session}: 2+2][description]]
+
+Or perhaps
+
+: [[src_ruby: 2+2]]
+
+If we needed to differentiate the babel handler from the org handler
+then we could use 
+: [[src_ruby: 2+2]]
+although I think I would like to keep the syntax identical, using
+variables to decide who handles what, so that it is invisible to the
+user.
+
+** PROPOSED Should tangle stop guessing file extensions?
+   - State "PROPOSED"   from ""           [2010-02-28 Sun 18:33]
+*** Email from Martin G. Skjæveland
+From: Dan Davison <davison@stats.ox.ac.uk>
+Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+Date: Sat, 27 Feb 2010 00:20:45 -0500
+To: Martin G. Skjæveland <martige@ifi.uio.no>
+Cc: emacs-orgmode <emacs-orgmode@gnu.org>
+
+"Martin G. Skjæveland" <martige@ifi.uio.no> writes:
+
+> Hi,
+>
+> running tangle with the following values
+>
+>   #+begin_src xml :tangle test.rdf
+>   ...
+>   #+end_src
+>
+> used to create a file called test.rdf. However, after a fresh git pull
+> today this now tangles to the file test.rdf.xml, which is not what I
+> want.
+
+I understand. I wonder if babel should simply assume that the user has
+entered a file name with the correct extension when :tangle is something
+other than "yes".
+
+** PROPOSED Integration with GNU screen
+   - State "PROPOSED"   from ""           [2010-02-28 Sun 15:30]
+
+     It might be nice to support some relationship between babel
+     sessions and screen sessions, so that babel sessions have
+     persistency (particularly useful for remote sessions).
+
+     This will be most straightforward for shell sessions. But the
+     fact that ess-remote "converts" an emacs shell session running R
+     into an inferior ESS comint R session suggests that it may be
+     possible for R also.
+
+** TODO Use org-insert-link machinery to create links
+   - State "TODO"       from ""           [2010-02-28 Sun 15:25]
+
+     One reason for doing this is to honour the variable
+     org-link-file-path-type.
+
+     Perhaps org-insert-link can be refactored along the lines of
+     
+#+begin_src emacs-lisp 
+  (defun org-insert-link (...)
+    ...
+    (insert (org-create-link ...)))
+#+end_src
+
+    in which case we could use org-create-link.
+     
 ** PROPOSED Are we happy with boolean header arg semantics?
    - State "PROPOSED"   from ""           [2010-02-24 Wed 15:51]
      
@@ -167,9 +261,6 @@ For complete information see the [[http://orgmode.org/worg/org-contrib/babel/lan
 
 ** TODO Store interpreter executable names and command-line arguments in variables
    - State "TODO"       from ""           [2010-02-20 Sat 12:22]
-** PROPOSED More diligent cleaning up of temp files
-   - State "PROPOSED"   from ""           [2010-02-20 Sat 12:22]
-
 ** TODO How do we check that block output is identical to previous output?
    - State "TODO"       from ""           [2010-02-14 Sun 18:24]
 
@@ -625,11 +716,12 @@ With the above "spec", I guess all cases are covered. What do you think?
      is remote; otherwise we call the emacs version of
      call-process-region.
 
-*** TODO Improve the way call-process-region is handled
+*** DONE Improve the way call-process-region is handled
     :PROPERTIES:
     :CUSTOM_ID: tramp-handle-call-process-region
     :END:
 
+    - State "DONE"       from "TODO"       [2010-03-02 Tue 14:53]
     - State "TODO"       from ""           [2010-02-21 Sun 16:53]
 
       At line 217 of org-babel.el, we rebind call-process-region so
@@ -786,14 +878,46 @@ With the above "spec", I guess all cases are covered. What do you think?
       languages, e.g. make sure that they construct remote file names
       when attemtping to read remote data, as in
       010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
+**** TODO Make gnuplot respond to default-directory
+     - State "TODO"       from ""           [2010-02-28 Sun 15:34]
+       
+       gnuplot currently uses shell-command-to-string. I think this may
+       be the reason why it does not respond to a change in
+       default-directory. We may want to use shell-command-on-region
+       (like many other languages) or shell-command instead.
 
-*** TODO Make sure file links are pointing into dir
+*** STARTED Make sure file links are pointing into dir
+    - State "STARTED"    from "TODO"       [2010-03-03 Wed 14:37]
     - State "TODO"       from ""           [2010-02-25 Thu 18:16]
 
       E.g. if I use :file pca.png, but the working directory of the R
       session is "/tmp", then we need to ensure that the org file link points
       to the location of the file created by R.
-      
+
+**** TODO relation of :dir and :exports
+     - State "TODO"       from ""           [2010-03-03 Wed 14:48]
+
+> on export the following generates a
+> broken link (link is relative but file is created in ~/images)
+>
+> #+begin_src ditaa :file images/ditaa.png :dir ~ :export results
+>
+> Shall we just leave that problem as is for now, or would you prefer it
+> to be solved before committing? Err, and do you happen to have a good
+> solution? :)
+>
+
+Hmm,
+
+I would be inclined to say we've given people alot of rope, and if
+they're digging this deep into complex combinations of header arguments
+then we can't stop themselves from hanging themselves.  If that sounds
+good to you then I'd say we're set and go ahead and commit.
+
+Since remote directories are working, the user could always put the path
+to the directory on their webserver in the :dir option, in which case
+the links may actually resolve.
+       
 *** PROPOSED should we allow :results file without explicitly giving path?
     I.e. should we create a file in /tmp or in the current directory?
 *** DONE Improve support for :session t :results output
@@ -1320,14 +1444,39 @@ verbose.  If you could assume a functional style without side effects
 you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
-** REJECTED :results org should be org block
+** PROPOSED :results org should be org block
+   - State "PROPOSED"   from "REJECTED"   [2010-02-28 Sun 15:10]
    - State "REJECTED"   from "PROPOSED"   [2009-12-22 Tue 14:40]
 
    The reason that =:results org= was introduced was to support
    seamless insertion of results into an org-mode buffer.  This
-   proposal would defeat that initial purpose.  Also, the idea of org
-   source blocks in an org-mode document seems needlessly complex and
-   contorted.  Of course I could be missing something here.
+   proposal would defeat that initial purpose. [Eric]
+
+   No, we already have =:results raw= which is currently synonymous
+   with =org=. [Dan]
+   
+   Also, the idea of org source blocks in an org-mode document seems
+   needlessly complex and contorted.  Of course I could be missing
+   something here. [Eric]
+
+   Org already supports org source blocks (e.g. line 50
+   org-src.el). And there's at least one clear use case for them,
+   i.e. demonstrating, in HTML, what an org buffer looks like:
+
+*** Test export
+  You're reading HTML at the moment, but this is what org looks like
+  in your emacs buffer.
+
+#+begin_src org
+  ,#+SEQ_TODO: x | o
+  ,* x todo item
+  ,  SCHEDULED: <2010-02-28 Sun>
+#+end_src
+
+  I admit that I don't know how often one will want to generate org
+  blocks using babel, but I think that to use =org= as a synonym of
+  =raw= is inconsistent with =:results latex=, =:results html=,
+  =:results code=. [Dan]
 
    i.e. 
 :   #+begin_src org
@@ -1778,11 +1927,28 @@ This will rely upon [[* resolve references to other buffers][resolve references 
 ** TODO LoB: re-implement plotting and analysis functions from org-R
    I'll do this soon, now that we things are a bit more settled and we
    have column names in R.
-** TODO Improved error checking
+** STARTED Improved error checking
+   - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:00]
    E.g. when trying to execute sass block, I did not have sass
    installed, and so shell-command returned code 127, but org-babel
    did not warn me that anything had gone wrong.
-*** Error checking in R
+    - State "TODO"       from "DEFERRED"   [2010-03-01 Mon 05:49]
+    I expect it will be hard to do this properly, but ultimately it
+    would be nice to be able to specify somewhere to receive STDERR,
+    and to be warned if it is non-empty.
+
+    Probably simpler in non-session evaluation than session? At least
+    the mechanism will be different I guess.
+
+    R has a try function, with error handling, along the lines of
+    python. I bet ruby does too. Maybe more of an issue for functional
+    style; in my proposed scripting style the error just gets dumped to
+    the org buffer and the user is thus alerted.
+
+    For now I think the current behavior of returning any error
+    messages generated by the source language is sufficient.
+
+*** Error checking in R sessions
     A simple thing to do is to wrap the R code in try(...), as in the
     patch below. That results in some improved behaviour:
     - You get the error message from R
@@ -1841,22 +2007,7 @@ index 0e8695f..060f880 100644
 +         (setq result (org-babel-execute-src-block t (org-babel-get-src-block-info) args))
           (if (symbolp result) (format "%S" result) result))
          ('lob (setq result (org-babel-execute-src-block t lob-info args)))))))
-    
-*** DEFERRED figure out how to handle errors during evaluation
-    I expect it will be hard to do this properly, but ultimately it
-    would be nice to be able to specify somewhere to receive STDERR,
-    and to be warned if it is non-empty.
 
-    Probably simpler in non-session evaluation than session? At least
-    the mechanism will be different I guess.
-
-    R has a try function, with error handling, along the lines of
-    python. I bet ruby does too. Maybe more of an issue for functional
-    style; in my proposed scripting style the error just gets dumped to
-    the org buffer and the user is thus alerted.
-
-    For now I think the current behavior of returning any error
-    messages generated by the source language is sufficient.
 ** TODO Finalise argument-passing syntax
 
 #+srcname: unnamedargs(x=7)
@@ -2023,6 +2174,25 @@ but with preference given to
    code which reference other blocks on which they rely, this
    shouldn't be too hard to implement either on our own, or possibly
    relying on something like noweb/notangle.
+** PROPOSED Modify results value implementation
+   - State "PROPOSED"   from ""           [2010-03-03 Wed 14:27]
+
+Are results transferred to elisp via file?
+
+| language | session | shell process |
+|----------+---------+---------------|
+| R        | yes     | yes           |
+| ruby     | no      | yes           |
+| python   | no      | yes           |
+| shell    | no      | no            |
+| haskell  | no      | NA            |
+
+The main point is that in ruby and python, the printed values from the
+interpreter can be used as results, whereas that's not really
+attractive for R. However, one minor point is: ought we to consider
+(in the interests of consistency) not using files for ruby
+shell-process and python shell-process?
+
 ** DONE allow 'output mode to return stdout as value?
    We do allow this now. It turned out to be necessary for lob calls using output mode.
 
@@ -4093,7 +4263,7 @@ This is currently working only with emacs lisp as in the following
 example in the [[* emacs lisp source reference][emacs lisp source reference]].
 
 
-** TODO Add languages [11/16]
+** TODO Add languages [16/20]
 I'm sure there are many more that aren't listed here.  Please add
 them, and bubble any that you particularly care about up to the top.
 
@@ -4101,6 +4271,12 @@ Any new language should be implemented in a org-babel-lang.el file.
 Follow the pattern set by [[file:lisp/org-babel-script.el][org-babel-script.el]], [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and
 [[file:lisp/org-babel-R.el][org-babel-R.el]].
 
+*** DONE clojure
+    - State "DONE"       from ""           [2010-03-01 Mon 10:26]
+*** DONE oz
+    - State "DONE"       from ""           [2010-03-01 Mon 10:27]
+*** DONE screen
+    - State "DONE"       from ""           [2010-03-01 Mon 10:28]
 *** STARTED Haskell
 #+begin_src haskell
 "hello Haskell"
@@ -4165,8 +4341,23 @@ let rec fib x =
 #+resname:
 | "ocaml" | "array" |
 
-*** TODO perl
+*** DONE perl
+    - State "DONE"       from "TODO"       [2010-03-01 Mon 05:22]
 This could probably be added to [[file:lisp/org-babel-script.el][org-babel-script.el]]
+
+It has been implemented on its own (for external process only). I
+think org-babel-script.el may be obsolete now.
+
+#+begin_src perl
+  $a = "1 2 3";
+  split " ", $a;
+#+end_src
+
+#+results:
+| 1 |
+| 2 |
+| 3 |
+
 *** TODO java
 *** STARTED SQL
 Things left to do
@@ -4222,6 +4413,8 @@ trivial [[file:lisp/langs/org-babel-css.el][org-babel-css.el]]
 #+resname: implementing-ditaa
 [[file:blue.png][blue.png]]
 
+*** DONE latex
+    - State "DONE"       from ""           [2010-03-01 Mon 10:27]
 *** DONE gnuplot [7/7]
 (see [[* file result types][file result types]])
 
@@ -4375,7 +4568,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [57/76]
+* Bugs [57/73]
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
@@ -4409,7 +4602,9 @@ dot("$(2a,0)$",(2,0),N+E);
 
    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
 
-** PROPOSED shell different results for :session and external process
+** TODO session bugs
+   - State "TODO"       from ""           [2010-02-28 Sun 14:54]
+*** PROPOSED shell different results for :session and external process
    - State "PROPOSED"   from "TODO"       [2010-02-25 Thu 16:58]
    - State "TODO"       from ""           [2010-02-19 Fri 13:27]
      
@@ -4431,6 +4626,34 @@ But without :session this gives
 #+results:
 | 1 |
 | 2 |
+*** PROPOSED Getting -- marker doesn't point anywhere
+   - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
+     Only on first execution; second is OK. And doesn't occur when stepping through with edebug...
+#+begin_src sh :session sh-local :dir /tmp
+  hostname
+  pwd
+#+end_src
+*** TODO python 'session output' evaluation is not outputting last line 
+   - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 18:13]
+   This is a bit weird. The first evaluation in a session is OK, but
+   second and subsequent evaluations fail to output the last line.
+   
+#+begin_src python :session newsession :results output
+  print 'hello'
+  print 'bye'
+#+end_src
+
+#+results:
+: hello
+: bye
+
+But evaluate it again and the second line will not be output.
+*** TODO (R) session evaluation fails if no new line terminating output
+
+#+srcname: nonewline
+#+begin_src R :session
+cat("There's no newline ending this")
+#+end_src
   
 ** DONE python :session :results value not working
    - State "DONE"       from "TODO"       [2010-02-25 Thu 16:59]
@@ -4503,14 +4726,6 @@ Date:   Fri Feb 19 11:34:16 2010 -0500
 : Tue Feb 23 22:24:46 2010
 : ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
 : /home/dan/babel-dev
-
-** PROPOSED Getting -- marker doesn't point anywhere
-   - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
-     Only on first execution; second is OK. And doesn't occur when stepping through with edebug...
-#+begin_src sh :session sh-local :dir /tmp
-  hostname
-  pwd
-#+end_src
 ** TODO Haskell source blocks can't resolve references
    - State "TODO"       from ""           [2010-02-15 Mon 09:13]
 
@@ -4565,22 +4780,6 @@ index dc51020..c0e6a55 100644
  
  (defun org-babel-ref-at-ref-p ()
 #+end_src
-
-** TODO python 'session output' evaluation is not outputting last line 
-   - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 18:13]
-   This is a bit weird. The first evaluation in a session is OK, but
-   second and subsequent evaluations fail to output the last line.
-   
-#+begin_src python :session newsession :results output
-  print 'hello'
-  print 'bye'
-#+end_src
-
-#+results:
-: hello
-: bye
-
-But evaluate it again and the second line will not be output.
 
 ** DONE on export babel overwrites unrecognized source blocks
    - State "DONE"       from "TODO"       [2010-01-18 Mon 13:37]
@@ -4692,7 +4891,6 @@ Thanks to Tom Dye for pointing this out.
   <<foo>>
   a + 1
 #+end_src
-
 ** DONE header argument values are not being collected from properties
    - State "DONE"       from "TODO"       [2009-12-28 Mon 18:11]
    - State "TODO"       from ""           [2009-12-28 Mon 16:07]
@@ -4740,15 +4938,19 @@ both of these issues were resolved in changes to
              '("cache" "cmdline" "exports" "file" "noweb" "results"
                "session" "tangle" "var")))))  
 #+end_src
-
 ** TODO Error in R if block is merely defining a function
 First idea which occurs to me is we could check whether the object
 inherits from a blacklist of classes before attempting to write.table.
-#+begin_example
-> write.table(.Last.value, file="/tmp/org-babel-R1932_XQ", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
-Error in as.data.frame.default(x[[i]], optional = TRUE) : 
-  cannot coerce class "function" into a data.frame
-#+end_example
+
+#+begin_src R
+  f <- function(x) x
+#+end_src
+
+#+results:
+: Error in as.data.frame.default(x[[i]], optional = TRUE) : 
+:   cannot coerce class "function" into a data.frame
+: Calls: write.table ... data.frame -> as.data.frame -> as.data.frame.default
+: Execution halted
 
 ** DONE Insert results fails if eob or ensuing lines non-empty
 This (end of buffer after block, with or without newline after
@@ -4882,12 +5084,6 @@ index c805373..1d7fe3b 100644
 
 ** PROPOSED (org-babel-merge-params nil) --> ((:tangle . "") (:exports . "") (:results . ""))
    Is that desirable?
-** TODO (R) session evaluation fails if no new line terminating output
-
-#+srcname: nonewline
-#+begin_src R :session
-cat("There's no newline ending this")
-#+end_src
 
 ** PROPOSED Allow #+srcname to be indented
 ** REJECTED Juan Reyero bug report
@@ -4934,7 +5130,38 @@ echo 6
 #+results:
 : 6
 
-** TODO point should go to end of comint buffer after execution
+** STARTED point should go to end of comint buffer after execution
+   - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:07]
+*** shell
+    OK
+#+begin_src sh :session
+echo hello
+#+end_src
+
+#+results:
+: hello
+*** R
+    OK, except for very first evaluation in a session which leaves point floating.
+#+begin_src R :session
+cat("hello\n")
+#+end_src
+
+*** python
+    Same as for R.
+#+begin_src python :session
+'goodbye'
+#+end_src
+
+#+results:
+: goodbye
+*** ruby
+    Fine, no problem.
+#+begin_src ruby :session
+'goodbye'
+#+end_src
+
+#+results:
+: goodbye
 ** DONE python doesn't work with multiple statements per line
    Solved by demanding return statement in python.
 
