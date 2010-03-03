@@ -428,20 +428,3 @@ return [time.ctime(), os.uname(),os.getcwd()]
 #+results:
 [[file:ditaa-org-babel.png]]
 
-* results value implementation
-
-Are results transferred to elisp via file?
-
-| language | session | shell process |
-|----------+---------+---------------|
-| R        | yes     | yes           |
-| ruby     | no      | yes           |
-| python   | no      | yes           |
-| shell    | no      | no            |
-| haskell  | no      | NA            |
-
-The main point is that in ruby and python, the printed values from the
-interpreter can be used as results, whereas that's not really
-attractive for R. However, one minor point is: ought we to consider
-(in the interests of consistency) not using files for ruby
-shell-process and python shell-process?
