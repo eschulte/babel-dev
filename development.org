@@ -3,7 +3,45 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/115]
+* Tasks [62/116]
+** PROPOSED Extend org executable link constructs
+   - State "PROPOSED"   from ""           [2010-03-03 Wed 14:04]
+     I just noticed the following link types in the [[http://orgmode.org/manual/External-links.html#External-links][org manual]]
+
+#+begin_example 
+   shell:ls *.org                            A shell command
+   elisp:org-agenda                          Interactive Elisp command
+   elisp:(find-file-other-frame "Elisp.org") Elisp form to evaluate
+#+end_example
+
+   The above can be placed within the standard construct:
+
+: [[link][description]]
+
+   I wonder whether we had that sufficiently in mind when we designed
+   our in-line blocks? Some possibilities that come to mind are:
+
+The above suggests that babel could extend org by supporting
+
+: [[ruby: 2+2]] and [[ruby: 2+2][description]]
+
+etc. 
+
+And perhaps header args in {} rather than []
+
+: [[ruby{:session}]] and [[ruby{:session}: 2+2][description]]
+
+Or perhaps
+
+: [[src_ruby: 2+2]]
+
+If we needed to differentiate the babel handler from the org handler
+then we could use 
+: [[src_ruby: 2+2]]
+although I think I would like to keep the syntax identical, using
+variables to decide who handles what, so that it is invisible to the
+user.
+
 ** PROPOSED Should tangle stop guessing file extensions?
    - State "PROPOSED"   from ""           [2010-02-28 Sun 18:33]
 *** Email from Martin G. Skjæveland
