@@ -1,0 +1,793 @@
+#+SEQ_TODO: TODO DOESN'T_WORK | WORKS
+
+* WORKS Local and remote working dirs
+    :PROPERTIES:
+    :noweb: yes
+    :END:
+    Everything in this subtree works at a8c1a49b77acfcf7986d427c77b6cc8a6082cd47
+*** :results output
+    :PROPERTIES:
+    :results: output
+    :END:
+***** :session
+******* R
+********* code
+#+source: dir-test-R
+#+begin_src R 
+  date()
+  system("hostname")
+  getwd()
+#+end_src
+
+********* local
+#+begin_src R :session R-local :dir /tmp
+<<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Wed Mar  3 16:14:23 2010"
+: Luscinia
+: [1] "/tmp"
+      
+********* remote
+#+begin_src R :session R-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Wed Mar  3 16:14:31 2010"
+: oak
+: [1] "/data/oak/user/davison/bench"
+
+******* ruby
+********* code
+#+source: dir-test-ruby
+#+begin_src ruby
+system("date")
+system("hostname")
+system("pwd")
+#+end_src
+
+********* local
+#+begin_src ruby :session ruby-local :dir /tmp
+<<dir-test-ruby>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:31:24 GMT 2010
+: true
+: Luscinia
+: true
+: /tmp
+: true
+
+********* remote
+#+begin_src ruby :session ruby-remote :dir /yakuba.princeton.edu:/tmp
+  <<dir-test-ruby>>
+#+end_src
+
+#+results:
+: 
+: Tue Mar  2 10:29:57 EST 2010
+: true
+: yakuba.princeton.edu
+: true
+: /tmp
+: true
+******* python
+********* code
+#+source: dir-test-python
+#+begin_src python
+  import os, time
+  print time.ctime()
+  print os.uname()
+  print os.getcwd()
+  print '\n' ## We have a bug involving losing final lines
+#+end_src
+
+********* local
+#+begin_src python :session python-local :dir /home/dan/
+  <<dir-test-python>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:32:35 2010
+: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: /home/dan
+********* remote
+#+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-python>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:32:45 2010
+: ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
+: /data/oak/user/davison/bench
+
+******* shell
+********* code
+#+source: dir-test-shell
+#+begin_src sh
+  date
+  hostname
+  pwd
+#+end_src
+
+********* local
+#+begin_src sh :session sh-local :dir /tmp
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Wed Mar  3 16:13:46 GMT 2010
+: Luscinia
+: /tmp
+
+********* remote
+#+begin_src sh :session sh-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Wed Mar  3 16:13:56 GMT 2010
+: oak
+: /home/davison/bench
+******* perl : NA
+***** non-session
+    :PROPERTIES:
+    :session: none
+    :END:
+******* R
+********* local
+#+begin_src R :dir /home/dan
+<<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Tue Mar  2 15:34:32 2010"
+: Luscinia
+: [1] "/home/dan"
+********* remote
+#+begin_src R :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-R>>
+#+end_src
+
+#+results:
+: [1] "Tue Mar  2 15:34:40 2010"
+: oak
+: [1] "/data/oak/user/davison/bench"
+
+******* ruby
+********* local
+#+begin_src ruby :dir /home/dan
+<<dir-test-ruby>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:34:49 GMT 2010
+: Luscinia
+: /home/dan
+********* remote
+#+begin_src ruby :dir /yakuba.princeton.edu:~
+  <<dir-test-ruby>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:32:37 UTC 2010
+: yakuba.princeton.edu
+: /data/dan
+******* python
+********* local
+#+begin_src python :dir /home/dan/
+<<dir-test-python>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:35:13 2010
+: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: /home/dan
+: 
+: 
+********* remote
+#+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-python>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:35:18 2010
+: ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
+: /data/oak/user/davison/bench
+: 
+: 
+******* shell
+********* local
+#+begin_src sh :dir /tmp
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:35:22 GMT 2010
+: Luscinia
+: /tmp
+********* remote
+#+begin_src sh :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-shell>>
+#+end_src
+
+#+results:
+: Tue Mar  2 15:35:25 UTC 2010
+: oak
+: /home/davison/bench
+******* perl
+********* code
+#+source: dir-test-perl
+#+begin_src perl
+  system("date");
+  system("hostname");
+  system("pwd");
+#+end_src
+********* local
+#+begin_src perl :dir /tmp
+<<dir-test-perl>>
+#+end_src
+
+#+results:
+: Wed Mar  3 14:53:20 GMT 2010
+: Luscinia
+: /tmp
+
+********* remote
+#+begin_src perl :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-perl>>
+#+end_src
+
+#+results:
+: Wed Mar  3 16:01:31 UTC 2010
+: oak
+: /data/oak/user/davison/bench
+*** :results value
+    :PROPERTIES:
+    :results: value
+    :END:
+***** :session
+******* R
+********* code
+#+source: dir-test-R-value
+#+begin_src R 
+  c(date(), system("hostname", intern=TRUE), getwd())
+#+end_src
+
+********* local
+#+begin_src R :session R-local :dir /tmp
+  <<dir-test-R-value>>
+#+end_src
+
+#+results:
+| Tue      | Mar | 2 | 15:35:31 | 2010 |
+| Luscinia |     |   |          |      |
+| /tmp     |     |   |          |      |
+********* remote
+	  The data is written remotely, but currently we attempt to
+          read it locally.
+#+begin_src R :session R-remote :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-R-value>>
+#+end_src
+
+#+results:
+| Tue                          | Mar | 2 | 15:35:36 | 2010 |
+| oak                          |     |   |          |      |
+| /data/oak/user/davison/bench |     |   |          |      |
+******* ruby
+********* code
+#+source: dir-test-ruby-value
+#+begin_src ruby
+  [1, 2]
+#+end_src
+
+********* local
+#+begin_src ruby :session ruby-local :dir /tmp
+<<dir-test-ruby-value>>
+#+end_src
+
+#+results:
+| 1 | 2 |
+********* remote
+#+begin_src ruby :session ruby-remote :dir /yakuba.princeton.edu:
+<<dir-test-ruby-value>>
+#+end_src
+
+#+results:
+| 1 | 2 |
+******* python
+********* code
+#+source: dir-test-python-value
+#+begin_src python
+  import os, time
+  [time.ctime(), os.uname(),os.getcwd()]
+#+end_src
+
+********* local
+#+begin_src python :session python-local :dir /tmp
+<<dir-test-python-value>>
+#+end_src
+
+#+results:
+| Tue Mar  2 15:36:07 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+********* remote
+#+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-python-value>>
+#+end_src
+
+#+results:
+| Tue Mar  2 15:36:12 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+******* shell
+********* code
+#+source: dir-test-shell-value
+#+begin_src sh
+  echo This is the first line
+  echo There should have been a line before me
+  echo `hostname`
+  echo `pwd`
+  echo There should be a line after me
+  echo This is the last line
+#+end_src
+
+********* local
+	  But Looks like a shell ':session :results value' bug here.
+#+begin_src sh :session sh-local :dir /tmp :results vector
+  <<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This is the last line |
+********* remote
+#+begin_src sh :session sh-remote :dir /davison@oak.well.ox.ac.uk:bench :results vector
+  <<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This is the last line |
+******* perl : NA
+***** non-session
+    :PROPERTIES:
+    :session: none
+    :END:
+******* R
+********* local
+#+begin_src R :dir /home/dan
+  <<dir-test-R-value>>
+#+end_src
+
+#+results:
+| Sun       | Feb | 21 | 01:10:26 | 2010 |
+| Luscinia  |     |    |          |      |
+| /home/dan |     |    |          |      |
+********* remote
+	  Runs remotely, but no results returned
+#+begin_src R :dir /davison@oak.well.ox.ac.uk:~
+  <<dir-test-R-value>>
+  ## system("date >> /tmp/babel-R")
+  ## system("echo hello-from-R >> /tmp/babel-R")
+  ## system("hostname")
+#+end_src
+
+#+results:
+| Sun           | Feb | 21 | 06:10:34 | 2010 |
+| oak           |     |    |          |      |
+| /home/davison |     |    |          |      |
+******* ruby
+********* local
+#+begin_src ruby :dir /home/dan
+  <<dir-test-ruby-value>>
+#+end_src
+
+#+results:
+| 1 | 2 |
+********* remote
+	  Runs remotely, but no results returned
+#+begin_src ruby :dir /yakuba:
+  [1,2]
+#+end_src
+
+#+results:
+| 1 | 2 |
+******* python
+********* code
+#+source: dir-test-python-value-nonsession
+#+begin_src python
+import os, time
+return [time.ctime(), os.uname(),os.getcwd()]
+#+end_src
+
+********* local
+#+begin_src python :dir /home/dan/
+  <<dir-test-python-value-nonsession>>
+#+end_src
+
+#+results:
+| Sun Feb 21 01:10:57 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+********* remote
+	  Runs remotely but no results returned
+#+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-python-value-nonsession>>
+#+end_src
+
+#+results:
+| Sun Feb 21 06:11:10 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+******* shell
+********* local
+#+begin_src sh :dir /tmp
+  <<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This     | is     | the  | first | line |       |        |    |
+| There    | should | have | been  | a    | line  | before | me |
+| Luscinia |        |      |       |      |       |        |    |
+| /tmp     |        |      |       |      |       |        |    |
+| There    | should | be   | a     | line | after | me     |    |
+| This     | is     | the  | last  | line |       |        |    |
+********* remote
+#+begin_src sh :dir /davison@oak.well.ox.ac.uk:bench
+  <<dir-test-shell-value>>
+#+end_src
+
+#+results:
+| This                | is     | the  | first | line |       |        |    |
+| There               | should | have | been  | a    | line  | before | me |
+| oak                 |        |      |       |      |       |        |    |
+| /home/davison/bench |        |      |       |      |       |        |    |
+| There               | should | be   | a     | line | after | me     |    |
+| This                | is     | the  | last  | line |       |        |    |
+
+******* perl
+********* code
+#+source: dir-test-perl-value
+#+begin_src perl :results value
+(`date`,`hostname`,`pwd`) ;
+#+end_src
+
+#+results: dir-test-perl-value
+| Wed                 | Mar | 3 | 15:14:59 | GMT | 2010 |
+|                     |     |   |          |     |      |
+| Luscinia            |     |   |          |     |      |
+|                     |     |   |          |     |      |
+| /home/dan/babel-dev |     |   |          |     |      |
+|                     |     |   |          |     |      |
+********* local
+#+begin_src perl :dir /tmp
+<<dir-test-perl-value>>
+#+end_src
+
+#+results:
+| Wed      | Mar | 3 | 16:01:51 | GMT | 2010 |
+|          |     |   |          |     |      |
+| Luscinia |     |   |          |     |      |
+|          |     |   |          |     |      |
+| /tmp     |     |   |          |     |      |
+|          |     |   |          |     |      |
+
+********* remote
+#+begin_src perl :dir /davison@oak.well.ox.ac.uk:bench
+<<dir-test-perl-value>>
+#+end_src
+
+#+results:
+| Wed                          | Mar | 3 | 16:07:08 | UTC | 2010 |
+|                              |     |   |          |     |      |
+| oak                          |     |   |          |     |      |
+|                              |     |   |          |     |      |
+| /data/oak/user/davison/bench |     |   |          |     |      |
+|                              |     |   |          |     |      |
+* File output links
+  :PROPERTIES:
+  :exports: both
+  :END:
+*** Set up
+#+begin_src sh
+mkdir -p /tmp/images
+#+end_src
+
+*** These don't use :dir so should be same as before
+***** ditaa
+#+source: ditaa-dir-eg
+#+begin_src ditaa :file ditaa.png :cmdline -r
++-----------+
+| cBLU      |
+| Org       |
+|    +------+
+|    |cPNK  |
+|    |babel |
+|    |      |
++----+------+
+#+end_src
+
+***** latex
+#+source: latex-dir-eg
+#+begin_src latex :file latex.png
+$e^{i\pi} = -1$
+#+end_src
+
+***** R
+#+source R-dir-eg
+#+begin_src R :file R.png
+curve(sin(x), 0, 2*pi)
+#+end_src
+
+***** gnuplot
+#+PLOT: title:"Citas" ind:1 deps:(3) type:2d with:histograms set:"yrange [0:]"
+#+TBLNAME: gnuplot-data
+| independent var | first dependent var | second dependent var |
+|-----------------+---------------------+----------------------|
+|             0.1 |               0.425 |                0.375 |
+|             0.2 |              0.3125 |               0.3375 |
+|             0.3 |          0.24999993 |           0.28333338 |
+|             0.4 |               0.275 |              0.28125 |
+|             0.5 |                0.26 |                 0.27 |
+|             0.6 |          0.25833338 |           0.24999993 |
+|             0.7 |          0.24642845 |           0.23928553 |
+|             0.8 |             0.23125 |               0.2375 |
+|             0.9 |          0.23333323 |            0.2333332 |
+|               1 |              0.2225 |                 0.22 |
+|             1.1 |          0.20909075 |           0.22272708 |
+|             1.2 |          0.19999998 |           0.21458333 |
+|             1.3 |          0.19615368 |           0.21730748 |
+
+#+source: gnuplot-dir-eg
+#+begin_src gnuplot :file gnuplot.png :var data=gnuplot-data
+  set title "Implementing Gnuplot"
+  plot data using 1:2 with lines
+#+end_src
+
+*** With :dir, should expand when :dir differs from current buffer dir
+    But not during export
+***** ditaa
+#+begin_src ditaa :file images/ditaa.png :dir /tmp
+  +-----------+
+  | cBLU      |
+  | Org       |
+  |    +------+
+  |    |cPNK  |
+  |    |babel |
+  |    |      |
+  +----+------+
+#+end_src
+
+***** latex
+#+begin_src latex :file images/latex.png :dir /tmp
+  $e^{i\pi} = -1$
+#+end_src
+
+***** R
+#+begin_src R :file images/R.png :dir /tmp
+  curve(sin(x), 0, 2*pi)
+#+end_src
+
+***** gnuplot
+      Looks like gnuplot doesn't respond to default-directory. I think
+      that is because shell-command-to-string uses call-process
+      instead of process-file. We may want to use
+      shell-command-on-region or shell-command.
+#+begin_src gnuplot :file images/gnuplot.png :dir /tmp  :var data=gnuplot-data
+  set title "Implementing Gnuplot"
+  plot data using 1:2 with lines
+#+end_src
+
+* Behaviour on error
+*** results value
+    :PROPERTIES:
+    :results: value
+    :END:
+     Required change on line 90 of s-c-o-r
+
+***** shell
+      Shell worked from the start
+#+begin_src sh
+cat /nothere
+#+end_src
+
+#+results:
+: cat: /nothere: No such file or directory
+      
+***** python
+      - State "DONE"       from "TODO"       [2010-03-01 Mon 09:21]
+      - State "TODO"       from ""           [2010-03-01 Mon 09:21]
+***** Exception
+#+begin_src python
+  raise Exception('Something went wrong')
+#+end_src
+
+
+: Shell command exited with code 1
+: 
+: Traceback (most recent call last):
+:   File "<stdin>", line 5, in <module>
+:   File "<stdin>", line 3, in main
+: Exception: Something went wrong
+***** Non-empty stderr
+#+begin_src python
+  import sys
+  sys.stdout.write("this is on stdout!")
+  sys.stderr.write("this is on stderr!")
+#+end_src
+
+#+results:
+: None
+
+***** No error
+#+begin_src python
+  import sys
+  sys.stdout.write("this is on stdout!")
+  return [1,2]
+#+end_src
+
+#+results:
+| 1 | 2 |
+***** R
+      - State "DONE"       from "TODO"       [2010-03-01 Mon 09:21]
+      - State "TODO"       from ""           [2010-03-01 Mon 09:20]
+***** Exception
+#+begin_src R
+stop("Error message!")
+#+end_src
+
+#+results:
+: Shell command exited with code 1
+: 
+: Error in main() : Error message!
+: Calls: write.table -> is.data.frame -> inherits -> main
+: Execution halted
+***** output on stderr
+	Silent
+#+begin_src R
+  cat("This is on stderr\n", file=stderr())
+#+end_src
+
+***** no error
+#+begin_src R
+1:3
+#+end_src
+
+#+results:
+| 1 |
+| 2 |
+| 3 |
+***** DEFERRED elisp
+      - State "DEFERRED"   from ""           [2010-03-01 Mon 09:33]
+      Output to minibuffer and *Messages*
+#+begin_src emacs-lisp
+  (error "Error message!")
+#+end_src
+***** perl
+      - State "DONE"       from "TODO"       [2010-03-01 Mon 09:37]
+      - State "TODO"       from ""           [2010-03-01 Mon 09:20]
+***** Compile error
+       - State "DONE"       from "TODO"       [2010-03-01 Mon 09:36]
+       - State "TODO"       from ""           [2010-03-01 Mon 09:20]
+#+begin_src perl
+$dummy = 1
+split " ", "1 2 3"
+#+end_src
+
+#+results:
+: Shell command exited with code 9
+: 
+: syntax error at - line 4, near "split"
+: Execution of - aborted due to compilation errors.
+***** throw runtime error
+       - State "DONE"       from "TODO"       [2010-03-01 Mon 09:36]
+       - State "TODO"       from ""           [2010-03-01 Mon 09:20]
+#+begin_src perl
+die "Error message!";
+#+end_src
+
+#+results:
+: Shell command exited with code 9
+: 
+: Error message! at - line 3.
+***** No error
+#+begin_src perl
+  split " ", "1 2 3";
+#+end_src
+
+#+results:
+| 1 |
+| 2 |
+| 3 |
+***** write to stderr
+#+begin_src perl
+print STDOUT "hell on stdout\n"; 
+print STDERR "hell on stderr\n"; 
+#+end_src
+
+#+results:
+: 1
+***** Ruby
+***** Exception
+#+begin_src ruby
+a = 1
+raise "Something went wrong"
+a
+#+end_src
+
+#+results:
+: Shell command exited with code 1
+: 
+: -:5:in `main': Something went wrong (RuntimeError)
+: 	from -:10
+
+***** Write to stderr
+	I'm not sure why that's 16
+#+begin_src ruby
+$stderr.write "Hello on stderr\n"
+$stdout.write "Hello on stdout\n"
+#+end_src
+
+#+results:
+: 16
+***** No error
+#+begin_src ruby
+a = 1
+a
+#+end_src
+
+#+results:
+: 1
+*** results output
+    :PROPERTIES:
+    :results: output
+    :END:
+    These worked from the start
+***** DONE shell
+#+begin_src sh
+cat /nothere
+#+end_src
+
+#+results:
+: cat: /nothere: No such file or directory
+
+***** DONE python
+#+begin_src python
+  import sys
+  sys.stdout.write("this is on stdout!\n")
+  sys.stderr.write("this is on stderr!\n")
+#+end_src
+
+#+results:
+: this is on stderr!
+: this is on stdout!
+      
+***** DONE R
+***** DONE output on stderr
+#+begin_src R
+cat("This is on stderr\n", file=stderr())
+#+end_src
+
+#+results:
+: This is on stderr
+***** DONE Throw error
+#+begin_src R
+stop("Error message!")
+#+end_src
+
+#+results:
+: Error: Error message!
+: Execution halted
+***** elisp : NA
+***** DONE perl
+***** DONE Compile error
+#+begin_src perl
+$dummy = 1
+split " ", "1 2 3"
+#+end_src
+
+#+results:
+: syntax error at - line 3, near "split"
+: Execution of - aborted due to compilation errors.
+***** DONE throw runtime error
+#+begin_src perl
+die "Error message!";
+#+end_src
+
+#+results:
+: Error message! at - line 2.
