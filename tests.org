@@ -479,6 +479,36 @@ return [time.ctime(), os.uname(),os.getcwd()]
 |                              |     |   |          |     |      |
 | /data/oak/user/davison/bench |     |   |          |     |      |
 |                              |     |   |          |     |      |
+******* clojure
+********* code
+#+begin_src clojure
+  (+ 2 2)
+#+end_src
+********* local
+#+begin_src clojure
+  (+ 2 2)
+#+end_src
+
+#+results:
+: 4
+********* remote
+(setq swank-clojure-binary "/home/dan/bin/clojure")
+
+#+begin_src clojure :dir /yakuba.princeton.edu:
+  (+ 2 33)
+#+end_src
+
+#+results:
+: 35
+#+begin_src clojure :dir /ssh:localhost:
+  (+ 2 2)
+#+end_src
+
+#+results:
+: 4
+
+
+
 * File output links
   :PROPERTIES:
   :exports: both
