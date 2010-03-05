@@ -1,4 +1,4 @@
-#+SEQ_TODO: TODO DOESN'T_WORK | WORKS
+#+SEQ_TODO: DOESN'T_WORK | WORKS DEFERRED
 
 * WORKS Local and remote working dirs
     :PROPERTIES:
@@ -183,7 +183,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Tue Mar  2 15:35:13 2010
+: Fri Mar  5 11:15:54 2010
 : ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
 : /home/dan
 : 
@@ -194,7 +194,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Tue Mar  2 15:35:18 2010
+: Fri Mar  5 11:15:50 2010
 : ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
 : /data/oak/user/davison/bench
 : 
@@ -395,8 +395,8 @@ system("pwd")
 ********* code
 #+source: dir-test-python-value-nonsession
 #+begin_src python
-import os, time
-return [time.ctime(), os.uname(),os.getcwd()]
+  import os, time
+  return [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
 
 ********* local
@@ -405,7 +405,7 @@ return [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
 
 #+results:
-| Sun Feb 21 01:10:57 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+| Fri Mar  5 11:15:32 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
 ********* remote
 	  Runs remotely but no results returned
 #+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
@@ -421,6 +421,13 @@ return [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
 
 #+results:
+| This     | is     | the  | first | line |       |        |    |
+| There    | should | have | been  | a    | line  | before | me |
+| Luscinia |        |      |       |      |       |        |    |
+| /tmp     |        |      |       |      |       |        |    |
+| There    | should | be   | a     | line | after | me     |    |
+| This     | is     | the  | last  | line |       |        |    |
+
 | This     | is     | the  | first | line |       |        |    |
 | There    | should | have | been  | a    | line  | before | me |
 | Luscinia |        |      |       |      |       |        |    |
@@ -506,8 +513,6 @@ return [time.ctime(), os.uname(),os.getcwd()]
 
 #+results:
 : 4
-
-
 
 * File output links
   :PROPERTIES:
@@ -603,26 +608,33 @@ curve(sin(x), 0, 2*pi)
   plot data using 1:2 with lines
 #+end_src
 
-* Behaviour on error
-*** results value
+* WORKS Behaviour on error
+*** WORKS results value
     :PROPERTIES:
     :results: value
     :END:
      Required change on line 90 of s-c-o-r
-
-***** shell
+***** WORKS shell
       Shell worked from the start
+******* WORKS local
 #+begin_src sh
 cat /nothere
 #+end_src
 
 #+results:
 : cat: /nothere: No such file or directory
-      
-***** python
+******* WORKS remote
+#+begin_src sh :dir /davison@oak.well.ox.ac.uk:
+cat /nothere
+#+end_src
+
+#+results:
+: cat: /nothere: No such file or directory
+***** WORKS python
       - State "DONE"       from "TODO"       [2010-03-01 Mon 09:21]
       - State "TODO"       from ""           [2010-03-01 Mon 09:21]
-***** Exception
+******* WORKS Exception
+********* WORKS local
 #+begin_src python
   raise Exception('Something went wrong')
 #+end_src
@@ -634,7 +646,13 @@ cat /nothere
 :   File "<stdin>", line 5, in <module>
 :   File "<stdin>", line 3, in main
 : Exception: Something went wrong
-***** Non-empty stderr
+********* WORKS remote
+#+begin_src python :dir /davison@oak.well.ox.ac.uk:
+  import os
+  raise Exception('Something went wrong on %s %s %s %s %s' % os.uname())
+#+end_src
+
+******* WORKS Non-empty stderr
 #+begin_src python
   import sys
   sys.stdout.write("this is on stdout!")
@@ -643,79 +661,65 @@ cat /nothere
 
 #+results:
 : None
-
-***** No error
+******* WORKS No error
 #+begin_src python
   import sys
   sys.stdout.write("this is on stdout!")
   return [1,2]
 #+end_src
 
-#+results:
-| 1 | 2 |
-***** R
+***** WORKS R
       - State "DONE"       from "TODO"       [2010-03-01 Mon 09:21]
       - State "TODO"       from ""           [2010-03-01 Mon 09:20]
-***** Exception
+******* WORKS Exception
 #+begin_src R
 stop("Error message!")
 #+end_src
 
-#+results:
-: Shell command exited with code 1
-: 
-: Error in main() : Error message!
-: Calls: write.table -> is.data.frame -> inherits -> main
-: Execution halted
-***** output on stderr
+******* WORKS output on stderr
 	Silent
 #+begin_src R
   cat("This is on stderr\n", file=stderr())
 #+end_src
 
-***** no error
+******* WORKS no error
+	Window movement -- was there before? No.
 #+begin_src R
 1:3
 #+end_src
 
-#+results:
-| 1 |
-| 2 |
-| 3 |
 ***** DEFERRED elisp
       - State "DEFERRED"   from ""           [2010-03-01 Mon 09:33]
       Output to minibuffer and *Messages*
 #+begin_src emacs-lisp
   (error "Error message!")
 #+end_src
-***** perl
+***** WORKS perl
       - State "DONE"       from "TODO"       [2010-03-01 Mon 09:37]
       - State "TODO"       from ""           [2010-03-01 Mon 09:20]
-***** Compile error
+******* WORKS Compile error
        - State "DONE"       from "TODO"       [2010-03-01 Mon 09:36]
        - State "TODO"       from ""           [2010-03-01 Mon 09:20]
+********* WORKS local
 #+begin_src perl
 $dummy = 1
 split " ", "1 2 3"
 #+end_src
+********* WORKS remote
+#+begin_src perl :dir /davison@oak.well.ox.ac.uk:
+$dummy = 1
+split " ", "1 2 3"
+#+end_src
 
-#+results:
-: Shell command exited with code 9
-: 
-: syntax error at - line 4, near "split"
-: Execution of - aborted due to compilation errors.
-***** throw runtime error
+******* WORKS throw runtime error
        - State "DONE"       from "TODO"       [2010-03-01 Mon 09:36]
        - State "TODO"       from ""           [2010-03-01 Mon 09:20]
 #+begin_src perl
 die "Error message!";
 #+end_src
 
-#+results:
-: Shell command exited with code 9
-: 
-: Error message! at - line 3.
-***** No error
+******* WORKS No error
+	Window movement -- was there before?	
 #+begin_src perl
   split " ", "1 2 3";
 #+end_src
@@ -724,29 +728,21 @@ die "Error message!";
 | 1 |
 | 2 |
 | 3 |
-***** write to stderr
+******* WORKS write to stderr
 #+begin_src perl
-print STDOUT "hell on stdout\n"; 
-print STDERR "hell on stderr\n"; 
+  print STDOUT "hell on stdout\n"; 
+  print STDERR "hell on stderr\n"; 
 #+end_src
 
 #+results:
 : 1
-***** Ruby
-***** Exception
+***** WORKS ruby
+******* WORKS Exception
 #+begin_src ruby
-a = 1
-raise "Something went wrong"
-a
+  raise "Something went wrong"
 #+end_src
 
-#+results:
-: Shell command exited with code 1
-: 
-: -:5:in `main': Something went wrong (RuntimeError)
-: 	from -:10
-
-***** Write to stderr
+******* WORKS Write to stderr
 	I'm not sure why that's 16
 #+begin_src ruby
 $stderr.write "Hello on stderr\n"
@@ -755,7 +751,7 @@ $stdout.write "Hello on stdout\n"
 
 #+results:
 : 16
-***** No error
+******* WORKS No error
 #+begin_src ruby
 a = 1
 a
@@ -763,12 +759,24 @@ a
 
 #+results:
 : 1
-*** results output
+***** WORKS clojure
+******* WORKS Exception
+#+begin_src clojure
+  (throw (Error."That was an error"))
+#+end_src
+******* WORKS No error
+#+begin_src clojure
+(+ 2 2)
+#+end_src
+
+#+results:
+: 4
+*** WORKS results output
     :PROPERTIES:
     :results: output
     :END:
     These worked from the start
-***** DONE shell
+***** shell
 #+begin_src sh
 cat /nothere
 #+end_src
@@ -776,7 +784,7 @@ cat /nothere
 #+results:
 : cat: /nothere: No such file or directory
 
-***** DONE python
+***** python
 #+begin_src python
   import sys
   sys.stdout.write("this is on stdout!\n")
@@ -787,15 +795,15 @@ cat /nothere
 : this is on stderr!
 : this is on stdout!
       
-***** DONE R
-***** DONE output on stderr
+***** R
+******* output on stderr
 #+begin_src R
 cat("This is on stderr\n", file=stderr())
 #+end_src
 
 #+results:
 : This is on stderr
-***** DONE Throw error
+******* Throw error
 #+begin_src R
 stop("Error message!")
 #+end_src
@@ -804,8 +812,8 @@ stop("Error message!")
 : Error: Error message!
 : Execution halted
 ***** elisp : NA
-***** DONE perl
-***** DONE Compile error
+***** perl
+******* Compile error
 #+begin_src perl
 $dummy = 1
 split " ", "1 2 3"
@@ -814,10 +822,33 @@ split " ", "1 2 3"
 #+results:
 : syntax error at - line 3, near "split"
 : Execution of - aborted due to compilation errors.
-***** DONE throw runtime error
+******* throw runtime error
 #+begin_src perl
 die "Error message!";
 #+end_src
 
 #+results:
 : Error message! at - line 2.
+
+* DOESN'T_WORK Point in comint
+If window is visible, point moves; if not it doesn't.
+
+(setq comint-move-point-for-output t) ;; doesn't solve it
+
+*** Python
+#+begin_src python :session
+b=10
+b
+#+end_src
+
+#+results:
+: 10
+
+*** R
+#+begin_src R :session
+a=6
+a
+#+end_src
+
+#+results:
+: 6
