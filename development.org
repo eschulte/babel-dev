@@ -688,8 +688,6 @@ With the above "spec", I guess all cases are covered. What do you think?
    necessary information (e.g. parent buffer, start of block). Maybe
    even C-c C-c could be allowed in the edit buffer? This would be via
    a new minor mode I guess.
-** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
-   I think we may want to set this variable to 'others
 ** STARTED Working directories and remote execution
    - State "STARTED"    from "TODO"       [2010-02-22 Mon 14:41]
    - State "TODO"       from "DONE"       [2010-02-21 Sun 01:16]
@@ -5162,8 +5160,13 @@ echo 6
 
 ** STARTED point should go to end of comint buffer after execution
    - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:07]
+     
+     NB the variable comint-scroll-to-bottom-on-output
+
+     At the moment it seems that point goes to the end when the comint
+     window is visible, but stays where it is when it is not.
+
 *** shell
-    OK
 #+begin_src sh :session
 echo hello
 #+end_src
