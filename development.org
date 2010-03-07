@@ -33,10 +33,6 @@ And perhaps header args in {} rather than []
 
 : [[ruby{:session}]] and [[ruby{:session}: 2+2][description]]
 
-Or perhaps
-
-: [[src_ruby: 2+2]]
-
 If we needed to differentiate the babel handler from the org handler
 then we could use 
 : [[src_ruby: 2+2]]
