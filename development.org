@@ -4976,15 +4976,17 @@ both of these issues were resolved in changes to
 First idea which occurs to me is we could check whether the object
 inherits from a blacklist of classes before attempting to write.table.
 
+Or wrap the write.table in a try statement, defaulting to something
+that will work for all objects, e.g. str().
+
 #+begin_src R
   f <- function(x) x
 #+end_src
 
-#+results:
-: Error in as.data.frame.default(x[[i]], optional = TRUE) : 
-:   cannot coerce class "function" into a data.frame
-: Calls: write.table ... data.frame -> as.data.frame -> as.data.frame.default
-: Execution halted
+Error in as.data.frame.default(x[[i]], optional = TRUE) : 
+  cannot coerce class "function" into a data.frame
+Calls: write.table ... data.frame -> as.data.frame -> as.data.frame.default
+Execution halted
 
 ** DONE Insert results fails if eob or ensuing lines non-empty
 This (end of buffer after block, with or without newline after
