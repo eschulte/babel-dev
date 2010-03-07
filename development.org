@@ -4596,7 +4596,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [57/73]
+* Bugs [58/73]
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
@@ -4612,23 +4612,29 @@ dot("$(2a,0)$",(2,0),N+E);
 | Luscinia            |     |    |          |      |
 | /home/dan/babel-dev |     |    |          |      |
 
-** TODO shell-command-on-region calls
+** DONE shell-command-on-region calls
+   - State "DONE"       from "TODO"       [2010-03-07 Sun 17:22]
    - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 16:14]
-   Can we double check this at some point:
+    - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
 
-   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
+     Org-babel now uses its own function
+     `org-babel-shell-command-on-region' in which the various
+     shell-command-on-region bugs can be fixed.
 
-   Note that replace is 5th argument, not 4th:
-   
-   (shell-command-on-region start end command &optional output-buffer
-   replace error-buffer display-error-buffer)
+*** original notes
+    Can we double check this at some point:
 
-   - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
+    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
 
-   Yes, people agree that this is a bug in emacs. A bug report has
-   been filed. So those calls should be something like
+    Note that replace is 5th argument, not 4th:
+    
+    (shell-command-on-region start end command &optional output-buffer
+    replace error-buffer display-error-buffer)
 
-   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
+    Yes, people agree that this is a bug in emacs. A bug report has
+    been filed. So those calls should be something like
+
+    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
 
 ** TODO session bugs
    - State "TODO"       from ""           [2010-02-28 Sun 14:54]
