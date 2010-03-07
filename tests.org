@@ -830,7 +830,7 @@ die "Error message!";
 #+results:
 : Error message! at - line 2.
 
-* DOESN'T_WORK Point in comint
+* Point in comint
 If window is visible, point moves; if not it doesn't.
 
 (setq comint-move-point-for-output t) ;; doesn't solve it
@@ -852,3 +852,26 @@ a
 
 #+results:
 : 6
+
+* Inline images
+*** R
+#+begin_src R :file cov.png :width 200 :height 200
+  plot(1, main="i")
+#+end_src
+
+#+results:
+[[file:cov.png
+
+*** latex
+#+source: euler
+#+begin_src latex :buffer t :file euler.png
+  $e^{i\pi} \neq -6$
+#+end_src
+
+#+results: euler
+[[file:euler.png]]
+
+#+begin_src sh :file=euler :results output
+mogrify -resize 200% $file
+echo $file
+#+end_src
