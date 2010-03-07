@@ -5110,6 +5110,18 @@ index c805373..1d7fe3b 100644
    to export a =Makefile= without an extension.
 
 ** TODO python :results value fails with result ending in newline
+   This is a result of the fact that (in org-babel-number-p)
+
+#+begin_src emacs-lisp 
+(string-match "^-?[[:digit:]]*\\.?[[:digit:]]*$" "x\n")
+#+end_src
+
+#+results:
+: 2
+
+which is superficially surprising, but anyway, I think the regexp in
+org-babel-number-p needs a tweak. Not quite sure exactly how though.
+
 #+srcname: output
 #+begin_src python :results value
   return "x\n"
