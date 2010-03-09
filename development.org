@@ -4592,7 +4592,114 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [58/73]
+* Bugs [58/74]
+** PROPOSED results deletion and insertion
+   - State "PROPOSED"   from ""           [2010-03-09 Tue 09:33]
+
+  Graham's problem was that on C-c C-c, this
+
+
+  ,#+ATTR_LaTeX: width=10cm
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  
+  turns into this:
+  
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  ,#+ATTR_LaTeX: width=10cm
+
+
+  Two questions:
+  1. Is it desirable that we remove the corresponding results block
+     *anywhere* in the buffer, but then re-insert it beneath the code
+     block? Or should we promise to re-insert in situ, in the case
+     that we find a pre-existing results block?
+  2. How should a user use a #+ATTR_LaTeX line?
+
+*** Graham Smith email
+#+begin_src message 
+  From: Dan Davison <davison@stats.ox.ac.uk>
+  Subject: Re: [Orgmode] Re: [babel] captions and figure size on export
+  User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+  Date: Tue, 09 Mar 2010 09:32:19 -0500
+  To: Graham Smith <myotisone@gmail.com>
+  Cc: emacs-orgmode@gnu.org
+  
+  Graham Smith <myotisone@gmail.com> writes:
+  
+  > This is driving me mad here:  I have removed all the fig and size code
+  > and replaced it with onky one line that should be resizing the first
+  > graph(FloweringBoxplot.pdf).  However, its resizing the second graph
+  > (NonFloweringBoxplot/pdf) and not affecting the first graph. This
+  > works on other files, so I am really at a loss here.
+  
+  Hi Graham,
+  
+  We can see what's going on here by executing the block manually with C-c
+  C-c, which transforms your results block from this:
+  
+  ,#+ATTR_LaTeX: width=10cm
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  
+  into this:
+  
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  ,#+ATTR_LaTeX: width=10cm
+  
+  (The reason is that the results block corresponding to the code block is
+  first deleted and then re-inserted immediately below the code block).
+  
+  You are using ':exports both' which means that the above transformation
+  actually occurs during export, but in a special pre-export org buffer
+  which the user never sees. The fact that the ATTR_LaTeX line ends up
+  last explains why it modifies the *second* block.
+  
+  Thanks for pointing this out -- we will revisit this behaviour as it
+  does seem surprising and on the face of it undesirable.
+  
+  As a workaround, is it necessary for you to execute the block on export?
+  Or could you instead use :exports code? I.e. before export, execute the
+  block manually and ensure that the #+ATTR_LaTeX and #+results lines are
+  arranged in the correct way.
+  
+  Dan
+#+end_src
+
+
+
+>
+>
+> #+srcname:BoxplotFlowering
+> #+begin_src R :session daf :file FloweringBoxplot.pdf :exports both
+> boxplot(daf$Flower~daf
+> $YEAR)
+> #+end_src
+>
+> #+ATTR_LaTeX: width=10cm
+> #+results: BoxplotFlowering
+> [[file:FloweringBoxplot.pdf]]
+>
+>
+> #+srcname:BoxplotNonFlowering
+> #+begin_src R :session daf :file NonFloweringBoxplot.pdf :exports both
+> boxplot(daf$No.Flower~daf$YEAR)
+> #+end_src
+>
+> #+results: BoxplotNonFlowering
+> [[file:NonFloweringBoxplot.pdf]]
+>
+> Graham
+>
+>
+> _______________________________________________
+> Emacs-orgmode mailing list
+> Please use `Reply All' to send replies to the list.
+> Emacs-orgmode@gnu.org
+> http://lists.gnu.org/mailman/listinfo/emacs-orgmode
+
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
