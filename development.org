@@ -1920,9 +1920,25 @@ Allow source code blocks to be called form the command line.  This
 will be easy using the =sbe= function in [[file:lisp/org-babel-table.el][org-babel-table.el]].
 
 This will rely upon [[* resolve references to other buffers][resolve references to other buffers]].
-** TODO LoB: re-implement plotting and analysis functions from org-R
-   I'll do this soon, now that we things are a bit more settled and we
-   have column names in R.
+** TODO LoB: start to provide some useful functionality
+   
+   Now that things are more settled down than a few months ago it may
+   be a good time to start working out what functionality LoB should
+   provide. Let's collect ideas here for now.
+
+*** table calculations
+    Two table requests have recently appeared on the list that are
+    better met with org-babel than with pure org-mode:
+
+    - summing a range of cells but excluding non-numeric entries
+      [[http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22417.html]]
+    - SUMIF: e.g. summation of all cells in a column which share a
+      certain value in a different column
+      [[http://permalink.gmane.org/gmane.emacs.orgmode/22851]]
+*** plotting
+    - plotting and analysis functions in R (incl. re-implement those from org-R?)
+    - plotting with gnuplot (incl. re-implement org-plot??)
+
 ** STARTED Improve error checking
    - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:00]
    - State "TODO"       from "DEFERRED"   [2010-03-01 Mon 05:49]
