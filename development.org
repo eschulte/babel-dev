@@ -1,9 +1,16 @@
 #+TITLE: org-babel --- facilitating communication between programming languages and people
+#+TODO:
 #+TODO: PROPOSED(p!) TODO(t!) STARTED(s!) | DONE(d!) DEFERRED(f!) REJECTED(r!)
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
 * Tasks [62/118]
+** PROPOSED Define function =org-babel-version=
+   :LOGBOOK:
+   - State "PROPOSED"   from ""           [2010-03-13 Sat 07:26]
+   :END:
+   - Useful for compendium, where it documents the version of
+     org-babel on which the compendium is known to work
 ** TODO Check and document behaviour on Windows
    - State "TODO"       from ""           [2010-03-04 Thu 15:48]
 ** PROPOSED Extend org executable link constructs
