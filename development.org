@@ -3,7 +3,43 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/117]
+* Tasks [62/120]
+** PROPOSED Internals: Code sharing with org-babel-execute-buffer
+   - State "PROPOSED" from "" [2010-03-15 Mon 14:54]
+
+     Functions like org-babel-pop-to-session have to go through some
+     initial variable binding which partially overlaps with the
+     variable bindings in org-babel-execute-src-block. If possible, it
+     would be nice to abstract the common set-up into shared code. For
+     example, I recently added default-directory in the let-binding of
+     o-b-execute-src-block, and subsequently realised that it also
+     needed to be added to o-b-pop-to-session.
+
+** PROPOSED Language-specific session header args
+   - State "PROPOSED" from "" [2010-03-15 Mon 14:41]
+
+     One may want to specify the session for multiple blocks using
+     properties. However, currently there is no way to specify a
+     different session for different languages using properties. Two
+     possibilities come to mind:
+
+     1. Use org-babel-default-header-args:LANG
+     2. Introduce new headers of the form session:LANG or session-LANG
+
+     (1) is cleaner, in that it uses existing technology with no
+     changes. However, it would be nice to be able to set these things
+     in a property drawer. Perhaps(??) we could have a rule that says
+     that session:LANG in a property drawer means to set the value of
+     session in org-babel-default-header-args:LANG
+
+** PROPOSED Define function =org-babel-version=
+   :LOGBOOK:
+   - State "PROPOSED"   from ""           [2010-03-13 Sat 07:26]
+   :END:
+   - Useful for compendium, where it documents the version of
+     org-babel on which the compendium is known to work
+** TODO Check and document behaviour on Windows
+   - State "TODO"       from ""           [2010-03-04 Thu 15:48]
 ** PROPOSED Extend org executable link constructs
    - State "PROPOSED"   from ""           [2010-03-03 Wed 14:04]
      I just noticed the following link types in the [[http://orgmode.org/manual/External-links.html#External-links][org manual]]
@@ -30,10 +66,6 @@ etc.
 And perhaps header args in {} rather than []
 
 : [[ruby{:session}]] and [[ruby{:session}: 2+2][description]]
-
-Or perhaps
-
-: [[src_ruby: 2+2]]
 
 If we needed to differentiate the babel handler from the org handler
 then we could use 
@@ -686,8 +718,6 @@ With the above "spec", I guess all cases are covered. What do you think?
    necessary information (e.g. parent buffer, start of block). Maybe
    even C-c C-c could be allowed in the edit buffer? This would be via
    a new minor mode I guess.
-** PROPOSED Improve comint scrolling: comint-scroll-to-bottom-on-output
-   I think we may want to set this variable to 'others
 ** STARTED Working directories and remote execution
    - State "STARTED"    from "TODO"       [2010-02-22 Mon 14:41]
    - State "TODO"       from "DONE"       [2010-02-21 Sun 01:16]
@@ -1924,29 +1954,73 @@ Allow source code blocks to be called form the command line.  This
 will be easy using the =sbe= function in [[file:lisp/org-babel-table.el][org-babel-table.el]].
 
 This will rely upon [[* resolve references to other buffers][resolve references to other buffers]].
-** TODO LoB: re-implement plotting and analysis functions from org-R
-   I'll do this soon, now that we things are a bit more settled and we
-   have column names in R.
-** STARTED Improved error checking
+** TODO LoB: start to provide some useful functionality
+   
+   Now that things are more settled down than a few months ago it may
+   be a good time to start working out what functionality LoB should
+   provide. Let's collect ideas here for now.
+
+*** table calculations
+    Two table requests have recently appeared on the list that are
+    better met with org-babel than with pure org-mode:
+
+    - summing a range of cells but excluding non-numeric entries
+      [[http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22417.html]]
+    - SUMIF: e.g. summation of all cells in a column which share a
+      certain value in a different column
+      [[http://permalink.gmane.org/gmane.emacs.orgmode/22851]]
+*** plotting
+    - plotting and analysis functions in R (incl. re-implement those from org-R?)
+    - plotting with gnuplot (incl. re-implement org-plot??)
+
+** STARTED Improve error checking
    - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:00]
-   E.g. when trying to execute sass block, I did not have sass
-   installed, and so shell-command returned code 127, but org-babel
-   did not warn me that anything had gone wrong.
-    - State "TODO"       from "DEFERRED"   [2010-03-01 Mon 05:49]
-    I expect it will be hard to do this properly, but ultimately it
-    would be nice to be able to specify somewhere to receive STDERR,
-    and to be warned if it is non-empty.
+   - State "TODO"       from "DEFERRED"   [2010-03-01 Mon 05:49]
 
-    Probably simpler in non-session evaluation than session? At least
-    the mechanism will be different I guess.
+     Current solution for :results value mode:
+     - store shell exit code and stderr
+     - if non-zero exit code:
+       - write stderr to *Org-Babel Error Output*
+       - display *Org-Babel Error Output*
 
-    R has a try function, with error handling, along the lines of
-    python. I bet ruby does too. Maybe more of an issue for functional
-    style; in my proposed scripting style the error just gets dumped to
-    the org buffer and the user is thus alerted.
+    :results output mixes stderr with stdout and does not otherwise notify on error.
 
-    For now I think the current behavior of returning any error
-    messages generated by the source language is sufficient.
+     Questions:
+     - What should we do when stderr is non-empty but exit code is
+       zero?
+     - What should we do in the case of shell non-session :results value?
+     - What should we do in the case of :session?
+
+*** Return error structure?
+    Could use the following at outset of org-babel-insert-result.
+#+begin_src emacs-lisp
+  (if (and (consp result) (eq (first result 'org-babel-error-flag)))
+      (progn
+        (message "Shell command exited with error %d" (second result))
+        (unless (= (length (third result)) 0)
+          (let (error-buffer (get-buffer-create "*Org-Babel Error Output"))
+            (with-current-buffer error-buffer (insert (third result)))
+            (display-buffer error-buffer))))
+#+end_src
+
+*** older notes
+    E.g. when trying to execute sass block, I did not have sass
+    installed, and so shell-command returned code 127, but org-babel
+    did not warn me that anything had gone wrong.
+     I expect it will be hard to do this properly, but ultimately it
+     would be nice to be able to specify somewhere to receive STDERR,
+     and to be warned if it is non-empty.
+
+     Probably simpler in non-session evaluation than session? At least
+     the mechanism will be different I guess.
+
+     R has a try function, with error handling, along the lines of
+     python. I bet ruby does too. Maybe more of an issue for functional
+     style; in my proposed scripting style the error just gets dumped to
+     the org buffer and the user is thus alerted.
+
+     For now I think the current behavior of returning any error
+     messages generated by the source language is sufficient.
 
 *** Error checking in R sessions
     A simple thing to do is to wrap the R code in try(...), as in the
@@ -4568,7 +4642,174 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [57/73]
+* Bugs [58/75]
+** TODO src block regexp fails if block contains block delimiters
+   - State "TODO"       from ""           [2010-03-11 Thu 11:32]
+
+#+begin_src emacs-lisp
+       (concat "#+begin_src\n"
+               "hello\n"
+               "#+end_src\n")
+#+end_src
+
+C-c C-c => End of file during parsing
+
+*** report by Maurizio Vitale
+From: Maurizio Vitale <mav@cuma.i-did-not-set--mail-host-address--so-tickle-me>
+Subject: [Orgmode] Re: [babel] problems with org-babel-src-block-regexp (full text)
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
+Date: Thu, 11 Mar 2010 12:19:09 -0500
+To: emacs-orgmode@gnu.org
+
+
+[sorry for the double posting, but the control char in the regexp
+prevented the full message from appearing. This is what I meant to send]
+
+There're problems with org-babel-src-block-regexp when the src block
+contains the block delimiters (for instance in strings or comments).
+
+Granted, this is an uncommon occurrence (which I discovered by accident)
+editing an org-file containing elisp code that needed to insert
+#+begin_src...#+end_src pairs, but if it is not too difficult to fix it
+would be nice to have a more useful behaviour.
+
+This is my setting (replaced 0x0 with ^@ to avoid posting problems):
+org-babel-src-block-regexp is a variable defined in `org-babel.el'.
+Its value is 
+"^[ 	]*#\\+begin_src[ 	]+\\(python\\|sh\\|emacs-lisp\\)[ 	]*\\([^\":\n]*\"[^\"\n*]*\"[^\":\n]*\\|[^\":\n]*\\)\\([^\n]*\\)\n\\([^^@]+?\\)#\\+end_src"
+
+And these are two test cases. I'm particularly puzzled by the first,
+because the regexp seems to be anchored to the begin of line and hence
+it shouldn't match the begin_src inside the string.
+For end_src, it should probably be anchored to the begin of line.
+
+#+begin_src emacs-lisp
+;;; evaluating the following C-x C-e with the point at the end is ok
+(org-babel-where-is-src-block-head)
+(defun foo () (insert "#+begin_src emacs-lisp"))
+;;; evaluating the following C-x C-e with the point at the end is not ok
+(org-babel-where-is-src-block-head)
+#+end_src
+
+#+begin_src emacs-lisp
+;;; evaluating the following C-x C-e with the point at the end is ok
+(org-babel-where-is-src-block-head)
+(defun foo () (insert "#+end_src emacs-lisp"))
+;;; evaluating the following C-x C-e with the point at the end is not ok
+(org-babel-where-is-src-block-head)
+#+end_src
+
+Best regards,
+
+     Maurizio 
+
+** PROPOSED results deletion and insertion
+   - State "PROPOSED"   from ""           [2010-03-09 Tue 09:33]
+
+  Graham's problem was that on C-c C-c, this
+
+
+  ,#+ATTR_LaTeX: width=10cm
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  
+  turns into this:
+  
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  ,#+ATTR_LaTeX: width=10cm
+
+
+  Two questions:
+  1. Is it desirable that we remove the corresponding results block
+     *anywhere* in the buffer, but then re-insert it beneath the code
+     block? Or should we promise to re-insert in situ, in the case
+     that we find a pre-existing results block?
+  2. How should a user use a #+ATTR_LaTeX line?
+
+*** Graham Smith email
+#+begin_src message 
+  From: Dan Davison <davison@stats.ox.ac.uk>
+  Subject: Re: [Orgmode] Re: [babel] captions and figure size on export
+  User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+  Date: Tue, 09 Mar 2010 09:32:19 -0500
+  To: Graham Smith <myotisone@gmail.com>
+  Cc: emacs-orgmode@gnu.org
+  
+  Graham Smith <myotisone@gmail.com> writes:
+  
+  > This is driving me mad here:  I have removed all the fig and size code
+  > and replaced it with onky one line that should be resizing the first
+  > graph(FloweringBoxplot.pdf).  However, its resizing the second graph
+  > (NonFloweringBoxplot/pdf) and not affecting the first graph. This
+  > works on other files, so I am really at a loss here.
+  
+  Hi Graham,
+  
+  We can see what's going on here by executing the block manually with C-c
+  C-c, which transforms your results block from this:
+  
+  ,#+ATTR_LaTeX: width=10cm
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  
+  into this:
+  
+  ,#+results: BoxplotFlowering
+  [[file:FloweringBoxplot.pdf]]
+  ,#+ATTR_LaTeX: width=10cm
+  
+  (The reason is that the results block corresponding to the code block is
+  first deleted and then re-inserted immediately below the code block).
+  
+  You are using ':exports both' which means that the above transformation
+  actually occurs during export, but in a special pre-export org buffer
+  which the user never sees. The fact that the ATTR_LaTeX line ends up
+  last explains why it modifies the *second* block.
+  
+  Thanks for pointing this out -- we will revisit this behaviour as it
+  does seem surprising and on the face of it undesirable.
+  
+  As a workaround, is it necessary for you to execute the block on export?
+  Or could you instead use :exports code? I.e. before export, execute the
+  block manually and ensure that the #+ATTR_LaTeX and #+results lines are
+  arranged in the correct way.
+  
+  Dan
+#+end_src
+
+
+
+>
+>
+> #+srcname:BoxplotFlowering
+> #+begin_src R :session daf :file FloweringBoxplot.pdf :exports both
+> boxplot(daf$Flower~daf
+> $YEAR)
+> #+end_src
+>
+> #+ATTR_LaTeX: width=10cm
+> #+results: BoxplotFlowering
+> [[file:FloweringBoxplot.pdf]]
+>
+>
+> #+srcname:BoxplotNonFlowering
+> #+begin_src R :session daf :file NonFloweringBoxplot.pdf :exports both
+> boxplot(daf$No.Flower~daf$YEAR)
+> #+end_src
+>
+> #+results: BoxplotNonFlowering
+> [[file:NonFloweringBoxplot.pdf]]
+>
+> Graham
+>
+>
+> _______________________________________________
+> Emacs-orgmode mailing list
+> Please use `Reply All' to send replies to the list.
+> Emacs-orgmode@gnu.org
+> http://lists.gnu.org/mailman/listinfo/emacs-orgmode
+
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
 
@@ -4584,23 +4825,29 @@ dot("$(2a,0)$",(2,0),N+E);
 | Luscinia            |     |    |          |      |
 | /home/dan/babel-dev |     |    |          |      |
 
-** TODO shell-command-on-region calls
+** DONE shell-command-on-region calls
+   - State "DONE"       from "TODO"       [2010-03-07 Sun 17:22]
    - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 16:14]
-   Can we double check this at some point:
+    - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
 
-   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
+     Org-babel now uses its own function
+     `org-babel-shell-command-on-region' in which the various
+     shell-command-on-region bugs can be fixed.
 
-   Note that replace is 5th argument, not 4th:
-   
-   (shell-command-on-region start end command &optional output-buffer
-   replace error-buffer display-error-buffer)
+*** original notes
+    Can we double check this at some point:
 
-   - State "PROPOSED"   from ""           [2010-02-20 Sat 22:24]
+    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
 
-   Yes, people agree that this is a bug in emacs. A bug report has
-   been filed. So those calls should be something like
+    Note that replace is 5th argument, not 4th:
+    
+    (shell-command-on-region start end command &optional output-buffer
+    replace error-buffer display-error-buffer)
 
-   (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
+    Yes, people agree that this is a bug in emacs. A bug report has
+    been filed. So those calls should be something like
+
+    (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'current-buffer 'replace)
 
 ** TODO session bugs
    - State "TODO"       from ""           [2010-02-28 Sun 14:54]
@@ -4942,15 +5189,17 @@ both of these issues were resolved in changes to
 First idea which occurs to me is we could check whether the object
 inherits from a blacklist of classes before attempting to write.table.
 
+Or wrap the write.table in a try statement, defaulting to something
+that will work for all objects, e.g. str().
+
 #+begin_src R
   f <- function(x) x
 #+end_src
 
-#+results:
-: Error in as.data.frame.default(x[[i]], optional = TRUE) : 
-:   cannot coerce class "function" into a data.frame
-: Calls: write.table ... data.frame -> as.data.frame -> as.data.frame.default
-: Execution halted
+Error in as.data.frame.default(x[[i]], optional = TRUE) : 
+  cannot coerce class "function" into a data.frame
+Calls: write.table ... data.frame -> as.data.frame -> as.data.frame.default
+Execution halted
 
 ** DONE Insert results fails if eob or ensuing lines non-empty
 This (end of buffer after block, with or without newline after
@@ -5074,6 +5323,18 @@ index c805373..1d7fe3b 100644
    to export a =Makefile= without an extension.
 
 ** TODO python :results value fails with result ending in newline
+   This is a result of the fact that (in org-babel-number-p)
+
+#+begin_src emacs-lisp 
+(string-match "^-?[[:digit:]]*\\.?[[:digit:]]*$" "x\n")
+#+end_src
+
+#+results:
+: 2
+
+which is superficially surprising, but anyway, I think the regexp in
+org-babel-number-p needs a tweak. Not quite sure exactly how though.
+
 #+srcname: output
 #+begin_src python :results value
   return "x\n"
@@ -5132,8 +5393,13 @@ echo 6
 
 ** STARTED point should go to end of comint buffer after execution
    - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:07]
+     
+     NB the variable comint-scroll-to-bottom-on-output
+
+     At the moment it seems that point goes to the end when the comint
+     window is visible, but stays where it is when it is not.
+
 *** shell
-    OK
 #+begin_src sh :session
 echo hello
 #+end_src

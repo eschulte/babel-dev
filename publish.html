@@ -17,24 +17,24 @@ reused in other projects.
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>mapc
- <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>file<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>full-file <span class="org-esk-paren">(</span>expand-file-name
-                     <span class="org-esk-paren">(</span>concat file <span class="org-string">".org"</span><span class="org-esk-paren">)</span>
-                     <span class="org-esk-paren">(</span>file-name-directory <span class="org-esk-paren">(</span>buffer-file-name<span class="org-esk-paren">))))</span>
-         <span class="org-esk-paren">(</span>yaml-front-matter `<span class="org-esk-paren">((</span><span class="org-string">"layout"</span> . <span class="org-string">"default"</span><span class="org-esk-paren">)</span>
-                              <span class="org-esk-paren">(</span><span class="org-string">"title"</span> . ,file<span class="org-esk-paren">)))</span>
-         html<span class="org-esk-paren">)</span>
-     <span class="org-comment-delimiter">;; </span><span class="org-comment">go to the top level tasks heading
-</span>     <span class="org-esk-paren">(</span>find-file full-file<span class="org-esk-paren">)</span>
-     <span class="org-esk-paren">(</span>setq html <span class="org-esk-paren">(</span>org-export-as-html nil nil nil 'string t nil<span class="org-esk-paren">))</span>
-     <span class="org-esk-paren">(</span><span class="org-keyword">with-temp-file</span> <span class="org-esk-paren">(</span>concat file <span class="org-string">".html"</span><span class="org-esk-paren">)</span>
-       <span class="org-esk-paren">(</span><span class="org-keyword">when</span> yaml-front-matter
-         <span class="org-esk-paren">(</span>insert <span class="org-string">"---\n"</span><span class="org-esk-paren">)</span>
-         <span class="org-esk-paren">(</span>mapc <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>pair<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>format <span class="org-string">"%s: %s\n"</span> <span class="org-esk-paren">(</span>car pair<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>cdr pair<span class="org-esk-paren">))))</span>
-               yaml-front-matter<span class="org-esk-paren">)</span>
-         <span class="org-esk-paren">(</span>insert <span class="org-string">"---\n\n"</span><span class="org-esk-paren">))</span>
-       <span class="org-esk-paren">(</span>insert html<span class="org-esk-paren">))))</span> '<span class="org-esk-paren">(</span><span class="org-string">"index"</span> <span class="org-string">"publish"</span> <span class="org-string">"dev-updates"</span><span class="org-esk-paren">))</span>
+<pre class="src src-emacs-lisp">(mapc
+ (<span style="color: #afeeee; font-weight: bold;">lambda</span> (file)
+   (<span style="color: #afeeee; font-weight: bold;">let</span> ((full-file (expand-file-name
+                     (concat file <span style="color: #87cefa;">".org"</span>)
+                     (file-name-directory (buffer-file-name))))
+         (yaml-front-matter `((<span style="color: #87cefa;">"layout"</span> . <span style="color: #87cefa;">"default"</span>)
+                              (<span style="color: #87cefa;">"title"</span> . ,file)))
+         html)
+     <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">go to the top level tasks heading
+</span>     (find-file full-file)
+     (setq html (org-export-as-html nil nil nil 'string t nil))
+     (<span style="color: #afeeee; font-weight: bold;">with-temp-file</span> (concat file <span style="color: #87cefa;">".html"</span>)
+       (<span style="color: #afeeee; font-weight: bold;">when</span> yaml-front-matter
+         (insert <span style="color: #87cefa;">"---\n"</span>)
+         (mapc (<span style="color: #afeeee; font-weight: bold;">lambda</span> (pair) (insert (format <span style="color: #87cefa;">"%s: %s\n"</span> (car pair) (cdr pair))))
+               yaml-front-matter)
+         (insert <span style="color: #87cefa;">"---\n\n"</span>))
+       (insert html)))) '(<span style="color: #87cefa;">"index"</span> <span style="color: #87cefa;">"publish"</span> <span style="color: #87cefa;">"dev-updates"</span>))
 </pre>
 
 
@@ -55,62 +55,62 @@ org-mode.
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">save-excursion</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">map over all tasks entries
-</span>  <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>dev-file <span class="org-esk-paren">(</span>expand-file-name
-                   <span class="org-string">"development.org"</span>
-                   <span class="org-esk-paren">(</span>file-name-directory <span class="org-esk-paren">(</span>buffer-file-name<span class="org-esk-paren">))))</span>
-        <span class="org-esk-paren">(</span>posts-dir <span class="org-esk-paren">(</span>expand-file-name
-                    <span class="org-string">"_posts"</span>
-                    <span class="org-esk-paren">(</span>file-name-directory <span class="org-esk-paren">(</span>buffer-file-name<span class="org-esk-paren">))))</span>
-        <span class="org-esk-paren">(</span>yaml-front-matter '<span class="org-esk-paren">((</span><span class="org-string">"layout"</span> . <span class="org-string">"default"</span><span class="org-esk-paren">))))</span>
-    <span class="org-comment-delimiter">;; </span><span class="org-comment">go through both the tasks and bugs
-</span>    <span class="org-esk-paren">(</span>mapc
-     <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>top-level<span class="org-esk-paren">)</span>
-       <span class="org-esk-paren">(</span>find-file dev-file<span class="org-esk-paren">)</span>
-       <span class="org-esk-paren">(</span>goto-char <span class="org-esk-paren">(</span>point-min<span class="org-esk-paren">))</span>
-       <span class="org-esk-paren">(</span>org-shifttab<span class="org-esk-paren">)</span>
-       <span class="org-esk-paren">(</span>outline-next-visible-heading top-level<span class="org-esk-paren">)</span>
-       <span class="org-esk-paren">(</span>org-show-subtree<span class="org-esk-paren">)</span>
-       <span class="org-esk-paren">(</span>org-map-tree
-        <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">()</span>
-          <span class="org-esk-paren">(</span><span class="org-keyword">let*</span> <span class="org-esk-paren">((</span>props <span class="org-esk-paren">(</span>org-entry-properties<span class="org-esk-paren">))</span>
-                 <span class="org-esk-paren">(</span>todo <span class="org-esk-paren">(</span>cdr <span class="org-esk-paren">(</span>assoc <span class="org-string">"TODO"</span> props<span class="org-esk-paren">)))</span>
-                 <span class="org-esk-paren">(</span>time <span class="org-esk-paren">(</span>cdr <span class="org-esk-paren">(</span>assoc <span class="org-string">"TIMESTAMP_IA"</span> props<span class="org-esk-paren">))))</span>
-            <span class="org-comment-delimiter">;; </span><span class="org-comment">each task with a state and timestamp can be exported as a
-</span>            <span class="org-comment-delimiter">;; </span><span class="org-comment">jekyll blog post
-</span>            <span class="org-esk-paren">(</span><span class="org-keyword">when</span> <span class="org-esk-paren">(</span>and todo time<span class="org-esk-paren">)</span>
-              <span class="org-esk-paren">(</span>message <span class="org-string">"time=%s"</span> time<span class="org-esk-paren">)</span>
-              <span class="org-esk-paren">(</span><span class="org-keyword">let*</span> <span class="org-esk-paren">((</span>heading <span class="org-esk-paren">(</span>org-get-heading<span class="org-esk-paren">))</span>
-                     <span class="org-esk-paren">(</span>title <span class="org-esk-paren">(</span>replace-regexp-in-string
-                             <span class="org-string">"[:=\(\)\?]"</span> <span class="org-string">""</span>
-                             <span class="org-esk-paren">(</span>replace-regexp-in-string
-                              <span class="org-string">"[ \t]"</span> <span class="org-string">"-"</span> heading<span class="org-esk-paren">)))</span>
-                     <span class="org-esk-paren">(</span>str-time <span class="org-esk-paren">(</span>and <span class="org-esk-paren">(</span>string-match <span class="org-string">"</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[[:digit:]\-]+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string"> "</span> time<span class="org-esk-paren">)</span>
-                                    <span class="org-esk-paren">(</span>match-string 1 time<span class="org-esk-paren">)))</span>
-                     <span class="org-esk-paren">(</span>to-file <span class="org-esk-paren">(</span>format <span class="org-string">"%s-%s.html"</span> str-time title<span class="org-esk-paren">))</span>
-                     <span class="org-esk-paren">(</span>org-buffer <span class="org-esk-paren">(</span>current-buffer<span class="org-esk-paren">))</span>
-                     <span class="org-esk-paren">(</span>yaml-front-matter <span class="org-esk-paren">(</span>cons <span class="org-esk-paren">(</span>cons <span class="org-string">"title"</span> heading<span class="org-esk-paren">)</span> yaml-front-matter<span class="org-esk-paren">))</span>
-                     html<span class="org-esk-paren">)</span>
-                <span class="org-esk-paren">(</span>org-narrow-to-subtree<span class="org-esk-paren">)</span>
-                <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>level <span class="org-esk-paren">(</span>- <span class="org-esk-paren">(</span>org-outline-level<span class="org-esk-paren">)</span> 1<span class="org-esk-paren">))</span>
-                      <span class="org-esk-paren">(</span>contents <span class="org-esk-paren">(</span>buffer-substring <span class="org-esk-paren">(</span>point-min<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>point-max<span class="org-esk-paren">))))</span>
-                  <span class="org-esk-paren">(</span><span class="org-keyword">dotimes</span> <span class="org-esk-paren">(</span>n level nil<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>org-promote-subtree<span class="org-esk-paren">))</span>
-                  <span class="org-esk-paren">(</span>setq html <span class="org-esk-paren">(</span>org-export-as-html nil nil nil 'string t nil<span class="org-esk-paren">))</span>
-                  <span class="org-esk-paren">(</span>set-buffer org-buffer<span class="org-esk-paren">)</span>
-                  <span class="org-esk-paren">(</span>delete-region <span class="org-esk-paren">(</span>point-min<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>point-max<span class="org-esk-paren">))</span>
-                  <span class="org-esk-paren">(</span>insert contents<span class="org-esk-paren">)</span>
-                  <span class="org-esk-paren">(</span>save-buffer<span class="org-esk-paren">))</span>
-                <span class="org-esk-paren">(</span>widen<span class="org-esk-paren">)</span>
-                <span class="org-esk-paren">(</span><span class="org-keyword">with-temp-file</span> <span class="org-esk-paren">(</span>expand-file-name to-file posts-dir<span class="org-esk-paren">)</span>
-                  <span class="org-esk-paren">(</span><span class="org-keyword">when</span> yaml-front-matter
-                    <span class="org-esk-paren">(</span>insert <span class="org-string">"---\n"</span><span class="org-esk-paren">)</span>
-                    <span class="org-esk-paren">(</span>mapc <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>pair<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>format <span class="org-string">"%s: %s\n"</span> <span class="org-esk-paren">(</span>car pair<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>cdr pair<span class="org-esk-paren">))))</span>
-                          yaml-front-matter<span class="org-esk-paren">)</span>
-                    <span class="org-esk-paren">(</span>insert <span class="org-string">"---\n\n"</span><span class="org-esk-paren">))</span>
-                  <span class="org-esk-paren">(</span>insert html<span class="org-esk-paren">))</span>
-                <span class="org-esk-paren">(</span>get-buffer org-buffer<span class="org-esk-paren">)))))))</span>
-     '<span class="org-esk-paren">(</span>1 2<span class="org-esk-paren">))))</span>
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">save-excursion</span>
+  <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">map over all tasks entries
+</span>  (<span style="color: #afeeee; font-weight: bold;">let</span> ((dev-file (expand-file-name
+                   <span style="color: #87cefa;">"development.org"</span>
+                   (file-name-directory (buffer-file-name))))
+        (posts-dir (expand-file-name
+                    <span style="color: #87cefa;">"_posts"</span>
+                    (file-name-directory (buffer-file-name))))
+        (yaml-front-matter '((<span style="color: #87cefa;">"layout"</span> . <span style="color: #87cefa;">"default"</span>))))
+    <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">go through both the tasks and bugs
+</span>    (mapc
+     (<span style="color: #afeeee; font-weight: bold;">lambda</span> (top-level)
+       (find-file dev-file)
+       (goto-char (point-min))
+       (org-shifttab)
+       (outline-next-visible-heading top-level)
+       (org-show-subtree)
+       (org-map-tree
+        (<span style="color: #afeeee; font-weight: bold;">lambda</span> ()
+          (<span style="color: #afeeee; font-weight: bold;">let*</span> ((props (org-entry-properties))
+                 (todo (cdr (assoc <span style="color: #87cefa;">"TODO"</span> props)))
+                 (time (cdr (assoc <span style="color: #87cefa;">"TIMESTAMP_IA"</span> props))))
+            <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">each task with a state and timestamp can be exported as a
+</span>            <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">jekyll blog post
+</span>            (<span style="color: #afeeee; font-weight: bold;">when</span> (and todo time)
+              (message <span style="color: #87cefa;">"time=%s"</span> time)
+              (<span style="color: #afeeee; font-weight: bold;">let*</span> ((heading (org-get-heading))
+                     (title (replace-regexp-in-string
+                             <span style="color: #87cefa;">"[:=\(\)\?]"</span> <span style="color: #87cefa;">""</span>
+                             (replace-regexp-in-string
+                              <span style="color: #87cefa;">"[ \t]"</span> <span style="color: #87cefa;">"-"</span> heading)))
+                     (str-time (and (string-match <span style="color: #87cefa;">"</span><span style="color: #87cefa; font-weight: bold;">\\</span><span style="color: #87cefa; font-weight: bold;">(</span><span style="color: #87cefa;">[[:digit:]\-]+</span><span style="color: #87cefa; font-weight: bold;">\\</span><span style="color: #87cefa; font-weight: bold;">)</span><span style="color: #87cefa;"> "</span> time)
+                                    (match-string 1 time)))
+                     (to-file (format <span style="color: #87cefa;">"%s-%s.html"</span> str-time title))
+                     (org-buffer (current-buffer))
+                     (yaml-front-matter (cons (cons <span style="color: #87cefa;">"title"</span> heading) yaml-front-matter))
+                     html)
+                (org-narrow-to-subtree)
+                (<span style="color: #afeeee; font-weight: bold;">let</span> ((level (- (org-outline-level) 1))
+                      (contents (buffer-substring (point-min) (point-max))))
+                  (<span style="color: #afeeee; font-weight: bold;">dotimes</span> (n level nil) (org-promote-subtree))
+                  (setq html (org-export-as-html nil nil nil 'string t nil))
+                  (set-buffer org-buffer)
+                  (delete-region (point-min) (point-max))
+                  (insert contents)
+                  (save-buffer))
+                (widen)
+                (<span style="color: #afeeee; font-weight: bold;">with-temp-file</span> (expand-file-name to-file posts-dir)
+                  (<span style="color: #afeeee; font-weight: bold;">when</span> yaml-front-matter
+                    (insert <span style="color: #87cefa;">"---\n"</span>)
+                    (mapc (<span style="color: #afeeee; font-weight: bold;">lambda</span> (pair) (insert (format <span style="color: #87cefa;">"%s: %s\n"</span> (car pair) (cdr pair))))
+                          yaml-front-matter)
+                    (insert <span style="color: #87cefa;">"---\n\n"</span>))
+                  (insert html))
+                (get-buffer org-buffer)))))))
+     '(1 2))))
 </pre>
 
 
