@@ -3,7 +3,57 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/120]
+* Tasks [62/121]
+** STARTED In-buffer graphical results 
+   - State "STARTED"    from "PROPOSED"   [2010-03-15 Mon 17:21]
+   - State "PROPOSED"   from ""           [2010-03-15 Mon 17:15]
+
+     A proof-of-principle implementation of this is below. It uses
+     org-babel-after-execute-hook to refresh the inline image displays
+     in the whole buffer. This means that the code for plots and latex
+     fragments can be edited and then the graphic updated with C-c
+     C-c.
+
+     However, after looking briefly at Nicolas Girard's work on
+     org-icons.el, I wonder whether it would be nicer to implement
+     this using the font-lock machinery, similar to how the org icons
+     are implemented.
+
+#+begin_src emacs-lisp
+(defun ded/iimage-mode-buffer (arg &optional refresh)
+"Display/undisplay images.
+With numeric ARG, display the images if and only if ARG is positive."
+  (interactive)
+  (let ((ing (if (numberp arg)
+                 (> arg 0)
+               iimage-mode))
+        (modp (buffer-modified-p (current-buffer)))
+        file img)
+    (save-excursion
+      (goto-char (point-min))
+      (dolist (pair iimage-mode-image-regex-alist)
+        (while (re-search-forward (car pair) nil t)
+          (if (and (setq file (match-string (cdr pair)))
+                   (setq file (iimage-locate-file file
+                                   (cons default-directory
+                                         iimage-mode-image-search-path))))
+              (if ing
+                  (let ((img (create-image file)))
+                    (add-text-properties (match-beginning 0) (match-end 0) (list 'display img))
+                    (if refresh (image-refresh img)))
+                (remove-text-properties (match-beginning 0) (match-end 0) '(display)))))))
+    (set-buffer-modified-p modp)))
+
+(defun ded/org-iimage-refresh ()
+  (interactive)
+  (redisplay t)
+  (set-face-underline-p 'org-link nil)
+  (ded/iimage-mode-buffer 1 'refresh)
+  (redisplay t))
+
+(add-hook 'org-babel-after-execute-hook 'ded/org-iimage-refresh)
+#+end_src
+
 ** PROPOSED Internals: Code sharing with org-babel-execute-buffer
    - State "PROPOSED" from "" [2010-03-15 Mon 14:54]
 
