@@ -1,10 +1,26 @@
 #+TITLE: org-babel --- facilitating communication between programming languages and people
-#+TODO:
 #+TODO: PROPOSED(p!) TODO(t!) STARTED(s!) | DONE(d!) DEFERRED(f!) REJECTED(r!)
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/118]
+* Tasks [62/119]
+** PROPOSED Language-specific session header args
+   - State "PROPOSED" from "" [2010-03-15 Mon 14:41]
+
+     One may want to specify the session for multiple blocks using
+     properties. However, currently there is no way to specify a
+     different session for different languages using properties. Two
+     possibilities come to mind:
+
+     1. Use org-babel-default-header-args:LANG
+     2. Introduce new headers of the form session:LANG or session-LANG
+
+     (1) is cleaner, in that it uses existing technology with no
+     changes. However, it would be nice to be able to set these things
+     in a property drawer. Perhaps(??) we could have a rule that says
+     that session:LANG in a property drawer means to set the value of
+     session in org-babel-default-header-args:LANG
+
 ** PROPOSED Define function =org-babel-version=
    :LOGBOOK:
    - State "PROPOSED"   from ""           [2010-03-13 Sat 07:26]
