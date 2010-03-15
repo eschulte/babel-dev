@@ -3,7 +3,18 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/119]
+* Tasks [62/120]
+** PROPOSED Internals: Code sharing with org-babel-execute-buffer
+   - State "PROPOSED" from "" [2010-03-15 Mon 14:54]
+
+     Functions like org-babel-pop-to-session have to go through some
+     initial variable binding which partially overlaps with the
+     variable bindings in org-babel-execute-src-block. If possible, it
+     would be nice to abstract the common set-up into shared code. For
+     example, I recently added default-directory in the let-binding of
+     o-b-execute-src-block, and subsequently realised that it also
+     needed to be added to o-b-pop-to-session.
+
 ** PROPOSED Language-specific session header args
    - State "PROPOSED" from "" [2010-03-15 Mon 14:41]
 
