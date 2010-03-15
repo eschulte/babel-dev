@@ -14,6 +14,9 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 12:22</span></span>
 See also <a href="#*Support==rownames==and==other==org==babel==table==features">Support rownames and other org babel table features?</a>
+</li>
+</ul>
+
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
@@ -33,10 +36,8 @@ See also <a href="#*Support==rownames==and==other==org==babel==table==features">
 </table>
 
 
-</li>
-</ul>
-
-<p>As things stand
+<p>
+As things stand
 </p>
 
 </div>
@@ -48,7 +49,7 @@ See also <a href="#*Support==rownames==and==other==org==babel==table==features">
 
 
 
-<pre class="src src-python"><span class="org-keyword">return</span> d
+<pre class="src src-python"><span style="color: #afeeee; font-weight: bold;">return</span> d
 </pre>
 
 
@@ -63,13 +64,13 @@ We could remove the hline with the following, but need to think about whether to
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-python-var-to-python</span> <span class="org-esk-paren">(</span>var<span class="org-esk-paren">)</span>
-  <span class="org-doc">"Convert an elisp var into a string of python source code
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">org-babel-python-var-to-python</span> (var)
+  <span style="color: #87cefa;">"Convert an elisp var into a string of python source code
 specifying a var of the same value."</span>
-  <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>listp var<span class="org-esk-paren">)</span>
-      <span class="org-esk-paren">(</span>concat <span class="org-string">"["</span> <span class="org-esk-paren">(</span>mapconcat #'org-babel-python-var-to-python <span class="org-esk-paren">(</span>remq 'hline var<span class="org-esk-paren">)</span> <span class="org-string">", "</span><span class="org-esk-paren">)</span> <span class="org-string">"]"</span><span class="org-esk-paren">)</span>
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
-</span>    <span class="org-esk-paren">(</span>format <span class="org-string">"%S"</span> var<span class="org-esk-paren">)))</span>
+  (<span style="color: #afeeee; font-weight: bold;">if</span> (listp var)
+      (concat <span style="color: #87cefa;">"["</span> (mapconcat #'org-babel-python-var-to-python (remq 'hline var) <span style="color: #87cefa;">", "</span>) <span style="color: #87cefa;">"]"</span>)
+      <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
+</span>    (format <span style="color: #87cefa;">"%S"</span> var)))
 </pre>
 
 
@@ -203,7 +204,7 @@ transpose the vector in R to get the desired result.
 
 
 
-<pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">d</span>
+<pre class="src src-sh"><span style="color: #7fffd4;">echo</span> $<span style="color: #40e0d0; font-weight: bold;">d</span>
 </pre>
 
 

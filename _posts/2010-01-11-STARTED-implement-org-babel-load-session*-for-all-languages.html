@@ -10,11 +10,12 @@ layout: default
 <ul>
 <li>
 State "STARTED"    from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-11 Mon 10:00</span></span>
-
 </li>
 </ul>
 
-<p>`<a href="http://orgmode.org/worg/org-contrib/babel/reference.php#function-org-babel-load-in-session">org-babel-load-session:*</a>' is bound to M-up and can be called from
+
+<p>
+`<a href="http://orgmode.org/worg/org-contrib/babel/reference.php#function-org-babel-load-in-session">org-babel-load-session:*</a>' is bound to M-up and can be called from
 inside of a code block to dump the body of the block to the related
 session.  It is currently implemented for the following languages
 where&hellip;
@@ -29,6 +30,9 @@ means it is now implemented
 means I need to look more closely at the language to
 determine if sessions are supported, or some prerequisite isn't
 yet implemented
+</dd>
+</dl>
+
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
@@ -61,21 +65,19 @@ yet implemented
 </table>
 
 
-</dd>
-</dl>
-
-<p>most of these all follow this simple basic form
+<p>
+most of these all follow this simple basic form
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-load-session:R</span> <span class="org-esk-paren">(</span>session body params<span class="org-esk-paren">)</span>
-  <span class="org-doc">"Load BODY into SESSION."</span>
-  <span class="org-esk-paren">(</span><span class="org-keyword">save-window-excursion</span>
-    <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>buffer <span class="org-esk-paren">(</span>org-babel-prep-session:R session params<span class="org-esk-paren">)))</span>
-      <span class="org-esk-paren">(</span><span class="org-keyword">with-current-buffer</span> buffer
-        <span class="org-esk-paren">(</span>goto-char <span class="org-esk-paren">(</span>process-mark <span class="org-esk-paren">(</span>get-buffer-process <span class="org-esk-paren">(</span>current-buffer<span class="org-esk-paren">))))</span>
-        <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>org-babel-chomp body<span class="org-esk-paren">)))</span>
-      buffer<span class="org-esk-paren">)))</span>
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">org-babel-load-session:R</span> (session body params)
+  <span style="color: #87cefa;">"Load BODY into SESSION."</span>
+  (<span style="color: #afeeee; font-weight: bold;">save-window-excursion</span>
+    (<span style="color: #afeeee; font-weight: bold;">let</span> ((buffer (org-babel-prep-session:R session params)))
+      (<span style="color: #afeeee; font-weight: bold;">with-current-buffer</span> buffer
+        (goto-char (process-mark (get-buffer-process (current-buffer))))
+        (insert (org-babel-chomp body)))
+      buffer)))
 </pre>
 
 
