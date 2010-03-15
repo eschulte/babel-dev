@@ -3,7 +3,21 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/121]
+* Tasks [62/122]
+** PROPOSED org-icons for src blocks
+   - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
+
+     I would like to investigate using org-icons to replace the code
+     block boilerplate (#+begin_src LANG ... #+end_src) with nice
+     language-specific icons. Personally, even with code block
+     folding, I find the remaining block boilerplate to be a bit
+     intrusive.
+     
+     As for default icons...ideas? I don't know what it would look
+     like using the icons associated with the respective software
+     projects (ruby, python, R, etc) but it would be interesting to
+     see.
+
 ** STARTED In-buffer graphical results 
    - State "STARTED"    from "PROPOSED"   [2010-03-15 Mon 17:21]
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:15]
