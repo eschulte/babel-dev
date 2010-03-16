@@ -4401,13 +4401,20 @@ This is currently working only with emacs lisp as in the following
 example in the [[* emacs lisp source reference][emacs lisp source reference]].
 
 
-** TODO Add languages [16/20]
+** TODO Add languages [16/21]
 I'm sure there are many more that aren't listed here.  Please add
 them, and bubble any that you particularly care about up to the top.
 
 Any new language should be implemented in a org-babel-lang.el file.
 Follow the pattern set by [[file:lisp/org-babel-script.el][org-babel-script.el]], [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and
 [[file:lisp/org-babel-R.el][org-babel-R.el]].
+
+*** TODO matlab and octave
+    - State "TODO"       from ""           [2010-03-16 Tue 11:02]
+      See
+      [[http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs]]
+      [[http://sourceforge.net/projects/matlab-emacs/]]
+      [[http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22268.html]]
 
 *** DONE clojure
     - State "DONE"       from ""           [2010-03-01 Mon 10:26]
