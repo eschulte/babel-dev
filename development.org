@@ -3,7 +3,83 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/122]
+* Tasks [63/123]
+** DONE Rename org-babel-pop-to-session org-babel-switch-to-session
+   - State "DONE"       from "STARTED"    [2010-03-16 Tue 12:59]
+   - State "STARTED"    from "PROPOSED"   [2010-03-16 Tue 12:44]
+   - State "PROPOSED"   from ""           [2010-03-16 Tue 12:33]
+
+     This would bring us into line with ruby-switch-to-inf,
+     python-switch-to-python and ess-switch-to-ESS.
+
+     I'm finding o-b-pop-to-session a very useful function and suggest
+     that we add it to org-babel-keys: z is the compelling choice as
+     C-c C-z is the binding fior ruby, python and ESS.
+
+     I've gone ahead and made those changes using a defalias for now.
+
+,----
+| org-babel-pop-to-session is an alias for `org-babel-switch-to-session'
+| in `org-babel.el'.
+| 
+| (org-babel-pop-to-session &optional arg info)
+| 
+| Switch to the session of the current source-code block.
+| If called with a prefix argument then evaluate the header arguments
+| for the source block before entering the session. Copy the body
+| of the source block to the kill ring.
+`----
+
+,----
+| org-babel-switch-to-session is an interactive Lisp function.
+| 
+| It is bound to C-c M-b z.
+| 
+| (org-babel-switch-to-session &optional arg info)
+| 
+| Switch to the session of the current source-code block.
+| If called with a prefix argument then evaluate the header arguments
+| for the source block before entering the session. Copy the body
+| of the source block to the kill ring.
+`----
+
+,----
+| ruby-switch-to-inf is an interactive compiled Lisp function in
+| `inf-ruby.el'.
+| 
+| It is bound to C-c C-z.
+| 
+| (ruby-switch-to-inf eob-p)
+| 
+| Switch to the ruby process buffer.
+| With argument, positions cursor at end of buffer.
+`----
+
+,----
+| python-switch-to-python is an interactive compiled Lisp function in
+| `python.el'.
+| 
+| It is bound to C-c C-z, <menu-bar> <Python> <Switch to interpreter>.
+| 
+| (python-switch-to-python eob-p)
+| 
+| Switch to the Python process buffer, maybe starting new process.
+| With prefix arg, position cursor at end of buffer.
+| 
+`----
+
+,----
+| ess-switch-to-end-of-ESS is an interactive compiled Lisp function in
+| `ess-inf.el'.
+| 
+| It is bound to C-c C-z, <menu-bar> <ESS> <Motion...> <Goto end of ESS
+| buffer>, C-M-r.
+| 
+| (ess-switch-to-end-of-ESS)
+| 
+| Switch to the end of the inferior ESS process buffer.
+`----
+
 ** PROPOSED org-icons for src blocks
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
 
