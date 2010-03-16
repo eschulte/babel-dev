@@ -4,6 +4,12 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [63/125]
+** PROPOSED Internals: org-babel-LANG-evaluate variable name
+   - State "PROPOSED"   from ""           [2010-03-16 Tue 19:23]
+
+     In some languages the argument list includes BUFFER but we then
+     refer to SESSION in the function.
+
 ** TODO Make docstrings obey emacs rules
    - State "TODO"       from ""           [2010-03-16 Tue 19:23]
      First descriptive sentence on own line less than 80 chars (or
