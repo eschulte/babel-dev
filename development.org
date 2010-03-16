@@ -4495,7 +4495,8 @@ Any new language should be implemented in a org-babel-lang.el file.
 Follow the pattern set by [[file:lisp/org-babel-script.el][org-babel-script.el]], [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and
 [[file:lisp/org-babel-R.el][org-babel-R.el]].
 
-*** TODO matlab and octave
+*** STARTED matlab and octave
+    - State "STARTED"    from "TODO"       [2010-03-16 Tue 19:25]
     - State "TODO"       from ""           [2010-03-16 Tue 11:02]
       See
       [[http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs]]
