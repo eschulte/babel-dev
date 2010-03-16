@@ -3,7 +3,11 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/123]
+* Tasks [63/125]
+** TODO Make docstrings obey emacs rules
+   - State "TODO"       from ""           [2010-03-16 Tue 19:23]
+     First descriptive sentence on own line less than 80 chars (or
+     something like that).
 ** DONE Rename org-babel-pop-to-session org-babel-switch-to-session
    - State "DONE"       from "STARTED"    [2010-03-16 Tue 12:59]
    - State "STARTED"    from "PROPOSED"   [2010-03-16 Tue 12:44]
