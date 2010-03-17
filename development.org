@@ -4800,7 +4800,33 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [58/75]
+* Bugs [58/76]
+** TODO Newlines etc in table cells mess up table formatting 
+   - State "TODO"       from ""           [2010-03-16 Tue 23:36]
+
+     Perhaps we should remove or protect characters like {\n,\r,\f,\v}
+     when they occur in table cells.
+
+#+begin_src R :colnames yes
+  data.frame(numbers=1:10, strings=c(letters[1:9], "an entry with a
+  newline character"))
+#+end_src
+
+#+results:
+| numbers       strings |
+|-----------------------|
+| 1     a               |
+| 2     b               |
+| 3     c               |
+| 4     d               |
+| 5     e               |
+| 6     f               |
+| 7     g               |
+| 8     h               |
+| 9     i               |
+| 10    an entry with a |
+| newline character     |
+
 ** TODO src block regexp fails if block contains block delimiters
    - State "TODO"       from ""           [2010-03-11 Thu 11:32]
 
