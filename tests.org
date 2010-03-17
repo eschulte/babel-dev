@@ -133,6 +133,43 @@ system("pwd")
 : oak
 : /home/davison/bench
 ******* perl : NA
+******* octave
+#+begin_src octave :session *babel-octave*
+  6*pi
+#+end_src
+
+#+results:
+: ans =  6.2832
+******* matlab
+	:PROPERTIES:
+	:dir: /ddavison@tombstone.princeton.edu:
+	:END:
+
+NB matlab-shell doesn't currently respond to a remote default-directory. A hack is to insert a line like
+  (cd "/ddavison@tombstone.princeton.edu:")
+into matlab-shell.
+
+#+begin_src matlab :session *babel-matlab*
+72*pi
+#+end_src
+
+#+results:
+#+begin_example
+72*pi
+
+ans =
+
+  226.1947
+
+
+'org_babel_eoe'
+
+ans =
+
+org_babel_eoe
+
+
+#+end_example
 ***** non-session
     :PROPERTIES:
     :session: none
@@ -245,6 +282,50 @@ system("pwd")
 : Wed Mar  3 16:01:31 UTC 2010
 : oak
 : /data/oak/user/davison/bench
+******* matlab
+	:PROPERTIES:
+	:dir: /ddavison@tombstone.princeton.edu:
+	:END:
+
+#+begin_src matlab
+  exp(i*pi)
+#+end_src
+
+#+results:
+#+begin_example
+
+The default version of Matlab in /usr/licensed/bin is matlab-R2009b
+
+The following versions are available in /usr/licensed/bin:
+  matlab-R2009b
+   matlab-R2009a
+   matlab-R2008b
+Warning: No display specified.  You will not be able to display graphics on the screen.
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2009 The MathWorks, Inc.
+                 Version 7.9.0.529 (R2009b) 64-bit (sol64)
+                              August 12, 2009
+
+ 
+  To get started, type one of these: helpwin, helpdesk, or demo.
+  For product information, visit www.mathworks.com.
+ 
+>> 
+ans =
+
+  -1.0000 + 0.0000i
+
+>> 
+#+end_example
+
+******* octave
+#+begin_src octave 
+  exp(2*i*pi)
+#+end_src
+
+#+results:
+: ans = 1.0000e+00 - 2.4492e-16i
 *** :results value
     :PROPERTIES:
     :results: value

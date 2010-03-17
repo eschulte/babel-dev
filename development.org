@@ -4492,8 +4492,7 @@ I'm sure there are many more that aren't listed here.  Please add
 them, and bubble any that you particularly care about up to the top.
 
 Any new language should be implemented in a org-babel-lang.el file.
-Follow the pattern set by [[file:lisp/org-babel-script.el][org-babel-script.el]], [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and
-[[file:lisp/org-babel-R.el][org-babel-R.el]].
+Follow the pattern set by [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and [[file:lisp/org-babel-R.el][org-babel-R.el]].
 
 *** STARTED matlab and octave
     - State "STARTED"    from "TODO"       [2010-03-16 Tue 19:25]
@@ -4502,6 +4501,43 @@ Follow the pattern set by [[file:lisp/org-babel-script.el][org-babel-script.el]]
       [[http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs]]
       [[http://sourceforge.net/projects/matlab-emacs/]]
       [[http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22268.html]]
+
+      non-session :results output is working
+    
+    session :results output is getting there
+    
+    With octave, it is hanging at
+    
+    (org-babel-comint-with-output session org-babel-octave-or-matlab-eoe-indicator t
+                (insert full-body) (comint-send-input nil t))
+    
+    With matlab, that bit goes OK. The remaining problem is processing the
+    raw output:
+    
+    72*pi
+    
+    72*pi
+    
+    ans =
+    
+      226.1947
+    
+    'org_babel_eoe'
+    
+    ans =
+    
+    org_babel_eoe
+
+**** TODO Allow multiple sessions
+     - State "TODO"       from ""           [2010-03-16 Tue 22:12]
+       
+**** matlab options
+     Why does a splash screen still appear with -nosplash?
+
+
+     Should we use these by default to save external process startup time?
+     - -nodisplay ?
+     - -nojvm ?
 
 *** DONE clojure
     - State "DONE"       from ""           [2010-03-01 Mon 10:26]
