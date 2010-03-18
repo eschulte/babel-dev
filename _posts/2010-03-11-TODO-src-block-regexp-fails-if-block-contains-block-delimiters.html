@@ -1,0 +1,98 @@
+---
+title: TODO src block regexp fails if block contains block delimiters
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> src block regexp fails if block contains block delimiters </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-11 Thu 11:32</span></span>
+</li>
+</ul>
+
+
+
+
+
+<pre class="src src-emacs-lisp">(concat <span style="color: #006400; font-weight: bold;">"#+begin_src\n"</span>
+        <span style="color: #006400; font-weight: bold;">"hello\n"</span>
+        <span style="color: #006400; font-weight: bold;">"
+</span></pre>
+
+
+
+
+<p>
+C-c C-c =&gt; End of file during parsing
+</p>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">report by Maurizio Vitale </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<p>From: Maurizio Vitale &lt;mav@cuma.i-did-not-set&ndash;mail-host-address&ndash;so-tickle-me&gt;
+Subject: [Orgmode] Re: [babel] problems with org-babel-src-block-regexp (full text)
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
+Date: Thu, 11 Mar 2010 12:19:09 -0500
+To: emacs-orgmode@gnu.org
+</p>
+
+<p>
+[sorry for the double posting, but the control char in the regexp
+prevented the full message from appearing. This is what I meant to send]
+</p>
+<p>
+There're problems with org-babel-src-block-regexp when the src block
+contains the block delimiters (for instance in strings or comments).
+</p>
+<p>
+Granted, this is an uncommon occurrence (which I discovered by accident)
+editing an org-file containing elisp code that needed to insert
+would be nice to have a more useful behaviour.
+</p>
+<p>
+This is my setting (replaced 0x0 with ^@ to avoid posting problems):
+org-babel-src-block-regexp is a variable defined in `org-babel.el'.
+Its value is 
+"<sup>[</sup>     ]*#\\+begin<sub>src[</sub>        ]+\\(python\\|sh\\|emacs-lisp\\)[       ]*\\([<sup>\</sup>":\n]*\"[<sup>\</sup>"\n*]*\"[<sup>\</sup>":\n]*\\|[<sup>\</sup>":\n]*\\)\\([<sup>\n]</sup>*\\)\n\\([^^@]+?\\)#\\+end<sub>src</sub>"
+</p>
+<p>
+And these are two test cases. I'm particularly puzzled by the first,
+because the regexp seems to be anchored to the begin of line and hence
+it shouldn't match the begin<sub>src</sub> inside the string.
+For end<sub>src</sub>, it should probably be anchored to the begin of line.
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #b22222; font-weight: bold;">;;; </span><span style="color: #b22222; font-weight: bold;">evaluating the following C-x C-e with the point at the end is ok
+</span>(org-babel-where-is-src-block-head)
+(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">foo</span> () (insert <span style="color: #006400; font-weight: bold;">"#+begin_src emacs-lisp"</span>))
+<span style="color: #b22222; font-weight: bold;">;;; </span><span style="color: #b22222; font-weight: bold;">evaluating the following C-x C-e with the point at the end is not ok
+</span>(org-babel-where-is-src-block-head)
+</pre>
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #b22222; font-weight: bold;">;;; </span><span style="color: #b22222; font-weight: bold;">evaluating the following C-x C-e with the point at the end is ok
+</span>(org-babel-where-is-src-block-head)
+(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">foo</span> () (insert <span style="color: #006400; font-weight: bold;">"
+</span></pre>
+
+
+
+
+<p>
+Best regards,
+</p>
+<p>
+Maurizio 
+</p></div>
+</div>
+</div>
