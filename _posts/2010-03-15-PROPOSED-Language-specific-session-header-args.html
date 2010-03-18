@@ -10,6 +10,9 @@ layout: default
 <ul>
 <li>
 State "PROPOSED" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-15 Mon 14:41</span></span>
+</li>
+</ul>
+
 
 <p>
 One may want to specify the session for multiple blocks using
@@ -23,16 +26,15 @@ Use org-babel-default-header-args:LANG
 </li>
 <li>
 Introduce new headers of the form session:LANG or session-LANG
-
 </li>
 </ol>
 
-<p>(1) is cleaner, in that it uses existing technology with no
+
+<p>
+(1) is cleaner, in that it uses existing technology with no
 changes. However, it would be nice to be able to set these things
 in a property drawer. Perhaps(??) we could have a rule that says
 that session:LANG in a property drawer means to set the value of
 session in org-babel-default-header-args:LANG
-</p></li>
-</ul>
-</div>
+</p></div>
 </div>

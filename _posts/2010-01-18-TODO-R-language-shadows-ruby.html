@@ -36,10 +36,10 @@ I was initializing org-babel with the following from my init.el file
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-init</span>)
-(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-ruby</span>)
-(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-R</span>)
-(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-python</span>)
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-init</span>)
+(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-ruby</span>)
+(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-R</span>)
+(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-python</span>)
 (org-babel-load-library-of-babel)
 </pre>
 
@@ -56,10 +56,10 @@ When I change the order of the language initializations, the error goes away:
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-init</span>)
-(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-R</span>)
-(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-ruby</span>)
-(<span style="color: #afeeee; font-weight: bold;">require</span> '<span style="color: #98fb98;">org-babel-python</span>)
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-init</span>)
+(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-R</span>)
+(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-ruby</span>)
+(<span style="color: #a020f0; font-weight: bold;">require</span> '<span style="color: #0000ff; font-weight: bold;">org-babel-python</span>)
 (org-babel-load-library-of-babel)
 </pre>
 

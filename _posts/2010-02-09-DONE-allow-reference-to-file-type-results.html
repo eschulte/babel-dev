@@ -10,16 +10,20 @@ layout: default
 <ul>
 <li>
 State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-09 Tue 20:29</span></span>
-
 </li>
 </ul>
 
-<p>So files can be referenced by source code blocks
+
+<p>
+So files can be referenced by source code blocks
 </p>
 <ul>
 <li>
 Here's a simple example counting the size of the user's <code>.profile</code>
 file.
+</li>
+</ul>
+
 
 <p>
 The raw org-mode text
@@ -44,12 +48,12 @@ The raw org-mode text
 Now exported to html
 </p>
 <p>
-<a href="/home/eschulte/.profile">my-profile</a>
+<a href="/home/dan/.profile">my-profile</a>
 </p>
 
 
 
-<pre class="src src-sh">wc $<span class="org-variable-name">profile</span>
+<pre class="src src-sh">wc $<span style="color: #b8860b; font-weight: bold;">profile</span>
 
 </pre>
 
@@ -61,10 +65,13 @@ Now exported to html
 </pre>
 
 
-</li>
+<ul>
 <li>
 Or perhaps a slightly fancier example using the <code>host</code> command to
 grab IP information for the org-mode homepage.
+</li>
+</ul>
+
 
 <p>
 The raw org-mode text
@@ -94,7 +101,7 @@ or exported to html
 
 
 
-<pre class="src src-sh">host $<span class="org-variable-name">page</span> |head -1
+<pre class="src src-sh">host $<span style="color: #b8860b; font-weight: bold;">page</span> |head -1
 
 </pre>
 
@@ -105,7 +112,5 @@ or exported to html
 http://orgmode.org/ has address 63.123.155.104
 </pre>
 
-</li>
-</ul>
 </div>
 </div>

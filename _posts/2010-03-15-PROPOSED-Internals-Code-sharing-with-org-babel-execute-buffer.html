@@ -1,5 +1,5 @@
 ---
-title: PROPOSED Internals Code sharing with org-babel-execute-buffer
+title: PROPOSED Internals: Code sharing with org-babel-execute-buffer
 layout: default
 ---
 
@@ -10,6 +10,9 @@ layout: default
 <ul>
 <li>
 State "PROPOSED" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-15 Mon 14:54</span></span>
+</li>
+</ul>
+
 
 <p>
 Functions like org-babel-pop-to-session have to go through some
@@ -19,7 +22,5 @@ would be nice to abstract the common set-up into shared code. For
 example, I recently added default-directory in the let-binding of
 o-b-execute-src-block, and subsequently realised that it also
 needed to be added to o-b-pop-to-session.
-</p></li>
-</ul>
-</div>
+</p></div>
 </div>
