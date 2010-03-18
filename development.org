@@ -3,7 +3,149 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [62/122]
+* Tasks [64/126]
+** DONE Allow tramp syntax with :tangle
+   - State "DONE"       from "TODO"       [2010-03-17 Wed 21:23]
+   - State "TODO"       from ""           [2010-03-17 Wed 15:56]
+
+     73d8e5768570d62e79f19b117b599f668b6abc17
+
+     See [[PROPOSED tangle to buffers and write to file at end]]
+
+*** Email from Maurizio Vitale
+
+#+begin_example
+  From: Maurizio Vitale <mav@cuma.i-did-not-set--mail-host-address--so-tickle-me>
+  Subject: [Orgmode] [babel] using tramp when tangling
+  User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
+  Date: Wed, 17 Mar 2010 14:39:43 -0400
+  To: emacs-orgmode@gnu.org
+  
+  
+  I'd find useful to use tramp syntax in the :tangle specification.
+  In my case it would be to specify sudo when tangling config files that
+  are supposed to go to areas not writable by the user running Emacs. 
+  Something like:
+  
+  #+begin_src sh :tangle /sudo::/etc/my_config_file
+  ...
+  #+end_src
+  
+  other people might be interested in remote access to tangle targets.
+  
+  Is there a way to achieve the above?
+  
+  If I try to tangle the above, I get something along the lines that
+  "tramp cannot append to file". Would it be possible to have org-babel to
+  (optionally) tangle to a buffer and then save to file in one go?
+  
+  Thanks a lot for the excellent addition to org-mode.
+  
+         Maurizio 
+#+end_example
+
+** Internals: non user-visible changes
+*** PROPOSED org-babel-LANG-evaluate variable name
+    - State "PROPOSED"   from ""           [2010-03-16 Tue 19:23]
+
+      In some languages the argument list includes BUFFER but we then
+      refer to SESSION in the function.
+*** PROPOSED split org-babel-LANG-evaluate into session and non-session
+    - State "PROPOSED"   from ""           [2010-03-17 Wed 21:17]
+      
+      Like clojure does.
+*** PROPOSED tangle to buffers and write to file at end
+    - State "PROPOSED"   from ""           [2010-03-17 Wed 21:18]
+      
+      Now that we don't use append-to-file (see
+      73d8e5768570d62e79f19b117b599f668b6abc17), it would be more
+      efficient to append the tangled output to buffers, and
+      ultimately write the buffers to file and kill the buffers. I
+      didn't implement that, as it required a fair bit of kessing
+      about with org-babel-tangle, but if someone has time it would be
+      nice. The efficiency gain will presumably be considerable for
+      remote tangle files.
+
+** TODO Make docstrings obey emacs rules
+   - State "TODO"       from ""           [2010-03-16 Tue 19:23]
+     First descriptive sentence on own line less than 80 chars (or
+     something like that).
+** DONE Rename org-babel-pop-to-session org-babel-switch-to-session
+   - State "DONE"       from "STARTED"    [2010-03-16 Tue 12:59]
+   - State "STARTED"    from "PROPOSED"   [2010-03-16 Tue 12:44]
+   - State "PROPOSED"   from ""           [2010-03-16 Tue 12:33]
+
+     This would bring us into line with ruby-switch-to-inf,
+     python-switch-to-python and ess-switch-to-ESS.
+
+     I'm finding o-b-pop-to-session a very useful function and suggest
+     that we add it to org-babel-keys: z is the compelling choice as
+     C-c C-z is the binding fior ruby, python and ESS.
+
+     I've gone ahead and made those changes using a defalias for now.
+
+,----
+| org-babel-pop-to-session is an alias for `org-babel-switch-to-session'
+| in `org-babel.el'.
+| 
+| (org-babel-pop-to-session &optional arg info)
+| 
+| Switch to the session of the current source-code block.
+| If called with a prefix argument then evaluate the header arguments
+| for the source block before entering the session. Copy the body
+| of the source block to the kill ring.
+`----
+
+,----
+| org-babel-switch-to-session is an interactive Lisp function.
+| 
+| It is bound to C-c M-b z.
+| 
+| (org-babel-switch-to-session &optional arg info)
+| 
+| Switch to the session of the current source-code block.
+| If called with a prefix argument then evaluate the header arguments
+| for the source block before entering the session. Copy the body
+| of the source block to the kill ring.
+`----
+
+,----
+| ruby-switch-to-inf is an interactive compiled Lisp function in
+| `inf-ruby.el'.
+| 
+| It is bound to C-c C-z.
+| 
+| (ruby-switch-to-inf eob-p)
+| 
+| Switch to the ruby process buffer.
+| With argument, positions cursor at end of buffer.
+`----
+
+,----
+| python-switch-to-python is an interactive compiled Lisp function in
+| `python.el'.
+| 
+| It is bound to C-c C-z, <menu-bar> <Python> <Switch to interpreter>.
+| 
+| (python-switch-to-python eob-p)
+| 
+| Switch to the Python process buffer, maybe starting new process.
+| With prefix arg, position cursor at end of buffer.
+| 
+`----
+
+,----
+| ess-switch-to-end-of-ESS is an interactive compiled Lisp function in
+| `ess-inf.el'.
+| 
+| It is bound to C-c C-z, <menu-bar> <ESS> <Motion...> <Goto end of ESS
+| buffer>, C-M-r.
+| 
+| (ess-switch-to-end-of-ESS)
+| 
+| Switch to the end of the inferior ESS process buffer.
+`----
+
 ** PROPOSED org-icons for src blocks
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
 
@@ -2037,25 +2179,25 @@ This will rely upon [[* resolve references to other buffers][resolve references 
     - plotting and analysis functions in R (incl. re-implement those from org-R?)
     - plotting with gnuplot (incl. re-implement org-plot??)
 
-** STARTED Improve error checking
-   - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:00]
-   - State "TODO"       from "DEFERRED"   [2010-03-01 Mon 05:49]
+* STARTED Improve error checking
+  - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:00]
+  - State "TODO"       from "DEFERRED"   [2010-03-01 Mon 05:49]
 
-     Current solution for :results value mode:
-     - store shell exit code and stderr
-     - if non-zero exit code:
-       - write stderr to *Org-Babel Error Output*
-       - display *Org-Babel Error Output*
+    Current solution for :results value mode:
+    - store shell exit code and stderr
+    - if non-zero exit code:
+      - write stderr to *Org-Babel Error Output*
+      - display *Org-Babel Error Output*
 
-    :results output mixes stderr with stdout and does not otherwise notify on error.
+   :results output mixes stderr with stdout and does not otherwise notify on error.
 
-     Questions:
-     - What should we do when stderr is non-empty but exit code is
-       zero?
-     - What should we do in the case of shell non-session :results value?
-     - What should we do in the case of :session?
+    Questions:
+    - What should we do when stderr is non-empty but exit code is
+      zero?
+    - What should we do in the case of shell non-session :results value?
+    - What should we do in the case of :session?
 
-*** Return error structure?
+** Return error structure?
     Could use the following at outset of org-babel-insert-result.
 #+begin_src emacs-lisp
   (if (and (consp result) (eq (first result 'org-babel-error-flag)))
@@ -2064,29 +2206,29 @@ This will rely upon [[* resolve references to other buffers][resolve references 
         (unless (= (length (third result)) 0)
           (let (error-buffer (get-buffer-create "*Org-Babel Error Output"))
             (with-current-buffer error-buffer (insert (third result)))
-            (display-buffer error-buffer))))
+            (display-buffer error-buffer)))))
 #+end_src
 
-*** older notes
-    E.g. when trying to execute sass block, I did not have sass
-    installed, and so shell-command returned code 127, but org-babel
-    did not warn me that anything had gone wrong.
-     I expect it will be hard to do this properly, but ultimately it
-     would be nice to be able to specify somewhere to receive STDERR,
-     and to be warned if it is non-empty.
+** older notes
+   E.g. when trying to execute sass block, I did not have sass
+   installed, and so shell-command returned code 127, but org-babel
+   did not warn me that anything had gone wrong.
+    I expect it will be hard to do this properly, but ultimately it
+    would be nice to be able to specify somewhere to receive STDERR,
+    and to be warned if it is non-empty.
 
-     Probably simpler in non-session evaluation than session? At least
-     the mechanism will be different I guess.
+    Probably simpler in non-session evaluation than session? At least
+    the mechanism will be different I guess.
 
-     R has a try function, with error handling, along the lines of
-     python. I bet ruby does too. Maybe more of an issue for functional
-     style; in my proposed scripting style the error just gets dumped to
-     the org buffer and the user is thus alerted.
+    R has a try function, with error handling, along the lines of
+    python. I bet ruby does too. Maybe more of an issue for functional
+    style; in my proposed scripting style the error just gets dumped to
+    the org buffer and the user is thus alerted.
 
-     For now I think the current behavior of returning any error
-     messages generated by the source language is sufficient.
+    For now I think the current behavior of returning any error
+    messages generated by the source language is sufficient.
 
-*** Error checking in R sessions
+** Error checking in R sessions
     A simple thing to do is to wrap the R code in try(...), as in the
     patch below. That results in some improved behaviour:
     - You get the error message from R
@@ -2108,7 +2250,7 @@ This will rely upon [[* resolve references to other buffers][resolve references 
 : + hello
 : Error in log("a") : Non-numeric argument to mathematical function
 
-**** patch
+*** patch
 diff --git a/contrib/babel/lisp/langs/org-babel-R.el b/contrib/babel/lisp/langs/org-babel-R.el
 index 1ef21db..45f8409 100644
 --- a/contrib/babel/lisp/langs/org-babel-R.el
@@ -4401,13 +4543,57 @@ This is currently working only with emacs lisp as in the following
 example in the [[* emacs lisp source reference][emacs lisp source reference]].
 
 
-** TODO Add languages [16/20]
+** TODO Add languages [16/21]
 I'm sure there are many more that aren't listed here.  Please add
 them, and bubble any that you particularly care about up to the top.
 
 Any new language should be implemented in a org-babel-lang.el file.
-Follow the pattern set by [[file:lisp/org-babel-script.el][org-babel-script.el]], [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and
-[[file:lisp/org-babel-R.el][org-babel-R.el]].
+Follow the pattern set by [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and [[file:lisp/org-babel-R.el][org-babel-R.el]].
+
+*** STARTED matlab and octave
+    - State "STARTED"    from "TODO"       [2010-03-16 Tue 19:25]
+    - State "TODO"       from ""           [2010-03-16 Tue 11:02]
+      See
+      [[http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs]]
+      [[http://sourceforge.net/projects/matlab-emacs/]]
+      [[http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22268.html]]
+
+      non-session :results output is working
+    
+    session :results output is getting there
+    
+    With octave, it is hanging at
+    
+    (org-babel-comint-with-output session org-babel-octave-or-matlab-eoe-indicator t
+                (insert full-body) (comint-send-input nil t))
+    
+    With matlab, that bit goes OK. The remaining problem is processing the
+    raw output:
+    
+    72*pi
+    
+    72*pi
+    
+    ans =
+    
+      226.1947
+    
+    'org_babel_eoe'
+    
+    ans =
+    
+    org_babel_eoe
+
+**** TODO Allow multiple sessions
+     - State "TODO"       from ""           [2010-03-16 Tue 22:12]
+       
+**** matlab options
+     Why does a splash screen still appear with -nosplash?
+
+
+     Should we use these by default to save external process startup time?
+     - -nodisplay ?
+     - -nojvm ?
 
 *** DONE clojure
     - State "DONE"       from ""           [2010-03-01 Mon 10:26]
@@ -4706,7 +4892,33 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [58/75]
+* Bugs [58/76]
+** TODO Newlines etc in table cells mess up table formatting 
+   - State "TODO"       from ""           [2010-03-16 Tue 23:36]
+
+     Perhaps we should remove or protect characters like {\n,\r,\f,\v}
+     when they occur in table cells.
+
+#+begin_src R :colnames yes
+  data.frame(numbers=1:10, strings=c(letters[1:9], "an entry with a
+  newline character"))
+#+end_src
+
+#+results:
+| numbers       strings |
+|-----------------------|
+| 1     a               |
+| 2     b               |
+| 3     c               |
+| 4     d               |
+| 5     e               |
+| 6     f               |
+| 7     g               |
+| 8     h               |
+| 9     i               |
+| 10    an entry with a |
+| newline character     |
+
 ** TODO src block regexp fails if block contains block delimiters
    - State "TODO"       from ""           [2010-03-11 Thu 11:32]
 
