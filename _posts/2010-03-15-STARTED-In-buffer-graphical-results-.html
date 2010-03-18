@@ -33,31 +33,31 @@ are implemented.
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">ded/iimage-mode-buffer</span> (arg <span style="color: #228b22; font-weight: bold;">&amp;optional</span> refresh)
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">ded/iimage-mode-buffer</span> (arg <span style="color: #87ceeb; font-weight: bold;">&amp;optional</span> refresh)
 <span style="color: #87cefa;">"Display/undisplay images.
 With numeric ARG, display the images if and only if ARG is positive."</span>
   (interactive)
-  (<span style="color: #a020f0; font-weight: bold;">let</span> ((ing (<span style="color: #a020f0; font-weight: bold;">if</span> (numberp arg)
+  (<span style="color: #afeeee; font-weight: bold;">let</span> ((ing (<span style="color: #afeeee; font-weight: bold;">if</span> (numberp arg)
                  (&gt; arg 0)
                iimage-mode))
         (modp (buffer-modified-p (current-buffer)))
         file img)
-    (<span style="color: #a020f0; font-weight: bold;">save-excursion</span>
+    (<span style="color: #afeeee; font-weight: bold;">save-excursion</span>
       (goto-char (point-min))
-      (<span style="color: #a020f0; font-weight: bold;">dolist</span> (pair iimage-mode-image-regex-alist)
-        (<span style="color: #a020f0; font-weight: bold;">while</span> (re-search-forward (car pair) nil t)
-          (<span style="color: #a020f0; font-weight: bold;">if</span> (and (setq file (match-string (cdr pair)))
+      (<span style="color: #afeeee; font-weight: bold;">dolist</span> (pair iimage-mode-image-regex-alist)
+        (<span style="color: #afeeee; font-weight: bold;">while</span> (re-search-forward (car pair) nil t)
+          (<span style="color: #afeeee; font-weight: bold;">if</span> (and (setq file (match-string (cdr pair)))
                    (setq file (iimage-locate-file file
                                    (cons default-directory
                                          iimage-mode-image-search-path))))
-              (<span style="color: #a020f0; font-weight: bold;">if</span> ing
-                  (<span style="color: #a020f0; font-weight: bold;">let</span> ((img (create-image file)))
+              (<span style="color: #afeeee; font-weight: bold;">if</span> ing
+                  (<span style="color: #afeeee; font-weight: bold;">let</span> ((img (create-image file)))
                     (add-text-properties (match-beginning 0) (match-end 0) (list 'display img))
-                    (<span style="color: #a020f0; font-weight: bold;">if</span> refresh (image-refresh img)))
+                    (<span style="color: #afeeee; font-weight: bold;">if</span> refresh (image-refresh img)))
                 (remove-text-properties (match-beginning 0) (match-end 0) '(display)))))))
     (set-buffer-modified-p modp)))
 
-(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">ded/org-iimage-refresh</span> ()
+(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">ded/org-iimage-refresh</span> ()
   (interactive)
   (redisplay t)
   (set-face-underline-p 'org-link nil)

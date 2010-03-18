@@ -67,12 +67,12 @@ What should we do in the case of :session?
 </p>
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">if</span> (and (consp result) (eq (first result 'org-babel-error-flag)))
-    (<span style="color: #a020f0; font-weight: bold;">progn</span>
-      (message <span style="color: #006400; font-weight: bold;">"Shell command exited with error %d"</span> (second result))
-      (<span style="color: #a020f0; font-weight: bold;">unless</span> (= (length (third result)) 0)
-        (<span style="color: #a020f0; font-weight: bold;">let</span> (error-buffer (get-buffer-create <span style="color: #006400; font-weight: bold;">"*Org-Babel Error Output"</span>))
-          (<span style="color: #a020f0; font-weight: bold;">with-current-buffer</span> error-buffer (insert (third result)))
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">if</span> (and (consp result) (eq (first result 'org-babel-error-flag)))
+    (<span style="color: #afeeee; font-weight: bold;">progn</span>
+      (message <span style="color: #87cefa;">"Shell command exited with error %d"</span> (second result))
+      (<span style="color: #afeeee; font-weight: bold;">unless</span> (= (length (third result)) 0)
+        (<span style="color: #afeeee; font-weight: bold;">let</span> (error-buffer (get-buffer-create <span style="color: #87cefa;">"*Org-Babel Error Output"</span>))
+          (<span style="color: #afeeee; font-weight: bold;">with-current-buffer</span> error-buffer (insert (third result)))
           (display-buffer error-buffer))))
 </pre>
 
@@ -131,10 +131,10 @@ E.g.
 
 
 
-<pre class="src src-R"><span style="color: #0000ff; font-weight: bold;">f</span> <span style="color: #0000ff; font-weight: bold;">&lt;-</span> <span style="color: #a020f0; font-weight: bold;">function</span>() {
-    cat(<span style="color: #006400; font-weight: bold;">"hello\n"</span>)
-    x <span style="color: #0000ff; font-weight: bold;">&lt;-</span> log(<span style="color: #006400; font-weight: bold;">"a"</span>)
-    cat(<span style="color: #006400; font-weight: bold;">"bye\n"</span>)
+<pre class="src src-R"><span style="color: #7fffd4; font-weight: bold;">f</span> <span style="color: #98fb98;">&lt;-</span> <span style="color: #afeeee; font-weight: bold;">function</span>() {
+    cat(<span style="color: #87cefa;">"hello\n"</span>)
+    x <span style="color: #98fb98;">&lt;-</span> log(<span style="color: #87cefa;">"a"</span>)
+    cat(<span style="color: #87cefa;">"bye\n"</span>)
 }
 </pre>
 

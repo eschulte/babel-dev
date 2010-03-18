@@ -79,14 +79,14 @@ that a handler from tramp is used:
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">let</span> (
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">let</span> (
       ...
       (call-process-region-original (symbol-function 'call-process-region))
       result)
-  <span style="color: #b22222; font-weight: bold;">;; </span><span style="color: #b22222; font-weight: bold;">(message "params=%S" params) ;; debugging
-</span>  (<span style="color: #a020f0; font-weight: bold;">flet</span> ((call-process-region (<span style="color: #228b22; font-weight: bold;">&amp;rest</span> args)
+  <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">(message "params=%S" params) ;; debugging
+</span>  (<span style="color: #afeeee; font-weight: bold;">flet</span> ((call-process-region (<span style="color: #87ceeb; font-weight: bold;">&amp;rest</span> args)
                               (apply 'org-babel-tramp-handle-call-process-region args)))
-    <span style="color: #b22222; font-weight: bold;">;; </span><span style="color: #b22222; font-weight: bold;">...
+    <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">...
 </span>    ))
 </pre>
 
@@ -144,18 +144,18 @@ done by someone who knew what they were doing.
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">retrieve-output</span> ()
-  (<span style="color: #a020f0; font-weight: bold;">let</span> ((default-directory <span style="color: #006400; font-weight: bold;">"/user@host:dirpath"</span>)
-        (output-file (make-temp-file <span style="color: #006400; font-weight: bold;">"zzz-"</span>)))
-    (shell-command (format <span style="color: #006400; font-weight: bold;">"hostname &gt; %s"</span> output-file))
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">retrieve-output</span> ()
+  (<span style="color: #afeeee; font-weight: bold;">let</span> ((default-directory <span style="color: #87cefa;">"/user@host:dirpath"</span>)
+        (output-file (make-temp-file <span style="color: #87cefa;">"zzz-"</span>)))
+    (shell-command (format <span style="color: #87cefa;">"hostname &gt; %s"</span> output-file))
     (insert-file-contents
-     (<span style="color: #a020f0; font-weight: bold;">if</span> (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
+     (<span style="color: #afeeee; font-weight: bold;">if</span> (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
 
-(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">make-remote-file-name</span> (file)
-  (<span style="color: #a020f0; font-weight: bold;">let*</span> ((vec (tramp-dissect-file-name default-directory))
+(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">make-remote-file-name</span> (file)
+  (<span style="color: #afeeee; font-weight: bold;">let*</span> ((vec (tramp-dissect-file-name default-directory))
          (user (tramp-file-name-user vec))
          (host (tramp-file-name-host vec)))
-    (concat <span style="color: #006400; font-weight: bold;">"/"</span> user (<span style="color: #a020f0; font-weight: bold;">when</span> user <span style="color: #006400; font-weight: bold;">"@"</span>) host <span style="color: #006400; font-weight: bold;">":"</span> file)))
+    (concat <span style="color: #87cefa;">"/"</span> user (<span style="color: #afeeee; font-weight: bold;">when</span> user <span style="color: #87cefa;">"@"</span>) host <span style="color: #87cefa;">":"</span> file)))
 
 (retrieve-output)
 </pre>
@@ -240,14 +240,14 @@ This case, I would do
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">retrieve-output</span> ()
-  (<span style="color: #a020f0; font-weight: bold;">let</span> ((tmpfile
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">retrieve-output</span> ()
+  (<span style="color: #afeeee; font-weight: bold;">let</span> ((tmpfile
          (make-temp-file
-          (concat (file-remote-p default-directory) <span style="color: #006400; font-weight: bold;">"/tmp/zzz-"</span>))))
-    (<span style="color: #a020f0; font-weight: bold;">unwind-protect</span>
-        (<span style="color: #a020f0; font-weight: bold;">progn</span>
+          (concat (file-remote-p default-directory) <span style="color: #87cefa;">"/tmp/zzz-"</span>))))
+    (<span style="color: #afeeee; font-weight: bold;">unwind-protect</span>
+        (<span style="color: #afeeee; font-weight: bold;">progn</span>
           (process-file
-           <span style="color: #006400; font-weight: bold;">"process"</span> nil nil nil
+           <span style="color: #87cefa;">"process"</span> nil nil nil
            (or (file-remote-p tmpfile 'localname) tmpfile))
           (insert-file-contents tmpfile))
       (delete-file tmpfile))))

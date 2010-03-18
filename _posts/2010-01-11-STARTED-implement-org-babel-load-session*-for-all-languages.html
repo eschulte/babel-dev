@@ -70,11 +70,11 @@ most of these all follow this simple basic form
 </p>
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold;">defun</span> <span style="color: #0000ff; font-weight: bold;">org-babel-load-session:R</span> (session body params)
+<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">org-babel-load-session:R</span> (session body params)
   <span style="color: #87cefa;">"Load BODY into SESSION."</span>
-  (<span style="color: #a020f0; font-weight: bold;">save-window-excursion</span>
-    (<span style="color: #a020f0; font-weight: bold;">let</span> ((buffer (org-babel-prep-session:R session params)))
-      (<span style="color: #a020f0; font-weight: bold;">with-current-buffer</span> buffer
+  (<span style="color: #afeeee; font-weight: bold;">save-window-excursion</span>
+    (<span style="color: #afeeee; font-weight: bold;">let</span> ((buffer (org-babel-prep-session:R session params)))
+      (<span style="color: #afeeee; font-weight: bold;">with-current-buffer</span> buffer
         (goto-char (process-mark (get-buffer-process (current-buffer))))
         (insert (org-babel-chomp body)))
       buffer)))
