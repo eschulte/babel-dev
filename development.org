@@ -10,6 +10,8 @@
 
      73d8e5768570d62e79f19b117b599f668b6abc17
 
+     See [[PROPOSED tangle to buffers and write to file at end]]
+
 *** Email from Maurizio Vitale
 
 #+begin_example
@@ -52,6 +54,17 @@
     - State "PROPOSED"   from ""           [2010-03-17 Wed 21:17]
       
       Like clojure does.
+*** PROPOSED tangle to buffers and write to file at end
+    - State "PROPOSED"   from ""           [2010-03-17 Wed 21:18]
+      
+      Now that we don't use append-to-file (see
+      73d8e5768570d62e79f19b117b599f668b6abc17), it would be more
+      efficient to append the tangled output to buffers, and
+      ultimately write the buffers to file and kill the buffers. I
+      didn't implement that, as it required a fair bit of kessing
+      about with org-babel-tangle, but if someone has time it would be
+      nice. The efficiency gain will presumably be considerable for
+      remote tangle files.
 
 ** TODO Make docstrings obey emacs rules
    - State "TODO"       from ""           [2010-03-16 Tue 19:23]
