@@ -3,9 +3,12 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [63/126]
-** TODO Allow tramp syntax with :tangle
+* Tasks [64/126]
+** DONE Allow tramp syntax with :tangle
+   - State "DONE"       from "TODO"       [2010-03-17 Wed 21:23]
    - State "TODO"       from ""           [2010-03-17 Wed 15:56]
+
+     73d8e5768570d62e79f19b117b599f668b6abc17
 
 *** Email from Maurizio Vitale
 
