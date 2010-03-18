@@ -1,10 +1,9 @@
 #+SEQ_TODO: DOESN'T_WORK | WORKS DEFERRED
 
-* WORKS Local and remote working dirs
+* Local and remote working dirs
     :PROPERTIES:
     :noweb: yes
     :END:
-    Everything in this subtree works at a8c1a49b77acfcf7986d427c77b6cc8a6082cd47
 *** :results output
     :PROPERTIES:
     :results: output
@@ -133,43 +132,44 @@ system("pwd")
 : oak
 : /home/davison/bench
 ******* perl : NA
-******* octave
+******* WORKS octave
 #+begin_src octave :session *babel-octave*
-  6*pi
+  magic(3)
 #+end_src
 
 #+results:
-: ans =  6.2832
-******* matlab
+: 
+: ans =
+: 
+:    8   1   6
+:    3   5   7
+:    4   9   2
+
+******* WORKS matlab
 	:PROPERTIES:
 	:dir: /ddavison@tombstone.princeton.edu:
 	:END:
 
-NB matlab-shell doesn't currently respond to a remote default-directory. A hack is to insert a line like
-  (cd "/ddavison@tombstone.princeton.edu:")
+NB matlab-shell doesn't currently respond to a remote
+default-directory. A hack is to insert a line like
+
+(cd "/ddavison@tombstone.princeton.edu:")
+
 into matlab-shell.
 
 #+begin_src matlab :session *babel-matlab*
-72*pi
+  magic(4)
 #+end_src
 
 #+results:
-#+begin_example
-72*pi
-
-ans =
-
-  226.1947
-
-
-'org_babel_eoe'
-
-ans =
-
-org_babel_eoe
-
-
-#+end_example
+: magic(4)
+: 
+: ans =
+: 
+:     16     2     3    13
+:      5    11    10     8
+:      9     7     6    12
+:      4    14    15     1
 ***** non-session
     :PROPERTIES:
     :session: none
@@ -282,13 +282,12 @@ org_babel_eoe
 : Wed Mar  3 16:01:31 UTC 2010
 : oak
 : /data/oak/user/davison/bench
-******* matlab
+******* WORKS matlab
 	:PROPERTIES:
-	:dir: /ddavison@tombstone.princeton.edu:
+	:dir: /ddavison@sixtyfour.princeton.edu:
 	:END:
-
 #+begin_src matlab
-  exp(i*pi)
+  5 * exp(i*pi)
 #+end_src
 
 #+results:
@@ -297,35 +296,35 @@ org_babel_eoe
 The default version of Matlab in /usr/licensed/bin is matlab-R2009b
 
 The following versions are available in /usr/licensed/bin:
-  matlab-R2009b
-   matlab-R2009a
-   matlab-R2008b
+	matlab-R2009b
+	matlab-R2009a
+	matlab-R2008b
 Warning: No display specified.  You will not be able to display graphics on the screen.
 
                             < M A T L A B (R) >
                   Copyright 1984-2009 The MathWorks, Inc.
-                 Version 7.9.0.529 (R2009b) 64-bit (sol64)
+                Version 7.9.0.529 (R2009b) 64-bit (glnxa64)
                               August 12, 2009
 
  
   To get started, type one of these: helpwin, helpdesk, or demo.
   For product information, visit www.mathworks.com.
  
->> 
+>> >> 
 ans =
 
-  -1.0000 + 0.0000i
+  -5.0000 + 0.0000i
 
->> 
+>> >> 
 #+end_example
-
-******* octave
-#+begin_src octave 
-  exp(2*i*pi)
+******* WORKS octave
+#+begin_src octave :var z=99
+  z + 100
 #+end_src
 
 #+results:
-: ans = 1.0000e+00 - 2.4492e-16i
+: z =  99
+: ans =  199
 *** :results value
     :PROPERTIES:
     :results: value
@@ -429,6 +428,23 @@ ans =
 #+results:
 | This is the last line |
 ******* perl : NA
+******* WORKS octave
+#+begin_src octave :session *babel-octave* :var z=67
+  ans = z^2
+#+end_src
+
+#+results:
+: 4.48900000e+03
+******* WORKS matlab
+#+begin_src matlab :session *babel-matlab* :dir /ddavison@tombstone.princeton.edu:
+  magic(4)
+#+end_src
+
+#+results:
+| 1.6000000e+01 | 2.0000000e+00 | 3.0000000e+00 | 1.3000000e+01 |
+| 5.0000000e+00 | 1.1000000e+01 | 1.0000000e+01 | 8.0000000e+00 |
+| 9.0000000e+00 | 7.0000000e+00 | 6.0000000e+00 | 1.2000000e+01 |
+| 4.0000000e+00 | 1.4000000e+01 | 1.5000000e+01 | 1.0000000e+00 |
 ***** non-session
     :PROPERTIES:
     :session: none
@@ -594,6 +610,21 @@ ans =
 
 #+results:
 : 4
+
+******* WORKS octave
+#+begin_src octave :var z=676 :results vector
+  z / 3
+#+end_src
+
+#+results:
+| 2.25333333e+02 |
+******* WORKS matlab
+#+begin_src matlab :dir /ddavison@sixtyfour.princeton.edu: :var z=20
+  [z * 5; z *6]
+#+end_src
+
+#+results:
+| 1.0000000e+02   1.2000000e+02 |
 
 * File output links
   :PROPERTIES:
