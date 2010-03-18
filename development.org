@@ -44,7 +44,7 @@
          Maurizio 
 #+end_example
 
-** Internals: non user-visible changes
+** Internals - non user-visible changes
 *** PROPOSED org-babel-LANG-evaluate variable name
     - State "PROPOSED"   from ""           [2010-03-16 Tue 19:23]
 
@@ -210,7 +210,7 @@ With numeric ARG, display the images if and only if ARG is positive."
 (add-hook 'org-babel-after-execute-hook 'ded/org-iimage-refresh)
 #+end_src
 
-** PROPOSED Internals: Code sharing with org-babel-execute-buffer
+** PROPOSED Internals - Code sharing with org-babel-execute-buffer
    - State "PROPOSED" from "" [2010-03-15 Mon 14:54]
 
      Functions like org-babel-pop-to-session have to go through some
@@ -882,7 +882,7 @@ not, resulting in incorrect code being tangled.
 With the above "spec", I guess all cases are covered. What do you think?
 #+end_example
 
-** STARTED :width and :height set dimensions in latex output?
+** STARTED width and height set dimensions in latex output?
    - State "STARTED"    from "PROPOSED"   [2010-02-14 Sun 10:36]
    See email thread started by Graham Smith 12 Dec.
 
@@ -1579,7 +1579,7 @@ our documentation has fallen behind our development.  We should:
     | org-babel-tests#python | python specific tests                             |
     | etc...                 |                                                   |
 
-** PROPOSED efficiency: avoid multiple calls to org-babel-where-is-src-block-head
+** PROPOSED efficiency avoid multiple calls to org-babel-where-is-src-block-head
    the posiion of head can be stored in the 'info' data
    structure. This would entail a bit of messing about as it would
    have to be one of the earlier elements in the list, thus pushing
@@ -3165,7 +3165,7 @@ results look like a table, then the table will be aligned.
 |    9 |     81 |
 
 Not sure how/if this would work, but it may be desirable.
-** DONE org-bable-tangle: no default extension if one already exists
+** DONE org-bable-tangle - no default extension if one already exists
 ** DONE take default values for header args from properties
    Use file-wide and subtree wide properties to set default values for
    header args.
