@@ -48,6 +48,10 @@
 
       In some languages the argument list includes BUFFER but we then
       refer to SESSION in the function.
+*** PROPOSED split org-babel-LANG-evaluate into session and non-session
+    - State "PROPOSED"   from ""           [2010-03-17 Wed 21:17]
+      
+      Like clojure does.
 
 ** TODO Make docstrings obey emacs rules
    - State "TODO"       from ""           [2010-03-16 Tue 19:23]
