@@ -1,0 +1,126 @@
+---
+title: DONE Rename org-babel-pop-to-session org-babel-switch-to-session
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> Rename org-babel-pop-to-session org-babel-switch-to-session </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 12:59</span></span>
+</li>
+<li>
+State "STARTED"    from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 12:44</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 12:33</span></span>
+
+<p>
+This would bring us into line with ruby-switch-to-inf,
+python-switch-to-python and ess-switch-to-ESS.
+</p>
+<p>
+I'm finding o-b-pop-to-session a very useful function and suggest
+that we add it to org-babel-keys: z is the compelling choice as
+C-c C-z is the binding fior ruby, python and ESS.
+</p>
+<p>
+I've gone ahead and made those changes using a defalias for now.
+</p>
+</li>
+</ul>
+
+<p>,----
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>org-babel-pop-to-session is an alias for `org-babel-switch-to-session'</td></tr>
+<tr><td>in `org-babel.el'.</td></tr>
+<tr><td>(org-babel-pop-to-session &amp;optional arg info)</td></tr>
+<tr><td>Switch to the session of the current source-code block.</td></tr>
+<tr><td>If called with a prefix argument then evaluate the header arguments</td></tr>
+<tr><td>for the source block before entering the session. Copy the body</td></tr>
+<tr><td>of the source block to the kill ring.</td></tr>
+</tbody>
+</table>
+
+`----
+
+<p>
+,----
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>org-babel-switch-to-session is an interactive Lisp function.</td></tr>
+<tr><td>It is bound to C-c M-b z.</td></tr>
+<tr><td>(org-babel-switch-to-session &amp;optional arg info)</td></tr>
+<tr><td>Switch to the session of the current source-code block.</td></tr>
+<tr><td>If called with a prefix argument then evaluate the header arguments</td></tr>
+<tr><td>for the source block before entering the session. Copy the body</td></tr>
+<tr><td>of the source block to the kill ring.</td></tr>
+</tbody>
+</table>
+
+`----
+
+<p>
+,----
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>ruby-switch-to-inf is an interactive compiled Lisp function in</td></tr>
+<tr><td>`inf-ruby.el'.</td></tr>
+<tr><td>It is bound to C-c C-z.</td></tr>
+<tr><td>(ruby-switch-to-inf eob-p)</td></tr>
+<tr><td>Switch to the ruby process buffer.</td></tr>
+<tr><td>With argument, positions cursor at end of buffer.</td></tr>
+</tbody>
+</table>
+
+`----
+
+<p>
+,----
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>python-switch-to-python is an interactive compiled Lisp function in</td></tr>
+<tr><td>`python.el'.</td></tr>
+<tr><td>It is bound to C-c C-z, &lt;menu-bar&gt; &lt;Python&gt; &lt;Switch to interpreter&gt;.</td></tr>
+<tr><td>(python-switch-to-python eob-p)</td></tr>
+<tr><td>Switch to the Python process buffer, maybe starting new process.</td></tr>
+<tr><td>With prefix arg, position cursor at end of buffer.</td></tr>
+</tbody>
+</table>
+
+`----
+
+<p>
+,----
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>ess-switch-to-end-of-ESS is an interactive compiled Lisp function in</td></tr>
+<tr><td>`ess-inf.el'.</td></tr>
+<tr><td>It is bound to C-c C-z, &lt;menu-bar&gt; &lt;ESS&gt; &lt;Motion&hellip;&gt; &lt;Goto end of ESS</td></tr>
+<tr><td>buffer&gt;, C-M-r.</td></tr>
+<tr><td>(ess-switch-to-end-of-ESS)</td></tr>
+<tr><td>Switch to the end of the inferior ESS process buffer.</td></tr>
+</tbody>
+</table>
+
+`----
+</div>
+</div>

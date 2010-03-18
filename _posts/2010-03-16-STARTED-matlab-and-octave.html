@@ -1,0 +1,97 @@
+---
+title: STARTED matlab and octave
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> matlab and octave </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 19:25</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 11:02</span></span>
+See
+<a href="http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs">http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs</a>
+<a href="http://sourceforge.net/projects/matlab-emacs/">http://sourceforge.net/projects/matlab-emacs/</a>
+<a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22268.html">http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22268.html</a>
+
+<p>
+non-session :results output is working
+</p>
+</li>
+</ul>
+
+<p>session :results output is getting there
+</p>
+<p>
+With octave, it is hanging at
+</p>
+<p>
+(org-babel-comint-with-output session org-babel-octave-or-matlab-eoe-indicator t
+(insert full-body) (comint-send-input nil t))
+</p>
+<p>
+With matlab, that bit goes OK. The remaining problem is processing the
+raw output:
+</p>
+<p>
+72*pi
+</p>
+<p>
+72*pi
+</p>
+<p>
+ans =
+</p>
+<p>
+226.1947
+</p>
+<p>
+'org<sub>babel</sub><sub>eoe'</sub>
+</p>
+<p>
+ans =
+</p>
+<p>
+org<sub>babel</sub><sub>eoe</sub>
+</p>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="todo TODO"> TODO</span> Allow multiple sessions </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 22:12</span></span>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2">matlab options </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<p>Why does a splash screen still appear with -nosplash?
+</p>
+
+<p>
+Should we use these by default to save external process startup time?
+</p><ul>
+<li>
+-nodisplay ?
+</li>
+<li>
+-nojvm ?
+</li>
+</ul>
+</div>
+</div>
+</div>

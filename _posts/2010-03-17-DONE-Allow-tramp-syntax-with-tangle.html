@@ -1,0 +1,68 @@
+---
+title: DONE Allow tramp syntax with :tangle
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> Allow tramp syntax with :tangle </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-17 Wed 21:23</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-17 Wed 15:56</span></span>
+
+<p>
+73d8e5768570d62e79f19b117b599f668b6abc17
+</p>
+<p>
+See <a href="#sec-1">PROPOSED tangle to buffers and write to file at end</a>
+</p>
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">Email from Maurizio Vitale </h3>
+<div class="outline-text-3" id="text-1.1">
+
+
+
+
+
+<pre class="example">From: Maurizio Vitale &lt;mav@cuma.i-did-not-set--mail-host-address--so-tickle-me&gt;
+Subject: [Orgmode] [babel] using tramp when tangling
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
+Date: Wed, 17 Mar 2010 14:39:43 -0400
+To: emacs-orgmode@gnu.org
+
+
+I'd find useful to use tramp syntax in the :tangle specification.
+In my case it would be to specify sudo when tangling config files that
+are supposed to go to areas not writable by the user running Emacs. 
+Something like:
+
+#+begin_src sh :tangle /sudo::/etc/my_config_file
+...
+#+end_src
+
+other people might be interested in remote access to tangle targets.
+
+Is there a way to achieve the above?
+
+If I try to tangle the above, I get something along the lines that
+"tramp cannot append to file". Would it be possible to have org-babel to
+(optionally) tangle to a buffer and then save to file in one go?
+
+Thanks a lot for the excellent addition to org-mode.
+
+       Maurizio 
+</pre>
+
+
+</div>
+</div>
+</div>

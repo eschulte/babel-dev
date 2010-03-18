@@ -25,9 +25,6 @@ State "PROPOSED"   from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-14 Sun 10:41</span></span>
-</li>
-</ul>
-
 
 <p>
 Working directory is specified using :dir. If this is remote,
@@ -54,6 +51,8 @@ The current implementation does that only when default-directory
 is remote; otherwise we call the emacs version of
 call-process-region.
 </p>
+</li>
+</ul>
 
 </div>
 
@@ -68,26 +67,25 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 16:53</span></span>
-</li>
-</ul>
-
 
 <p>
 At line 217 of org-babel.el, we rebind call-process-region so
 that a handler from tramp is used:
 </p>
 
+</li>
+</ul>
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">let</span> (
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">(</span>
       ...
-      (call-process-region-original (symbol-function 'call-process-region))
-      result)
-  <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">(message "params=%S" params) ;; debugging
-</span>  (<span style="color: #afeeee; font-weight: bold;">flet</span> ((call-process-region (<span style="color: #87ceeb; font-weight: bold;">&amp;rest</span> args)
-                              (apply 'org-babel-tramp-handle-call-process-region args)))
-    <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">...
-</span>    ))
+      <span class="org-esk-paren">(</span>call-process-region-original <span class="org-esk-paren">(</span>symbol-function 'call-process-region<span class="org-esk-paren">))</span>
+      result<span class="org-esk-paren">)</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">(message "params=%S" params) ;; debugging
+</span>  <span class="org-esk-paren">(</span><span class="org-keyword">flet</span> <span class="org-esk-paren">((</span>call-process-region <span class="org-esk-paren">(</span><span class="org-type">&amp;rest</span> args<span class="org-esk-paren">)</span>
+                              <span class="org-esk-paren">(</span>apply 'org-babel-tramp-handle-call-process-region args<span class="org-esk-paren">)))</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">...
+</span>    <span class="org-esk-paren">))</span>
 </pre>
 
 
@@ -144,20 +142,20 @@ done by someone who knew what they were doing.
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">retrieve-output</span> ()
-  (<span style="color: #afeeee; font-weight: bold;">let</span> ((default-directory <span style="color: #87cefa;">"/user@host:dirpath"</span>)
-        (output-file (make-temp-file <span style="color: #87cefa;">"zzz-"</span>)))
-    (shell-command (format <span style="color: #87cefa;">"hostname &gt; %s"</span> output-file))
-    (insert-file-contents
-     (<span style="color: #afeeee; font-weight: bold;">if</span> (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">retrieve-output</span> <span class="org-esk-paren">()</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>default-directory <span class="org-string">"/user@host:dirpath"</span><span class="org-esk-paren">)</span>
+        <span class="org-esk-paren">(</span>output-file <span class="org-esk-paren">(</span>make-temp-file <span class="org-string">"zzz-"</span><span class="org-esk-paren">)))</span>
+    <span class="org-esk-paren">(</span>shell-command <span class="org-esk-paren">(</span>format <span class="org-string">"hostname &gt; %s"</span> output-file<span class="org-esk-paren">))</span>
+    <span class="org-esk-paren">(</span>insert-file-contents
+     <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>file-remote-p default-directory<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>make-remote-file-name output-file<span class="org-esk-paren">)</span> output-file<span class="org-esk-paren">))))</span>
 
-(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">make-remote-file-name</span> (file)
-  (<span style="color: #afeeee; font-weight: bold;">let*</span> ((vec (tramp-dissect-file-name default-directory))
-         (user (tramp-file-name-user vec))
-         (host (tramp-file-name-host vec)))
-    (concat <span style="color: #87cefa;">"/"</span> user (<span style="color: #afeeee; font-weight: bold;">when</span> user <span style="color: #87cefa;">"@"</span>) host <span style="color: #87cefa;">":"</span> file)))
+<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">make-remote-file-name</span> <span class="org-esk-paren">(</span>file<span class="org-esk-paren">)</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">let*</span> <span class="org-esk-paren">((</span>vec <span class="org-esk-paren">(</span>tramp-dissect-file-name default-directory<span class="org-esk-paren">))</span>
+         <span class="org-esk-paren">(</span>user <span class="org-esk-paren">(</span>tramp-file-name-user vec<span class="org-esk-paren">))</span>
+         <span class="org-esk-paren">(</span>host <span class="org-esk-paren">(</span>tramp-file-name-host vec<span class="org-esk-paren">)))</span>
+    <span class="org-esk-paren">(</span>concat <span class="org-string">"/"</span> user <span class="org-esk-paren">(</span><span class="org-keyword">when</span> user <span class="org-string">"@"</span><span class="org-esk-paren">)</span> host <span class="org-string">":"</span> file<span class="org-esk-paren">)))</span>
 
-(retrieve-output)
+<span class="org-esk-paren">(</span>retrieve-output<span class="org-esk-paren">)</span>
 </pre>
 
 
@@ -240,19 +238,19 @@ This case, I would do
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">retrieve-output</span> ()
-  (<span style="color: #afeeee; font-weight: bold;">let</span> ((tmpfile
-         (make-temp-file
-          (concat (file-remote-p default-directory) <span style="color: #87cefa;">"/tmp/zzz-"</span>))))
-    (<span style="color: #afeeee; font-weight: bold;">unwind-protect</span>
-        (<span style="color: #afeeee; font-weight: bold;">progn</span>
-          (process-file
-           <span style="color: #87cefa;">"process"</span> nil nil nil
-           (or (file-remote-p tmpfile 'localname) tmpfile))
-          (insert-file-contents tmpfile))
-      (delete-file tmpfile))))
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">retrieve-output</span> <span class="org-esk-paren">()</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>tmpfile
+         <span class="org-esk-paren">(</span>make-temp-file
+          <span class="org-esk-paren">(</span>concat <span class="org-esk-paren">(</span>file-remote-p default-directory<span class="org-esk-paren">)</span> <span class="org-string">"/tmp/zzz-"</span><span class="org-esk-paren">))))</span>
+    <span class="org-esk-paren">(</span><span class="org-keyword">unwind-protect</span>
+        <span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+          <span class="org-esk-paren">(</span>process-file
+           <span class="org-string">"process"</span> nil nil nil
+           <span class="org-esk-paren">(</span>or <span class="org-esk-paren">(</span>file-remote-p tmpfile 'localname<span class="org-esk-paren">)</span> tmpfile<span class="org-esk-paren">))</span>
+          <span class="org-esk-paren">(</span>insert-file-contents tmpfile<span class="org-esk-paren">))</span>
+      <span class="org-esk-paren">(</span>delete-file tmpfile<span class="org-esk-paren">))))</span>
 
-(retrieve-output)
+<span class="org-esk-paren">(</span>retrieve-output<span class="org-esk-paren">)</span>
 </pre>
 
 
@@ -297,16 +295,15 @@ Best regards, Michael.
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 16:52</span></span>
-</li>
-</ul>
-
 
 <p>
 We need to extend some of the changes to some of the other
 languages, e.g. make sure that they construct remote file names
 when attemtping to read remote data, as in
 010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
-</p>
+</p></li>
+</ul>
+
 </div>
 
 <div id="outline-container-1.3.1" class="outline-4">
@@ -316,9 +313,6 @@ when attemtping to read remote data, as in
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-28 Sun 15:34</span></span>
-</li>
-</ul>
-
 
 <p>
 gnuplot currently uses shell-command-to-string. I think this may
@@ -326,6 +320,8 @@ be the reason why it does not respond to a change in
 default-directory. We may want to use shell-command-on-region
 (like many other languages) or shell-command instead.
 </p>
+</li>
+</ul>
 </div>
 </div>
 
@@ -341,15 +337,14 @@ State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-25 Thu 18:16</span></span>
-</li>
-</ul>
-
 
 <p>
 E.g. if I use :file pca.png, but the working directory of the R
 session is "/tmp", then we need to ensure that the org file link points
 to the location of the file created by R.
 </p>
+</li>
+</ul>
 
 </div>
 
@@ -360,12 +355,11 @@ to the location of the file created by R.
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-03 Wed 14:48</span></span>
+
 </li>
 </ul>
 
-
-<p>
-&gt; on export the following generates a
+<p>&gt; on export the following generates a
 &gt; broken link (link is relative but file is created in ~/images)
 &gt;
 &gt; #+begin<sub>src</sub> ditaa :file images/ditaa.png :dir ~ :export results
@@ -413,10 +407,9 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-16 Tue 13:59</span></span>
+
 </li>
 </ul>
-
-
 
 </div>
 
@@ -430,23 +423,22 @@ State "DEFERRED"   from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-16 Tue 15:53</span></span>
-</li>
-</ul>
-
 
 <p>
 Should we warn user in this case? (In general o-b tends to
 silently ignore some nonsensical header args at the moment I
 think)
 </p>
+</li>
+</ul>
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.7" class="outline-3">
-<h3 id="sec-1.7"><a name="sec-1.12" id="sec-1.12"></a><span class="done DONE"> DONE</span> :session t :results value </h3>
-<div class="outline-text-3" id="text-1.7">
+<div id="outline-container-remote-results-value" class="outline-3">
+<h3 id="remote-results-value"><a name="sec-1.7" id="sec-1.7"></a><span class="done DONE"> DONE</span> :session t :results value </h3>
+<div class="outline-text-3" id="text-remote-results-value">
 
 <ul>
 <li>
@@ -454,9 +446,6 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO" from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-11 Thu 14:40</span></span>
-</li>
-</ul>
-
 
 <p>
 A remote session can be started using tramp (the way I do it at
@@ -503,6 +492,8 @@ desirable for me. Having said that, ':session :results output'
 is working quite adequately; I've only occasionally felt the
 need for ':results value'. [Dan]
 </p>
+</li>
+</ul>
 </div>
 
 </div>
@@ -517,9 +508,6 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-11 Thu 14:49</span></span>
-</li>
-</ul>
-
 
 <p>
 We need:
@@ -530,13 +518,12 @@ run (and to retrieve stdout/stderr)
 </li>
 <li>
 A way of retrieving file contents in the case of :results value.
+
 </li>
 </ul>
 
-
-<p>
-The second of the above should be handled by the
-<a href="#sec-1.12">remote-results-value</a> case above.  As for telling org-babel to
+<p>The second of the above should be handled by the
+<a href="#sec-1.7">remote-results-value</a> case above.  As for telling org-babel to
 start the process on a remote machine, it's not immediately clear
 to me how that would work.
 </p>
@@ -558,6 +545,8 @@ automation of the process described above.  So something like
 would result in Org-babel first opening a buffer with the value of
 <code>:host</code> and then running through the same execution pattern as
 above.
-</p></div>
+</p></li>
+</ul>
+</div>
 </div>
 </div>
