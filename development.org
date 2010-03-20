@@ -4897,7 +4897,116 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [58/77]
+* Bugs [58/78]
+** PROPOSED Why are referenced source blocks evaluated twice?
+   - State "PROPOSED"   from ""           [2010-03-20 Sat 12:48]
+*** Example
+#+source: python-block
+#+begin_src python
+return 'from python'
+#+end_src
+
+#+begin_src emacs-lisp :var x=python-block
+  x
+#+end_src
+
+With this debugging patch
+#+begin_example 
+diff --git a/contrib/babel/lisp/org-babel.el b/contrib/babel/lisp/org-babel.el
+index d01e6d6..40331a0 100644
+--- a/contrib/babel/lisp/org-babel.el
++++ b/contrib/babel/lisp/org-babel.el
+@@ -198,6 +198,7 @@ block."
+   (interactive)
+   ;; (message "supplied params=%S" params) ;; debugging
+   (let* ((info (or info (org-babel-get-src-block-info)))
++        (remove-me (message (concat "\n" (pp info) "\n")))
+          (lang (first info))
+         (params (setf (third info)
+                        (sort (org-babel-merge-params (third info) params)
+#+end_example
+
+We get this output
+#+begin_example 
+("emacs-lisp" "x\n"
+ ((:comments . "")
+  (:shebang . "")
+  (:cache . "no")
+  (:noweb . "no")
+  (:tangle . "")
+  (:exports . "code")
+  (:results . "replace")
+  (:var . "x=python-block")
+  (:session . "none"))
+ "")
+
+
+("emacs-lisp" "x\n"
+ ((:comments . "")
+  (:shebang . "")
+  (:cache . "no")
+  (:noweb . "no")
+  (:tangle . "")
+  (:exports . "code")
+  (:results . "replace")
+  (:var . "x=python-block")
+  (:session . "none"))
+ "")
+ [2 times]
+executing emacs-lisp code block...
+("python" "return 'from python'\n"
+ ((:comments . "")
+  (:shebang . "")
+  (:cache . "no")
+  (:noweb . "no")
+  (:tangle . "")
+  (:exports . "code")
+  (:results . "replace")
+  (:session . "none"))
+ "" "python-block")
+
+
+("python" "return 'from python'\n"
+ ((:comments . "")
+  (:shebang . "")
+  (:cache . "no")
+  (:noweb . "no")
+  (:tangle . "")
+  (:exports . "code")
+  (:results . "replace")
+  (:session . "none"))
+ "" "python-block")
+ [2 times]
+executing Python source code block
+"from python"
+("python" "return 'from python'\n"
+ ((:comments . "")
+  (:shebang . "")
+  (:cache . "no")
+  (:noweb . "no")
+  (:tangle . "")
+  (:exports . "code")
+  (:results . "replace")
+  (:session . "none"))
+ "" "python-block")
+
+
+("python" "return 'from python'\n"
+ ((:comments . "")
+  (:shebang . "")
+  (:cache . "no")
+  (:noweb . "no")
+  (:tangle . "")
+  (:exports . "code")
+  (:results . "replace")
+  (:session . "none"))
+ "" "python-block")
+ [2 times]
+executing Python source code block
+"from python"
+finished
+#+end_example
+
 ** PROPOSED Is this o-b-comint code mac-specific?
    - State "PROPOSED"   from ""           [2010-03-17 Wed 23:59]
 
