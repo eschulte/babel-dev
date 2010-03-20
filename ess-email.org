@@ -1,0 +1,55 @@
+Dear ESS users,
+
+We would like to invite you to try using ESS in conjunction with emacs
+org-mode.
+
+The basic principle here is to work with blocks of R code embedded in
+an .org file, as opposed to pure R code in a .R file. On the face of
+it this may not sound convenient, and will require some
+justification.
+
+- not intrusive on ESS
+- org-mode is not intrusive on the user
+
+Firstly, we hope to convince you that org-mode is an excellent
+environment in which to manage a research project or publishing
+task. Given that, there are basically two advantages of this approach
+to working with ESS and R:
+
+1. A reproducible record of all your research and computation is built
+   up within the org-mode buffer, containing code output and
+   images. This buffer is very pleasant to work with in emacs and can
+   be exported to html, latex and latex beamer presentations.
+
+2. Org-mode is a very sophisticated system for managing time,
+   projects, tasks and a daily agenda. If you're not familiar, have a
+   quick glance over [fn:1]. So the second advantage is that the code
+   that is critical to your computational/research tasks is integrated
+   into this project management system.
+
+3. First of all, calling org-edit-special (C-c ') with point in an R
+   code block immediately transfers you to an ess-mode buffer
+   containing the R code, as if you had opened a .R file directly. The
+   R code block may be kept folded in the org buffer, so one need
+   never work with R code outside of an ess-mode buffer.
+
+
+Over the last year we have developed a set of tools called org-babel
+which extends the functionality for working with blocks of code in
+org-mode. Good integration with ESS was one of the aims from the start
+of the project.
+
+1. A straightforward task that org-babel accomplishes is extracting
+   ("tangling") blocks of code into pure code files (org-babel-tangle).
+
+2. The core of org-babel is the ability to execute blocks of code from
+   within the org-mode buffer, and capture results within the
+   org-buffer as tables or images. Most of the time, ESS users will
+   not need this, as ESS already provides excellent facilities for
+   executing selected bits of code from an R buffer. However, 
+
+
+
+* Footnotes
+
+[fn:1] http://doc.norang.ca/org-mode.html
