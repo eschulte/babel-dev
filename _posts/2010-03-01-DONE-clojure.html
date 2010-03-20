@@ -12,5 +12,140 @@ layout: default
 State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-01 Mon 10:26</span></span>
 </li>
 </ul>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="done DONE"> DONE</span> add session support for clojure </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<ul>
+<li>
+State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-06 Wed 17:41</span></span>
+</li>
+</ul>
+
+
+<p>
+Thanks to Joel Boehland org-babel-clojure now supports multiple
+sessions.  This can be exercised through the following
+</p>
+
+</div>
+
+<div id="outline-container-1.1.1" class="outline-4">
+<h4 id="sec-1.1.1">raw org-mode </h4>
+<div class="outline-text-4" id="text-1.1.1">
+
+<pre class="example">
+#+srcname: set-clojure-session-var-s1
+#+begin_src clojure :session s1 :results value
+(def *var* [1 2 3])
+#+end_src
+
+#+results: set-clojure-session-var-s1
+: #'user/*var*
+
+
+#+srcname: set-clojure-session-var-s2
+#+begin_src clojure :session s2 :results value
+(def *var* [3 4 5 6 7 8 9])
+#+end_src
+
+#+results: set-clojure-session-var-s2
+: #'user/*var*
+
+
+#+srcname: get-clojure-session-var-s1
+#+begin_src clojure :session s1 :results value
+(count *var*)
+#+end_src
+
+#+results: get-clojure-session-var-s1
+: 3
+
+
+#+srcname: get-clojure-session-var-s2
+#+begin_src clojure :session s2 :results value
+(count *var*)
+#+end_src
+
+#+results: get-clojure-session-var-s2
+: 7
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.1.2" class="outline-4">
+<h4 id="sec-1.1.2">exported to html </h4>
+<div class="outline-text-4" id="text-1.1.2">
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">set-clojure-session-var-s1()</label><pre class="src src-c">
+(def *var* [1 2 3])
+</pre></div>
+
+
+
+
+<pre class="example">
+#'user/*var*
+</pre>
+
+
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">set-clojure-session-var-s2()</label><pre class="src src-c">
+(def *var* [3 4 5 6 7 8 9])
+</pre></div>
+
+
+
+
+<pre class="example">
+#'user/*var*
+</pre>
+
+
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">get-clojure-session-var-s1()</label><pre class="src src-c">
+(count *var*)
+</pre></div>
+
+
+
+
+<pre class="example">
+3
+</pre>
+
+
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">get-clojure-session-var-s2()</label><pre class="src src-c">
+(count *var*)
+</pre></div>
+
+
+
+
+<pre class="example">
+7
+</pre>
+
+</div>
+</div>
 </div>
 </div>
