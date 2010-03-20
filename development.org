@@ -315,8 +315,15 @@ although I think I would like to keep the syntax identical, using
 variables to decide who handles what, so that it is invisible to the
 user.
 
-** PROPOSED Should tangle stop guessing file extensions?
+** DONE Should tangle stop guessing file extensions?
+   - State "DONE"       from "PROPOSED"   [2010-03-20 Sat 12:28]
    - State "PROPOSED"   from ""           [2010-02-28 Sun 18:33]
+
+     See org commits
+
+     29a2ab0047b3a6f0669f1ab84877e166e00aefff
+     aa0e4b86ce2753909ef71081f8c437ad67af0fb1
+
 *** Email from Martin G. Skjæveland
 From: Dan Davison <davison@stats.ox.ac.uk>
 Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
