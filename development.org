@@ -953,12 +953,16 @@ With the above "spec", I guess all cases are covered. What do you think?
 #+end_example
 
 ** PROPOSED Make some org-babel commands available from edit buffer?
-   I'm not sure about this, but it's often occurred to me that it
-   would be nice to be able issue org-babel-tangle without switching
-   back to the org buffer. IIrc Org-src-mode already saves the
-   necessary information (e.g. parent buffer, start of block). Maybe
-   even C-c C-c could be allowed in the edit buffer? This would be via
-   a new minor mode I guess.
+   For example, it might be nice to be able to do the following from
+   the code edit buffer:
+
+   1. switch back to parent org buffer, putting point at start of
+      respective code block
+   2. tangle
+
+    I think Org-src-mode already saves the necessary information
+   (e.g. parent buffer, start of block).
+
 ** STARTED Working directories and remote execution
    - State "STARTED"    from "TODO"       [2010-02-22 Mon 14:41]
    - State "TODO"       from "DONE"       [2010-02-21 Sun 01:16]
