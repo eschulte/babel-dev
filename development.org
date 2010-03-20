@@ -273,12 +273,14 @@ With numeric ARG, display the images if and only if ARG is positive."
      that session:LANG in a property drawer means to set the value of
      session in org-babel-default-header-args:LANG
 
-** PROPOSED Define function =org-babel-version=
+** REJECTED Define function =org-babel-version=
+   - State "REJECTED"   from "PROPOSED"   [2010-03-20 Sat 12:38]
    :LOGBOOK:
    - State "PROPOSED"   from ""           [2010-03-13 Sat 07:26]
    :END:
    - Useful for compendium, where it documents the version of
      org-babel on which the compendium is known to work
+   - org-version is appropriate for this
 ** TODO Check and document behaviour on Windows
    - State "TODO"       from ""           [2010-03-04 Thu 15:48]
 ** PROPOSED Extend org executable link constructs
