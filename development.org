@@ -4926,6 +4926,51 @@ dot("$(2a,0)$",(2,0),N+E);
 
     
 * Bugs [58/76]
+** DONE source block regexp matches delimiters inside source block
+Thanks to Maurizio for pointing out this error.
+
+#+begin_quote
+: And these are two test cases. I'm particularly puzzled by the first,
+: because the regexp seems to be anchored to the begin of line and hence
+: it shouldn't match the begin_src inside the string.
+: For end_src, it should probably be anchored to the begin of line.
+: 
+: [...] below
+: 
+: Best regards,
+: 
+:      Maurizio   
+#+end_quote
+
+: #+begin_src emacs-lisp
+: ;;; evaluating the following C-x C-e with the point at the end is ok
+: (message "%d" (org-babel-where-is-src-block-head))
+: (defun foo () (insert "#+begin_src emacs-lisp"))
+: ;;; evaluating the following C-x C-e with the point at the end is not ok
+: (message "%d" (org-babel-where-is-src-block-head))
+: #+end_src
+: 
+: #+results:
+: : 182800
+: 
+: #+begin_src emacs-lisp
+: ;;; evaluating the following C-x C-e with the point at the end is ok
+: (org-babel-where-is-src-block-head)
+: (defun foo () (insert "#+end_src emacs-lisp"))
+: ;;; evaluating the following C-x C-e with the point at the end is not ok
+: (org-babel-where-is-src-block-head)
+: #+end_src
+: 
+: #+results:
+: : 183148
+: 
+: #+begin_src ruby
+:   "#+end_src"
+: #+end_src
+: 
+: #+results:
+: : #+end_src
+
 ** TODO Newlines etc in table cells mess up table formatting 
    - State "TODO"       from ""           [2010-03-16 Tue 23:36]
 
