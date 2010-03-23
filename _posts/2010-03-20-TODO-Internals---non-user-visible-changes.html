@@ -12,74 +12,32 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-20 Sat 12:34</span></span>
+
 </li>
 </ul>
-
-</div>
-
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="todo PROPOSED"> PROPOSED</span> org-babel-LANG-evaluate variable name </h3>
-<div class="outline-text-3" id="text-1.1">
-
-<ul>
-<li>
-State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 19:23</span></span>
-
-<p>
-In some languages the argument list includes BUFFER but we then
-refer to SESSION in the function.
-</p></li>
-</ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="todo PROPOSED"> PROPOSED</span> split org-babel-LANG-evaluate into session and non-session </h3>
-<div class="outline-text-3" id="text-1.2">
-
-<ul>
-<li>
-State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-17 Wed 21:17</span></span>
+<dl>
+<dt>[ ] org-babel-LANG-evaluate variable name</dt><dd>
+In some languages the
+argument list includes BUFFER but we then refer to SESSION in the
+function.
+</dd>
+<dt>[ ] split org-babel-LANG-evaluate into session and non-session</dt><dd>
 
 <p>
 Like clojure does.
-</p></li>
-</ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="todo PROPOSED"> PROPOSED</span> tangle to buffers and write to file at end </h3>
-<div class="outline-text-3" id="text-1.3">
-
-<ul>
-<li>
-State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-17 Wed 21:18</span></span>
-
-<p>
-Now that we don't use append-to-file (see
+</p></dd>
+<dt>[ ] tangle to buffers and write to file at end</dt><dd>
+Now that we don't
+use append-to-file (see
 73d8e5768570d62e79f19b117b599f668b6abc17), it would be more
-efficient to append the tangled output to buffers, and
-ultimately write the buffers to file and kill the buffers. I
-didn't implement that, as it required a fair bit of kessing
-about with org-babel-tangle, but if someone has time it would be
-nice. The efficiency gain will presumably be considerable for
-remote tangle files.
-</p></li>
-</ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="todo PROPOSED"> PROPOSED</span> Internals - Code sharing with org-babel-execute-buffer </h3>
-<div class="outline-text-3" id="text-1.4">
-
-<ul>
-<li>
-State "PROPOSED" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-15 Mon 14:54</span></span>
+efficient to append the tangled output to buffers, and ultimately
+write the buffers to file and kill the buffers. I didn't
+implement that, as it required a fair bit of kessing about with
+org-babel-tangle, but if someone has time it would be nice. The
+efficiency gain will presumably be considerable for remote tangle
+files.
+</dd>
+<dt>[ ] Internals - Code sharing with org-babel-execute-buffer</dt><dd>
 
 <p>
 Functions like org-babel-pop-to-session have to go through some
@@ -89,23 +47,12 @@ would be nice to abstract the common set-up into shared code. For
 example, I recently added default-directory in the let-binding of
 o-b-execute-src-block, and subsequently realised that it also
 needed to be added to o-b-pop-to-session.
-</p></li>
-</ul>
-</div>
+</p></dd>
+<dt>[ ] Make docstrings obey emacs rules</dt><dd>
+First descriptive sentence
+on own line less than 80 chars (or something like that).
 
-</div>
-
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="todo TODO"> TODO</span> Make docstrings obey emacs rules </h3>
-<div class="outline-text-3" id="text-1.5">
-
-<ul>
-<li>
-State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 19:23</span></span>
-First descriptive sentence on own line less than 80 chars (or
-something like that).
-</li>
-</ul>
-</div>
+</dd>
+</dl>
 </div>
 </div>
