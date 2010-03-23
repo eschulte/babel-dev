@@ -3,6 +3,8 @@ title: TODO Newlines etc in table cells mess up table formatting
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> Newlines etc in table cells mess up table formatting </h2>
 <div class="outline-text-2" id="text-1">
@@ -10,20 +12,20 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 23:36</span></span>
-</li>
-</ul>
-
 
 <p>
 Perhaps we should remove or protect characters like {\n,\r,\f,\v}
 when they occur in table cells.
 </p>
 
+</li>
+</ul>
 
 
-<pre class="src src-R">data.frame(numbers=1:10, strings=c(letters[1:9], <span style="color: #87cefa;">"an entry with a
+<pre class="src src-R">data.frame(numbers=1:10, strings=c(letters[1:9], <span class="org-string">"an entry with a
 newline character"</span>))
 </pre>
+
 
 
 

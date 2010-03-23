@@ -3,6 +3,8 @@ title: TODO Internals - non user-visible changes
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> Internals - non user-visible changes </h2>
 <div class="outline-text-2" id="text-1">
@@ -22,14 +24,13 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <ul>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 19:23</span></span>
-</li>
-</ul>
-
 
 <p>
 In some languages the argument list includes BUFFER but we then
 refer to SESSION in the function.
-</p></div>
+</p></li>
+</ul>
+</div>
 
 </div>
 
@@ -40,13 +41,12 @@ refer to SESSION in the function.
 <ul>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-17 Wed 21:17</span></span>
-</li>
-</ul>
-
 
 <p>
 Like clojure does.
-</p></div>
+</p></li>
+</ul>
+</div>
 
 </div>
 
@@ -57,9 +57,6 @@ Like clojure does.
 <ul>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-17 Wed 21:18</span></span>
-</li>
-</ul>
-
 
 <p>
 Now that we don't use append-to-file (see
@@ -70,7 +67,9 @@ didn't implement that, as it required a fair bit of kessing
 about with org-babel-tangle, but if someone has time it would be
 nice. The efficiency gain will presumably be considerable for
 remote tangle files.
-</p></div>
+</p></li>
+</ul>
+</div>
 
 </div>
 
@@ -81,9 +80,6 @@ remote tangle files.
 <ul>
 <li>
 State "PROPOSED" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-15 Mon 14:54</span></span>
-</li>
-</ul>
-
 
 <p>
 Functions like org-babel-pop-to-session have to go through some
@@ -93,7 +89,9 @@ would be nice to abstract the common set-up into shared code. For
 example, I recently added default-directory in the let-binding of
 o-b-execute-src-block, and subsequently realised that it also
 needed to be added to o-b-pop-to-session.
-</p></div>
+</p></li>
+</ul>
+</div>
 
 </div>
 

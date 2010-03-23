@@ -3,6 +3,8 @@ title: STARTED point should go to end of comint buffer after execution
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo STARTED"> STARTED</span> point should go to end of comint buffer after execution </h2>
 <div class="outline-text-2" id="text-1">
@@ -10,9 +12,6 @@ layout: default
 <ul>
 <li>
 State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-01 Mon 10:07</span></span>
-</li>
-</ul>
-
 
 <p>
 NB the variable comint-scroll-to-bottom-on-output
@@ -21,6 +20,8 @@ NB the variable comint-scroll-to-bottom-on-output
 At the moment it seems that point goes to the end when the comint
 window is visible, but stays where it is when it is not.
 </p>
+</li>
+</ul>
 
 </div>
 
@@ -31,8 +32,9 @@ window is visible, but stays where it is when it is not.
 
 
 
-<pre class="src src-sh"><span style="color: #7fffd4;">echo</span> hello
+<pre class="src src-sh"><span class="org-builtin">echo</span> hello
 </pre>
+
 
 
 
@@ -53,8 +55,9 @@ hello
 </p>
 
 
-<pre class="src src-R">cat(<span style="color: #87cefa;">"hello\n"</span>)
+<pre class="src src-R">cat(<span class="org-string">"hello\n"</span>)
 </pre>
+
 
 
 
@@ -71,8 +74,9 @@ hello
 </p>
 
 
-<pre class="src src-python"><span style="color: #87cefa;">'goodbye'</span>
+<pre class="src src-python"><span class="org-string">'goodbye'</span>
 </pre>
+
 
 
 
@@ -93,8 +97,9 @@ goodbye
 </p>
 
 
-<pre class="src src-ruby"><span style="color: #87cefa;">'goodbye'</span>
+<pre class="src src-ruby"><span class="org-string">'goodbye'</span>
 </pre>
+
 
 
 

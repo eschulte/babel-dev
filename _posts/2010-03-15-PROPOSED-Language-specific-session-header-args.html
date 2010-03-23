@@ -3,6 +3,8 @@ title: PROPOSED Language-specific session header args
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Language-specific session header args </h2>
 <div class="outline-text-2" id="text-1">
@@ -10,9 +12,6 @@ layout: default
 <ul>
 <li>
 State "PROPOSED" from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-15 Mon 14:41</span></span>
-</li>
-</ul>
-
 
 <p>
 One may want to specify the session for multiple blocks using
@@ -26,15 +25,16 @@ Use org-babel-default-header-args:LANG
 </li>
 <li>
 Introduce new headers of the form session:LANG or session-LANG
+
 </li>
 </ol>
 
-
-<p>
-(1) is cleaner, in that it uses existing technology with no
+<p>(1) is cleaner, in that it uses existing technology with no
 changes. However, it would be nice to be able to set these things
 in a property drawer. Perhaps(??) we could have a rule that says
 that session:LANG in a property drawer means to set the value of
 session in org-babel-default-header-args:LANG
-</p></div>
+</p></li>
+</ul>
+</div>
 </div>

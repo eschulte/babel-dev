@@ -1,0 +1,56 @@
+---
+title: DONE allow evaluation of emacs-lisp variable values
+layout: default
+---
+
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> allow evaluation of emacs-lisp variable values </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-22 Mon 08:40</span></span>
+
+</li>
+</ul>
+
+<p>for example, the following simple example
+</p><pre class="example">
+#+begin_src emacs-lisp :var two=(+ 1 1)
+  (sqrt two)
+#+end_src
+
+#+results:
+: 1.4142135623730951
+</pre>
+
+
+<p>
+Or this more interesting usage, which pulls variable values from
+headline properties
+</p><pre class="example">
+*** example headline w/property
+    :PROPERTIES:
+    :special:  89
+    :last-name: schulte
+    :END:
+
+#+begin_src emacs-lisp :var special=(string-to-number (org-entry-get nil "special" t))
+  (+ special 1)
+#+end_src
+
+#+results:
+: 90
+
+#+begin_src emacs-lisp :var last-name=(org-entry-get nil "last-name" t))
+  (message "hello %s" last-name)
+#+end_src
+
+#+results:
+: hello schulte
+</pre>
+
+</div>
+</div>

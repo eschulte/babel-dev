@@ -3,6 +3,8 @@ title: TODO src block regexp fails if block contains block delimiters
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> src block regexp fails if block contains block delimiters </h2>
 <div class="outline-text-2" id="text-1">
@@ -10,17 +12,17 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-11 Thu 11:32</span></span>
+
+
 </li>
 </ul>
 
 
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>concat <span class="org-string">"#+begin_src\n"</span>
+        <span class="org-string">"hello\n"</span>
+        <span class="org-string">"#+end_src\n"</span><span class="org-esk-paren">)</span>
+</pre>
 
-
-
-<pre class="src src-emacs-lisp">(concat <span style="color: #87cefa;">"#+begin_src\n"</span>
-        <span style="color: #87cefa;">"hello\n"</span>
-        <span style="color: #87cefa;">"
-</span></pre>
 
 
 
@@ -70,20 +72,24 @@ For end<sub>src</sub>, it should probably be anchored to the begin of line.
 
 
 
-<pre class="src src-emacs-lisp"><span style="color: #add8e6;">;;; </span><span style="color: #add8e6;">evaluating the following C-x C-e with the point at the end is ok
-</span>(org-babel-where-is-src-block-head)
-(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">foo</span> () (insert <span style="color: #87cefa;">"#+begin_src emacs-lisp"</span>))
-<span style="color: #add8e6;">;;; </span><span style="color: #add8e6;">evaluating the following C-x C-e with the point at the end is not ok
-</span>(org-babel-where-is-src-block-head)
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is ok
+</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">foo</span> <span class="org-esk-paren">()</span> <span class="org-esk-paren">(</span>insert <span class="org-string">"#+begin_src emacs-lisp"</span><span class="org-esk-paren">))</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is not ok
+</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
 </pre>
 
 
 
 
-<pre class="src src-emacs-lisp"><span style="color: #add8e6;">;;; </span><span style="color: #add8e6;">evaluating the following C-x C-e with the point at the end is ok
-</span>(org-babel-where-is-src-block-head)
-(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">foo</span> () (insert <span style="color: #87cefa;">"
-</span></pre>
+
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is ok
+</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">foo</span> <span class="org-esk-paren">()</span> <span class="org-esk-paren">(</span>insert <span class="org-string">"#+end_src emacs-lisp"</span><span class="org-esk-paren">))</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is not ok
+</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
+</pre>
+
 
 
 
