@@ -1582,6 +1582,7 @@ This will rely upon [[* resolve references to other buffers][resolve references 
           (let (error-buffer (get-buffer-create "*Org-Babel Error Output"))
             (with-current-buffer error-buffer (insert (third result)))
             (display-buffer error-buffer))))
+      )
 #+end_src
 
 *** older notes
