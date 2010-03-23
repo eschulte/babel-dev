@@ -3,7 +3,80 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [64/124]
+* Tasks [66/126]
+** DONE allow evaluation of emacs-lisp variable values
+   - State "DONE"       from ""           [2010-03-22 Mon 08:40]
+
+for example, the following simple example
+: #+begin_src emacs-lisp :var two=(+ 1 1)
+:   (sqrt two)
+: #+end_src
+: 
+: #+results:
+: : 1.4142135623730951
+
+Or this more interesting usage, which pulls variable values from
+headline properties
+: *** example headline w/property
+:     :PROPERTIES:
+:     :special:  89
+:     :last-name: schulte
+:     :END:
+: 
+: #+begin_src emacs-lisp :var special=(string-to-number (org-entry-get nil "special" t))
+:   (+ special 1)
+: #+end_src
+: 
+: #+results:
+: : 90
+: 
+: #+begin_src emacs-lisp :var last-name=(org-entry-get nil "last-name" t))
+:   (message "hello %s" last-name)
+: #+end_src
+: 
+: #+results:
+: : hello schulte
+
+** DONE Allow tramp syntax with :tangle
+   - State "DONE"       from "TODO"       [2010-03-17 Wed 21:23]
+   - State "TODO"       from ""           [2010-03-17 Wed 15:56]
+
+     73d8e5768570d62e79f19b117b599f668b6abc17
+
+     See [[PROPOSED tangle to buffers and write to file at end]]
+
+*** Email from Maurizio Vitale
+
+#+begin_example
+  From: Maurizio Vitale <mav@cuma.i-did-not-set--mail-host-address--so-tickle-me>
+  Subject: [Orgmode] [babel] using tramp when tangling
+  User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
+  Date: Wed, 17 Mar 2010 14:39:43 -0400
+  To: emacs-orgmode@gnu.org
+  
+  
+  I'd find useful to use tramp syntax in the :tangle specification.
+  In my case it would be to specify sudo when tangling config files that
+  are supposed to go to areas not writable by the user running Emacs. 
+  Something like:
+  
+  #+begin_src sh :tangle /sudo::/etc/my_config_file
+  ...
+  #+end_src
+  
+  other people might be interested in remote access to tangle targets.
+  
+  Is there a way to achieve the above?
+  
+  If I try to tangle the above, I get something along the lines that
+  "tramp cannot append to file". Would it be possible to have org-babel to
+  (optionally) tangle to a buffer and then save to file in one go?
+  
+  Thanks a lot for the excellent addition to org-mode.
+  
+         Maurizio 
+#+end_example
+
 ** PROPOSED Make org-babel-switch-to-buffer show code edit buffer
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:20]
 
@@ -4897,7 +4970,53 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [58/78]
+* Bugs [59/79]
+** DONE source block regexp matches delimiters inside source block
+   - State "DONE"       from "DONE"       [2010-03-23 Tue 11:30]
+Thanks to Maurizio for pointing out this error.
+
+#+begin_quote
+: And these are two test cases. I'm particularly puzzled by the first,
+: because the regexp seems to be anchored to the begin of line and hence
+: it shouldn't match the begin_src inside the string.
+: For end_src, it should probably be anchored to the begin of line.
+: 
+: [...] below
+: 
+: Best regards,
+: 
+:      Maurizio   
+#+end_quote
+
+: #+begin_src emacs-lisp
+: ;;; evaluating the following C-x C-e with the point at the end is ok
+: (message "%d" (org-babel-where-is-src-block-head))
+: (defun foo () (insert "#+begin_src emacs-lisp"))
+: ;;; evaluating the following C-x C-e with the point at the end is not ok
+: (message "%d" (org-babel-where-is-src-block-head))
+: #+end_src
+: 
+: #+results:
+: : 182800
+: 
+: #+begin_src emacs-lisp
+: ;;; evaluating the following C-x C-e with the point at the end is ok
+: (org-babel-where-is-src-block-head)
+: (defun foo () (insert "#+end_src emacs-lisp"))
+: ;;; evaluating the following C-x C-e with the point at the end is not ok
+: (org-babel-where-is-src-block-head)
+: #+end_src
+: 
+: #+results:
+: : 183148
+: 
+: #+begin_src ruby
+:   "#+end_src"
+: #+end_src
+: 
+: #+results:
+: : #+end_src
+
 ** PROPOSED Why are referenced source blocks evaluated twice?
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:48]
 *** Example
