@@ -157,40 +157,32 @@ variables to decide who handles what, so that it is invisible to the
 user.
 ** TODO Internals - non user-visible changes
    - State "TODO"       from ""           [2010-03-20 Sat 12:34]
-*** PROPOSED org-babel-LANG-evaluate variable name
-    - State "PROPOSED"   from ""           [2010-03-16 Tue 19:23]
 
-      In some languages the argument list includes BUFFER but we then
-      refer to SESSION in the function.
-*** PROPOSED split org-babel-LANG-evaluate into session and non-session
-    - State "PROPOSED"   from ""           [2010-03-17 Wed 21:17]
-      
-      Like clojure does.
-*** PROPOSED tangle to buffers and write to file at end
-    - State "PROPOSED"   from ""           [2010-03-17 Wed 21:18]
-      
-      Now that we don't use append-to-file (see
-      73d8e5768570d62e79f19b117b599f668b6abc17), it would be more
-      efficient to append the tangled output to buffers, and
-      ultimately write the buffers to file and kill the buffers. I
-      didn't implement that, as it required a fair bit of kessing
-      about with org-babel-tangle, but if someone has time it would be
-      nice. The efficiency gain will presumably be considerable for
-      remote tangle files.
-*** PROPOSED Internals - Code sharing with org-babel-execute-buffer
-    - State "PROPOSED" from "" [2010-03-15 Mon 14:54]
-
-      Functions like org-babel-pop-to-session have to go through some
-      initial variable binding which partially overlaps with the
-      variable bindings in org-babel-execute-src-block. If possible, it
-      would be nice to abstract the common set-up into shared code. For
-      example, I recently added default-directory in the let-binding of
-      o-b-execute-src-block, and subsequently realised that it also
-      needed to be added to o-b-pop-to-session.
-*** TODO Make docstrings obey emacs rules
-    - State "TODO"       from ""           [2010-03-16 Tue 19:23]
-      First descriptive sentence on own line less than 80 chars (or
-      something like that).
+- [ ] org-babel-LANG-evaluate variable name :: In some languages the
+     argument list includes BUFFER but we then refer to SESSION in the
+     function.
+- [ ] split org-babel-LANG-evaluate into session and non-session ::
+     Like clojure does.
+- [ ] tangle to buffers and write to file at end :: Now that we don't
+     use append-to-file (see
+     73d8e5768570d62e79f19b117b599f668b6abc17), it would be more
+     efficient to append the tangled output to buffers, and ultimately
+     write the buffers to file and kill the buffers. I didn't
+     implement that, as it required a fair bit of kessing about with
+     org-babel-tangle, but if someone has time it would be nice. The
+     efficiency gain will presumably be considerable for remote tangle
+     files.
+- [ ] Internals - Code sharing with org-babel-execute-buffer ::
+     Functions like org-babel-pop-to-session have to go through some
+     initial variable binding which partially overlaps with the
+     variable bindings in org-babel-execute-src-block. If possible, it
+     would be nice to abstract the common set-up into shared code. For
+     example, I recently added default-directory in the let-binding of
+     o-b-execute-src-block, and subsequently realised that it also
+     needed to be added to o-b-pop-to-session.
+- [ ] Make docstrings obey emacs rules :: First descriptive sentence
+     on own line less than 80 chars (or something like that).
+     
 ** PROPOSED org-icons for src blocks
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
 
@@ -285,12 +277,12 @@ Symbol's value as variable is void: y
 
 ** REJECTED Define function =org-babel-version=
    - State "REJECTED"   from "PROPOSED"   [2010-03-20 Sat 12:38]
-   :LOGBOOK:
-   - State "PROPOSED"   from ""           [2010-03-13 Sat 07:26]
-   :END:
+
+
    - Useful for compendium, where it documents the version of
      org-babel on which the compendium is known to work
    - org-version is appropriate for this
+
 ** TODO Check and document behaviour on Windows
    - State "TODO"       from ""           [2010-03-04 Thu 15:48]
 
@@ -2624,35 +2616,37 @@ this is currently implemented in the head of the ems-babel branch
    - State "PROPOSED"   from ""           [2010-02-28 Sun 18:33]
 
      See org commits
-
-     29a2ab0047b3a6f0669f1ab84877e166e00aefff
-     aa0e4b86ce2753909ef71081f8c437ad67af0fb1
+     - 29a2ab0047b3a6f0669f1ab84877e166e00aefff
+     - aa0e4b86ce2753909ef71081f8c437ad67af0fb1
 
 *** Email from Martin G. Skjæveland
-From: Dan Davison <davison@stats.ox.ac.uk>
-Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
-Date: Sat, 27 Feb 2010 00:20:45 -0500
-To: Martin G. Skjæveland <martige@ifi.uio.no>
-Cc: emacs-orgmode <emacs-orgmode@gnu.org>
+#+begin_quote 
+: From: Dan Davison <davison@stats.ox.ac.uk>
+: Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
+: User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+: Date: Sat, 27 Feb 2010 00:20:45 -0500
+: To: Martin G. Skjæveland <martige@ifi.uio.no>
+: Cc: emacs-orgmode <emacs-orgmode@gnu.org>
+: 
+: "Martin G. Skjæveland" <martige@ifi.uio.no> writes:
+: 
+: > Hi,
+: >
+: > running tangle with the following values
+: >
+: >   #+begin_src xml :tangle test.rdf
+: >   ...
+: >   #+end_src
+: >
+: > used to create a file called test.rdf. However, after a fresh git pull
+: > today this now tangles to the file test.rdf.xml, which is not what I
+: > want.
+: 
+: I understand. I wonder if babel should simply assume that the user has
+: entered a file name with the correct extension when :tangle is something
+: other than "yes".
+#+end_quote
 
-"Martin G. Skjæveland" <martige@ifi.uio.no> writes:
-
-> Hi,
->
-> running tangle with the following values
->
->   #+begin_src xml :tangle test.rdf
->   ...
->   #+end_src
->
-> used to create a file called test.rdf. However, after a fresh git pull
-> today this now tangles to the file test.rdf.xml, which is not what I
-> want.
-
-I understand. I wonder if babel should simply assume that the user has
-entered a file name with the correct extension when :tangle is something
-other than "yes".
 ** DONE Rename org-babel-pop-to-session org-babel-switch-to-session
    - State "DONE"       from "STARTED"    [2010-03-16 Tue 12:59]
    - State "STARTED"    from "PROPOSED"   [2010-03-16 Tue 12:44]
@@ -4569,7 +4563,6 @@ you could even track which chunks are up-to-date, and only re-compute
 from the first one not up-to-date in the buffer onwards to the chunk
 you are being asked to process.  This could be yet another option.
 
-
 ** TODO Add languages [17/21]
 I'm sure there are many more that aren't listed here.  Please add
 them, and bubble any that you particularly care about up to the top.
@@ -4581,11 +4574,12 @@ Follow the pattern set by [[file:lisp/org-babel-shell.el][org-babel-shell.el]] a
     - State "DONE"       from "STARTED"    [2010-03-18 Thu 17:35]
     - State "STARTED"    from "TODO"       [2010-03-16 Tue 19:25]
     - State "TODO"       from ""           [2010-03-16 Tue 11:02]
-      See
-      [[http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs]]
-      [[http://sourceforge.net/projects/matlab-emacs/]]
-      [[http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22268.html]]
-      [[http://cran.r-project.org/doc/contrib/R-and-octave.txt][R for Octave Users]] [useful!]
+
+      See:
+      - [[http://www.gnu.org/software/octave/doc/interpreter/Running-Octave-From-Within-Emacs.html#Running-Octave-From-Within-Emacs]]
+      - [[http://sourceforge.net/projects/matlab-emacs/]]
+      - [[http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22268.html]]
+      - [[http://cran.r-project.org/doc/contrib/R-and-octave.txt][R for Octave Users]] *useful!*
 
 *** DONE clojure
     - State "DONE"       from ""           [2010-03-01 Mon 10:26]
