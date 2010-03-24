@@ -7,8 +7,7 @@
 ** PROPOSED Add SQL functionality?
    - State "PROPOSED"   from ""           [2010-03-21 Sun 15:59]
 I happened to notice this on #emacs
-
-#+begin_example 
+#+begin_example
 <spcshpopr8r> hallo emacsers
 <spcshpopr8r> I have successfully, finally, got on board with org-babel and
              ess...earlier today, my head exploded  [15:39]
@@ -30,6 +29,19 @@ I happened to notice this on #emacs
 <spcshpopr8r> anybody here got a simple solution to get org-babel
              (org-babel-sql that is) to talk to my li'l ol oracle databases?
 #+end_example
+
+Ideally there's a single sql-mode for emacs that we can interact
+with...  it looks like [[http://www.emacswiki.org/emacs/SqlMode][sql-mode]] is the way to go.  I'd say we add that
+as a requirement to org-babel-sql, and then start building up the
+integration with...
+
+1) start using sql-mode builtins for connection -- which should extend
+   us to other database engines
+2) add more header arguments (=passwrd=, =database=, =username=, etc...)
+3) support persistent sessions
+4) support returning query results as lists/tables
+5) support dropping lists/tables into insert statements
+
 ** DONE allow evaluation of emacs-lisp variable values
    - State "DONE"       from ""           [2010-03-22 Mon 08:40]
 
