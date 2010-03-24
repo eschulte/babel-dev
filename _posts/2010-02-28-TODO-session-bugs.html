@@ -3,8 +3,6 @@ title: TODO session bugs
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> session bugs </h2>
 <div class="outline-text-2" id="text-1">
@@ -40,7 +38,6 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 
 
 
-
 <pre class="example">
 2
 </pre>
@@ -55,7 +52,6 @@ But without :session this gives
 <pre class="src src-sh"><span class="org-builtin">echo</span> 1
 <span class="org-builtin">echo</span> 2
 </pre>
-
 
 
 
@@ -93,7 +89,6 @@ Only on first execution; second is OK. And doesn't occur when stepping through w
 
 
 
-
 </div>
 
 </div>
@@ -121,7 +116,6 @@ second and subsequent evaluations fail to output the last line.
 
 
 
-
 <pre class="example">
 hello
 bye
@@ -142,9 +136,9 @@ But evaluate it again and the second line will not be output.
 
 
 
-<pre class="src src-R">cat(<span class="org-string">"There's no newline ending this"</span>)
-</pre>
-
+<div class="org-src-container"><label class="org-src-name">nonewline()</label><pre class="src src-R">
+cat(<span class="org-string">"There's no newline ending this"</span>)
+</pre></div>
 
 
 

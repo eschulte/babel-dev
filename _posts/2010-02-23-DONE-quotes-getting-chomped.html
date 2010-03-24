@@ -3,8 +3,6 @@ title: DONE quotes getting chomped?
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="done DONE"> DONE</span> quotes getting chomped? </h2>
 <div class="outline-text-2" id="text-1">
@@ -44,7 +42,6 @@ Before this change we have
 
 
 
-
 <pre class="example">
 1", "3
 </pre>
@@ -58,7 +55,6 @@ After, we have
 
 <pre class="src src-ruby">[<span class="org-string">"1"</span>, <span class="org-string">"3"</span>]
 </pre>
-
 
 
 
@@ -98,13 +94,13 @@ terminal single quotes have been chomped.
 
 
 
-<pre class="src src-python"><span class="org-keyword">import</span> os, time
+<div class="org-src-container"><label class="org-src-name">dir-test-python()</label><pre class="src src-python">
+<span class="org-keyword">import</span> os, time
 <span class="org-keyword">print</span> time.ctime()
 <span class="org-keyword">print</span> os.uname()
 <span class="org-keyword">print</span> os.getcwd()
 <span class="org-keyword">print</span> <span class="org-string">'\n'</span> <span class="org-comment">## We have a bug involving losing final lines
-</span></pre>
-
+</span></pre></div>
 
 
 
@@ -116,7 +112,6 @@ terminal single quotes have been chomped.
 
 <pre class="src src-python">&lt;&lt;<span class="org-builtin">dir</span>-test-python&gt;&gt;
 </pre>
-
 
 
 

@@ -3,8 +3,6 @@ title: TODO src block regexp fails if block contains block delimiters
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> src block regexp fails if block contains block delimiters </h2>
 <div class="outline-text-2" id="text-1">
@@ -22,7 +20,6 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
         <span class="org-string">"hello\n"</span>
         <span class="org-string">"#+end_src\n"</span><span class="org-esk-paren">)</span>
 </pre>
-
 
 
 
@@ -82,14 +79,12 @@ For end<sub>src</sub>, it should probably be anchored to the begin of line.
 
 
 
-
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is ok
 </span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
 <span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">foo</span> <span class="org-esk-paren">()</span> <span class="org-esk-paren">(</span>insert <span class="org-string">"#+end_src emacs-lisp"</span><span class="org-esk-paren">))</span>
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is not ok
 </span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
 </pre>
-
 
 
 

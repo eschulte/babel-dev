@@ -91,4 +91,5 @@ org-mode.
                     (insert html))
                   (get-buffer org-buffer)))))))
        '(1 2))))
+  (message "successfully exported development updates")
 #+end_src

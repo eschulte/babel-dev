@@ -3,8 +3,6 @@ title: PROPOSED Handling of table column names across languages
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Handling of table column names across languages </h2>
 <div class="outline-text-2" id="text-1">
@@ -56,7 +54,6 @@ See also <a href="#*Support==rownames==and==other==org==babel==table==features">
 
 
 
-
 <p>
 Results in error because of 'hline
 </p>
@@ -74,7 +71,6 @@ specifying a var of the same value."</span>
       <span class="org-comment-delimiter">;; </span><span class="org-comment">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
 </span>    <span class="org-esk-paren">(</span>format <span class="org-string">"%S"</span> var<span class="org-esk-paren">)))</span>
 </pre>
-
 
 
 
@@ -110,7 +106,6 @@ That change would give this as result:
 
 <pre class="src src-R">d
 </pre>
-
 
 
 
@@ -156,7 +151,6 @@ printed out with :colnames yes?
 
 
 
-
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col align="right" />
@@ -181,7 +175,6 @@ transpose the vector in R to get the desired result.
 
 <pre class="src src-R">t(c(a=1,b=2))
 </pre>
-
 
 
 
@@ -212,7 +205,6 @@ transpose the vector in R to get the desired result.
 
 <pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">d</span>
 </pre>
-
 
 
 

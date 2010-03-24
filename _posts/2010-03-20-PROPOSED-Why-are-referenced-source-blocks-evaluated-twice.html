@@ -3,8 +3,6 @@ title: PROPOSED Why are referenced source blocks evaluated twice?
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Why are referenced source blocks evaluated twice? </h2>
 <div class="outline-text-2" id="text-1">
@@ -24,9 +22,9 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 
 
 
-<pre class="src src-python"><span class="org-keyword">return</span> <span class="org-string">'from python'</span>
-</pre>
-
+<div class="org-src-container"><label class="org-src-name">python-block()</label><pre class="src src-python">
+<span class="org-keyword">return</span> <span class="org-string">'from python'</span>
+</pre></div>
 
 
 
@@ -34,7 +32,6 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 
 <pre class="src src-emacs-lisp">x
 </pre>
-
 
 
 
@@ -57,7 +54,6 @@ index d01e6d6..40331a0 100644
          (params (setf (third info)
                         (sort (org-babel-merge-params (third info) params)
 </pre>
-
 
 
 
@@ -144,7 +140,6 @@ executing Python source code block
 "from python"
 finished
 </pre>
-
 
 
 </div>
