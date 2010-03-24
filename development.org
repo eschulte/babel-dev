@@ -4,6 +4,32 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [66/126]
+** PROPOSED Add SQL functionality?
+   - State "PROPOSED"   from ""           [2010-03-21 Sun 15:59]
+I happened to notice this on #emacs
+
+#+begin_example 
+<spcshpopr8r> hallo emacsers
+<spcshpopr8r> I have successfully, finally, got on board with org-babel and
+             ess...earlier today, my head exploded  [15:39]
+,*** JayM (~jay@cpe-76-186-94-148.tx.res.rr.com) has quit: Ping timeout: 268
+    seconds
+,*** CrustY (~klon@91.187.21.231) has quit: Read error: Connection reset by
+    peer
+<spcshpopr8r> now I want to execute an arbitary bunch of sql against an oracle
+             database and then feed the results to an R block
+,*** CrustY (~klon@91.187.21.231) has joined channel #emacs  [15:40]
+<jave> btw org vs planner?
+,*** gnuvince (~vince@72.0.219.6) has quit: Ping timeout: 256 seconds
+,*** kenshin (~kenshin@59.95.54.181) has quit: Quit: Ex-Chat
+<spcshpopr8r> I've looked a little bit at org-babel-sql.el and it seems pretty
+             spartan...like it just wants to talk to a mysql database at the
+             moment  [15:41]
+,*** gnuvince (~vince@72.0.219.6) has joined channel #emacs
+,*** Colloguy (~flx@64.134.18.188) has joined channel #emacs
+<spcshpopr8r> anybody here got a simple solution to get org-babel
+             (org-babel-sql that is) to talk to my li'l ol oracle databases?
+#+end_example
 ** DONE allow evaluation of emacs-lisp variable values
    - State "DONE"       from ""           [2010-03-22 Mon 08:40]
 
