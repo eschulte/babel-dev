@@ -5003,7 +5003,20 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/79]
+* Bugs [59/80]
+** TODO point movement during #+call 
+   - State "TODO"       from ""           [2010-03-25 Thu 14:47]
+
+This caused movement of point/buffer scrolling during execution of the #+call
+
+#+source: create-plate
+#+begin_src R :colnames yes
+  x <- array("", dim=c(8,12),dimnames=list(LETTERS[1:8], 1:12))
+  cbind(rownames(x), x)
+#+end_src
+******* 4
+#+call: create-plate()
+
 ** DONE source block regexp matches delimiters inside source block
    - State "DONE"       from "DONE"       [2010-03-23 Tue 11:30]
 Thanks to Maurizio for pointing out this error.
