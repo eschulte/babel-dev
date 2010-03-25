@@ -1,0 +1,80 @@
+---
+title: DONE literal values from tables
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> literal values from tables </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-25 Thu 13:23</span></span>
+
+</li>
+</ul>
+
+<p>string values passed to <code>:var</code> header arguments are assumed to be
+source name references, so upon encountering
+</p>
+<pre class="example">
+#+begin_src emacs-lisp :var data=something
+</pre>
+
+
+<p>
+babel will rush off in search of a table, result, or code block named
+"something" with which to initialize <code>data</code>, rather than passing the
+literal string value of something.  This can lead to confusing
+behavior when dealing with tables, where for example
+</p>
+<pre class="example">
+#+TBLNAME: system-host-ping :var host=system-hosts
+| name   |             ip | ping   |
+|--------+----------------+--------|
+| host 1 | 192.168.10.200 | #ERROR |
+| host 2 |  192.168.10.24 | #ERROR |
+| host 3 |  192.168.42.24 | #ERROR |
+#+TBLFM: $3='(sbe system-ping (ip $2))'
+</pre>
+
+
+<p>
+will result in all errors because each ip address is interpreted as a
+reference to be resolved rather than as a literal value.  To fix this
+behavior the following <code>$$</code> syntax has been added which can force
+table values to be interpreted as literal strings, resulting in the
+following
+</p>
+<pre class="example">
+#+TBLNAME: system-host-ping :var host=system-hosts
+| name   |             ip |           ping |
+|--------+----------------+----------------|
+| host 1 | 192.168.10.200 | 192.168.10.200 |
+| host 2 |  192.168.10.24 |  192.168.10.24 |
+| host 3 |  192.168.42.24 |  192.168.42.24 |
+#+TBLFM: $3='(sbe system-ping (ip $$2))'
+</pre>
+
+
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">support stuff </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<pre class="example">
+#+source: system-ping
+#+begin_src sh :var ip="192.168.42.24"
+# Testing
+echo $ip
+#+end_src
+
+#+results: system-ping
+: 192.168.42.24
+</pre>
+
+</div>
+</div>
+</div>

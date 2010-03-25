@@ -3,7 +3,52 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [66/126]
+* Tasks [67/128]
+** DONE literal values from tables
+   - State "DONE"       from ""           [2010-03-25 Thu 13:23]
+
+string values passed to =:var= header arguments are assumed to be
+source name references, so upon encountering
+
+: #+begin_src emacs-lisp :var data=something
+
+babel will rush off in search of a table, result, or code block named
+"something" with which to initialize =data=, rather than passing the
+literal string value of something.  This can lead to confusing
+behavior when dealing with tables, where for example
+
+: #+TBLNAME: system-host-ping :var host=system-hosts
+: | name   |             ip | ping   |
+: |--------+----------------+--------|
+: | host 1 | 192.168.10.200 | #ERROR |
+: | host 2 |  192.168.10.24 | #ERROR |
+: | host 3 |  192.168.42.24 | #ERROR |
+: #+TBLFM: $3='(sbe system-ping (ip $2))'
+
+will result in all errors because each ip address is interpreted as a
+reference to be resolved rather than as a literal value.  To fix this
+behavior the following =$$= syntax has been added which can force
+table values to be interpreted as literal strings, resulting in the
+following
+
+: #+TBLNAME: system-host-ping :var host=system-hosts
+: | name   |             ip |           ping |
+: |--------+----------------+----------------|
+: | host 1 | 192.168.10.200 | 192.168.10.200 |
+: | host 2 |  192.168.10.24 |  192.168.10.24 |
+: | host 3 |  192.168.42.24 |  192.168.42.24 |
+: #+TBLFM: $3='(sbe system-ping (ip $$2))'
+
+*** support stuff
+: #+source: system-ping
+: #+begin_src sh :var ip="192.168.42.24"
+: # Testing
+: echo $ip
+: #+end_src
+: 
+: #+results: system-ping
+: : 192.168.42.24
+
 ** PROPOSED Add SQL functionality?
    - State "PROPOSED"   from ""           [2010-03-21 Sun 15:59]
 I happened to notice this on #emacs
@@ -5003,7 +5048,20 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/79]
+* Bugs [59/80]
+** TODO point movement during #+call 
+   - State "TODO"       from ""           [2010-03-25 Thu 14:47]
+
+This caused movement of point/buffer scrolling during execution of the #+call
+
+#+source: create-plate
+#+begin_src R :colnames yes
+  x <- array("", dim=c(8,12),dimnames=list(LETTERS[1:8], 1:12))
+  cbind(rownames(x), x)
+#+end_src
+******* 4
+#+call: create-plate()
+
 ** DONE source block regexp matches delimiters inside source block
    - State "DONE"       from "DONE"       [2010-03-23 Tue 11:30]
 Thanks to Maurizio for pointing out this error.
