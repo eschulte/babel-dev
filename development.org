@@ -5003,7 +5003,24 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/80]
+* Bugs [59/81]
+** TODO Missing values in tables
+   - State "TODO"       from ""           [2010-03-25 Thu 15:58]
+
+This is undesirable:
+
+#+tblname: nilNAtab
+| t |   |
+|   |   |
+
+#+begin_src R :var x=nilNAtab
+x
+#+end_src
+
+#+results:
+| t | nil |
+|   | nil |
+
 ** TODO point movement during #+call 
    - State "TODO"       from ""           [2010-03-25 Thu 14:47]
 
