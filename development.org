@@ -3,7 +3,11 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/128]
+* Tasks [67/129]
+** TODO Customize interface
+   - State "TODO"       from ""           [2010-03-26 Fri 00:31]
+     Make sure we're happy with the customize interface in the
+     org-babel group.
 ** DONE literal values from tables
    - State "DONE"       from ""           [2010-03-25 Thu 13:23]
 
