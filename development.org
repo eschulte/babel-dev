@@ -5052,7 +5052,22 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/81]
+* Bugs [59/82]
+** PROPOSED Do we really want inheritance of params?
+   - State "PROPOSED"   from ""           [2010-03-27 Sat 16:56]
+
+The following example suggest that inheritance of params by the
+referenced block may be undesirable. What do we actually need it for?
+
+#+source: four
+#+begin_src ruby
+4
+#+end_src
+
+#+begin_src ruby :var x=four :results output
+print x
+#+end_src
+
 ** TODO Missing values in tables
    - State "TODO"       from ""           [2010-03-25 Thu 15:58]
 
