@@ -424,7 +424,8 @@ Symbol's value as variable is void: y
      accept the backwards incompatibility cost, but I'm just noting it
      down. It could always be implemented by a variable.
 
-** PROPOSED Handling of table column names across languages 
+** TODO Handling of table column names across languages 
+   - State "TODO"       from "PROPOSED"   [2010-03-26 Fri 21:38]
    - State "PROPOSED"   from ""           [2010-02-23 Tue 20:04]
    - State "TODO"       from ""           [2010-02-23 Tue 12:22]
    :PROPERTIES:
