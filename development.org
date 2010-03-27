@@ -5048,7 +5048,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/80]
+* Bugs [60/80]
 ** TODO point movement during #+call 
    - State "TODO"       from ""           [2010-03-25 Thu 14:47]
 
@@ -5671,12 +5671,24 @@ which introduces a local variable to org-ex-blocks which is used by
 org-babel-exp to ensure that previous blocks do not overwrite the
 current block.
 
-** TODO R language shadows ruby
+** DONE R language shadows ruby
+   - State "DONE"       from "TODO"       [2010-03-26 Fri 20:54]
    - State "TODO"       from "TODO"       [2010-01-18 Mon 13:39]
    - State "TODO"       from ""           [2009-12-31 Thu 12:57]
    :PROPERTIES:
    :exports:  code
    :END:
+
+simple fix, we just sort the language names by length, that way the
+longer names will be tried first and the shorter names won't have a
+chance to overshadow them.
+
+#+begin_src emacs-lisp
+  (setq org-babel-interpreters
+        (sort (cons interpreter org-babel-interpreters)
+              (lambda (left right)
+                (> (length left) (length right)))))
+#+end_src
 
    DED: I think this requires tightening up of
    org-babel-src-block-regexp, so that the language identifiers have
