@@ -5053,9 +5053,14 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [61/82]
-** PROPOSED Do we really want inheritance of params?
+* Bugs [62/82]
+** DONE Do we really want inheritance of params?
+   - State "DONE"       from "PROPOSED"   [2010-03-27 Sat 18:51]
    - State "PROPOSED"   from ""           [2010-03-27 Sat 16:56]
+
+     Got rid if it.
+
+     a23ca4529f5b5467a4f7d520db24c9818c5eb148
 
 The following example suggest that inheritance of params by the
 referenced block may be undesirable. What do we actually need it for?
