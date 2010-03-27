@@ -424,7 +424,8 @@ Symbol's value as variable is void: y
      accept the backwards incompatibility cost, but I'm just noting it
      down. It could always be implemented by a variable.
 
-** PROPOSED Handling of table column names across languages 
+** TODO Handling of table column names across languages 
+   - State "TODO"       from "PROPOSED"   [2010-03-26 Fri 21:38]
    - State "PROPOSED"   from ""           [2010-02-23 Tue 20:04]
    - State "TODO"       from ""           [2010-02-23 Tue 12:22]
    :PROPERTIES:
@@ -5052,7 +5053,22 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/81]
+* Bugs [61/82]
+** PROPOSED Do we really want inheritance of params?
+   - State "PROPOSED"   from ""           [2010-03-27 Sat 16:56]
+
+The following example suggest that inheritance of params by the
+referenced block may be undesirable. What do we actually need it for?
+
+#+source: four
+#+begin_src ruby
+4
+#+end_src
+
+#+begin_src ruby :var x=four :results output
+print x
+#+end_src
+
 ** TODO Missing values in tables
    - State "TODO"       from ""           [2010-03-25 Thu 15:58]
 
@@ -5129,8 +5145,12 @@ Thanks to Maurizio for pointing out this error.
 : #+results:
 : : #+end_src
 
-** PROPOSED Why are referenced source blocks evaluated twice?
+** DONE Why are referenced source blocks evaluated twice?
+   - State "DONE"       from "PROPOSED"   [2010-03-27 Sat 17:00]
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:48]
+     
+     Fixed at 47571965d4b4977d72781f8a80ac29c6a609e731
+
 *** Example
 #+source: python-block
 #+begin_src python
