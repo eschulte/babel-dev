@@ -5053,7 +5053,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/82]
+* Bugs [61/82]
 ** PROPOSED Do we really want inheritance of params?
    - State "PROPOSED"   from ""           [2010-03-27 Sat 16:56]
 
@@ -5145,8 +5145,12 @@ Thanks to Maurizio for pointing out this error.
 : #+results:
 : : #+end_src
 
-** PROPOSED Why are referenced source blocks evaluated twice?
+** DONE Why are referenced source blocks evaluated twice?
+   - State "DONE"       from "PROPOSED"   [2010-03-27 Sat 17:00]
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:48]
+     
+     Fixed at 47571965d4b4977d72781f8a80ac29c6a609e731
+
 *** Example
 #+source: python-block
 #+begin_src python
