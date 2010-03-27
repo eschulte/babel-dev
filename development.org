@@ -3,7 +3,11 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/128]
+* Tasks [67/129]
+** TODO Customize interface
+   - State "TODO"       from ""           [2010-03-26 Fri 00:31]
+     Make sure we're happy with the customize interface in the
+     org-babel group.
 ** DONE literal values from tables
    - State "DONE"       from ""           [2010-03-25 Thu 13:23]
 
@@ -5048,7 +5052,24 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [59/80]
+* Bugs [59/81]
+** TODO Missing values in tables
+   - State "TODO"       from ""           [2010-03-25 Thu 15:58]
+
+This is undesirable:
+
+#+tblname: nilNAtab
+| t |   |
+|   |   |
+
+#+begin_src R :var x=nilNAtab
+x
+#+end_src
+
+#+results:
+| t | nil |
+|   | nil |
+
 ** TODO point movement during #+call 
    - State "TODO"       from ""           [2010-03-25 Thu 14:47]
 
@@ -5671,12 +5692,24 @@ which introduces a local variable to org-ex-blocks which is used by
 org-babel-exp to ensure that previous blocks do not overwrite the
 current block.
 
-** TODO R language shadows ruby
+** DONE R language shadows ruby
+   - State "DONE"       from "TODO"       [2010-03-26 Fri 20:54]
    - State "TODO"       from "TODO"       [2010-01-18 Mon 13:39]
    - State "TODO"       from ""           [2009-12-31 Thu 12:57]
    :PROPERTIES:
    :exports:  code
    :END:
+
+simple fix, we just sort the language names by length, that way the
+longer names will be tried first and the shorter names won't have a
+chance to overshadow them.
+
+#+begin_src emacs-lisp
+  (setq org-babel-interpreters
+        (sort (cons interpreter org-babel-interpreters)
+              (lambda (left right)
+                (> (length left) (length right)))))
+#+end_src
 
    DED: I think this requires tightening up of
    org-babel-src-block-regexp, so that the language identifiers have

@@ -1,13 +1,16 @@
 ---
-title: TODO R language shadows ruby
+title: DONE R language shadows ruby
 layout: default
 ---
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="todo TODO"> TODO</span> R language shadows ruby </h2>
+<h2 id="sec-1"><span class="done DONE"> DONE</span> R language shadows ruby </h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-26 Fri 20:54</span></span>
+</li>
 <li>
 State "TODO"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-18 Mon 13:39</span></span>
 </li>
@@ -17,7 +20,24 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 </li>
 </ul>
 
-<p>DED: I think this requires tightening up of
+<p>simple fix, we just sort the language names by length, that way the
+longer names will be tried first and the shorter names won't have a
+chance to overshadow them.
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>setq org-babel-interpreters
+      <span class="org-esk-paren">(</span>sort <span class="org-esk-paren">(</span>cons interpreter org-babel-interpreters<span class="org-esk-paren">)</span>
+            <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>left right<span class="org-esk-paren">)</span>
+              <span class="org-esk-paren">(</span>&gt; <span class="org-esk-paren">(</span>length left<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>length right<span class="org-esk-paren">)))))</span>
+</pre>
+
+
+
+
+<p>
+DED: I think this requires tightening up of
 org-babel-src-block-regexp, so that the language identifiers have
 appropriate delimiters around them.
 </p>
