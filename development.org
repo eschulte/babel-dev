@@ -483,6 +483,10 @@ Symbol's value as variable is void: y
    :var: d=my-table
    :END:
      See also [[*Support%20rownames%20and%20other%20org%20babel%20table%20features][Support rownames and other org babel table features?]]
+
+     Julien Barnier has made a patch implementing rownames in R. This
+     is in branch julien-barnier-R-rownames in the devel repo (commit
+     f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
      
 #+results: my-table
 |       Date |   Kg |
