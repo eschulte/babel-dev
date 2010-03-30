@@ -22,8 +22,7 @@ python.
 where to insert the "return statement". Because I believe a return
 statement will be necessary, whether inserted automatically or not.
 
-
-** TODO Octave / Matlab tasks
+** TODO Octave and Matlab tasks
    - State "TODO"       from ""           [2010-03-30 Tue 10:09]
 
      From Darlan Cavalcante
