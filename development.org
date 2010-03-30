@@ -3,7 +3,26 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/130]
+* Tasks [67/131]
+** PROPOSED Allow return variable specification?
+   - State "PROPOSED"   from ""           [2010-03-30 Tue 10:10]
+
+     From Darlan Cavalcante
+
+In fact, I don't like to put a return statement in the end of the block
+just to make babel happy (python included), since I don't want this when I
+tangle the file, but this is the most flexible way.
+
+Maybe a good feature request for babel it that instead "exports: value" one
+has to write "exports: value variable" and this would have the effect of
+the "return variable" in the end of the block that we have right now for
+python.
+
+[Dan] I think this might still suffer from the problem of not knowing
+where to insert the "return statement". Because I believe a return
+statement will be necessary, whether inserted automatically or not.
+
+
 ** TODO Octave / Matlab tasks
    - State "TODO"       from ""           [2010-03-30 Tue 10:09]
 
