@@ -1,0 +1,36 @@
+---
+title: PROPOSED Allow return variable specification?
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Allow return variable specification? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-30 Tue 10:10</span></span>
+</li>
+</ul>
+
+
+<p>
+From Darlan Cavalcante
+</p>
+<p>
+In fact, I don't like to put a return statement in the end of the block
+just to make babel happy (python included), since I don't want this when I
+tangle the file, but this is the most flexible way.
+</p>
+<p>
+Maybe a good feature request for babel it that instead "exports: value" one
+has to write "exports: value variable" and this would have the effect of
+the "return variable" in the end of the block that we have right now for
+python.
+</p>
+<p>
+[Dan] I think this might still suffer from the problem of not knowing
+where to insert the "return statement". Because I believe a return
+statement will be necessary, whether inserted automatically or not.
+</p></div>
+</div>

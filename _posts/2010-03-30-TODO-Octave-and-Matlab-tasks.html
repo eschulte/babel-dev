@@ -1,0 +1,53 @@
+---
+title: TODO Octave and Matlab tasks
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> Octave and Matlab tasks </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-30 Tue 10:09</span></span>
+</li>
+</ul>
+
+
+<p>
+From Darlan Cavalcante
+</p>
+<p>
+If I understood correctly you always save the output to a file using the
+function org-babel-octave-wrapper-method, right? Maybe instead of using
+"%s save -ascii %s ans"
+to save the information to a file you can use
+"%s save -text %s ans"
+I tested this for numbers, strings and matrices and it seems to do the
+right thing. However, octaves adds some comment lines in the beginning of
+the file that you will probably need to remove, but you just need to remove
+lines that start with "#".
+</p>
+<p>
+Regarding which value is returned, maybe you can use the same approach
+employed for python, where a line "return variable" is required in the end
+of the block, instead of just returning the value of ans.
+</p>
+<p>
+In fact, I don't like to put a return statement in the end of the block
+just to make babel happy (python included), since I don't want this when I
+tangle the file, but this is the most flexible way.
+</p>
+<p>
+Maybe a good feature request for babel it that instead "exports: value" one
+has to write "exports: value variable" and this would have the effect of
+the "return variable" in the end of the block that we have right now for
+python.
+</p>
+<p>
+Regarding the graphical output, It is probably better to use :results file
+as suggested in the TODO. There may be necessary a lot of details in the
+graphic output such as labels, setting axis, etc.. It is better to let the
+user handle this in the code and just put the link to the file. 
+</p></div>
+</div>

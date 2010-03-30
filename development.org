@@ -3,7 +3,58 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/129]
+* Tasks [67/131]
+** PROPOSED Allow return variable specification?
+   - State "PROPOSED"   from ""           [2010-03-30 Tue 10:10]
+
+     From Darlan Cavalcante
+
+In fact, I don't like to put a return statement in the end of the block
+just to make babel happy (python included), since I don't want this when I
+tangle the file, but this is the most flexible way.
+
+Maybe a good feature request for babel it that instead "exports: value" one
+has to write "exports: value variable" and this would have the effect of
+the "return variable" in the end of the block that we have right now for
+python.
+
+[Dan] I think this might still suffer from the problem of not knowing
+where to insert the "return statement". Because I believe a return
+statement will be necessary, whether inserted automatically or not.
+
+** TODO Octave and Matlab tasks
+   - State "TODO"       from ""           [2010-03-30 Tue 10:09]
+
+     From Darlan Cavalcante
+
+If I understood correctly you always save the output to a file using the
+function org-babel-octave-wrapper-method, right? Maybe instead of using
+"%s save -ascii %s ans"
+to save the information to a file you can use
+"%s save -text %s ans"
+I tested this for numbers, strings and matrices and it seems to do the
+right thing. However, octaves adds some comment lines in the beginning of
+the file that you will probably need to remove, but you just need to remove
+lines that start with "#".
+
+Regarding which value is returned, maybe you can use the same approach
+employed for python, where a line "return variable" is required in the end
+of the block, instead of just returning the value of ans.
+
+In fact, I don't like to put a return statement in the end of the block
+just to make babel happy (python included), since I don't want this when I
+tangle the file, but this is the most flexible way.
+
+Maybe a good feature request for babel it that instead "exports: value" one
+has to write "exports: value variable" and this would have the effect of
+the "return variable" in the end of the block that we have right now for
+python.
+
+Regarding the graphical output, It is probably better to use :results file
+as suggested in the TODO. There may be necessary a lot of details in the
+graphic output such as labels, setting axis, etc.. It is better to let the
+user handle this in the code and just put the link to the file. 
+
 ** TODO Customize interface
    - State "TODO"       from ""           [2010-03-26 Fri 00:31]
      Make sure we're happy with the customize interface in the
