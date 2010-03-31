@@ -3,6 +3,8 @@ title: PROPOSED Make org-babel-switch-to-buffer show code edit buffer
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Make org-babel-switch-to-buffer show code edit buffer </h2>
 <div class="outline-text-2" id="text-1">
@@ -10,9 +12,6 @@ layout: default
 <ul>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-20 Sat 12:20</span></span>
-</li>
-</ul>
-
 
 <p>
 This patch changes org-babel-switch-to-buffer so that the session
@@ -28,6 +27,8 @@ functionality available via some other interface (a different
 function, prefix args, etc).
 </p>
 
+</li>
+</ul>
 
 
 <pre class="example">diff --git a/contrib/babel/lisp/org-babel.el b/contrib/babel/lisp/org-babel.el
@@ -49,6 +50,7 @@ index d01e6d6..5121fbc 100644
  
  (defalias 'org-babel-pop-to-session 'org-babel-switch-to-session)
 </pre>
+
 
 
 </div>

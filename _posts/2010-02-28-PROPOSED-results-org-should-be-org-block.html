@@ -3,6 +3,8 @@ title: PROPOSED :results org should be org block
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> :results org should be org block </h2>
 <div class="outline-text-2" id="text-1">
@@ -13,12 +15,11 @@ State "PROPOSED"   from "REJECTED" <span class="timestamp-wrapper"> <span class=
 </li>
 <li>
 State "REJECTED"   from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 14:40</span></span>
+
 </li>
 </ul>
 
-
-<p>
-The reason that <code>:results org</code> was introduced was to support
+<p>The reason that <code>:results org</code> was introduced was to support
 seamless insertion of results into an org-mode buffer.  This
 proposal would defeat that initial purpose. [Eric]
 </p>
@@ -49,10 +50,11 @@ in your emacs buffer.
 
 
 
-<pre class="src src-org"><span style="color: #add8e6;">#+SEQ_TODO: TODO | DONE</span>
-<span style="color: #7fffd4; font-weight: bold;">* </span><span style="color: #ffc0cb; font-weight: bold;">TODO</span><span style="color: #7fffd4; font-weight: bold;"> todo item</span>
-  <span style="color: #ffa07a;">SCHEDULED:</span> <span style="color: #00ffff; text-decoration: underline;">&lt;2010-02-28 Sun&gt;</span>
+<pre class="src src-org"><span class="org-org-meta-line">#+SEQ_TODO: TODO | DONE</span>
+<span class="org-org-level-1">* </span><span class="org-org-todo">TODO</span><span class="org-org-level-1"> todo item</span>
+  <span class="org-org-special-keyword">SCHEDULED:</span> <span class="org-org-date">&lt;2010-02-28 Sun&gt;</span>
 </pre>
+
 
 
 

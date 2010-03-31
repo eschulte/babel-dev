@@ -3,6 +3,8 @@ title: TODO Use org-insert-link machinery to create links
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> Use org-insert-link machinery to create links </h2>
 <div class="outline-text-2" id="text-1">
@@ -10,9 +12,6 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-28 Sun 15:25</span></span>
-</li>
-</ul>
-
 
 <p>
 One reason for doing this is to honour the variable
@@ -22,12 +21,15 @@ org-link-file-path-type.
 Perhaps org-insert-link can be refactored along the lines of
 </p>
 
+</li>
+</ul>
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">org-insert-link</span> (...)
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-insert-link</span> <span class="org-esk-paren">(</span>...<span class="org-esk-paren">)</span>
   ...
-  (insert (org-create-link ...)))
+  <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>org-create-link ...<span class="org-esk-paren">)))</span>
 </pre>
+
 
 
 

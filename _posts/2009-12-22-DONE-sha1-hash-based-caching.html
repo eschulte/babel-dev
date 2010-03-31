@@ -3,6 +3,8 @@ title: DONE sha1 hash based caching
 layout: default
 ---
 
+
+
 <div id="outline-container-sha1-caching" class="outline-2">
 <h2 id="sha1-caching"><a name="sec-1" id="sec-1"></a><span class="done DONE"> DONE</span> sha1 hash based caching </h2>
 <div class="outline-text-2" id="text-sha1-caching">
@@ -10,12 +12,11 @@ layout: default
 <ul>
 <li>
 State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 14:42</span></span>
+
 </li>
 </ul>
 
-
-<p>
-This has been implemented.  Results can now be cached using the
+<p>This has been implemented.  Results can now be cached using the
 <code>:cache</code> header argument.  See the following example.
 </p>
 <pre class="example">
@@ -47,9 +48,6 @@ I find the saving of cached results in external files to
 be very upsetting.  It pollutes the user's disk, and it breaks
 what is to me a very fundamental part of org-mode, namely the
 fact that all data is saved in plain text in org-mode files.
-</dd>
-</dl>
-
 
 <p>
 Currently I'm leaning towards some combination of file-local
@@ -63,16 +61,13 @@ the hash is hidden in the resname, I think we
 definitely want the in-buffer mechanism. Apart from
 anything else it improves the mechanism by which we
 decide whether or not to over-write existing results.
-</dd>
-</dl>
-
 
 <p>
 The only slight drawback I can see is export: someone who
 doesn't want the results in their org file is forced to
 regenerate them on every export.
 </p>
-<dl>
+</dd>
 <dt>[EMS]</dt><dd>
 alright, that sounds good to me.  I can't think of a
 good solution to the export problem right now.  The approach
@@ -85,10 +80,11 @@ object, I'll merge in the in-buffer caching, and we can keep
 the export caching as an open issue, then possibly add the
 RAM/local-variable caching on top (which seems like it only
 require a couple of lines of code).
+
 </dd>
 </dl>
-
-
+</dd>
+</dl>
 
 </div>
 
@@ -125,7 +121,7 @@ needs.  And there's also of course SQL support in org-babel.
 <div class="outline-text-4" id="text-1.1.2">
 
 <ul>
-<li id="sec-1.3.1">Plus <br/>
+<li id="sec-1.1.2.1">Plus <br/>
 <ul>
 <li>
 Fits cleanly into existing org-babel paradigm.
@@ -143,7 +139,7 @@ Persistent across emacs sessions
 </li>
 </ul>
 </li>
-<li id="sec-1.3.2">Minus <br/>
+<li id="sec-1.1.2.2">Minus <br/>
 <ul>
 <li>
 I don't think it will work for export will it?
@@ -196,7 +192,7 @@ your kill ring
 <div class="outline-text-4" id="text-1.1.3">
 
 <ul>
-<li id="sec-1.4.1">Plus <br/>
+<li id="sec-1.1.3.1">Plus <br/>
 <ul>
 <li>
 Result is not editable &ndash; without editing local variables
@@ -210,7 +206,7 @@ Fastest of the three
 </li>
 </ul>
 </li>
-<li id="sec-1.4.2">Minus <br/>
+<li id="sec-1.1.3.2">Minus <br/>
 <ul>
 <li>
 Not part of babel paradigm (but should be very unobtrusive)
@@ -239,7 +235,7 @@ user can't read cached data
 <div class="outline-text-4" id="text-1.1.4">
 
 <ul>
-<li id="sec-1.5.1">Plus <br/>
+<li id="sec-1.1.4.1">Plus <br/>
 <ul>
 <li>
 Good for large tables
@@ -252,7 +248,7 @@ Persistent across emacs sessions
 </li>
 </ul>
 </li>
-<li id="sec-1.5.2">Minus <br/>
+<li id="sec-1.1.4.2">Minus <br/>
 <ul>
 <li>
 Not currently part of babel paradigm

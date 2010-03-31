@@ -3,6 +3,8 @@ title: TODO session bugs
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> session bugs </h2>
 <div class="outline-text-2" id="text-1">
@@ -25,16 +27,16 @@ State "PROPOSED"   from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-19 Fri 13:27</span></span>
+
+
 </li>
 </ul>
 
 
-
-
-
-<pre class="src src-sh"><span style="color: #7fffd4;">echo</span> 1
-<span style="color: #7fffd4;">echo</span> 2
+<pre class="src src-sh"><span class="org-builtin">echo</span> 1
+<span class="org-builtin">echo</span> 2
 </pre>
+
 
 
 
@@ -50,9 +52,10 @@ But without :session this gives
 
 
 
-<pre class="src src-sh"><span style="color: #7fffd4;">echo</span> 1
-<span style="color: #7fffd4;">echo</span> 2
+<pre class="src src-sh"><span class="org-builtin">echo</span> 1
+<span class="org-builtin">echo</span> 2
 </pre>
+
 
 
 
@@ -79,15 +82,15 @@ But without :session this gives
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-16 Tue 15:48</span></span>
 Only on first execution; second is OK. And doesn't occur when stepping through with edebug&hellip;
+
 </li>
 </ul>
 
 
-
-
 <pre class="src src-sh">hostname
-<span style="color: #7fffd4;">pwd</span>
+<span class="org-builtin">pwd</span>
 </pre>
+
 
 
 
@@ -111,9 +114,10 @@ second and subsequent evaluations fail to output the last line.
 
 
 
-<pre class="src src-python"><span style="color: #afeeee; font-weight: bold;">print</span> <span style="color: #87cefa;">'hello'</span>
-<span style="color: #afeeee; font-weight: bold;">print</span> <span style="color: #87cefa;">'bye'</span>
+<pre class="src src-python"><span class="org-keyword">print</span> <span class="org-string">'hello'</span>
+<span class="org-keyword">print</span> <span class="org-string">'bye'</span>
 </pre>
+
 
 
 
@@ -138,9 +142,9 @@ But evaluate it again and the second line will not be output.
 
 
 
-<div class="org-src-container"><label class="org-src-name">nonewline()</label><pre class="src src-R">
-cat(<span style="color: #87cefa;">"There's no newline ending this"</span>)
-</pre></div>
+<pre class="src src-R">cat(<span class="org-string">"There's no newline ending this"</span>)
+</pre>
+
 
 
 

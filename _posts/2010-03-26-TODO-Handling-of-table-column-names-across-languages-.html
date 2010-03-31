@@ -3,6 +3,8 @@ title: TODO Handling of table column names across languages
 layout: default
 ---
 
+
+
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> Handling of table column names across languages </h2>
 <div class="outline-text-2" id="text-1">
@@ -17,10 +19,12 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 12:22</span></span>
 See also <a href="#*Support==rownames==and==other==org==babel==table==features">Support rownames and other org babel table features?</a>
-</li>
-</ul>
 
-
+<p>
+Julien Barnier has made a patch implementing rownames in R. This
+is in branch julien-barnier-R-rownames in the devel repo (commit
+f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
+</p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col align="right" /><col align="right" />
@@ -39,8 +43,10 @@ See also <a href="#*Support==rownames==and==other==org==babel==table==features">
 </table>
 
 
-<p>
-As things stand
+</li>
+</ul>
+
+<p>As things stand
 </p>
 
 </div>
@@ -52,8 +58,9 @@ As things stand
 
 
 
-<pre class="src src-python"><span style="color: #afeeee; font-weight: bold;">return</span> d
+<pre class="src src-python"><span class="org-keyword">return</span> d
 </pre>
+
 
 
 
@@ -67,14 +74,15 @@ We could remove the hline with the following, but need to think about whether to
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">org-babel-python-var-to-python</span> (var)
-  <span style="color: #87cefa;">"Convert an elisp var into a string of python source code
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-python-var-to-python</span> <span class="org-esk-paren">(</span>var<span class="org-esk-paren">)</span>
+  <span class="org-doc">"Convert an elisp var into a string of python source code
 specifying a var of the same value."</span>
-  (<span style="color: #afeeee; font-weight: bold;">if</span> (listp var)
-      (concat <span style="color: #87cefa;">"["</span> (mapconcat #'org-babel-python-var-to-python (remq 'hline var) <span style="color: #87cefa;">", "</span>) <span style="color: #87cefa;">"]"</span>)
-      <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
-</span>    (format <span style="color: #87cefa;">"%S"</span> var)))
+  <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>listp var<span class="org-esk-paren">)</span>
+      <span class="org-esk-paren">(</span>concat <span class="org-string">"["</span> <span class="org-esk-paren">(</span>mapconcat #'org-babel-python-var-to-python <span class="org-esk-paren">(</span>remq 'hline var<span class="org-esk-paren">)</span> <span class="org-string">", "</span><span class="org-esk-paren">)</span> <span class="org-string">"]"</span><span class="org-esk-paren">)</span>
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
+</span>    <span class="org-esk-paren">(</span>format <span class="org-string">"%S"</span> var<span class="org-esk-paren">)))</span>
 </pre>
+
 
 
 
@@ -110,6 +118,7 @@ That change would give this as result:
 
 <pre class="src src-R">d
 </pre>
+
 
 
 
@@ -155,6 +164,7 @@ printed out with :colnames yes?
 
 
 
+
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col align="right" />
@@ -183,6 +193,7 @@ transpose the vector in R to get the desired result.
 
 
 
+
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col align="left" /><col align="left" />
@@ -207,8 +218,9 @@ transpose the vector in R to get the desired result.
 
 
 
-<pre class="src src-sh"><span style="color: #7fffd4;">echo</span> $<span style="color: #40e0d0; font-weight: bold;">d</span>
+<pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">d</span>
 </pre>
+
 
 
 
