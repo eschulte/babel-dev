@@ -488,6 +488,36 @@ Symbol's value as variable is void: y
      is in branch julien-barnier-R-rownames in the devel repo (commit
      f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
      
+     There is a test file for column and rownames [[file:col-row-names.org][here]].
+
+*** From Tom Dye
+#+begin_quote 
+IIUC, the difficulty is introduced by the difference between R, which
+keeps row names "under the hood," and org-mode, which doesn't have a
+concept of row names.  So, the question becomes one of preserving R's
+row names in cases where that is desirable.  Because it is not
+possible, AFAIK, to distinguish between an org-mode table created
+through an R call to print a data frame and one made with org-tbl, the
+onus is on the user to preserve R row names
+
+One way would be to establish an idiom for exporting and importing R
+data frames and put it on Worg.  This one works for me.
+
+So, on the way out:
+cbind(row=rownames(df),df)
+
+And, on the way in:
+df <- data.frame(x, row.names=1)
+
+If you want, I can add this, or something like it, to org-babel-doc-R.
+
+Also, I've been using the reshape package and a melt, cast sequence,
+which I use frequently, keeps the row names in the first column, so I
+only have to be conscious of preserving row names on the way back into
+org-mode.
+#+end_quote
+
+*** Examples
 #+results: my-table
 |       Date |   Kg |
 |------------+------|
