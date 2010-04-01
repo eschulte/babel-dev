@@ -3,7 +3,40 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/131]
+* Tasks [67/132]
+** TODO documentation for org-mode inclusion
+   - State "TODO"       from ""           [2010-04-01 Thu 08:27]
+
+#+begin_quote
+  First of all, I would think we have a separate chapter about
+  Org Babel.  My feeling is that this chapter should be no longer than
+  10, maybe 15 pages to make it not dominate the manual.  I am not quite
+  sure what we can put into this envelope.  It definitely should be
+  enough to explain the basics, and one or two simple examples.  This
+  will not replace the extensive tutorials etc on the web,
+  but my hope would be that all essential information from  but maybe
+  the information http://orgmode.org/worg/org-contrib/babel/
+  reference.php can be captured in there.
+
+  I have actually been thinking to switch from @example to @smallexample
+  (and similar) for the entire manual - this would save quite some
+  space, I believe.  But I still need to make test prints to see if this
+  is a viable option.
+  
+  Then we will mention Org babel stuff where-ever necessary - obviously
+  in the section about literal examples, and in the export chapter.  I
+  don't see right now where else - yes, in the Introduction of course,
+  with one sentence.
+  
+  - Carsten
+#+end_quote
+
+I just created a =babel-doc= branch up in the babel forked repository
+on repo.or.cz which can hold this work.  Hopefully it will largely be
+a straightforward process of converting reference.org from Worg into a
+texinfo and manual style document, and then similarly transferring
+over a couple of examples.
+
 ** PROPOSED Allow return variable specification?
    - State "PROPOSED"   from ""           [2010-03-30 Tue 10:10]
 
@@ -1161,41 +1194,41 @@ the values of user-specific information (i.e. the user's shell)
     available. Another approach is suggested by this email by d.tchin:
 
 **** d.tchin R Windows shell email
-#+begin_quote 
-:      From: "d.tchin" <d.tchin@voila.fr>
-:      Subject: [Orgmode] Re: org-babel-R  and windows ?
-:      User-Agent: Loom/3.14 (http://gmane.org/)
-:      Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)
-:      To: emacs-orgmode@gnu.org
-: 
-:      Dan Davison <davison <at> stats.ox.ac.uk> writes:
-:      > The org-babel default is to invoke R as an external shell command, and I
-:      > think this is what is causing the problem. It requires that the emacs
-:      > function shell-command can use the string "R" to invoke an R process,
-:      > i.e. the R installation and the shell path must be such that this is the
-:      > case.
-: 
-:      Thank you for the information and explanation.
-:      It seems that the problem comes from the windows shell. 
-: 
-:      I try the following :  I explicitely told emacs to use bash 
-:      with the following instructions :
-:      (setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")
-:      (setq shell-file-name explicit-shell-file-name)
-: 
-:      It works with bash.
-: 
-: 
-:      > 
-:      > #+srcname:trial
-:      > #+begin_src R :session org-babel-R-session
-:      >    c(4,5,6,7,8,9)
-:      > #+end_src
-: 
-:      The "session" way works too.
-: 
-:      Thank you.  
-#+end_quote
+#+begin_verse
+     From: "d.tchin" <d.tchin@voila.fr>
+     Subject: [Orgmode] Re: org-babel-R  and windows ?
+     User-Agent: Loom/3.14 (http://gmane.org/)
+     Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)
+     To: emacs-orgmode@gnu.org
+
+     Dan Davison <davison <at> stats.ox.ac.uk> writes:
+     > The org-babel default is to invoke R as an external shell command, and I
+     > think this is what is causing the problem. It requires that the emacs
+     > function shell-command can use the string "R" to invoke an R process,
+     > i.e. the R installation and the shell path must be such that this is the
+     > case.
+
+     Thank you for the information and explanation.
+     It seems that the problem comes from the windows shell. 
+
+     I try the following :  I explicitely told emacs to use bash 
+     with the following instructions :
+     (setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")
+     (setq shell-file-name explicit-shell-file-name)
+
+     It works with bash.
+
+
+     > 
+     > #+srcname:trial
+     > #+begin_src R :session org-babel-R-session
+     >    c(4,5,6,7,8,9)
+     > #+end_src
+
+     The "session" way works too.
+
+     Thank you.  
+#+end_verse
 
 **** Bernd Weiss email
      http://www.mail-archive.com/emacs-orgmode@gnu.org/msg19104.html
@@ -2401,27 +2434,27 @@ header argument can be used to temporarily add new packages to your
    - State "TODO"       from ""           [2010-02-03 Wed 13:07]
 
 this is from suggestions coming through the mailing list
-#+begin_quote
-:     Do you think this is the sort of thing that would need to be
-:     customized on a per-block or per-file/subtree basis?
-: 
-: Yes, I think it would be useful. An example would be if I want to create two scripts, where one is
-: running on my local computer, and the other on a cluster, in which the paths might be different.
-: Also: there is, in addition to R, also Ra, with Just-In-Time compiling functionality. It might be
-: useful to be able to have two R scripts, one using R, the other Ra, for e.g. profiling. Another
-: example would be to try different versions of e.g. R.
-: 
-: So yes, I think it would be very useful to define the two additional header arguments for each
-: block:
-: 
-: :shebang NIL for default, other string for the shebang line
-: :headers NIL for default, NONE for no headers, other string for custom headers
-:  
-: 
-:     If so we may want to move this customization behind a header argument.
-: 
-: That would be great  
-#+end_quote
+#+begin_verse
+    Do you think this is the sort of thing that would need to be
+    customized on a per-block or per-file/subtree basis?
+
+Yes, I think it would be useful. An example would be if I want to create two scripts, where one is
+running on my local computer, and the other on a cluster, in which the paths might be different.
+Also: there is, in addition to R, also Ra, with Just-In-Time compiling functionality. It might be
+useful to be able to have two R scripts, one using R, the other Ra, for e.g. profiling. Another
+example would be to try different versions of e.g. R.
+
+So yes, I think it would be very useful to define the two additional header arguments for each
+block:
+
+:shebang NIL for default, other string for the shebang line
+:headers NIL for default, NONE for no headers, other string for custom headers
+ 
+
+    If so we may want to move this customization behind a header argument.
+
+That would be great  
+#+end_verse
 
 I think the best names for these new header-arguments would be
 =:shebang= (which could be multiple lines long if stored in an elisp
@@ -2763,32 +2796,32 @@ this is currently implemented in the head of the ems-babel branch
      - aa0e4b86ce2753909ef71081f8c437ad67af0fb1
 
 *** Email from Martin G. Skjæveland
-#+begin_quote 
-: From: Dan Davison <davison@stats.ox.ac.uk>
-: Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
-: User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
-: Date: Sat, 27 Feb 2010 00:20:45 -0500
-: To: Martin G. Skjæveland <martige@ifi.uio.no>
-: Cc: emacs-orgmode <emacs-orgmode@gnu.org>
-: 
-: "Martin G. Skjæveland" <martige@ifi.uio.no> writes:
-: 
-: > Hi,
-: >
-: > running tangle with the following values
-: >
-: >   #+begin_src xml :tangle test.rdf
-: >   ...
-: >   #+end_src
-: >
-: > used to create a file called test.rdf. However, after a fresh git pull
-: > today this now tangles to the file test.rdf.xml, which is not what I
-: > want.
-: 
-: I understand. I wonder if babel should simply assume that the user has
-: entered a file name with the correct extension when :tangle is something
-: other than "yes".
-#+end_quote
+#+begin_verse
+From: Dan Davison <davison@stats.ox.ac.uk>
+Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+Date: Sat, 27 Feb 2010 00:20:45 -0500
+To: Martin G. Skjæveland <martige@ifi.uio.no>
+Cc: emacs-orgmode <emacs-orgmode@gnu.org>
+
+"Martin G. Skjæveland" <martige@ifi.uio.no> writes:
+
+> Hi,
+>
+> running tangle with the following values
+>
+>   #+begin_src xml :tangle test.rdf
+>   ...
+>   #+end_src
+>
+> used to create a file called test.rdf. However, after a fresh git pull
+> today this now tangles to the file test.rdf.xml, which is not what I
+> want.
+
+I understand. I wonder if babel should simply assume that the user has
+entered a file name with the correct extension when :tangle is something
+other than "yes".
+#+end_verse
 
 ** DONE Rename org-babel-pop-to-session org-babel-switch-to-session
    - State "DONE"       from "STARTED"    [2010-03-16 Tue 12:59]
@@ -3827,7 +3860,7 @@ echo $OUT
 
 and another
 
-#+begin_quote
+#+begin_verse
 .inputrc: 
 "^[k": accept-line 
 "^M": " | tee /tmp/h_lastcmd.out ^[k" 
@@ -3843,7 +3876,7 @@ Best,
 --
 
 Herculano de Lima Einloft Neto
-#+end_quote
+#+end_verse
 
 ***** emacs-lisp will be a special case
 While it is possible for emacs-lisp to be run in a console type
@@ -5163,18 +5196,18 @@ This caused movement of point/buffer scrolling during execution of the #+call
    - State "DONE"       from "DONE"       [2010-03-23 Tue 11:30]
 Thanks to Maurizio for pointing out this error.
 
-#+begin_quote
-: And these are two test cases. I'm particularly puzzled by the first,
-: because the regexp seems to be anchored to the begin of line and hence
-: it shouldn't match the begin_src inside the string.
-: For end_src, it should probably be anchored to the begin of line.
-: 
-: [...] below
-: 
-: Best regards,
-: 
-:      Maurizio   
-#+end_quote
+#+begin_verse
+And these are two test cases. I'm particularly puzzled by the first,
+because the regexp seems to be anchored to the begin of line and hence
+it shouldn't match the begin_src inside the string.
+For end_src, it should probably be anchored to the begin of line.
+
+[...] below
+
+Best regards,
+
+     Maurizio   
+#+end_verse
 
 : #+begin_src emacs-lisp
 : ;;; evaluating the following C-x C-e with the point at the end is ok

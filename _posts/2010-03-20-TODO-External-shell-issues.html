@@ -3,8 +3,6 @@ title: TODO External shell issues
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="todo TODO"> TODO</span> External shell issues </h2>
 <div class="outline-text-2" id="text-1">
@@ -66,46 +64,42 @@ available. Another approach is suggested by this email by d.tchin:
 <h4 id="sec-1.2.1">d.tchin R Windows shell email </h4>
 <div class="outline-text-4" id="text-1.2.1">
 
-<blockquote>
 
-<pre class="example">
-     From: "d.tchin" &lt;d.tchin@voila.fr&gt;
-     Subject: [Orgmode] Re: org-babel-R  and windows ?
-     User-Agent: Loom/3.14 (http://gmane.org/)
-     Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)
-     To: emacs-orgmode@gnu.org
-
-     Dan Davison &lt;davison &lt;at&gt; stats.ox.ac.uk&gt; writes:
-     &gt; The org-babel default is to invoke R as an external shell command, and I
-     &gt; think this is what is causing the problem. It requires that the emacs
-     &gt; function shell-command can use the string "R" to invoke an R process,
-     &gt; i.e. the R installation and the shell path must be such that this is the
-     &gt; case.
-
-     Thank you for the information and explanation.
-     It seems that the problem comes from the windows shell. 
-
-     I try the following :  I explicitely told emacs to use bash 
-     with the following instructions :
-     (setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")
-     (setq shell-file-name explicit-shell-file-name)
-
-     It works with bash.
-
-
-     &gt; 
-     &gt; #+srcname:trial
-     &gt; #+begin_src R :session org-babel-R-session
-     &gt;    c(4,5,6,7,8,9)
-     &gt; #+end_src
-
-     The "session" way works too.
-
-     Thank you.  
-</pre>
-
-
-</blockquote>
+<p class="verse">
+From: "d.tchin" &lt;d.tchin@voila.fr&gt;<br/>
+Subject: [Orgmode] Re: org-babel-R  and windows ?<br/>
+User-Agent: Loom/3.14 (<a href="http://gmane.org/">http://gmane.org/</a>)<br/>
+Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)<br/>
+To: emacs-orgmode@gnu.org<br/>
+<br/>
+Dan Davison &lt;davison &lt;at&gt; stats.ox.ac.uk&gt; writes:<br/>
+&gt; The org-babel default is to invoke R as an external shell command, and I<br/>
+&gt; think this is what is causing the problem. It requires that the emacs<br/>
+&gt; function shell-command can use the string "R" to invoke an R process,<br/>
+&gt; i.e. the R installation and the shell path must be such that this is the<br/>
+&gt; case.<br/>
+<br/>
+Thank you for the information and explanation.<br/>
+It seems that the problem comes from the windows shell. <br/>
+<br/>
+I try the following :  I explicitely told emacs to use bash <br/>
+with the following instructions :<br/>
+(setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")<br/>
+(setq shell-file-name explicit-shell-file-name)<br/>
+<br/>
+It works with bash.<br/>
+<br/>
+<br/>
+&gt; <br/>
+&gt; #+srcname:trial<br/>
+&gt; #+begin<sub>src</sub> R :session org-babel-R-session<br/>
+&gt;    c(4,5,6,7,8,9)<br/>
+&gt; #+end<sub>src\\</sub>
+<br/>
+The "session" way works too.<br/>
+<br/>
+Thank you.  <br/>
+</p>
 
 
 </div>

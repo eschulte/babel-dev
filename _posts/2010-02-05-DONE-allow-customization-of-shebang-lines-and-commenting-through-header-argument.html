@@ -3,8 +3,6 @@ title: DONE allow customization of shebang lines and commenting through header a
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="done DONE"> DONE</span> allow customization of shebang lines and commenting through header argument </h2>
 <div class="outline-text-2" id="text-1">
@@ -20,32 +18,28 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 </ul>
 
 <p>this is from suggestions coming through the mailing list
-</p><blockquote>
-
-<pre class="example">
-    Do you think this is the sort of thing that would need to be
-    customized on a per-block or per-file/subtree basis?
-
-Yes, I think it would be useful. An example would be if I want to create two scripts, where one is
-running on my local computer, and the other on a cluster, in which the paths might be different.
-Also: there is, in addition to R, also Ra, with Just-In-Time compiling functionality. It might be
-useful to be able to have two R scripts, one using R, the other Ra, for e.g. profiling. Another
-example would be to try different versions of e.g. R.
-
-So yes, I think it would be very useful to define the two additional header arguments for each
-block:
-
-:shebang NIL for default, other string for the shebang line
-:headers NIL for default, NONE for no headers, other string for custom headers
- 
-
-    If so we may want to move this customization behind a header argument.
-
-That would be great  
-</pre>
-
-
-</blockquote>
+</p>
+<p class="verse">
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp Do you think this is the sort of thing that would need to be<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp customized on a per-block or per-file/subtree basis?<br/>
+<br/>
+Yes, I think it would be useful. An example would be if I want to create two scripts, where one is<br/>
+running on my local computer, and the other on a cluster, in which the paths might be different.<br/>
+Also: there is, in addition to R, also Ra, with Just-In-Time compiling functionality. It might be<br/>
+useful to be able to have two R scripts, one using R, the other Ra, for e.g. profiling. Another<br/>
+example would be to try different versions of e.g. R.<br/>
+<br/>
+So yes, I think it would be very useful to define the two additional header arguments for each<br/>
+block:<br/>
+<br/>
+:shebang NIL for default, other string for the shebang line<br/>
+:headers NIL for default, NONE for no headers, other string for custom headers<br/>
+\nbsp\nbsp <br/>
+<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp If so we may want to move this customization behind a header argument.<br/>
+<br/>
+That would be great  <br/>
+</p>
 
 
 <p>

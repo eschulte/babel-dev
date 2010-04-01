@@ -3,8 +3,6 @@ title: DONE Should tangle stop guessing file extensions?
 layout: default
 ---
 
-
-
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="done DONE"> DONE</span> Should tangle stop guessing file extensions? </h2>
 <div class="outline-text-2" id="text-1">
@@ -36,37 +34,33 @@ aa0e4b86ce2753909ef71081f8c437ad67af0fb1
 <h3 id="sec-1.1">Email from Martin G. Skjæveland </h3>
 <div class="outline-text-3" id="text-1.1">
 
-<blockquote>
 
-<pre class="example">
-From: Dan Davison &lt;davison@stats.ox.ac.uk&gt;
-Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
-Date: Sat, 27 Feb 2010 00:20:45 -0500
-To: Martin G. Skjæveland &lt;martige@ifi.uio.no&gt;
-Cc: emacs-orgmode &lt;emacs-orgmode@gnu.org&gt;
-
-"Martin G. Skjæveland" &lt;martige@ifi.uio.no&gt; writes:
-
-&gt; Hi,
-&gt;
-&gt; running tangle with the following values
-&gt;
-&gt;   #+begin_src xml :tangle test.rdf
-&gt;   ...
-&gt;   #+end_src
-&gt;
-&gt; used to create a file called test.rdf. However, after a fresh git pull
-&gt; today this now tangles to the file test.rdf.xml, which is not what I
-&gt; want.
-
-I understand. I wonder if babel should simply assume that the user has
-entered a file name with the correct extension when :tangle is something
-other than "yes".
-</pre>
-
-
-</blockquote>
+<p class="verse">
+From: Dan Davison &lt;davison@stats.ox.ac.uk&gt;<br/>
+Subject: Re: [Orgmode] [babel] tangle creates different filename than it used to<br/>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)<br/>
+Date: Sat, 27 Feb 2010 00:20:45 -0500<br/>
+To: Martin G. Skjæveland &lt;martige@ifi.uio.no&gt;<br/>
+Cc: emacs-orgmode &lt;emacs-orgmode@gnu.org&gt;<br/>
+<br/>
+"Martin G. Skjæveland" &lt;martige@ifi.uio.no&gt; writes:<br/>
+<br/>
+&gt; Hi,<br/>
+&gt;<br/>
+&gt; running tangle with the following values<br/>
+&gt;<br/>
+&gt;   #+begin<sub>src</sub> xml :tangle test.rdf<br/>
+&gt;   &hellip;<br/>
+&gt;   #+end<sub>src\\</sub>
+&gt;<br/>
+&gt; used to create a file called test.rdf. However, after a fresh git pull<br/>
+&gt; today this now tangles to the file test.rdf.xml, which is not what I<br/>
+&gt; want.<br/>
+<br/>
+I understand. I wonder if babel should simply assume that the user has<br/>
+entered a file name with the correct extension when :tangle is something<br/>
+other than "yes".<br/>
+</p>
 
 </div>
 </div>
