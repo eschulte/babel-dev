@@ -1,0 +1,52 @@
+---
+title: PROPOSED Add =append= to results handling
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Add <code>append</code> to results handling </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+I'm developing general purpose org-babel functions that run queries
+for frequently performed analyses.  In some instances it isn't
+possible to make the queries completely general, so I'm left with
+combining the results of two or more separate calls to the org-babel
+functions.
+</p>
+<p>
+This is an example.  Two runs are needed to make a table with coral
+abraders and basalt manuports, when there are also basalt abraders and
+coral manuports in the data table.  If I set material="('coral',
+'basalt')" and class="('abrader','manuport') then I get all four types
+of artifact in the results.
+</p>
+
+
+
+<div class="org-src-container"><label class="org-src-name">artifacts-class-wt(project=112, duration="('event','process')", material="('wood')", class="('charcoal')", start=35, end=61)</label><pre class="src src-R">
+&lt;&lt;r-connect-to-data&gt;&gt;
+
+q <span class="org-constant">&lt;-</span> sprintf(<span class="org-string">"SELECT c.context, a.class,
+round(sum(a.weight),1) AS weight FROM artifacts a, baglist b,
+context c WHERE a.bag = b.bag AND b.context = c.context AND
+a.project = %i and b.project = %i and c.project = %i AND a.class IN %s
+AND a.material IN %s AND c.context_type = 'cultural' AND c.duration IN %s  AND b.context &gt;= %i AND b.context &lt;= %i group by 1,
+2 order by 1, 2"</span>, project, project, project, class, material, duration, start,
+end)
+
+art.wt <span class="org-constant">&lt;-</span> dbGetQuery(con, q) 
+&lt;&lt;r-disconnect&gt;&gt;
+art.wt
+</pre></div>
+
+
+
+
+<p>
+It would be useful in this case, and perhaps other cases, to have a <code>:results append</code> argument.  An org-mode table would be created if it is absent,
+or the function results would be appended to an existing results table
+if present.
+</p></div>
+</div>
