@@ -3,7 +3,26 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/133]
+* Tasks [67/134]
+** PROPOSED Option to apply table formulae after C-c C-c
+   - State "PROPOSED"   from ""           [2010-04-02 Fri 08:57]
+
+#+begin_src emacs-lisp
+  '((1 2) (3 nil))
+#+end_src
+
+#+results:
+| 1 |   2 |
+| 3 | nil |
+#+tblfm: @2$2=@2$1
+   
+Can we make it so that after C-c C-c, the table looks like this?
+
+| 1 | 2 |
+| 3 | 3 |
+#+tblfm: @2$2=@2$1
+
+
 ** PROPOSED Add =append= to results handling
    :LOGBOOK:
    - State "PROPOSED"   from ""           [2010-04-01 Thu 10:34]
