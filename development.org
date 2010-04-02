@@ -3,7 +3,46 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/132]
+* Tasks [67/133]
+** PROPOSED Add =append= to results handling
+   :LOGBOOK:
+   - State "PROPOSED"   from ""           [2010-04-01 Thu 10:34]
+   :END:
+
+I'm developing general purpose org-babel functions that run queries
+for frequently performed analyses.  In some instances it isn't
+possible to make the queries completely general, so I'm left with
+combining the results of two or more separate calls to the org-babel
+functions.
+
+This is an example.  Two runs are needed to make a table with coral
+abraders and basalt manuports, when there are also basalt abraders and
+coral manuports in the data table.  If I set material="('coral',
+'basalt')" and class="('abrader','manuport') then I get all four types
+of artifact in the results.
+
+#+srcname: artifacts-class-wt
+#+begin_src R :noweb yes :var project=112 :var duration="('event','process')" :var material = "('wood')" :var class="('charcoal')" :var start=35 :var end=61 :colnames yes
+  <<r-connect-to-data>>
+  
+  q <- sprintf("SELECT c.context, a.class,
+  round(sum(a.weight),1) AS weight FROM artifacts a, baglist b,
+  context c WHERE a.bag = b.bag AND b.context = c.context AND
+  a.project = %i and b.project = %i and c.project = %i AND a.class IN %s
+  AND a.material IN %s AND c.context_type = 'cultural' AND c.duration IN %s  AND b.context >= %i AND b.context <= %i group by 1,
+  2 order by 1, 2", project, project, project, class, material, duration, start,
+  end)
+  
+  art.wt <- dbGetQuery(con, q) 
+  <<r-disconnect>>
+  art.wt
+#+end_src
+
+It would be useful in this case, and perhaps other cases, to have a =:results
+append= argument.  An org-mode table would be created if it is absent,
+or the function results would be appended to an existing results table
+if present.
+
 ** TODO documentation for org-mode inclusion
    - State "TODO"       from ""           [2010-04-01 Thu 08:27]
 
@@ -521,6 +560,36 @@ Symbol's value as variable is void: y
      is in branch julien-barnier-R-rownames in the devel repo (commit
      f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
      
+     There is a test file for column and rownames [[file:col-row-names.org][here]].
+
+*** From Tom Dye
+#+begin_quote 
+IIUC, the difficulty is introduced by the difference between R, which
+keeps row names "under the hood," and org-mode, which doesn't have a
+concept of row names.  So, the question becomes one of preserving R's
+row names in cases where that is desirable.  Because it is not
+possible, AFAIK, to distinguish between an org-mode table created
+through an R call to print a data frame and one made with org-tbl, the
+onus is on the user to preserve R row names
+
+One way would be to establish an idiom for exporting and importing R
+data frames and put it on Worg.  This one works for me.
+
+So, on the way out:
+cbind(row=rownames(df),df)
+
+And, on the way in:
+df <- data.frame(x, row.names=1)
+
+If you want, I can add this, or something like it, to org-babel-doc-R.
+
+Also, I've been using the reshape package and a melt, cast sequence,
+which I use frequently, keeps the row names in the first column, so I
+only have to be conscious of preserving row names on the way back into
+org-mode.
+#+end_quote
+
+*** Examples
 #+results: my-table
 |       Date |   Kg |
 |------------+------|

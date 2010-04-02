@@ -23,6 +23,60 @@ Julien Barnier has made a patch implementing rownames in R. This
 is in branch julien-barnier-R-rownames in the devel repo (commit
 f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
 </p>
+<p>
+There is a test file for column and rownames <a href="col-row-names.html">here</a>.
+</p>
+</li>
+</ul>
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">From Tom Dye </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<blockquote>
+
+<p>IIUC, the difficulty is introduced by the difference between R, which
+keeps row names "under the hood," and org-mode, which doesn't have a
+concept of row names.  So, the question becomes one of preserving R's
+row names in cases where that is desirable.  Because it is not
+possible, AFAIK, to distinguish between an org-mode table created
+through an R call to print a data frame and one made with org-tbl, the
+onus is on the user to preserve R row names
+</p>
+<p>
+One way would be to establish an idiom for exporting and importing R
+data frames and put it on Worg.  This one works for me.
+</p>
+<p>
+So, on the way out:
+cbind(row=rownames(df),df)
+</p>
+<p>
+And, on the way in:
+df &lt;- data.frame(x, row.names=1)
+</p>
+<p>
+If you want, I can add this, or something like it, to org-babel-doc-R.
+</p>
+<p>
+Also, I've been using the reshape package and a melt, cast sequence,
+which I use frequently, keeps the row names in the first column, so I
+only have to be conscious of preserving row names on the way back into
+org-mode.
+</p>
+</blockquote>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2">Examples </h3>
+<div class="outline-text-3" id="text-1.2">
+
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col align="right" /><col align="right" />
@@ -41,17 +95,16 @@ f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
 </table>
 
 
-</li>
-</ul>
-
-<p>As things stand
+<p>
+As things stand
 </p>
+</div>
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1">python </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3">python </h3>
+<div class="outline-text-3" id="text-1.3">
 
 
 
@@ -105,9 +158,9 @@ That change would give this as result:
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2">R </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4">R </h3>
+<div class="outline-text-3" id="text-1.4">
 
 
 
@@ -204,9 +257,9 @@ transpose the vector in R to get the desired result.
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3">shell </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1.5" class="outline-3">
+<h3 id="sec-1.5">shell </h3>
+<div class="outline-text-3" id="text-1.5">
 
 
 
