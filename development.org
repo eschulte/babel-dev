@@ -3,7 +3,20 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/134]
+* Tasks [67/135]
+** PROPOSED Turn off comments in tangling on per-buffer / per-block basis
+   - State "PROPOSED"   from ""           [2010-04-03 Sat 11:55]
+
+     To turn off comments in perl tangling the best I came up with was
+     this. What is an easier method?
+     
+#+begin_src emacs-lisp
+(setq org-babel-tangle-langs
+      (cons '("perl" "pl" "#!/usr/bin/env perl" t)
+            (remove-if (lambda (el) (equal (car el) "perl"))
+                       org-babel-tangle-langs)))
+#+end_src
+     
 ** PROPOSED Option to apply table formulae after C-c C-c
    - State "PROPOSED"   from ""           [2010-04-02 Fri 08:57]
 
