@@ -3,7 +3,38 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/133]
+* Tasks [67/135]
+** PROPOSED Turn off comments in tangling on per-buffer or per-block basis
+   - State "PROPOSED"   from ""           [2010-04-03 Sat 11:55]
+
+     To turn off comments in perl tangling the best I came up with was
+     this. What is an easier method?
+     
+#+begin_src emacs-lisp
+(setq org-babel-tangle-langs
+      (cons '("perl" "pl" "#!/usr/bin/env perl" t)
+            (remove-if (lambda (el) (equal (car el) "perl"))
+                       org-babel-tangle-langs)))
+#+end_src
+     
+** PROPOSED Option to apply table formulae after C-c C-c
+   - State "PROPOSED"   from ""           [2010-04-02 Fri 08:57]
+
+#+begin_src emacs-lisp
+  '((1 2) (3 nil))
+#+end_src
+
+#+results:
+| 1 |   2 |
+| 3 | nil |
+#+tblfm: @2$2=@2$1
+   
+Can we make it so that after C-c C-c, the table looks like this?
+
+| 1 | 2 |
+| 3 | 3 |
+#+tblfm: @2$2=@2$1
+
 ** PROPOSED Add =append= to results handling
    :LOGBOOK:
    - State "PROPOSED"   from ""           [2010-04-01 Thu 10:34]
@@ -5210,7 +5241,13 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [62/82]
+* Bugs [62/83]
+** PROPOSED Tangling sometimes needs newline before comments
+   - State "PROPOSED" from "" [2010-04-03 Sat 11:53]
+
+     If code block starts with comment it can get appended to end of
+     previous block without intervening newline. (This happened with
+     uncommentable t).
 ** DONE Do we really want inheritance of params?
    - State "DONE"       from "PROPOSED"   [2010-03-27 Sat 18:51]
    - State "PROPOSED"   from ""           [2010-03-27 Sat 16:56]
