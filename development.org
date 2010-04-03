@@ -3,7 +3,11 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/135]
+* Tasks [67/136]
+** PROPOSED Jump to line mapping to line i in tangled output
+   - State "PROPOSED" from "" [2010-04-03 Sat 15:26]
+     If a compiler/interpreter reports an error on line i of tangled
+     output, jump to that line in the org buffer.
 ** PROPOSED Turn off comments in tangling on per-buffer or per-block basis
    - State "PROPOSED"   from ""           [2010-04-03 Sat 11:55]
 
