@@ -4,7 +4,7 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [67/135]
-** PROPOSED Turn off comments in tangling on per-buffer / per-block basis
+** PROPOSED Turn off comments in tangling on per-buffer or per-block basis
    - State "PROPOSED"   from ""           [2010-04-03 Sat 11:55]
 
      To turn off comments in perl tangling the best I came up with was
@@ -34,7 +34,6 @@ Can we make it so that after C-c C-c, the table looks like this?
 | 1 | 2 |
 | 3 | 3 |
 #+tblfm: @2$2=@2$1
-
 
 ** PROPOSED Add =append= to results handling
    :LOGBOOK:
