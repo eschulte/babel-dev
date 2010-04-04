@@ -427,6 +427,11 @@ user.
      needed to be added to o-b-pop-to-session.
 - [ ] Make docstrings obey emacs rules :: First descriptive sentence
      on own line less than 80 chars (or something like that).
+- [ ] Avoid multiple calls to org-babel-where-is-src-block-head :: 
+      the posiion of head can be stored in the 'info' data
+      structure. This would entail a bit of messing about as it would
+      have to be one of the earlier elements in the list, thus pushing
+      the others along by one.
      
 ** PROPOSED org-icons for src blocks
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
@@ -1427,11 +1432,6 @@ our documentation has fallen behind our development.  We should:
     | org-babel-tests#python | python specific tests                             |
     | etc...                 |                                                   |
 
-** PROPOSED efficiency avoid multiple calls to org-babel-where-is-src-block-head
-   the posiion of head can be stored in the 'info' data
-   structure. This would entail a bit of messing about as it would
-   have to be one of the earlier elements in the list, thus pushing
-   the others along by one.
 ** PROPOSED further work on dependencies of header args?
    For example, pp and code should probably imply value. It would be
    possible in principle to have a general mechanism for specifying
