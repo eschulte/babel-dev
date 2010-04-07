@@ -4,6 +4,92 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [67/136]
+** TODO org-babel-R show comint buffer patch from Julien Barnier
+   - State "TODO"       from ""           [2010-04-07 Wed 12:34]
+
+#+begin_example 
+From: Julien Barnier <julien@no-log.org>
+Subject: [Orgmode] [PATCH] [babel] Add option to display process buffer when editing R source code blocks
+User-Agent: Gnus/5.110006 (No Gnus v0.6) Emacs/23.1.91 (gnu/linux)
+Date: Wed, 07 Apr 2010 16:41:55 +0200
+To: emacs-orgmode@gnu.org
+
+Hi,
+
+This is a small patch to org-babel-R.el which allows to automatically
+display the R process buffer when editing R source code blocks with
+org-edit-src-code.
+
+A custom variable allows to choose between no process buffer
+(default), only the source code block and the process buffer, or the
+org file, the source code block and the process buffer.
+
+As I'm quite new to git, I hope my patch is usable, because I
+generated it from a org-babel-R.el file which already had some
+modifications from master.
+
+Sincerely,
+
+-- 
+Julien
+
+
+---
+ contrib/babel/lisp/langs/org-babel-R.el |   27 ++++++++++++++++++++++++++-
+ 1 files changed, 26 insertions(+), 1 deletions(-)
+
+diff --git a/contrib/babel/lisp/langs/org-babel-R.el b/contrib/babel/lisp/langs/org-babel-R.el
+index 8b333cc..3924089 100644
+--- a/contrib/babel/lisp/langs/org-babel-R.el
++++ b/contrib/babel/lisp/langs/org-babel-R.el
+@@ -218,7 +218,32 @@ Currently, insert hline if column names in output have been requested."
+   (if column-names-p
+       (cons (car result) (cons 'hline (cdr result)))
+     result))
+-  
++
++
++(defcustom org-babel-R-edit-src-show-process nil
++  "Layout of windows while editing R source blocks in org files"
++  :group 'org-babel
++  :type '(choice (const :tag "No process buffer" nil)
++                (const :tag "Show source block and process buffer" "full")
++                (const :tag "Show org file, source block and process buffer" "split")))
++
++(defadvice org-edit-src-code (around org-edit-src-code-with-R-process activate)
++  "Display process buffer when eidting R source code blocks"
++  (if org-babel-R-edit-src-show-process
++    (let* ((info (org-babel-get-src-block-info))
++          (lang (first info))
++          (R-src-block (and info (string= (upcase lang) "R"))))
++      ad-do-it
++      (when R-src-block
++       (cond ((string= org-babel-R-edit-src-show-process "split")
++              (split-window-vertically)
++              (ess-switch-to-end-of-ESS)
++              (other-window -1))
++             ((string= org-babel-R-edit-src-show-process "full")
++              (delete-other-windows)
++              (ess-switch-to-end-of-ESS)
++              (other-window 1)))))
++    ad-do-it))
+ 
+ (provide 'org-babel-R)
+ ;;; org-babel-R.el ends here
+-- 
+1.7.0.4
+
+
+
+
+_______________________________________________
+Emacs-orgmode mailing list
+Please use `Reply All' to send replies to the list.
+Emacs-orgmode@gnu.org
+http://lists.gnu.org/mailman/listinfo/emacs-orgmode
+
+#+end_example
+
 ** PROPOSED Jump to line mapping to line i in tangled output
    - State "PROPOSED" from "" [2010-04-03 Sat 15:26]
      If a compiler/interpreter reports an error on line i of tangled
@@ -5245,7 +5331,40 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [62/83]
+* Bugs [62/84]
+** PROPOSED noweb R error?
+   - State "PROPOSED"   from ""           [2010-04-03 Sat 20:50]
+
+Execute in dir with dir "temp" present
+
+
+#+TBLNAME: whole-adzes
+|1|2|
+
+#+source: plotting-code
+#+begin_src R
+  library(ggplot2) 
+  g <- ggplot(x, aes(x = weight)) 
+  g + geom_histogram(aes(y=..density..)) + geom_density(weight=2) + scale_x_log10()
+#+end_src
+
+#+srcname: test-no-session
+#+begin_src R :var x=whole-adzes :file temp/test-no-session.png :width 400 :height 300 
+<<plotting-code>>
+#+end_src
+
+#+results: test-no-session
+[[file:temp/test-no-session.png]]
+Brings up *Org-Babel Error Output* buffer containing
+
+#+begin_quote 
+Error: unexpected input in:
+"x <- read.table("/tmp/org-babel-R-import10613QvG", header=TRUE, sep="\t", as.is=TRUE)
+<<"
+Execution halted
+#+end_quote
+
+
 ** PROPOSED Tangling sometimes needs newline before comments
    - State "PROPOSED" from "" [2010-04-03 Sat 11:53]
 
