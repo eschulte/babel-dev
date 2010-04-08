@@ -10,21 +10,20 @@ layout: default
 <ul>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-03 Sat 11:55</span></span>
-</li>
-</ul>
-
 
 <p>
 To turn off comments in perl tangling the best I came up with was
 this. What is an easier method?
 </p>
 
+</li>
+</ul>
 
 
-<pre class="src src-emacs-lisp">(setq org-babel-tangle-langs
-      (cons '(<span style="color: #87cefa;">"perl"</span> <span style="color: #87cefa;">"pl"</span> <span style="color: #87cefa;">"#!/usr/bin/env perl"</span> t)
-            (remove-if (<span style="color: #afeeee; font-weight: bold;">lambda</span> (el) (equal (car el) <span style="color: #87cefa;">"perl"</span>))
-                       org-babel-tangle-langs)))
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>setq org-babel-tangle-langs
+      <span class="org-esk-paren">(</span>cons '<span class="org-esk-paren">(</span><span class="org-string">"perl"</span> <span class="org-string">"pl"</span> <span class="org-string">"#!/usr/bin/env perl"</span> t<span class="org-esk-paren">)</span>
+            <span class="org-esk-paren">(</span>remove-if <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>el<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>equal <span class="org-esk-paren">(</span>car el<span class="org-esk-paren">)</span> <span class="org-string">"perl"</span><span class="org-esk-paren">))</span>
+                       org-babel-tangle-langs<span class="org-esk-paren">)))</span>
 </pre>
 
 

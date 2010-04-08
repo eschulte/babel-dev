@@ -13,12 +13,11 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-28 Mon 16:07</span></span>
+
 </li>
 </ul>
 
-
-<p>
-Many types of header arguments are not having their values properly
+<p>Many types of header arguments are not having their values properly
 read from outline-level properties.
 </p>
 <p>
@@ -29,45 +28,40 @@ we weren't searching for all needed header arguments in properties
 </li>
 <li>
 we weren't inheriting header arguments from enclosing properties
+
 </li>
 </ol>
 
-
-<p>
-both of these issues were resolved in changes to
+<p>both of these issues were resolved in changes to
 <code>org-babel-params-from-properties</code> (see <a href="#sec-1.1">below</a>).
 </p>
 <ol>
 <li>
 we are now tracking the following properties
-</li>
-</ol>
 
 
 
-
-<pre class="src src-emacs-lisp">'(<span style="color: #87cefa;">"cache"</span> <span style="color: #87cefa;">"cmdline"</span> <span style="color: #87cefa;">"exports"</span> <span style="color: #87cefa;">"file"</span> <span style="color: #87cefa;">"noweb"</span> <span style="color: #87cefa;">"results"</span>
-               <span style="color: #87cefa;">"session"</span> <span style="color: #87cefa;">"tangle"</span> <span style="color: #87cefa;">"var"</span>)
+<pre class="src src-emacs-lisp">'<span class="org-esk-paren">(</span><span class="org-string">"cache"</span> <span class="org-string">"cmdline"</span> <span class="org-string">"exports"</span> <span class="org-string">"file"</span> <span class="org-string">"noweb"</span> <span class="org-string">"results"</span>
+               <span class="org-string">"session"</span> <span class="org-string">"tangle"</span> <span class="org-string">"var"</span><span class="org-esk-paren">)</span>
 </pre>
 
 
 
-<ol>
+</li>
 <li>
 we now search the properties of enclosing headlines by adding <code>t</code>
 as the last argument to
-</li>
-</ol>
 
 
 
-
-<pre class="src src-emacs-lisp">(org-entry-get (point) header-arg t)
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>org-entry-get <span class="org-esk-paren">(</span>point<span class="org-esk-paren">)</span> header-arg t<span class="org-esk-paren">)</span>
 </pre>
 
 
 
 
+</li>
+</ol>
 
 </div>
 
@@ -78,22 +72,22 @@ as the last argument to
 
 
 
-<pre class="src src-emacs-lisp">(<span style="color: #afeeee; font-weight: bold;">defun</span> <span style="color: #7fffd4; font-weight: bold;">org-babel-params-from-properties</span> ()
-  <span style="color: #87cefa;">"Return an association list of any source block params which
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-params-from-properties</span> <span class="org-esk-paren">()</span>
+  <span class="org-doc">"Return an association list of any source block params which
 may be specified in the properties of the current outline entry."</span>
-  (<span style="color: #afeeee; font-weight: bold;">save-match-data</span>
-    (delq nil
-          (mapcar
-           (<span style="color: #afeeee; font-weight: bold;">lambda</span> (header-arg)
-             (<span style="color: #afeeee; font-weight: bold;">let</span> ((val (or (<span style="color: #afeeee; font-weight: bold;">condition-case</span> nil
-                                (org-entry-get (point) header-arg t)
-                              (<span style="color: #ff0000; font-weight: bold;">error</span> nil))
-                            (cdr (assoc header-arg org-file-properties)))))
-               (<span style="color: #afeeee; font-weight: bold;">when</span> val
-                 <span style="color: #add8e6;">;; </span><span style="color: #add8e6;">(message "prop %s=%s" header-arg val) ;; debugging
-</span>                 (cons (intern (concat <span style="color: #87cefa;">":"</span> header-arg)) val))))
-           '(<span style="color: #87cefa;">"cache"</span> <span style="color: #87cefa;">"cmdline"</span> <span style="color: #87cefa;">"exports"</span> <span style="color: #87cefa;">"file"</span> <span style="color: #87cefa;">"noweb"</span> <span style="color: #87cefa;">"results"</span>
-             <span style="color: #87cefa;">"session"</span> <span style="color: #87cefa;">"tangle"</span> <span style="color: #87cefa;">"var"</span>)))))  
+  <span class="org-esk-paren">(</span><span class="org-keyword">save-match-data</span>
+    <span class="org-esk-paren">(</span>delq nil
+          <span class="org-esk-paren">(</span>mapcar
+           <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>header-arg<span class="org-esk-paren">)</span>
+             <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>val <span class="org-esk-paren">(</span>or <span class="org-esk-paren">(</span><span class="org-keyword">condition-case</span> nil
+                                <span class="org-esk-paren">(</span>org-entry-get <span class="org-esk-paren">(</span>point<span class="org-esk-paren">)</span> header-arg t<span class="org-esk-paren">)</span>
+                              <span class="org-esk-paren">(</span><span class="org-warning">error</span> nil<span class="org-esk-paren">))</span>
+                            <span class="org-esk-paren">(</span>cdr <span class="org-esk-paren">(</span>assoc header-arg org-file-properties<span class="org-esk-paren">)))))</span>
+               <span class="org-esk-paren">(</span><span class="org-keyword">when</span> val
+                 <span class="org-comment-delimiter">;; </span><span class="org-comment">(message "prop %s=%s" header-arg val) ;; debugging
+</span>                 <span class="org-esk-paren">(</span>cons <span class="org-esk-paren">(</span>intern <span class="org-esk-paren">(</span>concat <span class="org-string">":"</span> header-arg<span class="org-esk-paren">))</span> val<span class="org-esk-paren">))))</span>
+           '<span class="org-esk-paren">(</span><span class="org-string">"cache"</span> <span class="org-string">"cmdline"</span> <span class="org-string">"exports"</span> <span class="org-string">"file"</span> <span class="org-string">"noweb"</span> <span class="org-string">"results"</span>
+             <span class="org-string">"session"</span> <span class="org-string">"tangle"</span> <span class="org-string">"var"</span><span class="org-esk-paren">)))))</span>  
 </pre>
 
 

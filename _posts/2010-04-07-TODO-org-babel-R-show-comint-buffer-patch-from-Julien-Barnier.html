@@ -1,0 +1,103 @@
+---
+title: TODO org-babel-R show comint buffer patch from Julien Barnier
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> org-babel-R show comint buffer patch from Julien Barnier </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-07 Wed 12:34</span></span>
+
+
+</li>
+</ul>
+
+
+<pre class="example">From: Julien Barnier &lt;julien@no-log.org&gt;
+Subject: [Orgmode] [PATCH] [babel] Add option to display process buffer when editing R source code blocks
+User-Agent: Gnus/5.110006 (No Gnus v0.6) Emacs/23.1.91 (gnu/linux)
+Date: Wed, 07 Apr 2010 16:41:55 +0200
+To: emacs-orgmode@gnu.org
+
+Hi,
+
+This is a small patch to org-babel-R.el which allows to automatically
+display the R process buffer when editing R source code blocks with
+org-edit-src-code.
+
+A custom variable allows to choose between no process buffer
+(default), only the source code block and the process buffer, or the
+org file, the source code block and the process buffer.
+
+As I'm quite new to git, I hope my patch is usable, because I
+generated it from a org-babel-R.el file which already had some
+modifications from master.
+
+Sincerely,
+
+-- 
+Julien
+
+
+---
+ contrib/babel/lisp/langs/org-babel-R.el |   27 ++++++++++++++++++++++++++-
+ 1 files changed, 26 insertions(+), 1 deletions(-)
+
+diff --git a/contrib/babel/lisp/langs/org-babel-R.el b/contrib/babel/lisp/langs/org-babel-R.el
+index 8b333cc..3924089 100644
+--- a/contrib/babel/lisp/langs/org-babel-R.el
++++ b/contrib/babel/lisp/langs/org-babel-R.el
+@@ -218,7 +218,32 @@ Currently, insert hline if column names in output have been requested."
+   (if column-names-p
+       (cons (car result) (cons 'hline (cdr result)))
+     result))
+-  
++
++
++(defcustom org-babel-R-edit-src-show-process nil
++  "Layout of windows while editing R source blocks in org files"
++  :group 'org-babel
++  :type '(choice (const :tag "No process buffer" nil)
++                (const :tag "Show source block and process buffer" "full")
++                (const :tag "Show org file, source block and process buffer" "split")))
++
++(defadvice org-edit-src-code (around org-edit-src-code-with-R-process activate)
++  "Display process buffer when eidting R source code blocks"
++  (if org-babel-R-edit-src-show-process
++    (let* ((info (org-babel-get-src-block-info))
++          (lang (first info))
++          (R-src-block (and info (string= (upcase lang) "R"))))
++      ad-do-it
++      (when R-src-block
++       (cond ((string= org-babel-R-edit-src-show-process "split")
++              (split-window-vertically)
++              (ess-switch-to-end-of-ESS)
++              (other-window -1))
++             ((string= org-babel-R-edit-src-show-process "full")
++              (delete-other-windows)
++              (ess-switch-to-end-of-ESS)
++              (other-window 1)))))
++    ad-do-it))
+ 
+ (provide 'org-babel-R)
+ ;;; org-babel-R.el ends here
+-- 
+1.7.0.4
+
+
+
+
+_______________________________________________
+Emacs-orgmode mailing list
+Please use `Reply All' to send replies to the list.
+Emacs-orgmode@gnu.org
+http://lists.gnu.org/mailman/listinfo/emacs-orgmode
+
+</pre>
+
+
+</div>
+</div>

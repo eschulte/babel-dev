@@ -13,15 +13,14 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-12 Fri 13:45</span></span>
+
+
 </li>
 </ul>
 
 
-
-
-
 <div class="org-src-container"><label class="org-src-name">f(rs=karafet-hgR[1,3])</label><pre class="src src-sh">
-<span style="color: #7fffd4;">echo</span> $<span style="color: #40e0d0; font-weight: bold;">rs</span>
+<span class="org-builtin">echo</span> $<span class="org-variable-name">rs</span>
 </pre></div>
 
 
@@ -47,14 +46,14 @@ diff --git a/contrib/babel/lisp/org-babel-ref.el b/contrib/babel/lisp/org-babel-
 index dc51020..c0e6a55 100644
 --- a/contrib/babel/lisp/org-babel-ref.el
 +++ b/contrib/babel/lisp/org-babel-ref.el
-@@ -193,8 +193,8 @@ which case the entire range is returned.<span style="color: #87cefa;">"
+@@ -193,8 +193,8 @@ which case the entire range is returned.<span class="org-string">"
          (when (= depth 0)
            (setq return (reverse (cons (substring buffer 0 -1) return)))
            (setq buffer "")))
--       ((string= holder "</span>(<span style="color: #87cefa;">") (setq depth (+ depth 1)))
--       ((string= holder "</span>)<span style="color: #87cefa;">") (setq depth (- depth 1)))))
-+       ((or (string= holder "</span>(<span style="color: #87cefa;">") (string= holder "</span>[<span style="color: #87cefa;">")) (setq depth (+ depth 1)))
-+       ((or (string= holder "</span>)<span style="color: #87cefa;">") (string= holder "</span>]<span style="color: #87cefa;">")) (setq depth (- depth 1)))))
+-       ((string= holder "</span>(<span class="org-string">") (setq depth (+ depth 1)))
+-       ((string= holder "</span>)<span class="org-string">") (setq depth (- depth 1)))))
++       ((or (string= holder "</span>(<span class="org-string">") (string= holder "</span>[<span class="org-string">")) (setq depth (+ depth 1)))
++       ((or (string= holder "</span>)<span class="org-string">") (string= holder "</span>]<span class="org-string">")) (setq depth (- depth 1)))))
      (mapcar #'org-babel-trim (reverse (cons buffer return)))))
  
  (defun org-babel-ref-at-ref-p ()

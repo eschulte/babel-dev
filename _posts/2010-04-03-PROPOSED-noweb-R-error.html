@@ -1,0 +1,65 @@
+---
+title: PROPOSED noweb R error?
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> noweb R error? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-03 Sat 20:50</span></span>
+
+</li>
+</ul>
+
+<p>Execute in dir with dir "temp" present
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>1</td><td>2</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">plotting-code()</label><pre class="src src-R">
+<span class="org-constant">library</span>(ggplot2) 
+g <span class="org-constant">&lt;-</span> ggplot(x, aes(x = weight)) 
+g + geom_histogram(aes(y=..density..)) + geom_density(weight=2) + scale_x_log10()
+</pre></div>
+
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">test-no-session(x=whole-adzes)</label><pre class="src src-R">
+&lt;&lt;plotting-code&gt;&gt;
+</pre></div>
+
+
+
+
+<p>
+<img src="temp/test-no-session.png"  alt="temp/test-no-session.png" />
+Brings up <b>Org-Babel Error Output</b> buffer containing
+</p>
+<blockquote>
+
+<p>Error: unexpected input in:
+"x &lt;- read.table("/tmp/org-babel-R-import10613QvG", header=TRUE, sep="\t", as.is=TRUE)
+&lt;&lt;"
+Execution halted
+</p>
+</blockquote>
+
+
+</div>
+</div>
