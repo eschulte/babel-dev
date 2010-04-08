@@ -43,7 +43,8 @@ org-mode.
           (posts-dir (expand-file-name
                       "_posts"
                       (file-name-directory (buffer-file-name))))
-          (yaml-front-matter '(("layout" . "default"))))
+          (yaml-front-matter '(("layout" . "default")))
+          (org-export-htmlize-output-type 'css))
       ;; go through both the tasks and bugs
       (mapc
        (lambda (top-level)
