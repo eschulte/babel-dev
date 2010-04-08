@@ -21,7 +21,7 @@ Check an Org-mode environment.
 |               | [[* check-latex-system][latex-system]]     | check-latex-system         | pass    |
 |               | [[* dvipng][dvipng]]           | check-dvipng-command       | pass    |
 |               | [[*check-dvipng-system][dvipng-system]]    | check-dvipng-system        | pass    |
-|               | [[*check-latex-scale][latex-scale]]      | check-latex-scale          | 1.0     |
+|               | [[*check-latex-scale][latex-scale]]      | check-latex-scale          | 1.3     |
 | [[*Make%20pdf%20files][make pdfs]]     |                  |                            |         |
 |               | [[* latex][latex]]            | check-latex-command        | pass    |
 | [[*Agenda][agenda]]        |                  |                            |         |
@@ -70,7 +70,7 @@ is found on the Emacs =exec-path=.
 
 #+srcname: check-latex-system
 #+begin_src sh :results silent
-    if which -s latex;
+    if which latex > /dev/null;
     then echo pass;
     else echo fail;
     fi
@@ -82,7 +82,7 @@ is found on the Emacs =exec-path=.
 
 #+srcname: check-dvipng-system
 #+begin_src sh :results silent
-    if which -s dvipng;
+    if which dvipng > /dev/null;
     then echo pass;
     else echo fail;
     fi
