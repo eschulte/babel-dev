@@ -2,19 +2,38 @@
 #+OPTIONS: num:nil ^:nil
 #+LaTeX_CLASS: normal
 #+STARTUP: hideblocks
+#+TODO: TODO | DONE
 
 Check an Org-mode environment.
 
-| topic            | command                    | results |
-|------------------+----------------------------+---------|
-| [[* latex][latex]]            | check-latex-command        | pass    |
-| [[* dvipng][dvipng]]           | check-dvipng-command       | pass    |
-| [[* org-agenda-files][org-agenda-files]] | check-org-agenda-files-set | pass    |
-#+TBLFM: $3='(sbe $2)
+* Instructions
+  - Download the file org-check.org
+  - Calculate the table by putting point in the table and pressing =C-u C-c *=
+  - Check the =results= column
+    - if you see all "pass" results, then your environment passes
+    - if you see "fail" or other results, then follow the link in the
+      =task= column for an explanation 
+
+| task          | topic            | command                    | results |
+|---------------+------------------+----------------------------+---------|
+| [[*Preview%20LaTeX][preview latex]] |                  |                            |         |
+|               | [[* latex][latex]]            | check-latex-command        | pass    |
+|               | [[* check-latex-system][latex-system]]     | check-latex-system         | pass    |
+|               | [[* dvipng][dvipng]]           | check-dvipng-command       | pass    |
+|               | [[*check-dvipng-system][dvipng-system]]    | check-dvipng-system        | pass    |
+|               | [[*check-latex-scale][latex-scale]]      | check-latex-scale          | 1.0     |
+| [[*Make%20pdf%20files][make pdfs]]     |                  |                            |         |
+|               | [[* latex][latex]]            | check-latex-command        | pass    |
+| [[*Agenda][agenda]]        |                  |                            |         |
+|               | [[* org-agenda-files][org-agenda-files]] | check-org-agenda-files-set | pass    |
+#+TBLFM: $4='(sbe $3)
+
+* Commands
 
 ** =latex= command
-The =latex= command must be in your path and findable by Emacs in
-order to generate pdfs or preview latex fragments in buffer.
+The =latex= command must be findable by Emacs in order to generate
+pdfs or preview latex fragments in buffer.  This command checks to see
+if latex is found anywhere on =exec-path=.
 
 #+srcname: check-latex-command
 #+begin_src emacs-lisp :results silent
@@ -22,14 +41,14 @@ order to generate pdfs or preview latex fragments in buffer.
 #+end_src
 
 ** =dvipng= command
-The =dvipng= command must be installed on your system and findable by
-Emacs in order to preview latex fragments in buffer.
+The =dvipng= command must be findable by Emacs in order to preview
+latex fragments in buffer.  This command checks for dvipng on =exec-path=.
 
 #+srcname: check-dvipng-command
 #+begin_src emacs-lisp :results silent
    (if (org-check-external-command "dvipng" "" t) "pass" "fail")
 #+end_src
-
+   
 ** =org-agenda-files= is very useful
 Although not explicitly required for normal use the `[[elisp:(progn (describe-variable 'org-agenda-files) (other-window 1))][org-agenda-files]]'
 variable is required for a number of useful org-mode commands
@@ -39,8 +58,65 @@ including the following.
 - others?
 
 #+srcname: check-org-agenda-files-set
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
   (if (null org-agenda-files)
       "consider setting [[* org-agenda-files][org-agenda-files]]"
     "pass")
 #+end_src
+
+** =check-latex-system=
+See if LaTeX is present on the *nix system, regardless of whether it
+is found on the Emacs =exec-path=.
+
+#+srcname: check-latex-system
+#+begin_src sh :results silent
+    if which -s latex;
+    then echo pass;
+    else echo fail;
+    fi
+#+end_src
+
+** =check-dvipng-system=
+See if dvipng is present on the *nix system, regardless of whether it
+is found on the Emacs =exec-path=.
+
+#+srcname: check-dvipng-system
+#+begin_src sh :results silent
+    if which -s dvipng;
+    then echo pass;
+    else echo fail;
+    fi
+#+end_src
+
+** =check-latex-scale=
+Report the scale setting for inline images.  Default is 1.0.
+
+#+srcname: check-latex-scale
+#+begin_src emacs-lisp :results silent
+  (plist-get org-format-latex-options :scale)
+#+end_src
+
+* Tasks
+** Preview LaTeX
+   - Previewing LaTeX in the Org-mode buffer requires: 
+     - a working LaTeX installation, including the =latex= executable
+     - the [[http://sourceforge.net/projects/dvipng/][dvipng]] executable
+     - paths to these executables on =exec-path=
+   - If either latex-system or dvipng-system fails, then you probably
+     need to install software
+   - If latex-system passes and latex fails, then you need to modify
+     the variable =exec-path=, so the path to the latex executable is
+     included 
+   - If dvipng-system passes and dvipng fails, then you need to modify
+     the variable =exec-path=, so the path to the dvipng executable is
+     included 
+   - Image size can be scaled using the =:scale= property of the
+     variable =org-format-latex-options=
+** Make pdf files
+** Agenda
+
+* Notes                                                            :noexport:
+** TODO Provide a link to the org-check.org file in Instructions
+** TODO Check, does Windows have something like which?
+   - which is used in the shell scripts td wrote to check for latex
+     and dvipng commands at the system level
