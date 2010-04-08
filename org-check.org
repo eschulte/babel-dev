@@ -1,0 +1,46 @@
+#+TITLE: Verify an Org-mode environment
+#+OPTIONS: num:nil ^:nil
+#+LaTeX_CLASS: normal
+#+STARTUP: hideblocks
+
+Check an Org-mode environment.
+
+| topic            | command                    | results |
+|------------------+----------------------------+---------|
+| [[* latex][latex]]            | check-latex-command        | pass    |
+| [[* dvipng][dvipng]]           | check-dvipng-command       | pass    |
+| [[* org-agenda-files][org-agenda-files]] | check-org-agenda-files-set | pass    |
+#+TBLFM: $3='(sbe $2)
+
+** =latex= command
+The =latex= command must be in your path and findable by Emacs in
+order to generate pdfs or preview latex fragments in buffer.
+
+#+srcname: check-latex-command
+#+begin_src emacs-lisp :results silent
+   (if (org-check-external-command "latex" "" t) "pass" "fail")
+#+end_src
+
+** =dvipng= command
+The =dvipng= command must be installed on your system and findable by
+Emacs in order to preview latex fragments in buffer.
+
+#+srcname: check-dvipng-command
+#+begin_src emacs-lisp :results silent
+   (if (org-check-external-command "dvipng" "" t) "pass" "fail")
+#+end_src
+
+** =org-agenda-files= is very useful
+Although not explicitly required for normal use the `[[elisp:(progn (describe-variable 'org-agenda-files) (other-window 1))][org-agenda-files]]'
+variable is required for a number of useful org-mode commands
+including the following.
+- `[[elisp:(progn (describe-function 'org-agenda) (other-window 1))][org-agenda]]'
+- `[[elisp:(progn (describe-variable 'org-export-icalendar-combine-agenda-files) (other-window 1))][org-export-icalendar-combine-agenda-files]]'
+- others?
+
+#+srcname: check-org-agenda-files-set
+#+begin_src emacs-lisp
+  (if (null org-agenda-files)
+      "consider setting [[* org-agenda-files][org-agenda-files]]"
+    "pass")
+#+end_src
