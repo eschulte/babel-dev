@@ -133,23 +133,32 @@ system("pwd")
 : /home/davison/bench
 ******* perl : NA
 ******* WORKS octave
+********* numeric matrix
 #+begin_src octave :session *babel-octave*
-  magic(3)
+  magic(4)
 #+end_src
 
 #+results:
 : 
 : ans =
 : 
-:    8   1   6
-:    3   5   7
-:    4   9   2
+:    16    2    3   13
+:     5   11   10    8
+:     9    7    6   12
+:     4   14   15    1
+********* string
+#+begin_src octave :session *babel-octave*
+  'string from octave'
+#+end_src
 
+#+results:
+: 
+: ans = string from octave
 ******* WORKS matlab
 	:PROPERTIES:
 	:dir: /ddavison@tombstone.princeton.edu:
 	:END:
-
+********* WORKS numeric matrix
 NB matlab-shell doesn't currently respond to a remote
 default-directory. A hack is to insert a line like
 
@@ -158,18 +167,28 @@ default-directory. A hack is to insert a line like
 into matlab-shell.
 
 #+begin_src matlab :session *babel-matlab*
-  magic(4)
+  magic(3)
 #+end_src
 
 #+results:
-: magic(4)
+: magic(3)
 : 
 : ans =
 : 
-:     16     2     3    13
-:      5    11    10     8
-:      9     7     6    12
-:      4    14    15     1
+:      8     1     6
+:      3     5     7
+:      4     9     2
+********* WORKS string
+#+begin_src matlab :session *babel-matlab*
+  'string from matlab'
+#+end_src
+
+#+results:
+: 'string from matlab'
+: 
+: ans =
+: 
+: string from matlab
 ***** non-session
     :PROPERTIES:
     :session: none
@@ -287,7 +306,7 @@ into matlab-shell.
 	:dir: /ddavison@sixtyfour.princeton.edu:
 	:END:
 #+begin_src matlab
-  5 * exp(i*pi)
+  6 * exp(i*pi)
 #+end_src
 
 #+results:
@@ -313,18 +332,18 @@ Warning: No display specified.  You will not be able to display graphics on the 
 >> >> 
 ans =
 
-  -5.0000 + 0.0000i
+  -6.0000 + 0.0000i
 
 >> >> 
 #+end_example
 ******* WORKS octave
 #+begin_src octave :var z=99
-  z + 100
+  z + 200
 #+end_src
 
 #+results:
 : z =  99
-: ans =  199
+: ans =  299
 *** :results value
     :PROPERTIES:
     :results: value
@@ -429,13 +448,23 @@ ans =
 | This is the last line |
 ******* perl : NA
 ******* WORKS octave
+********* WORKS numeric
 #+begin_src octave :session *babel-octave* :var z=67
-  ans = z^2
+  ans = z^3
 #+end_src
 
 #+results:
-: 4.48900000e+03
+: 3.00763000e+05
+********* string
+#+begin_src octave :session *babel-octave*
+  ans = 'string from octave'
+#+end_src
+
+#+results:
+: string from octave
 ******* WORKS matlab
+	Strings still returned as ascii codes
+********* numeric
 #+begin_src matlab :session *babel-matlab* :dir /ddavison@tombstone.princeton.edu:
   magic(4)
 #+end_src
@@ -445,6 +474,13 @@ ans =
 | 5.0000000e+00 | 1.1000000e+01 | 1.0000000e+01 | 8.0000000e+00 |
 | 9.0000000e+00 | 7.0000000e+00 | 6.0000000e+00 | 1.2000000e+01 |
 | 4.0000000e+00 | 1.4000000e+01 | 1.5000000e+01 | 1.0000000e+00 |
+********* WORKS string
+#+begin_src matlab :session *babel-matlab* :dir /ddavison@tombstone.princeton.edu:
+  'string from matlab'
+#+end_src
+
+#+results:
+: string from matlab
 ***** non-session
     :PROPERTIES:
     :session: none
@@ -612,20 +648,36 @@ ans =
 : 4
 
 ******* WORKS octave
+********* numeric
 #+begin_src octave :var z=676 :results vector
-  z / 3
+  z / 100
 #+end_src
 
 #+results:
-| 2.25333333e+02 |
-******* WORKS matlab
+| 6.76000000e+00 |
+********* string
+#+begin_src octave :var z=676
+  'string from octave'
+#+end_src
+
+#+results:
+: string from octave
+******* DOESN'T_WORK matlab
+********* numeric
 #+begin_src matlab :dir /ddavison@sixtyfour.princeton.edu: :var z=20
-  [z * 5; z *6]
+  [z / 4; z / 5]
 #+end_src
 
 #+results:
-| 1.0000000e+02   1.2000000e+02 |
+| 5.0000000e+00 |
+| 4.0000000e+00 |
+********* WORKS string
+#+begin_src matlab :dir /ddavison@sixtyfour.princeton.edu: :var z=20
+  'string from matlab'
+#+end_src
 
+#+results:
+: string from matlab
 * File output links
   :PROPERTIES:
   :exports: both
