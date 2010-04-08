@@ -5331,7 +5331,15 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [62/84]
+* Bugs [62/85]
+** TODO prep session may fail if comint prompt is not "empty"
+   - State "TODO"       from ""           [2010-04-08 Thu 15:22]
+
+     I think the current code assumes that we can just go to the
+     comint buffer and insert stuff and do comint-send-input. However,
+     the user might have left some characters lying around after the
+     comint prompt.
+     
 ** PROPOSED noweb R error?
    - State "PROPOSED"   from ""           [2010-04-03 Sat 20:50]
 
