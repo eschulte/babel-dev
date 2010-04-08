@@ -6,6 +6,18 @@
 
 Check an Org-mode environment.
 
+*warning*: executing the table in this buffer will execute elisp and
+ shell commands on your system.  These commands are intended to check
+ aspects of your environment for compatibility with Org-mode, however
+ malicious people could tie arbitrary and/or malicious code blocks to
+ this table.
+ - don't be malicious, only put reasonable code into this buffer
+ - don't be angry, you've been warned about the possible risks of
+   using this buffer
+   
+ In general Org-moders are very nice and will most likely keep this
+ buffer both safe and useful.
+
 * Instructions
   - Download the file org-check.org
   - Calculate the table by putting point in the table and pressing =C-u C-c *=
