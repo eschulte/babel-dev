@@ -4,7 +4,8 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [67/136]
-** TODO org-babel-R show comint buffer patch from Julien Barnier
+** STARTED org-babel-R show comint buffer patch from Julien Barnier
+   - State "STARTED"    from "TODO"       [2010-04-08 Thu 22:44]
    - State "TODO"       from ""           [2010-04-07 Wed 12:34]
 
 #+begin_example 
@@ -5375,7 +5376,6 @@ Error: unexpected input in:
 <<"
 Execution halted
 #+end_quote
-
 
 ** PROPOSED Tangling sometimes needs newline before comments
    - State "PROPOSED" from "" [2010-04-03 Sat 11:53]
