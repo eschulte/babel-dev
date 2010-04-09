@@ -5332,7 +5332,40 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [63/85]
+* Bugs [63/86]
+** TODO Language mappings in org-src-lang-modes should be honoured by babel
+   - State "TODO"       from ""           [2010-04-09 Fri 09:39]
+
+     Email from me to Andrea Crotti:
+
+#+begin_quote 
+> And it doesn't export any source even if it looks something like this
+>
+> * Org mode
+> ** Clock configuration
+> #+begin_src elisp :tangle yes
+> ;; Clock configuration
+> (setq org-clock-persist t)
+> (org-clock-persistence-insinuate)
+> #+end_src
+
+Although Org maps "elisp" to emacs-lisp-mode in org-src-lang-modes
+(therefore C-c ' works), Org-babel currently does not recognise "elisp"
+by default. Thanks for raising this, I think we need to make ourselves
+more compatible with org-src-lang-modes.
+
+So the short answer is: change "elisp" to "emacs-lisp".
+
+The longer answer is, you could do
+
+(org-babel-add-interpreter "elisp")
+(add-to-list 'org-babel-tangle-langs '("elisp" "el"))
+
+But you (we) 'll still be faced with the problem that org-babel-load-file
+expects the blocks to be "emacs-lisp" blocks. org-babel-tangle-file, on
+the other hand, will work.
+#+end_quote
+
 ** TODO prep session may fail if comint prompt is not "empty"
    - State "TODO"       from ""           [2010-04-08 Thu 15:22]
 
