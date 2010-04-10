@@ -8028,7 +8028,9 @@ of these tests may fail.
 |-------------------------+----------------------------+-----+-------------+-------------+------|
 | emacs lisp              | table-elisp                |     |           3 |           3 | pass |
 | ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass |
+|                         | table-from-ruby            |     |           4 |           4 | pass |
 | python                  | table-python               |     |           5 |           5 | pass |
+|                         | table-from-python          |     |           4 |           4 | pass |
 | R                       | table-R                    |     |         3.5 |         3.5 | pass |
 | R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass |
 | R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass |
@@ -8123,16 +8125,34 @@ return 'hello world'
 (length (car table))
 #+end_src
 
-
 #+srcname: table-ruby
 #+begin_src ruby :results silent :var table=test-table
 table.first.join("-")
 #+end_src
 
+#+srcname: ruby-makes-table
+#+begin_src ruby 
+[[1, 2], [3, 4]]
+#+end_src
+
+#+srcname: table-from-ruby
+#+begin_src ruby :var tab=ruby-makes-table
+tab[1][1]  
+#+end_src
 
 #+srcname: table-python
 #+begin_src python :var table=test-table
 return table[1][1]
+#+end_src
+
+#+srcname: python-makes-table
+#+begin_src python 
+return [[1, 2], [3, 4]]
+#+end_src
+
+#+srcname: table-from-python
+#+begin_src python :var tab=python-makes-table
+return tab[1][1]  
 #+end_src
 
 #+srcname: table-R(table=test-table)
