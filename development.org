@@ -5332,7 +5332,14 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [63/86]
+* Bugs [63/87]
+** TODO We're eating up org code block flags 
+   - State "TODO"       from ""           [2010-04-11 Sun 09:59]
+     
+     This creates a file called "src/msg.pl +n"
+
+ \#+begin_src perl :tangle src/msg.pl +n
+
 ** TODO Language mappings in org-src-lang-modes should be honoured by babel
    - State "TODO"       from ""           [2010-04-09 Fri 09:39]
 
