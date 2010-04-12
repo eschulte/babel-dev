@@ -5380,7 +5380,7 @@ expects the blocks to be "emacs-lisp" blocks. org-babel-tangle-file, on
 the other hand, will work.
 #+end_quote
 
-** TODO prep session may fail if comint prompt is not "empty"
+** TODO prep session may fail if comint prompt is not empty
    - State "TODO"       from ""           [2010-04-08 Thu 15:22]
 
      I think the current code assumes that we can just go to the
