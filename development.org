@@ -3,7 +3,14 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/136]
+* Tasks [67/137]
+** TODO raw links in uses.org on Worg
+   - State "TODO"       from ""           [2010-04-12 Mon 08:53]
+
+\forall topics linked from the uses page we need to add a link to the
+raw version in some uniform manner -- maybe right next to the html
+link in the headline.
+
 ** STARTED org-babel-R show comint buffer patch from Julien Barnier
    - State "STARTED"    from "TODO"       [2010-04-08 Thu 22:44]
    - State "TODO"       from ""           [2010-04-07 Wed 12:34]
