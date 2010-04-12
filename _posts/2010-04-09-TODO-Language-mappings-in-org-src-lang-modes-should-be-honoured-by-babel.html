@@ -1,0 +1,56 @@
+---
+title: TODO Language mappings in org-src-lang-modes should be honoured by babel
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> Language mappings in org-src-lang-modes should be honoured by babel </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-09 Fri 09:39</span></span>
+
+<p>
+Email from me to Andrea Crotti:
+</p>
+</li>
+</ul>
+
+<blockquote>
+
+<p>&gt; And it doesn't export any source even if it looks something like this
+&gt;
+&gt; * Org mode
+&gt; ** Clock configuration
+&gt; #+begin<sub>src</sub> elisp :tangle yes
+&gt; ;; Clock configuration
+&gt; (setq org-clock-persist t)
+&gt; (org-clock-persistence-insinuate)
+&gt; #+end<sub>src</sub>
+</p>
+<p>
+Although Org maps "elisp" to emacs-lisp-mode in org-src-lang-modes
+(therefore C-c ' works), Org-babel currently does not recognise "elisp"
+by default. Thanks for raising this, I think we need to make ourselves
+more compatible with org-src-lang-modes.
+</p>
+<p>
+So the short answer is: change "elisp" to "emacs-lisp".
+</p>
+<p>
+The longer answer is, you could do
+</p>
+<p>
+(org-babel-add-interpreter "elisp")
+(add-to-list 'org-babel-tangle-langs '("elisp" "el"))
+</p>
+<p>
+But you (we) 'll still be faced with the problem that org-babel-load-file
+expects the blocks to be "emacs-lisp" blocks. org-babel-tangle-file, on
+the other hand, will work.
+</p>
+</blockquote>
+
+</div>
+</div>

@@ -3,8 +3,16 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/136]
-** TODO org-babel-R show comint buffer patch from Julien Barnier
+* Tasks [67/137]
+** TODO raw links in uses.org on Worg
+   - State "TODO"       from ""           [2010-04-12 Mon 08:53]
+
+\forall topics linked from the uses page we need to add a link to the
+raw version in some uniform manner -- maybe right next to the html
+link in the headline.
+
+** STARTED org-babel-R show comint buffer patch from Julien Barnier
+   - State "STARTED"    from "TODO"       [2010-04-08 Thu 22:44]
    - State "TODO"       from ""           [2010-04-07 Wed 12:34]
 
 #+begin_example 
@@ -5331,9 +5339,61 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [62/84]
-** PROPOSED noweb R error?
+* Bugs [63/87]
+** TODO We're eating up org code block flags 
+   - State "TODO"       from ""           [2010-04-11 Sun 09:59]
+     
+     This creates a file called "src/msg.pl +n"
+
+ \#+begin_src perl :tangle src/msg.pl +n
+
+** TODO Language mappings in org-src-lang-modes should be honoured by babel
+   - State "TODO"       from ""           [2010-04-09 Fri 09:39]
+
+     Email from me to Andrea Crotti:
+
+#+begin_quote 
+> And it doesn't export any source even if it looks something like this
+>
+> * Org mode
+> ** Clock configuration
+> #+begin_src elisp :tangle yes
+> ;; Clock configuration
+> (setq org-clock-persist t)
+> (org-clock-persistence-insinuate)
+> #+end_src
+
+Although Org maps "elisp" to emacs-lisp-mode in org-src-lang-modes
+(therefore C-c ' works), Org-babel currently does not recognise "elisp"
+by default. Thanks for raising this, I think we need to make ourselves
+more compatible with org-src-lang-modes.
+
+So the short answer is: change "elisp" to "emacs-lisp".
+
+The longer answer is, you could do
+
+(org-babel-add-interpreter "elisp")
+(add-to-list 'org-babel-tangle-langs '("elisp" "el"))
+
+But you (we) 'll still be faced with the problem that org-babel-load-file
+expects the blocks to be "emacs-lisp" blocks. org-babel-tangle-file, on
+the other hand, will work.
+#+end_quote
+
+** TODO prep session may fail if comint prompt is not empty
+   - State "TODO"       from ""           [2010-04-08 Thu 15:22]
+
+     I think the current code assumes that we can just go to the
+     comint buffer and insert stuff and do comint-send-input. However,
+     the user might have left some characters lying around after the
+     comint prompt.
+     
+** DONE noweb R error?
+   - State "DONE"       from "PROPOSED"   [2010-04-08 Thu 22:47]
    - State "PROPOSED"   from ""           [2010-04-03 Sat 20:50]
+
+     This is an oddity of ggplot2 in R. It behaves differently at the
+     top level versus when wrapped in a function body.
 
 Execute in dir with dir "temp" present
 
@@ -5363,7 +5423,6 @@ Error: unexpected input in:
 <<"
 Execution halted
 #+end_quote
-
 
 ** PROPOSED Tangling sometimes needs newline before comments
    - State "PROPOSED" from "" [2010-04-03 Sat 11:53]
@@ -7983,7 +8042,9 @@ of these tests may fail.
 |-------------------------+----------------------------+-----+-------------+-------------+------|
 | emacs lisp              | table-elisp                |     |           3 |           3 | pass |
 | ruby                    | table-ruby                 |     |       1-2-3 |       1-2-3 | pass |
+|                         | table-from-ruby            |     |           4 |           4 | pass |
 | python                  | table-python               |     |           5 |           5 | pass |
+|                         | table-from-python          |     |           4 |           4 | pass |
 | R                       | table-R                    |     |         3.5 |         3.5 | pass |
 | R: col names in R       | table-R-colnames           |     |          -3 |          -3 | pass |
 | R: col names in org     | table-R-colnames-org       |     |         169 |         169 | pass |
@@ -8078,16 +8139,34 @@ return 'hello world'
 (length (car table))
 #+end_src
 
-
 #+srcname: table-ruby
 #+begin_src ruby :results silent :var table=test-table
 table.first.join("-")
 #+end_src
 
+#+srcname: ruby-makes-table
+#+begin_src ruby 
+[[1, 2], [3, 4]]
+#+end_src
+
+#+srcname: table-from-ruby
+#+begin_src ruby :var tab=ruby-makes-table
+tab[1][1]  
+#+end_src
 
 #+srcname: table-python
 #+begin_src python :var table=test-table
 return table[1][1]
+#+end_src
+
+#+srcname: python-makes-table
+#+begin_src python 
+return [[1, 2], [3, 4]]
+#+end_src
+
+#+srcname: table-from-python
+#+begin_src python :var tab=python-makes-table
+return tab[1][1]  
 #+end_src
 
 #+srcname: table-R(table=test-table)
