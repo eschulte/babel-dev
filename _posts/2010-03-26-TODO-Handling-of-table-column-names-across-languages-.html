@@ -17,6 +17,9 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 12:22</span></span>
 See also <a href="#*Support==rownames==and==other==org==babel==table==features">Support rownames and other org babel table features?</a>
+</li>
+</ul>
+
 
 <p>
 Julien Barnier has made a patch implementing rownames in R. This
@@ -26,8 +29,6 @@ f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
 <p>
 There is a test file for column and rownames <a href="col-row-names.html">here</a>.
 </p>
-</li>
-</ul>
 
 </div>
 
@@ -124,13 +125,13 @@ We could remove the hline with the following, but need to think about whether to
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-python-var-to-python</span> <span class="org-esk-paren">(</span>var<span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">org-babel-python-var-to-python</span> (var)
   <span class="org-doc">"Convert an elisp var into a string of python source code
 specifying a var of the same value."</span>
-  <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>listp var<span class="org-esk-paren">)</span>
-      <span class="org-esk-paren">(</span>concat <span class="org-string">"["</span> <span class="org-esk-paren">(</span>mapconcat #'org-babel-python-var-to-python <span class="org-esk-paren">(</span>remq 'hline var<span class="org-esk-paren">)</span> <span class="org-string">", "</span><span class="org-esk-paren">)</span> <span class="org-string">"]"</span><span class="org-esk-paren">)</span>
+  (<span class="org-keyword">if</span> (listp var)
+      (concat <span class="org-string">"["</span> (mapconcat #'org-babel-python-var-to-python (remq 'hline var) <span class="org-string">", "</span>) <span class="org-string">"]"</span>)
       <span class="org-comment-delimiter">;; </span><span class="org-comment">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
-</span>    <span class="org-esk-paren">(</span>format <span class="org-string">"%S"</span> var<span class="org-esk-paren">)))</span>
+</span>    (format <span class="org-string">"%S"</span> var)))
 </pre>
 
 

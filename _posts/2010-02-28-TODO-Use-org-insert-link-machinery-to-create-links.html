@@ -10,6 +10,9 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-28 Sun 15:25</span></span>
+</li>
+</ul>
+
 
 <p>
 One reason for doing this is to honour the variable
@@ -19,13 +22,11 @@ org-link-file-path-type.
 Perhaps org-insert-link can be refactored along the lines of
 </p>
 
-</li>
-</ul>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-insert-link</span> <span class="org-esk-paren">(</span>...<span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">org-insert-link</span> (...)
   ...
-  <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>org-create-link ...<span class="org-esk-paren">)))</span>
+  (insert (org-create-link ...)))
 </pre>
 
 

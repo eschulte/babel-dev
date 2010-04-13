@@ -5339,7 +5339,11 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [63/87]
+* Bugs [63/88]
+** TODO unwind-protect needed in functions that use narrowing
+   - State "TODO"       from ""           [2010-04-12 Mon 21:58]
+     E.g. org-babel-execute-subtree
+     If there's an error you end up with a narrowed buffer.
 ** TODO We're eating up org code block flags 
    - State "TODO"       from ""           [2010-04-11 Sun 09:59]
      
