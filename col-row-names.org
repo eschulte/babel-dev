@@ -1,26 +1,323 @@
-#+title: Column and row names
+#+title:Column and row names
 
-* Tables
+#+tblname: C
+| a | b | c |
+|---+---+---|
+| d | e | f |
+|---+---+---|
+| g | h | i |
+
+* hlines shall be omitted by default
+
+#+begin_src python :var tab=C
+return tab
+#+end_src
+
+#+results:
+| a | b | c |
+| d | e | f |
+| g | h | i |
+
+* but not for emacs-lisp, which knows how to deal with them
+
+#+begin_src emacs-lisp :var tab=C
+tab
+#+end_src
+
+#+results:
+| a | b | c |
+|---+---+---|
+| d | e | f |
+|---+---+---|
+| g | h | i |
+
+* :colnames says "The first row is not genuine table content"
+  
+#+begin_src python :var tab=C :colnames yes
+return [[val + '*' for val in row] for row in tab]
+#+end_src
+
+#+results:
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
+
+* :rownames says "The first column is not genuine table content"
+
+#+begin_src python :var tab=C :rownames yes
+return [[val + '*' for val in row] for row in tab]
+#+end_src
+
+#+results:
+| a | b* | c* |
+| d | e* | f* |
+| g | h* | i* |
+
+* :rownames and :colnames can be used together
+
+#+begin_src python :var tab=C :colnames yes :rownames yes
+return [[val + '*' for val in row] for row in tab]
+#+end_src
+
+#+results:
+|   | b  | c  |
+|---+----+----|
+| d | e* | f* |
+| g | h* | i* |
+
+* Some languages can *use* the row/col names
+
+#+begin_src R :var tab=C :colnames yes
+tab[,"b",drop=FALSE]
+#+end_src
+
+#+results:
+| b |
+|---|
+| e |
+| h |
+:
+| b |
+|---|
+| e |
+| h |
+
+#+begin_src R :var tab=C :rownames yes
+tab["d",,drop=FALSE]
+#+end_src
+
+#+results:
+| d | e | f |
+:
+| d | e | f |
+
+#+begin_src R :var tab=C :colnames yes :rownames yes
+tab["d","b",drop=FALSE]
+#+end_src
+
+#+results:
+|   | b |
+|---+---|
+| d | e |
+:
+|   | b |
+|---+---|
+| d | e |
+
+* In such languages, :rownames/:colnames force row/col names in output
+
+#+begin_src R :rownames yes :colnames yes
+t(matrix(letters[1:9], 3, 3))
+#+end_src
+
+#+results:
+|   | V1 | V2 | V3 |
+|---+----+----+----|
+| 1 | a  | b  | c  |
+| 2 | d  | e  | f  |
+| 3 | g  | h  | i  |
+:
+|   | V1 | V2 | V3 |
+|---+----+----+----|
+| 1 | a  | b  | c  |
+| 2 | d  | e  | f  |
+| 3 | g  | h  | i  |
+
+* Etc
+#+begin_src R :var tab=C :rownames yes :colnames yes
+apply(tab, 2, toupper)
+#+end_src
+
+:
+|   | b | c |
+|---+---+---|
+| d | E | F |
+| g | H | I |
+
+#+begin_src R :var tab=C :rownames yes
+apply(tab, 2, toupper)
+#+end_src
+
+:
+| a | B | C |
+| d | E | F |
+| g | H | I |
+
+
+
+
+* Email
+Qualifications to email:
+- Don't drop hlines for elisp
+- What about if >1 table passed in?
+  - :colnames yes no yes?
+
+The question is: how do we map between org tables with hline separators
+and tabular data structures in babel languages (some of which have
+internal concepts of "column names" and "row names")? In particular, one
+might commonly use an hline in org to form "column names":
+
+| column | names    |
+|--------+----------|
+| table  | contents |
+
+*** Example tables
 #+tblname: A
-| row1 |   11 |   12 |
-| row2 |   21 |   22 |
+| a | b | c |
+| d | e | f |
+| g | h | i |
 
 #+tblname: B
-|      | col1 | col2 |
-|------+------+------|
-| row1 |   11 |   12 |
-| row2 |   21 |   22 |
+| a | b | c |
+|---+---+---|
+| d | e | f |
+| g | h | i |
 
+#+tblname: C
+| a | b | c |
+|---+---+---|
+| d | e | f |
+|---+---+---|
+| g | h | i |
 
-* Current behaviour
-*** OK Simple identity
-#+begin_src R :var tab=A
+#+tblname: D
+|---+---+---|
+| a | b | c |
+|---+---+---|
+| d | e | f |
+| g | h | i |
+
+*** Proposed new rules
+- Terminology ::
+
+  - Table B above has "column names" and therefore one "hline". Table
+    A has neither. Table C has "column names" and two "hlines".
+
+  - For the purposes of this discussion, there are no such things as
+    "row names" in an Org table.
+
+- What will we do with hlines ::
+
+  Currently, all languages other than R fail with hlines present.
+
+  New behaviour: by default all languages will *drop all hlines* from
+  tables in input. We shall make no attempt to reinstate hlines in the
+  output[1] *Do we want some way for the user to control hlines in the
+  output?*
+  
+  This means that if a table has column names, those column names will
+  be passed to the language as an ordinary first row of the table.
+
+  This example shows loss of all hlines by default:
+
+#+begin_src python :var tab=C :rownames yes
+return tab
+#+end_src
+
+#+results:
+| b | c |
+| e | f |
+| h | i |
+
+Intended results
+| a | b | c |
+| d | e | f |
+| g | h | i |
+
+  
+- :colnames header argument ::
+  
+  This argument will be used to say: "The first row of this input
+  table contains column names." There are two cases:
+
+  In both cases, to start off with we *drop all hlines* and *omit the
+  first row*. Therefore, row i in the org table will be row i-1 in the
+  language. The difference is:
+
+  1. Language does not support column names for tabular data
+     structures (most languages)
+
+     When we output a table we reinstate the first row as column names
+     with an hline, *if* the output number of columns is the same as
+     the input. *Do you agree?*
+
+  2. Language supports column names (R)
+  
+     The input R object is created with the first row as column names,
+     and the column names of the output object are exported back to
+     org, and an hline is reinstated.
+
+This example shows preservation of colnames and loss of second hline:
+
+#+begin_src python :var tab=C :colnames yes
+tab
+#+end_src
+
+#+results:
+| a | b | c |
+|---+---+---|
+| d | e | f |
+| g | h | i |
+
+- :rownames header argument ::
+  
+  This is analogous to :colnames
+  
+  This argument will be used to say: "The first column of this input
+  table contains row names." There are two cases. In both cases we
+  *omit the first column*, therefore column j in the org table will be
+  column j-1 in the language.
+  
+  1. Language does not support row names for tabular data structures
+     (most languages)
+
+     We attempt to *reinstate row names* if number of output rows is
+     the same as input.
+
+  2. Language supports rownames (R)
+     
+     The first column is used as the object rownames. The output
+     object rownames are exported to Org and become the first column
+     of the output org table.
+
+     This is largely implemented already by a patch by Julien Barnier.
+
+*** Footnotes
+
+[1] Because the output table is not necessarily "the same table" as
+the input table.
+
+* R behaviour
+
+- Default ::
+
+  Currently, if a table has colnames they are silently dropped:
+
+#+begin_src R :var tab=B
   tab
 #+end_src
 
 #+results:
 | row1 | 11 | 12 |
 | row2 | 21 | 22 |
+    
+This will change so that the table will be come back as the original,
+but minus the hline.
+
+
+
+* Current behaviour
+*** OK Simple identity
+#+begin_src R :var tab=B :colnames yes
+  tab
+#+end_src
+
+#+results:
+| X    | col1 | col2 |
+|------+------+------|
+| row1 |   11 |   12 |
+| row2 |   21 |   22 |
 
 *** OK Use org header line
 #+begin_src R :var tab=B :colnames yes
@@ -142,3 +439,5 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 
 * Org config
 #+TODO: TODO | OK
+
+
