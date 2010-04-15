@@ -5346,7 +5346,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [63/88]
+* Bugs [63/89]
+** TODO Should strip protective commas from org blocks on tangling
+   - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 ** TODO unwind-protect needed in functions that use narrowing
    - State "TODO"       from ""           [2010-04-12 Mon 21:58]
      E.g. org-babel-execute-subtree
