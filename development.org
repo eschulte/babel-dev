@@ -22,6 +22,8 @@ link in the headline.
    - State "STARTED"    from "TODO"       [2010-04-08 Thu 22:44]
    - State "TODO"       from ""           [2010-04-07 Wed 12:34]
 
+     See also [[*Make%20org%20babel%20switch%20to%20buffer%20show%20code%20edit%20buffer][Make org-babel-switch-to-buffer show code edit buffer]]
+
 #+begin_example 
 From: Julien Barnier <julien@no-log.org>
 Subject: [Orgmode] [PATCH] [babel] Add option to display process buffer when editing R source code blocks
@@ -425,6 +427,8 @@ headline properties
 
 ** PROPOSED Make org-babel-switch-to-buffer show code edit buffer
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:20]
+
+     See also [[*org%20babel%20R%20show%20comint%20buffer%20patch%20from%20Julien%20Barnier][org-babel-R show comint buffer patch from Julien Barnier]]
 
      This patch changes org-babel-switch-to-buffer so that the session
      and the code edit buffer are shown side-by-side, with point in
