@@ -5346,16 +5346,21 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [63/89]
+* Bugs [64/89]
 ** TODO Should strip protective commas from org blocks on tangling
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 ** TODO unwind-protect needed in functions that use narrowing
    - State "TODO"       from ""           [2010-04-12 Mon 21:58]
      E.g. org-babel-execute-subtree
      If there's an error you end up with a narrowed buffer.
-** TODO We're eating up org code block flags 
+** DEFERRED We're eating up org code block flags 
+   - State "DEFERRED"   from "TODO"       [2010-04-17 Sat 13:42]
    - State "TODO"       from ""           [2010-04-11 Sun 09:59]
-     
+
+     We document that org switches should come /before/ the header
+     args, so this may not be a bug, assuming that we're happy that
+     tangle can create files with spaces in it.
+
      This creates a file called "src/msg.pl +n"
 
  \#+begin_src perl :tangle src/msg.pl +n
