@@ -7,18 +7,29 @@
 |---+---+---|
 | g | h | i |
 
-* hlines shall be omitted by default
+* DIFFERENT hlines shall be omitted by default
 
-#+begin_src python :var tab=C
+The difference here is that Eric's code maintains an hline, whereas I
+get rid of all hlines.
+
+#+begin_src python :var tab=C :hlines no
 return tab
 #+end_src
 
 #+results:
 | a | b | c |
+|---+---+---|
 | d | e | f |
 | g | h | i |
 
-* but not for emacs-lisp, which knows how to deal with them
+dan:
+| a | b | c |
+| d | e | f |
+| g | h | i |
+
+* SAME but not for emacs-lisp, which knows how to deal with them
+
+We are the same here.
 
 #+begin_src emacs-lisp :var tab=C
 tab
@@ -30,10 +41,18 @@ tab
 | d | e | f |
 |---+---+---|
 | g | h | i |
+dan:
+| a | b | c |
+|---+---+---|
+| d | e | f |
+|---+---+---|
+| g | h | i |
 
-* :colnames says "The first row is not genuine table content"
+* SAME :colnames says "The first row is not genuine table content"
+
+We are the same here.
   
-#+begin_src python :var tab=C :colnames yes
+#+begin_src python :var tab=C :colnames yes :hlines no
 return [[val + '*' for val in row] for row in tab]
 #+end_src
 
@@ -43,53 +62,87 @@ return [[val + '*' for val in row] for row in tab]
 | d* | e* | f* |
 | g* | h* | i* |
 
-* :rownames says "The first column is not genuine table content"
+dan:
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
 
-#+begin_src python :var tab=C :rownames yes
+* DIFFERENT :rownames says "The first column is not genuine table content"
+
+The differences here are that Eric's code 
+- deletes the second hline
+- leaves in the first hline
+- does not operate on the first row even though :colnames yes is not supplied
+
+#+begin_src python :var tab=C :rownames yes :hlines no
 return [[val + '*' for val in row] for row in tab]
 #+end_src
 
 #+results:
+| a | b  | c  |
+|---+----+----|
+| d | e* | f* |
+| g | h* | i* |
+
+dan:
 | a | b* | c* |
 | d | e* | f* |
 | g | h* | i* |
 
-* :rownames and :colnames can be used together
+* DIFFERENT :rownames and :colnames can be used together
+
+Almost the same here. I made the decision to blank out the top left
+cell when :rownames and :colnames are both supplied.
 
 #+begin_src python :var tab=C :colnames yes :rownames yes
 return [[val + '*' for val in row] for row in tab]
 #+end_src
 
 #+results:
+| a | b  | c  |
+|---+----+----|
+| d | e* | f* |
+| g | h* | i* |
+
+dan:
 |   | b  | c  |
 |---+----+----|
 | d | e* | f* |
 | g | h* | i* |
 
-* Some languages can *use* the row/col names
+* DIFFERENT Some languages can *use* the row/col names
 
-#+begin_src R :var tab=C :colnames yes
+Eric's code errors out in R here.
+
+#+begin_src R :var tab=C :colnames yes :hlines no
 tab[,"b",drop=FALSE]
 #+end_src
 
 #+results:
+
+Error in `[.data.frame`(tab, , "b", drop = FALSE) : 
+  undefined columns selected
+Calls: write.table ... is.data.frame -> inherits -> main -> [ -> [.data.frame
+Execution halted
+
+dan:
 | b |
 |---|
 | e |
 | h |
-:
-| b |
-|---|
-| e |
-| h |
+
+* R with rownames
+
 
 #+begin_src R :var tab=C :rownames yes
 tab["d",,drop=FALSE]
 #+end_src
 
 #+results:
-| d | e | f |
-:
+| nil | nil |
+
+dan:
 | d | e | f |
 
 #+begin_src R :var tab=C :colnames yes :rownames yes
@@ -97,32 +150,41 @@ tab["d","b",drop=FALSE]
 #+end_src
 
 #+results:
-|   | b |
-|---+---|
-| d | e |
-:
+Error in `[.data.frame`(tab, "d", "b", drop = FALSE) : 
+  undefined columns selected
+Calls: write.table ... is.data.frame -> inherits -> main -> [ -> [.data.frame
+Execution halted
+
+
+dan:
 |   | b |
 |---+---|
 | d | e |
 
-* In such languages, :rownames/:colnames force row/col names in output
+* DIFFERENT In such languages, :rownames/:colnames force row/col names in output
 
-#+begin_src R :rownames yes :colnames yes
+Here the difference is simply because the :rownames patch for R hasn't
+been applied.
+
+#+begin_src R :rownames yes :colnames yes :hlines no
 t(matrix(letters[1:9], 3, 3))
 #+end_src
 
 #+results:
+| V1 | V2 | V3 |
+|----+----+----|
+| a  | b  | c  |
+| d  | e  | f  |
+| g  | h  | i  |
+
+dan:
 |   | V1 | V2 | V3 |
 |---+----+----+----|
 | 1 | a  | b  | c  |
 | 2 | d  | e  | f  |
 | 3 | g  | h  | i  |
-:
-|   | V1 | V2 | V3 |
-|---+----+----+----|
-| 1 | a  | b  | c  |
-| 2 | d  | e  | f  |
-| 3 | g  | h  | i  |
+
+
 
 * Etc
 #+begin_src R :var tab=C :rownames yes :colnames yes
@@ -145,6 +207,9 @@ apply(tab, 2, toupper)
 | g | H | I |
 
 
+
+
+#+TODO: DIFFERENT | SAME
 
 
 * Email
@@ -438,6 +503,5 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 | 3 | 6 | 9 |
 
 * Org config
-#+TODO: TODO | OK
 
 
