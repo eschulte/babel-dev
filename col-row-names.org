@@ -2,6 +2,17 @@
 
 #+TODO: DIFFERENT | SAME
 
+#+tblname: A
+| a | b | c |
+| d | e | f |
+| g | h | i |
+
+#+tblname: B
+| a | b | c |
+|---+---+---|
+| d | e | f |
+| g | h | i |
+
 #+tblname: C
 | a | b | c |
 |---+---+---|
@@ -9,13 +20,10 @@
 |---+---+---|
 | g | h | i |
 
-* DIFFERENT hlines shall be omitted by default
-
-The difference here is that Eric's code maintains an hline, whereas I
-get rid of all hlines.
+* SAME hlines shall be omitted by default
 
 #+begin_src python :var tab=C
-return tab
+  return tab
 #+end_src
 
 #+results:
@@ -28,10 +36,7 @@ dan:
 | d | e | f |
 | g | h | i |
 
-* DIFFERENT but not for emacs-lisp, which knows how to deal with them
-
-  Here, Eric's code gets rid of the second hline, whereas for elisp by
-  default leave all hlines alone.
+* SAME but not for emacs-lisp, which knows how to deal with them
 
 #+begin_src emacs-lisp :var tab=C
 tab
@@ -43,7 +48,6 @@ tab
 | d | e | f |
 |---+---+---|
 | g | h | i |
-
 dan:
 | a | b | c |
 |---+---+---|
@@ -54,7 +58,7 @@ dan:
 * SAME :colnames says "The first row is not genuine table content"
 
 We are the same here.
-  
+
 #+begin_src python :var tab=C :colnames yes
 return [[val + '*' for val in row] for row in tab]
 #+end_src
@@ -64,86 +68,38 @@ return [[val + '*' for val in row] for row in tab]
 |----+----+----|
 | d* | e* | f* |
 | g* | h* | i* |
-
-
 dan:
 | a  | b  | c  |
 |----+----+----|
 | d* | e* | f* |
 | g* | h* | i* |
 
-* DIFFERENT :rownames says "The first column is not genuine table content"
+* SAME :rownames says "The first column is not genuine table content"
 
-The differences here are that Eric's code 
-- leaves in the first hline although :colnames not supplied
-- does not operate on the first row even though :colnames yes is not supplied
-
-#+begin_src python :var tab=C :rownames yes
+#+begin_src python :var tab=B :rownames yes
 return [[val + '*' for val in row] for row in tab]
 #+end_src
 
 #+results:
-| a | b  | c  |
-|---+----+----|
+| a | b* | c* |
 | d | e* | f* |
 | g | h* | i* |
-
-
 dan:
 | a | b* | c* |
 | d | e* | f* |
 | g | h* | i* |
 
-*** Additionally
-    I am surprised that the second hline is deleted here, although :hlines no is provided.
-#+begin_src python :var tab=C :rownames yes :hlines no
-return [[val + '*' for val in row] for row in tab]
-#+end_src
-
-#+results:
-| a | b  | c  |
-|---+----+----|
-| d | e* | f* |
-| g | h* | i* |
-    
-
-
-* DIFFERENT :rownames and :colnames can be used together
-
-Almost the same here. I made the decision to blank out the top left cell
-when :rownames and :colnames are both supplied, because it is hard to
-know how to interpret such a cell (incidentally, this is the behaviour
-we get out of R).
-
-#+begin_src python :var tab=C :colnames yes :rownames yes
-return [[val + '*' for val in row] for row in tab]
-#+end_src
-
-#+results:
-| a | b  | c  |
-|---+----+----|
-| d | e* | f* |
-| g | h* | i* |
-
-dan:
-|   | b  | c  |
-|---+----+----|
-| d | e* | f* |
-| g | h* | i* |
-
-* DIFFERENT Some languages can *use* the row/col names
-
-Eric's code errors out in R here.
+* SAME Some languages can *use* the row/col names
 
 #+begin_src R :var tab=C :colnames yes
 tab[,"b",drop=FALSE]
 #+end_src
 
 #+results:
-Error in `[.data.frame`(tab, , "b", drop = FALSE) : 
-  undefined columns selected
-Calls: write.table ... is.data.frame -> inherits -> main -> [ -> [.data.frame
-Execution halted
+| b |
+|---|
+| e |
+| h |
 
 dan:
 | b |
@@ -151,16 +107,14 @@ dan:
 | e |
 | h |
 
-* R with rownames
-
+* SAME R with rownames
 
 #+begin_src R :var tab=C :rownames yes
 tab["d",,drop=FALSE]
 #+end_src
 
 #+results:
-| nil | nil |
-
+| d | e | f |
 dan:
 | d | e | f |
 
@@ -169,18 +123,15 @@ tab["d","b",drop=FALSE]
 #+end_src
 
 #+results:
-Error in `[.data.frame`(tab, "d", "b", drop = FALSE) : 
-  undefined columns selected
-Calls: write.table ... is.data.frame -> inherits -> main -> [ -> [.data.frame
-Execution halted
-
-
+|   | b |
+|---+---|
+| d | e |
 dan:
 |   | b |
 |---+---|
 | d | e |
 
-* DIFFERENT In such languages, :rownames/:colnames force row/col names in output
+* SAME In such languages, :rownames/:colnames force row/col names in output
 
 Here the difference is simply because the :rownames patch for R hasn't
 been applied.
@@ -190,12 +141,11 @@ t(matrix(letters[1:9], 3, 3))
 #+end_src
 
 #+results:
-| V1 | V2 | V3 |
-|----+----+----|
-| a  | b  | c  |
-| d  | e  | f  |
-| g  | h  | i  |
-
+|   | V1 | V2 | V3 |
+|---+----+----+----|
+| 1 | a  | b  | c  |
+| 2 | d  | e  | f  |
+| 3 | g  | h  | i  |
 dan:
 |   | V1 | V2 | V3 |
 |---+----+----+----|
@@ -203,13 +153,17 @@ dan:
 | 2 | d  | e  | f  |
 | 3 | g  | h  | i  |
 
-
-
-* Etc
+* SAME Etc
+*** toupper
 #+begin_src R :var tab=C :rownames yes :colnames yes
 apply(tab, 2, toupper)
 #+end_src
 
+#+results:
+|   | b | c |
+|---+---+---|
+| d | E | F |
+| g | H | I |
 :
 |   | b | c |
 |---+---+---|
@@ -220,6 +174,10 @@ apply(tab, 2, toupper)
 apply(tab, 2, toupper)
 #+end_src
 
+#+results:
+| a | B | C |
+| d | E | F |
+| g | H | I |
 :
 | a | B | C |
 | d | E | F |
@@ -230,6 +188,32 @@ apply(tab, 2, toupper)
 
 #+TODO: DIFFERENT | SAME
 
+*** forcing colnames
+
+#+begin_src python :var tab=C :colnames yes
+return [[val + '*' for val in row] for row in tab]
+#+end_src
+
+#+results:
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
+
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
+
+*** a bug
+#+begin_src python :var tab=A
+return tab
+#+end_src
+
+#+results:
+| a | b | c |
+| d | e | f |
+| g | h | i |
 
 * Email
 Qualifications to email:
@@ -388,7 +372,6 @@ the input table.
     
 This will change so that the table will be come back as the original,
 but minus the hline.
-
 
 
 * Current behaviour
