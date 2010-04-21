@@ -5350,7 +5350,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [64/89]
+* Bugs [64/90]
+** TODO org-babel-tangle should check if in org-mode
+   - State "TODO"       from ""           [2010-04-17 Sat 19:12]
 ** TODO Should strip protective commas from org blocks on tangling
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 ** TODO unwind-protect needed in functions that use narrowing

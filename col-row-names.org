@@ -1,5 +1,18 @@
 #+title:Column and row names
 
+#+TODO: DIFFERENT | SAME
+
+#+tblname: A
+| a | b | c |
+| d | e | f |
+| g | h | i |
+
+#+tblname: B
+| a | b | c |
+|---+---+---|
+| d | e | f |
+| g | h | i |
+
 #+tblname: C
 | a | b | c |
 |---+---+---|
@@ -7,10 +20,10 @@
 |---+---+---|
 | g | h | i |
 
-* hlines shall be omitted by default
+* SAME hlines shall be omitted by default
 
 #+begin_src python :var tab=C
-return tab
+  return tab
 #+end_src
 
 #+results:
@@ -18,7 +31,7 @@ return tab
 | d | e | f |
 | g | h | i |
 
-* but not for emacs-lisp, which knows how to deal with them
+* SAME but not for emacs-lisp, which knows how to deal with them
 
 #+begin_src emacs-lisp :var tab=C
 tab
@@ -31,8 +44,10 @@ tab
 |---+---+---|
 | g | h | i |
 
-* :colnames says "The first row is not genuine table content"
-  
+* SAME :colnames says "The first row is not genuine table content"
+
+We are the same here.
+
 #+begin_src python :var tab=C :colnames yes
 return [[val + '*' for val in row] for row in tab]
 #+end_src
@@ -43,9 +58,9 @@ return [[val + '*' for val in row] for row in tab]
 | d* | e* | f* |
 | g* | h* | i* |
 
-* :rownames says "The first column is not genuine table content"
+* SAME :rownames says "The first column is not genuine table content"
 
-#+begin_src python :var tab=C :rownames yes
+#+begin_src python :var tab=B :rownames yes
 return [[val + '*' for val in row] for row in tab]
 #+end_src
 
@@ -54,19 +69,8 @@ return [[val + '*' for val in row] for row in tab]
 | d | e* | f* |
 | g | h* | i* |
 
-* :rownames and :colnames can be used together
-
-#+begin_src python :var tab=C :colnames yes :rownames yes
-return [[val + '*' for val in row] for row in tab]
-#+end_src
-
-#+results:
-|   | b  | c  |
-|---+----+----|
-| d | e* | f* |
-| g | h* | i* |
-
-* Some languages can *use* the row/col names
+* SAME Some languages can *use* the row/col names
+*** SAME R with colnames
 
 #+begin_src R :var tab=C :colnames yes
 tab[,"b",drop=FALSE]
@@ -77,11 +81,8 @@ tab[,"b",drop=FALSE]
 |---|
 | e |
 | h |
-:
-| b |
-|---|
-| e |
-| h |
+
+*** SAME R with rownames
 
 #+begin_src R :var tab=C :rownames yes
 tab["d",,drop=FALSE]
@@ -89,8 +90,8 @@ tab["d",,drop=FALSE]
 
 #+results:
 | d | e | f |
-:
-| d | e | f |
+
+*** SAME R with both
 
 #+begin_src R :var tab=C :colnames yes :rownames yes
 tab["d","b",drop=FALSE]
@@ -100,14 +101,10 @@ tab["d","b",drop=FALSE]
 |   | b |
 |---+---|
 | d | e |
-:
-|   | b |
-|---+---|
-| d | e |
 
-* In such languages, :rownames/:colnames force row/col names in output
+* SAME In such languages, :rownames/:colnames force row/col names in output
 
-#+begin_src R :rownames yes :colnames yes
+#+begin_src R :rownames yes :colnames yes :hlines no
 t(matrix(letters[1:9], 3, 3))
 #+end_src
 
@@ -117,37 +114,60 @@ t(matrix(letters[1:9], 3, 3))
 | 1 | a  | b  | c  |
 | 2 | d  | e  | f  |
 | 3 | g  | h  | i  |
-:
-|   | V1 | V2 | V3 |
-|---+----+----+----|
-| 1 | a  | b  | c  |
-| 2 | d  | e  | f  |
-| 3 | g  | h  | i  |
 
-* Etc
+* SAME Etc
+*** toupper
 #+begin_src R :var tab=C :rownames yes :colnames yes
 apply(tab, 2, toupper)
 #+end_src
 
-:
+#+results:
 |   | b | c |
 |---+---+---|
 | d | E | F |
 | g | H | I |
 
 #+begin_src R :var tab=C :rownames yes
-apply(tab, 2, toupper)
+  apply(tab, 2, toupper)
 #+end_src
 
-:
+#+results:
 | a | B | C |
 | d | E | F |
 | g | H | I |
 
+#+TODO: DIFFERENT | SAME
+
+*** forcing colnames
+
+#+begin_src python :var tab=C :colnames yes
+return [[val + '*' for val in row] for row in tab]
+#+end_src
+
+#+results:
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
+
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
+
+*** a bug
+#+begin_src python :var tab=A
+return tab
+#+end_src
+
+#+results:
+| a | b | c |
+| d | e | f |
+| g | h | i |
 
 
-
-* Email
+* Etc
+*** Email
 Qualifications to email:
 - Don't drop hlines for elisp
 - What about if >1 table passed in?
@@ -162,7 +182,7 @@ might commonly use an hline in org to form "column names":
 |--------+----------|
 | table  | contents |
 
-*** Example tables
+***** Example tables
 #+tblname: A
 | a | b | c |
 | d | e | f |
@@ -188,7 +208,7 @@ might commonly use an hline in org to form "column names":
 | d | e | f |
 | g | h | i |
 
-*** Proposed new rules
+***** Proposed new rules
 - Terminology ::
 
   - Table B above has "column names" and therefore one "hline". Table
@@ -283,12 +303,12 @@ tab
 
      This is largely implemented already by a patch by Julien Barnier.
 
-*** Footnotes
+***** Footnotes
 
 [1] Because the output table is not necessarily "the same table" as
 the input table.
 
-* R behaviour
+*** R behaviour
 
 - Default ::
 
@@ -305,10 +325,8 @@ the input table.
 This will change so that the table will be come back as the original,
 but minus the hline.
 
-
-
-* Current behaviour
-*** OK Simple identity
+*** Current behaviour
+***** OK Simple identity
 #+begin_src R :var tab=B :colnames yes
   tab
 #+end_src
@@ -319,7 +337,7 @@ but minus the hline.
 | row1 |   11 |   12 |
 | row2 |   21 |   22 |
 
-*** OK Use org header line
+***** OK Use org header line
 #+begin_src R :var tab=B :colnames yes
 tab
 #+end_src
@@ -332,8 +350,8 @@ The X comes from R providing a default name for a missing column name
 | row1 |   11 |   12 |
 | row2 |   21 |   22 |
 
-*** Create rownames in R
-***** Simple
+***** Create rownames in R
+******* Simple
 #+begin_src R :var tab=B
 array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 #+end_src
@@ -343,7 +361,7 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 | 2 | 5 | 8 |
 | 3 | 6 | 9 |
 
-***** OK With colnames
+******* OK With colnames
       
 #+begin_src R :var tab=B :colnames yes
 array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
@@ -356,8 +374,8 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 | 2 | 5 | 8 |
 | 3 | 6 | 9 |
 
-* New behaviour
-*** OK Simple identity
+*** New behaviour
+***** OK Simple identity
 #+begin_src R :var tab=A
 tab
 #+end_src
@@ -366,7 +384,7 @@ tab
 | row1 | 11 | 12 |
 | row2 | 21 | 22 |
 
-*** TODO Use org header line
+***** TODO Use org header line
     Header line from org table is not used.
 #+begin_src R :var tab=B :colnames yes
 tab
@@ -377,7 +395,7 @@ tab
 |------+----+----|
 | row2 | 21 | 22 |
 
-*** OK Use org header line with 'rownames yes'
+***** OK Use org header line with 'rownames yes'
 #+begin_src R :var tab=B :colnames yes :rownames yes
 tab
 #+end_src
@@ -388,8 +406,8 @@ tab
 | row1 |   11 |   12 |
 | row2 |   21 |   22 |
 
-*** TODO Create rownames in R
-***** Simple
+***** TODO Create rownames in R
+******* Simple
 #+begin_src R :var tab=B
 array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 #+end_src
@@ -399,7 +417,7 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 | 2 | 5 | 8 |
 | 3 | 6 | 9 |
 
-***** TODO With colnames
+******* TODO With colnames
       Inappropriate colnames
 #+begin_src R :var tab=B :colnames yes
 array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
@@ -411,7 +429,7 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 | 2 | 5 | 8 |
 | 3 | 6 | 9 |
 
-***** TODO With rownames
+******* TODO With rownames
       Gets colnames but not rownames
 
 #+begin_src R :var tab=B :rownames yes
@@ -424,7 +442,7 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 | 2 | 5 | 8 |
 | 3 | 6 | 9 |
 
-***** TODO With colnames and rownames
+******* TODO With colnames and rownames
       Doesn't get rownames (?)
 #+begin_src R :var tab=B :colnames yes :rownames yes
 array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
@@ -437,7 +455,5 @@ array(1:9, dim=c(3,3), dimnames=list(letters[1:3], letters[1:3]))
 | 2 | 5 | 8 |
 | 3 | 6 | 9 |
 
-* Org config
-#+TODO: TODO | OK
 
 
