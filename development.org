@@ -7,13 +7,17 @@
 ** DONE code block body expansion for table and preview
    - State "DONE"       from ""           [2010-04-23 Fri 09:44]
 
-It is now possible to expand the body of code blocks as done during
-evaluation on both to preview expanded contents and during tangling.
-This expansion takes into account all header arguments, and variables.
+     In org-babel, code is "expanded" prior to evaluation. I.e. the
+     code that is actually evaluated comprises the code block
+     contents, augmented with the extra code which assigns the
+     referenced data to variables. It is now possible to preview
+     expanded contents, and also to expand code during during
+     tangling.  This expansion takes into account all header
+     arguments, and variables.
 
 - preview :: A new key-binding =C-c M-b p= bound to
      `org-babel-expand-src-block' can be used from inside of a source
-     code block to preview it's expanded contents (which can be very
+     code block to preview its expanded contents (which can be very
      useful for debugging).
 
 - tangling :: The expanded body can now be tangled, this includes
@@ -23,7 +27,7 @@ This expansion takes into account all header arguments, and variables.
      initialization to store values (e.g. usernames, passwords,
      etc...) in headline properties or in tables.
 
-Here is an example of a code block and it's resulting expanded body.
+Here is an example of a code block and its resulting expanded body.
 
 The data in the file.
 #+tblname: user-data
@@ -33,15 +37,15 @@ The data in the file.
 The actual code block
 #+srcname: setup-my-account
 #+begin_src emacs-lisp :rownames yes :var data=user-data
-  (setq my-special-username (caar data))
-  (setq my-special-password (caadr data))
+  (setq my-special-username (first (first data)))
+  (setq my-special-password (first (second data)))
 #+end_src
-
-it's expanded contents, as seen with =C-c M-b p=
+  
+  its expanded contents, as seen with =C-c M-b p=
 #+begin_src emacs-lisp
   (let ((data (quote (("john-doe") ("abc123")))))
   (setq my-special-username (first (first data)))
-  (setq my-special-password (second (first data)))
+  (setq my-special-password (first (second data)))
   )
 #+end_src
 
