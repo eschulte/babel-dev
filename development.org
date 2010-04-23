@@ -752,22 +752,23 @@ names, and rownames across all languages.  These are as follows
           variable and leads to and error.  The following table would
           previously have lead to an error but is now processed as
           shown.
-#+tblname: many-cols
-| a | b | c |
-|---+---+---|
-| d | e | f |
-|---+---+---|
-| g | h | i |
 
-#+source: echo-table
-#+begin_src python :var tab=many-cols
-  return tab
-#+end_src
-
-#+results: echo-table
-| a | b | c |
-| d | e | f |
-| g | h | i |
+          : #+tblname: many-cols
+          : | a | b | c |
+          : |---+---+---|
+          : | d | e | f |
+          : |---+---+---|
+          : | g | h | i |
+          : 
+          : #+source: echo-table
+          : #+begin_src python :var tab=many-cols
+          :   return tab
+          : #+end_src
+          : 
+          : #+results: echo-table
+          : | a | b | c |
+          : | d | e | f |
+          : | g | h | i |
           
      - "yes" :: leaves 'hlines in the table, which can be useful for
           language like emacs-lisp which may want to handle hline
@@ -782,22 +783,23 @@ names, and rownames across all languages.  These are as follows
           names will be removed from the table by org-babel before
           processing, then reapplied to the results, so for example
           the following code block has the effect shown.
-#+tblname: less-cols
-| a |
-|---|
-| b |
-| c |
 
-#+srcname: echo-table-again
-#+begin_src python :var tab=less-cols
-  return [[val + '*' for val in row] for row in tab]
-#+end_src
-
-#+results: echo-table-again
-| a  |
-|----|
-| b* |
-| c* |
+          : #+tblname: less-cols
+          : | a |
+          : |---|
+          : | b |
+          : | c |
+          :   
+          : #+srcname: echo-table-again
+          : #+begin_src python :var tab=less-cols
+          :   return [[val + '*' for val in row] for row in tab]
+          : #+end_src
+          : 
+          : #+results: echo-table-again
+          : | a  |
+          : |----|
+          : | b* |
+          : | c* |
 
      - "no" :: No column name pre-processing will take place.
 
@@ -813,18 +815,19 @@ names, and rownames across all languages.  These are as follows
      - "yes" :: The first column of the table is removed from the
           table by org-babel before processing, and is then reapplied
           to the results.  This has the effect shown below.
-#+tblname: with-rownames
-| one | 1 | 2 | 3 | 4 |  5 |
-| two | 6 | 7 | 8 | 9 | 10 | 
 
-#+srcname: echo-table-once-again
-#+begin_src python :var tab=with-rownames :rownames yes
-  return [[val + 10 for val in row] for row in tab]            
-#+end_src
-
-#+results: echo-table-once-again
-| one | 11 | 12 | 13 | 14 | 15 |
-| two | 16 | 17 | 18 | 19 | 20 |
+          : #+tblname: with-rownames
+          : | one | 1 | 2 | 3 | 4 |  5 |
+          : | two | 6 | 7 | 8 | 9 | 10 | 
+          : 
+          : #+srcname: echo-table-once-again
+          : #+begin_src python :var tab=with-rownames :rownames yes
+          :   return [[val + 10 for val in row] for row in tab]            
+          : #+end_src
+          : 
+          : #+results: echo-table-once-again
+          : | one | 11 | 12 | 13 | 14 | 15 |
+          : | two | 16 | 17 | 18 | 19 | 20 |
 
 *** discussion
       See also [[*Support%20rownames%20and%20other%20org%20babel%20table%20features][Support rownames and other org babel table features?]]
