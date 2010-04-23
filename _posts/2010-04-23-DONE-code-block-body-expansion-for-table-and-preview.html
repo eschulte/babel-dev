@@ -1,0 +1,82 @@
+---
+title: DONE code block body expansion for table and preview
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> code block body expansion for table and preview </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-23 Fri 09:44</span></span>
+
+</li>
+</ul>
+
+<p>It is now possible to expand the body of code blocks as done during
+evaluation on both to preview expanded contents and during tangling.
+This expansion takes into account all header arguments, and variables.
+</p>
+<dl>
+<dt>preview</dt><dd>
+A new key-binding <code>C-c M-b p</code> bound to
+`org-babel-expand-src-block' can be used from inside of a source
+code block to preview it's expanded contents (which can be very
+useful for debugging).
+
+</dd>
+<dt>tangling</dt><dd>
+The expanded body can now be tangled, this includes
+variable values which may be the results of other source-code
+blocks, or stored in headline properties or tables.  One possible
+use for this is to allow those using org-babel for their emacs
+initialization to store values (e.g. usernames, passwords,
+etc&hellip;) in headline properties or in tables.
+
+</dd>
+</dl>
+
+<p>Here is an example of a code block and it's resulting expanded body.
+</p>
+<p>
+The data in the file.
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>username</td><td>john-doe</td></tr>
+<tr><td>password</td><td>abc123</td></tr>
+</tbody>
+</table>
+
+
+<p>
+The actual code block
+</p>
+
+
+<div class="org-src-container"><label class="org-src-name">setup-my-account(data=user-data)</label><pre class="src src-emacs-lisp">
+<span class="org-esk-paren">(</span>setq my-special-username <span class="org-esk-paren">(</span>caar data<span class="org-esk-paren">))</span>
+<span class="org-esk-paren">(</span>setq my-special-password <span class="org-esk-paren">(</span>caadr data<span class="org-esk-paren">))</span>
+</pre></div>
+
+
+
+
+<p>
+it's expanded contents, as seen with <code>C-c M-b p</code>
+</p>
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>data <span class="org-esk-paren">(</span>quote <span class="org-esk-paren">((</span><span class="org-string">"john-doe"</span><span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span><span class="org-string">"abc123"</span><span class="org-esk-paren">)))))</span>
+<span class="org-esk-paren">(</span>setq my-special-username <span class="org-esk-paren">(</span>first <span class="org-esk-paren">(</span>first data<span class="org-esk-paren">)))</span>
+<span class="org-esk-paren">(</span>setq my-special-password <span class="org-esk-paren">(</span>second <span class="org-esk-paren">(</span>first data<span class="org-esk-paren">)))</span>
+<span class="org-esk-paren">)</span>
+</pre>
+
+
+
+</div>
+</div>

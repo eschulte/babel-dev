@@ -1,0 +1,493 @@
+---
+title: DONE Handling of table column names and hlines across languages 
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> Handling of table column names and hlines across languages </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-23 Fri 09:42</span></span>
+</li>
+<li>
+State "TODO"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-26 Fri 21:38</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 20:04</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 12:22</span></span>
+
+</li>
+</ul>
+
+<p>Org-babel now supports three new header arguments, and new default
+behavior for handling horizontal lines in tables (hlines), column
+names, and rownames across all languages.  These are as follows
+</p>
+<dl>
+<dt><code>:hlines</code></dt><dd>
+Can take on the values of "yes" or "no", with a default
+value of "no".  These values have the following effects.
+
+<dl>
+<dt>"no"</dt><dd>
+results in all hlines being stripped from the input
+table.  In most languages this is the desired effect, as a
+raw 'hline symbol generally is interpreted as an unbound
+variable and leads to and error.  The following table would
+previously have lead to an error but is now processed as
+shown.
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">a</th><th scope="col">b</th><th scope="col">c</th></tr>
+</thead>
+<tbody>
+<tr><td>d</td><td>e</td><td>f</td></tr>
+</tbody>
+<tbody>
+<tr><td>g</td><td>h</td><td>i</td></tr>
+</tbody>
+</table>
+
+
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+<pre class="src src-python"><span class="org-keyword">return</span> tab
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>a</td><td>b</td><td>c</td></tr>
+<tr><td>d</td><td>e</td><td>f</td></tr>
+<tr><td>g</td><td>h</td><td>i</td></tr>
+</tbody>
+</table>
+
+
+<dl>
+<dt>"yes"</dt><dd>
+leaves 'hlines in the table, which can be useful for
+language like emacs-lisp which may want to handle hline
+symbols explicitly
+
+</dd>
+</dl>
+<dl>
+<dt><code>:colnames</code></dt><dd>
+Can take on the values of "yes", "no", or <code>nil</code> for
+unassigned.  The default value is <code>nil</code>.  These values have the
+following effects
+
+<dl>
+<dt><code>nil</code></dt><dd>
+If an input table <i>looks like</i> it has column names
+(meaning if it's second row is an hline), then the column
+names will be removed from the table by org-babel before
+processing, then reapplied to the results, so for example
+the following code block has the effect shown.
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">a</th></tr>
+</thead>
+<tbody>
+<tr><td>b</td></tr>
+<tr><td>c</td></tr>
+</tbody>
+</table>
+
+
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+<pre class="src src-python"><span class="org-keyword">return</span> [[val + <span class="org-string">'*'</span> <span class="org-keyword">for</span> val <span class="org-keyword">in</span> row] <span class="org-keyword">for</span> row <span class="org-keyword">in</span> tab]
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">a</th></tr>
+</thead>
+<tbody>
+<tr><td>b*</td></tr>
+<tr><td>c*</td></tr>
+</tbody>
+</table>
+
+
+<dl>
+<dt>"no"</dt><dd>
+No column name pre-processing will take place.
+
+</dd>
+<dt>"yes"</dt><dd>
+Column names are removed and reapplied as with <code>nil</code>
+even if the table does not look like it has column names
+(i.e. the second row is not an hline)
+
+</dd>
+</dl>
+<dl>
+<dt><code>:rownames</code></dt><dd>
+Can take on the values of "yes" or "no", with a
+default value of "no".  These values have the following effects.
+
+<dl>
+<dt>"no"</dt><dd>
+No row name pre-processing will take place.
+
+</dd>
+<dt>"yes"</dt><dd>
+The first column of the table is removed from the
+table by org-babel before processing, and is then reapplied
+to the results.  This has the effect shown below.
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>one</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+<tr><td>two</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+</tbody>
+</table>
+
+
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+<pre class="src src-python"><span class="org-keyword">return</span> [[val + 10 <span class="org-keyword">for</span> val <span class="org-keyword">in</span> row] <span class="org-keyword">for</span> row <span class="org-keyword">in</span> tab]            
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>one</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+<tr><td>two</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+</tbody>
+</table>
+
+
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">discussion </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<p>See also <a href="#*Support==rownames==and==other==org==babel==table==features">Support rownames and other org babel table features?</a>
+</p>
+<p>
+Julien Barnier has made a patch implementing rownames in R. This
+is in branch julien-barnier-R-rownames in the devel repo (commit
+f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
+</p>
+<p>
+There is a test file for column and rownames <a href="col-row-names.html">here</a>.
+</p>
+
+</div>
+
+<div id="outline-container-1.1.1" class="outline-4">
+<h4 id="sec-1.1.1">From Tom Dye </h4>
+<div class="outline-text-4" id="text-1.1.1">
+
+<blockquote>
+
+<p>IIUC, the difficulty is introduced by the difference between R, which
+keeps row names "under the hood," and org-mode, which doesn't have a
+concept of row names.  So, the question becomes one of preserving R's
+row names in cases where that is desirable.  Because it is not
+possible, AFAIK, to distinguish between an org-mode table created
+through an R call to print a data frame and one made with org-tbl, the
+onus is on the user to preserve R row names
+</p>
+<p>
+One way would be to establish an idiom for exporting and importing R
+data frames and put it on Worg.  This one works for me.
+</p>
+<p>
+So, on the way out:
+cbind(row=rownames(df),df)
+</p>
+<p>
+And, on the way in:
+df &lt;- data.frame(x, row.names=1)
+</p>
+<p>
+If you want, I can add this, or something like it, to org-babel-doc-R.
+</p>
+<p>
+Also, I've been using the reshape package and a melt, cast sequence,
+which I use frequently, keeps the row names in the first column, so I
+only have to be conscious of preserving row names on the way back into
+org-mode.
+</p>
+</blockquote>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.1.2" class="outline-4">
+<h4 id="sec-1.1.2">Examples </h4>
+<div class="outline-text-4" id="text-1.1.2">
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="right" />
+</colgroup>
+<thead>
+<tr><th scope="col">Date</th><th scope="col">Kg</th></tr>
+</thead>
+<tbody>
+<tr><td>2010-02-21</td><td>95.0</td></tr>
+<tr><td>2010-02-22</td><td>93.0</td></tr>
+<tr><td>2010-02-23</td><td>92.0</td></tr>
+<tr><td>2010-02-24</td><td>91.5</td></tr>
+<tr><td>2010-02-25</td><td>91.0</td></tr>
+<tr><td>2010-02-26</td><td>92.0</td></tr>
+</tbody>
+</table>
+
+
+<p>
+As things stand
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1.1.3" class="outline-4">
+<h4 id="sec-1.1.3">python </h4>
+<div class="outline-text-4" id="text-1.1.3">
+
+
+
+
+<pre class="src src-python"><span class="org-keyword">return</span> d
+</pre>
+
+
+
+
+<p>
+Results in error because of 'hline
+</p>
+<p>
+We could remove the hline with the following, but need to think about whether to include the column names or not.
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-python-var-to-python</span> <span class="org-esk-paren">(</span>var<span class="org-esk-paren">)</span>
+  <span class="org-doc">"Convert an elisp var into a string of python source code
+specifying a var of the same value."</span>
+  <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>listp var<span class="org-esk-paren">)</span>
+      <span class="org-esk-paren">(</span>concat <span class="org-string">"["</span> <span class="org-esk-paren">(</span>mapconcat #'org-babel-python-var-to-python <span class="org-esk-paren">(</span>remq 'hline var<span class="org-esk-paren">)</span> <span class="org-string">", "</span><span class="org-esk-paren">)</span> <span class="org-string">"]"</span><span class="org-esk-paren">)</span>
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
+</span>    <span class="org-esk-paren">(</span>format <span class="org-string">"%S"</span> var<span class="org-esk-paren">)))</span>
+</pre>
+
+
+
+
+<p>
+That change would give this as result:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="right" />
+</colgroup>
+<tbody>
+<tr><td>Date</td><td>Kg</td></tr>
+<tr><td>2010-02-21</td><td>95.0</td></tr>
+<tr><td>2010-02-22</td><td>93.0</td></tr>
+<tr><td>2010-02-23</td><td>92.0</td></tr>
+<tr><td>2010-02-24</td><td>91.5</td></tr>
+<tr><td>2010-02-25</td><td>91.0</td></tr>
+<tr><td>2010-02-26</td><td>92.0</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-1.1.4" class="outline-4">
+<h4 id="sec-1.1.4">R </h4>
+<div class="outline-text-4" id="text-1.1.4">
+
+
+
+
+<pre class="src src-R">d
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="right" />
+</colgroup>
+<tbody>
+<tr><td>2010-02-21</td><td>95</td></tr>
+<tr><td>2010-02-22</td><td>93</td></tr>
+<tr><td>2010-02-23</td><td>92</td></tr>
+<tr><td>2010-02-24</td><td>91.5</td></tr>
+<tr><td>2010-02-25</td><td>91</td></tr>
+<tr><td>2010-02-26</td><td>92</td></tr>
+</tbody>
+</table>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Date</th><th scope="col">Kg</th></tr>
+</thead>
+<tbody>
+<tr><td>2010-02-21</td><td>95.0</td></tr>
+</tbody>
+</table>
+
+
+<p>
+NB Is it unfortunate that a named simple vector doesn't get its names
+printed out with :colnames yes?
+</p>
+
+
+
+<pre class="src src-R">c(a=1,b=2)
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" />
+</colgroup>
+<thead>
+<tr><th scope="col">x</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td></tr>
+<tr><td>2</td></tr>
+</tbody>
+</table>
+
+
+<p>
+This is because a 1d vector gets turned into a table with one column,
+and hence its names would be rownames, not column names. One has to
+transpose the vector in R to get the desired result.
+</p>
+
+
+
+<pre class="src src-R">t(c(a=1,b=2))
+</pre>
+
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">a</th><th scope="col">b</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>2</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.1.5" class="outline-4">
+<h4 id="sec-1.1.5">shell </h4>
+<div class="outline-text-4" id="text-1.1.5">
+
+
+
+
+<pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">d</span>
+</pre>
+
+
+
+
+<p>
+Error:
+</p>
+<p>
+org-babel-sh-var-to-sh wrongly converts 'hline into "hline" resulting
+in error in orgtbl-to-generic. Could change last loine of org-babel-sh-var-to-sh
+</p>
+<p>
+(if (stringp var) (format "%s" var) (format "%S" var))))
+</p>
+<p>
+to
+</p>
+<p>
+(cond
+((eq var 'hline) var)
+((stringp var) (format "%s" var))
+(t (format "%S" var)))
+</p>
+<p>
+But need to think about whether the hline should even be there at this
+stage, or whether hlines and column names should have been removed (at
+least hlines as 2nd element of elisp table).
+</p></div>
+</div>
+</div>
+</div>
