@@ -3,7 +3,48 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [68/138]
+* Tasks [69/139]
+** DONE code block body expansion for table and preview
+   - State "DONE"       from ""           [2010-04-23 Fri 09:44]
+
+It is now possible to expand the body of code blocks as done during
+evaluation on both to preview expanded contents and during tangling.
+This expansion takes into account all header arguments, and variables.
+
+- preview :: A new key-binding =C-c M-b p= bound to
+     `org-babel-expand-src-block' can be used from inside of a source
+     code block to preview it's expanded contents (which can be very
+     useful for debugging).
+
+- tangling :: The expanded body can now be tangled, this includes
+     variable values which may be the results of other source-code
+     blocks, or stored in headline properties or tables.  One possible
+     use for this is to allow those using org-babel for their emacs
+     initialization to store values (e.g. usernames, passwords,
+     etc...) in headline properties or in tables.
+
+Here is an example of a code block and it's resulting expanded body.
+
+The data in the file.
+#+tblname: user-data
+| username | john-doe |
+| password | abc123   |
+
+The actual code block
+#+srcname: setup-my-account
+#+begin_src emacs-lisp :rownames yes :var data=user-data
+  (setq my-special-username (caar data))
+  (setq my-special-password (caadr data))
+#+end_src
+
+it's expanded contents, as seen with =C-c M-b p=
+#+begin_src emacs-lisp
+  (let ((data (quote (("john-doe") ("abc123")))))
+  (setq my-special-username (first (first data)))
+  (setq my-special-password (second (first data)))
+  )
+#+end_src
+
 ** TODO Clarify situation re. org-babel-interpreters, org-babel-tangle-langs, src-lang-modes
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 
