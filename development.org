@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [67/138]
+* Tasks [68/138]
 ** TODO Clarify situation re. org-babel-interpreters, org-babel-tangle-langs, src-lang-modes
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 
@@ -692,22 +692,109 @@ Symbol's value as variable is void: y
      accept the backwards incompatibility cost, but I'm just noting it
      down. It could always be implemented by a variable.
 
-** TODO Handling of table column names across languages 
+** DONE Handling of table column names and hlines across languages 
+   - State "DONE"       from "TODO"       [2010-04-23 Fri 09:42]
    - State "TODO"       from "PROPOSED"   [2010-03-26 Fri 21:38]
    - State "PROPOSED"   from ""           [2010-02-23 Tue 20:04]
    - State "TODO"       from ""           [2010-02-23 Tue 12:22]
-   :PROPERTIES:
-   :var: d=my-table
-   :END:
-     See also [[*Support%20rownames%20and%20other%20org%20babel%20table%20features][Support rownames and other org babel table features?]]
 
-     Julien Barnier has made a patch implementing rownames in R. This
-     is in branch julien-barnier-R-rownames in the devel repo (commit
-     f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
+Org-babel now supports three new header arguments, and new default
+behavior for handling horizontal lines in tables (hlines), column
+names, and rownames across all languages.  These are as follows
+
+- =:hlines= :: Can take on the values of "yes" or "no", with a default
+     value of "no".  These values have the following effects.
+
+     - "no" :: results in all hlines being stripped from the input
+          table.  In most languages this is the desired effect, as a
+          raw 'hline symbol generally is interpreted as an unbound
+          variable and leads to and error.  The following table would
+          previously have lead to an error but is now processed as
+          shown.
+#+tblname: many-cols
+          | a | b | c |
+          |---+---+---|
+          | d | e | f |
+          |---+---+---|
+          | g | h | i |
+
+          #+source: echo-table
+          #+begin_src python :var tab=many-cols
+            return tab
+          #+end_src
+
+#+results: echo-table
+          | a | b | c |
+          | d | e | f |
+          | g | h | i |
+          
+     - "yes" :: leaves 'hlines in the table, which can be useful for
+          language like emacs-lisp which may want to handle hline
+          symbols explicitly
+
+- =:colnames= :: Can take on the values of "yes", "no", or =nil= for
+     unassigned.  The default value is =nil=.  These values have the
+     following effects
      
-     There is a test file for column and rownames [[file:col-row-names.org][here]].
+     - =nil= :: If an input table /looks like/ it has column names
+          (meaning if it's second row is an hline), then the column
+          names will be removed from the table by org-babel before
+          processing, then reapplied to the results, so for example
+          the following code block has the effect shown.
+#+tblname: less-cols
+          | a |
+          |---|
+          | b |
+          | c |
+          
+          #+srcname: echo-table-again
+          #+begin_src python :var tab=less-cols
+            return [[val + '*' for val in row] for row in tab]
+          #+end_src
 
-*** From Tom Dye
+#+results: echo-table-again
+          | a  |
+          |----|
+          | b* |
+          | c* |
+
+     - "no" :: No column name pre-processing will take place.
+
+     - "yes" :: Column names are removed and reapplied as with =nil=
+          even if the table does not look like it has column names
+          (i.e. the second row is not an hline)
+
+- =:rownames= :: Can take on the values of "yes" or "no", with a
+     default value of "no".  These values have the following effects.
+
+     - "no" :: No row name pre-processing will take place.
+
+     - "yes" :: The first column of the table is removed from the
+          table by org-babel before processing, and is then reapplied
+          to the results.  This has the effect shown below.
+#+tblname: with-rownames
+          | one | 1 | 2 | 3 | 4 |  5 |
+          | two | 6 | 7 | 8 | 9 | 10 | 
+
+          #+srcname: echo-table-once-again
+          #+begin_src python :var tab=with-rownames :rownames yes
+            return [[val + 10 for val in row] for row in tab]            
+          #+end_src
+
+#+results: echo-table-once-again
+          | one | 11 | 12 | 13 | 14 | 15 |
+          | two | 16 | 17 | 18 | 19 | 20 |
+
+*** discussion
+      See also [[*Support%20rownames%20and%20other%20org%20babel%20table%20features][Support rownames and other org babel table features?]]
+
+      Julien Barnier has made a patch implementing rownames in R. This
+      is in branch julien-barnier-R-rownames in the devel repo (commit
+      f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
+      
+      There is a test file for column and rownames [[file:col-row-names.org][here]].
+
+**** From Tom Dye
 #+begin_quote 
 IIUC, the difficulty is introduced by the difference between R, which
 keeps row names "under the hood," and org-mode, which doesn't have a
@@ -734,8 +821,8 @@ only have to be conscious of preserving row names on the way back into
 org-mode.
 #+end_quote
 
-*** Examples
-#+results: my-table
+**** Examples
+
 |       Date |   Kg |
 |------------+------|
 | 2010-02-21 | 95.0 |
@@ -747,7 +834,7 @@ org-mode.
 
 As things stand
 
-*** python
+**** python
 #+begin_src python :results value
   return d
 #+end_src
@@ -776,7 +863,7 @@ That change would give this as result:
 | 2010-02-24 | 91.5 |
 | 2010-02-25 | 91.0 |
 | 2010-02-26 | 92.0 |
-*** R
+**** R
 #+begin_src R
 d
 #+end_src
@@ -820,7 +907,7 @@ t(c(a=1,b=2))
 |---+---|
 | 1 | 2 |
 
-*** shell
+**** shell
 #+begin_src sh :var d=shell-data
 echo $d
 #+end_src
@@ -2261,6 +2348,8 @@ The listings package may provide for naming a source-code block...
 Actually there is no obvious simple and attractive way to implement
 this.  Closing this issue for now.
 ** DEFERRED Support rownames and other org babel table features?
+
+   (see [[*Handling%20of%20table%20column%20names%20and%20hlines%20across%20languages][Handling of table column names and hlines across languages]])
 
    The full org table features are detailed in the manual [[http://orgmode.org/manual/Advanced-features.html#Advanced-features][here]].
 
