@@ -25,7 +25,9 @@
      blocks, or stored in headline properties or tables.  One possible
      use for this is to allow those using org-babel for their emacs
      initialization to store values (e.g. usernames, passwords,
-     etc...) in headline properties or in tables.
+     etc...) in headline properties or in tables.  The =:no-expand=
+     header argument can be used to inhibit expansion of a code block
+     body during tangling.
 
 Here is an example of a code block and its resulting expanded body.
 
