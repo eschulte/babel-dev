@@ -5494,7 +5494,28 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [64/90]
+* Bugs [64/91]
+** TODO org-babel-tangle mis-handles empty code blocks
+   :LOGBOOK:
+   - State "TODO"       from ""           [2010-04-25 Sun 22:13]
+   :END:
+This source:
+*** TODO Cook Observations on Hawaiian Homes
+#+srcname: homestead-cook
+#+begin_src latex :tangle yes
+
+#+end_src
+Yields the following LaTeX code, which doesn't compile:
+
+% [[file:~/Public/projects/909_makaainana_history/makaainana.org::*Cook%20Observations%20on%20Hawaiian%20Homes][homestead-cook]]
+
+#+end_src
+
+  - The #+end_src line shouldn't end up in the output.
+
+  - This is a relatively new problem.  The identical code compiled
+    fine 4-6 weeks ago.
+
 ** TODO org-babel-tangle should check if in org-mode
    - State "TODO"       from ""           [2010-04-17 Sat 19:12]
 ** TODO Should strip protective commas from org blocks on tangling
