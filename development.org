@@ -3,7 +3,19 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [69/139]
+* Tasks [69/140]
+** TODO normalize the expand header argument syntax
+   - State "TODO"       from ""           [2010-04-27 Tue 11:35]
+
+#+begin_verbatim
+> "Thomas S. Dye" ... writes:
+>
+>> As an aside, I think :no-expand should be :expand no and that :expand
+>> yes (the default) should also be OK.  There are enough header
+>> arguments now that it is difficult to keep them all straight *and*
+>> remember the various syntaxes.
+#+end_verbatim
+
 ** DONE code block body expansion for table and preview
    - State "DONE"       from ""           [2010-04-23 Fri 09:44]
 
