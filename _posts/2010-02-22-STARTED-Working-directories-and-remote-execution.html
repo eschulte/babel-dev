@@ -35,7 +35,7 @@ There is a working implementation for R, ruby, python and shell
 (branch ded-babel-remote).
 </p>
 <p>
-One issue discussed <a href="#sec-1.1">below</a> is that, as things stand in emacs,
+One issue discussed <a href="#sec-1_1">below</a> is that, as things stand in emacs,
 shell-command-on-region does not use tramp to handle the case of
 a remote default-directory (unlike shell-command).
 </p>
@@ -57,7 +57,7 @@ call-process-region.
 </div>
 
 <div id="outline-container-tramp-handle-call-process-region" class="outline-3">
-<h3 id="tramp-handle-call-process-region"><a name="sec-1.1" id="sec-1.1"></a><span class="done DONE"> DONE</span> Improve the way call-process-region is handled </h3>
+<h3 id="tramp-handle-call-process-region"><a name="sec-1_1" id="sec-1_1"></a><span class="done DONE"> DONE</span> Improve the way call-process-region is handled </h3>
 <div class="outline-text-3" id="text-tramp-handle-call-process-region">
 
 
@@ -110,9 +110,9 @@ This all needs to be fixed.
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="todo TODO"> TODO</span> Improve temp file creation and remote reading </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="todo TODO"> TODO</span> Improve temp file creation and remote reading </h3>
+<div class="outline-text-3" id="text-1_2">
 
 <ul>
 <li>
@@ -123,9 +123,9 @@ See reply from Michael Albinus
 
 </div>
 
-<div id="outline-container-1.2.1" class="outline-4">
-<h4 id="sec-1.2.1">Email from Dan </h4>
-<div class="outline-text-4" id="text-1.2.1">
+<div id="outline-container-1_2_1" class="outline-4">
+<h4 id="sec-1_2_1">Email from Dan </h4>
+<div class="outline-text-4" id="text-1_2_1">
 
 <p>From: Dan Davison &lt;davison@stats.ox.ac.uk&gt;
 Subject: retrieving output from temp file
@@ -191,9 +191,9 @@ Dan
 
 </div>
 
-<div id="outline-container-1.2.2" class="outline-4">
-<h4 id="sec-1.2.2">reply from Michael Albinus </h4>
-<div class="outline-text-4" id="text-1.2.2">
+<div id="outline-container-1_2_2" class="outline-4">
+<h4 id="sec-1_2_2">reply from Michael Albinus </h4>
+<div class="outline-text-4" id="text-1_2_2">
 
 <p>From: Michael Albinus &lt;michael.albinus@gmx.de&gt;
 Subject: Re: retrieving output from temp file
@@ -288,9 +288,9 @@ Best regards, Michael.
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="todo TODO"> TODO</span> Extend to other languages </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1_3" class="outline-3">
+<h3 id="sec-1_3"><span class="todo TODO"> TODO</span> Extend to other languages </h3>
+<div class="outline-text-3" id="text-1_3">
 
 <ul>
 <li>
@@ -306,9 +306,9 @@ when attemtping to read remote data, as in
 
 </div>
 
-<div id="outline-container-1.3.1" class="outline-4">
-<h4 id="sec-1.3.1"><span class="todo TODO"> TODO</span> Make gnuplot respond to default-directory </h4>
-<div class="outline-text-4" id="text-1.3.1">
+<div id="outline-container-1_3_1" class="outline-4">
+<h4 id="sec-1_3_1"><span class="todo TODO"> TODO</span> Make gnuplot respond to default-directory </h4>
+<div class="outline-text-4" id="text-1_3_1">
 
 <ul>
 <li>
@@ -327,9 +327,9 @@ default-directory. We may want to use shell-command-on-region
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="todo STARTED"> STARTED</span> Make sure file links are pointing into dir </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1_4" class="outline-3">
+<h3 id="sec-1_4"><span class="todo STARTED"> STARTED</span> Make sure file links are pointing into dir </h3>
+<div class="outline-text-3" id="text-1_4">
 
 <ul>
 <li>
@@ -348,9 +348,9 @@ to the location of the file created by R.
 
 </div>
 
-<div id="outline-container-1.4.1" class="outline-4">
-<h4 id="sec-1.4.1"><span class="todo TODO"> TODO</span> relation of :dir and :exports </h4>
-<div class="outline-text-4" id="text-1.4.1">
+<div id="outline-container-1_4_1" class="outline-4">
+<h4 id="sec-1_4_1"><span class="todo TODO"> TODO</span> relation of :dir and :exports </h4>
+<div class="outline-text-4" id="text-1_4_1">
 
 <ul>
 <li>
@@ -388,18 +388,18 @@ the links may actually resolve.
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="todo PROPOSED"> PROPOSED</span> should we allow :results file without explicitly giving path? </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1_5" class="outline-3">
+<h3 id="sec-1_5"><span class="todo PROPOSED"> PROPOSED</span> should we allow :results file without explicitly giving path? </h3>
+<div class="outline-text-3" id="text-1_5">
 
 <p>I.e. should we create a file in /tmp or in the current directory?
 </p></div>
 
 </div>
 
-<div id="outline-container-1.6" class="outline-3">
-<h3 id="sec-1.6"><span class="done DONE"> DONE</span> Improve support for :session t :results output </h3>
-<div class="outline-text-3" id="text-1.6">
+<div id="outline-container-1_6" class="outline-3">
+<h3 id="sec-1_6"><span class="done DONE"> DONE</span> Improve support for :session t :results output </h3>
+<div class="outline-text-3" id="text-1_6">
 
 <ul>
 <li>
@@ -413,9 +413,9 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 
 </div>
 
-<div id="outline-container-1.6.1" class="outline-4">
-<h4 id="sec-1.6.1"><span class="done DEFERRED"> DEFERRED</span> :dir has no effect on existing session </h4>
-<div class="outline-text-4" id="text-1.6.1">
+<div id="outline-container-1_6_1" class="outline-4">
+<h4 id="sec-1_6_1"><span class="done DEFERRED"> DEFERRED</span> :dir has no effect on existing session </h4>
+<div class="outline-text-4" id="text-1_6_1">
 
 <ul>
 <li>
@@ -437,7 +437,7 @@ think)
 </div>
 
 <div id="outline-container-remote-results-value" class="outline-3">
-<h3 id="remote-results-value"><a name="sec-1.7" id="sec-1.7"></a><span class="done DONE"> DONE</span> :session t :results value </h3>
+<h3 id="remote-results-value"><a name="sec-1_7" id="sec-1_7"></a><span class="done DONE"> DONE</span> :session t :results value </h3>
 <div class="outline-text-3" id="text-remote-results-value">
 
 <ul>
@@ -498,9 +498,9 @@ need for ':results value'. [Dan]
 
 </div>
 
-<div id="outline-container-1.8" class="outline-3">
-<h3 id="sec-1.8"><span class="done DONE"> DONE</span> external process evaluation on remote machines </h3>
-<div class="outline-text-3" id="text-1.8">
+<div id="outline-container-1_8" class="outline-3">
+<h3 id="sec-1_8"><span class="done DONE"> DONE</span> external process evaluation on remote machines </h3>
+<div class="outline-text-3" id="text-1_8">
 
 <ul>
 <li>
@@ -523,7 +523,7 @@ A way of retrieving file contents in the case of :results value.
 </ul>
 
 <p>The second of the above should be handled by the
-<a href="#sec-1.7">remote-results-value</a> case above.  As for telling org-babel to
+<a href="#sec-1_7">remote-results-value</a> case above.  As for telling org-babel to
 start the process on a remote machine, it's not immediately clear
 to me how that would work.
 </p>

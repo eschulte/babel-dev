@@ -30,9 +30,9 @@ State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1">historical </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">historical </h3>
+<div class="outline-text-3" id="text-1_1">
 
 <p>So we now have two caching solutions, one which is entirely
 in-buffer using sha1 hashes stuffed into the resname lines, and
@@ -86,9 +86,9 @@ require a couple of lines of code).
 
 </div>
 
-<div id="outline-container-1.1.1" class="outline-4">
-<h4 id="sec-1.1.1">How well do org buffers function with large folded tables? </h4>
-<div class="outline-text-4" id="text-1.1.1">
+<div id="outline-container-1_1_1" class="outline-4">
+<h4 id="sec-1_1_1">How well do org buffers function with large folded tables? </h4>
+<div class="outline-text-4" id="text-1_1_1">
 
 
 <p>
@@ -114,12 +114,12 @@ needs.  And there's also of course SQL support in org-babel.
 
 </div>
 
-<div id="outline-container-1.1.2" class="outline-4">
-<h4 id="sec-1.1.2">cache in buffer </h4>
-<div class="outline-text-4" id="text-1.1.2">
+<div id="outline-container-1_1_2" class="outline-4">
+<h4 id="sec-1_1_2">cache in buffer </h4>
+<div class="outline-text-4" id="text-1_1_2">
 
 <ul>
-<li id="sec-1.1.2.1">Plus <br/>
+<li id="sec-1_1_2_1">Plus <br/>
 <ul>
 <li>
 Fits cleanly into existing org-babel paradigm.
@@ -137,7 +137,7 @@ Persistent across emacs sessions
 </li>
 </ul>
 </li>
-<li id="sec-1.1.2.2">Minus <br/>
+<li id="sec-1_1_2_2">Minus <br/>
 <ul>
 <li>
 I don't think it will work for export will it?
@@ -185,12 +185,12 @@ your kill ring
 
 </div>
 
-<div id="outline-container-1.1.3" class="outline-4">
-<h4 id="sec-1.1.3">cache in RAM </h4>
-<div class="outline-text-4" id="text-1.1.3">
+<div id="outline-container-1_1_3" class="outline-4">
+<h4 id="sec-1_1_3">cache in RAM </h4>
+<div class="outline-text-4" id="text-1_1_3">
 
 <ul>
-<li id="sec-1.1.3.1">Plus <br/>
+<li id="sec-1_1_3_1">Plus <br/>
 <ul>
 <li>
 Result is not editable &ndash; without editing local variables
@@ -204,7 +204,7 @@ Fastest of the three
 </li>
 </ul>
 </li>
-<li id="sec-1.1.3.2">Minus <br/>
+<li id="sec-1_1_3_2">Minus <br/>
 <ul>
 <li>
 Not part of babel paradigm (but should be very unobtrusive)
@@ -228,12 +228,12 @@ user can't read cached data
 
 </div>
 
-<div id="outline-container-1.1.4" class="outline-4">
-<h4 id="sec-1.1.4">cache on disk </h4>
-<div class="outline-text-4" id="text-1.1.4">
+<div id="outline-container-1_1_4" class="outline-4">
+<h4 id="sec-1_1_4">cache on disk </h4>
+<div class="outline-text-4" id="text-1_1_4">
 
 <ul>
-<li id="sec-1.1.4.1">Plus <br/>
+<li id="sec-1_1_4_1">Plus <br/>
 <ul>
 <li>
 Good for large tables
@@ -246,7 +246,7 @@ Persistent across emacs sessions
 </li>
 </ul>
 </li>
-<li id="sec-1.1.4.2">Minus <br/>
+<li id="sec-1_1_4_2">Minus <br/>
 <ul>
 <li>
 Not currently part of babel paradigm
@@ -293,9 +293,9 @@ the cached data is not visible or readable by the user
 
 </div>
 
-<div id="outline-container-1.1.5" class="outline-4">
-<h4 id="sec-1.1.5">How do we distinguish a nil result from a lack of a cached result? </h4>
-<div class="outline-text-4" id="text-1.1.5">
+<div id="outline-container-1_1_5" class="outline-4">
+<h4 id="sec-1_1_5">How do we distinguish a nil result from a lack of a cached result? </h4>
+<div class="outline-text-4" id="text-1_1_5">
 
 
 <blockquote>
