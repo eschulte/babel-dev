@@ -4,7 +4,7 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [69/141]
-** TODO Org-babel-notebook -- interactive org-babel sessions
+** TODO Org-babel-notebook
    - State "TODO"       from ""           [2010-05-07 Fri 15:29]
 
 How to make it possible to use org-babel interactively from within an
