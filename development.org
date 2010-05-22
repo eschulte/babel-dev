@@ -323,7 +323,13 @@ Regarding the graphical output, It is probably better to use :results file
 as suggested in the TODO. There may be necessary a lot of details in the
 graphic output such as labels, setting axis, etc.. It is better to let the
 user handle this in the code and just put the link to the file. 
+*** DONE Get matlab "Emacs Link" working
+- State "DONE"       from "TODO"       [2010-05-21 Fri 20:43]
+- State "TODO"       from ""           [2010-04-30 Fri 17:00]
 
+Current solution is imperfect: it involves the matlab process
+signaling completion by removing a lock file rather than using the
+canonical org-babel comint completion functions.
 ** TODO Customize interface
    - State "TODO"       from ""           [2010-03-26 Fri 00:31]
      Make sure we're happy with the customize interface in the
