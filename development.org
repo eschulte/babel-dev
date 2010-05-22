@@ -3,7 +3,53 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [69/140]
+* Tasks [69/141]
+** TODO Org-babel-notebook
+   - State "TODO"       from ""           [2010-05-07 Fri 15:29]
+
+How to make it possible to use org-babel interactively from within an
+interactive terminal (read: notebook, REPL, shell, or comint buffer --
+whatever name makes sense to you), rather than in it's current context
+of an Org-mode file.
+
+This would require a number of new features...
+1) a nice interface
+   - embedded images, and videos, or arbitrary x-windows (e.g. a
+     screen make by gnuplot), maybe a generic 
+   - allow input of multi-line code segments -- maybe related to
+     language selection...
+   - allow for switching the /current language/
+   - possibly allow function definitions
+   - possibly support some form of export (maybe should export to an
+     org-mode buffer which would then export arbitrarily)
+
+2) a way to maintain a persistent environment, s.t. variables and
+   functions can maintain a persistent value over the course of a
+   session
+
+3) sage for example provides a base library of operations, which can
+   be called outside of the use of any particular package.  In the
+   same way we should provide for calling basic operations directly
+   without having to open up a code block, examples could be a generic
+   means of graphing objects, simple arithmetic and matrix operations,
+   file I/O, etc...
+   
+   we should be able to use the existing lob and named code block
+   functionality to define all of these primitives -- probably using
+   elisp as the preferred language for these code blocks.
+
+4) undoubtedly there is more...
+
+Another popular notebook system is [[http://www.sagemath.org/][sage]], maybe some inspiration can be
+drawn from there.
+
+It could be nice to wrap up calc functions so that they can easily be
+called from this command line.
+
+Hopefully there's a rational way to extend the existing Org-babel
+functionality into this sort of an interface without either adding too
+many ad-hoc features or writing too much code.
+
 ** TODO normalize the expand header argument syntax
    - State "TODO"       from ""           [2010-04-27 Tue 11:35]
 
