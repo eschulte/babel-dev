@@ -20,36 +20,81 @@
 |---+---+---|
 | g | h | i |
 
-* SAME hlines shall be omitted by default
+* hlines are omitted by default
 
 #+begin_src python :var tab=C
   return tab
 #+end_src
 
+should be
+| a | b | c |
+| d | e | f |
+| g | h | i |
+
+** R
+#+begin_src R :var tab=C
+  tab
+#+end_src
+
 #+results:
 | a | b | c |
 | d | e | f |
 | g | h | i |
 
-* SAME but not for emacs-lisp, which knows how to deal with them
+* With two exceptions
+*** If there's a single hline, in second position, then the first row is treated as names, not data
 
-#+begin_src emacs-lisp :var tab=C
-tab
+#+begin_src python :var tab=B
+  return tab
+#+end_src
+
+should be:
+| a | b | c |
+|---+---+---|
+| d | e | f |
+| g | h | i |
+
+**** R
+#+begin_src R :var tab=B
+  tab
 #+end_src
 
 #+results:
 | a | b | c |
 |---+---+---|
 | d | e | f |
+| g | h | i |
+
+*** hlines are by default not omitted for emacs lisp
+
+#+begin_src emacs-lisp :var tab=C
+  tab
+#+end_src
+
+should be
+| a | b | c |
+|---+---+---|
+| d | e | f |
 |---+---+---|
 | g | h | i |
 
-* SAME :colnames says "The first row is not genuine table content"
-
-We are the same here.
+* :colnames says "The first row is names, not data"
 
 #+begin_src python :var tab=C :colnames yes
 return [[val + '*' for val in row] for row in tab]
+#+end_src
+
+should be:
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
+
+** R
+#+begin_src R :var tab=C :colnames yes
+  tab <- as.matrix(tab)
+  tab[] <- paste(tab, "*", sep="")
+  tab
 #+end_src
 
 #+results:
@@ -57,15 +102,27 @@ return [[val + '*' for val in row] for row in tab]
 |----+----+----|
 | d* | e* | f* |
 | g* | h* | i* |
-
-* SAME :rownames says "The first column is not genuine table content"
+* :rownames says "The first column is names, not data"
 
 #+begin_src python :var tab=B :rownames yes
-return [[val + '*' for val in row] for row in tab]
+  return [[val + '*' for val in row] for row in tab]
+#+end_src
+
+should be:
+| a | b  | c  |
+|---+----+----|
+| d | e* | f* |
+| g | h* | i* |
+
+#+begin_src R :var tab=B :rownames yes
+  tab <- as.matrix(tab)
+  tab[] <- paste(tab, "*", sep="")
+  tab
 #+end_src
 
 #+results:
-| a | b* | c* |
+|   | b  | c  |
+|---+----+----|
 | d | e* | f* |
 | g | h* | i* |
 
@@ -76,7 +133,7 @@ return [[val + '*' for val in row] for row in tab]
 tab[,"b",drop=FALSE]
 #+end_src
 
-#+results:
+should be:
 | b |
 |---|
 | e |
@@ -88,7 +145,7 @@ tab[,"b",drop=FALSE]
 tab["d",,drop=FALSE]
 #+end_src
 
-#+results:
+should be:
 | d | e | f |
 
 *** SAME R with both
@@ -97,7 +154,7 @@ tab["d",,drop=FALSE]
 tab["d","b",drop=FALSE]
 #+end_src
 
-#+results:
+should be:
 |   | b |
 |---+---|
 | d | e |
@@ -108,7 +165,7 @@ tab["d","b",drop=FALSE]
 t(matrix(letters[1:9], 3, 3))
 #+end_src
 
-#+results:
+should be:
 |   | V1 | V2 | V3 |
 |---+----+----+----|
 | 1 | a  | b  | c  |
@@ -116,9 +173,39 @@ t(matrix(letters[1:9], 3, 3))
 | 3 | g  | h  | i  |
 
 * SAME Etc
+*** different dimension output
+
+#+begin_src python :var tab=C :colnames yes
+return [1,2]
+#+end_src
+
+#+results:
+| 1 | 2 |
+
+#+begin_src R :var tab=C :colnames yes
+t(c(1,2))
+#+end_src
+
+#+results:
+| V1 | V2 |
+|----+----|
+|  1 |  2 |
+
 *** toupper
 #+begin_src R :var tab=C :rownames yes :colnames yes
 apply(tab, 2, toupper)
+#+end_src
+
+should be:
+|   | b | c |
+|---+---+---|
+| d | E | F |
+| g | H | I |
+
+**** R
+
+#+begin_src R :var tab=C :rownames yes :colnames yes
+  apply(tab, 2, toupper)
 #+end_src
 
 #+results:
@@ -127,11 +214,7 @@ apply(tab, 2, toupper)
 | d | E | F |
 | g | H | I |
 
-#+begin_src R :var tab=C :rownames yes
-  apply(tab, 2, toupper)
-#+end_src
-
-#+results:
+should be:
 | a | B | C |
 | d | E | F |
 | g | H | I |
@@ -140,31 +223,31 @@ apply(tab, 2, toupper)
 
 *** forcing colnames
 
-#+begin_src python :var tab=C :colnames yes
+#+begin_src python :var tab=A :colnames yes
 return [[val + '*' for val in row] for row in tab]
 #+end_src
 
 #+results:
-| a  | b  | c  |
-|----+----+----|
+| a* | b* | c* |
+| d* | e* | f* |
+| g* | h* | i* |
+should be:
+| a* | b* | c* |
 | d* | e* | f* |
 | g* | h* | i* |
 
-| a  | b  | c  |
-|----+----+----|
-| d* | e* | f* |
-| g* | h* | i* |
-
-*** a bug
-#+begin_src python :var tab=A
-return tab
+**** R
+#+begin_src R :var tab=A :colnames yes
+  tab <- as.matrix(tab)
+  tab[] <- paste(tab, "*", sep="")
+  tab
 #+end_src
 
 #+results:
-| a | b | c |
-| d | e | f |
-| g | h | i |
-
+| a  | b  | c  |
+|----+----+----|
+| d* | e* | f* |
+| g* | h* | i* |
 
 * Etc
 *** Email
