@@ -53,14 +53,14 @@ many ad-hoc features or writing too much code.
 ** TODO normalize the expand header argument syntax
    - State "TODO"       from ""           [2010-04-27 Tue 11:35]
 
-#+begin_verbatim
+#+begin_verse
 > "Thomas S. Dye" ... writes:
 >
 >> As an aside, I think :no-expand should be :expand no and that :expand
 >> yes (the default) should also be OK.  There are enough header
 >> arguments now that it is difficult to keep them all straight *and*
 >> remember the various syntaxes.
-#+end_verbatim
+#+end_verse
 
 ** DONE code block body expansion for table and preview
    - State "DONE"       from ""           [2010-04-23 Fri 09:44]
@@ -5559,26 +5559,36 @@ dot("$(2a,0)$",(2,0),N+E);
 
     
 * Bugs [64/91]
-** TODO org-babel-tangle mis-handles empty code blocks
+** STARTED org-babel-tangle mis-handles empty code blocks
+   - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
    :LOGBOOK:
    - State "TODO"       from ""           [2010-04-25 Sun 22:13]
    :END:
 This source:
-*** TODO Cook Observations on Hawaiian Homes
-#+srcname: homestead-cook
-#+begin_src latex :tangle yes
 
-#+end_src
-Yields the following LaTeX code, which doesn't compile:
+: *** Cook Observations on Hawaiian Homes
+: #+srcname: homestead-cook
+: #+begin_src latex :tangle yes
+: 
+: #+end_src
 
-% [[file:~/Public/projects/909_makaainana_history/makaainana.org::*Cook%20Observations%20on%20Hawaiian%20Homes][homestead-cook]]
+now yields the following LaTeX
 
-#+end_src
+: \begin{verbatim}
+: nil
+: \end{verbatim}
 
-  - The #+end_src line shouldn't end up in the output.
+which does not compile at least, but maybe isn't ideal, however the
+/following/ source
 
-  - This is a relatively new problem.  The identical code compiled
-    fine 4-6 weeks ago.
+: *** Cook Observations on Hawaiian Homes
+: #+srcname: homestead-cook
+: #+begin_src LaTeX :tangle yes
+: 
+: #+end_src
+
+resolves to nothing which may be more appropriate, so while this is
+partially fixed, there may still be a strict "LaTeX" check somewhere.
 
 ** TODO org-babel-tangle should check if in org-mode
    - State "TODO"       from ""           [2010-04-17 Sat 19:12]
