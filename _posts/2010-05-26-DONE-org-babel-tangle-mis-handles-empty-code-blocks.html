@@ -1,0 +1,55 @@
+---
+title: DONE org-babel-tangle mis-handles empty code blocks
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> org-babel-tangle mis-handles empty code blocks </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2010-05-26 Wed 07:06</span></span>
+</li>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-05-25 Tue 20:25</span></span>
+</li>
+</ul>
+
+<p>This source:
+</p><pre class="example">
+*** Cook Observations on Hawaiian Homes
+#+srcname: homestead-cook
+#+begin_src latex :tangle yes
+
+#+end_src
+</pre>
+
+<p>now yields the following LaTeX
+</p><pre class="example">
+\begin{verbatim}
+nil
+\end{verbatim}
+</pre>
+
+<p>which works
+</p>
+<p>
+however <b>this</b> source (notice latex vs. LaTeX)
+</p><pre class="example">
+*** Cook Observations on Hawaiian Homes
+#+srcname: homestead-cook
+#+begin_src LaTeX :tangle yes
+
+#+end_src
+</pre>
+
+<p><b>is</b> noticed by org-babel, and is eliminated by the org-babel
+pre-processing because we are exporting to LaTeX and the body is
+empty.
+</p>
+<p>
+This may be a good argument for adding language aliases to org-babel,
+so that <b>both</b> of the above blocks are recognized and treated equally.
+</p></div>
+</div>
