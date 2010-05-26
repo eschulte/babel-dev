@@ -1,0 +1,54 @@
+---
+title: STARTED org-babel-tangle mis-handles empty code blocks
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> org-babel-tangle mis-handles empty code blocks </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-05-25 Tue 20:25</span></span>
+</li>
+</ul>
+
+<p>This source:
+</p>
+<pre class="example">
+*** Cook Observations on Hawaiian Homes
+#+srcname: homestead-cook
+#+begin_src latex :tangle yes
+
+#+end_src
+</pre>
+
+
+<p>
+now yields the following LaTeX
+</p>
+<pre class="example">
+\begin{verbatim}
+nil
+\end{verbatim}
+</pre>
+
+
+<p>
+which does not compile at least, but maybe isn't ideal, however the
+<i>following</i> source
+</p>
+<pre class="example">
+*** Cook Observations on Hawaiian Homes
+#+srcname: homestead-cook
+#+begin_src LaTeX :tangle yes
+
+#+end_src
+</pre>
+
+
+<p>
+resolves to nothing which may be more appropriate, so while this is
+partially fixed, there may still be a strict "LaTeX" check somewhere.
+</p></div>
+</div>
