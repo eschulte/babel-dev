@@ -1,0 +1,51 @@
+---
+title: TODO lob function for reading files
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> lob function for reading files </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-06 Sun 10:11</span></span>
+</li>
+</ul>
+
+<blockquote>
+
+<p>This runs up against an increasingly common theme of tension between
+implementing functionality in org-babel vs. in host languages.
+</p>
+<p>
+Nearly every language which would be used inside of a code block has
+it's own mechanisms for reading the contents from a file, so to what
+extent do we want to implement this functionality inside of org-babel
+vs. leaving this up to the host language.
+</p>
+<p>
+I think this may be a good place for a library of babel function.
+</p>
+<p>
+Once we have an lob function, say read-file then we can place
+</p>
+<p>
+:var path="<i>&lt;doi:10.1000/182&gt;</i>" or :var path="<a href="[[doi:10.1000/182">doi:10.1000/182</a>]]"
+</p>
+<p>
+in a header argument to pass a path to a code block, and we can place
+</p>
+<p>
+:var path=read-file(path="<i>&lt;doi:10.1000/182&gt;</i>") or :var path=read-file(path="<a href="[[doi:10.1000/182">doi:10.1000/182</a>]]")
+</p>
+<p>
+in a header argument to pass the contents of a file to a code block.
+</p>
+</blockquote>
+
+
+<p>
+should the files be returned as a string, or as a list of lines?
+</p></div>
+</div>

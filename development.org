@@ -3,7 +3,57 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [69/141]
+* Tasks [69/144]
+** TODO evaluation of code block on export
+   - State "TODO"       from ""           [2010-06-06 Sun 15:00]
+
+Currently when exporting a code block with the =:exports code= header
+argument, the code block is *not* evaluated.  this can lead to
+unexpected behavior when there is a session argument, in situations
+like the following
+
+#+begin_src org
+  ,** inline expressions
+  ,   :PROPERTIES:
+  ,   :session:  default
+  ,   :END:
+  
+  ,#+begin_src R :exports code :results silent
+  ,  x<-8
+  ,#+end_src
+  
+  ,the sum of 1 and 4 is equal to src_R{x}
+#+end_src
+
+Lets try evaluating source code blocks when there *is* a session
+argument, and when the =:exports code= header argument is present.
+
+** TODO lob function for reading files
+   - State "TODO"       from ""           [2010-06-06 Sun 10:11]
+#+begin_quote
+  This runs up against an increasingly common theme of tension between
+  implementing functionality in org-babel vs. in host languages.
+
+  Nearly every language which would be used inside of a code block has
+  it's own mechanisms for reading the contents from a file, so to what
+  extent do we want to implement this functionality inside of org-babel
+  vs. leaving this up to the host language.
+
+  I think this may be a good place for a library of babel function.
+
+  Once we have an lob function, say read-file then we can place
+
+  :var path="doi:10.1000/182" or :var path="[[file:doi:10.1000/182]]"
+
+  in a header argument to pass a path to a code block, and we can place
+
+  :var path=read-file(path="doi:10.1000/182") or :var path=read-file(path="[[file:doi:10.1000/182]]")
+
+  in a header argument to pass the contents of a file to a code block.
+#+end_quote
+
+should the files be returned as a string, or as a list of lines?
+
 ** TODO Org-babel-notebook
    - State "TODO"       from ""           [2010-05-07 Fri 15:29]
 
@@ -248,9 +298,9 @@ Can we make it so that after C-c C-c, the table looks like this?
 #+tblfm: @2$2=@2$1
 
 ** PROPOSED Add =append= to results handling
-   :LOGBOOK:
+   - State "PROPOSED"   from "TODO"       [2010-06-05 Sat 19:11]
+   - State "TODO"       from "PROPOSED"   [2010-06-05 Sat 19:02]
    - State "PROPOSED"   from ""           [2010-04-01 Thu 10:34]
-   :END:
 
 I'm developing general purpose org-babel functions that run queries
 for frequently performed analyses.  In some instances it isn't
@@ -285,6 +335,28 @@ It would be useful in this case, and perhaps other cases, to have a =:results
 append= argument.  An org-mode table would be created if it is absent,
 or the function results would be appended to an existing results table
 if present.
+
+*** EMS thoughts
+
+this seems like a good idea, and should be easy to implement.  The
+next step would be to allow pre-pending or insertion at arbitrary
+points in the table, or to define combining functions (e.g. if the
+result is a scalar rather than a table to sum, or multiply, or
+concatenate the values), this then comes full-circle back to maybe the
+results block should just be another argument to the code block (which
+raises an issue of circular code block calls, and a related issue of
+controlling whether a block need be re-run if it's results already
+exist in the buffer), and appending shouldn't be explicitly built into
+org-babel.
+
+Hmm, I see three good options here -- there are certainly more;
+1) sort out all issues related to re-running code blocks which already
+   have in-buffer results s.t. it is possible for a block to reference
+   it's own results
+2) add a simple append option
+3) add something like /results incorporating/ functions which could
+   provide a more generic functionality subsuming appending of
+   functions
 
 ** TODO documentation for org-mode inclusion
    - State "TODO"       from ""           [2010-04-01 Thu 08:27]
