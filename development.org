@@ -3,7 +3,31 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [69/142]
+* Tasks [69/144]
+** TODO evaluation of code block on export
+   - State "TODO"       from ""           [2010-06-06 Sun 15:00]
+
+Currently when exporting a code block with the =:exports code= header
+argument, the code block is *not* evaluated.  this can lead to
+unexpected behavior when there is a session argument, in situations
+like the following
+
+#+begin_src org
+  ,** inline expressions
+  ,   :PROPERTIES:
+  ,   :session:  default
+  ,   :END:
+  
+  ,#+begin_src R :exports code :results silent
+  ,  x<-8
+  ,#+end_src
+  
+  ,the sum of 1 and 4 is equal to src_R{x}
+#+end_src
+
+Lets try evaluating source code blocks when there *is* a session
+argument, and when the =:exports code= header argument is present.
+
 ** TODO lob function for reading files
    - State "TODO"       from ""           [2010-06-06 Sun 10:11]
 #+begin_quote
