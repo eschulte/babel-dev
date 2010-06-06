@@ -248,9 +248,9 @@ Can we make it so that after C-c C-c, the table looks like this?
 #+tblfm: @2$2=@2$1
 
 ** PROPOSED Add =append= to results handling
-   :LOGBOOK:
+   - State "PROPOSED"   from "TODO"       [2010-06-05 Sat 19:11]
+   - State "TODO"       from "PROPOSED"   [2010-06-05 Sat 19:02]
    - State "PROPOSED"   from ""           [2010-04-01 Thu 10:34]
-   :END:
 
 I'm developing general purpose org-babel functions that run queries
 for frequently performed analyses.  In some instances it isn't
@@ -285,6 +285,28 @@ It would be useful in this case, and perhaps other cases, to have a =:results
 append= argument.  An org-mode table would be created if it is absent,
 or the function results would be appended to an existing results table
 if present.
+
+*** EMS thoughts
+
+this seems like a good idea, and should be easy to implement.  The
+next step would be to allow pre-pending or insertion at arbitrary
+points in the table, or to define combining functions (e.g. if the
+result is a scalar rather than a table to sum, or multiply, or
+concatenate the values), this then comes full-circle back to maybe the
+results block should just be another argument to the code block (which
+raises an issue of circular code block calls, and a related issue of
+controlling whether a block need be re-run if it's results already
+exist in the buffer), and appending shouldn't be explicitly built into
+org-babel.
+
+Hmm, I see three good options here -- there are certainly more;
+1) sort out all issues related to re-running code blocks which already
+   have in-buffer results s.t. it is possible for a block to reference
+   it's own results
+2) add a simple append option
+3) add something like /results incorporating/ functions which could
+   provide a more generic functionality subsuming appending of
+   functions
 
 ** TODO documentation for org-mode inclusion
    - State "TODO"       from ""           [2010-04-01 Thu 08:27]
