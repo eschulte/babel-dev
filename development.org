@@ -5668,6 +5668,21 @@ so for example the following
 Should export only the bodies of the code blocks, but should remove
 the existing results.
 
+This is now the case as the above now exports to the following
+(showing only the germane HTML)
+#+begin_src html
+  <p>
+  Neither of the result strings for the following two code blocks should
+  be included in the export.  And only one of the bodies should be
+  included&hellip;
+  </p>
+  
+  
+  
+  <pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>+ 1 1 1 1<span class="org-esk-paren">)</span>
+  </pre>
+#+end_src
+
 ** DONE org-babel-tangle mis-handles empty code blocks
    - State "DONE"       from "STARTED"    [2010-05-26 Wed 07:06]
    - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
