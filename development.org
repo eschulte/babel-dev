@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [70/143]
+* Tasks [71/143]
 ** DONE evaluation of code block on export
    - State "DONE"       from "TODO"       [2010-06-06 Sun 19:10]
    - State "TODO"       from ""           [2010-06-06 Sun 15:00]
@@ -29,7 +29,8 @@ like the following
 Lets try evaluating source code blocks when there *is* a session
 argument, and when the =:exports code= header argument is present.
 
-** TODO lob function for reading files
+** DONE lob function for reading files
+   - State "DONE"       from "TODO"       [2010-06-06 Sun 19:53]
    - State "TODO"       from ""           [2010-06-06 Sun 10:11]
 #+begin_quote
   This runs up against an increasingly common theme of tension between
@@ -53,7 +54,12 @@ argument, and when the =:exports code= header argument is present.
   in a header argument to pass the contents of a file to a code block.
 #+end_quote
 
-should the files be returned as a string, or as a list of lines?
+Should the files be returned as a string, or as a list of lines?  How
+about both.
+- read :: reads the file and returns one large string
+- read-lines :: reads the file and returns a list of lines
+
+(see the library of babel in =contrib/babel/library-of-babel.org=)
 
 ** TODO Org-babel-notebook
    - State "TODO"       from ""           [2010-05-07 Fri 15:29]
