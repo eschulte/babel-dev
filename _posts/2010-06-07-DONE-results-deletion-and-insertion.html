@@ -1,13 +1,16 @@
 ---
-title: PROPOSED results deletion and insertion
+title: DONE results deletion and insertion
 layout: default
 ---
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> results deletion and insertion </h2>
+<h2 id="sec-1"><span class="done DONE"> DONE</span> results deletion and insertion </h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
+<li>
+State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 16:46</span></span>
+</li>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-09 Tue 09:33</span></span>
 
@@ -17,19 +20,27 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 <p>Graham's problem was that on C-c C-c, this
 </p>
 
-<p>
-,#+ATTR<sub>LaTeX</sub>: width=10cm
-,#+results: BoxplotFlowering
-<a href="FloweringBoxplot.pdf">FloweringBoxplot.pdf</a>
-</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+ATTR_LaTeX: width=10cm</span>
+<span class="org-org-meta-line">#+results: BoxplotFlowering</span>
+<span class="org-org-link">file:FloweringBoxplot.pdf</span>
+</pre>
+
+
+
 <p>
 turns into this:
 </p>
-<p>
-,#+results: BoxplotFlowering
-<a href="FloweringBoxplot.pdf">FloweringBoxplot.pdf</a>
-,#+ATTR<sub>LaTeX</sub>: width=10cm
-</p>
+
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+results: BoxplotFlowering</span>
+<span class="org-org-link">file:FloweringBoxplot.pdf</span>
+<span class="org-org-meta-line">#+ATTR_LaTeX: width=10cm</span>
+</pre>
+
+
 
 <p>
 Two questions:
@@ -45,6 +56,45 @@ How should a user use a #+ATTR<sub>LaTeX</sub> line?
 
 </li>
 </ol>
+
+<p>Yes, we should certainly be updating the result "in situ".
+</p>
+<p>
+alright, this has now been implemented, in addition I've added
+<code>append</code> and <code>prepend</code> results arguments to for adding new results
+either before or after existing results.  The following demonstrates
+this new behavior
+</p>
+
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+results: in-situ</span>
+<span class="org-org-code">: update me in place please -- Mon Jun  7 16:44:44 2010
+: update me in place please -- Mon Jun  7 16:44:43 2010
+: update me in place please -- Mon Jun  7 16:44:42 2010
+: update me in place please -- Mon Jun  7 16:44:37 2010
+: update me in place please -- Mon Jun  7 16:42:14 2010
+: update me in place please (at the bottom) -- Mon Jun  7 16:44:59 2010
+: update me in place please (at the bottom) -- Mon Jun  7 16:45:00 2010
+: update me in place please (at the bottom) -- Mon Jun  7 16:45:02 2010
+</span>
+the results should be <span class="org-bold">*above*</span> the block
+
+<span class="org-org-meta-line">#+srcname: in-situ</span>
+<span class="org-org-meta-line">#+begin_src emacs-lisp :results prepend
+</span><span class="org-org-block">  (format "update me in place please -- %s"
+          (current-time-string))</span><span class="org-org-meta-line">
+#+end_src</span>
+
+<span class="org-org-meta-line">#+srcname: in-situ</span>
+<span class="org-org-meta-line">#+begin_src emacs-lisp :results append
+</span><span class="org-org-block">  (format "update me in place please (at the bottom) -- %s"
+          (current-time-string))</span><span class="org-org-meta-line">
+#+end_src</span>
+</pre>
+
+
+
 
 </div>
 
@@ -105,39 +155,6 @@ Dan
 </pre>
 
 
-
-
-
-<p>
-&gt;
-&gt;
-&gt; #+srcname:BoxplotFlowering
-&gt; #+begin<sub>src</sub> R :session daf :file FloweringBoxplot.pdf :exports both
-&gt; boxplot(daf$Flower~daf
-&gt; $YEAR)
-&gt; #+end<sub>src</sub>
-&gt;
-&gt; #+ATTR<sub>LaTeX</sub>: width=10cm
-&gt; #+results: BoxplotFlowering
-&gt; <a href="FloweringBoxplot.pdf">FloweringBoxplot.pdf</a>
-&gt;
-&gt;
-&gt; #+srcname:BoxplotNonFlowering
-&gt; #+begin<sub>src</sub> R :session daf :file NonFloweringBoxplot.pdf :exports both
-&gt; boxplot(daf$No.Flower~daf$YEAR)
-&gt; #+end<sub>src</sub>
-&gt;
-&gt; #+results: BoxplotNonFlowering
-&gt; <a href="NonFloweringBoxplot.pdf">NonFloweringBoxplot.pdf</a>
-&gt;
-&gt; Graham
-&gt;
-&gt;
-&gt; _______________________________________________
-&gt; Emacs-orgmode mailing list
-&gt; Please use `Reply All' to send replies to the list.
-&gt; Emacs-orgmode@gnu.org
-&gt; <a href="http://lists.gnu.org/mailman/listinfo/emacs-orgmode">http://lists.gnu.org/mailman/listinfo/emacs-orgmode</a>
-</p></div>
+</div>
 </div>
 </div>

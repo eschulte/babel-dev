@@ -1,31 +1,39 @@
 ---
-title: TODO src block regexp fails if block contains block delimiters
+title: DONE src block regexp fails if block contains block delimiters
 layout: default
 ---
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="todo TODO"> TODO</span> src block regexp fails if block contains block delimiters </h2>
+<h2 id="sec-1"><span class="done DONE"> DONE</span> src block regexp fails if block contains block delimiters </h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
 <li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 16:23</span></span>
+</li>
+<li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-11 Thu 11:32</span></span>
-
 
 </li>
 </ul>
 
+<p>this appears to be fixed now&hellip;
+</p>
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>concat <span class="org-string">"#+begin_src\n"</span>
+
+
+<div class="org-src-container"><label class="org-src-name">source-block-in-source-block()</label><pre class="src src-emacs-lisp">
+<span class="org-esk-paren">(</span>concat <span class="org-string">"#+begin_src\n"</span>
         <span class="org-string">"hello\n"</span>
         <span class="org-string">"#+end_src\n"</span><span class="org-esk-paren">)</span>
-</pre>
+</pre></div>
+
 
 
 
 
 <p>
-C-c C-c =&gt; End of file during parsing
+used to be that C-c C-c \rightarrow End of file during parsing
 </p>
 
 </div>
