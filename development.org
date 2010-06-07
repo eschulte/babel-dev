@@ -5637,7 +5637,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [72/92]
+* Bugs [73/92]
 ** DONE org-babel-tangle mis-handles empty code blocks
    - State "DONE"       from "STARTED"    [2010-05-26 Wed 07:06]
    - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
@@ -5840,8 +5840,16 @@ x
 | t | nil |
 |   | nil |
 
-** TODO point movement during #+call 
+** REJECTED point movement during #+call 
+   - State "REJECTED"   from "DEFERRED"   [2010-06-07 Mon 12:28]
    - State "TODO"       from ""           [2010-03-25 Thu 14:47]
+
+[Eric] I was unable to reproduce this bug.  When I evaluated the
+       =#+call= line with C-c C-c the point moved up to the
+       source-code block temporarily during execution, but then moved
+       safely back to the call line.
+
+       Please let me know if I've mis-understood the problem.
 
 This caused movement of point/buffer scrolling during execution of the #+call
 
@@ -5850,8 +5858,21 @@ This caused movement of point/buffer scrolling during execution of the #+call
   x <- array("", dim=c(8,12),dimnames=list(LETTERS[1:8], 1:12))
   cbind(rownames(x), x)
 #+end_src
+
 ******* 4
 #+call: create-plate()
+
+#+results: create-plate()
+|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---+---+---+---+---+---+---+---+---+---+----+----+----|
+| A |   |   |   |   |   |   |   |   |   |    |    |    |
+| B |   |   |   |   |   |   |   |   |   |    |    |    |
+| C |   |   |   |   |   |   |   |   |   |    |    |    |
+| D |   |   |   |   |   |   |   |   |   |    |    |    |
+| E |   |   |   |   |   |   |   |   |   |    |    |    |
+| F |   |   |   |   |   |   |   |   |   |    |    |    |
+| G |   |   |   |   |   |   |   |   |   |    |    |    |
+| H |   |   |   |   |   |   |   |   |   |    |    |    |
 
 ** DONE source block regexp matches delimiters inside source block
    - State "DONE"       from "DONE"       [2010-03-23 Tue 11:30]
