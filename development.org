@@ -6036,7 +6036,8 @@ finished
 ** PROPOSED Is this o-b-comint code mac-specific?
    - State "PROPOSED"   from ""           [2010-03-17 Wed 23:59]
 
-     (replace-regexp-in-string "\n" "\r\n" (regexp-quote ,full-body)) string-buffer))
+: (replace-regexp-in-string "\n" "\r\n" (regexp-quote ,full-body)) string-buffer))
+
 ** TODO Newlines etc in table cells mess up table formatting 
    - State "TODO"       from ""           [2010-03-16 Tue 23:36]
 
