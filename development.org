@@ -5637,7 +5637,37 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [74/92]
+* Bugs [75/93]
+** DONE conditionally remove existing results of source-code block on export
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
+   - State "TODO"       from ""           [2010-06-07 Mon 13:07]
+
+so for example the following
+#+begin_src org
+  ,** stripping existing results
+  ,#+results: trickily-located-somehwere-else
+  ,: I shouldn't be exported
+  
+  ,Neither of the result strings for the following two code blocks should
+  ,be included in the export.  And only one of the bodies should be
+  ,included...
+  
+  ,#+begin_src emacs-lisp :exports code
+  ,  (+ 1 1 1 1)
+  ,#+end_src
+  
+  ,#+results:
+  ,: don't include me in the export!!!!!!!
+  
+  ,#+srcname: trickily-located-somehwere-else
+  ,#+begin_src emacs-lisp :exports none
+  ,  (message "I shouldn't be exported")
+  ,#+end_src
+#+end_src
+
+Should export only the bodies of the code blocks, but should remove
+the existing results.
+
 ** DONE org-babel-tangle mis-handles empty code blocks
    - State "DONE"       from "STARTED"    [2010-05-26 Wed 07:06]
    - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
@@ -6047,8 +6077,8 @@ of "\n\r".
 ** TODO Newlines etc in table cells mess up table formatting 
    - State "TODO"       from ""           [2010-03-16 Tue 23:36]
 
-     Perhaps we should remove or protect characters like {\n,\r,\f,\v}
-     when they occur in table cells.
+Perhaps we should remove or protect characters like {\n,\r,\f,\v} when
+they occur in table cells.
 
 #+begin_src R :colnames yes
   data.frame(numbers=1:10, strings=c(letters[1:9], "an entry with a
