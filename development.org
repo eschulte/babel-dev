@@ -29,6 +29,9 @@ like the following
 Lets try evaluating source code blocks when there *is* a session
 argument, and when the =:exports code= header argument is present.
 
+There should however be a way to inhibit this evaluation.  And now
+there is, through application of a =:noeval= header argument.
+
 ** DONE lob function for reading files
    - State "DONE"       from "TODO"       [2010-06-06 Sun 19:53]
    - State "TODO"       from ""           [2010-06-06 Sun 10:11]
