@@ -809,16 +809,23 @@ With numeric ARG, display the images if and only if ARG is positive."
      session in org-babel-default-header-args:LANG
 ** PROPOSED How do we specify multiple :var references with property drawer?
    - State "PROPOSED"   from ""           [2010-02-23 Tue 19:58]
-   :PROPERTIES:
-   :var: x=1
-   :var: y=2
-   :END:
-     
-#+begin_src emacs-lisp 
-(list x y)
+
+e.g. the following
+
+#+begin_src org
+  ,*** example
+  ,   :PROPERTIES:
+  ,   :var: x=1
+  ,   :var: y=2
+  ,   :END:
+  ,     
+  ,#+begin_src emacs-lisp 
+  ,(list x y)
+  ,#+end_src
 #+end_src
 
-Symbol's value as variable is void: y
+results in
+: Symbol's value as variable is void: y
 
 ** REJECTED Define function =org-babel-version=
    - State "REJECTED"   from "PROPOSED"   [2010-03-20 Sat 12:38]
