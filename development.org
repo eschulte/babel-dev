@@ -5653,7 +5653,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [75/93]
+* Bugs [76/93]
 ** DONE conditionally remove existing results of source-code block on export
    - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
    - State "TODO"       from ""           [2010-06-07 Mon 13:07]
@@ -6140,16 +6140,25 @@ Maybe this is worth a post to the mailing list...
 | 10    an entry with a |
 | newline character     |
 
-** TODO src block regexp fails if block contains block delimiters
+** DONE src block regexp fails if block contains block delimiters
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 16:23]
    - State "TODO"       from ""           [2010-03-11 Thu 11:32]
 
+this appears to be fixed now...
+
+#+source: source-block-in-source-block
 #+begin_src emacs-lisp
        (concat "#+begin_src\n"
                "hello\n"
                "#+end_src\n")
 #+end_src
 
-C-c C-c => End of file during parsing
+#+results: source-block-in-source-block
+: #+begin_src
+: hello
+: #+end_src
+
+used to be that C-c C-c \rightarrow End of file during parsing
 
 *** report by Maurizio Vitale
 From: Maurizio Vitale <mav@cuma.i-did-not-set--mail-host-address--so-tickle-me>
