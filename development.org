@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [71/143]
+* Tasks [72/143]
 ** DONE evaluation of code block on export
    - State "DONE"       from "TODO"       [2010-06-06 Sun 19:10]
    - State "TODO"       from ""           [2010-06-06 Sun 15:00]
@@ -307,10 +307,13 @@ Can we make it so that after C-c C-c, the table looks like this?
 | 3 | 3 |
 #+tblfm: @2$2=@2$1
 
-** PROPOSED Add =append= to results handling
+** DONE Add =append= to results handling
+   - State "DONE"       from "PROPOSED"   [2010-06-07 Mon 16:46]
    - State "PROPOSED"   from "TODO"       [2010-06-05 Sat 19:11]
    - State "TODO"       from "PROPOSED"   [2010-06-05 Sat 19:02]
    - State "PROPOSED"   from ""           [2010-04-01 Thu 10:34]
+
+(implemented while fixing the [[*results%20deletion%20and%20insertion][results deletion and insertion]] bug)
 
 I'm developing general purpose org-babel functions that run queries
 for frequently performed analyses.  In some instances it isn't
@@ -5653,7 +5656,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [76/93]
+* Bugs [77/93]
 ** DONE conditionally remove existing results of source-code block on export
    - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
    - State "TODO"       from ""           [2010-06-07 Mon 13:07]
@@ -6209,32 +6212,68 @@ Best regards,
 
      Maurizio 
 
-** PROPOSED results deletion and insertion
+** DONE results deletion and insertion
+   - State "DONE"       from "PROPOSED"   [2010-06-07 Mon 16:46]
    - State "PROPOSED"   from ""           [2010-03-09 Tue 09:33]
 
-  Graham's problem was that on C-c C-c, this
+Graham's problem was that on C-c C-c, this
 
-
+#+begin_src org
   ,#+ATTR_LaTeX: width=10cm
   ,#+results: BoxplotFlowering
-  [[file:FloweringBoxplot.pdf]]
-  
-  turns into this:
-  
+  ,[[file:FloweringBoxplot.pdf]]
+#+end_src
+
+turns into this:
+
+#+begin_src org
   ,#+results: BoxplotFlowering
-  [[file:FloweringBoxplot.pdf]]
+  ,[[file:FloweringBoxplot.pdf]]
   ,#+ATTR_LaTeX: width=10cm
+#+end_src
 
+Two questions:
+1. Is it desirable that we remove the corresponding results block
+   *anywhere* in the buffer, but then re-insert it beneath the code
+   block? Or should we promise to re-insert in situ, in the case
+   that we find a pre-existing results block?
+2. How should a user use a #+ATTR_LaTeX line?
 
-  Two questions:
-  1. Is it desirable that we remove the corresponding results block
-     *anywhere* in the buffer, but then re-insert it beneath the code
-     block? Or should we promise to re-insert in situ, in the case
-     that we find a pre-existing results block?
-  2. How should a user use a #+ATTR_LaTeX line?
+Yes, we should certainly be updating the result "in situ".
+
+alright, this has now been implemented, in addition I've added
+=append= and =prepend= results arguments to for adding new results
+either before or after existing results.  The following demonstrates
+this new behavior
+
+#+begin_src org
+  ,#+results: in-situ
+  ,: update me in place please -- Mon Jun  7 16:44:44 2010
+  ,: update me in place please -- Mon Jun  7 16:44:43 2010
+  ,: update me in place please -- Mon Jun  7 16:44:42 2010
+  ,: update me in place please -- Mon Jun  7 16:44:37 2010
+  ,: update me in place please -- Mon Jun  7 16:42:14 2010
+  ,: update me in place please (at the bottom) -- Mon Jun  7 16:44:59 2010
+  ,: update me in place please (at the bottom) -- Mon Jun  7 16:45:00 2010
+  ,: update me in place please (at the bottom) -- Mon Jun  7 16:45:02 2010
+  
+  ,the results should be *above* the block
+  
+  ,#+srcname: in-situ
+  ,#+begin_src emacs-lisp :results prepend
+  ,  (format "update me in place please -- %s"
+  ,          (current-time-string))
+  ,#+end_src
+  
+  ,#+srcname: in-situ
+  ,#+begin_src emacs-lisp :results append
+  ,  (format "update me in place please (at the bottom) -- %s"
+  ,          (current-time-string))
+  ,#+end_src
+#+end_src
 
 *** Graham Smith email
-#+begin_src message 
+#+begin_src message
   From: Dan Davison <davison@stats.ox.ac.uk>
   Subject: Re: [Orgmode] Re: [babel] captions and figure size on export
   User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
@@ -6283,38 +6322,6 @@ Best regards,
   
   Dan
 #+end_src
-
-
-
->
->
-> #+srcname:BoxplotFlowering
-> #+begin_src R :session daf :file FloweringBoxplot.pdf :exports both
-> boxplot(daf$Flower~daf
-> $YEAR)
-> #+end_src
->
-> #+ATTR_LaTeX: width=10cm
-> #+results: BoxplotFlowering
-> [[file:FloweringBoxplot.pdf]]
->
->
-> #+srcname:BoxplotNonFlowering
-> #+begin_src R :session daf :file NonFloweringBoxplot.pdf :exports both
-> boxplot(daf$No.Flower~daf$YEAR)
-> #+end_src
->
-> #+results: BoxplotNonFlowering
-> [[file:NonFloweringBoxplot.pdf]]
->
-> Graham
->
->
-> _______________________________________________
-> Emacs-orgmode mailing list
-> Please use `Reply All' to send replies to the list.
-> Emacs-orgmode@gnu.org
-> http://lists.gnu.org/mailman/listinfo/emacs-orgmode
 
 ** PROPOSED Revisit field delimiter behaviour
    - State "PROPOSED"   from ""           [2010-02-21 Sun 01:04]
