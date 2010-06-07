@@ -3,8 +3,9 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [69/144]
-** TODO evaluation of code block on export
+* Tasks [71/143]
+** DONE evaluation of code block on export
+   - State "DONE"       from "TODO"       [2010-06-06 Sun 19:10]
    - State "TODO"       from ""           [2010-06-06 Sun 15:00]
 
 Currently when exporting a code block with the =:exports code= header
@@ -28,7 +29,11 @@ like the following
 Lets try evaluating source code blocks when there *is* a session
 argument, and when the =:exports code= header argument is present.
 
-** TODO lob function for reading files
+There should however be a way to inhibit this evaluation.  And now
+there is, through application of a =:noeval= header argument.
+
+** DONE lob function for reading files
+   - State "DONE"       from "TODO"       [2010-06-06 Sun 19:53]
    - State "TODO"       from ""           [2010-06-06 Sun 10:11]
 #+begin_quote
   This runs up against an increasingly common theme of tension between
@@ -52,7 +57,12 @@ argument, and when the =:exports code= header argument is present.
   in a header argument to pass the contents of a file to a code block.
 #+end_quote
 
-should the files be returned as a string, or as a list of lines?
+Should the files be returned as a string, or as a list of lines?  How
+about both.
+- read :: reads the file and returns one large string
+- read-lines :: reads the file and returns a list of lines
+
+(see the library of babel in =contrib/babel/library-of-babel.org=)
 
 ** TODO Org-babel-notebook
    - State "TODO"       from ""           [2010-05-07 Fri 15:29]
@@ -802,16 +812,23 @@ With numeric ARG, display the images if and only if ARG is positive."
      session in org-babel-default-header-args:LANG
 ** PROPOSED How do we specify multiple :var references with property drawer?
    - State "PROPOSED"   from ""           [2010-02-23 Tue 19:58]
-   :PROPERTIES:
-   :var: x=1
-   :var: y=2
-   :END:
-     
-#+begin_src emacs-lisp 
-(list x y)
+
+e.g. the following
+
+#+begin_src org
+  ,*** example
+  ,   :PROPERTIES:
+  ,   :var: x=1
+  ,   :var: y=2
+  ,   :END:
+  ,     
+  ,#+begin_src emacs-lisp 
+  ,(list x y)
+  ,#+end_src
 #+end_src
 
-Symbol's value as variable is void: y
+results in
+: Symbol's value as variable is void: y
 
 ** REJECTED Define function =org-babel-version=
    - State "REJECTED"   from "PROPOSED"   [2010-03-20 Sat 12:38]
@@ -2086,7 +2103,7 @@ assignments are made in the appropriate session.
 | 3 | 4 |
 
 #+srcname: resolve-vars-on-edit
-#+begin_src ruby :var table=my-little-table :results silent :session test
+#+begin_src ruby :var table=my-little-table :results silent :session test :noeval
   table.size.times.do |n|
     puts n
   end
@@ -2265,7 +2282,7 @@ This will rely upon [[* resolve references to other buffers][resolve references 
     - You get the error message from R
     - Execution halts at first error
       E.g.
-#+begin_src R :results output :session *R*
+#+begin_src R :results output :session *R* :noeval
   f <- function() {
       cat("hello\n")
       x <- log("a")
@@ -2273,7 +2290,7 @@ This will rely upon [[* resolve references to other buffers][resolve references 
   }
 #+end_src
 
-#+begin_src R :results output :session *R*
+#+begin_src R :results output :session *R* :noeval
   f()
 #+end_src
 
@@ -4120,7 +4137,7 @@ puts :schulte
 *** DONE python
 
 #+srcname: task-python-none-session
-#+begin_src python :session none :results replace value
+#+begin_src python :session none :results replace value :noeval
 print 'something'
 print 'output'
 [1, 2, 3]
@@ -4549,12 +4566,12 @@ last.flatten.size + 1
 ***** ruby sessions
 
 #+srcname: first-ruby-session-task
-#+begin_src ruby :session schulte :results silent
+#+begin_src ruby :session schulte :results silent :noeval
 schulte = 27
 #+end_src
 
 #+srcname: second-ruby-session-task
-#+begin_src ruby :session schulte :results silent
+#+begin_src ruby :session schulte :results silent :noeval
 schulte + 3
 #+end_src
 
@@ -4636,7 +4653,7 @@ echo $other ' is the old date'
 **** DONE ruby
 
 #+srcname: task-ruby-named-session
-#+begin_src ruby :session schulte :results replace
+#+begin_src ruby :session schulte :results replace :noeval
 schulte = :in_schulte
 #+end_src
 
@@ -4644,7 +4661,7 @@ schulte = :in_schulte
 : :in_schulte
 
 #+srcname: another-in-schulte
-#+begin_src ruby :session schulte 
+#+begin_src ruby :session schulte  :noeval
 schulte
 #+end_src
 
@@ -4656,12 +4673,12 @@ schulte
 **** DONE python
 
 #+srcname: python-session-task
-#+begin_src python :session what :results silent
+#+begin_src python :session what :results silent :noeval
 what = 98
 #+end_src
 
 #+srcname: python-get-from-session
-#+begin_src python :session what :results replace
+#+begin_src python :session what :results replace :noeval
 what
 #+end_src
 
@@ -4671,12 +4688,12 @@ what
 **** DONE shell
 
 #+srcname: task-shell-sessions
-#+begin_src sh :session what
+#+begin_src sh :session what :noeval
 WHAT='patton'
 #+end_src
 
 #+srcname: task-shell-sessions-what
-#+begin_src sh :session what :results replace
+#+begin_src sh :session what :results replace :noeval
 echo $WHAT
 #+end_src
 
@@ -4686,7 +4703,7 @@ echo $WHAT
 **** DONE R
 
 #+srcname: task-R-session
-#+begin_src R :session what :results replace
+#+begin_src R :session what :results replace :noeval
 a <- 9
 b <- 8
 a + b
@@ -4696,7 +4713,7 @@ a + b
 : 17
 
 #+srcname: another-task-R-session
-#+begin_src R :session what :results replace
+#+begin_src R :session what :results replace :noeval
 a + b
 #+end_src
 
@@ -5250,6 +5267,9 @@ Follow the pattern set by [[file:lisp/org-babel-shell.el][org-babel-shell.el]] a
     - State "DONE"       from ""           [2010-03-01 Mon 10:26]
 **** DONE add session support for clojure
    - State "DONE"       from ""           [2010-01-06 Wed 17:41]
+     :PROPERTIES:
+     :noeval:   don't evaluate these
+     :END:
 
 Thanks to Joel Boehland org-babel-clojure now supports multiple
 sessions.  This can be exercised through the following
@@ -5291,6 +5311,9 @@ sessions.  This can be exercised through the following
 : : 7
 
 ***** exported to html
+      :PROPERTIES:
+      :noeval:   not here
+      :END:
 #+srcname: set-clojure-session-var-s1
 #+begin_src clojure :session s1 :results value
 (def *var* [1 2 3])
@@ -5575,7 +5598,7 @@ gnuplot we really want the default behavior to be :default, and to
 only run a :none session when explicitly specified.
 
 #+srcname: implementing-gnuplot-sessions
-#+begin_src gnuplot :var data=gnuplot-data :session none :file session.png
+#+begin_src gnuplot :var data=gnuplot-data :session none :file session.png :noeval
 set title "Implementing Gnuplot Sessions"
 plot data using 1:2 with lines
 #+end_src
@@ -5630,7 +5653,52 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [66/91]
+* Bugs [75/93]
+** DONE conditionally remove existing results of source-code block on export
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
+   - State "TODO"       from ""           [2010-06-07 Mon 13:07]
+
+so for example the following
+#+begin_src org
+  ,** stripping existing results
+  ,#+results: trickily-located-somehwere-else
+  ,: I shouldn't be exported
+  
+  ,Neither of the result strings for the following two code blocks should
+  ,be included in the export.  And only one of the bodies should be
+  ,included...
+  
+  ,#+begin_src emacs-lisp :exports code
+  ,  (+ 1 1 1 1)
+  ,#+end_src
+  
+  ,#+results:
+  ,: don't include me in the export!!!!!!!
+  
+  ,#+srcname: trickily-located-somehwere-else
+  ,#+begin_src emacs-lisp :exports none
+  ,  (message "I shouldn't be exported")
+  ,#+end_src
+#+end_src
+
+Should export only the bodies of the code blocks, but should remove
+the existing results.
+
+This is now the case as the above now exports to the following
+(showing only the germane HTML)
+#+begin_src html
+  <p>
+  Neither of the result strings for the following two code blocks should
+  be included in the export.  And only one of the bodies should be
+  included&hellip;
+  </p>
+  
+  
+  
+  <pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>+ 1 1 1 1<span class="org-esk-paren">)</span>
+  </pre>
+#+end_src
+
 ** DONE org-babel-tangle mis-handles empty code blocks
    - State "DONE"       from "STARTED"    [2010-05-26 Wed 07:06]
    - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
@@ -5670,12 +5738,22 @@ Why?  I just successfully tangled from within my scratch buffer
 without any problems.  If no org-mode functions are explicitly
 required, then why not let people tangle from wherever they like?
 
-** TODO Should strip protective commas from org blocks on tangling
+** DONE Should strip protective commas from org blocks on tangling
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 11:43]
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
-** TODO unwind-protect needed in functions that use narrowing
+
+This has been fixed with a simple call to `replace-regexp-in-string',
+one may thing that there would be a complex function for removing the
+commas, but org-mode uses a simple regexp as well -- so apparently
+this approach is safe.
+
+** DONE unwind-protect needed in functions that use narrowing
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 11:52]
    - State "TODO"       from ""           [2010-04-12 Mon 21:58]
-     E.g. org-babel-execute-subtree
-     If there's an error you end up with a narrowed buffer.
+
+e.g. when calling `org-babel-execute-subtree' If there's an error you
+end up with a narrowed buffer.
+
 ** DEFERRED We're eating up org code block flags 
    - State "DEFERRED"   from "TODO"       [2010-04-17 Sat 13:42]
    - State "TODO"       from ""           [2010-04-11 Sun 09:59]
@@ -5688,12 +5766,14 @@ required, then why not let people tangle from wherever they like?
 
  \#+begin_src perl :tangle src/msg.pl +n
 
-** TODO Language mappings in org-src-lang-modes should be honoured by babel
+** DEFERRED Language mappings in org-src-lang-modes should be honoured by babel
+   - State "DEFERRED"   from "DONE"       [2010-06-07 Mon 11:53]
    - State "TODO"       from ""           [2010-04-09 Fri 09:39]
+this has been deferred because it should be addressed in another task
 
      Email from me to Andrea Crotti:
 
-#+begin_quote 
+#+begin_verse 
 > And it doesn't export any source even if it looks something like this
 >
 > * Org mode
@@ -5719,9 +5799,17 @@ The longer answer is, you could do
 But you (we) 'll still be faced with the problem that org-babel-load-file
 expects the blocks to be "emacs-lisp" blocks. org-babel-tangle-file, on
 the other hand, will work.
-#+end_quote
+#+end_verse
 
-** TODO prep session may fail if comint prompt is not empty
+** DONE first use of new session in ruby errors out
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 12:08]
+   - State "TODO"       from ""           [2010-06-07 Mon 11:58]
+
+a problem with the following error
+: ansi-color-process-output: Marker does not point anywhere
+
+** DONE prep session may fail if comint prompt is not empty
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 12:20]
    - State "TODO"       from ""           [2010-04-08 Thu 15:22]
 
      I think the current code assumes that we can just go to the
@@ -5765,12 +5853,17 @@ Error: unexpected input in:
 Execution halted
 #+end_quote
 
-** PROPOSED Tangling sometimes needs newline before comments
+** DONE Tangling sometimes needs newline before comments
+   - State "DONE"       from "PROPOSED"   [2010-06-07 Mon 12:26]
    - State "PROPOSED" from "" [2010-04-03 Sat 11:53]
 
      If code block starts with comment it can get appended to end of
      previous block without intervening newline. (This happened with
      uncommentable t).
+
+     this should already be fixed by recent changes to
+     org-babel-tangle.el
+
 ** DONE Do we really want inheritance of params?
    - State "DONE"       from "PROPOSED"   [2010-03-27 Sat 18:51]
    - State "PROPOSED"   from ""           [2010-03-27 Sat 16:56]
@@ -5808,8 +5901,16 @@ x
 | t | nil |
 |   | nil |
 
-** TODO point movement during #+call 
+** REJECTED point movement during #+call 
+   - State "REJECTED"   from "DEFERRED"   [2010-06-07 Mon 12:28]
    - State "TODO"       from ""           [2010-03-25 Thu 14:47]
+
+[Eric] I was unable to reproduce this bug.  When I evaluated the
+       =#+call= line with C-c C-c the point moved up to the
+       source-code block temporarily during execution, but then moved
+       safely back to the call line.
+
+       Please let me know if I've mis-understood the problem.
 
 This caused movement of point/buffer scrolling during execution of the #+call
 
@@ -5818,8 +5919,21 @@ This caused movement of point/buffer scrolling during execution of the #+call
   x <- array("", dim=c(8,12),dimnames=list(LETTERS[1:8], 1:12))
   cbind(rownames(x), x)
 #+end_src
+
 ******* 4
 #+call: create-plate()
+
+#+results: create-plate()
+|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---+---+---+---+---+---+---+---+---+---+----+----+----|
+| A |   |   |   |   |   |   |   |   |   |    |    |    |
+| B |   |   |   |   |   |   |   |   |   |    |    |    |
+| C |   |   |   |   |   |   |   |   |   |    |    |    |
+| D |   |   |   |   |   |   |   |   |   |    |    |    |
+| E |   |   |   |   |   |   |   |   |   |    |    |    |
+| F |   |   |   |   |   |   |   |   |   |    |    |    |
+| G |   |   |   |   |   |   |   |   |   |    |    |    |
+| H |   |   |   |   |   |   |   |   |   |    |    |    |
 
 ** DONE source block regexp matches delimiters inside source block
    - State "DONE"       from "DONE"       [2010-03-23 Tue 11:30]
@@ -5980,15 +6094,22 @@ executing Python source code block
 finished
 #+end_example
 
-** PROPOSED Is this o-b-comint code mac-specific?
+** DONE Is this o-b-comint code mac-specific?
+   - State "DONE"       from "PROPOSED"   [2010-06-07 Mon 12:57]
    - State "PROPOSED"   from ""           [2010-03-17 Wed 23:59]
 
-     (replace-regexp-in-string "\n" "\r\n" (regexp-quote ,full-body)) string-buffer))
+: (replace-regexp-in-string "\n" "\r\n" (regexp-quote ,full-body)) string-buffer))
+
+if it is either Mac or langauge specific, then it was probably
+required at some point.  I'll replace "\n\r" with "[\n\r]+" so that it
+won't break any instance where the comint process returns "\n" instead
+of "\n\r".
+
 ** TODO Newlines etc in table cells mess up table formatting 
    - State "TODO"       from ""           [2010-03-16 Tue 23:36]
 
-     Perhaps we should remove or protect characters like {\n,\r,\f,\v}
-     when they occur in table cells.
+Perhaps we should remove or protect characters like {\n,\r,\f,\v} when
+they occur in table cells.
 
 #+begin_src R :colnames yes
   data.frame(numbers=1:10, strings=c(letters[1:9], "an entry with a
@@ -6222,7 +6343,7 @@ Best regards,
    - State "PROPOSED"   from "TODO"       [2010-02-25 Thu 16:58]
    - State "TODO"       from ""           [2010-02-19 Fri 13:27]
      
-#+begin_src sh :session yes
+#+begin_src sh :session yes :noeval
   echo 1
   echo 2
 #+end_src
@@ -6243,7 +6364,7 @@ But without :session this gives
 *** PROPOSED Getting -- marker doesn't point anywhere
    - State "PROPOSED"   from ""           [2010-02-16 Tue 15:48]
      Only on first execution; second is OK. And doesn't occur when stepping through with edebug...
-#+begin_src sh :session sh-local :dir /tmp
+#+begin_src sh :session sh-local :dir /tmp :noeval
   hostname
   pwd
 #+end_src
@@ -6252,7 +6373,7 @@ But without :session this gives
    This is a bit weird. The first evaluation in a session is OK, but
    second and subsequent evaluations fail to output the last line.
    
-#+begin_src python :session newsession :results output
+#+begin_src python :session newsession :results output :noeval
   print 'hello'
   print 'bye'
 #+end_src
@@ -6265,7 +6386,7 @@ But evaluate it again and the second line will not be output.
 *** TODO (R) session evaluation fails if no new line terminating output
 
 #+srcname: nonewline
-#+begin_src R :session
+#+begin_src R :session :noeval
 cat("There's no newline ending this")
 #+end_src
   
@@ -6277,7 +6398,7 @@ cat("There's no newline ending this")
      and
      f19692578a958d42fb03048e574949231a83c2f7
      
-#+begin_src python :results value :session
+#+begin_src python :results value :session :noeval
 import os, time
 [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
@@ -6299,7 +6420,7 @@ Date:   Fri Feb 19 11:34:16 2010 -0500
     
     Before this change we have
     
-     #+begin_src ruby :results value :session
+     #+begin_src ruby :results value :session :noeval
      ["1", "3"]
      #+end_src
     
@@ -6308,7 +6429,7 @@ Date:   Fri Feb 19 11:34:16 2010 -0500
     
      After, we have
     
-     #+begin_src ruby :results value :session
+     #+begin_src ruby :results value :session :noeval
      ["1", "3"]
      #+end_src
     
@@ -6332,7 +6453,7 @@ Date:   Fri Feb 19 11:34:16 2010 -0500
 #+end_src
 
 ****** local
-#+begin_src python :session python-local :dir /home/dan :noweb yes :results output
+#+begin_src python :session python-local :dir /home/dan :noweb yes :results output :noeval
   <<dir-test-python>>
 #+end_src
 
@@ -6362,7 +6483,7 @@ error
    - State "TODO"       from ""           [2010-02-12 Fri 13:45]
 
 #+source: f(rs=karafet-hgR[1,3])
-#+begin_src sh :session none
+#+begin_src sh :session none :noeval
 echo $rs
 #+end_src
 
@@ -6513,7 +6634,7 @@ Thanks to Tom Dye for pointing this out.
 : 1
 
 **** tree 2
-#+begin_src R :noweb yes :session
+#+begin_src R :noweb yes :session :noeval
   <<foo>>
   a + 1
 #+end_src
@@ -6743,7 +6864,7 @@ org-babel-number-p needs a tweak. Not quite sure exactly how though.
 Yes, definitely.  I am using emacs version 22.3.1, and python 2.6.1.
 I have stripped bare my .emacs, and still:
 
-#+begin_src python :session :results value
+#+begin_src python :session :results value :noeval
  2
 #+end_src
 
@@ -6779,7 +6900,7 @@ echo 6
      window is visible, but stays where it is when it is not.
 
 *** shell
-#+begin_src sh :session
+#+begin_src sh :session :noeval
 echo hello
 #+end_src
 
@@ -6787,13 +6908,13 @@ echo hello
 : hello
 *** R
     OK, except for very first evaluation in a session which leaves point floating.
-#+begin_src R :session
+#+begin_src R :session :noeval
 cat("hello\n")
 #+end_src
 
 *** python
     Same as for R.
-#+begin_src python :session
+#+begin_src python :session :noeval
 'goodbye'
 #+end_src
 
@@ -6801,7 +6922,7 @@ cat("hello\n")
 : goodbye
 *** ruby
     Fine, no problem.
-#+begin_src ruby :session
+#+begin_src ruby :session :noeval
 'goodbye'
 #+end_src
 
@@ -6915,7 +7036,7 @@ inferior-ess-primary-prompt. The problem can be triggered by leaving
 blank lines in the middle of R code, and using :results output.
 
 *** example
-#+begin_src R :session *R* :results output
+#+begin_src R :session *R* :results output :noeval
 3
 
 7
@@ -6954,7 +7075,7 @@ and finally the results
 ** DONE blank srcname takes srcname from next line
    Commit 1c7009e28e5c16992b2c219808acff35b8d38c2b
 #+srcname:
-#+begin_src R :session *R*
+#+begin_src R :session *R* :noeval
 5
 #+end_src
 
@@ -6980,7 +7101,7 @@ This is a problem in [[file:lisp/org-babel-exp.el][org-babel-exp.el]].
 
    I edebug'ed it and it seems fine until [[file:lisp/langs/org-babel-python.el::comint%20session%20evaluation%20org%20babel%20comint%20in%20buffer%20buffer%20let%20full%20body][we go to comint]].
 
-#+begin_src python :session pysession :results value
+#+begin_src python :session pysession :results value :noeval
   import os
   from subprocess import *
   
@@ -8069,7 +8190,7 @@ This seems to be fixed by using `inferior-ess-send-input' rather than `comint-se
 ** DONE ruby fails on first call to non-default session
 
 #+srcname: bug-new-session
-#+begin_src ruby :session is-new
+#+begin_src ruby :session is-new :noeval
 :patton
 #+end_src
 
@@ -8638,6 +8759,9 @@ triv.class.name
 #+end_src
 
 *** sessions
+    :PROPERTIES:
+    :noeval:   nope
+    :END:
 
 #+srcname: set-ruby-session-var
 #+begin_src ruby :session :results silent
@@ -8673,6 +8797,9 @@ a
 #+end_src
 
 ** Clojure Tests
+   :PROPERTIES:
+   :noeval:   nope
+   :END:
 Evaluate all the cells in this table for a comprehensive test of the
 org-babel functionality.
 
@@ -8833,6 +8960,7 @@ and Check that it is still a list
 #+end_src
 
 *** source blocks as functions
+
 #+srcname: defn-fib
 #+begin_src clojure :session :results silent
   (defn fib [n]

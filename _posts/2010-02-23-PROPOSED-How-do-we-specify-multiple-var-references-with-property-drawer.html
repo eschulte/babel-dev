@@ -11,18 +11,32 @@ layout: default
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 19:58</span></span>
 
-
 </li>
 </ul>
 
+<p>e.g. the following
+</p>
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>list x y<span class="org-esk-paren">)</span>
+
+
+<pre class="src src-org"><span class="org-org-level-3">*** example</span>
+<span class="org-org-special-keyword">   :PROPERTIES:</span>
+   <span class="org-org-special-keyword">:var:</span> <span class="org-org-property-value">x=1</span>
+   <span class="org-org-special-keyword">:var:</span> <span class="org-org-property-value">y=2</span>
+<span class="org-org-special-keyword">   :END:</span>
+     
+<span class="org-org-meta-line">#+begin_src emacs-lisp 
+</span><span class="org-org-block">(list x y)</span><span class="org-org-meta-line">
+#+end_src</span>
 </pre>
 
 
 
-
 <p>
+results in
+</p><pre class="example">
 Symbol's value as variable is void: y
-</p></div>
+</pre>
+
+</div>
 </div>

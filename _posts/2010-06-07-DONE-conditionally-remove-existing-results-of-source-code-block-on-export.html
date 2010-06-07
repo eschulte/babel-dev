@@ -1,0 +1,71 @@
+---
+title: DONE conditionally remove existing results of source-code block on export
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> conditionally remove existing results of source-code block on export </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 13:17</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 13:07</span></span>
+
+</li>
+</ul>
+
+<p>so for example the following
+</p>
+
+
+<pre class="src src-org"><span class="org-org-level-2">** stripping existing results</span>
+<span class="org-org-meta-line">#+results: trickily-located-somehwere-else</span>
+<span class="org-org-code">: I shouldn't be exported
+</span>
+Neither of the result strings for the following two code blocks should
+be included in the export.  And only one of the bodies should be
+included...
+
+<span class="org-org-meta-line">#+begin_src emacs-lisp :exports code
+</span><span class="org-org-block">  (+ 1 1 1 1)</span><span class="org-org-meta-line">
+#+end_src</span>
+
+<span class="org-org-meta-line">#+results:</span>
+<span class="org-org-code">: don't include me in the export!!!!!!!
+</span>
+<span class="org-org-meta-line">#+srcname: trickily-located-somehwere-else</span>
+<span class="org-org-meta-line">#+begin_src emacs-lisp :exports none
+</span><span class="org-org-block">  (message "I shouldn't be exported")</span><span class="org-org-meta-line">
+#+end_src</span>
+</pre>
+
+
+
+<p>
+Should export only the bodies of the code blocks, but should remove
+the existing results.
+</p>
+<p>
+This is now the case as the above now exports to the following
+(showing only the germane HTML)
+</p>
+
+
+<pre class="src src-html">&lt;<span class="org-function-name">p</span>&gt;
+Neither of the result strings for the following two code blocks should
+be included in the export.  And only one of the bodies should be
+included<span class="org-variable-name">&amp;hellip;</span>
+&lt;/<span class="org-function-name">p</span>&gt;
+
+
+
+&lt;<span class="org-function-name">pre</span> <span class="org-variable-name">class</span>=<span class="org-string">"src src-emacs-lisp"</span>&gt;&lt;<span class="org-function-name">span</span> <span class="org-variable-name">class</span>=<span class="org-string">"org-esk-paren"</span>&gt;(&lt;/<span class="org-function-name">span</span>&gt;+ 1 1 1 1&lt;<span class="org-function-name">span</span> <span class="org-variable-name">class</span>=<span class="org-string">"org-esk-paren"</span>&gt;)&lt;/<span class="org-function-name">span</span>&gt;
+&lt;/<span class="org-function-name">pre</span>&gt;
+</pre>
+
+
+</div>
+</div>
