@@ -6111,6 +6111,15 @@ of "\n\r".
 Perhaps we should remove or protect characters like {\n,\r,\f,\v} when
 they occur in table cells.
 
+Is this something that should be implemented in `orgtbl-to-orgtbl'?
+Maybe this is worth a post to the mailing list...
+
+#+begin_src emacs-lisp
+  (orgtbl-to-orgtbl '(("first" "line") ("second" "line
+  with
+  newlines")) '())
+#+end_src
+
 #+begin_src R :colnames yes
   data.frame(numbers=1:10, strings=c(letters[1:9], "an entry with a
   newline character"))
