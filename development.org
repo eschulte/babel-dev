@@ -6239,6 +6239,7 @@ Two questions:
    that we find a pre-existing results block?
 2. How should a user use a #+ATTR_LaTeX line?
 
+*** Solved
 Yes, we should certainly be updating the result "in situ".
 
 alright, this has now been implemented, in addition I've added
