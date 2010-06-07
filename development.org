@@ -5637,7 +5637,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [67/91]
+* Bugs [68/91]
 ** DONE org-babel-tangle mis-handles empty code blocks
    - State "DONE"       from "STARTED"    [2010-05-26 Wed 07:06]
    - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
@@ -5686,10 +5686,13 @@ one may thing that there would be a complex function for removing the
 commas, but org-mode uses a simple regexp as well -- so apparently
 this approach is safe.
 
-** TODO unwind-protect needed in functions that use narrowing
+** DONE unwind-protect needed in functions that use narrowing
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 11:52]
    - State "TODO"       from ""           [2010-04-12 Mon 21:58]
-     E.g. org-babel-execute-subtree
-     If there's an error you end up with a narrowed buffer.
+
+e.g. when calling `org-babel-execute-subtree' If there's an error you
+end up with a narrowed buffer.
+
 ** DEFERRED We're eating up org code block flags 
    - State "DEFERRED"   from "TODO"       [2010-04-17 Sat 13:42]
    - State "TODO"       from ""           [2010-04-11 Sun 09:59]
