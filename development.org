@@ -5637,7 +5637,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [68/91]
+* Bugs [69/91]
 ** DONE org-babel-tangle mis-handles empty code blocks
    - State "DONE"       from "STARTED"    [2010-05-26 Wed 07:06]
    - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
@@ -5705,12 +5705,14 @@ end up with a narrowed buffer.
 
  \#+begin_src perl :tangle src/msg.pl +n
 
-** TODO Language mappings in org-src-lang-modes should be honoured by babel
+** DEFERRED Language mappings in org-src-lang-modes should be honoured by babel
+   - State "DEFERRED"   from "DONE"       [2010-06-07 Mon 11:53]
    - State "TODO"       from ""           [2010-04-09 Fri 09:39]
+this has been deferred because it should be addressed in another task
 
      Email from me to Andrea Crotti:
 
-#+begin_quote 
+#+begin_verse 
 > And it doesn't export any source even if it looks something like this
 >
 > * Org mode
@@ -5736,7 +5738,7 @@ The longer answer is, you could do
 But you (we) 'll still be faced with the problem that org-babel-load-file
 expects the blocks to be "emacs-lisp" blocks. org-babel-tangle-file, on
 the other hand, will work.
-#+end_quote
+#+end_verse
 
 ** TODO prep session may fail if comint prompt is not empty
    - State "TODO"       from ""           [2010-04-08 Thu 15:22]
