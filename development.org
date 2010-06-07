@@ -5637,7 +5637,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [70/92]
+* Bugs [71/92]
 ** DONE org-babel-tangle mis-handles empty code blocks
    - State "DONE"       from "STARTED"    [2010-05-26 Wed 07:06]
    - State "STARTED"    from "TODO"       [2010-05-25 Tue 20:25]
@@ -5747,7 +5747,8 @@ the other hand, will work.
 a problem with the following error
 : ansi-color-process-output: Marker does not point anywhere
 
-** TODO prep session may fail if comint prompt is not empty
+** DONE prep session may fail if comint prompt is not empty
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 12:20]
    - State "TODO"       from ""           [2010-04-08 Thu 15:22]
 
      I think the current code assumes that we can just go to the
