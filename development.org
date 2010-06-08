@@ -6876,7 +6876,7 @@ should be fixed now...
 #+results:
 : no
 
-** REJECTED (org-babel-merge-params nil) --> ((:tangle . "") (:exports . "") (:results . ""))
+** REJECTED (org-babel-merge-params nil) doesn't return nil
    - State "REJECTED"   from "PROPOSED"   [2010-06-07 Mon 18:05]
 #+begin_src emacs-lisp
   (org-babel-merge-params nil)
