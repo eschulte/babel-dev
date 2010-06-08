@@ -1,0 +1,32 @@
+---
+title: REJECTED (org-babel-merge-params nil) doesn't return nil
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done REJECTED"> REJECTED</span> (org-babel-merge-params nil) doesn't return nil </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "REJECTED"   from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 18:05</span></span>
+
+</li>
+</ul>
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>org-babel-merge-params nil<span class="org-esk-paren">)</span>
+</pre>
+
+
+
+
+
+<p>
+Is that desirable?
+</p>
+<p>
+Yes, I think this is fine, because all of the above are only triggered
+when "yes" <code>(cdr (assoc :keyword params))</code> instances are found.
+</p></div>
+</div>

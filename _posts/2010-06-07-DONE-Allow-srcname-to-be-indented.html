@@ -1,0 +1,38 @@
+---
+title: DONE Allow #+srcname to be indented
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> Allow #+srcname to be indented </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 18:11</span></span>
+</li>
+</ul>
+
+<p>done, e.g.
+</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">   #+srcname: i-am-indented</span>
+<span class="org-org-meta-line">   #+begin_src emacs-lisp 
+</span><span class="org-org-block">     (message "i am indented")</span><span class="org-org-meta-line">
+   #+end_src</span>
+
+<span class="org-org-meta-line">#+results: i-am-indented</span>
+<span class="org-org-code">: i am indented
+</span>
+<span class="org-org-meta-line">#+begin_src emacs-lisp :var output=i-am-indented
+</span><span class="org-org-block">  (length output)</span><span class="org-org-meta-line">
+#+end_src</span>
+
+<span class="org-org-meta-line">#+results:</span>
+<span class="org-org-code">: 13
+</span></pre>
+
+
+</div>
+</div>
