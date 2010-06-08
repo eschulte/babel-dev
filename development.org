@@ -5656,7 +5656,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [82/93]
+* Bugs [83/93]
 ** DONE conditionally remove existing results of source-code block on export
    - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
    - State "TODO"       from ""           [2010-06-07 Mon 13:07]
@@ -6938,7 +6938,11 @@ jm
 
 ** TODO should delete temp files after evaluation
 ** DONE tangle is outputting multiple shebang lines with python code
-** TODO o-b-execute-subtree places output outside of folded subtree
+** DONE o-b-execute-subtree places output outside of folded subtree
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 18:39]
+
+This appears to have been fixed by some of the recent changes
+
 *** Example
     Try M-x org-babel-execute-subtree with the subtree folded and
     point at the beginning of the heading line. The 7 output doesn't
@@ -6947,9 +6951,8 @@ jm
 echo 7
 #+end_src
 
-#+begin_src sh
-echo 6
-#+end_src
+#+results:
+: 7
 
 #+results:
 : 6
