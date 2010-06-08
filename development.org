@@ -5656,7 +5656,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [77/93]
+* Bugs [78/93]
 ** DONE conditionally remove existing results of source-code block on export
    - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
    - State "TODO"       from ""           [2010-06-07 Mon 13:07]
@@ -6637,7 +6637,8 @@ Now, ruby is recognized.  Looks like the function for parsing the src block is 
 stopping
 because 'R" is a valid language, but then choking when it tries to run 'r'.  
 
-** TODO subtree execution can't find blocks in other sub-trees
+** DONE subtree execution can't find blocks in other sub-trees
+   - State "DONE"       from "TODO"       [2010-06-07 Mon 17:39]
    - State "TODO"       from ""           [2009-12-30 Wed 17:05]
 
 This is most likely due to the fact that `org-babel-execute-subtree'
@@ -6652,18 +6653,20 @@ Thanks to Tom Dye for pointing this out.
 **** tree 1
 
 #+srcname: foo
-#+begin_src R
+#+begin_src R :results silent
   a <- 1
 #+end_src
 
-#+results: foo
-: 1
-
 **** tree 2
-#+begin_src R :noweb yes :session :noeval
+#+begin_src R :noweb yes :results silent :tangle ~/Desktop/tom.R
   <<foo>>
   a + 1
 #+end_src
+
+#+begin_src R :var a=foo :results silent
+  a + 2
+#+end_src
+
 ** DONE header argument values are not being collected from properties
    - State "DONE"       from "TODO"       [2009-12-28 Mon 18:11]
    - State "TODO"       from ""           [2009-12-28 Mon 16:07]
