@@ -26,7 +26,7 @@ reused in other projects.
            (mapc (lambda (pair) (insert (format "%s: %s\n" (car pair) (cdr pair))))
                  yaml-front-matter)
            (insert "---\n\n"))
-         (insert html)))) '("index" "publish"))
+         (insert html)))) '("index" "publish" "dev-updates"))
 #+end_src
 
 * Development Updates
@@ -43,7 +43,8 @@ org-mode.
           (posts-dir (expand-file-name
                       "_posts"
                       (file-name-directory (buffer-file-name))))
-          (yaml-front-matter '(("layout" . "default"))))
+          (yaml-front-matter '(("layout" . "default")))
+          (org-export-htmlize-output-type 'css))
       ;; go through both the tasks and bugs
       (mapc
        (lambda (top-level)
@@ -68,7 +69,9 @@ org-mode.
                                 "[ \t]" "-" heading)))
                        (str-time (and (string-match "\\([[:digit:]\-]+\\) " time)
                                       (match-string 1 time)))
-                       (to-file (format "%s-%s.html" str-time title))
+                       (to-file (replace-regexp-in-string
+                                 "+" "" (replace-regexp-in-string
+                                         "#" "" (format "%s-%s.html" str-time title))))
                        (org-buffer (current-buffer))
                        (yaml-front-matter (cons (cons "title" heading) yaml-front-matter))
                        html)
@@ -91,4 +94,5 @@ org-mode.
                     (insert html))
                   (get-buffer org-buffer)))))))
        '(1 2))))
+  (message "successfully exported development updates")
 #+end_src
