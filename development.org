@@ -3,7 +3,18 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [72/145]
+* Tasks [72/146]
+** PROPOSED do we want to make the naming of code block optional?
+   - State "PROPOSED"   from "TODO"       [2010-06-08 Tue 16:38]
+
+Do we always want every named code block to export with a name?
+
+It seems like this could be a useful place for a customization
+variable.
+
+note that the actual exportation is handled in org-exp.el (see
+[[file:~/src/org/lisp/org-exp.el::format%20n%20s%20equiv%20n%20caption][file:~/src/org/lisp/org-exp.el::format n s equiv n caption]])
+
 ** TODO don't require named arguments
    - State "TODO"       from "TODO"       [2010-06-08 Tue 11:52]
    - State "TODO"       from ""           [2010-06-08 Tue 11:49]
