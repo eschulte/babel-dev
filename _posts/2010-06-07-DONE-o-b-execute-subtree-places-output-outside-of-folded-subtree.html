@@ -1,0 +1,45 @@
+---
+title: DONE o-b-execute-subtree places output outside of folded subtree
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> o-b-execute-subtree places output outside of folded subtree </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 18:39</span></span>
+
+</li>
+</ul>
+
+<p>This appears to have been fixed by some of the recent changes
+</p>
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">Example </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<p>Try M-x org-babel-execute-subtree with the subtree folded and
+point at the beginning of the heading line. The 7 output doesn't
+appear and the 6 output ends up outside the folded heading.
+</p>
+
+
+<pre class="src src-sh"><span class="org-builtin">echo</span> 7
+</pre>
+
+
+
+
+
+<pre class="example">
+6
+</pre>
+
+</div>
+</div>
+</div>

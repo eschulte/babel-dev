@@ -69,7 +69,9 @@ org-mode.
                                 "[ \t]" "-" heading)))
                        (str-time (and (string-match "\\([[:digit:]\-]+\\) " time)
                                       (match-string 1 time)))
-                       (to-file (format "%s-%s.html" str-time title))
+                       (to-file (replace-regexp-in-string
+                                 "+" "" (replace-regexp-in-string
+                                         "#" "" (format "%s-%s.html" str-time title))))
                        (org-buffer (current-buffer))
                        (yaml-front-matter (cons (cons "title" heading) yaml-front-matter))
                        html)
