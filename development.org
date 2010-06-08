@@ -5656,7 +5656,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [80/93]
+* Bugs [82/93]
 ** DONE conditionally remove existing results of source-code block on export
    - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
    - State "TODO"       from ""           [2010-06-07 Mon 13:07]
@@ -6876,10 +6876,40 @@ should be fixed now...
 #+results:
 : no
 
-** PROPOSED (org-babel-merge-params nil) --> ((:tangle . "") (:exports . "") (:results . ""))
-   Is that desirable?
+** REJECTED (org-babel-merge-params nil) --> ((:tangle . "") (:exports . "") (:results . ""))
+   - State "REJECTED"   from "PROPOSED"   [2010-06-07 Mon 18:05]
+#+begin_src emacs-lisp
+  (org-babel-merge-params nil)
+#+end_src
 
-** PROPOSED Allow #+srcname to be indented
+#+results:
+| (:comments . ) | (:shebang . ) | (:cache . ) | (:noweb . ) | (:tangle . ) | (:exports . ) | (:results . ) |
+
+Is that desirable?
+
+Yes, I think this is fine, because all of the above are only triggered
+when "yes" =(cdr (assoc :keyword params))= instances are found.
+
+** DONE Allow #+srcname to be indented
+   - State "DONE"       from "PROPOSED"   [2010-06-07 Mon 18:11]
+done, e.g.
+#+begin_src org
+  ,   #+srcname: i-am-indented
+  ,   #+begin_src emacs-lisp 
+  ,     (message "i am indented")
+  ,   #+end_src
+  
+  ,#+results: i-am-indented
+  ,: i am indented
+  
+  ,#+begin_src emacs-lisp :var output=i-am-indented
+  ,  (length output)
+  ,#+end_src
+  
+  ,#+results:
+  ,: 13
+#+end_src
+
 ** REJECTED Juan Reyero bug report
    - State "REJECTED"   from "TODO"   [2010-02-25 Thu 18:19]
    
