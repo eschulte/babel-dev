@@ -43,8 +43,6 @@ of artifact in the results.
 
 
 <div class="org-src-container"><label class="org-src-name">artifacts-class-wt(project=112, duration="('event','process')", material="('wood')", class="('charcoal')", start=35, end=61)</label><pre class="src src-R">
-&lt;&lt;r-connect-to-data&gt;&gt;
-
 q <span class="org-constant">&lt;-</span> sprintf(<span class="org-string">"SELECT c.context, a.class,
 round(sum(a.weight),1) AS weight FROM artifacts a, baglist b,
 context c WHERE a.bag = b.bag AND b.context = c.context AND
@@ -54,7 +52,7 @@ AND a.material IN %s AND c.context_type = 'cultural' AND c.duration IN %s  AND b
 end)
 
 art.wt <span class="org-constant">&lt;-</span> dbGetQuery(con, q) 
-&lt;&lt;r-disconnect&gt;&gt;
+
 art.wt
 </pre></div>
 

@@ -101,8 +101,12 @@ terminal single quotes have been chomped.
 
 
 
-<pre class="src src-python">&lt;&lt;<span class="org-builtin">dir</span>-test-python&gt;&gt;
-</pre>
+<pre class="src src-python"><span class="org-keyword">import</span> os, time
+<span class="org-keyword">print</span> time.ctime()
+<span class="org-keyword">print</span> os.uname()
+<span class="org-keyword">print</span> os.getcwd()
+<span class="org-keyword">print</span> <span class="org-string">'\n'</span> <span class="org-comment">## We have a bug involving losing final lines
+</span></pre>
 
 
 

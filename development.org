@@ -3,7 +3,54 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [72/143]
+* Tasks [72/147]
+** TODO on first run, indent results to match code block indentation
+   - State "TODO"       from ""           [2010-06-10 Thu 10:13]
+
+this should be fairly straightforward
+
+** PROPOSED do we want to make the naming of code block optional?
+   - State "PROPOSED"   from "TODO"       [2010-06-08 Tue 16:38]
+
+Do we always want every named code block to export with a name?
+
+It seems like this could be a useful place for a customization
+variable.
+
+note that the actual exportation is handled in org-exp.el (see
+[[file:~/src/org/lisp/org-exp.el::format%20n%20s%20equiv%20n%20caption][file:~/src/org/lisp/org-exp.el::format n s equiv n caption]])
+
+** TODO don't require named arguments
+   - State "TODO"       from "TODO"       [2010-06-08 Tue 11:52]
+   - State "TODO"       from ""           [2010-06-08 Tue 11:49]
+
+The requirement for named arguments is a little overmuch, when the
+argument can be inferred form the order in which they're received.
+
+** TODO output filter functions
+   - State "TODO"       from ""           [2010-06-08 Tue 11:48]
+
+Would be great to have functions which will automatically be called on
+the output of a code block every time it is run.
+
+There should be a notation for specifying which of the arguments to
+the function is to come from the current code block -- and a
+convention so that if the function only accepts a single argument,
+then there is no need to specify any arguments.
+
+e.g. notice the =:filter= header argument in the second block
+
+#+source: simple-inc
+#+begin_src emacs-lisp :var input=0
+  (+ input 1)
+#+end_src
+
+#+begin_src emacs-lisp :filter simple-inc
+  8
+#+end_src
+
+the above should output 9
+
 ** DONE evaluation of code block on export
    - State "DONE"       from "TODO"       [2010-06-06 Sun 19:10]
    - State "TODO"       from ""           [2010-06-06 Sun 15:00]
