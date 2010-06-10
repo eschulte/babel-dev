@@ -3,7 +3,12 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [72/146]
+* Tasks [72/147]
+** TODO on first run, indent results to match code block indentation
+   - State "TODO"       from ""           [2010-06-10 Thu 10:13]
+
+this should be fairly straightforward
+
 ** PROPOSED do we want to make the naming of code block optional?
    - State "PROPOSED"   from "TODO"       [2010-06-08 Tue 16:38]
 
