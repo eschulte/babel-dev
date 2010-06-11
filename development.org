@@ -4,7 +4,7 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [73/148]
-** TODO Org-mode/Emacs integration [0/3]
+** TODO Org-mode and Emacs integration
    - State "TODO"       from ""           [2010-06-11 Fri 11:08]
 *** TODO documentation strings for Emacs integration
     - State "TODO"       from "TODO"       [2010-06-11 Fri 11:09]
