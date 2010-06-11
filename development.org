@@ -3,7 +3,36 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [73/147]
+* Tasks [73/148]
+** TODO Org-mode/Emacs integration [0/3]
+   - State "TODO"       from ""           [2010-06-11 Fri 11:08]
+*** TODO documentation strings for Emacs integration
+    - State "TODO"       from "TODO"       [2010-06-11 Fri 11:09]
+#+begin_quote
+  the first line of each docstring must be a complete, self-contained
+  sentence.
+#+end_quote
+
+*** TODO can't use cl functions
+#+begin_quote 
+1. Packages that are part of Emacs are not allowed to load cl at
+   runtime.  So you can use (eval-when-compile (require 'cl)) in order
+   to get the cl macros expanded, but you cannot use cl functions.
+   Annoying yes - but this is how it is.  Basically, any cl functions
+   we want to use we have to find alternatives for it in normal emacs
+   Lisp code, or write our own org-... version.
+#+end_quote
+
+If the compiler is nice enough to complain about these at compile
+time, I guess we'll just wait and let it sort this out for us.
+
+*** TODO unique ob-*.el file names
+#+begin_quote
+2. All file names in Emacs must be 8+3 unique, so the first 8
+   characters of a file name must make it unique.  File names
+   org-babel- something.el will not work.
+#+end_quote
+
 ** DONE Org-babel should work well when indented
    - State "DONE"       from "TODO"       [2010-06-10 Thu 15:48]
    - State "TODO"       from ""           [2010-06-10 Thu 10:13]
