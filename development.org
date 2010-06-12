@@ -41,7 +41,7 @@ ugh... complete
 If the compiler is nice enough to complain about these at compile
 time, I guess we'll just wait and let it sort this out for us.
 
-see the compilation errors at [[file:compile-warnings][compiler-warnings]]
+see the compilation errors at [[file:compiler-warnings][compiler-warnings]]
 
 *** DONE unique ob-*.el file names
     - State "DONE"       from "TODO"       [2010-06-11 Fri 15:26]
