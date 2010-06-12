@@ -4,14 +4,29 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [73/148]
-** TODO Org-mode and Emacs integration
+** STARTED Org-mode and Emacs integration
+   - State "STARTED"    from "TODO"       [2010-06-11 Fri 15:25]
    - State "TODO"       from ""           [2010-06-11 Fri 11:08]
-*** TODO documentation strings for Emacs integration
+*** DONE update the initialization infrastructure
+    - State "DONE"       from "STARTED"    [2010-06-11 Fri 17:22]
+    - State "STARTED"    from "TODO"       [2010-06-11 Fri 15:26]
+
+This required changing the name of the require statements, so all
+users will have to switch from e.g.
+: (require 'org-babel-sh)
+to
+: (require 'ob-sh)
+
+All other options led to overly baroque and tortured load sequences.
+
+*** DONE documentation strings for Emacs integration
+    - State "DONE"       from "TODO"       [2010-06-11 Fri 17:23]
     - State "TODO"       from "TODO"       [2010-06-11 Fri 11:09]
 #+begin_quote
   the first line of each docstring must be a complete, self-contained
   sentence.
 #+end_quote
+ugh... complete
 
 *** TODO can't use cl functions
 #+begin_quote 
@@ -26,12 +41,20 @@
 If the compiler is nice enough to complain about these at compile
 time, I guess we'll just wait and let it sort this out for us.
 
-*** TODO unique ob-*.el file names
+see the compilation errors at [[file:compile-warnings][compiler-warnings]]
+
+*** DONE unique ob-*.el file names
+    - State "DONE"       from "TODO"       [2010-06-11 Fri 15:26]
 #+begin_quote
 2. All file names in Emacs must be 8+3 unique, so the first 8
    characters of a file name must make it unique.  File names
    org-babel- something.el will not work.
 #+end_quote
+
+*** DONE move files over into the main lisp dir
+    - State "DONE"       from "TODO"       [2010-06-11 Fri 15:14]
+    - State "TODO"       from ""           [2010-06-11 Fri 15:07]
+simple
 
 ** DONE Org-babel should work well when indented
    - State "DONE"       from "TODO"       [2010-06-10 Thu 15:48]
@@ -253,10 +276,27 @@ The actual code block
 ** TODO Clarify situation re. org-babel-interpreters, org-babel-tangle-langs, src-lang-modes
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 
-   It seems that this has got overly complicated; time for some
-   simplification and harmonisation.
+It seems that this has got overly complicated; time for some
+simplification and harmonisation.
 
-   See also bug  [[*Language%20mappings%20in%20org%20src%20lang%20modes%20should%20be%20honoured%20by%20babel][Language mappings in org-src-lang-modes should be honoured by babel]]
+See also bug  [[*Language%20mappings%20in%20org%20src%20lang%20modes%20should%20be%20honoured%20by%20babel][Language mappings in org-src-lang-modes should be honoured by babel]]
+
+Lets just subvert org-src-lang-modes and use it for everything.  That
+can hold our
+- names
+- aliases
+- extensions
+- major-mode
+- shebang lines and
+- comment indicators
+
+Then when we need to check whether or not the language =lang= is
+executable we can just see if we have a =org-babel-execute:lang=
+function.
+
+This can happen *after* the merge of our code into the main body of
+org-mode to make the shared variable a little bit more natural.
+
 ** TODO raw links in uses.org on Worg
    - State "TODO"       from ""           [2010-04-12 Mon 08:53]
 
