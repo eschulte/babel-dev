@@ -1,0 +1,61 @@
+---
+title: DONE set header argument values on a buffer bases
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> set header argument values on a buffer bases </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-14 Mon 12:07</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-14 Mon 11:38</span></span>
+
+</li>
+</ul>
+
+<p>This is currently implemented using a <code>#+BABEL:</code> line similar to the
+existing <code>#+OPTIONS:</code> style lines.
+</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+BABEL: :var number=8</span>
+
+<span class="org-org-meta-line">#+begin_src ruby
+</span><span class="org-org-block">  number + 1</span><span class="org-org-meta-line">
+#+end_src</span>
+
+<span class="org-org-meta-line">#+results:</span>
+<span class="org-org-code">: 9
+</span></pre>
+
+
+
+<p>
+<b>NOTE</b>: currently once this value is read the list of header arguments
+is cached in a buffer local variable to avoid excessive load while
+exporting many source blocks.  This means that if you make changes to
+the contents of the <code>#+BABEL:</code> line you may need to close and re-open
+the buffer for these changes to take place, or run something like the
+following which will clear out the current value of the local
+variable
+</p>
+<p>
+any suggestions for a better alternative are welcome.
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">babel/clear-buffer-header-arguments</span> <span class="org-esk-paren">()</span>
+  <span class="org-esk-paren">(</span>interactive<span class="org-esk-paren">)</span>
+  <span class="org-esk-paren">(</span>setq org-babel-current-buffer-properties nil<span class="org-esk-paren">))</span>
+</pre>
+
+
+
+
+</div>
+</div>

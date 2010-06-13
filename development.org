@@ -3,15 +3,63 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [73/148]
-** TODO Org-mode and Emacs integration
+* Tasks [74/149]
+** DONE set header argument values on a buffer bases
+   - State "DONE"       from "TODO"       [2010-06-14 Mon 12:07]
+   - State "TODO"       from ""           [2010-06-14 Mon 11:38]
+
+This is currently implemented using a =#+BABEL:= line similar to the
+existing =#+OPTIONS:= style lines.
+#+begin_src org
+  ,#+BABEL: :var number=8
+  
+  ,#+begin_src ruby
+  ,  number + 1
+  ,#+end_src
+  
+  ,#+results:
+  ,: 9
+#+end_src
+
+*NOTE*: currently once this value is read the list of header arguments
+ is cached in a buffer local variable to avoid excessive load while
+ exporting many source blocks.  This means that if you make changes to
+ the contents of the =#+BABEL:= line you may need to close and re-open
+ the buffer for these changes to take place, or run something like the
+ following which will clear out the current value of the local
+ variable
+ 
+ any suggestions for a better alternative are welcome.
+
+ #+begin_src emacs-lisp
+   (defun babel/clear-buffer-header-arguments ()
+     (interactive)
+     (setq org-babel-current-buffer-properties nil))
+ #+end_src
+
+** STARTED Org-mode and Emacs integration
+   - State "STARTED"    from "TODO"       [2010-06-11 Fri 15:25]
    - State "TODO"       from ""           [2010-06-11 Fri 11:08]
-*** TODO documentation strings for Emacs integration
+*** DONE update the initialization infrastructure
+    - State "DONE"       from "STARTED"    [2010-06-11 Fri 17:22]
+    - State "STARTED"    from "TODO"       [2010-06-11 Fri 15:26]
+
+This required changing the name of the require statements, so all
+users will have to switch from e.g.
+: (require 'org-babel-sh)
+to
+: (require 'ob-sh)
+
+All other options led to overly baroque and tortured load sequences.
+
+*** DONE documentation strings for Emacs integration
+    - State "DONE"       from "TODO"       [2010-06-11 Fri 17:23]
     - State "TODO"       from "TODO"       [2010-06-11 Fri 11:09]
 #+begin_quote
   the first line of each docstring must be a complete, self-contained
   sentence.
 #+end_quote
+ugh... complete
 
 *** TODO can't use cl functions
 #+begin_quote 
@@ -26,12 +74,20 @@
 If the compiler is nice enough to complain about these at compile
 time, I guess we'll just wait and let it sort this out for us.
 
-*** TODO unique ob-*.el file names
+see the compilation errors at [[file:compiler-warnings][compiler-warnings]]
+
+*** DONE unique ob-*.el file names
+    - State "DONE"       from "TODO"       [2010-06-11 Fri 15:26]
 #+begin_quote
 2. All file names in Emacs must be 8+3 unique, so the first 8
    characters of a file name must make it unique.  File names
    org-babel- something.el will not work.
 #+end_quote
+
+*** DONE move files over into the main lisp dir
+    - State "DONE"       from "TODO"       [2010-06-11 Fri 15:14]
+    - State "TODO"       from ""           [2010-06-11 Fri 15:07]
+simple
 
 ** DONE Org-babel should work well when indented
    - State "DONE"       from "TODO"       [2010-06-10 Thu 15:48]
@@ -191,6 +247,25 @@ Hopefully there's a rational way to extend the existing Org-babel
 functionality into this sort of an interface without either adding too
 many ad-hoc features or writing too much code.
 
+*** interface -- Org-mode comint buffer
+just to /stream-of-consciouses/ for a moment.
+
+how will this comint buffer look, and should it even be a comint
+buffer?
+
+Increasingly since Org-babel is fully capable of handing back org-mode
+formatted text from any execution, I'm thinking that the interactive
+notebook should have Org-mode as it's major mode.
+
+Then each execution (every time the user presses enter to send a line
+of code to the interpreter) could generate a new headline, and both
+the results and the related code could be placed under this headline.
+
+In this way a series of executions at the "prompt" would result in a
+series of folded headlines above the prompt, with the latest headline
+always unfolded and immediately below the prompt.  I think this could
+turn out to be a fairly natural interface.
+
 ** TODO normalize the expand header argument syntax
    - State "TODO"       from ""           [2010-04-27 Tue 11:35]
 
@@ -253,10 +328,27 @@ The actual code block
 ** TODO Clarify situation re. org-babel-interpreters, org-babel-tangle-langs, src-lang-modes
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 
-   It seems that this has got overly complicated; time for some
-   simplification and harmonisation.
+It seems that this has got overly complicated; time for some
+simplification and harmonisation.
 
-   See also bug  [[*Language%20mappings%20in%20org%20src%20lang%20modes%20should%20be%20honoured%20by%20babel][Language mappings in org-src-lang-modes should be honoured by babel]]
+See also bug  [[*Language%20mappings%20in%20org%20src%20lang%20modes%20should%20be%20honoured%20by%20babel][Language mappings in org-src-lang-modes should be honoured by babel]]
+
+Lets just subvert org-src-lang-modes and use it for everything.  That
+can hold our
+- names
+- aliases
+- extensions
+- major-mode
+- shebang lines and
+- comment indicators
+
+Then when we need to check whether or not the language =lang= is
+executable we can just see if we have a =org-babel-execute:lang=
+function.
+
+This can happen *after* the merge of our code into the main body of
+org-mode to make the shared variable a little bit more natural.
+
 ** TODO raw links in uses.org on Worg
    - State "TODO"       from ""           [2010-04-12 Mon 08:53]
 

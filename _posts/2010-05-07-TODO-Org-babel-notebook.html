@@ -83,5 +83,35 @@ called from this command line.
 Hopefully there's a rational way to extend the existing Org-babel
 functionality into this sort of an interface without either adding too
 many ad-hoc features or writing too much code.
+</p>
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">interface &ndash; Org-mode comint buffer </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<p>just to <i>stream-of-consciouses</i> for a moment.
+</p>
+<p>
+how will this comint buffer look, and should it even be a comint
+buffer?
+</p>
+<p>
+Increasingly since Org-babel is fully capable of handing back org-mode
+formatted text from any execution, I'm thinking that the interactive
+notebook should have Org-mode as it's major mode.
+</p>
+<p>
+Then each execution (every time the user presses enter to send a line
+of code to the interpreter) could generate a new headline, and both
+the results and the related code could be placed under this headline.
+</p>
+<p>
+In this way a series of executions at the "prompt" would result in a
+series of folded headlines above the prompt, with the latest headline
+always unfolded and immediately below the prompt.  I think this could
+turn out to be a fairly natural interface.
 </p></div>
+</div>
 </div>
