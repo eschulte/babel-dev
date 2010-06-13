@@ -214,6 +214,25 @@ Hopefully there's a rational way to extend the existing Org-babel
 functionality into this sort of an interface without either adding too
 many ad-hoc features or writing too much code.
 
+*** interface -- Org-mode comint buffer
+just to /stream-of-consciouses/ for a moment.
+
+how will this comint buffer look, and should it even be a comint
+buffer?
+
+Increasingly since Org-babel is fully capable of handing back org-mode
+formatted text from any execution, I'm thinking that the interactive
+notebook should have Org-mode as it's major mode.
+
+Then each execution (every time the user presses enter to send a line
+of code to the interpreter) could generate a new headline, and both
+the results and the related code could be placed under this headline.
+
+In this way a series of executions at the "prompt" would result in a
+series of folded headlines above the prompt, with the latest headline
+always unfolded and immediately below the prompt.  I think this could
+turn out to be a fairly natural interface.
+
 ** TODO normalize the expand header argument syntax
    - State "TODO"       from ""           [2010-04-27 Tue 11:35]
 
