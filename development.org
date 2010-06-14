@@ -21,6 +21,22 @@ existing =#+OPTIONS:= style lines.
   ,: 9
 #+end_src
 
+*NOTE*: currently once this value is read the list of header arguments
+ is cached in a buffer local variable to avoid excessive load while
+ exporting many source blocks.  This means that if you make changes to
+ the contents of the =#+BABEL:= line you may need to close and re-open
+ the buffer for these changes to take place, or run something like the
+ following which will clear out the current value of the local
+ variable
+ 
+ any suggestions for a better alternative are welcome.
+
+ #+begin_src emacs-lisp
+   (defun babel/clear-buffer-header-arguments ()
+     (interactive)
+     (setq org-babel-current-buffer-properties nil))
+ #+end_src
+
 ** STARTED Org-mode and Emacs integration
    - State "STARTED"    from "TODO"       [2010-06-11 Fri 15:25]
    - State "TODO"       from ""           [2010-06-11 Fri 11:08]
