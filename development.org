@@ -3,7 +3,29 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [74/149]
+* Tasks [74/150]
+** PROPOSED begin throwing errors on malformed header arguments
+   - State "PROPOSED"   from ""           [2010-06-15 Tue 15:00]
+
+It is easy to type in a bad header argument string and get confusing
+results.  For example this
+#+begin_src org
+  ,#+begin_src python :results output
+  ,  print 'hello'
+  ,#+end_src
+#+end_src
+doesn't return any value, while this does
+#+begin_src org
+  ,#+begin_src python :results output
+  ,  print 'hello'
+  ,#+end_src
+  
+  ,#+results:
+  ,: hello
+#+end_src
+
+Thanks to Ben Edwards for this suggestion.
+
 ** DONE set header argument values on a buffer bases
    - State "DONE"       from "TODO"       [2010-06-14 Mon 12:07]
    - State "TODO"       from ""           [2010-06-14 Mon 11:38]

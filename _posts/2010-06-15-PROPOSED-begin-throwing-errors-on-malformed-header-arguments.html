@@ -1,0 +1,46 @@
+---
+title: PROPOSED begin throwing errors on malformed header arguments
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> begin throwing errors on malformed header arguments </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-15 Tue 15:00</span></span>
+
+</li>
+</ul>
+
+<p>It is easy to type in a bad header argument string and get confusing
+results.  For example this
+</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+begin_src python :results output
+</span><span class="org-org-block">  print 'hello'</span><span class="org-org-meta-line">
+#+end_src</span>
+</pre>
+
+
+<p>
+doesn't return any value, while this does
+</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+begin_src python :results output
+</span><span class="org-org-block">  print 'hello'</span><span class="org-org-meta-line">
+#+end_src</span>
+
+<span class="org-org-meta-line">#+results:</span>
+<span class="org-org-code">: hello
+</span></pre>
+
+
+
+<p>
+Thanks to Ben Edwards for this suggestion.
+</p></div>
+</div>
