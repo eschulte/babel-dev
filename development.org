@@ -10,7 +10,7 @@
 It is easy to type in a bad header argument string and get confusing
 results.  For example this
 #+begin_src org
-  ,#+begin_src python :results output
+  ,#+begin_src python results:output
   ,  print 'hello'
   ,#+end_src
 #+end_src
