@@ -66,39 +66,39 @@ available. Another approach is suggested by this email by d.tchin:
 
 
 <p class="verse">
-From: "d.tchin" &lt;d.tchin@voila.fr&gt;<br/>
-Subject: [Orgmode] Re: org-babel-R  and windows ?<br/>
-User-Agent: Loom/3.14 (<a href="http://gmane.org/">http://gmane.org/</a>)<br/>
-Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)<br/>
-To: emacs-orgmode@gnu.org<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp From: "d.tchin" &lt;d.tchin@voila.fr&gt;<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp Subject: [Orgmode] Re: org-babel-R  and windows ?<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp User-Agent: Loom/3.14 (<a href="http://gmane.org/">http://gmane.org/</a>)<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp Date: Wed, 13 Jan 2010 09:20:11 +0000 (UTC)<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp To: emacs-orgmode@gnu.org<br/>
 <br/>
-Dan Davison &lt;davison &lt;at&gt; stats.ox.ac.uk&gt; writes:<br/>
-&gt; The org-babel default is to invoke R as an external shell command, and I<br/>
-&gt; think this is what is causing the problem. It requires that the emacs<br/>
-&gt; function shell-command can use the string "R" to invoke an R process,<br/>
-&gt; i.e. the R installation and the shell path must be such that this is the<br/>
-&gt; case.<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp Dan Davison &lt;davison &lt;at&gt; stats.ox.ac.uk&gt; writes:<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; The org-babel default is to invoke R as an external shell command, and I<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; think this is what is causing the problem. It requires that the emacs<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; function shell-command can use the string "R" to invoke an R process,<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; i.e. the R installation and the shell path must be such that this is the<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; case.<br/>
 <br/>
-Thank you for the information and explanation.<br/>
-It seems that the problem comes from the windows shell. <br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp Thank you for the information and explanation.<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp It seems that the problem comes from the windows shell.<br/>
 <br/>
-I try the following :  I explicitely told emacs to use bash <br/>
-with the following instructions :<br/>
-(setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")<br/>
-(setq shell-file-name explicit-shell-file-name)<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp I try the following :  I explicitely told emacs to use bash<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp with the following instructions :<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp (setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp (setq shell-file-name explicit-shell-file-name)<br/>
 <br/>
-It works with bash.<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp It works with bash.<br/>
 <br/>
 <br/>
-&gt; <br/>
-&gt; #+srcname:trial<br/>
-&gt; #+begin<sub>src</sub> R :session org-babel-R-session<br/>
-&gt;    c(4,5,6,7,8,9)<br/>
-&gt; #+end<sub>src\\</sub>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt;<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; #+srcname:trial<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; #+begin<sub>src</sub> R :session org-babel-R-session<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt;    c(4,5,6,7,8,9)<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp &gt; #+end<sub>src\\</sub>
 <br/>
-The "session" way works too.<br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp The "session" way works too.<br/>
 <br/>
-Thank you.  <br/>
+\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp\nbsp Thank you.<br/>
 </p>
 
 

@@ -260,7 +260,6 @@ As things stand
 
 
 
-
 <p>
 Results in error because of 'hline
 </p>
@@ -278,7 +277,6 @@ specifying a var of the same value."</span>
       <span class="org-comment-delimiter">;; </span><span class="org-comment">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
 </span>    <span class="org-esk-paren">(</span>format <span class="org-string">"%S"</span> var<span class="org-esk-paren">)))</span>
 </pre>
-
 
 
 
@@ -317,7 +315,6 @@ That change would give this as result:
 
 
 
-
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
 <colgroup><col align="left" /><col align="left" />
@@ -344,7 +341,6 @@ printed out with :colnames yes?
 
 
 
-
 <p>
 This is because a 1d vector gets turned into a table with one column,
 and hence its names would be rownames, not column names. One has to
@@ -355,7 +351,6 @@ transpose the vector in R to get the desired result.
 
 <pre class="src src-R">t(c(a=1,b=2))
 </pre>
-
 
 
 
@@ -373,7 +368,6 @@ transpose the vector in R to get the desired result.
 
 <pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">d</span>
 </pre>
-
 
 
 

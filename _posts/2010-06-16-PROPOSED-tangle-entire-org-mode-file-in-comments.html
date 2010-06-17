@@ -1,0 +1,102 @@
+---
+title: PROPOSED tangle entire org-mode file in comments
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> tangle entire org-mode file in comments </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-16 Wed 20:37</span></span>
+
+</li>
+</ul>
+
+<p>Belatedly documenting this issue from the mailing list.
+</p>
+<p>
+The main idea being that it would be nice to allow large chunks of an
+org-mode file to be exported as comments to tangled source code files.
+That way all the excellent documentation is not lost.  The main
+questions seem to be about the best implementation.  The entire thread
+is available on gmane at <a href="http://thread.gmane.org/gmane.emacs.orgmode/25779">gmane.emacs.orgmode/25779</a>.
+</p>
+<p>
+some excerpts
+</p>
+<dl>
+<dt>Erik Iverson</dt><dd>
+
+
+<p class="verse">
+Yes, your idea about prefixing every line in the org file behind a<br/>
+comment except for the tangled code was the initial idea in my head.<br/>
+I then thought that there may be several different languages of code<br/>
+in an org-mode file, and even if there is only one language, the<br/>
+tangling of that file could be generating multiple source files, for<br/>
+example, one per function.  In addition, some of the org-mode material<br/>
+I have in my file might not relate to a commented source file, per se.<br/>
+For example, the org-mode file where I maintain my source for a<br/>
+function might have links to emails discussing the implementation, or<br/>
+internal dialogs relating to alternative approaches that were<br/>
+abandoned.<br/>
+</p></dd>
+</dl>
+
+<p><br/>
+So, I thought it might be neat to have some way of specifying which<br/>
+subtrees would be a part of the comments for a source file, and for<br/>
+which tangled file.  My guess as the easiest way to do that would be<br/>
+through properties.  That is, you'd set a property for (sub)tree like,<br/>
+for example:<br/>
+<br/>
+<br/>
+These (sub)trees would then appear as comments in their respective<br/>
+tangled source files in whatever order they appear in the org-mode<br/>
+file.<br/>
+<br/>
+Why am I suggesting this?<br/>
+<br/>
+People obviously like commented code.  Writing a function in<br/>
+org-babel, I am in effect using org-mode as the commenting system.<br/>
+Giving someone who does not use Emacs an org-mode file to see how<br/>
+something was implemented is not going to fly, to say the least :).<br/>
+Giving them the tangled version of the code along with, say, an HTML<br/>
+export of the org-mode buffer is a good start.  But if they're used to<br/>
+reviewing code in the typical, "just send me the source file" manner,<br/>
+they would appreciate comments in the code. This is one way they could<br/>
+be automatically generated from org-mode/org-babel, which is, in my<br/>
+mind, the ideal.<br/>
+<br/>
+As I'm sure you have plenty to do, I would be happy to take a look at<br/>
+this.  I'll give the requisite "I'm just getting started with elisp<br/>
+&hellip;" warning though. :)<br/>
+</p>
+
+
+<dl>
+<dt>Tom Dye</dt><dd>
+
+
+<p class="verse">
+I would pass the function an org-mode link then write out the contents<br/>
+pointed at by the link inside a named code block, with each line<br/>
+preceded by an optional comment character.  If this were written in a<br/>
+general way, then it would be possible to include comments from any<br/>
+link&ndash;on-line manuals, standards, blogs, etc.&ndash;in addition to notes in<br/>
+the org-mode file.<br/>
+</p></dd>
+</dl>
+
+<p><br/>
+If it were written in a very general way, with a transformation<br/>
+function responsible for adding the comment character, then a variety<br/>
+of transformations might be possible.<br/>
+</p>
+
+
+
+</div>
+</div>
