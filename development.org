@@ -3,7 +3,33 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [75/151]
+* Tasks [75/152]
+** PROPOSED resolve remove links on export
+   - State "PROPOSED"   from ""           [2010-06-17 Thu 14:27]
+
+Thanks to Austin Frank for brining this up
+
+this may be an org-mode issue
+#+begin_verse
+  > Is "scpc" in the line above a transport protocol?
+
+  Yes, it is scp over an existing ssh connection.  The following org-style
+  link goes to the relevant info page.
+
+  [[info:tramp:External%20methods][info:tramp:External methods]]
+
+  > Maybe this should be an org-mode wide features, i.e. the ability to
+  > resolve remote file references with C-c C-o and on export.  Does that
+  > sound reasonable, and would it take care of the need in this
+  > particular case?
+
+  C-c C-o actually works!  I was extremely encouraged to see this, and it
+  got my hopes up for export =)
+
+  If remote file references could be resolved during export, that would be
+  ideal.
+#+end_verse
+
 ** PROPOSED tangle entire org-mode file in comments
    - State "PROPOSED"   from ""           [2010-06-16 Wed 20:37]
 
