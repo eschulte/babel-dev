@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [74/151]
+* Tasks [75/151]
 ** PROPOSED tangle entire org-mode file in comments
    - State "PROPOSED"   from ""           [2010-06-16 Wed 20:37]
 
@@ -19,63 +19,63 @@ some excerpts
 
 - Erik Iverson ::
      #+begin_verse 
-       Yes, your idea about prefixing every line in the org file behind a
-       comment except for the tangled code was the initial idea in my head.
-       I then thought that there may be several different languages of code
-       in an org-mode file, and even if there is only one language, the
-       tangling of that file could be generating multiple source files, for
-       example, one per function.  In addition, some of the org-mode material
-       I have in my file might not relate to a commented source file, per se.
-       For example, the org-mode file where I maintain my source for a
-       function might have links to emails discussing the implementation, or
-       internal dialogs relating to alternative approaches that were
-       abandoned.
-
-       So, I thought it might be neat to have some way of specifying which
-       subtrees would be a part of the comments for a source file, and for
-       which tangled file.  My guess as the easiest way to do that would be
-       through properties.  That is, you'd set a property for (sub)tree like,
-       for example:
-
-       :PROPERTIES:
-       :SrcComment: Yes
-       :SrcCommentTangleFile: cube.R
-       :SrcCommentCharacter: ##
-       :END:
-
-       These (sub)trees would then appear as comments in their respective
-       tangled source files in whatever order they appear in the org-mode
-       file.
-
-       Why am I suggesting this?
-
-       People obviously like commented code.  Writing a function in
-       org-babel, I am in effect using org-mode as the commenting system.
-       Giving someone who does not use Emacs an org-mode file to see how
-       something was implemented is not going to fly, to say the least :).
-       Giving them the tangled version of the code along with, say, an HTML
-       export of the org-mode buffer is a good start.  But if they're used to
-       reviewing code in the typical, "just send me the source file" manner,
-       they would appreciate comments in the code. This is one way they could
-       be automatically generated from org-mode/org-babel, which is, in my
-       mind, the ideal.
-
-       As I'm sure you have plenty to do, I would be happy to take a look at
-       this.  I'll give the requisite "I'm just getting started with elisp
-       ..." warning though. :)
+       : Yes, your idea about prefixing every line in the org file behind a
+       : comment except for the tangled code was the initial idea in my head.
+       : I then thought that there may be several different languages of code
+       : in an org-mode file, and even if there is only one language, the
+       : tangling of that file could be generating multiple source files, for
+       : example, one per function.  In addition, some of the org-mode material
+       : I have in my file might not relate to a commented source file, per se.
+       : For example, the org-mode file where I maintain my source for a
+       : function might have links to emails discussing the implementation, or
+       : internal dialogs relating to alternative approaches that were
+       : abandoned.
+       : 
+       : So, I thought it might be neat to have some way of specifying which
+       : subtrees would be a part of the comments for a source file, and for
+       : which tangled file.  My guess as the easiest way to do that would be
+       : through properties.  That is, you'd set a property for (sub)tree like,
+       : for example:
+       : 
+       : :PROPERTIES:
+       : :SrcComment: Yes
+       : :SrcCommentTangleFile: cube.R
+       : :SrcCommentCharacter: ##
+       : :END:
+       : 
+       : These (sub)trees would then appear as comments in their respective
+       : tangled source files in whatever order they appear in the org-mode
+       : file.
+       : 
+       : Why am I suggesting this?
+       : 
+       : People obviously like commented code.  Writing a function in
+       : org-babel, I am in effect using org-mode as the commenting system.
+       : Giving someone who does not use Emacs an org-mode file to see how
+       : something was implemented is not going to fly, to say the least :).
+       : Giving them the tangled version of the code along with, say, an HTML
+       : export of the org-mode buffer is a good start.  But if they're used to
+       : reviewing code in the typical, "just send me the source file" manner,
+       : they would appreciate comments in the code. This is one way they could
+       : be automatically generated from org-mode/org-babel, which is, in my
+       : mind, the ideal.
+       : 
+       : As I'm sure you have plenty to do, I would be happy to take a look at
+       : this.  I'll give the requisite "I'm just getting started with elisp
+       : ..." warning though. :)
      #+end_verse
 - Tom Dye ::
      #+begin_verse
-       I would pass the function an org-mode link then write out the contents
-       pointed at by the link inside a named code block, with each line
-       preceded by an optional comment character.  If this were written in a
-       general way, then it would be possible to include comments from any
-       link--on-line manuals, standards, blogs, etc.--in addition to notes in
-       the org-mode file.
-
-       If it were written in a very general way, with a transformation
-       function responsible for adding the comment character, then a variety
-       of transformations might be possible.
+       : I would pass the function an org-mode link then write out the contents
+       : pointed at by the link inside a named code block, with each line
+       : preceded by an optional comment character.  If this were written in a
+       : general way, then it would be possible to include comments from any
+       : link--on-line manuals, standards, blogs, etc.--in addition to notes in
+       : the org-mode file.
+       : 
+       : If it were written in a very general way, with a transformation
+       : function responsible for adding the comment character, then a variety
+       : of transformations might be possible.
      #+end_verse
      
 ** PROPOSED begin throwing errors on malformed header arguments
@@ -421,22 +421,37 @@ The actual code block
   )
 #+end_src
 
-** TODO Clarify situation re. org-babel-interpreters, org-babel-tangle-langs, src-lang-modes
+** DONE Clarify situation re. org-babel-interpreters, org-babel-tangle-langs, src-lang-modes
+   - State "DONE"       from "STARTED"    [2010-06-17 Thu 09:46]
+   - State "STARTED"    from "TODO"       [2010-06-17 Thu 07:51]
    - State "TODO"       from ""           [2010-04-15 Thu 13:14]
 
+*** implementation
+removed all language lists (`org-babel-interpreters' and
+`org-babel-tangle-langs') from Org-babel.  We no longer explicitly
+check if languages are on lists of supported languages, but rather
+simply check that the appropriate functions
+(e.g. `org-babel-execute:sh') are defined at the times when they are
+needed.
+
+changes
+- In fact, we may not need any of the above pieces of information, we
+  should just pull it all through the normal header argument system
+- From now on users will have to explicitly request comments in
+  tangled code by setting the =:comments= header argument to =yes=.
+- alright, so we still want to be able to associate languages with
+  file extensions, now done with `org-babel-tangle-lang-exts'
+
+*** requirements
 It seems that this has got overly complicated; time for some
 simplification and harmonisation.
 
 See also bug  [[*Language%20mappings%20in%20org%20src%20lang%20modes%20should%20be%20honoured%20by%20babel][Language mappings in org-src-lang-modes should be honoured by babel]]
 
-Lets just subvert org-src-lang-modes and use it for everything.  That
-can hold our
-- names
-- aliases
-- extensions
-- major-mode
-- shebang lines and
-- comment indicators
+Lets just subvert org-src-lang-modes and use it for everything.  It
+would now hold
+- language major mode
+- language extension
 
 Then when we need to check whether or not the language =lang= is
 executable we can just see if we have a =org-babel-execute:lang=
@@ -8852,7 +8867,7 @@ of these tests may fail.
 |                         | table-from-ruby            |     |           4 |           4 | pass                             |
 | python                  | table-python               |     |           5 |           5 | pass                             |
 |                         | table-from-python          |     |           4 |           4 | pass                             |
-| R                       | table-R                    |     |         3.5 |         3.5 | pass                             |
+| R                       | table-R                    |     |         3.5 |      #ERROR | expected "3.5" but was "#ERROR"  |
 | R: col names in R       | table-R-colnames           |     |          -3 |      #ERROR | expected "-3" but was "#ERROR"   |
 | R: col names in org     | table-R-colnames-org       |     |         169 |      #ERROR | expected "169" but was "#ERROR"  |
 |-------------------------+----------------------------+-----+-------------+-------------+----------------------------------|
