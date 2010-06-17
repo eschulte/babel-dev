@@ -435,12 +435,14 @@ simply check that the appropriate functions
 needed.
 
 changes
-- In fact, we may not need any of the above pieces of information, we
-  should just pull it all through the normal header argument system
+- Instead of adding anything to external variables, we are going to
+  rely on the existing header argument system to hold information on
+  commentability and tangling of languages
 - From now on users will have to explicitly request comments in
   tangled code by setting the =:comments= header argument to =yes=.
-- alright, so we still want to be able to associate languages with
-  file extensions, now done with `org-babel-tangle-lang-exts'
+- We still want to be able to associate languages with file
+  extensions, now done with `org-babel-tangle-lang-exts'.  This is the
+  *only* remaining list of languages used by Org-babel.
 
 *** requirements
 It seems that this has got overly complicated; time for some
@@ -448,8 +450,8 @@ simplification and harmonisation.
 
 See also bug  [[*Language%20mappings%20in%20org%20src%20lang%20modes%20should%20be%20honoured%20by%20babel][Language mappings in org-src-lang-modes should be honoured by babel]]
 
-Lets just subvert org-src-lang-modes and use it for everything.  It
-would now hold
+-Lets just subvert org-src-lang-modes and use it for everything- (not
+actually making any changes to this variable).  It would now hold
 - language major mode
 - language extension
 
