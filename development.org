@@ -3,7 +3,81 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [74/150]
+* Tasks [74/151]
+** PROPOSED tangle entire org-mode file in comments
+   - State "PROPOSED"   from ""           [2010-06-16 Wed 20:37]
+
+Belatedly documenting this issue from the mailing list.
+
+The main idea being that it would be nice to allow large chunks of an
+org-mode file to be exported as comments to tangled source code files.
+That way all the excellent documentation is not lost.  The main
+questions seem to be about the best implementation.  The entire thread
+is available on gmane at [[http://thread.gmane.org/gmane.emacs.orgmode/25779][gmane.emacs.orgmode/25779]].
+
+some excerpts
+
+- Erik Iverson ::
+     #+begin_verse 
+       Yes, your idea about prefixing every line in the org file behind a
+       comment except for the tangled code was the initial idea in my head.
+       I then thought that there may be several different languages of code
+       in an org-mode file, and even if there is only one language, the
+       tangling of that file could be generating multiple source files, for
+       example, one per function.  In addition, some of the org-mode material
+       I have in my file might not relate to a commented source file, per se.
+       For example, the org-mode file where I maintain my source for a
+       function might have links to emails discussing the implementation, or
+       internal dialogs relating to alternative approaches that were
+       abandoned.
+
+       So, I thought it might be neat to have some way of specifying which
+       subtrees would be a part of the comments for a source file, and for
+       which tangled file.  My guess as the easiest way to do that would be
+       through properties.  That is, you'd set a property for (sub)tree like,
+       for example:
+
+       :PROPERTIES:
+       :SrcComment: Yes
+       :SrcCommentTangleFile: cube.R
+       :SrcCommentCharacter: ##
+       :END:
+
+       These (sub)trees would then appear as comments in their respective
+       tangled source files in whatever order they appear in the org-mode
+       file.
+
+       Why am I suggesting this?
+
+       People obviously like commented code.  Writing a function in
+       org-babel, I am in effect using org-mode as the commenting system.
+       Giving someone who does not use Emacs an org-mode file to see how
+       something was implemented is not going to fly, to say the least :).
+       Giving them the tangled version of the code along with, say, an HTML
+       export of the org-mode buffer is a good start.  But if they're used to
+       reviewing code in the typical, "just send me the source file" manner,
+       they would appreciate comments in the code. This is one way they could
+       be automatically generated from org-mode/org-babel, which is, in my
+       mind, the ideal.
+
+       As I'm sure you have plenty to do, I would be happy to take a look at
+       this.  I'll give the requisite "I'm just getting started with elisp
+       ..." warning though. :)
+     #+end_verse
+- Tom Dye ::
+     #+begin_verse
+       I would pass the function an org-mode link then write out the contents
+       pointed at by the link inside a named code block, with each line
+       preceded by an optional comment character.  If this were written in a
+       general way, then it would be possible to include comments from any
+       link--on-line manuals, standards, blogs, etc.--in addition to notes in
+       the org-mode file.
+
+       If it were written in a very general way, with a transformation
+       function responsible for adding the comment character, then a variety
+       of transformations might be possible.
+     #+end_verse
+     
 ** PROPOSED begin throwing errors on malformed header arguments
    - State "PROPOSED"   from ""           [2010-06-15 Tue 15:00]
 
@@ -1939,15 +2013,25 @@ the values of user-specific information (i.e. the user's shell)
 
 **** Bernd Weiss email
      http://www.mail-archive.com/emacs-orgmode@gnu.org/msg19104.html
-** TODO Work on tangling
+** STARTED Work on tangling
+   - State "STARTED"    from "TODO"       [2010-06-16 Wed 20:36]
+
 *** TODO allow tangle to be called on a single source block
 this should have a reasonable binding
-*** PROPOSED make tangled files read-only?
+
+*** REJECTED make tangled files read-only?
+    - State "REJECTED"   from "PROPOSED"   [2010-06-16 Wed 20:36]
      With a file-local variable setting, yea that makes sense.  Maybe
      the header should reference the related org-mode file.
-*** PROPOSED make tangled files executable?
+
+I fear the only time this sort of feature would even be noticed is
+when it is not wanted.
+
+*** DONE make tangled files executable?
+    - State "DONE"       from "PROPOSED"   [2010-06-16 Wed 20:35]
     At least if using shebang line
-*** PROPOSED optionally do not output comment and links
+*** DONE optionally do not output comment and links
+    - State "DONE"       from "PROPOSED"   [2010-06-16 Wed 20:35]
 ** TODO inserting empty results lines
 
 check if org-babel inserts empty results lines, if so don't do this
