@@ -6226,6 +6226,14 @@ x
 | t | nil |
 |   | nil |
 
+#+begin_src emacs-lisp :var x=nilNAtab
+  x
+#+end_src
+
+#+results:
+| t |   |
+|   |   |
+
 ** REJECTED point movement during #+call 
    - State "REJECTED"   from "DEFERRED"   [2010-06-07 Mon 12:28]
    - State "TODO"       from ""           [2010-03-25 Thu 14:47]
@@ -6430,8 +6438,13 @@ required at some point.  I'll replace "\n\r" with "[\n\r]+" so that it
 won't break any instance where the comint process returns "\n" instead
 of "\n\r".
 
-** TODO Newlines etc in table cells mess up table formatting 
+** STARTED Newlines etc in table cells mess up table formatting 
+   - State "STARTED"    from "TODO"       [2010-06-18 Fri 12:35]
    - State "TODO"       from ""           [2010-03-16 Tue 23:36]
+
+Put together an org-table.el patch and submitted to the list, so we'll
+see.  For some reason the patch still doesn't fix the aberrant R
+behavior.
 
 Perhaps we should remove or protect characters like {\n,\r,\f,\v} when
 they occur in table cells.
@@ -6444,6 +6457,28 @@ Maybe this is worth a post to the mailing list...
   with
   newlines")) '())
 #+end_src
+
+#+results:
+: | first | line |
+: | second | linenewlinewithnewlinenewlines |
+
+#+begin_src emacs-lisp
+  '((1 2 3 4) ("eric
+michael
+schulte"))
+#+end_src
+
+#+results:
+|                      1 | 2 | 3 | 4 |
+| eric\nmichael\nschulte |   |   |   |
+
+#+begin_src ruby
+  [["one", "two", "three
+four"]]
+#+end_src
+
+#+results:
+| one | two | three\nfour |
 
 #+begin_src R :colnames yes
   data.frame(numbers=1:10, strings=c(letters[1:9], "an entry with a
