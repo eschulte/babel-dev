@@ -3,6 +3,85 @@
 #+OPTIONS: ^:nil
 #+STARTUP: oddeven hideblocks
 
+* Paper2
+** intro
+needs, quick description of org-babel
+
+** background
+*** Reproducible Research
+**** Compendium -- Gentleman and Temple Lang
+They motivate RR.
+
+Wherein they lay out the components of a compendium, basically a list
+of the functionality required for effective RR.
+
+**** Sweave
+As an example of the /state of the art/ of RR.
+
+List the ways in which it falls short of the compendium ideal.
+
+*** Literate Programming
+**** Knuth and Noweb
+Layout the points made by knuth in his paper
+
+**** No-web
+As the current /state-of-the-art/ in LP.
+
+** design and implementation
+*** org-mode
+- parsimonious markup
+- multi-target export
+- in-document spreadsheet
+- blocks
+
+*** document as execution environment
+- extension of the spreadsheet idea
+- activates data in
+  - tables
+  - blocks
+
+*** functional code blocks
+in-document blocks of code
+- are callable
+- accept arguments
+- execute in environment of the document
+- results can be inserted into document
+
+*** block organization
+- noweb references
+- can call other code blocks -- chaining
+
+*** export
+- tangling
+- actions on export
+
+*** language support
+- currently supports over 20 languages
+- number of supported languages are growing, and it's easy enough to
+  add new ones that most language support at this point is user
+  submitted
+
+** applications and examples
+- simple example with multi-language block chaining and producing a
+  figure
+- example with tangling
+- pointer to foo.Rnw and foo.org
+- look at uses for some more ideas
+
+** discussion and conclusion
+Given the comfortable environment of Emacs and Org-mode, Org-babel
+provides an environment for the co-mingling of code, data, and prose
+in such a way that a critical mas has been reached -- "It's actually
+comfortable enough for real people to want to use it to do real
+work!".
+
+As such we believe it is a great step forward for the RR and LP camps,
+and has the potential to significantly increase the widespread
+acceptance of these approaches to doing scientific work and
+development.  It is the authors ultimate hope that this work will
+ultimately help to increase communication and help developers and
+scientists to make their work more accessible.
+
 * Paper
 ** Abstract
 ** Introduction -- problem
@@ -115,6 +194,40 @@ testimonials?
   and the mailing list
 - point to Emacs
 - bibliography
+
+* COMMENT Tom Dye thoughts
+#+begin_verse
+  Aloha Eric and Dan,
+
+  I think I have all the pieces in place for an outline of a paper on
+  Org-babel compendiums.  I pushed it up to Worg,
+  http://orgmode.org/worg/org-contrib/babel/examples/research-project.php
+  this morning and expect that it will appear soon.  As usual, it is a
+  work in progress and I haven't taken the time to smooth its many rough
+  edges.
+
+  Late last year there was some talk of publishing an article about Org-
+  babel, and there is a draft of an ambitious and more comprehensive
+  article on babel-dev, but that initiative appears to have stalled.
+
+  Using the outline on Worg, I think it would be fairly easy for the two
+  of you, separately or together, to put together something for the R
+  journal (http://journal.r-project.org/).  This paper would be narrower
+  in scope than the outline for the article partially drafted in babel- 
+  dev, and I don't think it would steal any thunder from that effort.
+
+  As I looked more closely at the Gentleman and Temple Lang paper, I was
+  struck by how many compendium problems had been solved by the elegant
+  design of Org-mode and Org-babel.  Either of you will be able to
+  describe these design features more deeply and convincingly than I've
+  been able to do.
+
+  As an aside, an Org-babel user, Torsten Hothorn, is 2nd author of an
+  article in the December 2009 issue of the R journal.
+
+  All the best,
+  Tom
+#+end_verse
 
 * COMMENT Initial Layout
 ** Abstract
