@@ -6209,7 +6209,7 @@ referenced block may be undesirable. What do we actually need it for?
 print x
 #+end_src
 
-** TODO Missing values in tables
+** TODO Missing values in R tables
    - State "TODO"       from ""           [2010-03-25 Thu 15:58]
 
 This is undesirable:
