@@ -3,7 +3,16 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [75/152]
+* Tasks [75/153]
+** PROPOSED babel bindings active in edit src buffers
+   - State "PROPOSED"   from ""           [2010-06-21 Mon 11:21]
+I often find myself switching from the source buffer, back to the
+org-mode buffer to tangle, this would be nice to be doable directly
+from the source buffer.
+
+On a related note, I think a prefix argument to tangle having it only
+tangle the current block would be nice.
+
 ** PROPOSED resolve remove links on export
    - State "PROPOSED"   from ""           [2010-06-17 Thu 14:27]
 
