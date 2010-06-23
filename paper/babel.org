@@ -1,4 +1,4 @@
-#+TITLE: Org-babel
+#+TITLE: Org-babel /DRAFT/
 #+OPTIONS: ^:nil toc:nil num:nil
 #+STARTUP: oddeven hideblocks
 #+begin_latex 
@@ -34,7 +34,6 @@ capabilities.
 #+LaTeX: \end{abstract}
 
 * Introduction
-** Requirements
 In this paper we present Org-babel -- a tool for /computational
 communication/.  First explicit definition of some terms which will be
 used below.
@@ -275,5 +274,5 @@ scientists to make their work more accessible.
 #+begin_LaTeX
   \bibliographystyle{abbrv}
   \small
-  \bibliography{genprog}
+  \bibliography{babel}
 #+end_LaTeX
