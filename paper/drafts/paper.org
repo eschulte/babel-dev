@@ -32,7 +32,6 @@ supported the authoring of =Pascal= source code and TeX description in
 a single source document.
 
 
-
 **** No-web
 As the current /state-of-the-art/ in LP.
 
