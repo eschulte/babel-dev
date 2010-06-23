@@ -1,6 +1,7 @@
 #+TITLE: Org-babel /DRAFT/
-#+OPTIONS: ^:nil toc:nil num:nil
+#+OPTIONS: ^:nil toc:nil
 #+STARTUP: oddeven hideblocks
+#+LATEX_HEADER: \usepackage{attrib}
 #+LaTeX_CLASS: twocolumn
 #+begin_latex
 \definecolor{strings}{RGB}{60,179,113}
@@ -60,7 +61,7 @@ the audience is separated from the actions and details of the
 algorithm and often forced to make assumptions about the precise
 computational details
 
--- Robert Gentleman and Duncan Temple Lang
+\attrib{Gentleman, Temple Lang}
 #+end_quote
 
 Similarly distribution of code without expository prose is not a
@@ -71,18 +72,18 @@ programs: Instead of imagining that our main task is to instruct a
 computer what to do, let us concentrate rather on explaining to human
 beings what we want a computer to do.
   
--- Donald Knuth
+\attrib{Donald Knuth}
 #+end_quote
 
 The need for combined authoring of prose and code has been previously
 approached form two different standpoints.
 
-- Literate Programming~\cite{web} :: enhances traditional software
-     development with the addition of prose in an attempt to improve
-     documentation quality.
-- Reproducible Research~\cite{compendium} :: which adds executable
-     code to publications of scholarly work, with the aim of allowing
-     the analysis described in the paper to be re-run by readers.
+- Literate Programming :: enhances traditional software development
+     with the addition of prose in an attempt to improve documentation
+     quality.
+- Reproducible Research :: which adds executable code to publications
+     of scholarly work, with the aim of allowing the analysis
+     described in the paper to be re-run by readers.
 
 Org-babel provides a unified environment supporting all manner of the
 authoring and use of combined prose and code.
@@ -117,28 +118,28 @@ begun to do this, then nothing they plan to do will be impossible for
 them.  Come, let us go down and confuse their language so they will
 not understand each other."
 
--- Genesis-11
+\attrib{Genesis-11}
 #+end_quote
 #+begin_quote
 The Babel Fish is small, yellow, and simultaneously translates from
 one spoken language to another
 
--- The Hitchhiker's Guide to the Galaxy
+\attrib{The Hitchhiker's Guide to the Galaxy}
 #+end_quote
 
 In the remainder of this paper we will first review the idea of the
 /compendium/ -- a description of the requirements of a tool for
-Reproducible Research as set forth by Gentleman and Temple
-Lang~\cite{compendium} (Section \ref{compendium}).  We will then
-quickly review the relevant tools currently in existence which each
-address some portion of the need for combined code and prose (Section
+Reproducible Research as set forth by Gentleman and Temple Lang
+\cite{compendium} (Section \ref{compendium}).  We will then quickly
+review the relevant tools currently in existence which each address
+some portion of the need for combined code and prose (Section
 \ref{existing-tools}).
 
-We will describe Org-mode (\ref{org-mode}) and Org-babel (Section
-\ref{org-babel}) and present an argument for why we believe that they
-represent a sea change in software support for authoring of combined
-prose and text.  Finally we will demonstrate the application of
-Org-babel to a number of common use cases (Section
+We will describe Org-mode (Section \ref{org-mode}) and Org-babel
+(Section \ref{org-babel}) and present an argument for why we believe
+that they represent a sea change in software support for authoring of
+combined prose and text.  Finally we will demonstrate the application
+of Org-babel to a number of common use cases (Section
 \ref{applications}), and conclude with a discussion of the limits of
 Org-babel and pointers for future work (Section \ref{conclusion}).
 
@@ -147,7 +148,7 @@ Org-babel and pointers for future work (Section \ref{conclusion}).
    :PROPERTIES:
    :CUSTOM_ID: compendium
    :END:
-Gentleman and Temple Lang introduce the /compendium/~\cite{compendium}
+Gentleman and Temple Lang introduce the /compendium/ \cite{compendium}
 as a means of performing reproducible research.  In their formulation
 a compendium is a container holding the text, code, and data
 constituting a scholarly work.  Compendiums are intended to facilitate
@@ -187,7 +188,7 @@ their proposed "Future Work", namely /multiple languages/,
 /interactivity/ meaning that the code can be executed from within the
 authoring environment.
 
-Our description of the design of Org-babel~\ref{design} will touch on
+Our description of the design of Org-babel \ref{design} will touch on
 each of these points.
 
 ** Existing Tools
@@ -213,7 +214,7 @@ the software development community at large than any other tools which
 will be discussed herein.
 
 *** Web
-Literate Programming~\cite{web} is the practice of writing computer
+Literate Programming \cite{web} is the practice of writing computer
 programs in such a way that the main objective is to explain to a
 human reader what the program is intended to do.  Literate programming
 consists of embedding code inside of a prose document written in the
@@ -229,7 +230,7 @@ no facilities for the execution of code from within documents.
 
 *** Sweave
 Like Web documents Sweave documents consist of code embedded into TeX
-documents~\cite{sweave}.  Sweave only supports the R statistical
+documents \cite{sweave}.  Sweave only supports the R statistical
 programming language.  The code in Sweave documents is executed during
 publishing and can be used to automatically generate tables, graphical
 figures, and inline results.  As such Sweave enables the reader of a
