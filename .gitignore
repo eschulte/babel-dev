@@ -4,6 +4,10 @@ blue.png
 *.pdf
 data/
 scraps.*
+development.html
+
+## don't track the paper stuff here
+paper
 
 ## ignore automatically generated jekyll files
 _site
