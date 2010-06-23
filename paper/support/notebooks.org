@@ -1,0 +1,15 @@
+*** Notebooks
+Notebooks are interactive systems for a user to interact with a
+programming or statistical analysis engine.  Notebooks support the
+co-mingling of code and results in a single document and some
+notebooks provide for exportation of the document to various formats.
+
+Notebooks are characterized by a single linear session consisting of a
+series of commands being submitted to the engine and the engine
+returning results.  While notebooks may provide features aimed at
+integrating their results into published works they are not document
+authoring environments.
+
+Examples of notebook software include
+- Matlab [fn:9]
+- Sage Math [fn:10]

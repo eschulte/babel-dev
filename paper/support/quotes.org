@@ -1,0 +1,44 @@
+* Quotes
+I think it might be nice to have a grid of four quotes at the top of
+the paper to motivate and set the context.
+
+Here are some I've collected so far,
+
+#+begin_quote
+something from Novum Organum on the foundations of science
+
+-- Francis Bacon  
+#+end_quote
+
+#+begin_quote
+An article about computational science in a scientific publication is
+*not* the scholarship itself, it is merely *advertising* of the
+scholarship.  The actual scholarship is the complete software
+development environment and complete set of instructions which
+generated the figures.
+
+-- David L. Donoho
+#+end_quote
+
+#+begin_quote
+Let us change our traditional attitude to the construction of
+programs: Instead of imagining that our main task is to instruct a
+computer what to do, let us concentrate rather on explaining to human
+beings what we want a computer to do.
+
+-- Knuth
+#+end_quote
+
+#+begin_quote
+You know you're brilliant, but maybe you'd like to understand what you
+did 2 weeks from now.
+
+-- Linus Torvald
+#+end_quote
+
+#+begin_quote 
+  The trouble with programmers is that you can never tell what a
+  programmer is doing until it's too late.
+
+  -- Seymour Cray
+#+end_quote
