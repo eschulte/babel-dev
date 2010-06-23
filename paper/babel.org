@@ -1,7 +1,8 @@
 #+TITLE: Org-babel /DRAFT/
 #+OPTIONS: ^:nil toc:nil num:nil
 #+STARTUP: oddeven hideblocks
-#+begin_latex 
+#+LaTeX_CLASS: twocolumn
+#+begin_latex
 \definecolor{strings}{RGB}{60,179,113}
 \lstset{
   keywordstyle=\color{blue},
@@ -86,15 +87,18 @@ approached form two different standpoints.
 Org-babel provides a unified environment supporting all manner of the
 authoring and use of combined prose and code.
 
-|       | prose                        | code                            |
-|-------+------------------------------+---------------------------------|
-| write | natural document authoring   | natural code authoring through  |
-|       | environment through Org-mode | Emacs major modes               |
-|-------+------------------------------+---------------------------------|
-| use   | automated publishing to      | in-situ interactive execution   |
-|       | a variety of document        | as well as the tangling of code |
-|       | and slideshow formats        | for external use                |
-|-------+------------------------------+---------------------------------|
+#+LaTeX: \begin{table*}
+#+ATTR_LaTeX: align=l|l|l|
+|             | prose                        | code                            |
+|-------------+------------------------------+---------------------------------|
+| composition | natural document authoring   | natural code authoring through  |
+|             | environment through Org-mode | Emacs major modes               |
+|-------------+------------------------------+---------------------------------|
+| application | automated publishing to      | in-situ interactive execution   |
+|             | a variety of document        | as well as the tangling of code |
+|             | and slideshow formats        | for external use                |
+|-------------+------------------------------+---------------------------------|
+#+LaTeX: \end{table*}
 
 Org-babel provides a consistent environment in which the entire life
 cycle of a research or development project can take place.  With the
@@ -119,7 +123,7 @@ not understand each other."
 The Babel Fish is small, yellow, and simultaneously translates from
 one spoken language to another
 
--- The-Hitchhiker's-Guide-to-the-Galaxy
+-- The Hitchhiker's Guide to the Galaxy
 #+end_quote
 
 In the remainder of this paper we will first review the idea of the
