@@ -26,6 +26,13 @@ readers.
 
 *** Literate Programming
 **** Knuth and Noweb
+Donald Knuth introduced the concept of Literate
+Programming~\cite{Knuth:1992} and developed the =WEB= system which
+supported the authoring of =Pascal= source code and TeX description in
+a single source document.
+
+
+
 **** No-web
 As the current /state-of-the-art/ in LP.
 

@@ -42,8 +42,8 @@ used below.
      programming language intended for use by a computer.
 - prose :: will refer to text written in a natural language
      (e.g. English) intended for use by a person.
-- computational communication :: will refer to the communication in
-     which the subject is computational objects or results.  This
+- computational communication :: will refer to communication in which
+     the subject is computational objects or results.  This type of
      communication is unique in that it must consist of mutually
      supportive sections of both prose and code.  Computational
      communication takes place between people, people and computers,
@@ -52,58 +52,66 @@ used below.
 There are a variety of setting in which successful computation
 communication is paramount
 - *Scientific research* increasingly involves the use of computational
-  tools the exposition of which is vital to successful conveyance of
-  the meaning of the research results.  This is true not only for
-  researchers in the computational sciences but for any researchers
-  who make use of computational or statistical tools or models in
-  their work.
-- In *software development* individual developers must communicate
-  their ideas and their code for successful collaboration.
-- Without proper *documentation* the utility of computational tools is
-  severely compromised [fn:1].
-- *Working notes* related to the use of computational tools are an
-  important resource for developers/researchers, and increasingly the
-  sharing of these notes through the internet in the form of blogs and
-  forums can play an important role in the adoption and utility of
-  computational languages and tools [fn:2].
+  tools the inclusion of which is vital to successful conveyance of
+  and verification of research results.
+- In collaborative *software development* the exchange of ideas is
+  accomplished through shared code and prose, with the former
+  providing for concrete succinct demonstration, and the later higher
+  level explanation.
+- Without proper *documentation* the usability and future
+  extensibility of computational tools is severely compromised.
+- In *pedagogical* environments it is important for descriptions of
+  algorithms or techniques to go hand-in-hand with concrete
+  implementations.
 
 In all of the situations described above prose alone in the absence of
 access to code is insufficient as it is
 #+begin_quote
-not conducive to succinct, exact expression and the audience is
-separated from the actions and details of the algorithm and often
-forced to make assumptions about the precise computational details
+[natural language is] not conducive to succinct, exact expression and
+the audience is separated from the actions and details of the
+algorithm and often forced to make assumptions about the precise
+computational details
 
---  [[gentleman-lang]]
+-- Gentleman Temple Lang~\cite{compendium}
 #+end_quote
 
 Similarly distribution of code without expository prose is not a
 sufficient medium for communication between people.
+#+begin_quote 
+Let us change our traditional attitude to the construction of
+programs: Instead of imagining that our main task is to instruct a
+computer what to do, let us concentrate rather on explaining to human
+beings what we want a computer to do.
+  
+-- Knuth~\cite{web}
+#+end_quote
 
 Portions of the /computational communication/ problem have been
 identified and addressed under a variety of names such as Literate
-Programming [fn:3] which adds prose to the authoring of code, or
-Reproducible Research [fn:4] which add executable code to prose
-publications.  Org-babel generalizes these preceding approaches and
-provides a unified environment supporting all manner of both authoring
-and using prose and code.
+Programming~\cite{web} which adds prose to the source code
+implementing software projects, or Reproducible
+Research~\cite{compendium} which adds executable code to the
+publications focused on computational results or analysis.  Org-babel
+provides a unified environment supporting all manner of the authoring
+and use of combined prose and code.
 
-|       | prose                        | code                           |
-|-------+------------------------------+--------------------------------|
-| write | natural document authoring   | natural code authoring through |
-|       | environment through Org-mode | Emacs major modes              |
-|-------+------------------------------+--------------------------------|
-| use   | automated publishing to      | in-situ execution and          |
-|       | a variety of formats         | exportation/tangling of code   |
-|-------+------------------------------+--------------------------------|
+|       | prose                        | code                            |
+|-------+------------------------------+---------------------------------|
+| write | natural document authoring   | natural code authoring through  |
+|       | environment through Org-mode | Emacs major modes               |
+|-------+------------------------------+---------------------------------|
+| use   | automated publishing to      | in-situ interactive execution   |
+|       | a variety of document        | as well as the tangling of code |
+|       | and slideshow formats        | for external use                |
+|-------+------------------------------+---------------------------------|
 
-As such Org-babel provides a consistent environment in which the
-entire life cycle of a research or development project can take place.
-With the data, code and text of a project stored in a single location
-which can be exported to a variety of formats the future
-reproducibility of the work is ensured, and the practices of
-Reproducible Research and Literate Programming are encouraged by
-greatly reducing the burden on the author.
+Org-babel provides a consistent environment in which the entire life
+cycle of a research or development project can take place.  With the
+data, code and text of a project stored in a single location which can
+be exported to a variety of formats the future reproducibility of the
+work is ensured, and the practices of Reproducible Research and
+Literate Programming are encouraged by greatly reducing the burden on
+the author.
 
 The name "Org-babel" is a pair of literary references indicating both
 the nature of the problem in the "Tower of Babel"
@@ -121,11 +129,12 @@ one spoken language to another
 
 Before describing the Org-babel environment in detail we will quickly
 review the existing tools each of which addresses a portion of the
-problem of *computational communication*.
+landscape of combined prose and code.
 
 ** Existing Tools
-Each of the tools listed below addresses an subset of the problem of
-computational communication.
+Each of the tools listed below addresses a particular view of
+requirement for unified authoring and publication of code and prose.
+
 *** Web
 Literate Programming [fn:5] is the practice of writing computer
 programs in such a way that the main objective is to explain to a
@@ -135,11 +144,11 @@ TeX document authoring syntax.  Programs written in this manner can be
 - tangled :: resulting in a code file suitable for use by a computer
 - woven :: resulting in a text document suitable for use by a person
 
-The Web family of tool enable Literate Programming.  The initial =WEB=
-tool only worked with the Pascal programming language.  Newer versions
-such as =Noweb= can handle arbitrary programming languages.  Web tools
-enable the *authoring* of both prose and code, but provide no
-facilities for the execution of code from within documents.
+The Web family of tools enables Literate Programming.  The initial
+=WEB= tool only worked with the Pascal programming language.  Newer
+versions such as =Noweb= can handle arbitrary programming languages.
+Web tools enable the /authoring/ of both prose and code, but provide
+no facilities for the execution of code from within documents.
 
 *** Comment Extraction
 Comment extraction tools are a lighter weight alternative to literate
