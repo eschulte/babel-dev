@@ -198,7 +198,7 @@ each of these points.
 Each of the tools listed below addresses a particular view of
 requirement for unified authoring and publication of code and prose.
 
-*** Automatic Documentation (Comment Extraction)
+*** Automatic Documentation
 The most commonly used tools for literate programming come in the form
 of language specific comment extraction and automated documentation
 systems.  Comment extraction tools can be used to extract
