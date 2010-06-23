@@ -3,7 +3,42 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [75/151]
+* Tasks [77/153]
+** PROPOSED babel bindings active in edit src buffers
+   - State "PROPOSED"   from ""           [2010-06-21 Mon 11:21]
+I often find myself switching from the source buffer, back to the
+org-mode buffer to tangle, this would be nice to be doable directly
+from the source buffer.
+
+On a related note, I think a prefix argument to tangle having it only
+tangle the current block would be nice.
+
+** PROPOSED resolve remove links on export
+   - State "PROPOSED"   from ""           [2010-06-17 Thu 14:27]
+
+Thanks to Austin Frank for brining this up
+
+this may be an org-mode issue
+#+begin_verse
+  > Is "scpc" in the line above a transport protocol?
+
+  Yes, it is scp over an existing ssh connection.  The following org-style
+  link goes to the relevant info page.
+
+  [[info:tramp:External%20methods][info:tramp:External methods]]
+
+  > Maybe this should be an org-mode wide features, i.e. the ability to
+  > resolve remote file references with C-c C-o and on export.  Does that
+  > sound reasonable, and would it take care of the need in this
+  > particular case?
+
+  C-c C-o actually works!  I was extremely encouraged to see this, and it
+  got my hopes up for export =)
+
+  If remote file references could be resolved during export, that would be
+  ideal.
+#+end_verse
+
 ** PROPOSED tangle entire org-mode file in comments
    - State "PROPOSED"   from ""           [2010-06-16 Wed 20:37]
 
@@ -133,7 +168,8 @@ existing =#+OPTIONS:= style lines.
      (setq org-babel-current-buffer-properties nil))
  #+end_src
 
-** STARTED Org-mode and Emacs integration
+** DONE Org-mode and Emacs integration
+   - State "DONE"       from "STARTED"    [2010-06-23 Wed 13:25]
    - State "STARTED"    from "TODO"       [2010-06-11 Fri 15:25]
    - State "TODO"       from ""           [2010-06-11 Fri 11:08]
 *** DONE update the initialization infrastructure
@@ -157,7 +193,8 @@ All other options led to overly baroque and tortured load sequences.
 #+end_quote
 ugh... complete
 
-*** TODO can't use cl functions
+*** DONE can't use cl functions
+    - State "DONE"       from "TODO"       [2010-06-23 Wed 13:25]
 #+begin_quote 
 1. Packages that are part of Emacs are not allowed to load cl at
    runtime.  So you can use (eval-when-compile (require 'cl)) in order
@@ -657,7 +694,8 @@ Hmm, I see three good options here -- there are certainly more;
    provide a more generic functionality subsuming appending of
    functions
 
-** TODO documentation for org-mode inclusion
+** DONE documentation for org-mode inclusion
+   - State "DONE"       from "TODO"       [2010-06-23 Wed 13:26]
    - State "TODO"       from ""           [2010-04-01 Thu 08:27]
 
 #+begin_quote
@@ -6183,7 +6221,7 @@ referenced block may be undesirable. What do we actually need it for?
 print x
 #+end_src
 
-** TODO Missing values in tables
+** TODO Missing values in R tables
    - State "TODO"       from ""           [2010-03-25 Thu 15:58]
 
 This is undesirable:
@@ -6199,6 +6237,14 @@ x
 #+results:
 | t | nil |
 |   | nil |
+
+#+begin_src emacs-lisp :var x=nilNAtab
+  x
+#+end_src
+
+#+results:
+| t |   |
+|   |   |
 
 ** REJECTED point movement during #+call 
    - State "REJECTED"   from "DEFERRED"   [2010-06-07 Mon 12:28]
@@ -6404,8 +6450,13 @@ required at some point.  I'll replace "\n\r" with "[\n\r]+" so that it
 won't break any instance where the comint process returns "\n" instead
 of "\n\r".
 
-** TODO Newlines etc in table cells mess up table formatting 
+** STARTED Newlines etc in table cells mess up table formatting 
+   - State "STARTED"    from "TODO"       [2010-06-18 Fri 12:35]
    - State "TODO"       from ""           [2010-03-16 Tue 23:36]
+
+Put together an org-table.el patch and submitted to the list, so we'll
+see.  For some reason the patch still doesn't fix the aberrant R
+behavior.
 
 Perhaps we should remove or protect characters like {\n,\r,\f,\v} when
 they occur in table cells.
@@ -6418,6 +6469,28 @@ Maybe this is worth a post to the mailing list...
   with
   newlines")) '())
 #+end_src
+
+#+results:
+: | first | line |
+: | second | linenewlinewithnewlinenewlines |
+
+#+begin_src emacs-lisp
+  '((1 2 3 4) ("eric
+michael
+schulte"))
+#+end_src
+
+#+results:
+|                      1 | 2 | 3 | 4 |
+| eric\nmichael\nschulte |   |   |   |
+
+#+begin_src ruby
+  [["one", "two", "three
+four"]]
+#+end_src
+
+#+results:
+| one | two | three\nfour |
 
 #+begin_src R :colnames yes
   data.frame(numbers=1:10, strings=c(letters[1:9], "an entry with a

@@ -1,20 +1,28 @@
 ---
-title: TODO Newlines etc in table cells mess up table formatting 
+title: STARTED Newlines etc in table cells mess up table formatting 
 layout: default
 ---
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="todo TODO"> TODO</span> Newlines etc in table cells mess up table formatting </h2>
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> Newlines etc in table cells mess up table formatting </h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-18 Fri 12:35</span></span>
+</li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 23:36</span></span>
 
 </li>
 </ul>
 
-<p>Perhaps we should remove or protect characters like {\n,\r,\f,\v} when
+<p>Put together an org-table.el patch and submitted to the list, so we'll
+see.  For some reason the patch still doesn't fix the aberrant R
+behavior.
+</p>
+<p>
+Perhaps we should remove or protect characters like {\n,\r,\f,\v} when
 they occur in table cells.
 </p>
 <p>
@@ -28,6 +36,24 @@ Maybe this is worth a post to the mailing list&hellip;
 with
 newlines"</span><span class="org-esk-paren">))</span> '<span class="org-esk-paren">())</span>
 </pre>
+
+
+
+
+
+<pre class="src src-emacs-lisp">  '<span class="org-esk-paren">((</span>1 2 3 4<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span><span class="org-string">"eric
+michael
+schulte"</span><span class="org-esk-paren">))</span>
+</pre>
+
+
+
+
+
+<pre class="src src-ruby">  [[<span class="org-string">"one"</span>, <span class="org-string">"two"</span>, <span class="org-string">"three
+four"</span>]]
+</pre>
+
 
 
 
