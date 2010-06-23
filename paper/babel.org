@@ -15,56 +15,44 @@
 #+end_latex
 
 #+LaTeX: \begin{abstract}
-We present a new computing environment for the authoring of both prose
-and source code. In this environment a single hierarchically-organized
-plain text source file may contain a variety of elements such as
-source code in arbitrary programming languages, raw data, links to
-images and other files, project management data, working notes, and
-text for publication. Source code fragments may be executed in situ
-with graphical and text output captured in, or linked to from, the
-source file. Export to LaTeX, HTML, Beamer and other formats permits
-working reports, presentations and manuscripts for publication to be
-generated from the source file. In addition, source code extraction
-(tangling) permits functioning pure code files to be extracted from
-the file. This framework is implemented as an extension to the Emacs
-text editor and provides a very rich set of features for working with
-the source file, including natural environments for authoring both
-prose and code, as well as sophisticated project management
-capabilities.
+We present a new computing environment for the authoring of
+interspersed natural and computer languages. In this environment a
+single hierarchically-organized plain text source file may contain a
+variety of elements such as source code in arbitrary programming
+languages, raw data, links to external resources, project management
+data, working notes, and text for publication. Source code fragments
+may be executed in situ with graphical and text output captured in, or
+linked to from, the source file. Export to LaTeX, HTML, Beamer and
+other formats permits working reports, presentations and manuscripts
+for publication to be generated from the source file. In addition,
+source code extraction (tangling) permits functioning pure code files
+to be extracted from the file. This framework is implemented as an
+extension to the Emacs text editor and provides a very rich set of
+features for working with the source file, including natural
+environments for authoring both prose and code, as well as
+sophisticated project management capabilities.
 #+LaTeX: \end{abstract}
 
 * Introduction
-In this paper we present Org-babel -- a tool for /computational
-communication/.  First explicit definition of some terms which will be
-used below.
-- code (or source code) :: will refer to the text written in a
-     programming language intended for use by a computer.
-- prose :: will refer to text written in a natural language
-     (e.g. English) intended for use by a person.
-- computational communication :: will refer to communication in which
-     the subject is computational objects or results.  This type of
-     communication is unique in that it must consist of mutually
-     supportive sections of both prose and code.  Computational
-     communication takes place between people, people and computers,
-     or the same person at different points in time.
-
-There are a variety of setting in which successful computation
-communication is paramount
-- *Scientific research* increasingly involves the use of computational
-  tools the inclusion of which is vital to successful conveyance of
+There are a variety of setting in which it is desirable to mix prose
+and code in a single container.
+- /Scientific research/ increasingly involves the use of computational
+  tools the inclusion of which is vital to successful communication
   and verification of research results.
-- In collaborative *software development* the exchange of ideas is
-  accomplished through shared code and prose, with the former
-  providing for concrete succinct demonstration, and the later higher
-  level explanation.
-- Without proper *documentation* the usability and future
+- In /software development/ the exchange of ideas is accomplished
+  through both shared code and prose, with the former providing for
+  concrete succinct description, and the later providing higher level
+  explanation.  Without proper documentation the usability and future
   extensibility of computational tools is severely compromised.
-- In *pedagogical* environments it is important for descriptions of
+- In /pedagogical/ environments it is important for descriptions of
   algorithms or techniques to go hand-in-hand with concrete
-  implementations.
+  implementations.  These environments range from in-class
+  presentations with accompanying algorithmic implementations, to
+  online tutorials or experiential blogs with accompanying
+  instructions.
 
 In all of the situations described above prose alone in the absence of
-access to code is insufficient as it is
+access to code is insufficient.
 #+begin_quote
 [natural language is] not conducive to succinct, exact expression and
 the audience is separated from the actions and details of the
@@ -76,7 +64,7 @@ computational details
 
 Similarly distribution of code without expository prose is not a
 sufficient medium for communication between people.
-#+begin_quote 
+#+begin_quote
 Let us change our traditional attitude to the construction of
 programs: Instead of imagining that our main task is to instruct a
 computer what to do, let us concentrate rather on explaining to human
@@ -85,14 +73,18 @@ beings what we want a computer to do.
 -- Donald Knuth
 #+end_quote
 
-Portions of the /computational communication/ problem have been
-identified and addressed under a variety of names such as Literate
-Programming~\cite{web} which adds prose to the source code
-implementing software projects, or Reproducible
-Research~\cite{compendium} which adds executable code to the
-publications focused on computational results or analysis.  Org-babel
-provides a unified environment supporting all manner of the authoring
-and use of combined prose and code.
+The need for combined authoring of prose and code has been previously
+approached form two different standpoints.
+
+- Literate Programming~\cite{web} :: enhances traditional software
+     development with the addition of prose in an attempt to improve
+     documentation quality.
+- Reproducible Research~\cite{compendium} :: which adds executable
+     code to publications of scholarly work, with the aim of allowing
+     the analysis described in the paper to be re-run by readers.
+
+Org-babel provides a unified environment supporting all manner of the
+authoring and use of combined prose and code.
 
 |       | prose                        | code                            |
 |-------+------------------------------+---------------------------------|
@@ -112,24 +104,50 @@ work is ensured, and the practices of Reproducible Research and
 Literate Programming are encouraged by greatly reducing the burden on
 the author.
 
-The name "Org-babel" is a pair of literary references indicating both
-the nature of the problem in the "Tower of Babel"
-#+begin_quote Genesis-11
-The LORD said, “If as one people speaking the same language they have
+Org-babel takes it's name from the story of the /Tower of Babel/, in
+which God set limits upon the ambitions of man through a confusion of
+languages, and the /babel fish/ which later removed these limits.
+#+begin_quote
+The LORD said, "If as one people speaking the same language they have
 begun to do this, then nothing they plan to do will be impossible for
 them.  Come, let us go down and confuse their language so they will
-not understand each other.”
+not understand each other."
+
+-- Genesis-11
 #+end_quote
-and the solution in the "Babel Fish".
-#+begin_quote The-Hitchhiker's-Guide-to-the-Galaxy
+#+begin_quote
 The Babel Fish is small, yellow, and simultaneously translates from
 one spoken language to another
+
+-- The-Hitchhiker's-Guide-to-the-Galaxy
 #+end_quote
 
-In the remainder of this paper
+In the remainder of this paper we will first review the idea of the
+/compendium/ -- a description of the requirements of a tool for
+Reproducible Research as set forth by Gentleman and Temple
+Lang~\cite{compendium} (Section \ref{compendium}).  We will then
+quickly review the relevant tools currently in existence which each
+address some portion of the need for combined code and prose (Section
+\ref{existing-tools}).
+
+We will describe Org-mode (\ref{org-mode}) and Org-babel (Section
+\ref{org-babel}) and present an argument for why we believe that they
+represent a sea change in software support for authoring of combined
+prose and text.  Finally we will demonstrate the application of
+Org-babel to a number of common use cases (Section
+\ref{applications}), and conclude with a discussion of the limits of
+Org-babel and pointers for future work (Section \ref{conclusion}).
 
 * Background
+** Compendium
+   :PROPERTIES:
+   :CUSTOM_ID: compendium
+   :END:
+
 ** Existing Tools
+   :PROPERTIES:
+   :CUSTOM_ID: existing-tools
+   :END:
 Each of the tools listed below addresses a particular view of
 requirement for unified authoring and publication of code and prose.
 
@@ -177,9 +195,6 @@ code snippets can then share data between themselves.
 
 Currently Field does not support exporting to human-readable
 documents, and Field only supports languages which run on the JVM.
-
-** Compendium
-
 * Org-babel
 Org-babel extends Org-mode [fn:: http://orgmode.org] a Major mode of
 the Emacs text editor [fn:: http://www.gnu.org/software/emacs/] with
@@ -207,6 +222,9 @@ Org-mode project which Org-babel extends.  As such the following
 description of Org-babel will begin with a description of Org-mode.
 
 ** Org-mode
+   :PROPERTIES:
+   :CUSTOM_ID: org-mode
+   :END:
 Thank you Carsten!
 
 - readable markup language
@@ -216,13 +234,10 @@ Thank you Carsten!
 - spreadsheets
 - more?
 
-** Design and Implementation
-*** org-mode
-- parsimonious markup
-- multi-target export
-- in-document spreadsheet
-- blocks
-
+** Org-babel
+   :PROPERTIES:
+   :CUSTOM_ID: org-babel
+   :END:
 *** document as execution environment
 - extension of the spreadsheet idea
 - activates data in
@@ -250,18 +265,34 @@ in-document blocks of code
   add new ones that most language support at this point is user
   submitted
 
-** Applications and Examples
+** Applications
+   :PROPERTIES:
+   :CUSTOM_ID: applications
+   :END:
 - simple example with multi-language block chaining and producing a
   figure
 - example with tangling
 - pointer to foo.Rnw and foo.org
 - look at uses for some more ideas
 
-* Discussion and Conclusion
+* Conclusion
+  :PROPERTIES:
+  :CUSTOM_ID: conclusion
+  :END:
+Org-babel certainly has a number of natural limits.  While Emacs
+provides a number of extremely mature and full featured environment
+for authoring of code and text, and for controlling the evaluation of
+text, it also brings with it a number of limiting factors.
+- steep learning curve
+- small community of potential users
+- it's not the best execution VM or sublayer
+  - single threaded
+  - inefficient
+
 Given the comfortable environment of Emacs and Org-mode, Org-babel
 provides an environment for the co-mingling of code, data, and prose
 in such a way that a critical mas has been reached -- "It's actually
-comfortable enough for real people to want to use it to do real
+comfortable enough for real people to want to use it for their daily
 work!".
 
 As such we believe it is a great step forward for the RR and LP camps,
