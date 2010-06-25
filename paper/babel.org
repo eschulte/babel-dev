@@ -273,31 +273,38 @@ We will discuss Babel's multi-language support in Section
 \ref{languages}.
 
 * Babel
-Babel extends Org-mode [fn:: http://orgmode.org] a Major mode of the
-Emacs text editor [fn:: http://www.gnu.org/software/emacs/] with the
-ability to execute and selectively export embedded source code blocks.
-The results of code execution -- text, tables and graphics -- can be
-used as input to other source code blocks or passed to the powerful
-publishing facilities of Org-mode.
+Babel is nested inside of Org-mode [fn:: http://orgmode.org] which is
+itself contained inside the Emacs text editor [fn::
+http://www.gnu.org/software/emacs/].  Babel gains much from executing
+in this environment.
 
-Babel provides a single environment supporting
-- prose document authoring -- with export to HTML, LaTeX, plain text,
-  and LaTeX beamer
-- the authoring of source code
-- the interactive and automatic execution of source code with control
-  over the flow of data into and out of the source code blocks
-- the storage and analysis of raw data in both spreadsheet and linked
-  from external files
-- sophisticated organizational and task management facilities
+The Emacs text editor \cite{emacs} has been under constant development
+since the mid 1970s.  For many of it's users Emacs is already the
+preferred environment for authoring of text in all forms both
+programming languages and prose -- often through writing /markup/
+languages like LaTeX or HTML.  Org-mode extends Emacs with a simple
+markup language which can export to a variety of formats.  Through
+living inside of (and standing on the shoulders of) these projects,
+Babel is able to leverage the editing and code evaluating
+functionality of Emacs accessible from inside of a single Org-mode
+document containing both code and prose.
 
-The core of Babel is language agnostic and can easily be extended to
-provide support for new programming languages.  Babel currently
-supports over 20 programming languages, with most language support
-contributed by Babel users.
+Through making it possible to adopt literate programming and
+reproducible research practices while retaining a familiar editing
+environment Babel significantly lowers the barrier of entry.
+Difficulty of use/adoption has served as a major barrier to previous
+LP and RR systems, and the authors believe that because of this ease
+of adoption represents along with the universal applicability across
+programming languages Babel represents a qualitative advancement for
+the LP/RR tools.
 
-The majority of the features above are provided directly by the
-Org-mode project which Babel extends.  As such the following
-description of Babel will begin with a description of Org-mode.
+We will first introduce Org-mode with a focus on those features that
+make it an ideal environment in which to embed a LP/RR system (Section
+\ref{org-mode}).  We then describe the syntax with which code can be
+embedded within Org-mode documents (Section \ref{syntax}), the
+evaluation of code (Section \ref{meta-lang}), the process of exporting
+(weaving and tangling) from Babel documents (Section \ref{export}),
+and Babels multi-lingual support (Section \ref{languages}).
 
 ** Org-mode
    :PROPERTIES:
