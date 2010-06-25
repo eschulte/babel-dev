@@ -539,23 +539,23 @@ Org-mode buffer as in Figure \ref{vector-results}.
 
 #+label: vector-results
 #+begin_src org
-  ,#+begin_src ruby
+  ,#+begin_src haskell
   ,  [1, 2, 3, 4, 5]
   ,#+end_src
   
   ,#+results:
   ,| 1 | 2 | 3 | 4 | 5 |
   
-  ,#+begin_src ruby
-  ,  [1, 2, 3, 4, 5].map{|n| [n, 2*n]}
+  ,#+begin_src haskell
+  ,  zip [1, 2, 3, 4, 5] (map (\ x -> x + 1) [1, 2, 3, 4, 5])
   ,#+end_src
   
   ,#+results:
-  ,| 1 |  2 |
-  ,| 2 |  4 |
-  ,| 3 |  6 |
-  ,| 4 |  8 |
-  ,| 5 | 10 |
+  ,| 1 | 2 |
+  ,| 2 | 3 |
+  ,| 3 | 4 |
+  ,| 4 | 5 |
+  ,| 5 | 6 |
 #+end_src
 
 Additionally some code blocks may output files or images.  Babel is
@@ -578,6 +578,122 @@ Much more information about controlling the evaluation of code and the
 handling of code results is available in the Babel documentation.
 
 **** Arguments
+We've now seen how data originating in code blocks can be inserted
+into Org-mode buffers in the form of /scalars/, /tables/ and links to
+external files.  It is also possible for data to flow from each of
+these containers (/scalars/, /tables/ and /links/) into code blocks,
+and even for data to pass between different code blocks without ever
+landing in the Org-mode buffer.
+
+This is all made possible through a simple system of passing arguments
+to code blocks.  Values passed to code blocks are then made accessible
+from the source code in a language specific way, but most often in the
+form of variables assigned to the values of the arguments.
+
+The following syntax can be used to pass an argument to a code blocks.
+#+label: add-one
+#+begin_src org
+  ,#+source: add-one
+  ,#+begin_src clojure :var x=10
+  ,  (+ x 1)
+  ,#+end_src
+  
+  ,#+results: add-one
+  ,: 11
+#+end_src
+
+In the context of this code block the value of =x= is now set to 10.
+We could also use a named value elsewhere in the buffer to initialize
+a variable, as shown in Figure \ref{some-text}.
+#+label: some-text
+#+begin_src org
+  ,#+results: remote-x
+  ,: some text
+  
+  ,Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+  
+  ,#+begin_src clojure :var x=remote-x
+  ,  x
+  ,#+end_src
+  
+  ,#+results:
+  ,: some text
+#+end_src
+
+As the previous two examples demonstrate, strings will be passed in a
+strings, numbers as numbers, and as shown in Figure \ref{some-table}
+tables will be passed in as tables.
+#+source: some-table
+#+begin_src org
+  ,#+results: table-x
+  ,| 1 | 
+  ,| 2 |
+  ,| 3 |
+  ,| 4 |
+  ,| 5 |
+  
+  ,#+begin_src ruby :var x=table-x
+  ,  x.map{|row| row.map{|cell| cell + 1}}
+  ,#+end_src
+  
+  ,#+results:
+  ,| 2 |
+  ,| 3 |
+  ,| 4 |
+  ,| 5 |
+  ,| 6 |
+#+end_src
+
+Code blocks can reference the other code blocks as shown in figure
+\ref{some-code}.
+#+label: some-code
+#+begin_src org
+  ,#+source: add-one
+  ,#+begin_src clojure :var x=10
+  ,  (+ x 1)
+  ,#+end_src
+  
+  ,#+begin_src python :var y=add-one :results output
+  ,  print "10 + 1 =", y
+  ,#+end_src
+  
+  ,#+results:
+  ,: 10 + 1 = 11
+  
+  ,In addition arguments can be passed to referenced code blocks using a
+  ,traditional function syntax with named arguments.
+  
+  ,#+begin_src python :var y=add-one(x=2) :results output
+  ,  print "2 + 1 =", y
+  ,#+end_src
+  
+  ,#+results:
+  ,: 2 + 1 = 3
+#+end_src
+
+Notice that no problems are caused when dealing with code blocks in
+different languages, this is because all values passed through the
+emacs-lisp interpreter at the core of Emacs.  This argument passing
+syntax allows for complex chaining of raw values in a document, and of
+blocks of code in multiple languages as shown in Figure
+\ref{too-much}.  In effect Babel serves as a /meta-functional/
+programming language with which other programming languages can be
+used to define composable functions.  Such integration of languages
+can be very useful for example in research projects for combining
+scripts written in a shell or python with statistical analysis written
+in R.  The goals of reproducible research are only met when such an
+integration is both easily accomplished by the initial researcher, and
+preserved in a distributable container (like a plain text document).
+
+#+label: too-much
+#+begin_src org
+  ,would be great to have an example here that (in 4 different languages)
+  ,1) grabbed a list of items from a table
+  ,2) somehow grabbed data related to those items from the web
+  ,3) pre-processed the results
+  ,4) did some analysis in R and then spat out the results
+#+end_src
+
 *** Export
     :PROPERTIES:
     :CUSTOM_ID: export
