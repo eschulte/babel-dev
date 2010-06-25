@@ -459,8 +459,8 @@ state the retention of which is desirable for manual inspection, or
 for use by later code blocks.  For example in the following example
 the first block of =R= code sets variables in an interactive session
 and the second block of =R= code can access these variables because it
-is run in the /same =R= session/ (take from [fn::
-http://orgmode.org/worg/org-contrib/babel/uses.php#foo]).
+is run in the same =R= session (adapted from [fn::
+http://www.stat.umn.edu/~charlie/Sweave/]).
 
 #+label: R-pair
 #+begin_src org
