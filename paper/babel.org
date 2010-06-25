@@ -376,7 +376,30 @@ these features into Org-mode's existing plain text markup scheme.
        ,#+end_example
      #+end_src
 
-- block code :: 
+- block code :: Source code in a variety of languages (see Section
+     \ref{languages}) can be embedded into Org-mode documents using
+     the following syntax.
+     #+begin_src org
+       ,#+srcname: <name>
+       ,#+begin_src <language> <switches> <header arguments>
+       ,  <body>
+       ,#+end_src
+     #+end_src
+     where
+     - <name> :: This name is associated with the code block.  This is
+          similar to the =#+tblname= lines that can be used to name
+          tables in Org-mode files.  Referencing the name of a code
+          block makes it possible to evaluate the block from other
+          places in the file, other files, or from Org-mode table
+          formulas.
+     - <language> :: The language of the code in the block.
+     - <switches> :: Switches controling exportation of the code block
+     - <header arguments> :: Optional header arguments control many
+          aspects of evaluation, export and tangling of code blocks.
+     - <body> :: The source code.
+
+Extensive documentation of the Babel specific syntax is available in
+the babel manual [fn:: http://orgmode.org].
 
 *** Code Evaluation
     :PROPERTIES:
