@@ -323,27 +323,69 @@ Thank you Carsten!
    :PROPERTIES:
    :CUSTOM_ID: babel
    :END:
-*** document as execution environment
-- extension of the spreadsheet idea
-- activates data in
-  - tables
-  - blocks
+*** Syntax
+    :PROPERTIES:
+    :CUSTOM_ID: syntax
+    :END:
 
-*** functional code blocks
-in-document blocks of code
-- are callable
-- accept arguments
-- execute in environment of the document
-- results can be inserted into document
+With Babel, Org-mode documents become environments for computation as
+well as containers for prose, code and data.  Certain components of
+Org-mode documents are /activated/, meaning that they can be used in
+Babel computations.  These components include /data/, stored in tables
+or in example sections, as well as /code/ which is located in
+specially marked code blocks.  Each of these elements can be /named/
+allowing them to be referenced by other elements in the Babel
+execution environment.  The following syntax is used to incorporate
+these features into Org-mode's existing plain text markup scheme.
 
-*** block organization
-- noweb references
-- can call other code blocks -- chaining
+- table data :: Tables constructed as described in Section
+     \ref{org-mode} can be named with preceeding =#+tblname:= or the
+     more general =#+results:= lines.  For example the following
+     org-mode syntax
+     #+begin_src org
+       ,#+results: numbered-primes
+       ,| 1 |  2 |
+       ,| 2 |  3 |
+       ,| 3 |  5 |
+       ,| 4 |  7 |
+       ,| 5 | 11 |
+     #+end_src
+     can be referenced by other Babel elements and manipulated as a 2D
+     matrix of numbers.
 
-*** export
-- tangling
-- actions on export
+- example data :: Org-mode /example/ blocks named using =#+results:=
+     lines can also be referenced by Babel.  For example, the
+     following simple example block would be interpreted as a number.
+     #+begin_src org
+       ,#+results: the-magic-number
+       ,: 24
+     #+end_src
+     larger blocks of text can also be named and accessed from babel.
+     The following "block" syntax variation is semantically equivalent
+     to the =:= prefixing demonstrated above.
+     #+begin_src org
+       ,#+results: larger-block-of-text
+       ,#+begin_example
+       ,  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+       ,  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+       ,  enimad minim veniam, quis nostrud exercitation ullamco laboris nisi
+       ,  ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+       ,  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+       ,  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+       ,  culpa qui officia deserunt mollit anim id est laborum.
+       ,#+end_example
+     #+end_src
 
+- block code :: 
+
+*** Code Evaluation
+    :PROPERTIES:
+    :CUSTOM_ID: meta-lang
+    :END:
+*** Export
+    :PROPERTIES:
+    :CUSTOM_ID: export
+    :END:
 *** language support
     :PROPERTIES:
     :CUSTOM_ID: languages

@@ -1,0 +1,17 @@
+*** document as execution environment
+- extension of the spreadsheet idea
+- activates data in
+  - tables
+  - blocks
+
+*** functional code blocks
+in-document blocks of code
+- are callable
+- accept arguments
+- execute in environment of the document
+- results can be inserted into document
+
+*** block organization
+- noweb references
+- can call other code blocks -- chaining
+
