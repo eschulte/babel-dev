@@ -1,4 +1,5 @@
 #+TITLE: Babel /DRAFT/
+#+AUTHOR: 
 #+OPTIONS: ^:nil toc:nil
 #+STARTUP: oddeven hideblocks
 #+LATEX_HEADER: \usepackage{attrib}
