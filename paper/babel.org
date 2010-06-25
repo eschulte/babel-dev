@@ -698,6 +698,31 @@ preserved in a distributable container (like a plain text document).
     :PROPERTIES:
     :CUSTOM_ID: export
     :END:
+
+Borrowing term from the Literate Programming community Babel supports
+both /weaving/ (the exportation of a mixed code/prose document to a
+prose format suitable for reading by a human) and /tangling/ (the
+exportation of a mixed code/prose document to a pure code file
+suitable for execution by a computer).
+
+- weaving :: Org-mode provides an extremely sophisticated and
+     full-features system of exportation to HTML, LaTeX, and a number
+     of other target formats.  Babel adds support for the
+     pre-processing of code blocks as part of the export process.
+     This pre-processing allows for the code of a code block, the
+     results of a code block, or both or neither to be included in the
+     final exported document.
+
+- tangling :: Tangling consists not only of extracting source code
+     from an Org-mode document but also of re-arranging the code.
+     Often the order in which a computer needs to be presented with
+     code differs from the order in which the code may be best
+     organized in a document.  LP systems like no-web solve this
+     problem using code-block references which are expanded as part of
+     the reference process \ref{noweb}.  Babel implements the same
+     reference system reproducing the same syntax and functionality of
+     the =noweb= reference system.
+
 *** language support
     :PROPERTIES:
     :CUSTOM_ID: languages
