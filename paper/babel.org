@@ -2,6 +2,7 @@
 #+AUTHOR: 
 #+OPTIONS: ^:nil toc:nil
 #+STARTUP: oddeven hideblocks
+#+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
 #+LATEX_HEADER: \usepackage{attrib}
 #+LaTeX_CLASS: twocolumn
 #+begin_latex
