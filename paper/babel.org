@@ -774,3 +774,21 @@ scientists to make their work more accessible.
   \small
   \bibliography{babel}
 #+end_LaTeX
+* COMMENT publish
+a post-export hook for smaller verbatim text
+#+begin_src emacs-lisp
+  (add-hook 'org-export-latex-final-hook
+            (defun babel-paper-small-verbatim ()
+              (interactive)
+              (goto-char (point-min))
+              (while (re-search-forward "\\\\begin{verbatim}" nil t)
+                (goto-char (match-beginning 0))
+                (insert "{\\scriptsize\n")
+                (goto-char (match-end 0)))
+              (goto-char (point-min))
+              (while (re-search-forward "\\\\end{verbatim}" nil t)
+                (goto-char (match-end 0))
+                (insert "\n}"))))
+  ;; ;; undo
+  ;; (setq org-export-latex-final-hook (cdr org-export-latex-final-hook))
+#+end_src
