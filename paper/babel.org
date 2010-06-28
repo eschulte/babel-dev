@@ -687,11 +687,25 @@ preserved in a distributable container (like a plain text document).
 
 #+label: too-much
 #+begin_src org
-  ,would be great to have an example here that (in 4 different languages)
-  ,1) grabbed a list of items from a table
-  ,2) somehow grabbed data related to those items from the web
-  ,3) pre-processed the results
-  ,4) did some analysis in R and then spat out the results
+  ,#+source: dc-parks
+  ,#+begin_src emacs-lisp :var keys='(ward area) :var data=json(url="http://ogdi.cloudapp.net/v1/dc/RecreationParks?format=json")
+  ,  (mapcar
+  ,    (lambda (lis) (mapcar (lambda (key) (cdr (assoc key lis))) keys))
+  ,   (cdr (car data)))
+  ,#+end_src
+  
+  ,#+source: dc-parks-metric
+  ,#+begin_src ruby :var data=dc-parks
+  ,  data.map{|f| [f[0], 2.59 * f[1]]}
+  ,#+end_src
+  
+  ,#+begin_src R :var parkData=dc-parks-metric :file parks.png :session *R*
+  ,  plot(parkData)
+  ,  title(main="Park size by Ward")
+  ,#+end_src
+  
+  ,#+results:
+  ,[[file:parks.png]]
 #+end_src
 
 *** Export
@@ -727,10 +741,17 @@ suitable for execution by a computer).
     :PROPERTIES:
     :CUSTOM_ID: languages
     :END:
-- currently supports over 20 languages
-- number of supported languages are growing, and it's easy enough to
-  add new ones that most language support at this point is user
-  submitted
+
+The core functions of Babel are entirely language agnostic.  The
+tangling, source edit and export features of Org-babel can be used
+even for unsupported languages, only code evaluation and interaction
+with live sessions require language-specific functions.  Support for
+new languages can be added through defining a small number of
+functions named after the language following a couple of simple
+conventions.  Currently Babel has support for over 20 languages.  The
+ease with which support for new languages can be added is evidenced by
+the fact that all new language support has been contributed by
+Org-babel users rather than by the original authors.
 
 ** Applications
    :PROPERTIES:
