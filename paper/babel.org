@@ -702,8 +702,17 @@ preserved in a distributable container (like a plain text document).
 #+LaTeX: \begin{figure}
 #+LaTeX: \label{too-much}
 #+begin_src org
+  ,#+source: raw-data
+  ,#+begin_src emacs-lisp
+  ,  (with-temp-buffer
+  ,    (w3m-retrieve
+  ,     "http://ogdi.cloudapp.net/v1/dc/RecreationParks?format=json")
+  ,    (goto-char (point-min))
+  ,    (json-read))  
+  ,#+end_src
+  
   ,#+source: dc-parks
-  ,#+begin_src emacs-lisp :var keys='(ward area) :var data=json(url="http://ogdi.cloudapp.net/v1/dc/RecreationParks?format=json")
+  ,#+begin_src emacs-lisp :var keys='(ward area) :var data=raw-data
   ,  (mapcar
   ,    (lambda (lis) (mapcar (lambda (key) (cdr (assoc key lis))) keys))
   ,   (cdr (car data)))
