@@ -20,21 +20,20 @@
 #+end_latex
 
 #+LaTeX: \begin{abstract}
-We present a new computing environment for the authoring of mixed
-natural and computer language documents. In this environment a single
+We present a new computing environment for authoring mixed natural and
+computer language documents. In this environment a single
 hierarchically-organized plain text source file may contain a variety
 of elements such as code in arbitrary programming languages, raw data,
 links to external resources, project management data, working notes,
 and text for publication. Code fragments may be executed in situ with
-graphical and text output captured in, or linked to from, the
-file. Export to LaTeX, HTML, Beamer and other formats permits working
+graphical and text output captured in, or linked to, the file. Export
+to LaTeX, HTML, Beamer, DocBook and other formats permits working
 reports, presentations and manuscripts for publication to be generated
 from the file. In addition, code extraction (tangling) permits
 functioning pure code files to be extracted from the file. This
-framework is implemented as an extension to the Emacs text editor and
-provides a very rich set of features including natural environments
-for authoring both prose and code, as well as sophisticated project
-management capabilities.
+environment is implemented as an extension to the Emacs text editor
+and provides a rich set of features for authoring both prose and code,
+as well as sophisticated project management capabilities.
 #+LaTeX: \end{abstract}
 
 * Introduction
