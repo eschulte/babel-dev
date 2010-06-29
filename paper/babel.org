@@ -1,9 +1,10 @@
 #+TITLE: Babel /DRAFT/
 #+AUTHOR: 
-#+OPTIONS: ^:nil toc:nil
+#+OPTIONS: ^:nil toc:nil H:4
 #+STARTUP: oddeven hideblocks
 #+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
 #+LATEX_HEADER: \usepackage{attrib}
+#+LATEX_HEADER: \usepackage{mathpazo}
 #+LaTeX_CLASS: twocolumn
 #+begin_latex
 \definecolor{strings}{RGB}{60,179,113}
@@ -22,18 +23,17 @@
 We present a new computing environment for the authoring of mixed
 natural and computer language documents. In this environment a single
 hierarchically-organized plain text source file may contain a variety
-of elements such as source code in a variety of programming languages,
-raw data, links to external resources, project management data,
-working notes, and text for publication. Source code fragments may be
-executed in situ with graphical and text output captured in, or linked
-to from, the source file. Export to LaTeX, HTML, Beamer and other
-formats permits working reports, presentations and manuscripts for
-publication to be generated from the source file. In addition, source
-code extraction (tangling) permits functioning pure code files to be
-extracted from the file. This framework is implemented as an extension
-to the Emacs text editor and provides a very rich set of features for
-working with the source file, including natural environments for
-authoring both prose and code, as well as sophisticated project
+of elements such as code in arbitrary programming languages, raw data,
+links to external resources, project management data, working notes,
+and text for publication. Code fragments may be executed in situ with
+graphical and text output captured in, or linked to from, the
+file. Export to LaTeX, HTML, Beamer and other formats permits working
+reports, presentations and manuscripts for publication to be generated
+from the file. In addition, code extraction (tangling) permits
+functioning pure code files to be extracted from the file. This
+framework is implemented as an extension to the Emacs text editor and
+provides a very rich set of features including natural environments
+for authoring both prose and code, as well as sophisticated project
 management capabilities.
 #+LaTeX: \end{abstract}
 
@@ -56,34 +56,15 @@ and code in a single container.
   instructions.
 
 In all of the situations described above prose alone in the absence of
-access to code is insufficient.
-#+begin_quote
-[natural language is] not conducive to succinct, exact expression and
-the audience is separated from the actions and details of the
-algorithm and often forced to make assumptions about the precise
-computational details
+access to code is insufficient.  Similarly distribution of code
+without expository prose is not a sufficient medium for communication
+between people.  The need for combined authoring of prose and code has
+been historically approached form two different standpoints.
 
-\attrib{Gentleman, Temple Lang}
-#+end_quote
-
-Similarly distribution of code without expository prose is not a
-sufficient medium for communication between people.
-#+begin_quote
-Let us change our traditional attitude to the construction of
-programs: Instead of imagining that our main task is to instruct a
-computer what to do, let us concentrate rather on explaining to human
-beings what we want a computer to do.
-  
-\attrib{Donald Knuth}
-#+end_quote
-
-The need for combined authoring of prose and code has been
-historically approached form two different standpoints.
-
-- Literate Programming :: enhances traditional software development
-     with the addition of prose in an attempt to improve documentation
-     quality.
-- Reproducible Research :: adds executable code to publications of
+- Literate Programming :: enhances traditional software development by
+     embedding code in explanatory essays and treating the act of
+     development as one of communication with future maintainers.
+- Reproducible Research :: embeds executable code to publications of
      scholarly work, with the aim of allowing the analysis described
      in the paper to be re-run by readers.
 
@@ -112,24 +93,6 @@ variety of formats the future reproducibility of the work is ensured,
 and the practices of Reproducible Research and Literate Programming
 are encouraged by greatly reducing the burden on the author.
 
-Babel takes it's name from the story of the /Tower of Babel/, in which
-God frustrates the ambitions of man with a confusion of languages, and
-the /babel-fish/ which relieves these same linguistic frustrations.
-#+begin_quote
-The LORD said, "If as one people speaking the same language they have
-begun to do this, then nothing they plan to do will be impossible for
-them.  Come, let us go down and confuse their language so they will
-not understand each other."
-
-\attrib{Genesis-11}
-#+end_quote
-#+begin_quote
-The Babel Fish is small, yellow, and simultaneously translates from
-one spoken language to another
-
-\attrib{The Hitchhiker's Guide to the Galaxy}
-#+end_quote
-
 In the remainder of this paper we will first review the idea of the
 /compendium/ -- a description of the requirements of a tool for
 Reproducible Research as set forth by Gentleman and Temple Lang
@@ -138,25 +101,25 @@ review the relevant tools currently in existence which each address
 some subset of the use cases surrounding the use and composition of
 combined prose and code (Section \ref{existing-tools}).
 
-We will describe Org-mode (Section \ref{org-mode}) and Babel (Section
-\ref{babel}) and present an argument for why we believe that they
-represent a sea change in software support for authoring of combined
-prose and code.  Finally we will demonstrate the application of Babel
-to a number of common use cases (Section \ref{applications}), and
-conclude with a discussion of the limits of Babel and pointers for
-future work (Section \ref{conclusion}).
+We will describe the design and implementation of Org-mode (Section
+\ref{org-mode}) and Babel (Section \ref{babel}) will demonstrate their
+application to a number of common use cases (Section
+\ref{applications}).  Finally we conclude with a discussion of why we
+believe Babel constitutes a sea-change in software support for mixed
+prose and code environments, as well as the limits of Babel and
+directions for future work (Section \ref{conclusion}).
 
 * Background
 ** Compendium
    :PROPERTIES:
    :CUSTOM_ID: compendium
    :END:
-Gentleman and Temple Lang introduce the /compendium/ \cite{compendium}
-as a proposed tool supporting reproducible research.  In their
-formulation a compendium is a container holding the text, code, and
-data constituting a scholarly work.  Compendiums are intended to
-facilitate the distribution, management, recreation, and extension of
-such works.
+Gentleman and Temple Lang introduce the concept of a /compendium/
+\cite{compendium} as a proposed tool supporting reproducible research.
+In their formulation a compendium is a container holding the text,
+code, and raw data constituting a scholarly work.  Compendiums are
+intended to facilitate the distribution, management, recreation, and
+extension of such works.
 
 A compendium would also supports a variety of different /views/, where
 /views/ are static documents automatically generated by /running/ the
@@ -200,7 +163,7 @@ of these points.  First we review existing related tools.
    :CUSTOM_ID: existing-tools
    :END:
 Each of the tools listed below addresses a particular view of
-requirement for unified authoring and publication of code and prose.
+requirement for use and composition of combined prose and code.
 
 *** Automatic Documentation
 The most commonly used tools for literate programming come in the form
@@ -340,9 +303,8 @@ execution environment.  The following syntax is used to incorporate
 these features into Org-mode's existing plain text markup scheme.
 
 - table data :: Tables constructed as described in Section
-     \ref{org-mode} can be named with preceeding =#+tblname:= or the
-     more general =#+results:= lines.  For example the following
-     org-mode syntax
+     \ref{org-mode} can be named with preceeding =#+tblname:= or
+     =#+results:= lines.  For example the following org-mode syntax
      #+begin_src org
        ,#+results: numbered-primes
        ,| 1 |  2 |
@@ -361,19 +323,18 @@ these features into Org-mode's existing plain text markup scheme.
        ,#+results: the-magic-number
        ,: 24
      #+end_src
-     larger blocks of text can also be named and accessed from babel.
+     Larger blocks of text can also be named and accessed from babel.
      The following "block" syntax variation is semantically equivalent
      to the =:= prefixing demonstrated above.
      #+begin_src org
        ,#+results: larger-block-of-text
        ,#+begin_example
-       ,  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-       ,  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-       ,  enimad minim veniam, quis nostrud exercitation ullamco laboris nisi
-       ,  ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-       ,  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-       ,  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-       ,  culpa qui officia deserunt mollit anim id est laborum.
+       ,  Lorem ipsum dolor sit amet, consectetur
+       ,  adipisicing elit, sed do eiusmod tempor
+       ,  incididunt ut labore et dolore magna aliqua. Ut
+       ,  enimad minim veniam, quis nostrud exercitation
+       ,  ullamco laboris nisi ut aliquip ex ea commodo
+       ,  consequat.
        ,#+end_example
      #+end_src
 
@@ -387,17 +348,17 @@ these features into Org-mode's existing plain text markup scheme.
        ,#+end_src
      #+end_src
      where
-     - <name> :: This name is associated with the code block.  This is
+     - name :: This name is associated with the code block.  This is
           similar to the =#+tblname= lines that can be used to name
           tables in Org-mode files.  Referencing the name of a code
           block makes it possible to evaluate the block from other
           places in the file, other files, or from Org-mode table
           formulas.
-     - <language> :: The language of the code in the block.
-     - <switches> :: Switches controling exportation of the code block
-     - <header arguments> :: Optional header arguments control many
+     - language :: The language of the code in the block.
+     - switches :: Switches controling exportation of the code block
+     - header arguments :: Optional header arguments control many
           aspects of evaluation, export and tangling of code blocks.
-     - <body> :: The source code.
+     - body :: The source code.
 
 Extensive documentation of the Babel specific syntax is available in
 the babel manual [fn:: http://orgmode.org].
@@ -412,16 +373,18 @@ evaluation of source code Babel makes use of a great deal of existing
 Emacs support for interactive with both external and inferior
 processes.
 
-As an example the following block of ruby code
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{ruby-simple}
 #+begin_src org
   ,#+begin_src ruby
   ,  require 'date'
   ,  "This block was last evaluated on #{Date.today}"
   ,#+end_src
 #+end_src
+#+LaTeX: \caption{simple block of ruby code}
+#+LaTeX: \label{ruby-simple}
 #+LaTeX: \end{figure}
+
+As an example the block of ruby code show in Figure \ref{ruby-simple}
 would be evaluated by
 1) writing it's contents to a temporary file
 2) using the =ruby= command to execute the file
@@ -430,7 +393,6 @@ would be evaluated by
 By default the captured output appears in the Org-mode buffer
 immediately following the code block, resulting in the following
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{ruby-simple-run}
 #+begin_src org
   ,#+begin_src ruby
   ,  require 'date'
@@ -440,25 +402,32 @@ immediately following the code block, resulting in the following
   ,#+results:
   ,: This block was last evaluated on 2010-06-25
 #+end_src
+#+LaTeX: \caption{block of \texttt{ruby} code after evaluation}
+#+LaTeX: \label{ruby-simple-run}
 #+LaTeX: \end{figure}
 
 **** Sessions
 The same code could also be evaluated in an interactive session
 through adding a session /header argument/, e.g.
+#+LaTeX: \begin{figure}
 #+begin_src org
   ,#+begin_src ruby :session
   ,  require 'date'
   ,  "This block was last evaluated on #{Date.today}"
   ,#+end_src
 #+end_src
+#+LaTeX: \caption{block of \texttt{ruby} code evaluated in a \emph{session}}
+#+LaTeX: \label{ruby-session}
+#+LaTeX: \end{figure}
 in this case the code would be evaluated by
-1) starting a persistent ruby process associated with a new Emacs buffer
+1) starting a persistent =ruby= process associated with a new Emacs
+   buffer
 2) passing the code body to that process
 3) capturing the last value returned by that process
 
 Session evaluation can be useful when the code block changes some
 state the retention of which is desirable for manual inspection, or
-for use by later code blocks.  For example in the following example
+for use by subsequent code blocks.  For example in Figure \ref{R-pair}
 the first block of =R= code sets variables in an interactive session
 and the second block of =R= code can access these variables because it
 is run in the same =R= session (adapted from [fn::
@@ -479,8 +448,9 @@ http://www.stat.umn.edu/~charlie/Sweave/]).
   ,  summary(out1)
   ,#+end_src
   
-  ,the previous block builds an environment consisting of a number of
-  ,variables referenced by the subsequent block
+  ,the previous block builds an environment
+  ,consisting of a number of variables referenced by
+  ,the subsequent block
   
   ,#+begin_src R :session *R* :file fig.pdf
   ,  plot(x, y)
@@ -491,18 +461,18 @@ http://www.stat.umn.edu/~charlie/Sweave/]).
 
 Session based evaluation is similar to the approach to evaluation
 taken by =Sweave= in which every code block is evaluated in the same
-persistent session -- with the main difference that Babel allows for
-multiple disjoint named sessions.
+persistent session -- with the main difference being that Babel allows
+for multiple disjoint named sessions.
 
 **** Results
 The previous example (Figure \ref{R-pair}) made use of two header
 arguments which we have not discussed -- =results= and =file=.  Both
 of these arguments control how the results of a code block are
-handled.  As seen in (Figure \ref{ruby-simple-run}), by default
-results of code blocks are inserted as protected text in an Org-mode
-buffer.  In fact the user is given significant control over the
-handling of code block results both during interactive evaluation and
-during export.
+handled.  As seen in Figure \ref{ruby-simple-run}, by default results
+of code blocks are inserted as protected text immediately after the
+code block in the Org-mode buffer.  In practice the user is given
+significant control over the handling of code block results both
+during interactive evaluation and during export.
 
 There are two ways in which results can be collected from code blocks.
 - =:results value= :: Specifies that the code block should be treated
@@ -537,12 +507,11 @@ There are two ways in which results can be collected from code blocks.
      #+end_src
 
 Results can take a number of different forms.  So far we have only
-seen string results, however it is possible for return vector results.
-Babel recognizes vector results and inserts them as tables into the
-Org-mode buffer as in Figure \ref{vector-results}.
+seen string results, however it is possible for code blocks to return
+vector results.  Babel recognizes vector results and inserts them as
+tables into the Org-mode buffer as in Figure \ref{vector-results}.
 
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{vector-results}
 #+begin_src org
   ,#+begin_src haskell
   ,  [1, 2, 3, 4, 5]
@@ -562,6 +531,8 @@ Org-mode buffer as in Figure \ref{vector-results}.
   ,| 4 | 5 |
   ,| 5 | 6 |
 #+end_src
+#+LaTeX: \caption{vector results inserted as a table}
+#+LaTeX: \label{vector-results}
 #+LaTeX: \end{figure}
 
 Additionally some code blocks may output files or images.  Babel is
@@ -585,10 +556,10 @@ handling of code results is available in the Babel documentation.
 
 **** Arguments
 We've now seen how data originating in code blocks can be inserted
-into Org-mode buffers in the form of /scalars/, /tables/ and links to
-external files.  It is also possible for data to flow from each of
+into Org-mode buffers in the form of /scalars/, /tables/ and /links/
+to external files.  It is also possible for data to flow from each of
 these containers (/scalars/, /tables/ and /links/) into code blocks,
-and even for data to pass between different code blocks without ever
+and even for data to pass from code block to code block without ever
 landing in the Org-mode buffer.
 
 This is all made possible through a simple system of passing arguments
@@ -598,7 +569,6 @@ form of variables assigned to the values of the arguments.
 
 The following syntax can be used to pass an argument to a code blocks.
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{add-one}
 #+begin_src org
   ,#+source: add-one
   ,#+begin_src clojure :var x=10
@@ -608,18 +578,20 @@ The following syntax can be used to pass an argument to a code blocks.
   ,#+results: add-one
   ,: 11
 #+end_src
+#+LaTeX: \caption{A simple example of passing an argument to a code block}
+#+LaTeX: \label{add-one}
 #+LaTeX: \end{figure}
 
 In the context of this code block the value of =x= is now set to 10.
 We could also use a named value elsewhere in the buffer to initialize
 a variable, as shown in Figure \ref{some-text}.
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{some-text}
 #+begin_src org
   ,#+results: remote-x
   ,: some text
   
-  ,Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+  ,Lorem ipsum dolor sit amet, consectetuer
+  ,adipiscing elit.
   
   ,#+begin_src clojure :var x=remote-x
   ,  x
@@ -628,13 +600,14 @@ a variable, as shown in Figure \ref{some-text}.
   ,#+results:
   ,: some text
 #+end_src
+#+LaTeX: \caption{the reference \texttt{remote-x} used to initialize the variable \texttt{x}}
+#+LaTeX: \label{some-text}
 #+LATeX: \end{figure}
 
-As the previous two examples demonstrate, strings will be passed in a
-strings, numbers as numbers, and as shown in Figure \ref{some-table}
-tables will be passed in as tables.
+As these examples demonstrate, strings will be passed in a strings,
+numbers as numbers, and as shown in Figure \ref{some-table} tables
+will be passed in as tables.
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{some-table}
 #+begin_src org
   ,#+results: table-x
   ,| 1 | 
@@ -654,12 +627,13 @@ tables will be passed in as tables.
   ,| 5 |
   ,| 6 |
 #+end_src
+#+LaTeX: \caption{a vector argument}
+#+LaTeX: \label{some-table}
 #+LaTeX: \end{figure}
 
 Code blocks can reference the other code blocks as shown in figure
 \ref{some-code}.
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{some-code}
 #+begin_src org
   ,#+source: add-one
   ,#+begin_src clojure :var x=10
@@ -673,8 +647,9 @@ Code blocks can reference the other code blocks as shown in figure
   ,#+results:
   ,: 10 + 1 = 11
   
-  ,In addition arguments can be passed to referenced code blocks using a
-  ,traditional function syntax with named arguments.
+  ,In addition arguments can be passed to referenced
+  ,code blocks using a traditional function syntax
+  ,with named arguments.
   
   ,#+begin_src python :var y=add-one(x=2) :results output
   ,  print "2 + 1 =", y
@@ -683,6 +658,8 @@ Code blocks can reference the other code blocks as shown in figure
   ,#+results:
   ,: 2 + 1 = 3
 #+end_src
+#+LaTeX: \caption{the results of \texttt{add-one} used to initialize variable \texttt{y}}
+#+LaTeX: \label{some-code}
 #+LaTeX: \end{figure}
 
 Notice that no problems are caused when dealing with code blocks in
@@ -694,51 +671,61 @@ blocks of code in multiple languages as shown in Figure
 programming language with which other programming languages can be
 used to define composable functions.  Such integration of languages
 can be very useful for example in research projects for combining
-scripts written in a shell or python with statistical analysis written
-in R.  The goals of reproducible research are only met when such an
-integration is both easily accomplished by the initial researcher, and
-preserved in a distributable container (like a plain text document).
+/glue/ code written in scripting languages with statistical analysis
+written in R.  The goals of reproducible research are only met when
+such an integration is both easily accomplished by the initial
+researcher, and preserved in a distributable container (like a plain
+text document).
 
 #+LaTeX: \begin{figure}
-#+LaTeX: \label{too-much}
 #+begin_src org
-  ,#+source: raw-data
-  ,#+begin_src emacs-lisp
-  ,  (with-temp-buffer
-  ,    (w3m-retrieve
-  ,     "http://ogdi.cloudapp.net/v1/dc/RecreationParks?format=json")
-  ,    (goto-char (point-min))
-  ,    (json-read))  
+  ,#+source: raw
+  ,#+begin_src sh :results scalar
+  ,  wget --quiet -qO- \
+  ,    "http://ogdi.cloudapp.net/v1/dc/RecreationParks?format=json"
   ,#+end_src
   
   ,#+source: dc-parks
-  ,#+begin_src emacs-lisp :var keys='(ward area) :var data=raw-data
+  ,#+begin_src emacs-lisp :var keys='(ward area) :var data=raw
   ,  (mapcar
-  ,    (lambda (lis) (mapcar (lambda (key) (cdr (assoc key lis))) keys))
-  ,   (cdr (car data)))
+  ,   (lambda (lis)
+  ,     (mapcar (lambda (key) (cdr (assoc key lis))) keys))
+  ,   (cdr (car (with-temp-buffer
+  ,               (insert data) (goto-char (point-min))
+  ,               (json-read)))))
   ,#+end_src
   
-  ,#+source: dc-parks-metric
+  ,#+source: metric
   ,#+begin_src ruby :var data=dc-parks
-  ,  data.map{|f| [f[0], 2.59 * f[1]]}
+  ,  data.map{|f| [f[0], 2.59 * f[1].to_f]}
   ,#+end_src
   
-  ,#+begin_src R :var parkData=dc-parks-metric :file parks.png :session *R*
-  ,  plot(parkData)
+  ,#+begin_src R :var data=metric :file parks.png :session *R*
+  ,  plot(data)
   ,  title(main="Park size by Ward")
   ,#+end_src
   
   ,#+results:
   ,[[file:parks.png]]
 #+end_src
-#+LaTeX: \end{figure}
+#+begin_LaTeX 
+  \caption{A more complex example of code block chaining.  In this
+    example the first block of shell script downloads raw data from an
+    external web server.  The second block of \texttt{emacs-lisp} parses
+    this data extracting the value of two keys.  A block of
+    \texttt{ruby} code converts the string areas to floats, and then
+    converts the values from yards to meters, and finally a block of
+    \texttt{R} code is used to graph the results.}
+  \label{too-much}
+  \end{figure}
+#+end_LaTeX
 
 *** Export
     :PROPERTIES:
     :CUSTOM_ID: export
     :END:
 
-Borrowing term from the Literate Programming community Babel supports
+Borrowing terms from the Literate Programming community Babel supports
 both /weaving/ (the exportation of a mixed code/prose document to a
 prose format suitable for reading by a human) and /tangling/ (the
 exportation of a mixed code/prose document to a pure code file
@@ -829,7 +816,7 @@ a post-export hook for smaller verbatim text
               (goto-char (point-min))
               (while (re-search-forward "\\\\begin{verbatim}" nil t)
                 (goto-char (match-beginning 0))
-                (insert "{\\scriptsize\n")
+                (insert "{\\footnotesize\n")
                 (goto-char (match-end 0)))
               (goto-char (point-min))
               (while (re-search-forward "\\\\end{verbatim}" nil t)
