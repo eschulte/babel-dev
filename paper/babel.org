@@ -521,7 +521,8 @@ tables into the Org-mode buffer as in Figure \ref{vector-results}.
   ,| 1 | 2 | 3 | 4 | 5 |
   
   ,#+begin_src haskell
-  ,  zip [1, 2, 3, 4, 5] (map (\ x -> x + 1) [1, 2, 3, 4, 5])
+  ,  zip [1, 2, 3, 4, 5]
+  ,          (map (\ x -> x + 1) [1, 2, 3, 4, 5])
   ,#+end_src
   
   ,#+results:
