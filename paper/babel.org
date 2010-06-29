@@ -770,7 +770,7 @@ Org-babel users rather than by the original authors.
   :PROPERTIES:
   :CUSTOM_ID: conclusion
   :END:
-** Limits of current implementation
+** Limits of Current Implementation
 Babel certainly has a number of natural limits.  While Emacs
 provides a number of extremely mature and full featured environment
 for authoring of code and text, and for controlling the evaluation of
