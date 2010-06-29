@@ -101,9 +101,9 @@ review the relevant tools currently in existence which each address
 some subset of the use cases surrounding the use and composition of
 combined prose and code (Section \ref{existing-tools}).
 
-We will describe the design and implementation of Org-mode (Section
-\ref{org-mode}) and Babel (Section \ref{babel}) will demonstrate their
-application to a number of common use cases (Section
+We will describe the design and implementation of Babel (Section
+\ref{design}) and of Org-mode (Section \ref{org-mode}) and will
+demonstrate their application to a number of common use cases (Section
 \ref{applications}).  Finally we conclude with a discussion of why we
 believe Babel constitutes a sea-change in software support for mixed
 prose and code environments, as well as the limits of Babel and
@@ -155,7 +155,7 @@ Babel handles three of the four points laid out in their proposed
 meaning that the code can be executed from within the authoring
 environment.
 
-Our description of the design of Babel \ref{babel} will touch on each
+Our description of the design of Babel \ref{design} will touch on each
 of these points.  First we review existing related tools.
 
 ** Existing Tools
@@ -236,7 +236,10 @@ Field only supports languages which run on the JVM.
 We will discuss Babel's multi-language support in Section
 \ref{languages}.
 
-* Babel
+* Design and Implementation
+  :PROPERTIES:
+  :CUSTOM_ID: design
+  :END:
 Babel is nested inside of Org-mode [fn:: http://orgmode.org] which is
 itself contained inside the Emacs text editor [fn::
 http://www.gnu.org/software/emacs/].  Babel gains much from executing
@@ -266,7 +269,7 @@ We will first introduce Org-mode with a focus on those features that
 make it an ideal environment in which to embed a LP/RR system (Section
 \ref{org-mode}).  We then describe the syntax with which code can be
 embedded within Org-mode documents (Section \ref{syntax}), the
-evaluation of code (Section \ref{meta-lang}), the process of exporting
+evaluation of code (Section \ref{code-blocks}), the process of exporting
 (weaving and tangling) from Babel documents (Section \ref{export}),
 and Babels multi-lingual support (Section \ref{languages}).
 
@@ -283,10 +286,10 @@ Thank you Carsten!
 - spreadsheets
 - more?
 
-** Babel
-   :PROPERTIES:
-   :CUSTOM_ID: babel
-   :END:
+** Code Blocks
+    :PROPERTIES:
+    :CUSTOM_ID: code-blocks
+    :END:
 *** Syntax
     :PROPERTIES:
     :CUSTOM_ID: syntax
@@ -363,11 +366,7 @@ these features into Org-mode's existing plain text markup scheme.
 Extensive documentation of the Babel specific syntax is available in
 the babel manual [fn:: http://orgmode.org].
 
-*** Code Evaluation
-    :PROPERTIES:
-    :CUSTOM_ID: meta-lang
-    :END:
-
+*** Evaluation
 Babel knows how to evaluate code from a number of languages.  In the
 evaluation of source code Babel makes use of a great deal of existing
 Emacs support for interactive with both external and inferior
@@ -406,7 +405,6 @@ immediately following the code block, resulting in the following
 #+LaTeX: \label{ruby-simple-run}
 #+LaTeX: \end{figure}
 
-**** Sessions
 The same code could also be evaluated in an interactive session
 through adding a session /header argument/, e.g.
 #+LaTeX: \begin{figure}
@@ -464,7 +462,7 @@ taken by =Sweave= in which every code block is evaluated in the same
 persistent session -- with the main difference being that Babel allows
 for multiple disjoint named sessions.
 
-**** Results
+*** Results
 The previous example (Figure \ref{R-pair}) made use of two header
 arguments which we have not discussed -- =results= and =file=.  Both
 of these arguments control how the results of a code block are
@@ -496,14 +494,13 @@ There are two ways in which results can be collected from code blocks.
      their output as in the following.
      #+begin_src org
        ,#+begin_src python :results output
-       ,  for x in ['cat', 'window', 'defenestrate']:
+       ,  for x in ['Org-mode', 'Emacs']:
        ,      print x, len(x)
        ,#+end_src
        
        ,#+results:
-       ,: cat 3
-       ,: window 6
-       ,: defenestrate 12
+       ,: Org-mode 8
+       ,: Emacs 5
      #+end_src
 
 Results can take a number of different forms.  So far we have only
@@ -521,16 +518,13 @@ tables into the Org-mode buffer as in Figure \ref{vector-results}.
   ,| 1 | 2 | 3 | 4 | 5 |
   
   ,#+begin_src haskell
-  ,  zip [1, 2, 3, 4, 5]
-  ,          (map (\ x -> x + 1) [1, 2, 3, 4, 5])
+  ,  zip [1..] (map (\ x -> x + 1) [1, 2, 3])
   ,#+end_src
   
   ,#+results:
   ,| 1 | 2 |
   ,| 2 | 3 |
   ,| 3 | 4 |
-  ,| 4 | 5 |
-  ,| 5 | 6 |
 #+end_src
 #+LaTeX: \caption{vector results inserted as a table}
 #+LaTeX: \label{vector-results}
@@ -541,13 +535,9 @@ able to save these types of results in external files, and then link
 to these files from the Org-mode buffer.  In this way the resulting
 files can be opened from within the document and included in exports.
 Returning to the second block from Figure \ref{R-pair}.  It's
-evaluation results in the following.
+evaluation results in the following being inserted into the Org-mode
+buffer.
 #+begin_src org
-  ,#+begin_src R :session *R* :file fig.pdf
-  ,  plot(x, y)
-  ,  abline(out1)
-  ,#+end_src
-  
   ,#+results:
   ,[[file:fig.pdf]]
 #+end_src
@@ -555,7 +545,7 @@ evaluation results in the following.
 Much more information about controlling the evaluation of code and the
 handling of code results is available in the Babel documentation.
 
-**** Arguments
+*** Arguments
 We've now seen how data originating in code blocks can be inserted
 into Org-mode buffers in the form of /scalars/, /tables/ and /links/
 to external files.  It is also possible for data to flow from each of
@@ -721,7 +711,7 @@ text document).
   \end{figure}
 #+end_LaTeX
 
-*** Export
+** Export
     :PROPERTIES:
     :CUSTOM_ID: export
     :END:
@@ -750,7 +740,7 @@ suitable for execution by a computer).
      reference system reproducing the same syntax and functionality of
      the =noweb= reference system.
 
-*** language support
+** language support
     :PROPERTIES:
     :CUSTOM_ID: languages
     :END:
@@ -776,10 +766,11 @@ Org-babel users rather than by the original authors.
 - pointer to foo.Rnw and foo.org
 - look at uses for some more ideas
 
-* Conclusion
+* Discussion
   :PROPERTIES:
   :CUSTOM_ID: conclusion
   :END:
+** Limits of current implementation
 Babel certainly has a number of natural limits.  While Emacs
 provides a number of extremely mature and full featured environment
 for authoring of code and text, and for controlling the evaluation of
@@ -790,11 +781,11 @@ text, it also brings with it a number of limiting factors.
   - single threaded
   - inefficient
 
-Given the comfortable environment of Emacs and Org-mode, Babel
-provides an environment for the co-mingling of code, data, and prose
-in such a way that a critical mas has been reached -- "It's actually
-comfortable enough for real people to want to use it for their daily
-work!".
+** Conclusion
+Babel provides an environment for the co-mingling of code, data, and
+prose in such a way that a critical mas has been reached -- "It's
+actually comfortable enough for real people to want to use it for
+their daily work!".
 
 As such we believe it is a great step forward for the RR and LP camps,
 and has the potential to significantly increase the widespread
@@ -808,6 +799,7 @@ scientists to make their work more accessible.
   \small
   \bibliography{babel}
 #+end_LaTeX
+
 * COMMENT publish
 a post-export hook for smaller verbatim text
 #+begin_src emacs-lisp :results silent
@@ -817,7 +809,7 @@ a post-export hook for smaller verbatim text
               (goto-char (point-min))
               (while (re-search-forward "\\\\begin{verbatim}" nil t)
                 (goto-char (match-beginning 0))
-                (insert "{\\footnotesize\n")
+                (insert "{\\small\n")
                 (goto-char (match-end 0)))
               (goto-char (point-min))
               (while (re-search-forward "\\\\end{verbatim}" nil t)
