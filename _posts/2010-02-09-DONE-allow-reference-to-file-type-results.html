@@ -30,8 +30,11 @@ The raw org-mode text
 <pre class="example">#+results: my-profile
 [[file:~/.profile][my-profile]]
 
+#+begin_src sh :var profile=my-profile
   wc $profile
+#+end_src
 
+#+results:
 : 22 109 675 /home/eschulte/.profile
 </pre>
 
@@ -66,8 +69,11 @@ The raw org-mode text
 <pre class="example">#+results: org-mode-page
 [[http://orgmode.org/][org-mode-page]]
 
+#+begin_src sh :var page=org-mode-page
   host $page |head -1
+#+end_src
 
+#+results:
 : http://orgmode.org/ has address 63.123.155.104
 </pre>
 

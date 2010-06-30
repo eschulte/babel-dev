@@ -90,11 +90,13 @@ the results should be <span class="org-bold">*above*</span> the block
 <span class="org-org-meta-line">#+begin_src emacs-lisp :results prepend
 </span><span class="org-org-block">  (format "update me in place please -- %s"
           (current-time-string))</span><span class="org-org-meta-line">
+#+end_src</span>
 
 <span class="org-org-meta-line">#+srcname: in-situ</span>
 <span class="org-org-meta-line">#+begin_src emacs-lisp :results append
 </span><span class="org-org-block">  (format "update me in place please (at the bottom) -- %s"
           (current-time-string))</span><span class="org-org-meta-line">
+#+end_src</span>
 </pre>
 
 
@@ -130,11 +132,15 @@ Hi Graham,
 We can see what's going on here by executing the block manually with C-c
 C-c, which transforms your results block from this:
 
+#+ATTR_LaTeX: width=10cm
+#+results: BoxplotFlowering
 [[file:FloweringBoxplot.pdf]]
 
 into this:
 
+#+results: BoxplotFlowering
 [[file:FloweringBoxplot.pdf]]
+#+ATTR_LaTeX: width=10cm
 
 (The reason is that the results block corresponding to the code block is
 first deleted and then re-inserted immediately below the code block).

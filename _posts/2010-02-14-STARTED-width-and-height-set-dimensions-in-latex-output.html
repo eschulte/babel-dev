@@ -31,12 +31,20 @@ it'd be handy if/once it was implemented. [Eric]
 
 
 <pre class="example">#+options toc:nil
+#+title: R latex graphics
   
 Text before figure.
+#+CAPTION:    Trial boxplots with babel
+#+LABEL:      fig:trial boxplots
+#+ATTR_LaTeX: width=5cm
+#+srcname:Boxplots Summary
+#+begin_src R :session BirdData :file BoxplotSummary.pdf :exports both
   Wingcrd &lt;- rnorm(100, 20) ; Tarsus &lt;- rnorm(100, 5) ;
   Head &lt;- rnorm(100, 3) ; Wt &lt;- rnorm(100, 40)
   boxplot(Wingcrd,Tarsus,Head,Wt,names=c("Wingcrd","Tarsus","Head","Wt"))
+#+end_src
 
+#+results: Boxplots
 [[file:BoxplotSummary.pdf]]
 
 Text after figure.
