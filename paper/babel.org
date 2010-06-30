@@ -57,19 +57,13 @@ and code in a single container.
 In all of the situations described above prose alone in the absence of
 access to code is insufficient.  Similarly distribution of code
 without expository prose is not a sufficient medium for communication
-between people.  The need for combined authoring of prose and code has
-been historically approached form two different standpoints.
-
-- Literate Programming :: enhances traditional software development by
-     embedding code in explanatory essays and treating the act of
-     development as one of communication with future maintainers.
-- Reproducible Research :: embeds executable code in publications of
-     scholarly work, with the aim of allowing the analysis described
-     in the paper to be re-run by readers.
-
-In this paper we describe Babel, which provides a unified environment supporting many different approaches to
+between people. In this paper we describe Babel, which provides a
+unified environment supporting many different approaches to
 composition and application of combined prose and code (see Table
-\ref{grid}).
+\ref{grid}).  Due to it's generality; across multiple languages,
+export targets, and work flows, and ease of use and ease of adoption
+of Babel it constitutes a sea change in the authoring of mixed
+computational and natural languages.
 
 #+LaTeX: \begin{table*}
 #+ATTR_LaTeX: align=l|l|l|
@@ -85,42 +79,119 @@ composition and application of combined prose and code (see Table
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
-With Babel the entire life cycle of a research or development project
-can take place within a single document.  With the data, code and text
-of a project stored in a single location which can be exported to a
-variety of formats, the future reproducibility of the work is ensured,
-and the practices of Reproducible Research and Literate Programming
-are encouraged by greatly reducing the burden on the author.
+# With Babel the entire life cycle of a research or development
+# project can take place within a single document.  With the data,
+# code and text of a project stored in a single location which can be
+# exported to a variety of formats, the future reproducibility of the
+# work is ensured, and the practices of Reproducible Research and
+# Literate Programming are encouraged by greatly reducing the burden
+# on the author.
+# 
 # I didn't quite understand the last part of the preceding sentence (Dan)
-In the remainder of this paper we will first review the idea of the
-/compendium/ -- a description of the requirements of a tool for
-Reproducible Research as set forth by Gentleman and Temple Lang
-\cite{compendium} (Section \ref{compendium}).  We will then briefly
-review the relevant tools currently in existence which each address
-some subset of the use cases surrounding the use and composition of
-combined prose and code (Section \ref{existing-tools}).
+In the remainder of this paper we will first review existing
+approaches to the combined authoring of prose and code including a
+brief review of the relevant tools currently in existence which each
+address some subset of the use cases surrounding this need (Section
+\ref{background}).
 
-We will then describe the design and implementation of Babel (Section
-\ref{design}) and of Org-mode (Section \ref{org-mode}) and will
+Babel is implemented as part of the Org-mode plain text markup
+language which provides the high level structure of babel documents,
+and handles the export of readable documents from babel documents.  We
+will describe the design and implementation of Babel (Section
+\ref{design}) and of Org-mode (Section \ref{org-mode}), and will
 # This is the first mention of "Org-mode". Needs some prior
 # introductory sentence.
 demonstrate their application to a number of common use cases (Section
-\ref{applications}).  Finally we conclude with a discussion of why we
-believe Babel constitutes a sea-change in software support for mixed
-prose and code environments, as well as the limits of Babel and
-directions for future work (Section \ref{conclusion}).
+\ref{applications}).  We conclude with a discussion of why we believe
+Babel constitutes a sea-change in software support for mixed prose and
+code environments (Section \ref{points-for}), as well as some limits
+of the current implementation and directions for future work (Section
+\ref{future-work}).
 
 * Background
-** Compendia
-   :PROPERTIES:
-   :CUSTOM_ID: compendium
-   :END:
-Gentleman and Temple Lang introduce the concept of a /compendium/
-\cite{compendium} as a proposed tool supporting reproducible research.
-In their formulation a compendium is a container holding the text,
-code, and raw data constituting a scholarly work.  Compendia are
-intended to facilitate the distribution, management, re-creation, and
-extension of such works.
+  :PROPERTIES:
+  :CUSTOM_ID: background
+  :END:
+The need for combined authoring of prose and code has been
+historically approached form two different standpoints.
+
+- Literate Programming :: enhances traditional software development by
+     embedding code in explanatory essays and treating the act of
+     development as one of communication with future maintainers.
+
+- Reproducible Research :: embeds executable code in publications of
+     scholarly work, with the aim of allowing the analysis described
+     in the paper to be re-run by readers.
+
+We discuss each of these approaches in turn including a review of the
+existing tools which support each technique.
+
+** Literate Programming
+#+begin_quote
+Let us change our traditional attitude to the construction of
+programs: Instead of imagining that our main task is to instruct a
+computer what to do, let us concentrate rather on explaining to human
+beings what we want a computer to do.
+
+\attrib{Donald E. Knuth}
+#+end_quote
+
+The technique of /literate programming/ was introduced by Donald Knuth
+\cite{web} in the early 1980's not long after his creation of the TeX
+typesetting program.  The goals of literate programming are to
+encourage the authors of computational works to consider themselves
+"as an essayist, whose main concern is with exposition and excellence
+of style".
+
+In support of this goal literate programming tools allow code blocks
+to be embedded in natural language documents (generally composed in
+some variation of TeX).  The literate programming tool then provides a
+number of methods for the creation of two types of /view/ into the
+document; readable articles for human consumption which consist of
+typset prose and marked up code blocks, and computer readable
+documents of pure source code.  The literate programming terms for
+generating these views are /weaving/ and /tangling/ respectively.  A
+common feature of literate programming tools is the ability to
+organize code blocks differently when /tangling/ and /weaving/ thereby
+allowing the programmer to introduce concepts to humans in a different
+order than code is introduced to the computer.
+
+The original literate programming tool developed by Knuth was =WEB=,
+which only supported the Pascal programming language.  A modern
+descendent is =noweb= \cite{noweb} which can be used with a number of
+different languages.  Web tools enable the /authoring/ of both prose
+and code, but provide no facilities for the execution of code from
+within documents.
+
+** Reproducible Research
+#+begin_quote
+An article about computational science in a scientific publication is
+*not* the scholarship itself, it is merely *advertising* of the
+scholarship.  The actual scholarship is the complete software
+development environment and complete set of instructions which
+generated the figures.
+
+\attrib{David L. Donoho}
+#+end_quote
+
+/Reproducible research/ approaches mixed natural and computational
+language documents from a different background.  Rather than adding
+prose to computational projects, reproducible research seeks to
+augment publications of scientific research with the addition of the
+code responsible for the actual execution of the described
+experimentation.  While literate programming tangles embedded code
+into an external executable, code embedded in reproducible research
+can be executed as part of the document generation process.  In this
+way the values, analysis, and figures supporting a publication can be
+generated from the publication itself.
+
+The requirements of a tool supporting reproducible research are
+thoroughly explored by Gentleman and Temple Lang, and presented in the
+concept of a /compendium/ \cite{compendium}.  In their formulation a
+compendium is a container holding the text, code, and raw data
+constituting a scholarly work.  Compendia are intended to facilitate
+the distribution, management, re-creation, and extension of such
+works.
 
 A compendium would also support a variety of different /views/, where
 /views/ are static documents automatically generated by /running/ the
@@ -156,86 +227,20 @@ Babel handles three of the four points laid out in their proposed
 meaning that the code can be executed from within the authoring
 environment.
 
-Our description of the design of Babel \ref{design} will touch on each
-of these points.  First we review existing related tools.
+=Sweave= \cite{sweave} is a modern tool supporting reproducible
+research.  Like =noweb= documents, =Sweave= documents consist of code
+embedded into TeX documents.  =Sweave= only supports the =R=
+statistical programming language.  The code in =Sweave= documents is
+executed during publishing and can be used to automatically generate
+tables, graphical figures, and inline results.  As such =Sweave=
+enables the reader of a Sweave document to trace the origins of an
+interesting inline value or figure back to the relevant =R=
+computations and through to the original data.
 
-** Existing Tools
-   :PROPERTIES:
-   :CUSTOM_ID: existing-tools
-   :END:
-Each of the tools listed below addresses a particular view of
-requirements for use and composition of combined prose and code.
-
-*** Automatic Documentation
-The most commonly used tools for literate programming come in the form
-of language-specific comment extraction and automated documentation
-systems.  Comment extraction tools can be used to extract
-documentation from comments embedded in pure code documents.  Most
-major modern programming languages are supported by a comment
-extraction tool (e.g. Doxygen, Javadocs, Rubydocs, etc...).
-
-Although notorious for the poor quality of the resulting documentation,
-automated comment extraction provides much practical benefit mainly
-through the fact that by placing almost no burden on programmers,
-these systems are widely used, and in practice have had more impact on
-the software development community at large than any other tools which
-will be discussed herein.
-
-*** Web
-Literate Programming \cite{web} is the practice of writing computer
-programs in such a way that the main objective is to explain to a
-human reader what the program is intended to do.  Literate programming commonly
-consists of embedding code inside of a prose document written in the
-TeX document authoring syntax.  Programs written in this manner can be
-- tangled :: resulting in a code file suitable for use by a computer
-- woven :: resulting in a text document suitable for use by a person
-
-The Web family of tools enables TeX-based Literate Programming.  The initial
-=WEB= tool only worked with the Pascal programming language.  Newer
-versions such as =Noweb= can handle arbitrary programming languages.
-Web tools enable the /authoring/ of both prose and code, but provide
-no facilities for the execution of code from within documents.
-
-*** Sweave
-Like Web documents, Sweave documents consist of code embedded into TeX
-documents \cite{sweave}.  Sweave only supports the R statistical
-programming language.  The code in Sweave documents is executed during
-publishing and can be used to automatically generate tables, graphical
-figures, and inline results.  As such Sweave enables the reader of a
-Sweave document to trace the origins of an interesting inline value or
-figure back to the relevant R computations and through to the original
-data.
-
-Sweave (and the R community at large) inspired the work which first
-formulated the /compendium/ idea.  In large part the recent resurgence
-in RR owes much to the success of both R and Sweave.
-
-*** Field
-Up until this point we have focused on the benefits of mixing natural
-language, and programming languages, but have not addressed the
-intermingling of multiple programming languages.  Support for multiple
-languages is mentioned in the "Future Work" section in the description
-of /compendiums/ as a feature which would greatly facilitate the
-practices of reproducible research by encouraging researchers to
-perform /all/ of their computation from within the environment of the
-compendium.
-
-While no RR tools currently support the intermingling of multiple
-programming languages, it is a topic of growing popularity in the
-software development community at large.  Many languages are being
-ported to the JVM because it provides a single environment in which
-multiple languages can share libraries \cite{jvm-multi-lang}.
-
-Field [fn:: http://openendedgroup.com/field/] is a text editor based
-on research started at the MIT media lab [fn::
-http://www.media.mit.edu/].  Field allows code from multiple
-programming languages (with a strong focus on the Jython Python
-variant and Java) to be intermingled in the same document.  Currently
-Field does not support exporting to human-readable documents, and
-Field only supports languages which run on the JVM.
-
-We will discuss Babel's multi-language support in Section
-\ref{languages}.
+=Sweave= (and the =R= community at large) inspired the work which
+first formulated the /compendium/ idea.  In large part the recent
+resurgence in reproducible research owes much to the success of both
+=R= and =Sweave=.
 
 * Design and Implementation
   :PROPERTIES:
@@ -335,10 +340,10 @@ these features into Org-mode's existing plain text markup scheme.
        ,#+begin_example
        ,  Lorem ipsum dolor sit amet, consectetur
        ,  adipisicing elit, sed do eiusmod tempor
-       ,  incididunt ut labore et dolore magna aliqua. Ut
-       ,  enimad minim veniam, quis nostrud exercitation
-       ,  ullamco laboris nisi ut aliquip ex ea commodo
-       ,  consequat.
+       ,  incididunt ut labore et dolore magna
+       ,  aliqua. Ut enimad minim veniam, quis
+       ,  nostrud exercitation ullamco laboris nisi
+       ,  ut aliquip ex ea commodo consequat.
        ,#+end_example
      #+end_src
 
@@ -772,7 +777,15 @@ Org-babel users rather than by the original authors.
   :PROPERTIES:
   :CUSTOM_ID: conclusion
   :END:
-** Limits of Current Implementation
+** Motivating Features
+   :PROPERTIES:
+   :CUSTOM_ID: points-for
+   :END:
+
+** Future Work
+   :PROPERTIES:
+   :CUSTOM_ID: future-work
+   :END:
 Babel certainly has a number of natural limits.  While Emacs
 provides a number of extremely mature and full-featured environments
 for authoring of code and text, and for controlling the evaluation of
