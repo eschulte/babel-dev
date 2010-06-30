@@ -3,7 +3,23 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [78/155]
+* Tasks [78/156]
+** PROPOSED mention block name/number in error windows
+   - State "PROPOSED"   from ""           [2010-06-30 Wed 09:30]
+
+Thanks to Russel Adams for this idea.
+
+#+begin_verse
+  > OTOH this may not make it easier to debug, the babel error window
+  > doesn't list line numbers or blocks where the error occurred. Perhaps
+  > that should be a feature request to log what src block or org file
+  > line number the errors occurred in.
+#+end_verse
+
+This could be very useful both when evaluating an entire block or
+subtree, and also when old error messages have built up in the Error
+buffer.
+
 ** PROPOSED cache variables
    :LOGBOOK:
    - State "PROPOSED"   from ""           [2010-06-27 Sun 11:39]
