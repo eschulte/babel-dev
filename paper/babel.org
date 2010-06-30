@@ -787,7 +787,7 @@ documents.
 
 - Open source :: Babel is both /open source/ meaning it's inner
      working are publicly visible, and further, it's copyright is
-     owned by the Free Software Foundation \cite{FSF}, meaning that
+     owned by the Free Software Foundation \cite{fsf}, meaning that
      Babel, and any work deriving from Babel will always be fully open
      to public scrutiny and modification.  This is *essential* for any
      tool supporting scientific peer review.
