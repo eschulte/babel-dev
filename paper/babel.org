@@ -95,6 +95,7 @@ targets, and work flows.
 
 #+LaTeX: \begin{table*}
 #+ATTR_LaTeX: align=l|l|l|
+
 |             | prose                        | code                            |
 |-------------+------------------------------+---------------------------------|
 | composition | natural document authoring   | natural code authoring through  |
@@ -189,7 +190,7 @@ of code from within documents.  Instead, code intended for execution
 is first tangled and the resulting source code files are then sent to
 a compiler or interpreter.
 
-** COMMENT Reproducible Research
+** Reproducible Research
 #+begin_quote
 An article about computational science in a scientific publication is
 *not* the scholarship itself, it is merely *advertising* of the
