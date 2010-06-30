@@ -776,7 +776,7 @@ Org-babel users rather than by the original authors.
   :PROPERTIES:
   :CUSTOM_ID: conclusion
   :END:
-** Motivating Features
+** Strengths
    :PROPERTIES:
    :CUSTOM_ID: points-for
    :END:
@@ -809,7 +809,7 @@ documents.
      them to continue using the same editor and major modes with which
      they are already familiar.
 
-** Future Work
+** Weaknesses and Future Work
    :PROPERTIES:
    :CUSTOM_ID: future-work
    :END:
@@ -829,8 +829,48 @@ text, it also brings with it a number of limiting factors.
   - single threaded
   - inefficient
 
-These items indicate a number of paths for future work, either in the
-adaptation of Org-babel, or for any future tool of this type.
+These items indicate a number of paths for future work, either for
+further development of Org-babel, or for any future tool of this type.
+
+- editor agnostic :: One point where Babel is not as general as it
+     could be is the range of available editing environments.  Despite
+     the incredible amount of features that Emacs and Org-mode provide
+     to Babel, they both also place limits on the pool of potential
+     users to those who either already use Emacs and Org-mode, or are
+     willing and able to adopt what can conservatively be described as
+     a /sophisticated/ text editing environment.
+     
+     It seems that it would be possible for future tools of this
+     nature to provide code evaluation and exportation as a service
+     which could be called from any number of editors.  Such a
+     structure would raise a number of challenging implementation
+     issues.
+
+- virtual machine :: Babel allows heterogeneous programming
+     environments to share data by dropping all shared values to the
+     common denominator of Emacs Lisp.  This works well for Babel as
+     it allows for re-use of many pre-existing Emacs tools for
+     evaluation of code in a variety of language, often making the
+     addition of support for new languages trivial.
+
+     There are however properties of Emacs Lisp which make it less
+     than ideal as a medium of data exchange and as a shepherd of
+     evaluation.  Most importantly the Emacs Lisp interpreter is
+     /single threaded/, this makes the asynchronous evaluation of code
+     blocks needlessly complex (in fact this features does not yet
+     exist in Babel).
+     
+     Also, the execution of Emacs Lisp requires a running Emacs
+     process.  There is no low-overhead method of evaluating Emacs
+     Lisp in the absence of an Emacs session.  In the presence of such
+     functionality it may be possible for Babel to support the
+     tangling of multi-language /stand-alone executables/, further
+     reducing the barrier to reproduction of works authored in Babel.
+     
+     Both of the above issues may be resolved naturally if Guile
+     scheme replaces the existing Emacs Lisp execution engine, which
+     at the time of writing seems a distinct possibility [fn::
+     http://lists.gnu.org/archive/html/emacs-devel/2010-04/msg00665.html].
 
 ** Conclusion
 Babel provides an environment for the co-mingling of code, data, and
