@@ -121,7 +121,7 @@ In the remainder of this paper we first review existing approaches to
 the combined authoring of prose and code, including a brief review of
 the relevant tools currently in existence which each address some
 subset of the use cases surrounding this need (Section
-\ref{background}).  We describe the design and implementation of Babel
+\ref{background}).  We describe the design and usage of Babel
 (Section \ref{design}) and of Org-mode (Section \ref{org-mode}), and
 # This is the first mention of "Org-mode". Needs some prior
 # introductory sentence.
@@ -307,7 +307,7 @@ first formulated the /compendium/ idea.  In large part the recent
 resurgence in reproducible research owes much to the success of both
 =R= and =Sweave=.
 
-* Design and Implementation
+* Design and Usage
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
@@ -370,11 +370,12 @@ With Babel, Org-mode documents become environments for computation as
 well as containers for prose, code and data.  Certain components of
 Org-mode documents are /activated/, meaning that they can be used in
 Babel computations.  These components include /data/, stored in tables
-or in example sections, as well as /code/ which is located in
-specially marked code blocks.  Each of these elements can be /named/
-allowing them to be referenced by other elements in the Babel
-execution environment.  The following syntax is used to incorporate
-these features into Org-mode's existing plain text markup scheme.
+in example sections or linked from external files, as well as /code/
+which is located in specially marked code blocks.  Each of these
+elements can be /named/ allowing them to be referenced by other
+elements in the Babel execution environment.  The following syntax is
+used to incorporate these features into Org-mode's existing plain text
+markup scheme.
 
 - table data :: Tables constructed as described in Section
      \ref{org-mode} can be named with preceding =#+tblname:= or
@@ -406,10 +407,15 @@ these features into Org-mode's existing plain text markup scheme.
        ,  Lorem ipsum dolor sit amet, consectetur
        ,  adipisicing elit, sed do eiusmod tempor
        ,  incididunt ut labore et dolore magna
-       ,  aliqua. Ut enimad minim veniam, quis
-       ,  nostrud exercitation ullamco laboris nisi
-       ,  ut aliquip ex ea commodo consequat.
+       ,  aliqua.
        ,#+end_example
+     #+end_src
+
+- linked data :: Org-mode /link/ syntax can be used to reference
+     external data in an external file.
+     #+begin_src org
+       ,#+results: linked-data
+       ,[[http://external-data.org]]
      #+end_src
 
 - block code :: Source code in a variety of languages (see Section
@@ -437,32 +443,27 @@ Extensive documentation of the Babel-specific syntax is available in
 the Babel manual [fn:: http://orgmode.org].
 
 *** Evaluation
-Babel knows how to evaluate code wriutten in a number of languages.  In the
+Babel knows how to evaluate code written in a number of languages.  In the
 evaluation of source code Babel makes use of a great deal of existing
-Emacs support for interaction with language interpreters running as both external and inferior (Emacs-internal)
+Emacs support for interaction with languages running as both external and inferior (Emacs-internal)
 processes.
 # I used "interpreters" but this may be a technical term that is too restrictive (Dan)
+# I removed "interpreters" because we also run compiled languages e.g. C (Eric)
 
-#+LaTeX: \begin{figure}
 #+begin_src org
   ,#+begin_src ruby
   ,  require 'date'
   ,  "This block was last evaluated on #{Date.today}"
   ,#+end_src
 #+end_src
-#+LaTeX: \caption{simple block of ruby code}
-#+LaTeX: \label{ruby-simple}
-#+LaTeX: \end{figure}
 
-As an example the block of ruby code shown in Figure \ref{ruby-simple}
-would be evaluated by
+As an example the block of ruby code shown above would be evaluated by
 1) writing its contents to a temporary file
 2) using the =ruby= command to execute the file
 3) capturing the return value of the code block
 
 By default the captured output appears in the Org-mode buffer
 immediately following the code block, resulting in the following
-#+LaTeX: \begin{figure}
 #+begin_src org
   ,#+begin_src ruby
   ,  require 'date'
@@ -472,22 +473,15 @@ immediately following the code block, resulting in the following
   ,#+results:
   ,: This block was last evaluated on 2010-06-25
 #+end_src
-#+LaTeX: \caption{block of \texttt{ruby} code after evaluation}
-#+LaTeX: \label{ruby-simple-run}
-#+LaTeX: \end{figure}
 
 The same code could also be evaluated in an interactive session
 through adding a session /header argument/, e.g.
-#+LaTeX: \begin{figure}
 #+begin_src org
   ,#+begin_src ruby :session
   ,  require 'date'
   ,  "This block was last evaluated on #{Date.today}"
   ,#+end_src
 #+end_src
-#+LaTeX: \caption{block of \texttt{ruby} code evaluated in a \emph{session}}
-#+LaTeX: \label{ruby-session}
-#+LaTeX: \end{figure}
 in this case the code would be evaluated by
 1) starting a persistent =ruby= process associated with a new Emacs
    buffer
@@ -496,14 +490,12 @@ in this case the code would be evaluated by
 
 Session evaluation can be useful when the code block changes some
 state the retention of which is desirable for manual inspection, or
-for use by subsequent code blocks.  For example in Figure \ref{R-pair}
-the first block of =R= code sets variables in an interactive session
-and the second block of =R= code can access these variables because it
-is run in the same =R= session (adapted from [fn::
+for use by subsequent code blocks.  For example the first block of =R=
+code below sets variables in an interactive session and the second
+block of =R= code can access these variables because it is run in the
+same =R= session (adapted from [fn::
 http://www.stat.umn.edu/~charlie/Sweave/]).
 
-#+LaTeX: \begin{figure}
-#+LaTeX: \label{R-pair}
 #+begin_src org
   ,#+begin_src R :session *R* :results silent
   ,  n <- 50
@@ -526,7 +518,6 @@ http://www.stat.umn.edu/~charlie/Sweave/]).
   ,  abline(out1)
   ,#+end_src
 #+end_src
-#+LaTeX: \end{figure}
 
 Session-based evaluation is similar to the approach to evaluation
 taken by =Sweave= in which every code block is evaluated in the same
@@ -534,14 +525,14 @@ persistent session -- with the main difference being that Babel allows
 for multiple disjoint named sessions.
 
 *** Results
-The previous example (Figure \ref{R-pair}) made use of two header
-arguments which we have not discussed -- =results= and =file=.  Both
-of these arguments control how the results of a code block are
-handled.  As seen in Figure \ref{ruby-simple-run}, by default results
-of code blocks are inserted as protected text immediately after the
-code block in the Org-mode buffer.  In practice the user is given
-significant control over the handling of code block results both
-during interactive evaluation and during export.
+The previous example made use of two header arguments which we have
+not discussed -- =results= and =file=.  Both of these arguments
+control how the results of a code block are handled.  As seen in the
+ruby evaluation example above, by default results of code blocks are
+inserted as protected text immediately after the code block in the
+Org-mode buffer.  In practice the user is given significant control
+over the handling of code block results both during interactive
+evaluation and during export.
 
 There are two ways in which results can be collected from code blocks.
 - =:results value= :: Specifies that the code block should be treated
@@ -577,9 +568,8 @@ There are two ways in which results can be collected from code blocks.
 Results can take a number of different forms.  So far we have only
 seen string results, however it is possible for code blocks to return
 vector results.  Babel recognizes vector results and inserts them as
-tables into the Org-mode buffer as in Figure \ref{vector-results}.
+tables into the Org-mode buffer as shown below.
 
-#+LaTeX: \begin{figure}
 #+begin_src org
   ,#+begin_src haskell
   ,  [1, 2, 3, 4, 5]
@@ -597,18 +587,19 @@ tables into the Org-mode buffer as in Figure \ref{vector-results}.
   ,| 2 | 3 |
   ,| 3 | 4 |
 #+end_src
-#+LaTeX: \caption{vector results inserted as a table}
-#+LaTeX: \label{vector-results}
-#+LaTeX: \end{figure}
 
 Additionally some code blocks may output files or images.  Babel is
 able to save these types of results in external files, and then link
 to these files from the Org-mode buffer.  In this way the resulting
 files can be opened from within the document and included in exports.
-Returning to the second block from Figure \ref{R-pair}.  Its
-evaluation results in the following being inserted into the Org-mode
-buffer.
+For example the =R= block above which calls =plot= results in the
+following link being inserted into the Org-mode buffer.
 #+begin_src org
+  ,#+begin_src R :session *R* :file fig.pdf
+  ,  plot(x, y)
+  ,  abline(out1)
+  ,#+end_src
+  
   ,#+results:
   ,[[file:fig.pdf]]
 #+end_src
@@ -630,7 +621,6 @@ from the source code in a language specific way, but most often in the
 form of variables assigned to the values of the arguments.
 
 The following syntax can be used to pass an argument to a code blocks.
-#+LaTeX: \begin{figure}
 #+begin_src org
   ,#+source: inc
   ,#+begin_src clojure :var x=10
@@ -640,14 +630,10 @@ The following syntax can be used to pass an argument to a code blocks.
   ,#+results: inc
   ,: 11
 #+end_src
-#+LaTeX: \caption{A simple example of passing an argument to a code block}
-#+LaTeX: \label{inc}
-#+LaTeX: \end{figure}
 
 In the context of this code block the value of =x= is now set to 10.
 We could also use a named value elsewhere in the buffer to initialize
-a variable, as shown in Figure \ref{some-text}.
-#+LaTeX: \begin{figure}
+a variable.
 #+begin_src org
   ,#+results: remote-x
   ,: some text
@@ -662,14 +648,9 @@ a variable, as shown in Figure \ref{some-text}.
   ,#+results:
   ,: some text
 #+end_src
-#+LaTeX: \caption{the reference \texttt{remote-x} used to initialize the variable \texttt{x}}
-#+LaTeX: \label{some-text}
-#+LATeX: \end{figure}
 
 As these examples demonstrate, strings will be passed in a strings,
-numbers as numbers, and as shown in Figure \ref{some-table} tables
-will be passed in as tables.
-#+LaTeX: \begin{figure}
+numbers as numbers, and tables will be passed in as tables.
 #+begin_src org
   ,#+results: table-x
   ,| 1 | 
@@ -689,13 +670,8 @@ will be passed in as tables.
   ,| 5 |
   ,| 6 |
 #+end_src
-#+LaTeX: \caption{a vector argument}
-#+LaTeX: \label{some-table}
-#+LaTeX: \end{figure}
 
-Code blocks can reference the other code blocks as shown in figure
-\ref{some-code}.
-#+LaTeX: \begin{figure}
+Code blocks can reference the other code blocks.
 #+begin_src org
   ,#+source: inc
   ,#+begin_src clojure :var x=10
@@ -720,67 +696,13 @@ Code blocks can reference the other code blocks as shown in figure
   ,#+results:
   ,: 2 + 1 = 3
 #+end_src
-#+LaTeX: \caption{the results of \texttt{inc} used to initialize variable \texttt{y}}
-#+LaTeX: \label{some-code}
-#+LaTeX: \end{figure}
 
-Notice that no problems are caused when dealing with code blocks in
-different languages; this is because all values are passed through the
-emacs-lisp interpreter that is at the core of Emacs.  This argument passing
-syntax allows for complex chaining of raw values in a document, and of
-blocks of code in multiple languages as shown in Figure
-\ref{too-much}.  In effect Babel serves as a /meta-functional/
-programming language with which other programming languages can be
-used to define composable functions.  Such integration of languages
-can be very useful, for example in research projects combining
-/glue/ code written in scripting languages with statistical analysis
-written in R.  The goals of Reproducible Research are only met when
-such an integration is both easily accomplished by the initial
-researcher, and preserved in a distributable container (such as a plain
-text document).
-
-#+LaTeX: \begin{figure}
-#+begin_src org
-  ,#+source: raw
-  ,#+begin_src sh :results scalar
-  ,  wget --quiet -qO- \
-  ,    "http://ogdi.cloudapp.net/v1/dc/RecreationParks?format=json"
-  ,#+end_src
-  
-  ,#+source: dc-parks
-  ,#+begin_src emacs-lisp :var keys='(ward area) :var data=raw
-  ,  (mapcar
-  ,   (lambda (lis)
-  ,     (mapcar (lambda (key) (cdr (assoc key lis))) keys))
-  ,   (cdr (car (with-temp-buffer
-  ,               (insert data) (goto-char (point-min))
-  ,               (json-read)))))
-  ,#+end_src
-  
-  ,#+source: metric
-  ,#+begin_src ruby :var data=dc-parks
-  ,  data.map{|f| [f[0], 2.59 * f[1].to_f]}
-  ,#+end_src
-  
-  ,#+begin_src R :var data=metric :file parks.png :session *R*
-  ,  plot(data)
-  ,  title(main="Park size by Ward")
-  ,#+end_src
-  
-  ,#+results:
-  ,[[file:parks.png]]
-#+end_src
-#+begin_LaTeX 
-  \caption{A more complex example of code block chaining.  In this
-    example the first block of shell script downloads raw data from an
-    external web server.  The second block of \texttt{emacs-lisp} parses
-    this data extracting the value of two keys.  A block of
-    \texttt{ruby} code converts the string areas to floats, and then
-    converts the values from yards to meters, and finally a block of
-    \texttt{R} code is used to graph the results.}
-  \label{too-much}
-  \end{figure}
-#+end_LaTeX
+Notice that no problems are caused when code blocks of different
+languages interact; this is because all values are passed through the
+Emacs Lisp interpreter that is at the core of Emacs.  This argument
+passing syntax allows for complex chaining of raw values in a
+document, and of blocks of code in multiple languages as shown in
+Section \ref{applications}.
 
 ** Export
     :PROPERTIES:
@@ -827,7 +749,7 @@ ease with which support for new languages can be added is evidenced by
 the fact that all new language support has been contributed by
 Org-babel users rather than by the original authors.
 
-** Applications
+* Applications
    :PROPERTIES:
    :CUSTOM_ID: applications
    :END:

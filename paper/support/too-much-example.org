@@ -1,0 +1,53 @@
+in Figure
+\ref{too-much}.  In effect Babel serves as a /meta-functional/
+programming language with which other programming languages can be
+used to define composable functions.  Such integration of languages
+can be very useful, for example in research projects combining
+/glue/ code written in scripting languages with statistical analysis
+written in R.  The goals of Reproducible Research are only met when
+such an integration is both easily accomplished by the initial
+researcher, and preserved in a distributable container (such as a plain
+text document).
+
+#+LaTeX: \begin{figure}
+#+begin_src org
+  ,#+source: raw
+  ,#+begin_src sh :results scalar
+  ,  wget --quiet -qO- \
+  ,    "http://ogdi.cloudapp.net/v1/dc/RecreationParks?format=json"
+  ,#+end_src
+  
+  ,#+source: dc-parks
+  ,#+begin_src emacs-lisp :var keys='(ward area) :var data=raw
+  ,  (mapcar
+  ,   (lambda (lis)
+  ,     (mapcar (lambda (key) (cdr (assoc key lis))) keys))
+  ,   (cdr (car (with-temp-buffer
+  ,               (insert data) (goto-char (point-min))
+  ,               (json-read)))))
+  ,#+end_src
+  
+  ,#+source: metric
+  ,#+begin_src ruby :var data=dc-parks
+  ,  data.map{|f| [f[0], 2.59 * f[1].to_f]}
+  ,#+end_src
+  
+  ,#+begin_src R :var data=metric :file parks.png :session *R*
+  ,  plot(data)
+  ,  title(main="Park size by Ward")
+  ,#+end_src
+  
+  ,#+results:
+  ,[[file:parks.png]]
+#+end_src
+#+begin_LaTeX 
+  \caption{A more complex example of code block chaining.  In this
+    example the first block of shell script downloads raw data from an
+    external web server.  The second block of \texttt{emacs-lisp} parses
+    this data extracting the value of two keys.  A block of
+    \texttt{ruby} code converts the string areas to floats, and then
+    converts the values from yards to meters, and finally a block of
+    \texttt{R} code is used to graph the results.}
+  \label{too-much}
+  \end{figure}
+#+end_LaTeX
