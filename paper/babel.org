@@ -43,10 +43,10 @@ and code in a single container.
   tools, the inclusion of which is vital to successful communication
   and verification of research results.
 - In /software development/ the exchange of ideas is accomplished
-  through both shared code and prose, with the former providing for
-  concrete and succinct description, and the latter providing higher level
+  through both shared code and prose; code provides 
+  concrete and succinct description and prose provides higher level
   explanation.  Without proper documentation the usability and future
-  extensibility of computational tools is severely compromised.
+  extensibility of computational tools are severely compromised.
 - In /pedagogical/ environments it is important for descriptions of
   algorithms or techniques to go hand-in-hand with concrete
   implementations.  These environments range from in-class
@@ -55,15 +55,18 @@ and code in a single container.
   instructions.
 
 In all of the situations described above prose alone in the absence of
-access to code is insufficient.  Similarly distribution of code
-without expository prose is not a sufficient medium for communication
+code is typically insufficient.  Similarly, distribution of code
+without expository prose is a less than ideal medium for communication
 between people. In this paper we describe Babel, which provides a
-unified environment supporting many different approaches to
-composition and application of combined prose and code (see Table
-\ref{grid}).  Due to it's generality; across multiple languages,
-export targets, and work flows, and ease of use and ease of adoption
-of Babel it constitutes a sea change in the authoring of mixed
-computational and natural languages.
+unified environment that supports many different approaches to
+composition and application of combined prose and code (Table
+\ref{grid}).  Babel is implemented as part of the Org-mode plain text
+markup language, which provides the high level structure of Babel
+documents and many of export functions.  Babel and Org-mode are
+designed for ease of use and adoption.  The Babel environment aims to
+be a general solution for authoring projects with mixed computational
+and natural languages.  It supports multiple languages, export
+targets, and work flows.
 
 #+LaTeX: \begin{table*}
 #+ATTR_LaTeX: align=l|l|l|
@@ -88,25 +91,20 @@ computational and natural languages.
 # on the author.
 # 
 # I didn't quite understand the last part of the preceding sentence (Dan)
-In the remainder of this paper we will first review existing
-approaches to the combined authoring of prose and code including a
-brief review of the relevant tools currently in existence which each
-address some subset of the use cases surrounding this need (Section
-\ref{background}).
-
-Babel is implemented as part of the Org-mode plain text markup
-language which provides the high level structure of babel documents,
-and handles the export of readable documents from babel documents.  We
-will describe the design and implementation of Babel (Section
-\ref{design}) and of Org-mode (Section \ref{org-mode}), and will
+In the remainder of this paper we first review existing approaches to
+the combined authoring of prose and code including a brief review of
+the relevant tools currently in existence which each address some
+subset of the use cases surrounding this need (Section
+\ref{background}).  We describe the design and implementation of Babel
+(Section \ref{design}) and of Org-mode (Section \ref{org-mode}), and
 # This is the first mention of "Org-mode". Needs some prior
 # introductory sentence.
-demonstrate their application to a number of common use cases (Section
+demonstrate their application to some common use cases (Section
 \ref{applications}).  We conclude with a discussion of why we believe
-Babel constitutes a sea-change in software support for mixed prose and
-code environments (Section \ref{points-for}), as well as some limits
-of the current implementation and directions for future work (Section
-\ref{future-work}).
+Babel constitutes a uniquely productive environment for authoring
+mixed prose and code projects (Section \ref{points-for}), as well as
+some limits of the current implementation and directions for future
+work (Section \ref{future-work}).
 
 * Background
   :PROPERTIES:
