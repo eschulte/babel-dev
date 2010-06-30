@@ -1,3 +1,4 @@
+# -*- mode: org, org-export-latex-listings: t -*-
 #+TITLE: Babel /DRAFT/
 #+AUTHOR: 
 #+OPTIONS: ^:nil toc:nil H:4
@@ -5,18 +6,42 @@
 #+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
+#+LATEX_HEADER: \usepackage{listings}
 #+LaTeX_CLASS: twocolumn
 #+begin_latex
-\definecolor{strings}{RGB}{60,179,113}
-\lstset{
-  keywordstyle=\color{blue},
-  commentstyle=\color{red},
-  stringstyle=\color{strings}
-}
-\hypersetup{
-  linkcolor=blue,
-  pdfborder={0 0 0 0}
-}
+  \lstdefinelanguage{org}
+  {
+    morekeywords={:results, :session, :var, :noweb, :exports},
+    sensitive=false,
+    morecomment=[l]{\#},
+    morestring=[b]",
+  }
+  \hypersetup{
+    linkcolor=blue,
+    pdfborder={0 0 0 0}
+  }
+  \renewcommand\t[1]{{\tt #1}}
+  \newcommand\ATCES{{\sf atce/r}}
+  \newcommand\lt[1]{{\lstinline+#1+}}
+  \definecolor{dkgreen}{rgb}{0,0.5,0}
+  \definecolor{dkred}{rgb}{0.5,0,0}
+  \definecolor{gray}{rgb}{0.5,0.5,0.5}
+  \lstset{basicstyle=\ttfamily\bfseries\scriptsize,
+    morekeywords={virtualinvoke,fucompp,fnstsw,fldl,fstpl,movl},
+    keywordstyle=\color{blue},
+    ndkeywordstyle=\color{red},
+    commentstyle=\color{dkred},
+    stringstyle=\color{dkgreen},
+    numbers=left,
+    numberstyle=\ttfamily\footnotesize\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{white},
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    xleftmargin=.23in
+  }
 #+end_latex
 
 #+LaTeX: \begin{abstract}
@@ -933,18 +958,5 @@ scientists to make their work more accessible.
 * COMMENT publish
 a post-export hook for smaller verbatim text
 #+begin_src emacs-lisp :results silent
-  (add-hook 'org-export-latex-final-hook
-            (defun babel-paper-small-verbatim ()
-              (interactive)
-              (goto-char (point-min))
-              (while (re-search-forward "\\\\begin{verbatim}" nil t)
-                (goto-char (match-beginning 0))
-                (insert "{\\small\n")
-                (goto-char (match-end 0)))
-              (goto-char (point-min))
-              (while (re-search-forward "\\\\end{verbatim}" nil t)
-                (goto-char (match-end 0))
-                (insert "\n}"))))
-  ;; ;; undo
-  ;; (setq org-export-latex-final-hook (cdr org-export-latex-final-hook))
+  (setq org-export-latex-listings t)
 #+end_src
