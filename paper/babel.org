@@ -781,13 +781,41 @@ Org-babel users rather than by the original authors.
    :CUSTOM_ID: points-for
    :END:
 
+A number of features of Babel which make it a good choice as a tool
+for the composition of combined natural and computational language
+documents.
+
+- Open source :: Babel is both /open source/ meaning it's inner
+     working are publicly visible, and further, it's copyright is
+     owned by the Free Software Foundation \cite{FSF}, meaning that
+     Babel, and any work deriving from Babel will always be fully open
+     to public scrutiny and modification.  This is *essential* for any
+     tool supporting scientific peer review.
+
+- Friendly active community :: the Org-mode community and be extension
+     the community surrounding Babel is extremely friendly, which can
+     be immeasurably helpful both for newcomers trying to get
+     comfortable with the tool, and for developers looking for ideas
+     and feedback.  Without this community the Babel project would
+     never have reached a useable state.
+
+- General :: A leading drive in the design of Babel was pursuit of
+     generality.  Babel (through Org-mode) exports to many target file
+     types (e.g. LaTeX, HTML, Beamer slideshows, ASCII, etc...), it
+     supports arbitrary programming languages.  It displays no
+     reproducible research or literate programming bias.
+
+- Natural :: For Emacs users a transition to using Babel will allow
+     them to continue using the same editor and major modes with which
+     they are already familiar.
+
 ** Future Work
    :PROPERTIES:
    :CUSTOM_ID: future-work
    :END:
-Babel certainly has a number of natural limits.  While Emacs
-provides a number of extremely mature and full-featured environments
-for authoring of code and text, and for controlling the evaluation of
+Babel certainly has a number of natural limits.  While Emacs provides
+a number of extremely mature and full-featured environments for
+authoring of code and text, and for controlling the evaluation of
 text, it also brings with it a number of limiting factors.
 - steep learning curve
   #+begin_comment
@@ -800,6 +828,9 @@ text, it also brings with it a number of limiting factors.
 - it's not the best execution VM or sublayer
   - single threaded
   - inefficient
+
+These items indicate a number of paths for future work, either in the
+adaptation of Org-babel, or for any future tool of this type.
 
 ** Conclusion
 Babel provides an environment for the co-mingling of code, data, and
