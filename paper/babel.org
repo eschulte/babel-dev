@@ -315,7 +315,7 @@ been under development since the mid 1970s and is currently at
 version 23.  Org-mode extends Emacs with a simple, yet powerful markup
 language that turns it into a language for creating and parsing
 hierarchically-organized text documents.  It was originally designed
-for keeping notes, mainting lists of items to do, and planning
+for keeping notes, maintaining lists of items to do, and planning
 projects.  Its rich feature set includes text structuring, project
 management, and a publishing system that can export to a variety of
 formats.  Babel extends Org-mode by activating sections of Org-mode
@@ -323,7 +323,7 @@ documents, effectively dividing them into text, code, and data
 sections.  Activation means that code sections are executable and that
 both they and data sections can be named and referred to elsewhere in
 the document.  In this way, an Org-mode buffer becomes a place where
-different computer languages communicate with one another.  And like
+different computer languages communicate with one another.  Like
 its parent language, Babel is extensible: support for new languages
 can be added by writing emacs-lisp functions, and useful code blocks
 in any language can be added to a Library of Babel, where they can be
