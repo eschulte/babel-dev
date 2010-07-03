@@ -82,6 +82,9 @@ this may be an org-mode issue
 ** PROPOSED tangle entire org-mode file in comments
    - State "PROPOSED"   from ""           [2010-06-16 Wed 20:37]
 
+TD notes that Babel already supports LP, which is designed to make
+excellent notes.
+
 Belatedly documenting this issue from the mailing list.
 
 The main idea being that it would be nice to allow large chunks of an
