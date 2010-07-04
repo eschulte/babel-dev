@@ -79,7 +79,7 @@ and code in a single container.
   online tutorials or experiential blogs with accompanying
   instructions.
 
-In all of the situations described above prose alone in the absence of
+In each of the situations described above, prose alone in the absence of
 code is typically insufficient.  Similarly, distribution of code
 without expository prose is a less than ideal medium for communication
 between people. In this paper we describe Babel, which provides a
@@ -117,12 +117,11 @@ targets, and work flows.
 # on the author.
 # 
 # I didn't quite understand the last part of the preceding sentence (Dan)
-In the remainder of this paper we first review existing approaches to
-the combined authoring of prose and code, including a brief review of
-the relevant tools currently in existence which each address some
-subset of the use cases surrounding this need (Section
-\ref{background}).  We describe the design and usage of Babel
-(Section \ref{design}) and of Org-mode (Section \ref{org-mode}), and
+Here we review existing approaches to the combined authoring of prose
+and code, including software tools designed to address one or more of
+the use cases for mixed natural and computer language documents
+(Section \ref{background}).  We then describe the design of Babel
+(Section \ref{design}) and Org-mode (Section \ref{org-mode}), and
 # This is the first mention of "Org-mode". Needs some prior
 # introductory sentence.
 demonstrate their application to some common use cases (Section
@@ -168,27 +167,31 @@ encourage the author of a computational work to approach the project
 of style". 
 # need citation with page number
 
-Accordingly, literate programming tools embed code blocks in natural
-language documents, typically composed in some variation of TeX.  The
-literate programming tool then provides a number of methods for the
-creation of two types of /view/ into the document; articles intended
-for human consumption that consist of typset prose and marked-up code
-blocks, and computer readable documents of pure source code.  The
-literate programming terms for generating these views are /weaving/
-and /tangling/ respectively.  A common feature of literate programming
-tools is the ability to organize code blocks differently when
-/tangling/ and /weaving/ thereby allowing the programmer to introduce
-concepts to humans in a different order than code is introduced to the
-computer.
+Accordingly, literate programming tools use input files that mix
+sections of computer code with sections of natural language typically
+marked up in TeX or LaTeX.  The literate programming tool then provides a
+number of methods for the creation of two types of /view/ into the
+document; articles intended for human consumption that consist of
+typset prose and marked-up code blocks, and computer readable
+documents of pure source code.  The literate programming terms for
+generating these views are /weaving/ and /tangling/ respectively.  A
+common feature of literate programming tools is the ability to
+organize code blocks differently when /tangling/ and /weaving/ thereby
+allowing the programmer to introduce concepts to humans in a different
+order than code is introduced to the computer.
 
-The original literate programming tool developed by Knuth was =WEB=,
-which supported the Pascal programming language.  A modern descendent
-is =noweb= \cite{noweb} which can be used with a number of different
-programming languages.  =WEB= and =noweb= enable the /authoring/ of
-both prose and code, but do not provide facilities for the execution
-of code from within documents.  Instead, code intended for execution
-is first tangled and the resulting source code files are then sent to
-a compiler or interpreter.
+The original literate programming tool, developed by Knuth, was =WEB=,
+which consists of two primary programs, =TANGLE= and =WEAVE=.  This
+system supported the Pascal programming language and produced
+documents typeset with TeX.  A modern descendent is =noweb=
+\cite{noweb} which is designed to be language independent.  Its
+primary programs, =notangle= and =noweave=, are both written in =C=.
+Documents produced by =noweave= can be typeset with =TeX=, =LaTeX=,
+and =troff= or displayed in a web browser as =HTML=.  Software tools
+such as =WEB= and =noweb= enable the /authoring/ of both prose and
+code, but do not provide facilities for the execution of code from
+within documents.  Instead, code intended for execution is tangled and
+the resulting source code files are sent to a compiler or interpreter.
 
 ** Reproducible Research
 #+begin_quote
@@ -277,40 +280,57 @@ and extension.
 \attrib{Gentleman and Temple Lang}
 #+end_quote
 
-Under their formulation a compendium would consist of the following
-elements.
-1) Authoring Software
-2) Auxiliary Software
-3) Transformation Software
-4) Quality control Software
-5) Distribution Software
+=Sweave= \cite{sweave} is a modern software tool, written in the =R=
+statistical programming language, that can be used for reproducible
+research.  =Sweave= (and the =R= community at large) inspired the work
+that led to the /compendium/ idea.  The recent resurgence in
+reproducible research owes much to the success of both =R= and
+=Sweave=.  =Sweave= documents consist of code blocks of the =R=
+statistical programming language embedded into LaTeX documents.  The
+=R= functions that make up =Sweave= execute the embedded =R= code and
+produce a LaTeX document that includes the resulting tables, graphical
+figures, and inline results.  If the =Sweave= document is accompanied
+by the data files used in the statistical computations along with any
+=R= language files that are sourced, then the reader can trace a
+result back to the relevant =R= computations and through to the
+original data.
 
-Babel (including Org-mode and Emacs) in combination with a traditional
-version control tool satisfies all of these requirements.  In addition,
-Babel handles three of the four points laid out in their proposed
-"Future Work", namely /multiple languages/, /conditional chunks/
-(where "chunks" are blocks of text or code), and /interactivity/,
-meaning that the code can be executed from within the authoring
-environment.
-
-=Sweave= \cite{sweave} is a modern tool supporting reproducible
-research.  Like =noweb= documents, =Sweave= documents consist of code
-embedded into TeX documents.  =Sweave= supports the =R= statistical
-programming language.  The code in =Sweave= documents is executed
-during publishing and can be used to generate tables, graphical
-figures, and inline results.  As such, =Sweave= enables the reader of
-a Sweave document to trace an interesting result back to the relevant
-=R= computations and through to the original data.
-
-=Sweave= (and the =R= community at large) inspired the work which
-first formulated the /compendium/ idea.  In large part the recent
-resurgence in reproducible research owes much to the success of both
-=R= and =Sweave=.
-
+# It might be useful to start this section with Lisp and how bottom-up
+# programming changes the language to suit the problem.  So emacs
+# turned lisp into a language for writing editors, org-mode turned it
+# into a language for parsing hierarchical documents, etc., and babel
+# turned it into a language for literate programming and reproducible
+# research. (no attempt to be precise or exhaustive here).
 * Design and Usage
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
+The babel environment is developed in the Lisp language, an extensible
+language that is itself a Lisp program.  Lisp promotes a style of
+programming that has been characterized as "bottom-up" because the
+language itself changes in response to the particular problem being
+solved.  At the core of Babel is the Emacs text editor and emacs-lisp,
+a dialect of lisp that supports editing text documents.  Emacs has
+been under development since the mid 1970s and is currently at
+version 23.  Org-mode extends Emacs with a simple, yet powerful markup
+language that turns it into a language for creating and parsing
+hierarchically-organized text documents.  It was originally designed
+for keeping notes, maintaining lists of items to do, and planning
+projects.  Its rich feature set includes text structuring, project
+management, and a publishing system that can export to a variety of
+formats.  Babel extends Org-mode by activating sections of Org-mode
+documents, effectively dividing them into text, code, and data
+sections.  Activation means that code sections are executable and that
+both they and data sections can be named and referred to elsewhere in
+the document.  In this way, an Org-mode buffer becomes a place where
+different computer languages communicate with one another.  Like
+its parent language, Babel is extensible: support for new languages
+can be added by writing emacs-lisp functions, and useful code blocks
+in any language can be added to a Library of Babel, where they can be
+called from any Org-mode document.
+
+
+#+BEGIN_COMMENT
 Babel is nested inside of Org-mode [fn:: http://orgmode.org] which is
 itself contained inside the Emacs text editor [fn::
 http://www.gnu.org/software/emacs/].  Babel gains much from executing
@@ -318,23 +338,22 @@ in this environment.
 
 The Emacs text editor \cite{emacs} has been under constant development
 since the mid 1970s.  For many of its users Emacs is already the
-preferred environment for authoring of text in all forms -- both
-programming languages and prose -- often through writing /markup/
-languages like LaTeX or HTML.  Org-mode extends Emacs with a simple
-markup language, supporting a rich set of features in areas such as
-text structuring, project management and publishing, which can export
-to a variety of formats.  Through living inside of (and standing on
+preferred environment for authoring text in all forms---both
+programming languages and prose---often through writing /markup/
+languages like LaTeX or HTML.   Through living inside of (and standing on
 the shoulders of) these projects, Babel is able to leverage the
-editing functionality of Emacs from
-inside of a single Org-mode document containing both code and prose.
+editing functionality of Emacs from inside an Org-mode document
+containing both code and prose.
+#+END_COMMENT
 
 Through making it possible to adopt literate programming and
 reproducible research practices while retaining a familiar editing
 environment, Babel significantly lowers the barrier of entry.
 Difficulty of use/adoption has served as a major barrier to previous
-LP and RR systems, and we believe that with this ease
-of adoption, along with the universal applicability across
-programming languages, Babel represents a significant, qualitative advance in the design of LP/RR tools.
+LP and RR systems, and we believe that with this ease of adoption,
+along with the universal applicability across programming languages,
+Babel represents a significant, qualitative advance in the design of
+LP/RR tools.
 
 We will first introduce Org-mode with a focus on those features that
 make it an ideal environment in which to embed a LP/RR system (Section
@@ -443,10 +462,10 @@ Extensive documentation of the Babel-specific syntax is available in
 the Babel manual [fn:: http://orgmode.org].
 
 *** Evaluation
-Babel knows how to evaluate code written in a number of languages.  In the
-evaluation of source code Babel makes use of a great deal of existing
-Emacs support for interaction with languages running as both external and inferior (Emacs-internal)
-processes.
+Babel knows how to evaluate code written in a number of languages.  In
+the evaluation of source code Babel makes use of a great deal of
+existing Emacs support for interaction with languages running as both
+external and inferior (Emacs-internal) processes.
 # I used "interpreters" but this may be a technical term that is too restrictive (Dan)
 # I removed "interpreters" because we also run compiled languages e.g. C (Eric)
 
@@ -521,7 +540,7 @@ http://www.stat.umn.edu/~charlie/Sweave/]).
 
 Session-based evaluation is similar to the approach to evaluation
 taken by =Sweave= in which every code block is evaluated in the same
-persistent session -- with the main difference being that Babel allows
+persistent session---with the main difference being that Babel allows
 for multiple disjoint named sessions.
 
 *** Results
@@ -727,7 +746,7 @@ suitable for execution by a computer).
      from an Org-mode document but also of re-arranging the code.
      Often the order in which a computer needs to be presented with
      code differs from the order in which the code may be best
-     organized in a document.  LP systems like no-web solve this
+     organized in a document.  LP systems like =no-web= solve this
      problem using code-block references which are expanded as part of
      the reference process \cite{noweb}.  Babel implements the same
      reference system reproducing the same syntax and functionality of
@@ -744,7 +763,7 @@ even for unsupported languages; only code evaluation and interaction
 with live sessions require language-specific functions.  Support for
 new languages can be added by defining a small number of
 functions named according to language, following a couple of simple
-conventions.  Currently Babel has support for over 20 languages.  The
+conventions.  Currently Babel has support for more than 20 languages.  The
 ease with which support for new languages can be added is evidenced by
 the fact that all new language support has been contributed by
 Org-babel users rather than by the original authors.
@@ -763,6 +782,26 @@ Org-babel users rather than by the original authors.
   :PROPERTIES:
   :CUSTOM_ID: conclusion
   :END:
+** Compendium
+# TD thinks this belongs in the Discussion, rather than the section on
+# reproducible research.
+Under their formulation a compendium would consist of the following
+elements.
+1) Authoring Software
+2) Auxiliary Software
+3) Transformation Software
+4) Quality control Software
+5) Distribution Software
+
+The Babel environment used in combination with a traditional
+version control tool satisfies all of these requirements.  In addition,
+Babel handles three of the four points laid out in their proposed
+"Future Work", namely /multiple languages/, /conditional chunks/
+(where "chunks" are blocks of text or code), and /interactivity/,
+meaning that the code can be executed from within the authoring
+environment.
+
+
 ** Strengths
    :PROPERTIES:
    :CUSTOM_ID: points-for
