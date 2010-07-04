@@ -785,6 +785,9 @@ Org-babel users rather than by the original authors.
 ** Compendium
 # TD thinks this belongs in the Discussion, rather than the section on
 # reproducible research.
+#
+# I agree, this is a good lead into the following point-by-point
+# discussion of the strengths and weaknesses of babel (Eric)
 Under their formulation a compendium would consist of the following
 elements.
 1) Authoring Software
@@ -800,7 +803,6 @@ Babel handles three of the four points laid out in their proposed
 (where "chunks" are blocks of text or code), and /interactivity/,
 meaning that the code can be executed from within the authoring
 environment.
-
 
 ** Strengths
    :PROPERTIES:
