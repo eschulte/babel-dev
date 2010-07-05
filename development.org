@@ -4,7 +4,157 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [78/156]
-** PROPOSED mention block name or number in error windows
+** DONE document configuration changes for Babel integration
+   - State "DONE"       from ""           [2010-07-05 Mon 11:03]
+Babel took the integration into Org-mode as an opportunity to do
+some much needed house cleaning.  Most importantly we have
+simplified the enabling of language support, and cleared out
+unnecessary configuration variables -- which is great unless you
+already have a working configuration under the old model.
+
+The most important changes regard the /location/ and /enabling/
+of Babel (both core functionality and language specific support).
+
+- Babel :: Babel is now part of the core of Org-mode, so it is
+     now loaded along with the rest of Org-mode.  That means that
+     there is /no configuration/ required to enable the main
+     Babel functionality.  For current users, this means that
+     statements like
+     #+begin_src emacs-lisp
+       (require 'org-babel)
+     #+end_src
+     or
+     #+begin_src emacs-lisp
+       (require 'org-babel-init)
+     #+end_src
+     that may by lying around in your configuration must now be
+     removed.
+- load path :: Babel (including all language specific files --
+     aside from those which are located in the =contrib/=
+     directory for reasons of licencing) now lives in the base of
+     the Org-mode lisp directory, so /no additional directories/
+     need to be added to your load path to use babel.  For Babel
+     users this means that statements adding babel-specific
+     directories to your load-path should now be removed from
+     your config.
+- language support :: It is no longer necessary to require
+     language specific support on a language-by-language basis.
+     Specific language support should now be managed through the
+     `org-babel-load-languages' variable.  This variable can be
+     customized using the Emacs customization interface, or
+     through the addition of something like the following to your
+     configuration (note: any language not mentioned will /not/
+     be enabled, aside from =emacs-lisp= which is enabled by
+     default)
+     #+begin_src emacs-lisp
+       (org-babel-do-load-languages
+        'org-babel-load-languages
+        '((R . t)
+          (ditaa . t)
+          (dot . t)
+          (emacs-lisp . t)
+          (gnuplot . t)
+          (haskell . nil)
+          (ocaml . nil)
+          (python . t)
+          (ruby . t)
+          (screen . nil)
+          (sh . t)
+          (sql . nil)
+          (sqlite . t)))
+     #+end_src
+     
+	   Despite this change it is still possible to add
+	   language support through the use of =require=
+	   statements, however to conform to Emacs file-name
+	   regulations all Babel language files have changed
+	   prefix from =org-babel-*= to =ob-*=, so the require
+	   lines must also change e.g.
+	   #+begin_src emacs-lisp
+       (require 'org-babel-R)
+	   #+end_src
+	   should be changed to
+	   #+begin_src emacs-lisp
+       (require 'ob-R)
+	   #+end_src
+
+We have eliminated the =org-babel-tangle-w-comments= variable as
+well as the two main internal lists of languages, namely
+- =org-babel-interpreters= and
+- =org-babel-tangle-langs= 
+
+so any config lines which mention those variables, can/should be
+stripped out in their entirety.  This includes any calls to the
+=org-babl-add-interpreter= function, whose sole purpose was to
+add languages to the =org-babel-interpreters= variable.
+
+With those calls stripped out, we may still in some cases want to
+associate a file name extension with certain languages, for
+example we want all of our emacs-lisp files to end in a =.el=, we
+can do this will the =org-babel-tangle-lang-exts= variable.  In
+general you shouldn't need to touch this as it already has
+defaults for most common languages, and if a language is not
+present in org-babel-tangle-langs, then babel will just use the
+language name, so for example a file of =c= code will have a =.c=
+extension by default, shell-scripts (identified with =sh=) will
+have a =.sh= extension etc...
+
+The configuration of /shebang/ lines now lives in header
+arguments.  So the shebang for a single file can be set at the
+code block level, e.g.
+
+#+begin_src org
+  ,#+begin_src clojure :shebang #!/usr/bin/env clj
+  ,  (println "with a shebang line, I can be run as a script!")
+  ,#+end_src  
+#+end_src
+
+Note that whenever a file is tangled which includes a /shebang/
+line, Babel will make the file executable, so there is good
+reason to only add /shebangs/ at the source-code block level.
+However if you're sure that you want all of your code in some
+language (say shell scripts) to tangle out with shebang lines,
+then you can customize the default header arguments for that
+language, e.g.
+
+#+begin_src emacs-lisp
+  ;; ensure this variable is defined defined
+  (unless (boundp 'org-babel-default-header-args:sh)
+    (setq org-babel-default-header-args:sh '()))
+  
+  ;; add a default shebang header argument
+  (add-to-list 'org-babel-default-header-args:sh
+               '(:shebang . "#!/bin/bash"))  
+#+end_src
+
+The final important change included in this release is the
+addition of new security measures into Babel.  These measures are
+in place to protect users from the accidental or uninformed
+execution of code.  Along these lines /every/ execution of a code
+block will now require an explicit confirmation from the user.
+These confirmations can be stifled through customization of the
+`org-confirm-babel-evaluate' variable, e.g.
+#+begin_src emacs-lisp
+  ;; I don't want to be prompted on every code block evaluation
+  (setq org-confirm-babel-evaluate nil)
+#+end_src
+
+In addition, it is now possible to remove code block evaluation
+form the =C-c C-c= keybinding.  This can be done by setting the
+=org-babel-no-eval-on-ctrl-c-ctrl-c= variable to a non-nil value,
+e.g.
+#+begin_src emacs-lisp
+  ;; I don't want to execute code blocks with C-c C-c
+  (setq org-babel-no-eval-on-ctrl-c-ctrl-c t)
+#+end_src
+
+An additional keybinding has been added for code block
+evaluation, namely =C-c C-v e=.
+
+Whew! that seems like a lot of effort for a /simplification/ of
+configuration.
+
+** PROPOSED mention block name and number in error windows
    - State "PROPOSED"   from ""           [2010-06-30 Wed 09:30]
 
 Thanks to Russel Adams for this idea.
@@ -81,6 +231,9 @@ this may be an org-mode issue
 
 ** PROPOSED tangle entire org-mode file in comments
    - State "PROPOSED"   from ""           [2010-06-16 Wed 20:37]
+
+TD notes that Babel already supports LP, which is designed to make
+excellent notes.
 
 Belatedly documenting this issue from the mailing list.
 
