@@ -823,8 +823,8 @@ As a single tool Babel satisfies the needs of both the reproducible
 research and literate programming disciplines, it is in effect both a
 /compendium/ and a /web/.
 
-- compendium :: The formulation of a of compendium as put forth by
-     Gentleman and Temple Lang requires of the following elements.
+- compendium :: The formulation of a compendium as put forth by
+     Gentleman and Temple Lang requires the following elements.
      1) Authoring Software
      2) Auxiliary Software
      3) Transformation Software
@@ -848,25 +848,25 @@ research and literate programming disciplines, it is in effect both a
 
 Through making it possible to adopt literate programming and
 reproducible research practices while retaining a familiar editing
-environment, Babel significantly lowers the barrier of entry.  Through
-encouraging all stages of the research and development cycle to take
-place within a single document Babel ensures that relevant code, data,
-and text will be collocated, reducing the burden on the authors of
-compiling such pieces of a large project after the fact.  Difficulty
-of use/adoption has served as a major barrier to previous literate
-programming and reproducible research systems, and we believe that
-with its ease of adoption, along with the its universal applicability
-across programming languages, Babel represents a significant,
-qualitative advance in the design of literate programming and
-reproducible research tools.
+environment, Babel significantly lowers the barrier of entry for both
+of these techniques.  Through encouraging all stages of the research
+and development cycle to take place within a single document Babel
+ensures that the code, data, and text relevant to a project will be
+collocated, reducing the burden on the author of compiling such pieces
+after the fact.  Difficulty of use and adoption has served as a major
+barrier to previous literate programming and reproducible research
+systems.  We believe that with its ease of adoption, familiar
+environment, and universal applicability across programming languages,
+Babel represents a significant, qualitative advance in literate
+programming and reproducible research tools.
 
 As such we believe Babel has the potential to significantly increase
-the widespread acceptance of the expectation that code has
-accompanying explanatory prose, and that any discussion of code or
-computational results include both the discussed code and data..  It
-is the authors hope that this work will ultimately help both software
-developers and scientists to communicate and to make their work more
-accessible.
+the widespread expectation that all computational projects include
+/both/ code and prose; code should be accompanied by explanatory
+prose, and any discussion of computational experimental results should
+include the relevant code and data.  It is the authors hope that this
+work will ultimately help both software developers and scientists to
+communicate and to make their work more accessible.
 
 #+begin_LaTeX
   \bibliographystyle{abbrv}
