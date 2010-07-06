@@ -94,17 +94,18 @@ and natural languages.  It supports multiple languages, export
 targets, and work flows.
 
 #+LaTeX: \begin{table*}
-#+ATTR_LaTeX: align=l|l|l|
-
-|             | prose                        | code                            |
-|-------------+------------------------------+---------------------------------|
-| composition | natural document authoring   | natural code authoring through  |
-|             | environment through Org-mode | Emacs major modes               |
-|-------------+------------------------------+---------------------------------|
-| application | automated publishing to      | in-situ interactive execution   |
-|             | a variety of document        | as well as the tangling of code |
-|             | and slideshow formats        | for external use                |
-|-------------+------------------------------+---------------------------------|
+#+ATTR_LaTeX: align=r|c|c|
+|             | prose                   | code                            |
+|-------------+-------------------------+---------------------------------|
+|             | natural document        | natural code authoring          |
+| composition | authoring environment   | through Emacs                   |
+|             | through Org-mode        | major modes                     |
+|-------------+-------------------------+---------------------------------|
+|             | automated publishing to | in-situ interactive execution   |
+| application | a variety of document   | as well as the tangling of code |
+|             | and slideshow formats   | for external use                |
+|-------------+-------------------------+---------------------------------|
+#+LaTeX: \caption{Babel enables both the application and composition of code and prose.}
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
