@@ -776,7 +776,8 @@ implemented by Org-babel users rather than by the original authors.
 - [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
 
 ** Live Climate Data
-Alright, a revised approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme][noaa data]].
+Alright, a revised approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme][noaa data]].  For alternate
+climate data see http://www.realclimate.org/index.php/data-sources/
 
 Is this too complex?  Maybe the ruby processing can be left out, and
 the data wrangling can be left to the final =R= block.
