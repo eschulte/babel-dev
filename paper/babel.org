@@ -1,4 +1,4 @@
-# -*- mode: org, org-export-latex-listings: t -*-
+# -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=\\textwidth" -*-
 #+TITLE: Babel /DRAFT/
 #+AUTHOR: 
 #+OPTIONS: ^:nil toc:nil H:4
@@ -7,6 +7,8 @@
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \usepackage{tikz}
+#+LATEX_HEADER: \usepackage{gnuplot-lua-tikz}
 #+LaTeX_CLASS: twocolumn
 #+begin_latex
   \lstdefinelanguage{org}
@@ -712,11 +714,93 @@ implemented by Org-babel users rather than by the original authors.
    :PROPERTIES:
    :CUSTOM_ID: applications
    :END:
-- simple example with multi-language block chaining and producing a
-  figure
-- example with tangling
-- pointer to foo.Rnw and foo.org
-- look at uses for some more ideas
+** Generate a Figure With =ditaa=
+** Tangle a Python Script
+** Simple Bioinformatics
+- data from http://www.ncbi.nlm.nih.gov/
+- process with =R=
+- [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
+
+** Chaining Code Blocks -- Global Warming
+1) The following shell script grabs data from NASA with the =curl=
+   command, and then selects only those lines with tabular data with
+   the =grep= command.
+   #+source: temp-data
+   #+begin_src sh :exports none
+     curl "http://data.giss.nasa.gov/gistemp/tabledata/GLB.Ts+dSST.txt" \
+         |grep '^[0-9]\{4\}' |grep -v "\*"
+   #+end_src
+   #+begin_src org
+     ,#+source: temp-data :exports none
+     ,#+begin_src sh
+     ,  curl "http://data.giss.nasa.gov/gistemp/tabledata/GLB.Ts+dSST.txt" \
+     ,      |grep '^[0-9]\{4\}' |grep -v "\*"
+     ,#+end_src
+   #+end_src
+
+# this should probably be rewritten in a more popular scripting
+# language, it was just much quicker for me to push this out in lisp
+2) This Emacs lisp code block accepts the tabular output of the
+   previous shell script and converts the data into average annual
+   mean temperature per year.  Each row of data initially consists of
+   a year, followed by 12 temperature differentials and then 7 unused
+   fields.  For each row this code returns the year followed by the
+   average of the 12 differentials converted from differentials to
+   absolute degrees Celsius.
+   #+source: annual-mean
+   #+begin_src emacs-lisp :var temp-diff=temp-data :exports none
+     (mapcar
+      (lambda (el)
+        (list
+         (car el)
+         (+ 14
+            (/ (/ (float (reduce #'+ (butlast (cdr el) 7)))
+                  12) 100))))
+      temp-diff)
+   #+end_src
+   #+begin_src org
+     ,#+source: annual-mean
+     ,#+begin_src emacs-lisp :var temp-diff=temp-data :exports none
+     ,(mapcar
+     , (lambda (el)
+     ,   (list
+     ,    (car el)
+     ,    (+ 14
+     ,       (/ (/ (float (reduce #'+ (butlast (cdr el) 7)))
+     ,             12) 100))))
+     , temp-diff)
+     ,#+end_src
+   #+end_src
+
+3) This Gnuplot code block graphs the tabular output of the previous
+   Emacs Lisp code block to a =.tex= file using tikz [fn::
+   http://sourceforge.net/projects/pgf/].  The resulting file is then
+   included into the output by the immediately following LaTeX code
+   block.
+   #+begin_src org
+     ,#+source: temp-plot
+     ,#+begin_src gnuplot :var data=annual-mean :file mean-annual-temps.tex :exports none
+     ,  set term tikz scale (0.6,0.6)
+     ,  set xlabel "year"
+     ,  set ylabel "$^{\\circ}$ Celsius"
+     ,  set title "Annual mean temperature in degrees Celsius"
+     ,  plot "$data" notitle
+     ,#+end_src
+     ,#+begin_src latex :var file=temp-plot :exports results
+     ,  \input{file}
+     ,#+end_src
+   #+end_src
+   #+source: temp-plot
+   #+begin_src gnuplot :var data=annual-mean :file mean-annual-temps.tex :exports none
+     set term tikz scale (0.6,0.6)
+     set xlabel "year"
+     set ylabel "$^{\\circ}$ Celsius"
+     set title "Annual mean temperature in degrees Celsius"
+     plot "$data" notitle
+   #+end_src
+   #+begin_src latex :var file=temp-plot :exports results
+     \input{file}
+   #+end_src
 
 * Discussion
   :PROPERTIES:
