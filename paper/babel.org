@@ -721,10 +721,10 @@ implemented by Org-babel users rather than by the original authors.
 - process with =R=
 - [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
 
-** Chaining Code Blocks -- Global Warming
-1) The following shell script grabs data from NASA with the =curl=
-   command, and then selects only those lines with tabular data with
-   the =grep= command.
+** Chaining Code Blocks
+1) The following shell script grabs data global surface temperature
+   data from NASA with the =curl= command, and then selects only those
+   lines with tabular data with the =grep= command.
    #+source: temp-data
    #+begin_src sh :exports none
      curl "http://data.giss.nasa.gov/gistemp/tabledata/GLB.Ts+dSST.txt" \
