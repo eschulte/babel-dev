@@ -7,8 +7,6 @@
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{listings}
-#+LATEX_HEADER: \usepackage{tikz}
-#+LATEX_HEADER: \usepackage{gnuplot-lua-tikz}
 #+LaTeX_CLASS: twocolumn
 #+begin_latex
   \lstdefinelanguage{org}
@@ -721,86 +719,46 @@ implemented by Org-babel users rather than by the original authors.
 - process with =R=
 - [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
 
-** Chaining Code Blocks
-1) The following shell script grabs data global surface temperature
-   data from NASA with the =curl= command, and then selects only those
-   lines with tabular data with the =grep= command.
-   #+source: temp-data
-   #+begin_src sh :exports none
-     curl "http://data.giss.nasa.gov/gistemp/tabledata/GLB.Ts+dSST.txt" \
-         |grep '^[0-9]\{4\}' |grep -v "\*"
-   #+end_src
-   #+begin_src org
-     ,#+source: temp-data :exports none
-     ,#+begin_src sh
-     ,  curl "http://data.giss.nasa.gov/gistemp/tabledata/GLB.Ts+dSST.txt" \
-     ,      |grep '^[0-9]\{4\}' |grep -v "\*"
-     ,#+end_src
-   #+end_src
+** Live Climate Data
+Alright, a revised approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme][noaa data]].
 
-# this should probably be rewritten in a more popular scripting
-# language, it was just much quicker for me to push this out in lisp
-2) This Emacs lisp code block accepts the tabular output of the
-   previous shell script and converts the data into average annual
-   mean temperature per year.  Each row of data initially consists of
-   a year, followed by 12 temperature differentials and then 7 unused
-   fields.  For each row this code returns the year followed by the
-   average of the 12 differentials converted from differentials to
-   absolute degrees Celsius.
-   #+source: annual-mean
-   #+begin_src emacs-lisp :var temp-diff=temp-data :exports none
-     (mapcar
-      (lambda (el)
-        (list
-         (car el)
-         (+ 14
-            (/ (/ (float (reduce #'+ (butlast (cdr el) 7)))
-                  12) 100))))
-      temp-diff)
-   #+end_src
-   #+begin_src org
-     ,#+source: annual-mean
-     ,#+begin_src emacs-lisp :var temp-diff=temp-data :exports none
-     ,(mapcar
-     , (lambda (el)
-     ,   (list
-     ,    (car el)
-     ,    (+ 14
-     ,       (/ (/ (float (reduce #'+ (butlast (cdr el) 7)))
-     ,             12) 100))))
-     , temp-diff)
-     ,#+end_src
-   #+end_src
+Is this too complex?  Maybe the ruby processing can be left out, and
+the data wrangling can be left to the final =R= block.
 
-3) This Gnuplot code block graphs the tabular output of the previous
-   Emacs Lisp code block to a =.tex= file using tikz [fn::
-   http://sourceforge.net/projects/pgf/].  The resulting file is then
-   included into the output by the immediately following LaTeX code
-   block.
-   #+begin_src org
-     ,#+source: temp-plot
-     ,#+begin_src gnuplot :var data=annual-mean :file mean-annual-temps.tex :exports none
-     ,  set term tikz scale (0.6,0.6)
-     ,  set xlabel "year"
-     ,  set ylabel "$^{\\circ}$ Celsius"
-     ,  set title "Annual mean temperature in degrees Celsius"
-     ,  plot "$data" notitle
-     ,#+end_src
-     ,#+begin_src latex :var file=temp-plot :exports results
-     ,  \input{file}
-     ,#+end_src
+1) Setup a =sqlite= database
+   #+begin_src sqlite :db climate.sqlite
+     create table temps (code int, year int, ave double);
+     create table countries (code int, name text);
    #+end_src
-   #+source: temp-plot
-   #+begin_src gnuplot :var data=annual-mean :file mean-annual-temps.tex :exports none
-     set term tikz scale (0.6,0.6)
-     set xlabel "year"
-     set ylabel "$^{\\circ}$ Celsius"
-     set title "Annual mean temperature in degrees Celsius"
-     plot "$data" notitle
+2) Grab the raw temperature
+   #+source: raw-temp
+   #+begin_src sh :var db="climate.sqlite"
+     curl \                        # grab the gzipped data
+         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
+         | gzip \                  # uncompress the data
+         | sed 's/-9999/   na/g' \ # remove malformed values
+         | head 10                 # just during debugging
    #+end_src
-   #+begin_src latex :var file=temp-plot :exports results
-     \input{file}
+   and country code data
+   #+source: country-codes
+   #+begin_src sh
+     curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
    #+end_src
+   from the web.
+3) Pre-process the temp data with =ruby=.
+   #+source: manicured-temp
+   #+begin_src ruby :var raw=raw-temp
+     raw.map do |row|
+       nums = row.slice(1..-1).select{|f| f != "na"}.map{|n| Integer(n)}
+       [row[0], Float(nums.inject{|n,m| n+m}) / nums.length]
+     end
+   #+end_src
+4) dump everything in the sqlite database.
+   #+begin_src sqlite :var temps=manicured-temp :var country=country-codes
+     
+   #+end_src
+5) Then =R= (or maybe =gnuplot=) code can access the tables and
+   generate some nice calculation or visualization.
 
 * Discussion
   :PROPERTIES:
