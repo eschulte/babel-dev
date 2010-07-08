@@ -759,28 +759,28 @@ Section \ref{applications}.
     :CUSTOM_ID: export
     :END:
 
-Borrowing terms from the Literate Programming community Babel supports
-both /weaving/ (the exportation of a mixed code/prose document to a
-prose format suitable for reading by a human) and /tangling/ (the
+Borrowing terms from the Literate Programming community, Babel supports
+both /weaving/---the exportation of a mixed code/prose document to a
+prose format suitable for reading by a human---and /tangling/--the
 exportation of a mixed code/prose document to a pure code file
-suitable for execution by a computer).
+suitable for execution by a computer.
 
-- weaving :: Org-mode provides a sophisticated and
-     full-featured system of exportation to HTML, LaTeX, and a number
-     of other target formats.  Babel adds support for the
-     pre-processing of code blocks as part of the export process.
-     This pre-processing allows for the code of a code block, the
-     results of a code block, or both or neither to be included in the
-     final exported document.
+- weaving :: Org-mode provides a sophisticated and full-featured
+     system to export to HTML, LaTeX, and a number of other
+     target formats.  Babel adds support for pre-processing code
+     blocks as part of the export process.  Using the =:exports=
+     header argument, the code of the code block, the results of
+     executing the code block, both code and results, or neither can
+     be included in the export.
 
-- tangling :: Tangling consists not only of extracting source code
-     from an Org-mode document but also of re-arranging the code.
-     Often the order in which a computer needs to be presented with
-     code differs from the order in which the code may be best
-     organized in a document.  LP systems like =noweb= solve this
-     problem using code-block references which are expanded as part of
-     the tangle process \cite{noweb}.  Babel implements the =noweb=
-     reference system using the same syntax and functionality.
+- tangling :: Source code in an Org-mode document can be re-arranged
+     on export.  Often, the order in which a computer needs to be
+     presented with code differs from the order in which the code may
+     be best organized in a document.  Literate programmin systems
+     like =noweb= solve this problem using code-block references that
+     are expanded as part of the tangle process \cite{noweb}.  Babel
+     implements the =noweb= reference system using an identical syntax
+     and functionality.
 
 ** Language support
     :PROPERTIES:
