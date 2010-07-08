@@ -787,16 +787,17 @@ suitable for execution by a computer.
     :CUSTOM_ID: languages
     :END:
 
-The core functions of Babel are entirely language agnostic.  The
-tangling, source edit and export features of Org-babel can be used
-even for unsupported languages; only code evaluation and interaction
-with live sessions require language-specific functions.  Support for
-new languages can be added by defining a small number of
-functions named according to language, following a couple of simple
-conventions.  Currently Babel has support for more than 20 languages.  The
-ease with which support for new languages can be added is evidenced by
-the fact that increasingly new language support is increasingly
-implemented by Org-babel users rather than by the original authors.
+The core functions of Babel are language agnostic.  The tangling,
+source edit, and export features of Babel can be used for any computer
+language, even those that are not specifically supported by Babel;
+only code evaluation and interaction with live sessions require
+language-specific functions.  Support for new languages can be added
+by defining a small number of elisp functions named according to
+language, following some simple conventions.  Currently, Babel has
+support for more than 20 languages.  The ease with which support for
+new languages can be added is evidenced by the fact that new language
+support is increasingly implemented by Babel users, rather than the
+Babel authors.
 
 * Applications
    :PROPERTIES:
