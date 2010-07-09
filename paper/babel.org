@@ -505,19 +505,22 @@ not discussed -- =results= and =file=.  Both of these arguments
 control how the results of a code block are handled.  As seen in the
 ruby evaluation example above, 
 #+end_comment
-By default, the results of evaluating code blocks are inserted in the
-Org-mode buffer as protected text immediately after the code block.
-In practice the user is given significant control over the handling of
-code block results both during interactive evaluation and during
-export.  At the most basic level, results can be collected from code
-blocks by value or as output.  This behavior is controlled by the
-=:results= header argument.
+Babel returns the results of code block evaluation as strings,
+scalars, Org-mode tables, or Org-mode links.  By default, these are
+inserted in the Org-mode buffer as protected text immediately after
+the code block.  In practice, the user can control how Babel handles
+evaluation results with header arguments.  
+
+At the most basic level, results can be collected from code blocks by
+value or as output.  This behavior is controlled by the =:results=
+header argument.
 
 #There are two ways in which results can be collected from code blocks.
 - =:results value= :: Specifies that the code block should be treated
      as a function, and the results should be equal to the value of
      the last expression in the block, like the return value of a
-     function.  This is the default setting.
+     function.  This is the default setting.  Results returned as
+     values can be of any type supported by Babel.
 #+begin_comment
   The following block
      demonstrates /value/ based result collection.
@@ -535,12 +538,14 @@ blocks by value or as output.  This behavior is controlled by the
 #+end_comment
 - =:results output= :: Specifies that the results should be collected
      from =STDOUT= incrementally, as they are written by the
-     application responsible for code execution.
+     application responsible for code execution, and placed in the
+     Org-mode buffer as a string or an Org-mode link.
 
-The difference can be demonstrated with the following bit of =perl=
+These differences can be demonstrated with the following bit of =perl=
 code that yields different results depending on the value of the
 =:results= header argument.  Note that the first example uses the
-default, =:results value=.
+default, =:results value=, and returns a scalar.  In contrast, the
+same code yields a string when output is returned.
 
 #+begin_src org
        ,#+begin_src perl
@@ -578,9 +583,8 @@ default, =:results value=.
        ,: Org-mode 8
        ,: Emacs 5
      #+end_src
-#+end_comment
 
-Results can take a number of different forms.  So far we have only
+Results returned as values can take a number of different forms.  So far we have only
 seen string results, however it is possible for code blocks to return
 vector results.  Babel recognizes vector results and inserts them as
 tables into the Org-mode buffer as shown below.
@@ -602,13 +606,19 @@ tables into the Org-mode buffer as shown below.
   ,| 2 | 3 |
   ,| 3 | 4 |
 #+end_src
+#+end_comment
 
-Additionally some code blocks may output files or images.  Babel is
-able to save these types of results in external files, and then link
-to these files from the Org-mode buffer.  In this way the resulting
-files can be opened from within the document and included in exports.
-For example the following =R= block which calls =plot= results in the
-following link being inserted into the Org-mode buffer.
+When the result of evaluating a code block is a file, such as an
+image, the =:file= header argument can be used to provide a path and
+name for the file.  Babel saves the results to the named file and
+places an Org-mode link to it in the document.  These links are
+handled by Org-mode in the usual ways and can be opened from within
+the document and included in exports.  
+
+#+begin_comment
+For example the following =R=
+block which calls =plot= results in the following link being inserted
+into the Org-mode buffer.
 #+begin_src org
   ,#+begin_src R :session *R* :file fig.pdf
   ,  plot(x, y)
@@ -621,21 +631,44 @@ following link being inserted into the Org-mode buffer.
 
 Much more information about controlling the evaluation of code and the
 handling of code results is available in the Babel documentation.
+#+end_comment
 
 *** Variables
+#+begin_comment
 We've now seen how data originating in code blocks can be incorporated
 into Org-mode buffers in the form of /scalars/, /tables/ and /links/
 to external files.  It is also possible for data to flow from each of
 these containers (/scalars/, /tables/ and /links/) into code blocks,
 and even for data to pass from code block to code block without ever
 landing in the Org-mode buffer.
+#+end_comment
 
-This is all made possible through a simple system of passing arguments
-to code blocks.  Values passed to code blocks are then made accessible
-from the source code in a language specific way, but most often in the
-form of variables assigned to the values of the arguments.
+Babel implements a simple system of passing arguments to code blocks.
+The =:var= header argument takes a variable name and a value and
+assigns the value to the named variable inside the code block.  Values
+can be literal values, such as scalars or strings, references to
+named data blocks, Org-mode links, or references to named code blocks.
+In addition, arguments can be passed to referenced code blocks using a
+traditional function syntax with named arguments.
+
+All values passed to variables are served by the Emacs Lisp
+interpreter that is at the core of Emacs.  This argument passing
+syntax allows for complex chaining of raw values in a document, and
+the results of computations in one computer language can be used as
+input to blocks of code in another language, as
+shown in Section \ref{applications}.
+
+# Alternative syntax here?
+
+#+begin_comment
+
+Values passed to code blocks are then made accessible from the source
+code in a language specific way, but most often in the form of
+variables assigned to the values of the arguments.
 
 The following syntax can be used to pass an argument to a code blocks.
+
+
 #+begin_src org
   ,#+source: inc
   ,#+begin_src clojure :var x=10
@@ -719,50 +752,52 @@ Emacs Lisp interpreter that is at the core of Emacs.  This argument
 passing syntax allows for complex chaining of raw values in a
 document, and of blocks of code in multiple languages as shown in
 Section \ref{applications}.
+#+end_comment
 
 ** Export
     :PROPERTIES:
     :CUSTOM_ID: export
     :END:
 
-Borrowing terms from the Literate Programming community Babel supports
-both /weaving/ (the exportation of a mixed code/prose document to a
-prose format suitable for reading by a human) and /tangling/ (the
+Borrowing terms from the Literate Programming community, Babel supports
+both /weaving/---the exportation of a mixed code/prose document to a
+prose format suitable for reading by a human---and /tangling/--the
 exportation of a mixed code/prose document to a pure code file
-suitable for execution by a computer).
+suitable for execution by a computer.
 
-- weaving :: Org-mode provides an extremely sophisticated and
-     full-featured system of exportation to HTML, LaTeX, and a number
-     of other target formats.  Babel adds support for the
-     pre-processing of code blocks as part of the export process.
-     This pre-processing allows for the code of a code block, the
-     results of a code block, or both or neither to be included in the
-     final exported document.
+- weaving :: Org-mode provides a sophisticated and full-featured
+     system to export to HTML, LaTeX, and a number of other
+     target formats.  Babel adds support for pre-processing code
+     blocks as part of the export process.  Using the =:exports=
+     header argument, the code of the code block, the results of
+     executing the code block, both code and results, or neither can
+     be included in the export.
 
-- tangling :: Tangling consists not only of extracting source code
-     from an Org-mode document but also of re-arranging the code.
-     Often the order in which a computer needs to be presented with
-     code differs from the order in which the code may be best
-     organized in a document.  LP systems like =noweb= solve this
-     problem using code-block references which are expanded as part of
-     the tangle process \cite{noweb}.  Babel implements the =noweb=
-     reference system using the same syntax and functionality.
+- tangling :: Source code in an Org-mode document can be re-arranged
+     on export.  Often, the order in which a computer needs to be
+     presented with code differs from the order in which the code may
+     be best organized in a document.  Literate programmin systems
+     like =noweb= solve this problem using code-block references that
+     are expanded as part of the tangle process \cite{noweb}.  Babel
+     implements the =noweb= reference system using an identical syntax
+     and functionality.
 
 ** Language support
     :PROPERTIES:
     :CUSTOM_ID: languages
     :END:
 
-The core functions of Babel are entirely language agnostic.  The
-tangling, source edit and export features of Org-babel can be used
-even for unsupported languages; only code evaluation and interaction
-with live sessions require language-specific functions.  Support for
-new languages can be added by defining a small number of
-functions named according to language, following a couple of simple
-conventions.  Currently Babel has support for more than 20 languages.  The
-ease with which support for new languages can be added is evidenced by
-the fact that increasingly new language support is increasingly
-implemented by Org-babel users rather than by the original authors.
+The core functions of Babel are language agnostic.  The tangling,
+source edit, and export features of Babel can be used for any computer
+language, even those that are not specifically supported by Babel;
+only code evaluation and interaction with live sessions require
+language-specific functions.  Support for new languages can be added
+by defining a small number of elisp functions named according to
+language, following some simple conventions.  Currently, Babel has
+support for more than 20 languages.  The ease with which support for
+new languages can be added is evidenced by the fact that new language
+support is increasingly implemented by Babel users, rather than the
+Babel authors.
 
 * Applications
    :PROPERTIES:
