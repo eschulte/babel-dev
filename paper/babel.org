@@ -803,7 +803,41 @@ Babel authors.
    :PROPERTIES:
    :CUSTOM_ID: applications
    :END:
-** Generate a Figure With =ditaa=
+** Generate a Figure with =ditaa=
+
+Diagrams often play a useful role in source code documentation and as
+illustrations of research concepts.  The =Java= command line utility
+=ditaa= converts diagrams drawn with ascii art into bit map graphics.
+The following diagram, which illustrates the relationship of Babel to
+some other literate programming and reproducible research software
+tools, was created in a few minutes.  The header argument =:file= is
+used to specify the name of the =ditaa= output and =:cmdline= passes
+parameters to =ditaa=.
+
+# The line leading up from the WEB box doesn't have a clean junction
+# at the top for reasons that escape me.
+#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8
+            +--------+     +--------+
+            |        |     |        |
+Multiple    | noweb  |     |  Babel |
+            | cBLU   |     |  cGRE  |
+            +----+---+     +--+--+--+
+                 |            |  |  
+                 +-----+------+  +----+
+                       |              |
+                   +---+----+     +---+----+
+                   |        |     |        |
+Single             |  WEB   |     | Sweave |
+                   | cBLU   |     | cYEL   |
+                   +--------+     +--------+
+Language           Literate       Reproducible
+Support           Programming      Research
+#+END_SRC
+
+#+results:
+[[file:lp-rr.png]]
+
+
 ** Tangle a Python Script
 ** Simple Bioinformatics
 - data from http://www.ncbi.nlm.nih.gov/
