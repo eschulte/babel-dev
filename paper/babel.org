@@ -400,31 +400,8 @@ evaluation and export.
 #+end_src
 
 *** Evaluation
-# Is this section the place to discuss <<noweb>> syntax?
-# 
-# no, I think we can leave out the discussion of noweb syntax, since
-# we point to noweb as one of our references and we say later that we
-# follow their model exactly (Eric)
 
 Babel typically evaluates a code block by
-#+begin_comment 
-Babel knows how to evaluate code written in a number of languages.  In
-the evaluation of source code Babel makes use of a great deal of
-existing Emacs support for interaction with languages running as both
-external and inferior (Emacs-internal) processes.
-# I used "interpreters" but this may be a technical term that is too restrictive (Dan)
-# I removed "interpreters" because we also run compiled languages e.g. C (Eric)
-
-#+begin_src org
-  ,#+begin_src ruby
-  ,  require 'date'
-  ,  "This block was last evaluated on #{Date.today}"
-  ,#+end_src
-#+end_src
-
-As an example the block of ruby code shown above would be evaluated by
-#+end_comment
-
 1) writing its contents to a temporary file;
 2) calling an appropriate system command to execute the file; and
 3) capturing the value returned by the system command.
@@ -442,17 +419,8 @@ immediately following the code block, e.g.,
 #+end_src
 
 In languages that support interactive sessions, Babel can take
-advantage of this facility.   Adding a
-=:session= /header argument/ causes Babel to 
-#+begin_comment
-#+begin_src org
-  ,#+begin_src ruby :session
-  ,  require 'date'
-  ,  "This block was last evaluated on #{Date.today}"
-  ,#+end_src
-#+end_src
-in this case the code would be evaluated by
-#+end_comment
+advantage of this facility.  Adding a =:session= /header argument/
+causes Babel to
 1) start a persistent process associated with a new Emacs
    buffer;
 2) pass the code body to that process; and
@@ -464,47 +432,7 @@ persistent session.  In Babel, the =:session= header argument takes an
 optional name, making it possible to maintain multiple disjoint 
 sessions.
 
-#+begin_comment
-# I think this might be useful in the Applications section.
-# Maintaining state can be achieved in Babel with sessions and by
-# writing granular code blocks that write out intermediate values to
-# the Org-mode buffer.  The contrast between the two approaches might
-# make for a good example.
-Session evaluation can be useful when the code block changes some
-state the retention of which is desirable for manual inspection, or
-for use by subsequent code blocks.  For example the first block of =R=
-code below sets variables in an interactive session and the second
-block of =R= code can access these variables because it is run in the
-same =R= session (adapted from [fn::
-http://www.stat.umn.edu/~charlie/Sweave/]).
-
-#+begin_src org
-  ,#+begin_src R :session *R* :results silent
-  ,  n <- 50
-  ,  x <- seq(1, n)
-  ,  a.true <- 3
-  ,  b.true <- 1.5
-  ,  y.true <- a.true + b.true * x
-  ,  s.true <- 17.3
-  ,  y <- y.true + s.true * rnorm(n)
-  ,  out1 <- lm(y ~ x)
-  ,  summary(out1)
-  ,#+end_src
-  
-  ,#+begin_src R :session *R* :file fig.pdf
-  ,  plot(x, y)
-  ,  abline(out1)
-  ,#+end_src
-#+end_src
-
-#+end_comment
 *** Results
-#+begin_comment
-The previous example made use of two header arguments which we have
-not discussed -- =results= and =file=.  Both of these arguments
-control how the results of a code block are handled.  As seen in the
-ruby evaluation example above, 
-#+end_comment
 Babel returns the results of code block evaluation as strings,
 scalars, Org-mode tables, or Org-mode links.  By default, these are
 inserted in the Org-mode buffer as protected text immediately after
@@ -515,31 +443,14 @@ At the most basic level, results can be collected from code blocks by
 value or as output.  This behavior is controlled by the =:results=
 header argument.
 
-#There are two ways in which results can be collected from code blocks.
 - =:results value= :: Specifies that the code block should be treated
      as a function, and the results should be equal to the value of
      the last expression in the block, like the return value of a
-     function.  This is the default setting.  Results returned as
-     values can be of any type supported by Babel.
-#+begin_comment
-  The following block
-     demonstrates /value/ based result collection.
-     #+begin_src org
-       ,#+begin_src perl
-       ,  $x = 8;
-       ,  $x = $x + 1;
-       ,  print "shouting into the dark!\n";
-       ,  $x
-       ,#+end_src
-       
-       ,#+results:
-       ,: 9
-     #+end_src
-#+end_comment
+     function.  This is the default setting.
+
 - =:results output= :: Specifies that the results should be collected
      from =STDOUT= incrementally, as they are written by the
-     application responsible for code execution, and placed in the
-     Org-mode buffer as a string or an Org-mode link.
+     application responsible for code execution.
 
 These differences can be demonstrated with the following bit of =perl=
 code that yields different results depending on the value of the
@@ -571,23 +482,9 @@ same code yields a string when output is returned.
 
 #+end_src org
 
-#+begin_comment
-     their output as in the following.
-     #+begin_src org
-       ,#+begin_src python :results output
-       ,  for x in ['Org-mode', 'Emacs']:
-       ,      print x, len(x)
-       ,#+end_src
-       
-       ,#+results:
-       ,: Org-mode 8
-       ,: Emacs 5
-     #+end_src
-
-Results returned as values can take a number of different forms.  So far we have only
-seen string results, however it is possible for code blocks to return
-vector results.  Babel recognizes vector results and inserts them as
-tables into the Org-mode buffer as shown below.
+In addition to scalar results, Babel recognizes vector results and
+inserts them as tables into the Org-mode buffer as demonstrated in the
+following two blocks of Haskell code.
 
 #+begin_src org
   ,#+begin_src haskell
@@ -606,43 +503,18 @@ tables into the Org-mode buffer as shown below.
   ,| 2 | 3 |
   ,| 3 | 4 |
 #+end_src
-#+end_comment
 
 When the result of evaluating a code block is a file, such as an
 image, the =:file= header argument can be used to provide a path and
 name for the file.  Babel saves the results to the named file and
 places an Org-mode link to it in the document.  These links are
 handled by Org-mode in the usual ways and can be opened from within
-the document and included in exports.  
-
-#+begin_comment
-For example the following =R=
-block which calls =plot= results in the following link being inserted
-into the Org-mode buffer.
-#+begin_src org
-  ,#+begin_src R :session *R* :file fig.pdf
-  ,  plot(x, y)
-  ,  abline(out1)
-  ,#+end_src
-  
-  ,#+results:
-  ,[[file:fig.pdf]]
-#+end_src
+the document and included in exports.
 
 Much more information about controlling the evaluation of code and the
 handling of code results is available in the Babel documentation.
-#+end_comment
 
 *** Variables
-#+begin_comment
-We've now seen how data originating in code blocks can be incorporated
-into Org-mode buffers in the form of /scalars/, /tables/ and /links/
-to external files.  It is also possible for data to flow from each of
-these containers (/scalars/, /tables/ and /links/) into code blocks,
-and even for data to pass from code block to code block without ever
-landing in the Org-mode buffer.
-#+end_comment
-
 Babel implements a simple system of passing arguments to code blocks.
 The =:var= header argument takes a variable name and a value and
 assigns the value to the named variable inside the code block.  Values
@@ -657,102 +529,6 @@ syntax allows for complex chaining of raw values in a document, and
 the results of computations in one computer language can be used as
 input to blocks of code in another language, as
 shown in Section \ref{applications}.
-
-# Alternative syntax here?
-
-#+begin_comment
-
-Values passed to code blocks are then made accessible from the source
-code in a language specific way, but most often in the form of
-variables assigned to the values of the arguments.
-
-The following syntax can be used to pass an argument to a code blocks.
-
-
-#+begin_src org
-  ,#+source: inc
-  ,#+begin_src clojure :var x=10
-  ,  (+ x 1)
-  ,#+end_src
-  
-  ,#+results: inc
-  ,: 11
-#+end_src
-
-In the context of this code block the value of =x= is now set to 10.
-We could also use a named value elsewhere in the buffer to initialize
-a variable.
-#+begin_src org
-  ,#+results: remote-x
-  ,: some text
-  
-  ,Lorem ipsum dolor sit amet, consectetuer
-  ,adipiscing elit.
-  
-  ,#+begin_src clojure :var x=remote-x
-  ,  x
-  ,#+end_src
-  
-  ,#+results:
-  ,: some text
-#+end_src
-
-As these examples demonstrate, strings will be passed in a strings,
-numbers as numbers, and tables will be passed in as tables.
-#+begin_src org
-  ,#+results: table-x
-  ,| 1 | 
-  ,| 2 |
-  ,| 3 |
-  ,| 4 |
-  ,| 5 |
-  
-  ,#+begin_src ruby :var x=table-x
-  ,  x.map{|row| row.map{|cell| cell + 1}}
-  ,#+end_src
-  
-  ,#+results:
-  ,| 2 |
-  ,| 3 |
-  ,| 4 |
-  ,| 5 |
-  ,| 6 |
-#+end_src
-
-Code blocks can reference other code blocks.
-#+begin_src org
-  ,#+source: inc
-  ,#+begin_src clojure :var x=10
-  ,  (+ x 1)
-  ,#+end_src
-  
-  ,#+begin_src python :var y=inc :results output
-  ,  print "10 + 1 =", y
-  ,#+end_src
-  
-  ,#+results:
-  ,: 10 + 1 = 11
-#+end_src
-
-In addition arguments can be passed to referenced code blocks using a
-traditional function syntax with named arguments.
-
-#+begin_src org
-  ,#+begin_src python :var y=inc(x=2) :results output
-  ,  print "2 + 1 =", y
-  ,#+end_src
-  
-  ,#+results:
-  ,: 2 + 1 = 3
-#+end_src
-
-Notice that no problems are caused when code blocks of different
-languages interact; this is because all values are passed through the
-Emacs Lisp interpreter that is at the core of Emacs.  This argument
-passing syntax allows for complex chaining of raw values in a
-document, and of blocks of code in multiple languages as shown in
-Section \ref{applications}.
-#+end_comment
 
 ** Export
     :PROPERTIES:
@@ -805,47 +581,80 @@ Babel authors.
    :END:
 ** Generate a Figure with =ditaa=
 
+# my fear with this example is that ditaa doesn't produce the best
+# looking images, for example were I to generate this diagram, I would
+# use tikz or maybe dot.  Also, I fear ASCII art risks looking like a
+# toy application (Eric)
 Diagrams often play a useful role in source code documentation and as
 illustrations of research concepts.  The =Java= command line utility
 =ditaa= converts diagrams drawn with ascii art into bit map graphics.
-The following diagram, which illustrates the relationship of Babel to
-some other literate programming and reproducible research software
-tools, was created in a few minutes.  The header argument =:file= is
-used to specify the name of the =ditaa= output and =:cmdline= passes
-parameters to =ditaa=.
+In the following diagram, the header argument =:file= is used to
+specify the name of the =ditaa= output, =:cmdline= passes parameters
+to =ditaa=, and =:cache yes= ensures that the code block will only be
+evaluated when its contents have changed.
 
-# The line leading up from the WEB box doesn't have a clean junction
-# at the top for reasons that escape me.
-#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8
-            +--------+     +--------+
-            |        |     |        |
-Multiple    | noweb  |     |  Babel |
-            | cBLU   |     |  cGRE  |
-            +----+---+     +--+--+--+
-                 |            |  |  
-                 +-----+------+  +----+
-                       |              |
-                   +---+----+     +---+----+
-                   |        |     |        |
-Single             |  WEB   |     | Sweave |
-                   | cBLU   |     | cYEL   |
-                   +--------+     +--------+
-Language           Literate       Reproducible
-Support           Programming      Research
+#+ATTR_LaTeX: width=0.4\textwidth
+#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
+                            +-------+
+                            |       |
+  Mixed                  +--+ Babel +--+
+  Languages              |  | cGRE  |  |
+                         |  +-------+  |
+                         |             |
+                     +---+----+        |
+                     |        |        |
+  Arbitrary          | noweb  |        |
+  Language           | cBLU   |        |
+                     +---+----+        |
+                         |             |
+                     +---+----+    +---+----+
+                     |        |    |        |
+  Single             |  WEB   |    | Sweave |
+  Language           | cBLU   |    | cYEL   |
+                     +--------+    +--------+
+                     Literate      Reproducible
+                    Programming     Research
 #+END_SRC
 
-#+results:
+#+results[693404592cbfd49e720fa7df1690c4f5422ccbe3]:
 [[file:lp-rr.png]]
 
+Org-mode source-code for the above
+#+begin_src org
+  ,#+ATTR_LaTeX: width=0.4\textwidth
+  ,#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
+  ,                            +-------+
+  ,                            |       |
+  ,  Mixed                  +--+ Babel +--+
+  ,  Languages              |  | cGRE  |  |
+  ,                         |  +-------+  |
+  ,                         |             |
+  ,                     +---+----+        |
+  ,                     |        |        |
+  ,  Arbitrary          | noweb  |        |
+  ,  Language           | cBLU   |        |
+  ,                     +---+----+        |
+  ,                         |             |
+  ,                     +---+----+    +---+----+
+  ,                     |        |    |        |
+  ,  Single             |  WEB   |    | Sweave |
+  ,  Language           | cBLU   |    | cYEL   |
+  ,                     +--------+    +--------+
+  ,                     Literate      Reproducible
+  ,                    Programming     Research
+  ,#+END_SRC
+  
+  ,#+results[6934...]:
+  ,[[file:lp-rr.png]]
+#+end_src
 
 ** Tangle a Python Script
-
 ** Simple Bioinformatics
 - data from http://www.ncbi.nlm.nih.gov/
 - process with =R=
 - [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
 
-** Live Climate Data
+** COMMENT Live Climate Data
 Alright, a revised approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme][noaa data]].  For alternate
 climate data see http://www.realclimate.org/index.php/data-sources/
 
@@ -882,10 +691,42 @@ the data wrangling can be left to the final =R= block.
    #+end_src
 4) dump everything in the sqlite database.
    #+begin_src sqlite :var temps=manicured-temp :var country=country-codes
-     
+     # dump to sqlite
    #+end_src
 5) Then =R= (or maybe =gnuplot=) code can access the tables and
    generate some nice calculation or visualization.
+** COMMENT Maintained State
+# I think this might be useful in the Applications section.
+# Maintaining state can be achieved in Babel with sessions and by
+# writing granular code blocks that write out intermediate values to
+# the Org-mode buffer.  The contrast between the two approaches might
+# make for a good example.
+Session evaluation can be useful when the code block changes some
+state the retention of which is desirable for manual inspection, or
+for use by subsequent code blocks.  For example the first block of =R=
+code below sets variables in an interactive session and the second
+block of =R= code can access these variables because it is run in the
+same =R= session (adapted from [fn::
+http://www.stat.umn.edu/~charlie/Sweave/]).
+
+#+begin_src org
+  ,#+begin_src R :session *R* :results silent
+  ,  n <- 50
+  ,  x <- seq(1, n)
+  ,  a.true <- 3
+  ,  b.true <- 1.5
+  ,  y.true <- a.true + b.true * x
+  ,  s.true <- 17.3
+  ,  y <- y.true + s.true * rnorm(n)
+  ,  out1 <- lm(y ~ x)
+  ,  summary(out1)
+  ,#+end_src
+  
+  ,#+begin_src R :session *R* :file fig.pdf
+  ,  plot(x, y)
+  ,  abline(out1)
+  ,#+end_src
+#+end_src
 
 * Discussion
   :PROPERTIES:
