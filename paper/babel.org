@@ -889,7 +889,14 @@ communicate and to make their work more accessible.
 #+end_LaTeX
 
 * COMMENT publish
-a post-export hook for smaller verbatim text
+turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :results silent
   (setq org-export-latex-listings t)
+  (add-to-list 'org-export-latex-classes
+               '("twocolumn" "\\documentclass[10pt, twocolumn]{article}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 #+end_src
