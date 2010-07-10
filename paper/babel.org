@@ -585,6 +585,14 @@ Babel authors.
 # looking images, for example were I to generate this diagram, I would
 # use tikz or maybe dot.  Also, I fear ASCII art risks looking like a
 # toy application (Eric)
+
+# Eric, your diagram is a big improvement.  I threw together the ditaa
+# diagram on the bus to work this morning because I saw the headline
+# already in the document.  If you think it would be better to draw
+# the diagram in some other application, that's fine with me.  I
+# *like* the diagram, though.  And it strikes me as RR-like to have
+# the code for the diagram appear in the paper. (Tom)
+
 Diagrams often play a useful role in source code documentation and as
 illustrations of research concepts.  The =Java= command line utility
 =ditaa= converts diagrams drawn with ascii art into bit map graphics.
