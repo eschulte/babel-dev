@@ -680,6 +680,82 @@ Org-mode source-code for the above
 #+end_src
 
 ** Tangle a Python Script
+** Tangle C code
+
+This is the Babel version of an excerpt from the =CWEB= program used
+as an example by Knuth and Levy in /The CWEB System of Structured
+Documentation/. 
+
+*** Procedure =prime_the_change_buffer= 
+
+Sets =change_buffer= in preparation for the next matching operation. 
+Since blank lines in the change file are not used for matching, we have 
+=(change_limit==change_buffer && !changing)= if and only if 
+the change file is exhausted. This procedure is called only when 
+=changing= is 1; hence error messages will be reported correctly. 
+
+#+srcname: prime_the_change_buffer
+#+begin_src C :tangle cweb-example.c :noweb yes
+void 
+prime_the_change_buffer() 
+{ 
+change_limit=change_buffer; /* this value is used if the change file ends */ 
+ /* Skip over comment lines in the change buffer */
+<<skip-over>>;
+ /* Skip to the next nonblank line; return if end of file */
+<<skip-to-nonblank-line>>;
+/* Move buffer and limit to change_buffer and change_limit */
+<<move-buffer-and-limit>>;
+} 
+#+end_src
+
+*** Skip over comment lines in the change buffer; =return= if end of file
+While looking for a line that begins with @x in the change file, we 
+allow lines that begin with @, as long as they don’t begin with @y, 
+@z, or @i (which would probably mean that the change file is fouled up). 
+
+#+srcname: skip-over
+#+begin_src C
+while(1) { 
+change_line++; 
+if (!input_ln(change_file)) return; 
+if (limit<buffer+2) continue; 
+if (buffer[0]!=’@’) continue; 
+if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]); 
+if (buffer[1]==’x’) break; 
+if (buffer[1]==’y’ == buffer[1]==’z’ == buffer[1]==’i’) { 
+loc=buffer+2; 
+err_print("! Missing @x in change file"); 
+
+} 
+} 
+#+end_src
+
+Here we are looking at lines following the @x.
+
+*** Skip to the next nonblank line; =return= if end of file
+
+#+srcname: Skip-to-nonblank-line
+#+begin_src C
+do { 
+change_line++; 
+if (!input_ln(change_file)) { 
+err_print("! Change file ended after @x"); 
+
+return; 
+} 
+} while (limit==buffer); 
+#+end_src
+
+*** Move =buffer= and =limit= to =change_buffer= and =change_limit=
+#+srcname: Move-buffer-and-limit
+#+begin_src C
+{ 
+change_limit=change_buffer-buffer+limit; 
+strncpy(change_buffer,buffer,limit-buffer+1); 
+}
+#+end_src
+
 ** Simple Bioinformatics
 - data from http://www.ncbi.nlm.nih.gov/
 - process with =R=
