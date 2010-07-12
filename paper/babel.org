@@ -558,7 +558,7 @@ suitable for execution by a computer.
      implements the =noweb= reference system using an identical syntax
      and functionality.
 
-** Language support
+** Language Support
     :PROPERTIES:
     :CUSTOM_ID: languages
     :END:
@@ -574,6 +574,29 @@ support for more than 20 languages.  The ease with which support for
 new languages can be added is evidenced by the fact that new language
 support is increasingly implemented by Babel users, rather than the
 Babel authors.
+
+** Safety Considerations
+A reproducible research document, by definition, includes code that
+can be evaluated.  This potentially gives malicious hackers direct
+access to the reader's computer.  The primary defense in this instance
+is for the reader to recognize malicious code and to choose not to run
+it.  This can be a difficult task in a reproducible research document
+written in a single computer language, such as one written with
+Sweave, but the difficulty increases if the document is written in
+several computer languages, one or more of which is not understood by
+the reader.
+
+Babel has been designed with security measures to protect users from
+the accidental or uninformed execution of code.  By default /every/
+execution of a code block requires explicit confirmation from the
+user.[fn:1]  In addition, it is possible to remove code block evaluation
+from the default =C-c C-c= key binding.  This key binding is
+ubiquitous in Org-mode, and is typically bound to the function most
+likely to be called from a particular context.  An alternative
+key binding is present for code block evaluation, namely =C-c C-v
+e=.  The three key strokes required for this binding, and the fact
+that it is not used elsewhere in Org-mode, provides some degree of
+protection against unintended evaluation of code blocks.
 
 * Applications
    :PROPERTIES:
@@ -657,6 +680,82 @@ Org-mode source-code for the above
 #+end_src
 
 ** Tangle a Python Script
+** Tangle C code
+
+This is the Babel version of an excerpt from the =CWEB= program used
+as an example by Knuth and Levy in /The CWEB System of Structured
+Documentation/. 
+
+*** Procedure =prime_the_change_buffer= 
+
+Sets =change_buffer= in preparation for the next matching operation. 
+Since blank lines in the change file are not used for matching, we have 
+=(change_limit==change_buffer && !changing)= if and only if 
+the change file is exhausted. This procedure is called only when 
+=changing= is 1; hence error messages will be reported correctly. 
+
+#+srcname: prime_the_change_buffer
+#+begin_src C :tangle cweb-example.c :noweb yes
+void 
+prime_the_change_buffer() 
+{ 
+change_limit=change_buffer; /* this value is used if the change file ends */ 
+ /* Skip over comment lines in the change buffer */
+<<skip-over>>;
+ /* Skip to the next nonblank line; return if end of file */
+<<skip-to-nonblank-line>>;
+/* Move buffer and limit to change_buffer and change_limit */
+<<move-buffer-and-limit>>;
+} 
+#+end_src
+
+*** Skip over comment lines in the change buffer; =return= if end of file
+While looking for a line that begins with @x in the change file, we 
+allow lines that begin with @, as long as they don’t begin with @y, 
+@z, or @i (which would probably mean that the change file is fouled up). 
+
+#+srcname: skip-over
+#+begin_src C
+while(1) { 
+change_line++; 
+if (!input_ln(change_file)) return; 
+if (limit<buffer+2) continue; 
+if (buffer[0]!=’@’) continue; 
+if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]); 
+if (buffer[1]==’x’) break; 
+if (buffer[1]==’y’ == buffer[1]==’z’ == buffer[1]==’i’) { 
+loc=buffer+2; 
+err_print("! Missing @x in change file"); 
+
+} 
+} 
+#+end_src
+
+Here we are looking at lines following the @x.
+
+*** Skip to the next nonblank line; =return= if end of file
+
+#+srcname: Skip-to-nonblank-line
+#+begin_src C
+do { 
+change_line++; 
+if (!input_ln(change_file)) { 
+err_print("! Change file ended after @x"); 
+
+return; 
+} 
+} while (limit==buffer); 
+#+end_src
+
+*** Move =buffer= and =limit= to =change_buffer= and =change_limit=
+#+srcname: Move-buffer-and-limit
+#+begin_src C
+{ 
+change_limit=change_buffer-buffer+limit; 
+strncpy(change_buffer,buffer,limit-buffer+1); 
+}
+#+end_src
+
 ** Simple Bioinformatics
 - data from http://www.ncbi.nlm.nih.gov/
 - process with =R=
@@ -777,13 +876,13 @@ factors.  These include:
 - complex configuration, one of the beauties of Emacs is that it is
   completely configurable, but the myriad options can be confusing,
   even to experience Emacs users. 
-  #+begin_comment
+#+begin_comment
 - steep learning curve
   Let's find a way of more nuanced way of saying that. I find that it
   gets exagerrated: Emacs has a menu with Open and Save, and when you
   hit "a" an "a" appears in the document, so in a sense how much more
   easy does it get?
-  #+end_comment
+ #+end_comment
 - small community of users
 - it's not the best execution VM or sublayer
   - single threaded
@@ -900,3 +999,9 @@ turn on the listings package, and define the =twocolumn= latex class
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 #+end_src
+
+
+* Footnotes
+
+[fn:1] These confirmation requests can be stifled by customizing the
+`org-confirm-babel-evaluate' variable.
