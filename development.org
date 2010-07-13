@@ -5,6 +5,10 @@
 
 * Tasks [76/155]
 ** STARTED function for jumping between tangled and org files
+#+begin_center
+  Thanks to Rainer Krug for suggesting this functionality.
+#+end_center
+
 If you are tangling with comments, then it should be possible to have
 a function called from a line in a tangled code file which when called
 
@@ -27,6 +31,16 @@ function could
 I'll think about such a function, and if it makes sense to implement
 it apart from a more general "activate org-mode links in comments"
 minor mode.  Any ideas or suggestions would be welcome!
+
+also,
+#+begin_verse 
+  (Rainer)
+  >
+  > 2) It would be brilliant, if one could call the function from the
+  > Org-file buffer and enter the line number and then jump to the block /
+  > line in the block.
+  >
+#+end_verse
 
 #+begin_src emacs-lisp
   (defun org-babel-tangle-jump-to-org ()
