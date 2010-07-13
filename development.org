@@ -3,7 +3,69 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [76/154]
+* Tasks [76/155]
+** STARTED function for jumping between tangled and org files
+If you are tangling with comments, then it should be possible to have
+a function called from a line in a tangled code file which when called
+
+1) finds it's enclosing comments
+2) remembers it's offset from the comments (which would then be it's
+   offset in the code block in the Org file)
+3) read the comment to learn which code block in which Org file it's
+   tangled from
+4) jump to the relevant line, in the relevant block, in the relevant
+   file
+
+Similarly when called form within a code block in an Org file the
+function could
+
+1) read it's header argument to find the relevant tangled code file
+2) jump to that file
+3) use the comments in that file to move to the appropriate section of
+   code and related line
+
+I'll think about such a function, and if it makes sense to implement
+it apart from a more general "activate org-mode links in comments"
+minor mode.  Any ideas or suggestions would be welcome!
+
+#+begin_src emacs-lisp
+  (defun org-babel-tangle-jump-to-org ()
+    "Jump from a tangled code file to the related Org-mode file."
+    (interactive)
+    (let ((mid (point))
+          target-buffer target-char
+          start end link path block-name)
+      (save-window-excursion
+        (save-excursion
+          (unless (and (re-search-backward org-bracket-link-analytic-regexp nil t)
+                       (setq start (point))
+                       (setq link (match-string 0))
+                       (setq path (match-string 3))
+                       (setq block-name (match-string 5))
+                       (re-search-forward (concat " " (regexp-quote block-name)
+                                                  " ends here[\n\r]") nil t)
+                       (setq end (point))
+                       (< start mid) (< mid end))
+            (error "not in tangled code")))
+        (when (string-match "::" path)
+          (setq path (substring path 0 (match-beginning 0))))
+        (find-file path) (setq target-buffer (current-buffer))
+        (goto-char start) (org-open-link-from-string link)
+        (if (string-match "[^ \t\n\r]:\\([[:digit:]]+\\)" block-name)
+            (org-babel-next-src-block
+             (string-to-int (match-string 1 block-name)))
+          (org-babel-goto-named-src-block block-name))
+        (setq target-char (point)))
+      (pop-to-buffer target-buffer)
+      (goto-char target-char)))  
+#+end_src
+** PROPOSED post-processing code block
+   - State "PROPOSED"   from ""           [2010-07-12 Mon 21:59]
+
+a new header argument which specifies a code block which accepts the
+output of the current block as input, and is run when the current
+block's run completes.
+
 ** DONE document configuration changes for Babel integration
    - State "DONE"       from ""           [2010-07-05 Mon 11:03]
 Babel took the integration into Org-mode as an opportunity to do
