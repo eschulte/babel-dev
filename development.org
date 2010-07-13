@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [78/156]
+* Tasks [79/158]
 ** DONE document configuration changes for Babel integration
    - State "DONE"       from ""           [2010-07-05 Mon 11:03]
 Babel took the integration into Org-mode as an opportunity to do
@@ -154,7 +154,9 @@ evaluation, namely =C-c C-v e=.
 Whew! that seems like a lot of effort for a /simplification/ of
 configuration.
 
-** PROPOSED mention block name/number in error windows
+** TODO Improvements to error notification buffer
+- State "TODO"       from ""           [2010-07-13 Tue 10:21]
+*** PROPOSED mention block name/number in error windows
    - State "PROPOSED"   from ""           [2010-06-30 Wed 09:30]
 
 Thanks to Russel Adams for this idea.
@@ -170,6 +172,9 @@ This could be very useful both when evaluating an entire block or
 subtree, and also when old error messages have built up in the Error
 buffer.
 
+*** TODO q should bury the error buffer
+- State "TODO"       from ""           [2010-07-13 Tue 10:22]
+`q' should be bound to bury-buffer, or something similar
 ** PROPOSED cache variables
    :LOGBOOK:
    - State "PROPOSED"   from ""           [2010-06-27 Sun 11:39]
