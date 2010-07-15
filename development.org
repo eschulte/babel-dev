@@ -3,7 +3,22 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [76/155]
+* Tasks [76/157]
+** PROPOSED library of babel for google API
+   - State "PROPOSED"   from ""           [2010-07-14 Wed 16:56]
+
+see
+- http://code.google.com/apis/documents/overview.html
+- http://github.com/hober/google-el/
+
+Could be a number of generally useful functions here, including
+programatic access to google documents allowing syncing of portions of
+an org-mode document with google docs, useful for collaboration with
+people who can only use word.
+
+Also, could be useful for syncing of org-mode tasks w/google calendar
+etc...
+
 ** STARTED function for jumping between tangled and org files
 #+begin_center
   Thanks to Rainer Krug for suggesting this functionality.
