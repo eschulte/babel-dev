@@ -1,0 +1,227 @@
+** Design and Implementation
+Org-babel activates org-mode documents by adding the ability to edit
+embedded source code blocks.  The results of this evaluation can be
+captured by Org-babel and inserted into the document either
+interactively or during publication.
+
+*** Code Blocks
+Source code blocks can occur anywhere in an Org-mode file.  Source
+code blocks can be entered directly into the Org-mode file, but it is
+often easier to enter code using a built in function which will open a
+window in the major mode of the programming language being used.  This
+places the source code block in a new buffer with the appropriate mode
+activated.
+
+The basic syntax of source code blocks in Org-babel is as follows:
+
+: #+source: name
+: #+begin_src language header-arguments
+: body
+: #+end_src
+
+- name :: This name is associated with the source code block.  By
+     referencing the name of a source code block it is possible to
+     evaluate the block from other places in the file, from other
+     files, or from inside cells of Org-mode tables.
+- language :: The language of the code in the source code block.
+- header-arguments :: Header arguments control many facets of the
+     evaluation and output of source code blocks and will be discussed
+     below.
+- body :: The source code to be evaluated.  Org-mode provides
+     functions for opening source code blocks in edit buffers where
+     they can be edited in the Emacs Major Mode appropriate to the
+     language.  This means that source code under Org-babel can be
+     edited in the same environment to which the programmer is already
+     accustomed.
+
+*** arguments to source code blocks
+    :PROPERTIES:
+    :CUSTOM_ID: header-arguments
+    :END:
+Org-babel supports parameterisation of source code blocks, i.e.,
+arguments can be passed to source code blocks, which gives them the
+status of *functions*.
+
+As a very simple example the following source code block defines a
+function, using Python, that squares it's argument.
+
+This is how this function appears in the Org-mode document
+: #+source: square(x)
+: #+begin_src python
+: x*x
+: #+end_src
+and this is how the function appears when exported
+#+source: square(x)
+#+begin_src python
+return x*x
+#+end_src
+
+This function can be called elsewhere from any location in the
+document
+
+: #+call: square(x=8)
+
+from other source-code blocks
+
+in the Org-mode buffer
+: #+source: unsquare(y=square(x=2))
+: #+begin_src ruby :var 
+:   Math.sqrt(y)
+: #+end_src
+and exported
+#+source: unsquare(y=square(x=2))
+#+begin_src ruby :var 
+  Math.sqrt(y)
+#+end_src
+
+including from inside of Org-mode tables using the standard Org-mode
+spreadsheet syntax.
+
+In the Org-mode buffer
+: | x | square(x) |
+: |---+-----------|
+: | 0 |         0 |
+: | 1 |         1 |
+: | 2 |         4 |
+: | 3 |         9 |
+: #+TBLFM: $2='(sbe square (x $1))
+and exported
+| x | square(x) |
+|---+-----------|
+| 0 |         0 |
+| 1 |         1 |
+| 2 |         4 |
+| 3 |         9 |
+#+TBLFM: $2='(sbe square (x $1))
+
+*** evaluation of source code blocks -- session vs. external
+For some languages, such as python, R, ruby and shell, it is possible
+to run an interactive session as an "inferior process" within
+Emacs. This means that an environment is created containing data
+objects that persist between different source code blocks. Org-babel
+supports evaluation of code within such sessions with the =:session=
+header argument. If the header argument is given a value then that
+will be used as the name of the session.  Thus, it is possible to run
+separate simultaneous sessions in the same language.
+
+With R, the session will be under the control of [[http://ess.r-project.org/][Emacs Speaks
+Statistics]] as usual, and the full power of ESS is thus still
+available, both in the R session, and from the Org-babel R code edit
+buffer.
+
+*** results of code evaluation
+Org-babel provides two fundamentally different modes for capturing the
+results of code evaluation: functional mode and scripting mode.  The
+choice of mode is specified by the =:results= header argument.
+**** =:results value= (functional mode)
+The 'result' of code evaluation is the *value* of the last statement
+in the source code block. In functional mode, the source code block is
+a function with a return value. The return value of one source code
+block can be used as input for another source code block, even one in
+a different language.  In this way, Org-babel becomes a
+[[meta-programming-language]]. This setting is the default.
+     
+For example, consider the following block of python code and its
+output.
+
+In the Org-mode buffer
+: #+source: ret-value
+: #+begin_src ruby :results value
+: puts "Hello, today's date is #{Time.now}"
+: puts "Two plus two is"
+: 2 + 2
+: #+end_src
+: 
+: #+results: ret-value
+: : 4
+and exported
+#+source: ret-value
+#+begin_src ruby :results value
+puts "Hello, today's date is #{Time.now}"
+puts "Two plus two is"
+2 + 2
+#+end_src
+
+#+results: ret-value
+: 4
+
+**** =:results output= (scripting mode)
+In scripting mode, Org-babel captures the text output of the source
+code block and places it in the Org-mode buffer. It is called
+scripting mode because the code block contains a series of commands,
+and the output of each command is returned. Unlike functional mode,
+the source code block itself has no return value apart from the output
+of the commands it contains. (This mode will be familiar to Sweave
+users).
+
+Consider the result of evaluating this source code block with
+scripting mode.
+
+In the Org-mode buffer
+: #+source: ret-output
+: #+begin_src ruby :results output
+: puts "Hello, today's date is #{Time.now}"
+: puts "Two plus two is"
+: 2 + 2
+: #+end_src
+: 
+: #+results: ret-output
+: : Hello, today's date is Tue Jan 12 20:25:28 -0700 2010
+: : Two plus two is
+and exported
+#+source: ret-output
+#+begin_src ruby :results output
+puts "Hello, today's date is #{Time.now}"
+puts "Two plus two is"
+2 + 2
+#+end_src
+
+#+results: ret-output
+: Hello, today's date is Tue Jan 12 20:25:28 -0700 2010
+: Two plus two is
+
+Here, scripting mode returned the text that Ruby sent to stdout.
+Because the source code block doesn't include a =puts= statement for
+the last value (2 + 2), 4 does not appear in the results.
+*** weave -- integration with Org-mode export
+Org-babel documents can be "woven" to any of the export targets
+supported by Org-mode.  Org-babel can evaluate source code block
+during export allowing for automatically generated figures, tables,
+and inline references to data and results.  This makes Org-babel
+documents "active" in the sense that they can be automatically updated
+to reflect different data or analysis.
+
+The =:exports= header argument specifies what actions should be taken
+on a source-code block during export.  This following options are
+supported.
+
+- code :: the default.  The body of code is included into the exported
+     file.  E.g., =:exports code=.
+- results :: the result of evaluating the code is included in the
+     exported file. E.g., =:exports results=.
+- both :: both the code and results are included in the exported
+     file. E.g., =:exports both=.
+- none :: nothing is included in the exported file.  E.g., =:exports
+     none=.
+
+*** tangling -- export source code
+Org-babel supports "tangling" which is the process of exporting the
+embedded source code to a pure code file for use by a computer.
+
+This behavior is specified through the use of the =:tangle= header
+argument which accepts the following values.
+- yes :: the source code block is exported to a source code file named
+     after the basename (name w/o extension) of the Org-mode file.
+     E.g., =:tangle yes=.
+- no :: the default.  The source code block is not exported to a
+     source code file.  E.g., =:tangle no=.
+- other :: Any other string passed to the =:tangle= header argument is
+     interpreted as a file basename to which the block will be
+     exported.  E.g., =:tangle basename=.
+
+In addition to serial tangling of source code blocks in order
+Org-babel respects =NoWEB= syntax references which can be used to
+tangle source-code blocks in arbitrary an orders regardless of their
+placement in the Org-mode document.  =NoWeb= references also allow
+source code blocks to be referenced from inside other source code
+blocks permitting the full expressive power of modern WEB systems.

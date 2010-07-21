@@ -1,0 +1,1007 @@
+# -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=\\textwidth" -*-
+#+TITLE: Babel /DRAFT/
+#+AUTHOR: 
+#+OPTIONS: ^:nil toc:nil H:4
+#+STARTUP: oddeven
+#+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
+#+LATEX_HEADER: \usepackage{attrib}
+#+LATEX_HEADER: \usepackage{mathpazo}
+#+LATEX_HEADER: \usepackage{listings}
+#+LaTeX_CLASS: twocolumn
+#+begin_latex
+  \lstdefinelanguage{org}
+  {
+    morekeywords={:results, :session, :var, :noweb, :exports},
+    sensitive=false,
+    morecomment=[l]{\#},
+    morestring=[b]",
+  }
+  \hypersetup{
+    linkcolor=blue,
+    pdfborder={0 0 0 0}
+  }
+  \renewcommand\t[1]{{\tt #1}}
+  \newcommand\ATCES{{\sf atce/r}}
+  \newcommand\lt[1]{{\lstinline+#1+}}
+  \definecolor{dkgreen}{rgb}{0,0.5,0}
+  \definecolor{dkred}{rgb}{0.5,0,0}
+  \definecolor{gray}{rgb}{0.5,0.5,0.5}
+  \lstset{basicstyle=\ttfamily\bfseries\scriptsize,
+    morekeywords={virtualinvoke,fucompp,fnstsw,fldl,fstpl,movl},
+    keywordstyle=\color{blue},
+    ndkeywordstyle=\color{red},
+    commentstyle=\color{dkred},
+    stringstyle=\color{dkgreen},
+    numbers=left,
+    numberstyle=\ttfamily\footnotesize\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{white},
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    xleftmargin=.23in
+  }
+#+end_latex
+
+#+LaTeX: \begin{abstract}
+We present a new computing environment for authoring mixed natural and
+computer language documents. In this environment a single
+hierarchically-organized plain text source file may contain a variety
+of elements such as code in arbitrary programming languages, raw data,
+links to external resources, project management data, working notes,
+and text for publication. Code fragments may be executed in situ with
+graphical and text output captured in, or linked to, the file. Export
+to LaTeX, HTML, Beamer, DocBook and other formats permits working
+reports, presentations and manuscripts for publication to be generated
+from the file. In addition, code extraction (tangling) permits
+functioning pure code files to be extracted from the file. This
+environment is implemented as an extension to the Emacs text editor
+and provides a rich set of features for authoring both prose and code,
+as well as sophisticated project management capabilities.
+#+LaTeX: \end{abstract}
+
+* Introduction
+There are a variety of settings in which it is desirable to mix prose
+and code in a single container.
+- /Scientific research/ increasingly involves the use of computational
+  tools, the inclusion of which is vital to successful communication
+  and verification of research results.
+- In /software development/ the exchange of ideas is accomplished
+  through both shared code and prose; code provides 
+  concrete and succinct description and prose provides higher level
+  explanation.  Without proper documentation the usability and future
+  extensibility of computational tools are severely compromised.
+- In /pedagogical/ environments it is important for descriptions of
+  algorithms or techniques to go hand-in-hand with concrete
+  implementations.  These environments range from in-class
+  presentations with accompanying algorithmic implementations, to
+  online tutorials or experiential blogs with accompanying
+  instructions.
+
+In each of the situations described above, prose alone in the absence of
+code is typically insufficient.  Similarly, distribution of code
+without expository prose is a less than ideal medium for communication
+between people. In this paper we describe Babel, which provides a
+unified environment that supports many different approaches to
+composition and application of combined prose and code (Table
+\ref{grid}).  Babel is implemented as part of the Org-mode plain text
+markup language, which provides the high level structure of Babel
+documents and many of export functions.  Babel and Org-mode are
+designed for ease of use and adoption.  The Babel environment aims to
+be a general solution for authoring projects with mixed computational
+and natural languages.  It supports multiple languages, export
+targets, and work flows.
+
+#+LaTeX: \begin{table*}
+#+ATTR_LaTeX: align=r|c|c|
+|             | prose                   | code                            |
+|-------------+-------------------------+---------------------------------|
+|             | natural document        | natural code authoring          |
+| composition | authoring environment   | through Emacs                   |
+|             | through Org-mode        | major modes                     |
+|-------------+-------------------------+---------------------------------|
+|             | automated publishing to | in-situ interactive execution   |
+| application | a variety of document   | as well as the tangling of code |
+|             | and slideshow formats   | for external use                |
+|-------------+-------------------------+---------------------------------|
+#+LaTeX: \caption{Babel enables both the application and composition of code and prose.}
+#+LaTeX: \label{grid}
+#+LaTeX: \end{table*}
+
+# With Babel the entire life cycle of a research or development
+# project can take place within a single document.  With the data,
+# code and text of a project stored in a single location which can be
+# exported to a variety of formats, the future reproducibility of the
+# work is ensured, and the practices of Reproducible Research and
+# Literate Programming are encouraged by greatly reducing the burden
+# on the author.
+# 
+# I didn't quite understand the last part of the preceding sentence (Dan)
+Here we review existing approaches to the combined authoring of prose
+and code, including software tools designed to address one or more of
+the use cases for mixed natural and computer language documents
+(Section \ref{background}).  We then describe the design of Babel
+(Section \ref{design}) and Org-mode (Section \ref{org-mode}), and
+# This is the first mention of "Org-mode". Needs some prior
+# introductory sentence.
+demonstrate their application to some common use cases (Section
+\ref{applications}).  We conclude with a discussion of why we believe
+Babel constitutes a uniquely productive environment for authoring
+mixed prose and code projects (Section \ref{points-for}), as well as
+some limits of the current implementation and directions for future
+work (Section \ref{future-work}).
+
+* Background
+  :PROPERTIES:
+  :CUSTOM_ID: background
+  :END:
+The combined authoring of prose and code has been historically
+approached from two different standpoints.
+
+- Literate Programming :: enhances traditional software development by
+     embedding code in explanatory essays and encourages treating the
+     act of development as one of communication with future
+     maintainers.
+
+- Reproducible Research :: embeds executable code in publications of
+     scholarly work, with the aim of allowing the analysis described
+     in the paper to be re-run by readers.
+
+We discuss each of these approaches in turn including a review of
+existing software tools that support each technique.
+
+** Literate Programming
+#+begin_quote
+Let us change our traditional attitude to the construction of
+programs: Instead of imagining that our main task is to instruct a
+computer what to do, let us concentrate rather on explaining to human
+beings what we want a computer to do.
+
+\attrib{Donald E. Knuth}
+#+end_quote
+
+The technique of /literate programming/ was introduced by Donald Knuth
+\cite{web} in the early 1980's, not long after his creation of the TeX
+typesetting software.  The goals of literate programming are to
+encourage the author of a computational work to approach the project
+"as an essayist, whose main concern is with exposition and excellence
+of style". 
+# need citation with page number
+
+Accordingly, literate programming tools use input files that mix
+sections of computer code with sections of natural language typically
+marked up in TeX or LaTeX.  The literate programming tool then
+provides methods to create two types of /view/ into the document;
+articles of typset prose and marked-up code blocks intended for human
+consumption, and computer readable documents of pure source code.  The
+literate programming terms for generating these views are /weaving/
+and /tangling/ respectively.  A common feature of literate programming
+tools is the ability to organize code blocks differently when
+/tangling/ and /weaving/ thereby allowing the programmer to introduce
+concepts to humans in a different order than code is introduced to the
+computer.
+
+The original literate programming tool, developed by Knuth, was =WEB=,
+which consists of two primary programs, =TANGLE= and =WEAVE=.  This
+system supported the Pascal programming language and produced
+documents typeset with TeX.  A modern descendent is =noweb=
+\cite{noweb} which is designed to be language independent.  Its
+primary programs, =notangle= and =noweave=, are both written in =C=.
+Documents produced by =noweave= can be typeset with =TeX=, =LaTeX=,
+and =troff= or displayed in a web browser as =HTML=.  Software tools
+such as =WEB= and =noweb= enable the /authoring/ of both prose and
+code, but do not provide facilities for the execution of code from
+within documents.  Instead, code intended for execution is tangled and
+the resulting source code files are sent to a compiler or interpreter.
+
+** Reproducible Research
+#+begin_quote
+An article about computational science in a scientific publication is
+*not* the scholarship itself, it is merely *advertising* of the
+scholarship.  The actual scholarship is the complete software
+development environment and complete set of instructions which
+generated the figures.
+
+\attrib{David L. Donoho}
+#+end_quote
+
+A research project typically produces one or more documents that
+describe or rely upon:
+  - a data collection
+  - computations and code used in data analysis or simulation
+  - methodological conventions and assumptions
+  - decisions among alternate analytic paths
+
+The documents produced by a research project typically stand apart
+from the things they describe and rely upon, which makes it difficult
+for other researchers to understand fully or to reproduce the results
+of the research project.
+ 
+A software solution to this problem was proposed by Gentleman and
+Temple Lang, who "introduce the concept of a /compendium/ as both a
+container for the different elements that make up the document and its
+computations (i.e. text, code, data, ...), and as a means for
+distributing, managing and updating the collection."  They
+summarize the uses and implications of a compendium:
+
+  - it encapsulates the actual work of the author, not just an
+    abridged version suitable for publication; 
+
+  - it can display different levels of detail in /derived documents/; 
+
+  - the computations included in it can be re-run by an interested
+    reader, potentially with different inputs;
+
+  - it contains explicit computational details that make it easier for
+    an interested reader to adapt and extend the methods;
+
+  - it enables programmatic construction of plots and tables; 
+
+  - its components can be treated as data or inputs to software and
+    manipulated programmatically in ways perhaps not envisioned by
+    the author.
+
+/Reproducible research/ thus approaches mixed natural and
+computational language documents from a different direction than
+literate programming.  Rather than adding prose to computational
+projects, reproducible research seeks to augment publications of
+scientific research with the computer code used during conduct of the
+research.  Where literate programming tangles embedded code into an
+external file used as input to a compiler or an interpreter, code
+embedded in reproducible research is intended to be executed as part
+of the document generation process.  In this way the data, analysis,
+and figures supporting a publication can be generated from the
+publication itself.
+
+# The requirements of a tool supporting reproducible research are
+# thoroughly explored by Gentleman and Temple Lang, and presented in the
+# concept of a /compendium/ \cite{compendium}.  In their formulation a
+# compendium is a container that holds the text, code, and raw data
+# constituting a scholarly work.  Compendia are intended to facilitate
+# the distribution, management, re-creation, and extension of such
+# works.
+
+# A compendium would also support a variety of different /views/, where
+# /views/ are static documents automatically generated by /running/ the
+# compendium.  Examples of views would be an article submitted for
+# publication, or a presentation or lecture based on the work.
+
+Gentleman and Temple Lang propose the adoption of compendia as the
+new unit of peer review and distribution of scientific work.
+
+#+begin_quote
+The compendium concept, and that of reproducible research, has the
+potential to improve the state of publication about computational
+science. The tools we have proposed and discussed will allow us to
+move from an era of advertisement to one where our scholarship itself
+is published. This exposes the computations themselves to the
+scientific method and enhances the potential for iterative refinement
+and extension.
+
+\attrib{Gentleman and Temple Lang}
+#+end_quote
+
+=Sweave= \cite{sweave} is a modern software tool, written in the =R=
+statistical programming language, that can be used for reproducible
+research.  =Sweave= (and the =R= community at large) inspired the work
+that led to the /compendium/ idea.  The recent resurgence in
+reproducible research owes much to the success of both =R= and
+=Sweave=.  =Sweave= documents consist of code blocks of the =R=
+statistical programming language embedded into LaTeX documents.  The
+=R= functions that make up =Sweave= execute the embedded =R= code and
+produce a LaTeX document that includes the resulting tables, graphical
+figures, and inline results.  If the =Sweave= document is accompanied
+by the data files used in the statistical computations along with any
+=R= language files that are sourced, then the reader can trace a
+result back to the relevant =R= computations and through to the
+original data.
+
+# It might be useful to start this section with Lisp and how bottom-up
+# programming changes the language to suit the problem.  So emacs
+# turned lisp into a language for writing editors, org-mode turned it
+# into a language for parsing hierarchical documents, etc., and babel
+# turned it into a language for literate programming and reproducible
+# research. (no attempt to be precise or exhaustive here).
+* Design
+  :PROPERTIES:
+  :CUSTOM_ID: design
+  :END:
+At the core of Babel is the Emacs text editor and emacs-lisp,
+a dialect of lisp that supports editing text documents.  Emacs has
+been under development since the mid 1970s and is currently at
+version 23.  Org-mode extends Emacs with a simple, yet powerful markup
+language that turns it into a language for creating and parsing
+hierarchically-organized text documents.  It was originally designed
+for keeping notes, maintaining task lists, and planning
+projects.  Its rich feature set includes text structuring, project
+management, and a publishing system that can export to a variety of
+formats.  Babel extends Org-mode by activating sections of Org-mode
+documents, effectively distinguishing code and data blocks from text
+sections.  Activation means that code and data blocks can be
+/evaluated/ to return their contents or their computational results.
+The results of code block evaluation can be written
+to a named data block in the document, where it can be referred to by
+other code blocks, any one of which can be written in a different
+computing language.  In this way, an Org-mode buffer becomes a place
+where different computer languages communicate with one another.  Like
+Emacs, Babel is extensible: support for new languages can be added by
+in a modular fashion through the definition of a small number of Emacs
+Lisp functions.  Additionaly, generally useful code or data blocks can
+be added to a "Library of Babel", from which they can be called by any
+Org-mode document.
+
+In the remainder of this section, we first introduce Org-mode,
+focusing on those features that support the literate programming and
+reproducible research capabilities of Babel (Section \ref{org-mode}).
+We then describe the syntax of code and data blocks (Section
+\ref{syntax}), evaluation of code blocks (Section \ref{code-blocks}),
+weaving and tangling Org-mode documents (Section \ref{export}), and
+Babel's language support facilities (Section \ref{languages}).
+
+** Org-mode
+   :PROPERTIES:
+   :CUSTOM_ID: org-mode
+   :END:
+
+Thank you Carsten!
+
+- hierarchically structured text
+- readable markup language
+- export targets (html, latex, beamer, ascii)
+- spreadsheets, tables links
+- code blocks
+- more?
+
+** Code and Data Blocks
+    :PROPERTIES:
+    :CUSTOM_ID: code-blocks
+    :END:
+Babel extends Org-mode with a naming convention that identifies code
+or data blocks making them remotely callable.  In addition, the syntax
+of Org-mode code blocks is extended to facilitate evaluation.  Babel
+writes the results of source code evaluation to the document as
+Org-mode constructs, and allows for code and data blocks to interact
+through a simple but powerful variable passing system.
+
+*** Syntax
+    :PROPERTIES:
+    :CUSTOM_ID: syntax
+    :END:
+Babel recognizes Org-mode /tables/, /examples/, and /links/ as data
+block content.  Data blocks which are preceded by a line that begins
+with =#+results:=, followed by a name unique within the document can
+be manipulated by Babel.  All data block types can be named in this
+way.
+#+begin_src org
+  ,#+results: tabular-data
+  ,| 1 |  2 |
+  ,| 2 |  3 |
+  ,| 3 |  5 |
+  ,| 4 |  7 |
+  ,| 5 | 11 |
+  
+  ,#+results: scalar-data
+  ,: 9
+  
+  ,#+results: linked-data
+  ,[[http://external-data.org]]
+#+end_src
+
+Babel marks active code blocks with a =#+srcname:= line, followed by a
+name unique within the document.  It also augments Org-mode code
+blocks with header aguments that control the way Babel handles
+evaluation and export.
+#+begin_src org
+  ,#+srcname: <name>
+  ,#+begin_src <language> <header arguments>
+  ,  <body>
+  ,#+end_src
+#+end_src
+
+*** Evaluation
+
+Babel typically evaluates a code block by
+1) writing its contents to a temporary file;
+2) calling an appropriate system command to execute the file; and
+3) capturing the value returned by the system command.
+
+By default the captured output appears in the Org-mode buffer
+immediately following the code block, e.g.,
+#+begin_src org
+  ,#+begin_src ruby
+  ,  require 'date'
+  ,  "This block was last evaluated on #{Date.today}"
+  ,#+end_src
+  
+  ,#+results:
+  ,: This block was last evaluated on 2010-06-25
+#+end_src
+
+In languages that support interactive sessions, Babel can take
+advantage of this facility.  Adding a =:session= /header argument/
+causes Babel to
+1) start a persistent process associated with a new Emacs
+   buffer;
+2) pass the code body to that process; and
+3) capture the last value returned by that process.
+
+Session-based evaluation is similar to the approach to evaluation
+taken by =Sweave=, in which every code block is evaluated in the same
+persistent session.  In Babel, the =:session= header argument takes an
+optional name, making it possible to maintain multiple disjoint 
+sessions.
+
+*** Results
+Babel returns the results of code block evaluation as strings,
+scalars, Org-mode tables, or Org-mode links.  By default, these are
+inserted in the Org-mode buffer as protected text immediately after
+the code block.  In practice, the user can control how Babel handles
+evaluation results with header arguments.  
+
+At the most basic level, results can be collected from code blocks by
+value or as output.  This behavior is controlled by the =:results=
+header argument.
+
+- =:results value= :: Specifies that the code block should be treated
+     as a function, and the results should be equal to the value of
+     the last expression in the block, like the return value of a
+     function.  This is the default setting.
+
+- =:results output= :: Specifies that the results should be collected
+     from =STDOUT= incrementally, as they are written by the
+     application responsible for code execution.
+
+These differences can be demonstrated with the following bit of =perl=
+code that yields different results depending on the value of the
+=:results= header argument.  Note that the first example uses the
+default, =:results value=, and returns a scalar.  In contrast, the
+same code yields a string when output is returned.
+
+#+begin_src org
+       ,#+begin_src perl
+       ,  $x = 8;
+       ,  $x = $x + 1;
+       ,  print "shouting into the dark!\n";
+       ,  $x
+       ,#+end_src
+       
+       ,#+results:
+       ,: 9
+
+
+       ,#+begin_src perl :results output
+       ,$x = 8;
+       ,$x = $x + 1;
+       ,print "shouting into the dark!\n";
+       ,$x
+       ,#+end_src
+
+       ,#+results:
+       ,: shouting into the dark!
+
+#+end_src org
+
+In addition to scalar results, Babel recognizes vector results and
+inserts them as tables into the Org-mode buffer as demonstrated in the
+following two blocks of Haskell code.
+
+#+begin_src org
+  ,#+begin_src haskell
+  ,  [1, 2, 3, 4, 5]
+  ,#+end_src
+  
+  ,#+results:
+  ,| 1 | 2 | 3 | 4 | 5 |
+  
+  ,#+begin_src haskell
+  ,  zip [1..] (map (\ x -> x + 1) [1, 2, 3])
+  ,#+end_src
+  
+  ,#+results:
+  ,| 1 | 2 |
+  ,| 2 | 3 |
+  ,| 3 | 4 |
+#+end_src
+
+When the result of evaluating a code block is a file, such as an
+image, the =:file= header argument can be used to provide a path and
+name for the file.  Babel saves the results to the named file and
+places an Org-mode link to it in the document.  These links are
+handled by Org-mode in the usual ways and can be opened from within
+the document and included in exports.
+
+Much more information about controlling the evaluation of code and the
+handling of code results is available in the Babel documentation.
+
+*** Variables
+Babel implements a simple system of passing arguments to code blocks.
+The =:var= header argument takes a variable name and a value and
+assigns the value to the named variable inside the code block.  Values
+can be literal values, such as scalars or strings, references to
+named data blocks, Org-mode links, or references to named code blocks.
+In addition, arguments can be passed to referenced code blocks using a
+traditional function syntax with named arguments.
+
+All values passed to variables are served by the Emacs Lisp
+interpreter that is at the core of Emacs.  This argument passing
+syntax allows for complex chaining of raw values in a document, and
+the results of computations in one computer language can be used as
+input to blocks of code in another language, as
+shown in Section \ref{applications}.
+
+** Export
+    :PROPERTIES:
+    :CUSTOM_ID: export
+    :END:
+
+Borrowing terms from the Literate Programming community, Babel supports
+both /weaving/---the exportation of a mixed code/prose document to a
+prose format suitable for reading by a human---and /tangling/--the
+exportation of a mixed code/prose document to a pure code file
+suitable for execution by a computer.
+
+- weaving :: Org-mode provides a sophisticated and full-featured
+     system to export to HTML, LaTeX, and a number of other
+     target formats.  Babel adds support for pre-processing code
+     blocks as part of the export process.  Using the =:exports=
+     header argument, the code of the code block, the results of
+     executing the code block, both code and results, or neither can
+     be included in the export.
+
+- tangling :: Source code in an Org-mode document can be re-arranged
+     on export.  Often, the order in which a computer needs to be
+     presented with code differs from the order in which the code may
+     be best organized in a document.  Literate programmin systems
+     like =noweb= solve this problem using code-block references that
+     are expanded as part of the tangle process \cite{noweb}.  Babel
+     implements the =noweb= reference system using an identical syntax
+     and functionality.
+
+** Language Support
+    :PROPERTIES:
+    :CUSTOM_ID: languages
+    :END:
+
+The core functions of Babel are language agnostic.  The tangling,
+source edit, and export features of Babel can be used for any computer
+language, even those that are not specifically supported by Babel;
+only code evaluation and interaction with live sessions require
+language-specific functions.  Support for new languages can be added
+by defining a small number of elisp functions named according to
+language, following some simple conventions.  Currently, Babel has
+support for more than 20 languages.  The ease with which support for
+new languages can be added is evidenced by the fact that new language
+support is increasingly implemented by Babel users, rather than the
+Babel authors.
+
+** Safety Considerations
+A reproducible research document, by definition, includes code that
+can be evaluated.  This potentially gives malicious hackers direct
+access to the reader's computer.  The primary defense in this instance
+is for the reader to recognize malicious code and to choose not to run
+it.  This can be a difficult task in a reproducible research document
+written in a single computer language, such as one written with
+Sweave, but the difficulty increases if the document is written in
+several computer languages, one or more of which is not understood by
+the reader.
+
+Babel has been designed with security measures to protect users from
+the accidental or uninformed execution of code.  By default /every/
+execution of a code block requires explicit confirmation from the
+user.[fn:1]  In addition, it is possible to remove code block evaluation
+from the default =C-c C-c= key binding.  This key binding is
+ubiquitous in Org-mode, and is typically bound to the function most
+likely to be called from a particular context.  An alternative
+key binding is present for code block evaluation, namely =C-c C-v
+e=.  The three key strokes required for this binding, and the fact
+that it is not used elsewhere in Org-mode, provides some degree of
+protection against unintended evaluation of code blocks.
+
+* Applications
+   :PROPERTIES:
+   :CUSTOM_ID: applications
+   :END:
+** Generate a Figure with =ditaa=
+
+# my fear with this example is that ditaa doesn't produce the best
+# looking images, for example were I to generate this diagram, I would
+# use tikz or maybe dot.  Also, I fear ASCII art risks looking like a
+# toy application (Eric)
+
+# Eric, your diagram is a big improvement.  I threw together the ditaa
+# diagram on the bus to work this morning because I saw the headline
+# already in the document.  If you think it would be better to draw
+# the diagram in some other application, that's fine with me.  I
+# *like* the diagram, though.  And it strikes me as RR-like to have
+# the code for the diagram appear in the paper. (Tom)
+
+Diagrams often play a useful role in source code documentation and as
+illustrations of research concepts.  The =Java= command line utility
+=ditaa= converts diagrams drawn with ascii art into bit map graphics.
+In the following diagram, the header argument =:file= is used to
+specify the name of the =ditaa= output, =:cmdline= passes parameters
+to =ditaa=, and =:cache yes= ensures that the code block will only be
+evaluated when its contents have changed.
+
+#+ATTR_LaTeX: width=0.4\textwidth
+#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
+                            +-------+
+                            |       |
+  Mixed                  +--+ Babel +--+
+  Languages              |  | cGRE  |  |
+                         |  +-------+  |
+                         |             |
+                     +---+----+        |
+                     |        |        |
+  Arbitrary          | noweb  |        |
+  Language           | cBLU   |        |
+                     +---+----+        |
+                         |             |
+                     +---+----+    +---+----+
+                     |        |    |        |
+  Single             |  WEB   |    | Sweave |
+  Language           | cBLU   |    | cYEL   |
+                     +--------+    +--------+
+                     Literate      Reproducible
+                    Programming     Research
+#+END_SRC
+
+#+results[693404592cbfd49e720fa7df1690c4f5422ccbe3]:
+[[file:lp-rr.png]]
+
+Org-mode source-code for the above
+#+begin_src org
+  ,#+ATTR_LaTeX: width=0.4\textwidth
+  ,#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
+  ,                            +-------+
+  ,                            |       |
+  ,  Mixed                  +--+ Babel +--+
+  ,  Languages              |  | cGRE  |  |
+  ,                         |  +-------+  |
+  ,                         |             |
+  ,                     +---+----+        |
+  ,                     |        |        |
+  ,  Arbitrary          | noweb  |        |
+  ,  Language           | cBLU   |        |
+  ,                     +---+----+        |
+  ,                         |             |
+  ,                     +---+----+    +---+----+
+  ,                     |        |    |        |
+  ,  Single             |  WEB   |    | Sweave |
+  ,  Language           | cBLU   |    | cYEL   |
+  ,                     +--------+    +--------+
+  ,                     Literate      Reproducible
+  ,                    Programming     Research
+  ,#+END_SRC
+  
+  ,#+results[6934...]:
+  ,[[file:lp-rr.png]]
+#+end_src
+
+** Tangle a Python Script
+** Tangle C code
+
+This is the Babel version of an excerpt from the =CWEB= program used
+as an example by Knuth and Levy in /The CWEB System of Structured
+Documentation/. 
+
+*** Procedure =prime_the_change_buffer= 
+
+Sets =change_buffer= in preparation for the next matching operation. 
+Since blank lines in the change file are not used for matching, we have 
+=(change_limit==change_buffer && !changing)= if and only if 
+the change file is exhausted. This procedure is called only when 
+=changing= is 1; hence error messages will be reported correctly. 
+
+#+srcname: prime_the_change_buffer
+#+begin_src C :tangle cweb-example.c :noweb yes
+void 
+prime_the_change_buffer() 
+{ 
+change_limit=change_buffer; /* this value is used if the change file ends */ 
+ /* Skip over comment lines in the change buffer */
+<<skip-over>>;
+ /* Skip to the next nonblank line; return if end of file */
+<<skip-to-nonblank-line>>;
+/* Move buffer and limit to change_buffer and change_limit */
+<<move-buffer-and-limit>>;
+} 
+#+end_src
+
+*** Skip over comment lines in the change buffer; =return= if end of file
+While looking for a line that begins with @x in the change file, we 
+allow lines that begin with @, as long as they don’t begin with @y, 
+@z, or @i (which would probably mean that the change file is fouled up). 
+
+#+srcname: skip-over
+#+begin_src C
+while(1) { 
+change_line++; 
+if (!input_ln(change_file)) return; 
+if (limit<buffer+2) continue; 
+if (buffer[0]!=’@’) continue; 
+if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]); 
+if (buffer[1]==’x’) break; 
+if (buffer[1]==’y’ == buffer[1]==’z’ == buffer[1]==’i’) { 
+loc=buffer+2; 
+err_print("! Missing @x in change file"); 
+
+} 
+} 
+#+end_src
+
+Here we are looking at lines following the @x.
+
+*** Skip to the next nonblank line; =return= if end of file
+
+#+srcname: Skip-to-nonblank-line
+#+begin_src C
+do { 
+change_line++; 
+if (!input_ln(change_file)) { 
+err_print("! Change file ended after @x"); 
+
+return; 
+} 
+} while (limit==buffer); 
+#+end_src
+
+*** Move =buffer= and =limit= to =change_buffer= and =change_limit=
+#+srcname: Move-buffer-and-limit
+#+begin_src C
+{ 
+change_limit=change_buffer-buffer+limit; 
+strncpy(change_buffer,buffer,limit-buffer+1); 
+}
+#+end_src
+
+** Simple Bioinformatics
+- data from http://www.ncbi.nlm.nih.gov/
+- process with =R=
+- [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
+
+** Live Climate Data
+Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme][noaa data]].
+
+1) Grab the raw temperature
+   #+begin_src org
+     ,#+source: raw-temps
+     ,#+begin_src sh
+     ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
+     ,      |gunzip |sed 's/-/ /g'|sed 's/^\([0-9]\{3\}\)[0-9]\{9\}/\1 /'|head -500
+     ,#+end_src
+   #+end_src
+   and country code data
+   #+begin_src org
+     ,#+source: country-codes
+     ,#+begin_src sh
+     ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
+     ,      |sed 's/ *$//' |sed 's/ \(.*\)$/,"\1"/'
+     ,#+end_src
+   #+end_src
+   from the web.
+
+2) Setup a =sqlite= database and import the data
+   #+begin_src org
+     ,#+begin_src sqlite :db climate.sqlite :var temps=raw-temps :var countries=country-codes[1:-1,0:1]
+     ,  create table temps (country,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+     ,  create table countries (code, name);
+     ,  .separator ","
+     ,  .import $temps temps
+     ,  .import $countries countries
+     ,#+end_src
+   #+end_src
+
+3) Then =R= can access the tables and generate a calculation or a plot.
+
+** COMMENT Maybe something calling babel from a table
+** COMMENT Maintained State
+# I think this might be useful in the Applications section.
+# Maintaining state can be achieved in Babel with sessions and by
+# writing granular code blocks that write out intermediate values to
+# the Org-mode buffer.  The contrast between the two approaches might
+# make for a good example.
+Session evaluation can be useful when the code block changes some
+state the retention of which is desirable for manual inspection, or
+for use by subsequent code blocks.  For example the first block of =R=
+code below sets variables in an interactive session and the second
+block of =R= code can access these variables because it is run in the
+same =R= session (adapted from [fn::
+http://www.stat.umn.edu/~charlie/Sweave/]).
+
+#+begin_src org
+  ,#+begin_src R :session *R* :results silent
+  ,  n <- 50
+  ,  x <- seq(1, n)
+  ,  a.true <- 3
+  ,  b.true <- 1.5
+  ,  y.true <- a.true + b.true * x
+  ,  s.true <- 17.3
+  ,  y <- y.true + s.true * rnorm(n)
+  ,  out1 <- lm(y ~ x)
+  ,  summary(out1)
+  ,#+end_src
+  
+  ,#+begin_src R :session *R* :file fig.pdf
+  ,  plot(x, y)
+  ,  abline(out1)
+  ,#+end_src
+#+end_src
+
+* Discussion
+  :PROPERTIES:
+  :CUSTOM_ID: conclusion
+  :END:
+** Strengths
+   :PROPERTIES:
+   :CUSTOM_ID: points-for
+   :END:
+
+Babel has several features that make it a useful tool for composing
+combined natural and computational language documents.
+
+- Open source :: Babel is both /open source/, meaning its inner
+     workings are publicly visible, and further, its copyright is
+     owned by the Free Software Foundation \cite{fsf}, meaning that
+     Babel, and any work deriving from Babel will always be fully open
+     to public scrutiny and modification.  This is *essential* for any
+     tool supporting scientific peer review.
+
+- Friendly active community :: the Org-mode community and by extension
+     the community surrounding Babel is extremely friendly, which can
+     be immeasurably helpful for novices learning how to use the tool,
+     and for developers looking for ideas and feedback.  Without this
+     community the Babel project would never have reached a useable
+     state.
+
+- General :: A leading drive in the design of Babel was pursuit of
+     generality.  Babel, through Org-mode, exports to many target file
+     types (e.g. LaTeX, HTML, Beamer slideshows, ASCII, etc...), it
+     supports arbitrary programming languages.  It displays no
+     reproducible research or literate programming bias.
+
+- Integration :: Babel's integration with Emacs means that the
+     sophisticated editing modes available for many computer languages
+     can be used to author code in the Babel environment. 
+
+** Weaknesses and Future Work
+   :PROPERTIES:
+   :CUSTOM_ID: future-work
+   :END:
+Babel's integration with Emacs brings it many mature and full-featured
+environments for authoring of code and text, and for controlling the
+evaluation of text. However, it also brings with it some limiting
+factors.  These include:
+- complex configuration, one of the beauties of Emacs is that it is
+  completely configurable, but the myriad options can be confusing,
+  even to experience Emacs users. 
+#+begin_comment
+- steep learning curve
+  Let's find a way of more nuanced way of saying that. I find that it
+  gets exagerrated: Emacs has a menu with Open and Save, and when you
+  hit "a" an "a" appears in the document, so in a sense how much more
+  easy does it get?
+ #+end_comment
+- small community of users
+- it's not the best execution VM or sublayer
+  - single threaded
+  - inefficient
+
+These items indicate a number of paths for future work, either for
+further development of Org-babel, or for any future tool of this type.
+
+- editor agnostic :: One point where Babel is not as general as it
+     could be is the range of available editing environments.  Despite
+     the large number of features that Emacs and Org-mode provide
+     to Babel, they both also place limits on the pool of potential
+     users to those who either already use Emacs and Org-mode, or are
+     willing and able to adopt what can conservatively be described as
+     a /sophisticated/ text editing environment.
+     
+     It seems that it would be possible for future tools of this
+     nature to provide code evaluation and exportation as a service
+     which could be called from any number of editors.  Such a
+     structure would raise a number of challenging implementation
+     issues.
+
+- virtual machine :: Babel allows heterogeneous programming
+     environments to share data by dropping all shared values to the
+     common denominator of Emacs Lisp.  This works well for Babel as
+     it allows for re-use of many pre-existing Emacs tools for
+     evaluation of code in a variety of language, often making the
+     addition of support for new languages trivial.
+
+     There are however properties of Emacs Lisp which make it less
+     than ideal as a medium of data exchange and as a shepherd of
+     evaluation.  Most importantly the Emacs Lisp interpreter is
+     /single threaded/, this makes the asynchronous evaluation of code
+     blocks needlessly complex (in fact this features does not yet
+     exist in Babel).
+     
+     Also, the execution of Emacs Lisp requires a running Emacs
+     process.  There is no low-overhead method of evaluating Emacs
+     Lisp in the absence of an Emacs session.  In the presence of such
+     functionality it may be possible for Babel to support the
+     tangling of multi-language /stand-alone executables/, further
+     reducing the barrier to reproduction of works authored in Babel.
+     
+     Both of the above issues may be resolved naturally if Guile
+     scheme replaces the existing Emacs Lisp execution engine, which
+     at the time of writing seems a distinct possibility [fn::
+     http://lists.gnu.org/archive/html/emacs-devel/2010-04/msg00665.html].
+
+** Conclusion
+As a single tool Babel satisfies the needs of both the reproducible
+research and literate programming disciplines, it is in effect both a
+/compendium/ and a /web/.
+
+- compendium :: The formulation of a compendium as put forth by
+     Gentleman and Temple Lang requires the following elements.
+     1) Authoring Software
+     2) Auxiliary Software
+     3) Transformation Software
+     4) Quality control Software
+     5) Distribution Software
+
+     The Babel environment used in combination with a traditional
+     version control tool satisfies all of these requirements.  In
+     addition, Babel handles three of the four points laid out in
+     their proposed "Future Work", namely /multiple languages/,
+     /conditional chunks/ (where "chunks" are blocks of text or code),
+     and /interactivity/, meaning that the code can be executed from
+     within the authoring environment.
+
+- web :: Babel is a full featured /web/ tool.  It supports both
+     /tangling/ and /weaving/ of code, as well as a sophisticated code
+     block reference system along the lines of =noweb=.  Additionally
+     the executability of code blocks in Babel allows for interactive
+     development, and integration of test suites in a manner not
+     supported in previous literate programming systems.
+
+Through making it possible to adopt literate programming and
+reproducible research practices while retaining a familiar editing
+environment, Babel significantly lowers the barrier of entry for both
+of these techniques.  Through encouraging all stages of the research
+and development cycle to take place within a single document Babel
+ensures that the code, data, and text relevant to a project will be
+collocated, reducing the burden on the author of compiling such pieces
+after the fact.  Difficulty of use and adoption has served as a major
+barrier to previous literate programming and reproducible research
+systems.  We believe that with its ease of adoption, familiar
+environment, and universal applicability across programming languages,
+Babel represents a significant, qualitative advance in literate
+programming and reproducible research tools.
+
+As such we believe Babel has the potential to significantly increase
+the widespread expectation that all computational projects include
+/both/ code and prose; code should be accompanied by explanatory
+prose, and any discussion of computational experimental results should
+include the relevant code and data.  It is the authors hope that this
+work will ultimately help both software developers and scientists to
+communicate and to make their work more accessible.
+
+#+begin_LaTeX
+  \bibliographystyle{abbrv}
+  \small
+  \bibliography{babel}
+#+end_LaTeX
+
+* COMMENT publish
+turn on the listings package, and define the =twocolumn= latex class
+#+begin_src emacs-lisp :results silent
+  (setq org-export-latex-listings t)
+  (add-to-list 'org-export-latex-classes
+               '("twocolumn" "\\documentclass[10pt, twocolumn]{article}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+end_src
+
+
+* Footnotes
+
+[fn:1] These confirmation requests can be stifled by customizing the
+`org-confirm-babel-evaluate' variable.

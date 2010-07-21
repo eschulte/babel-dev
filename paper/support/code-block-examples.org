@@ -1,0 +1,109 @@
+** R figure
+For example the following =R=
+block which calls =plot= results in the following link being inserted
+into the Org-mode buffer.
+#+begin_src org
+  ,#+begin_src R :session *R* :file fig.pdf
+  ,  plot(x, y)
+  ,  abline(out1)
+  ,#+end_src
+  
+  ,#+results:
+  ,[[file:fig.pdf]]
+#+end_src
+
+Much more information about controlling the evaluation of code and the
+handling of code results is available in the Babel documentation.
+
+** Examples of Variables
+Values passed to code blocks are then made accessible from the source
+code in a language specific way, but most often in the form of
+variables assigned to the values of the arguments.
+
+The following syntax can be used to pass an argument to a code blocks.
+
+
+#+begin_src org
+  ,#+source: inc
+  ,#+begin_src clojure :var x=10
+  ,  (+ x 1)
+  ,#+end_src
+  
+  ,#+results: inc
+  ,: 11
+#+end_src
+
+In the context of this code block the value of =x= is now set to 10.
+We could also use a named value elsewhere in the buffer to initialize
+a variable.
+#+begin_src org
+  ,#+results: remote-x
+  ,: some text
+  
+  ,Lorem ipsum dolor sit amet, consectetuer
+  ,adipiscing elit.
+  
+  ,#+begin_src clojure :var x=remote-x
+  ,  x
+  ,#+end_src
+  
+  ,#+results:
+  ,: some text
+#+end_src
+
+As these examples demonstrate, strings will be passed in a strings,
+numbers as numbers, and tables will be passed in as tables.
+#+begin_src org
+  ,#+results: table-x
+  ,| 1 | 
+  ,| 2 |
+  ,| 3 |
+  ,| 4 |
+  ,| 5 |
+  
+  ,#+begin_src ruby :var x=table-x
+  ,  x.map{|row| row.map{|cell| cell + 1}}
+  ,#+end_src
+  
+  ,#+results:
+  ,| 2 |
+  ,| 3 |
+  ,| 4 |
+  ,| 5 |
+  ,| 6 |
+#+end_src
+
+Code blocks can reference other code blocks.
+#+begin_src org
+  ,#+source: inc
+  ,#+begin_src clojure :var x=10
+  ,  (+ x 1)
+  ,#+end_src
+  
+  ,#+begin_src python :var y=inc :results output
+  ,  print "10 + 1 =", y
+  ,#+end_src
+  
+  ,#+results:
+  ,: 10 + 1 = 11
+#+end_src
+
+In addition arguments can be passed to referenced code blocks using a
+traditional function syntax with named arguments.
+
+#+begin_src org
+  ,#+begin_src python :var y=inc(x=2) :results output
+  ,  print "2 + 1 =", y
+  ,#+end_src
+  
+  ,#+results:
+  ,: 2 + 1 = 3
+#+end_src
+
+Notice that no problems are caused when code blocks of different
+languages interact; this is because all values are passed through the
+Emacs Lisp interpreter that is at the core of Emacs.  This argument
+passing syntax allows for complex chaining of raw values in a
+document, and of blocks of code in multiple languages as shown in
+Section \ref{applications}.
+

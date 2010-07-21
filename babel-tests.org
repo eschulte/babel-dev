@@ -1,0 +1,266 @@
+#+TITLE: Babel Test Suite
+#+OPTIONS: num:nil ^:nil
+#+LaTeX_CLASS: normal
+
+#+TBLNAME: org-babel-tests
+| block                     | arg |    expected |     results | pass |
+|---------------------------+-----+-------------+-------------+------|
+| basic evaluation          |     |             |             | pass |
+|---------------------------+-----+-------------+-------------+------|
+| basic-elisp               |     |           5 |           5 | pass |
+| basic-shell               |     |           6 |           6 | pass |
+| basic-ruby                |     |   org-babel |   org-babel | pass |
+| basic-python              |     | hello world | hello world | pass |
+| basic-R                   |     |          13 |          13 | pass |
+|---------------------------+-----+-------------+-------------+------|
+| tables                    |     |             |             | pass |
+|---------------------------+-----+-------------+-------------+------|
+| table-elisp               |     |           3 |           3 | pass |
+| table-ruby                |     |       1-2-3 |       1-2-3 | pass |
+| table-from-ruby           |     |           4 |           4 | pass |
+| table-python              |     |           5 |           5 | pass |
+| table-from-python         |     |           4 |           4 | pass |
+| table-R                   |     |         3.5 |         3.5 | pass |
+| table-R-colnames[2,0]     |     |          -3 |          -3 | pass |
+| table-R-colnames-org[2,0] |     |         169 |         169 | pass |
+|---------------------------+-----+-------------+-------------+------|
+| source block references   |     |             |             | pass |
+|---------------------------+-----+-------------+-------------+------|
+| chained-ref-last          |     |       Array |       Array | pass |
+|---------------------------+-----+-------------+-------------+------|
+| source block functions    |     |             |             | pass |
+|---------------------------+-----+-------------+-------------+------|
+| defun-fibb                |     |       fibbd |       fibbd | pass |
+| test-fibonacci            |   0 |           1 |           1 | pass |
+| test-fibonacci            |   1 |           1 |           1 | pass |
+| test-fibonacci            |   2 |           2 |           2 | pass |
+| test-fibonacci            |   3 |           3 |           3 | pass |
+| test-fibonacci            |   4 |           5 |           5 | pass |
+| test-fibonacci            |   5 |           8 |           8 | pass |
+|---------------------------+-----+-------------+-------------+------|
+| sessions                  |     |             |             | pass |
+|---------------------------+-----+-------------+-------------+------|
+| set-ruby-session-var      |     |        :set |        :set | pass |
+| get-ruby-session-var      |     |           3 |           3 | pass |
+| set-python-session-var    |     |         set |         set | pass |
+| get-python-session-var    |     |           4 |           4 | pass |
+| set-R-session-var         |     |         set |         set | pass |
+| get-R-session-var         |     |           5 |           5 | pass |
+#+TBLFM: $4='(if (> (length $3) 0) (if (= (length $2) 1) (progn (message (format "running %S" '(sbe $1 (n $2)))) (sbe $1 (n $2))) (sbe $1)) "")::$5='(if (string= $3 $4) "pass" (format "expected %S but was %S" $3 $4))
+#+TBLFM: $5=""::$6=""
+
+The second TBLFM line can be used to blank out the table results, in
+the absence of a better method.
+
+*** basic tests
+
+#+srcname: basic-elisp
+#+begin_src emacs-lisp :results silent
+(+ 1 4)
+#+end_src
+
+
+#+srcname: basic-shell
+#+begin_src sh :results silent
+expr 1 + 5
+#+end_src
+
+
+#+srcname: date-simple
+#+begin_src sh :results silent
+date
+#+end_src
+
+#+srcname: basic-ruby
+#+begin_src ruby :results silent
+"org-babel"
+#+end_src
+
+
+#+srcname: basic-python
+#+begin_src python :results silent
+return 'hello world'
+#+end_src
+
+
+#+srcname: basic-R
+#+begin_src R :results silent
+  b <- 9
+  b + 4
+#+end_src
+
+*** read tables
+
+#+tblname: test-table
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |
+
+#+tblname: test-table-colnames
+| var1 | var2 | var3 |
+|------+------+------|
+|    1 |   22 |   13 |
+|   41 |   55 |   67 |
+
+#+srcname: table-elisp
+#+begin_src emacs-lisp :results silent :var table=test-table
+(length (car table))
+#+end_src
+
+#+srcname: table-ruby
+#+begin_src ruby :results silent :var table=test-table
+table.first.join("-")
+#+end_src
+
+#+srcname: ruby-makes-table
+#+begin_src ruby 
+[[1, 2], [3, 4]]
+#+end_src
+
+#+srcname: table-from-ruby
+#+begin_src ruby :var tab=ruby-makes-table
+tab[1][1]  
+#+end_src
+
+#+srcname: table-python
+#+begin_src python :var table=test-table
+return table[1][1]
+#+end_src
+
+#+srcname: python-makes-table
+#+begin_src python 
+return [[1, 2], [3, 4]]
+#+end_src
+
+#+srcname: table-from-python
+#+begin_src python :var tab=python-makes-table
+return tab[1][1]  
+#+end_src
+
+#+srcname: table-R(table=test-table)
+#+begin_src R
+mean(mean(table))
+#+end_src
+
+#+srcname: table-R-colnames(table=test-table-colnames)
+#+begin_src R :results silent
+sum(table$var2 - table$var3)
+#+end_src
+
+#+srcname: R-square(x=default-name-doesnt-exist)
+#+begin_src R :colnames yes
+x^2
+#+end_src
+
+This should return 169. The fact that R is able to use the column name
+to index the data frame (x$var3) proves that a table with column names
+(a header row) has been recognised as input for the R-square function
+block, and that the R-square block has output an elisp table with
+column names, and that the colnames have again been recognised when
+creating the R variables in this block.
+#+srcname: table-R-colnames-org(x = R-square(x=test-table-colnames))
+#+begin_src R
+x$var3[1]
+#+end_src
+
+#+begin_src emacs-lisp :var data=table-R-colnames-org
+data  
+#+end_src
+
+#+results:
+: 169
+
+*** references
+
+Lets pass a references through all of our languages...
+
+Lets start by reversing the table from the previous examples
+
+#+srcname: chained-ref-first
+#+begin_src python :var table = test-table
+table.reverse()
+table
+#+end_src
+
+#+resname: chained-ref-first
+| 4 | 5 | 6 |
+| 1 | 2 | 3 |
+
+Take the first part of the list
+
+#+srcname: chained-ref-second
+#+begin_src R :var table = chained-ref-first
+table[1]
+#+end_src
+
+#+resname: chained-ref-second
+| 4 |
+| 1 |
+
+Turn the numbers into string
+
+#+srcname: chained-ref-third
+#+begin_src emacs-lisp :var table = chained-ref-second
+(mapcar (lambda (el) (format "%S" el)) table)
+#+end_src
+
+#+resname: chained-ref-third
+| "(4)" | "(1)" |
+
+and Check that it is still a list
+
+#+srcname: chained-ref-last
+#+begin_src ruby :var table=chained-ref-third
+table.class.name
+#+end_src
+
+*** source blocks as functions
+
+#+srcname: defun-fibb
+#+begin_src emacs-lisp :results silent
+(defun fibbd (n) (if (< n 2) 1 (+ (fibbd (- n 1)) (fibbd (- n 2)))))
+#+end_src
+
+
+#+srcname: test-fibonacci
+#+begin_src emacs-lisp :results silent :var n=7
+(fibbd n)
+#+end_src
+
+*** sessions
+    :PROPERTIES:
+    :noeval:   nope
+    :END:
+
+#+srcname: set-ruby-session-var
+#+begin_src ruby :session :results silent
+var = [1, 2, 3]
+:set
+#+end_src
+
+#+srcname: get-ruby-session-var
+#+begin_src ruby :session :results silent
+var.size
+#+end_src
+
+#+srcname: set-python-session-var
+#+begin_src python :session
+var=4
+'set'
+#+end_src
+
+#+srcname: get-python-session-var
+#+begin_src python :session
+var
+#+end_src
+
+#+srcname: set-R-session-var
+#+begin_src R :session
+a <- 5
+'set'
+#+end_src
+
+#+srcname: get-R-session-var
+#+begin_src R :session
+a
+#+end_src
+
