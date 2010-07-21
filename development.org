@@ -3,7 +3,115 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [78/156]
+* Tasks [79/161]
+** PROPOSED allow edit of header arguments from src-edit buffer
+   - State "PROPOSED"   from ""           [2010-07-20 Tue 17:09]
+Thanks to Jambunathan K for this suggestion
+
+I like the idea of displaying the =begin/end src= lines as commented
+sections in the org-edit-special code buffer, and then potentially
+using them to change the values of the =begin/end src= lines in the
+original Org-mode buffer after exiting the src-edit buffer.  It would
+be very cool to be able to edit header arguments while editing source
+code.
+
+It may be hard to implement, but could be worth the effort.
+
+** STARTED library of babel for google API
+   - State "STARTED"    from "PROPOSED"   [2010-07-20 Tue 16:53]
+   - State "PROPOSED"   from ""           [2010-07-14 Wed 16:56]
+
+see
+- http://code.google.com/apis/documents/overview.html
+- http://github.com/hober/google-el/
+
+Could be a number of generally useful functions here, including
+programatic access to google documents allowing syncing of portions of
+an org-mode document with google docs, useful for collaboration with
+people who can only use word.
+
+Also, could be useful for syncing of org-mode tasks w/google calendar
+etc...
+
+This has been started, see the two existing functions in the
+[[http://repo.or.cz/w/org-mode.git/blob/HEAD:/contrib/babel/library-of-babel.org#l74][library-of-babel.org]]
+
+** STARTED function for jumping between tangled and org files
+#+begin_center
+  Thanks to Rainer Krug for suggesting this functionality.
+#+end_center
+
+If you are tangling with comments, then it should be possible to have
+a function called from a line in a tangled code file which when called
+
+1) finds it's enclosing comments
+2) remembers it's offset from the comments (which would then be it's
+   offset in the code block in the Org file)
+3) read the comment to learn which code block in which Org file it's
+   tangled from
+4) jump to the relevant line, in the relevant block, in the relevant
+   file
+
+Similarly when called form within a code block in an Org file the
+function could
+
+1) read it's header argument to find the relevant tangled code file
+2) jump to that file
+3) use the comments in that file to move to the appropriate section of
+   code and related line
+
+I'll think about such a function, and if it makes sense to implement
+it apart from a more general "activate org-mode links in comments"
+minor mode.  Any ideas or suggestions would be welcome!
+
+also,
+#+begin_verse 
+  (Rainer)
+  >
+  > 2) It would be brilliant, if one could call the function from the
+  > Org-file buffer and enter the line number and then jump to the block /
+  > line in the block.
+  >
+#+end_verse
+
+#+begin_src emacs-lisp
+  (defun org-babel-tangle-jump-to-org ()
+    "Jump from a tangled code file to the related Org-mode file."
+    (interactive)
+    (let ((mid (point))
+          target-buffer target-char
+          start end link path block-name)
+      (save-window-excursion
+        (save-excursion
+          (unless (and (re-search-backward org-bracket-link-analytic-regexp nil t)
+                       (setq start (point))
+                       (setq link (match-string 0))
+                       (setq path (match-string 3))
+                       (setq block-name (match-string 5))
+                       (re-search-forward (concat " " (regexp-quote block-name)
+                                                  " ends here[\n\r]") nil t)
+                       (setq end (point))
+                       (< start mid) (< mid end))
+            (error "not in tangled code")))
+        (when (string-match "::" path)
+          (setq path (substring path 0 (match-beginning 0))))
+        (find-file path) (setq target-buffer (current-buffer))
+        (goto-char start) (org-open-link-from-string link)
+        (if (string-match "[^ \t\n\r]:\\([[:digit:]]+\\)" block-name)
+            (org-babel-next-src-block
+             (string-to-int (match-string 1 block-name)))
+          (org-babel-goto-named-src-block block-name))
+        (setq target-char (point)))
+      (pop-to-buffer target-buffer)
+      (goto-char target-char)))  
+#+end_src
+** PROPOSED post-processing code block
+   - State "PROPOSED"   from ""           [2010-07-12 Mon 21:59]
+
+a new header argument which specifies a code block which accepts the
+output of the current block as input, and is run when the current
+block's run completes.
+
 ** DONE document configuration changes for Babel integration
    - State "DONE"       from ""           [2010-07-05 Mon 11:03]
 Babel took the integration into Org-mode as an opportunity to do
@@ -154,7 +262,9 @@ evaluation, namely =C-c C-v e=.
 Whew! that seems like a lot of effort for a /simplification/ of
 configuration.
 
-** PROPOSED mention block name and number in error windows
+** TODO Improvements to error notification buffer
+- State "TODO"       from ""           [2010-07-13 Tue 10:21]
+*** PROPOSED mention block name/number in error windows
    - State "PROPOSED"   from ""           [2010-06-30 Wed 09:30]
 
 Thanks to Russel Adams for this idea.
@@ -170,6 +280,9 @@ This could be very useful both when evaluating an entire block or
 subtree, and also when old error messages have built up in the Error
 buffer.
 
+*** TODO q should bury the error buffer
+- State "TODO"       from ""           [2010-07-13 Tue 10:22]
+`q' should be bound to bury-buffer, or something similar
 ** PROPOSED cache variables
    :LOGBOOK:
    - State "PROPOSED"   from ""           [2010-06-27 Sun 11:39]
@@ -6726,53 +6839,53 @@ this appears to be fixed now...
 used to be that C-c C-c \rightarrow End of file during parsing
 
 *** report by Maurizio Vitale
-From: Maurizio Vitale <mav@cuma.i-did-not-set--mail-host-address--so-tickle-me>
-Subject: [Orgmode] Re: [babel] problems with org-babel-src-block-regexp (full text)
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
-Date: Thu, 11 Mar 2010 12:19:09 -0500
-To: emacs-orgmode@gnu.org
-
-
-[sorry for the double posting, but the control char in the regexp
-prevented the full message from appearing. This is what I meant to send]
-
-There're problems with org-babel-src-block-regexp when the src block
-contains the block delimiters (for instance in strings or comments).
-
-Granted, this is an uncommon occurrence (which I discovered by accident)
-editing an org-file containing elisp code that needed to insert
-#+begin_src...#+end_src pairs, but if it is not too difficult to fix it
-would be nice to have a more useful behaviour.
-
-This is my setting (replaced 0x0 with ^@ to avoid posting problems):
-org-babel-src-block-regexp is a variable defined in `org-babel.el'.
-Its value is 
-"^[ 	]*#\\+begin_src[ 	]+\\(python\\|sh\\|emacs-lisp\\)[ 	]*\\([^\":\n]*\"[^\"\n*]*\"[^\":\n]*\\|[^\":\n]*\\)\\([^\n]*\\)\n\\([^^@]+?\\)#\\+end_src"
-
-And these are two test cases. I'm particularly puzzled by the first,
-because the regexp seems to be anchored to the begin of line and hence
-it shouldn't match the begin_src inside the string.
-For end_src, it should probably be anchored to the begin of line.
-
-#+begin_src emacs-lisp
-;;; evaluating the following C-x C-e with the point at the end is ok
-(org-babel-where-is-src-block-head)
-(defun foo () (insert "#+begin_src emacs-lisp"))
-;;; evaluating the following C-x C-e with the point at the end is not ok
-(org-babel-where-is-src-block-head)
-#+end_src
-
-#+begin_src emacs-lisp
-;;; evaluating the following C-x C-e with the point at the end is ok
-(org-babel-where-is-src-block-head)
-(defun foo () (insert "#+end_src emacs-lisp"))
-;;; evaluating the following C-x C-e with the point at the end is not ok
-(org-babel-where-is-src-block-head)
-#+end_src
-
-Best regards,
-
-     Maurizio 
+: From: Maurizio Vitale <mav@cuma.i-did-not-set--mail-host-address--so-tickle-me>
+: Subject: [Orgmode] Re: [babel] problems with org-babel-src-block-regexp (full text)
+: User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
+: Date: Thu, 11 Mar 2010 12:19:09 -0500
+: To: emacs-orgmode@gnu.org
+: 
+: 
+: [sorry for the double posting, but the control char in the regexp
+: prevented the full message from appearing. This is what I meant to send]
+: 
+: There're problems with org-babel-src-block-regexp when the src block
+: contains the block delimiters (for instance in strings or comments).
+: 
+: Granted, this is an uncommon occurrence (which I discovered by accident)
+: editing an org-file containing elisp code that needed to insert
+: #+begin_src...#+end_src pairs, but if it is not too difficult to fix it
+: would be nice to have a more useful behaviour.
+: 
+: This is my setting (replaced 0x0 with ^@ to avoid posting problems):
+: org-babel-src-block-regexp is a variable defined in `org-babel.el'.
+: Its value is 
+: "^[ 	]*#\\+begin_src[ 	]+\\(python\\|sh\\|emacs-lisp\\)[ 	]*\\([^\":\n]*\"[^\"\n*]*\"[^\":\n]*\\|[^\":\n]*\\)\\([^\n]*\\)\n\\([^^@]+?\\)#\\+end_src"
+: 
+: And these are two test cases. I'm particularly puzzled by the first,
+: because the regexp seems to be anchored to the begin of line and hence
+: it shouldn't match the begin_src inside the string.
+: For end_src, it should probably be anchored to the begin of line.
+: 
+: #+begin_src emacs-lisp
+: ;;; evaluating the following C-x C-e with the point at the end is ok
+: (org-babel-where-is-src-block-head)
+: (defun foo () (insert "#+begin_src emacs-lisp"))
+: ;;; evaluating the following C-x C-e with the point at the end is not ok
+: (org-babel-where-is-src-block-head)
+: #+end_src
+: 
+: #+begin_src emacs-lisp
+: ;;; evaluating the following C-x C-e with the point at the end is ok
+: (org-babel-where-is-src-block-head)
+: (defun foo () (insert "#+end_src emacs-lisp"))
+: ;;; evaluating the following C-x C-e with the point at the end is not ok
+: (org-babel-where-is-src-block-head)
+: #+end_src
+: 
+: Best regards,
+: 
+:      Maurizio 
 
 ** DONE results deletion and insertion
    - State "DONE"       from "PROPOSED"   [2010-06-07 Mon 16:46]

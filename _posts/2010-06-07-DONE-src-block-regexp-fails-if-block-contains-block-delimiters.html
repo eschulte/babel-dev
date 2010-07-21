@@ -41,65 +41,56 @@ used to be that C-c C-c \rightarrow End of file during parsing
 <h3 id="sec-1_1">report by Maurizio Vitale </h3>
 <div class="outline-text-3" id="text-1_1">
 
-<p>From: Maurizio Vitale &lt;mav@cuma.i-did-not-set&ndash;mail-host-address&ndash;so-tickle-me&gt;
+<pre class="example">
+From: Maurizio Vitale &lt;mav@cuma.i-did-not-set--mail-host-address--so-tickle-me&gt;
 Subject: [Orgmode] Re: [babel] problems with org-babel-src-block-regexp (full text)
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
 Date: Thu, 11 Mar 2010 12:19:09 -0500
 To: emacs-orgmode@gnu.org
-</p>
 
-<p>
+
 [sorry for the double posting, but the control char in the regexp
 prevented the full message from appearing. This is what I meant to send]
-</p>
-<p>
+
 There're problems with org-babel-src-block-regexp when the src block
 contains the block delimiters (for instance in strings or comments).
-</p>
-<p>
+
 Granted, this is an uncommon occurrence (which I discovered by accident)
 editing an org-file containing elisp code that needed to insert
+#+begin_src...#+end_src pairs, but if it is not too difficult to fix it
 would be nice to have a more useful behaviour.
-</p>
-<p>
+
 This is my setting (replaced 0x0 with ^@ to avoid posting problems):
 org-babel-src-block-regexp is a variable defined in `org-babel.el'.
 Its value is 
-"<sup>[</sup>     ]*#\\+begin<sub>src[</sub>        ]+\\(python\\|sh\\|emacs-lisp\\)[       ]*\\([<sup>\</sup>":\n]*\"[<sup>\</sup>"\n*]*\"[<sup>\</sup>":\n]*\\|[<sup>\</sup>":\n]*\\)\\([<sup>\n]</sup>*\\)\n\\([^^@]+?\\)#\\+end<sub>src</sub>"
-</p>
-<p>
+"^[   ]*#\\+begin_src[        ]+\\(python\\|sh\\|emacs-lisp\\)[       ]*\\([^\":\n]*\"[^\"\n*]*\"[^\":\n]*\\|[^\":\n]*\\)\\([^\n]*\\)\n\\([^^@]+?\\)#\\+end_src"
+
 And these are two test cases. I'm particularly puzzled by the first,
 because the regexp seems to be anchored to the begin of line and hence
-it shouldn't match the begin<sub>src</sub> inside the string.
-For end<sub>src</sub>, it should probably be anchored to the begin of line.
-</p>
+it shouldn't match the begin_src inside the string.
+For end_src, it should probably be anchored to the begin of line.
 
+#+begin_src emacs-lisp
+;;; evaluating the following C-x C-e with the point at the end is ok
+(org-babel-where-is-src-block-head)
+(defun foo () (insert "#+begin_src emacs-lisp"))
+;;; evaluating the following C-x C-e with the point at the end is not ok
+(org-babel-where-is-src-block-head)
+#+end_src
 
+#+begin_src emacs-lisp
+;;; evaluating the following C-x C-e with the point at the end is ok
+(org-babel-where-is-src-block-head)
+(defun foo () (insert "#+end_src emacs-lisp"))
+;;; evaluating the following C-x C-e with the point at the end is not ok
+(org-babel-where-is-src-block-head)
+#+end_src
 
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is ok
-</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">foo</span> <span class="org-esk-paren">()</span> <span class="org-esk-paren">(</span>insert <span class="org-string">"#+begin_src emacs-lisp"</span><span class="org-esk-paren">))</span>
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is not ok
-</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
-</pre>
-
-
-
-
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is ok
-</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">foo</span> <span class="org-esk-paren">()</span> <span class="org-esk-paren">(</span>insert <span class="org-string">"#+end_src emacs-lisp"</span><span class="org-esk-paren">))</span>
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">evaluating the following C-x C-e with the point at the end is not ok
-</span><span class="org-esk-paren">(</span>org-babel-where-is-src-block-head<span class="org-esk-paren">)</span>
-</pre>
-
-
-
-<p>
 Best regards,
-</p>
-<p>
-Maurizio 
-</p></div>
+
+     Maurizio 
+</pre>
+
+</div>
 </div>
 </div>
