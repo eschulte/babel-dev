@@ -16,6 +16,11 @@
     morecomment=[l]{\#},
     morestring=[b]",
   }
+  \lstdefinelanguage{dot}
+  {
+    morekeywords={graph},
+    sensitive=false,
+  }
   \hypersetup{
     linkcolor=blue,
     pdfborder={0 0 0 0}
@@ -628,7 +633,7 @@ into the Org-mode document as a table.
   (pascals-triangle n)
 #+end_src
 
-#+Caption: Pascal's Triangle
+#+Caption: Pascal's Triangle \label{pascals-triangle-tab}
 #+results: pascals-triangle
 | 1 |   |    |    |   |   |
 | 1 | 1 |    |    |   |   |
@@ -643,17 +648,17 @@ into the Org-mode document as a table.
 # *any* python, and after a brief attempted python implementation I
 # switched to ruby.
 Having just seen how data flowing from a code block can be captured in
-a table in an Org-mode buffer, we will demonstrate three different
-data flows; from a table in an Org-mode buffer into a code block
-(/Table to Code/), from one code block directly to another code block
-(/Code to Code/), and from a Code block into a figure in an Org-mode
-buffer (/Code to Figure/).
+a table in an Org-mode buffer, we will now demonstrate three
+additional paths of data flows supported by Babel; from a table in an
+Org-mode buffer into a code block (/Table to Code/), from one code
+block directly to another code block (/Code to Code/), and from a Code
+block into a figure in an Org-mode buffer (/Code to Figure/).
 
-- Table to Code :: The block of ruby code reads the contents of the
-     table of values of Pascal's triangle calculated in the previous
-     section.  This table is accessible to the code block as a ruby
-     array.  This code block outputs commands in the =dot= graphing
-     language [fn:2].
+- Table to Code :: This block of ruby code reads the contents of the
+     "Pascal's triangle" table (Table \ref{pascals-triangle-tab})
+     calculated in the previous section into the ruby array named
+     =ps=.  This code block outputs strings of commands in the =dot=
+     graphing language [fn:2].
      #+source: ps-to-dot
      #+begin_src ruby :var ps=pascals-triangle :exports code
        r_cnt = 0
@@ -680,32 +685,40 @@ buffer (/Code to Figure/).
        end.join("\n")
      #+end_src
 
-- Code to Code :: The value of the output of the /ps-to-dot/ block of
-     =ruby= code, is called directly from the /ps-triangle-fig/ block
-     of =dot= code.  This demonstrates /chaining/ of code blocks.
-     When code blocks are chained results can flow directly between
-     code blocks w/o being written to the Org-mode buffer.
-     Additionally the evaluation of the calling (in this case the
-     /ps-to-fig/ block) will cause all referenced blocks (in this case
-     the /ps-to-dot/ block).  In this way execution propagates
-     backwards through chained code blocks.
+- Code to Code :: The value of the output of the previous block of
+     =ruby= code, is passed directly into the /ps-triangle-fig/ block
+     of =dot= code as the =$ps-vals= string.  This demonstrates
+     /chaining/ of code blocks in which results flow directly between
+     code blocks.  Evaluation propagates backwards through chained
+     code blocks.
      #+source: ps-to-fig
-     #+begin_src dot :var values=ps-to-dot :cmdline -Tpdf :file pascals-triangle.pdf :exports results
+     #+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf :exports results
        graph {
-         $values
+         $ps-vals
        }
      #+end_src
+     #+begin_src org
+       ,#+source: ps-to-fig
+       ,#+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf
+       ,  graph {
+       ,    $ps-vals
+       ,  }
+       ,#+end_src
+     #+end_src
+     #+LaTeX: %$
 
-- Code to Figure :: The =:file= header argument of dot code blocks has
-     two effects.  First it instructs the block of dot where to save
-     the image resulting from it's evaluation, and second it instructs
-     causes a link to this image to be inserted into the buffer.  This
-     link will then expand to include the contents of the image upon
-     export of the Babel document -- it is also possible to view
-     linked images inline from the Org-mode buffer.
+- Code to Figure :: The =:file= header argument of the preceding dot
+     code block (shown above in raw Org-mode syntax) has two effects.
+     First it causes the code block to save the image resulting from
+     it's evaluation into a file named =pascals-triangle.pdf=, and
+     second it causes a link to this image to be inserted into the
+     buffer.  This link will then expand to include the contents of
+     the image upon export -- it is also possible to view linked
+     images from within an Org-mode buffer.
+     
      #+Caption: Pascal's Triangle
      #+results: ps-to-fig
-     [[file:pascals-triangle.png]]
+     [[file:pascals-triangle.pdf]]
 
 *** Testing Pascal's Triangle
 Pascal's triangle has the property taking the sum of successive
