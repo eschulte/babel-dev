@@ -1,6 +1,0 @@
-Wrote /home/eschulte/src/org/lisp/babel/langs/ob-C.elc
-
-In toplevel form:
-ob-clojure.el:44:1:Warning: cl package required at runtime
-ob-clojure.el:45:1:Error: Cannot open load file: slime
-make: *** [lisp/babel/langs/ob-clojure.elc] Error 1
