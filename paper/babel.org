@@ -1,4 +1,4 @@
-# -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=\\textwidth" -*-
+# -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
 #+TITLE: Babel /DRAFT/
 #+AUTHOR: 
 #+OPTIONS: ^:nil toc:nil H:4
@@ -219,11 +219,11 @@ for other researchers to understand fully or to reproduce the results
 of the research project.
  
 A software solution to this problem was proposed by Gentleman and
-Temple Lang, who "introduce the concept of a /compendium/ as both a
-container for the different elements that make up the document and its
-computations (i.e. text, code, data, ...), and as a means for
-distributing, managing and updating the collection."  They
-summarize the uses and implications of a compendium:
+Temple Lang \cite{compendium}, who "introduce the concept of a
+/compendium/ as both a container for the different elements that make
+up the document and its computations (i.e. text, code, data, ...), and
+as a means for distributing, managing and updating the collection."
+They summarize the uses and implications of a compendium:
 
   - it encapsulates the actual work of the author, not just an
     abridged version suitable for publication; 
@@ -614,7 +614,7 @@ tabular form.  The following simple Emacs Lisp function returns the
 first 5 rows of Pascal's triangle, which are automatically inserted
 into the Org-mode document as a table.
 #+source: pascals-triangle
-#+begin_src emacs-lisp :var n=5
+#+begin_src emacs-lisp :var n=5 :exports both
   (defun pascals-triangle (n)
     (if (= n 0)
         (list (list 1))
@@ -655,7 +655,7 @@ buffer (/Code to Figure/).
      array.  This code block outputs commands in the =dot= graphing
      language [fn:2].
      #+source: ps-to-dot
-     #+begin_src ruby :var ps=pascals-triangle :exports none
+     #+begin_src ruby :var ps=pascals-triangle :exports code
        r_cnt = 0
        c_cnt = 0
        ps.map do |r|
@@ -664,10 +664,17 @@ buffer (/Code to Figure/).
          r.select{|x| x.size > 0}.map do |x|
            c_cnt += 1
            # node
-           r = "\t\"#{r_cnt}_#{c_cnt}\" [label=\"#{x}\"];"
+           r = ("\t\"#{r_cnt}_#{c_cnt}\" "+
+                "[label=\"#{x}\"];")
            # edges
-           r = r+"\"#{r_cnt-1}_#{c_cnt-1}\"--\"#{r_cnt}_#{c_cnt}\";" if (c_cnt > 1)
-           r = r+" \"#{r_cnt-1}_#{c_cnt}\"--\"#{r_cnt}_#{c_cnt}\";"   unless (c_cnt == r_cnt)
+           if (c_cnt > 1)
+             r = r+("\"#{r_cnt-1}_#{c_cnt-1}\""+
+                    "--\"#{r_cnt}_#{c_cnt}\";")
+           end
+           unless (c_cnt == r_cnt)
+             r = r+(" \"#{r_cnt-1}_#{c_cnt}\""+
+                    "--\"#{r_cnt}_#{c_cnt}\";")
+           end
            r
          end.join("\n")
        end.join("\n")
@@ -683,7 +690,7 @@ buffer (/Code to Figure/).
      the /ps-to-dot/ block).  In this way execution propagates
      backwards through chained code blocks.
      #+source: ps-to-fig
-     #+begin_src dot :var values=ps-to-dot :cmdline -Tpng :file pascals-triangle.png :exports results
+     #+begin_src dot :var values=ps-to-dot :cmdline -Tpdf :file pascals-triangle.pdf :exports results
        graph {
          $values
        }
@@ -696,6 +703,7 @@ buffer (/Code to Figure/).
      link will then expand to include the contents of the image upon
      export of the Babel document -- it is also possible to view
      linked images inline from the Org-mode buffer.
+     #+Caption: Pascal's Triangle
      #+results: ps-to-fig
      [[file:pascals-triangle.png]]
 
@@ -714,21 +722,35 @@ numbers in the row is equal the nth Fibonacci number and returns
   (let ((row (if (listp row) row (list row))))
     (if (= (fib n) (reduce #'+ row)) "pass" "fail"))
 #+end_src
-
 We can embed calls to this code block into our original table using
 spreadsheet style formulas as shown below.
-#+Caption: Pascal's Triangle (verified)
-#+results: pascals-triangle
-| 0 |    1 |    2 |    3 |    4 |    5 |
-|---+------+------+------+------+------|
-|   | pass | pass | pass | pass | pass |
-| 1 |      |      |      |      |      |
-| 1 |    1 |      |      |      |      |
-| 1 |    2 |    1 |      |      |      |
-| 1 |    3 |    3 |    1 |      |      |
-| 1 |    4 |    6 |    4 |    1 |      |
-| 1 |    5 |   10 |   10 |    5 |    1 |
-#+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
+#+begin_src org
+  ,#+Caption: Pascal's Triangle (verified)
+  ,#+results: pascals-triangle
+  ,| 0 |    1 |    2 |    3 |    4 |    5 |
+  ,|---+------+------+------+------+------|
+  ,|   | pass | pass | pass | pass | pass |
+  ,| 1 |      |      |      |      |      |
+  ,| 1 |    1 |      |      |      |      |
+  ,| 1 |    2 |    1 |      |      |      |
+  ,| 1 |    3 |    3 |    1 |      |      |
+  ,| 1 |    4 |    6 |    4 |    1 |      |
+  ,| 1 |    5 |   10 |   10 |    5 |    1 |
+  ,#+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))...
+#+end_src
+
+# #+Caption: Pascal's Triangle (verified)
+# #+results: pascals-triangle
+# | 0 |    1 |    2 |    3 |    4 |    5 |
+# |---+------+------+------+------+------|
+# |   | pass | pass | pass | pass | pass |
+# | 1 |      |      |      |      |      |
+# | 1 |    1 |      |      |      |      |
+# | 1 |    2 |    1 |      |      |      |
+# | 1 |    3 |    3 |    1 |      |      |
+# | 1 |    4 |    6 |    4 |    1 |      |
+# | 1 |    5 |   10 |   10 |    5 |    1 |
+# #+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
 
 *** COMMENT Code to Table
 # this is currently not being used
@@ -764,7 +786,7 @@ return a table of the first 10 Fibonacci numbers.
 
 # my fear with this example is that ditaa doesn't produce the best
 # looking images, for example were I to generate this diagram, I would
-# use tikz or maybe dot.  Also, I fear ASCII art risks looking like a
+# use tikz or maybed dot.  Also, I fear ASCII art risks looking like a
 # toy application (Eric)
 
 # Eric, your diagram is a big improvement.  I threw together the ditaa
@@ -1153,7 +1175,10 @@ communicate and to make their work more accessible.
 * COMMENT publish
 turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :results silent
+  ;; use latex listings for fontified code blocks
   (setq org-export-latex-listings t)
+  
+  ;; two column export
   (add-to-list 'org-export-latex-classes
                '("twocolumn" "\\documentclass[10pt, twocolumn]{article}"
                  ("\\section{%s}" . "\\section*{%s}")
@@ -1161,6 +1186,11 @@ turn on the listings package, and define the =twocolumn= latex class
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  
+  ;; replace nasty single-quotes returned by R
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (replace-regexp "’" "'")))
 #+end_src
 
 * Footnotes
