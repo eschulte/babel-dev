@@ -817,58 +817,56 @@ specify the name of the =ditaa= output, =:cmdline= passes parameters
 to =ditaa=, and =:cache yes= ensures that the code block will only be
 evaluated when its contents have changed.
 
-#+ATTR_LaTeX: width=0.4\textwidth
 #+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
-                            +-------+
-                            |       |
-  Mixed                  +--+ Babel +--+
-  Languages              |  | cGRE  |  |
-                         |  +-------+  |
-                         |             |
-                     +---+----+        |
-                     |        |        |
-  Arbitrary          | noweb  |        |
-  Language           | cBLU   |        |
-                     +---+----+        |
-                         |             |
-                     +---+----+    +---+----+
-                     |        |    |        |
-  Single             |  WEB   |    | Sweave |
-  Language           | cBLU   |    | cYEL   |
-                     +--------+    +--------+
-                     Literate      Reproducible
-                    Programming     Research
+                                  +-------+
+                                  |       |
+  Mixed                  +--------+ Babel +--------+
+  Languages              |        | cGRE  |        |
+                         |        +-------+        |
+                         |                         |
+                     +---+----+                    |
+                     |        |                    |
+  Arbitrary          | noweb  |                    |
+  Language           | cBLU   |                    |
+                     +---+----+                    |
+                         |                         |
+                     +---+----+  +----------+  +---+----+
+                     |        |  |          |  |        |
+  Single             |  WEB   |  | Scribble |  | Sweave |
+  Language           | cBLU   |  |  c798    |  | cYEL   |
+                     +--------+  +----------+  +--------+
+                     Literate      Mixed       Reproducible
+                    Programming    Use          Research
 #+END_SRC
 
-#+results[693404592cbfd49e720fa7df1690c4f5422ccbe3]:
+#+results[453d41f8b5030fd9d46eea76a9dc71e4a4a81f24]:
 [[file:lp-rr.png]]
 
 Org-mode source-code for the above
 #+begin_src org
-  ,#+ATTR_LaTeX: width=0.4\textwidth
   ,#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
-  ,                            +-------+
-  ,                            |       |
-  ,  Mixed                  +--+ Babel +--+
-  ,  Languages              |  | cGRE  |  |
-  ,                         |  +-------+  |
-  ,                         |             |
-  ,                     +---+----+        |
-  ,                     |        |        |
-  ,  Arbitrary          | noweb  |        |
-  ,  Language           | cBLU   |        |
-  ,                     +---+----+        |
-  ,                         |             |
-  ,                     +---+----+    +---+----+
-  ,                     |        |    |        |
-  ,  Single             |  WEB   |    | Sweave |
-  ,  Language           | cBLU   |    | cYEL   |
-  ,                     +--------+    +--------+
-  ,                     Literate      Reproducible
-  ,                    Programming     Research
+  ,                                  +-------+
+  ,                                  |       |
+  ,  Mixed                  +--------+ Babel +--------+
+  ,  Languages              |        | cGRE  |        |
+  ,                         |        +-------+        |
+  ,                         |                         |
+  ,                     +---+----+                    |
+  ,                     |        |                    |
+  ,  Arbitrary          | noweb  |                    |
+  ,  Language           | cBLU   |                    |
+  ,                     +---+----+                    |
+  ,                         |                         |
+  ,                     +---+----+  +----------+  +---+----+
+  ,                     |        |  |          |  |        |
+  ,  Single             |  WEB   |  | Scribble |  | Sweave |
+  ,  Language           | cBLU   |  |  c798    |  | cYEL   |
+  ,                     +--------+  +----------+  +--------+
+  ,                     Literate      Mixed       Reproducible
+  ,                    Programming    Use          Research
   ,#+END_SRC
   
-  ,#+results[6934...]:
+  ,#+results[453d...]:
   ,[[file:lp-rr.png]]
 #+end_src
 
