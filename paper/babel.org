@@ -607,17 +607,35 @@ protection against unintended evaluation of code blocks.
    :PROPERTIES:
    :CUSTOM_ID: applications
    :END:
-** Pascal's Triangle
-As mentioned Babel allows for rich interaction between code and data
-in Org-mode documents.  The following Pascal's Triangle example
-demonstrates the flow of data back and forth between code blocks, and
-data constructs in Org-mode documents.
+# I think this is a terrific example (TD)
+** COMMENT Pascal's Triangle
+Pascal's triangle is one name for a geometric arrangement of the
+binomial coefficients in a triangle.  The triangle has several
+interesting and useful mathematical properties and it has been
+discovered and re-discovered many times.  This example constructs and
+manipulates a Pascal's triangle to illustrate potential data flows in
+Babel.  Data flows from a code block to an Org-mode table, from an
+Org-mode table to a code block, from one code block to another, and
+from a code block to a graphic figure are illustrated.  Finally, the
+example uses a property of the triangle to test the correctness of the
+implementation, using emacs-lisp code blocks embedded in a tabular
+view of the triangle to verify that the property is satisfied.
+
+*** COMMENT Edited out
+As mentioned Babel allows for
+rich interaction between code and data in Org-mode documents.  The
+following Pascal's Triangle example demonstrates the flow of data back
+and forth between code blocks, and data constructs in Org-mode
+documents.
 
 *** Calculating Pascal's Triangle
-Output of code blocks can be inserted into Org-mode documents in
-tabular form.  The following simple Emacs Lisp function returns the
-first 5 rows of Pascal's triangle, which are automatically inserted
-into the Org-mode document as a table.
+
+# Output of code blocks can be inserted into Org-mode documents in
+# tabular form.  
+The following Emacs Lisp source block calculates and returns the first 5
+rows of Pascal's triangle, which Babel inserts into the Org-mode
+document as a table named =pascals-triangle= that can be referenced by
+other code blocks.
 #+source: pascals-triangle
 #+begin_src emacs-lisp :var n=5 :exports both
   (defun pascals-triangle (n)
@@ -647,18 +665,19 @@ into the Org-mode document as a table.
 # more motivating code for this example block, however I don't know
 # *any* python, and after a brief attempted python implementation I
 # switched to ruby.
-Having just seen how data flowing from a code block can be captured in
-a table in an Org-mode buffer, we will now demonstrate three
-additional paths of data flows supported by Babel; from a table in an
-Org-mode buffer into a code block (/Table to Code/), from one code
-block directly to another code block (/Code to Code/), and from a Code
-block into a figure in an Org-mode buffer (/Code to Figure/).
+
+# Having just seen how data flowing from a code block can be captured in
+# a table in an Org-mode buffer, we will now demonstrate three
+# additional paths of data flows supported by Babel; from a table in an
+# Org-mode buffer into a code block (/Table to Code/), from one code
+# block directly to another code block (/Code to Code/), and from a Code
+# block into a figure in an Org-mode buffer (/Code to Figure/).
 
 - Table to Code :: This block of ruby code reads the contents of the
-     "Pascal's triangle" table (Table \ref{pascals-triangle-tab})
-     calculated in the previous section into the ruby array named
-     =ps=.  This code block outputs strings of commands in the =dot=
-     graphing language [fn:2].
+     =pascals-triangle= table (Table \ref{pascals-triangle-tab})
+     into a ruby array named
+     =ps=.  The code block constructs strings of commands in the =dot=
+     graphing language [fn:2] and returns them.
      #+source: ps-to-dot
      #+begin_src ruby :var ps=pascals-triangle :exports code
        r_cnt = 0
@@ -1066,12 +1085,12 @@ combined natural and computational language documents.
    :CUSTOM_ID: future-work
    :END:
 Babel's integration with Emacs brings it many mature and full-featured
-environments for authoring of code and text, and for controlling the
+environments for authoring code and text and for controlling the
 evaluation of text. However, it also brings with it some limiting
 factors.  These include:
 - complex configuration, one of the beauties of Emacs is that it is
   completely configurable, but the myriad options can be confusing,
-  even to experience Emacs users. 
+  even to experienced Emacs users. 
 #+begin_comment
 - steep learning curve
   Let's find a way of more nuanced way of saying that. I find that it
@@ -1085,7 +1104,7 @@ factors.  These include:
   - inefficient
 
 These items indicate a number of paths for future work, either for
-further development of Org-babel, or for any future tool of this type.
+further development of Babel, or for a future tool of this type.
 
 - editor agnostic :: One point where Babel is not as general as it
      could be is the range of available editing environments.  Despite
@@ -1112,7 +1131,7 @@ further development of Org-babel, or for any future tool of this type.
      than ideal as a medium of data exchange and as a shepherd of
      evaluation.  Most importantly the Emacs Lisp interpreter is
      /single threaded/, this makes the asynchronous evaluation of code
-     blocks needlessly complex (in fact this features does not yet
+     blocks needlessly complex (in fact this feature does not yet
      exist in Babel).
      
      Also, the execution of Emacs Lisp requires a running Emacs
