@@ -1211,6 +1211,22 @@ communicate and to make their work more accessible.
   \bibliography{babel}
 #+end_LaTeX
 
+* COMMENT notes
+** scribble
+This is definitely related work, it extends the scheme programming
+language into a documentation language.
+
+It is used for JavaDoc style documentation, and also for all of the
+Racket documentation (see http://docs.racket-lang.org/)
+
+It allows code evaluation like babel, and sort-of literate
+programming, in that you can certainly Weave out documentation, but
+there is no analog to /tangling/ because the original document is
+already pure source code.
+
+While this is relevant, I'm not sure where it could fit into the
+paper.
+
 * COMMENT publish
 turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :results silent
