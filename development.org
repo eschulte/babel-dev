@@ -3,7 +3,27 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/161]
+* Tasks [79/162]
+** PROPOSED add org-mode lists as babel data types
+   - State "PROPOSED"   from "TODO"       [2010-07-25 Sun 10:33]
+
+from the mailing list
+#+begin_verse
+  > 3) Since I can't help but relate things to Babel... What do you think
+  >    about having list types recognized by Babel (as arrays).  This could
+  >    add nice flexibility to passing data back and forth between Babel and
+  >    the buffer, it could make it possible to do some fancy list stuff,
+  >    and if we add Hash-Maps or Dictionaries to Babel as first class
+  >    objects (which seems like a reasonable move at some point in the
+  >    nearish future) then they could integrate well with description
+  >    lists.
+
+  It's a good idea, and I think the job from org-list side is already
+  done, thanks to Bastien Guerry. You should have a look at
+  `org-list-parse-list' and `org-list-to-generic'. With both of them,
+  you can change a list back and forth to anything you'd like.
+#+end_verse
+
 ** PROPOSED allow edit of header arguments from src-edit buffer
    - State "PROPOSED"   from ""           [2010-07-20 Tue 17:09]
 Thanks to Jambunathan K for this suggestion
