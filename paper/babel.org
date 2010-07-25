@@ -607,17 +607,34 @@ protection against unintended evaluation of code blocks.
    :PROPERTIES:
    :CUSTOM_ID: applications
    :END:
-** Pascal's Triangle
-As mentioned Babel allows for rich interaction between code and data
-in Org-mode documents.  The following Pascal's Triangle example
-demonstrates the flow of data back and forth between code blocks, and
-data constructs in Org-mode documents.
+# I think this is a terrific example (TD)
+** COMMENT Pascal's Triangle
+Pascal's triangle is one name for a geometric arrangement of the
+binomial coefficients in a triangle.  The triangle has several
+interesting and useful mathematical properties.  This example
+constructs and manipulates a Pascal's triangle to illustrate potential
+data flows in Babel.  Data are passed from a code block to an Org-mode
+table, from an Org-mode table to a code block, from one code block to
+another, and from a code block to a graphic figure.  Finally, the
+example uses a property of the triangle to test the correctness of the
+implementation, using emacs-lisp code blocks embedded in a tabular
+view of the triangle to test whether the property is satisfied.
+
+*** COMMENT Edited out
+As mentioned Babel allows for
+rich interaction between code and data in Org-mode documents.  The
+following Pascal's Triangle example demonstrates the flow of data back
+and forth between code blocks, and data constructs in Org-mode
+documents.
 
 *** Calculating Pascal's Triangle
-Output of code blocks can be inserted into Org-mode documents in
-tabular form.  The following simple Emacs Lisp function returns the
-first 5 rows of Pascal's triangle, which are automatically inserted
-into the Org-mode document as a table.
+
+# Output of code blocks can be inserted into Org-mode documents in
+# tabular form.  
+The following Emacs Lisp source block calculates and returns the first
+five rows of Pascal's triangle.  Babel inserts the value returned by
+the Emacs Lisp function into the Org-mode document as a table named
+=pascals-triangle=.  This table can be referenced by other code blocks.
 #+source: pascals-triangle
 #+begin_src emacs-lisp :var n=5 :exports both
   (defun pascals-triangle (n)
@@ -647,18 +664,23 @@ into the Org-mode document as a table.
 # more motivating code for this example block, however I don't know
 # *any* python, and after a brief attempted python implementation I
 # switched to ruby.
-Having just seen how data flowing from a code block can be captured in
-a table in an Org-mode buffer, we will now demonstrate three
-additional paths of data flows supported by Babel; from a table in an
-Org-mode buffer into a code block (/Table to Code/), from one code
-block directly to another code block (/Code to Code/), and from a Code
-block into a figure in an Org-mode buffer (/Code to Figure/).
 
-- Table to Code :: This block of ruby code reads the contents of the
-     "Pascal's triangle" table (Table \ref{pascals-triangle-tab})
-     calculated in the previous section into the ruby array named
-     =ps=.  This code block outputs strings of commands in the =dot=
-     graphing language [fn:2].
+# Having just seen how data flowing from a code block can be captured in
+# a table in an Org-mode buffer, we will now demonstrate three
+# additional paths of data flows supported by Babel; from a table in an
+# Org-mode buffer into a code block (/Table to Code/), from one code
+# block directly to another code block (/Code to Code/), and from a Code
+# block into a figure in an Org-mode buffer (/Code to Figure/).
+
+The tabular view of Pascal's triangle can be illustrated using the
+=dot= graphing language.  In the following code block the
+=pascals-triangle= table (Table \ref{pascals-triangle-tab}) is passed
+to a block of code in the =ruby= language through the variable =ps=.
+Babel transforms the Org-mode table into a =ruby= array, which the
+code block uses to construct strings of =dot= commands.  The strings
+of =dot= commands are returned without being inserted into the
+Org-mode buffer, as indicated by the =:exports code= header argument.
+
      #+source: ps-to-dot
      #+begin_src ruby :var ps=pascals-triangle :exports code
        r_cnt = 0
@@ -685,12 +707,20 @@ block into a figure in an Org-mode buffer (/Code to Figure/).
        end.join("\n")
      #+end_src
 
-- Code to Code :: The value of the output of the previous block of
-     =ruby= code, is passed directly into the /ps-triangle-fig/ block
-     of =dot= code as the =$ps-vals= string.  This demonstrates
-     /chaining/ of code blocks in which results flow directly between
-     code blocks.  Evaluation propagates backwards through chained
-     code blocks.
+Instead, the value of the output is passed directly into a block of
+=dot= code by assigning the name of the =ruby= code block to the
+variable =ps-vals=.  Passing the results of one code block to another
+in this way is called /chaining/; Babel places no limit on the number
+of code blocks that can be chained together.  Evaluation propagates
+backwards through chained code blocks.  In this example, the =:file=
+header argument causes the code block to save the image resulting from
+it's evaluation into a file named =pascals-triangle.pdf=, and inserts
+a link to this image into the Org-mode buffer.  This link will then
+expand to include the contents of the image upon export -- it is also
+possible to view linked images from within an Org-mode buffer.
+
+# This doesn't run for me, I get an empty pdf file (TD)
+
      #+source: ps-to-fig
      #+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf :exports results
        graph {
@@ -707,27 +737,25 @@ block into a figure in an Org-mode buffer (/Code to Figure/).
      #+end_src
      #+LaTeX: %$
 
-- Code to Figure :: The =:file= header argument of the preceding dot
-     code block (shown above in raw Org-mode syntax) has two effects.
-     First it causes the code block to save the image resulting from
-     it's evaluation into a file named =pascals-triangle.pdf=, and
-     second it causes a link to this image to be inserted into the
-     buffer.  This link will then expand to include the contents of
-     the image upon export -- it is also possible to view linked
-     images from within an Org-mode buffer.
-     
      #+Caption: Pascal's Triangle
      #+results: ps-to-fig
      [[file:pascals-triangle.pdf]]
 
-*** Testing Pascal's Triangle
-Pascal's triangle has the property taking the sum of successive
-diagonals of the triangle yields the Fibonacci series.  We can verify
-this property for our tabular Pascal's Triangle from above.  The
-following code block can be used to test this property.  It takes a
-row of numbers and a number n and returns "pass" if their sum of the
-numbers in the row is equal the nth Fibonacci number and returns
-"fail" otherwise.
+*** Testing for correctness
+Now that Pascal's triangle has been constructed and a graphic
+representation prepared, it is worth asking whether the triangle
+itself is correct.  Because the sum of successive diagonals of the
+triangle yields the Fibonacci series, it is possible to verify that
+the triangle is correct.  This can be done in many ways; here, it is
+done with a short block of Emacs Lisp code that takes a row of numbers
+and a number =n= and returns =pass= if the sum of the numbers in the
+row is equal the nth Fibonacci number and returns =fail= otherwise.
+With Babel, calls to this code block can be embedded into the tabular
+view of Pascal's triangle using spreadsheet style formulas.  When the
+spreadsheet is calculated, it returns =pass= for each of the five
+diagonals, confirming that the implementation of Pascal's triangle is
+correct.
+
 #+source: ps-check
 #+begin_src emacs-lisp :var row='(1 2 1) :var n=0
   (defun fib (n)
@@ -735,8 +763,7 @@ numbers in the row is equal the nth Fibonacci number and returns
   (let ((row (if (listp row) row (list row))))
     (if (= (fib n) (reduce #'+ row)) "pass" "fail"))
 #+end_src
-We can embed calls to this code block into our original table using
-spreadsheet style formulas as shown below.
+
 #+begin_src org
   ,#+Caption: Pascal's Triangle (verified)
   ,#+results: pascals-triangle
@@ -752,18 +779,19 @@ spreadsheet style formulas as shown below.
   ,#+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))...
 #+end_src
 
+# I get these results (TD)
 # #+Caption: Pascal's Triangle (verified)
-# #+results: pascals-triangle
-# | 0 |    1 |    2 |    3 |    4 |    5 |
-# |---+------+------+------+------+------|
-# |   | pass | pass | pass | pass | pass |
-# | 1 |      |      |      |      |      |
-# | 1 |    1 |      |      |      |      |
-# | 1 |    2 |    1 |      |      |      |
-# | 1 |    3 |    3 |    1 |      |      |
-# | 1 |    4 |    6 |    4 |    1 |      |
-# | 1 |    5 |   10 |   10 |    5 |    1 |
-# #+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
+#+results: pascals-triangle
+| 0 |    1 |    2 |    3 |    4 |    5 |
+|---+------+------+------+------+------|
+|   | pass | pass | fail | fail | fail |
+| 1 |      |      |      |      |      |
+| 1 |    1 |      |      |      |      |
+| 1 |    2 |    1 |      |      |      |
+| 1 |    3 |    3 |    1 |      |      |
+| 1 |    4 |    6 |    4 |    1 |      |
+| 1 |    5 |   10 |   10 |    5 |    1 |
+#+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
 
 *** COMMENT Code to Table
 # this is currently not being used
@@ -1066,12 +1094,12 @@ combined natural and computational language documents.
    :CUSTOM_ID: future-work
    :END:
 Babel's integration with Emacs brings it many mature and full-featured
-environments for authoring of code and text, and for controlling the
+environments for authoring code and text and for controlling the
 evaluation of text. However, it also brings with it some limiting
 factors.  These include:
 - complex configuration, one of the beauties of Emacs is that it is
   completely configurable, but the myriad options can be confusing,
-  even to experience Emacs users. 
+  even to experienced Emacs users. 
 #+begin_comment
 - steep learning curve
   Let's find a way of more nuanced way of saying that. I find that it
@@ -1085,7 +1113,7 @@ factors.  These include:
   - inefficient
 
 These items indicate a number of paths for future work, either for
-further development of Org-babel, or for any future tool of this type.
+further development of Babel, or for a future tool of this type.
 
 - editor agnostic :: One point where Babel is not as general as it
      could be is the range of available editing environments.  Despite
@@ -1112,7 +1140,7 @@ further development of Org-babel, or for any future tool of this type.
      than ideal as a medium of data exchange and as a shepherd of
      evaluation.  Most importantly the Emacs Lisp interpreter is
      /single threaded/, this makes the asynchronous evaluation of code
-     blocks needlessly complex (in fact this features does not yet
+     blocks needlessly complex (in fact this feature does not yet
      exist in Babel).
      
      Also, the execution of Emacs Lisp requires a running Emacs
