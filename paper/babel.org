@@ -705,6 +705,7 @@ possible to view linked images from within an Org-mode buffer.
 # This doesn't run for me, I get an empty pdf file (TD)
 #
 # Fixed I had removed the required :cmdline -Tpdf header argument (Eric)
+# Yes, works here, too.  Dot does a nice job.
 
 #+source: ps-to-fig
 #+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf :file pascals-triangle.pdf :exports results
@@ -764,12 +765,15 @@ correct.
   ,#+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))...
 #+end_src
 
-# I get these results (TD)
+# I still get these results (TD), not sure why cols 3-5 fail
+# I'm running this by placing point in the table and selecting
+# Recalculate All from the Tbl/Calculate menu.
+
 # #+Caption: Pascal's Triangle (verified)
 #+results: pascals-triangle
 | 0 |    1 |    2 |    3 |    4 |    5 |
 |---+------+------+------+------+------|
-|   | pass | pass | pass | pass | pass |
+|   | pass | pass | fail | fail | fail |
 | 1 |      |      |      |      |      |
 | 1 |    1 |      |      |      |      |
 | 1 |    2 |    1 |      |      |      |
