@@ -608,7 +608,7 @@ protection against unintended evaluation of code blocks.
    :CUSTOM_ID: applications
    :END:
 # I think this is a terrific example (TD)
-** COMMENT Pascal's Triangle
+** Pascal's Triangle
 Pascal's triangle is one name for a geometric arrangement of the
 binomial coefficients in a triangle.  The triangle has several
 interesting and useful mathematical properties.  This example
@@ -620,17 +620,7 @@ example uses a property of the triangle to test the correctness of the
 implementation, using emacs-lisp code blocks embedded in a tabular
 view of the triangle to test whether the property is satisfied.
 
-*** COMMENT Edited out
-As mentioned Babel allows for
-rich interaction between code and data in Org-mode documents.  The
-following Pascal's Triangle example demonstrates the flow of data back
-and forth between code blocks, and data constructs in Org-mode
-documents.
-
 *** Calculating Pascal's Triangle
-
-# Output of code blocks can be inserted into Org-mode documents in
-# tabular form.  
 The following Emacs Lisp source block calculates and returns the first
 five rows of Pascal's triangle.  Babel inserts the value returned by
 the Emacs Lisp function into the Org-mode document as a table named
@@ -665,13 +655,6 @@ the Emacs Lisp function into the Org-mode document as a table named
 # *any* python, and after a brief attempted python implementation I
 # switched to ruby.
 
-# Having just seen how data flowing from a code block can be captured in
-# a table in an Org-mode buffer, we will now demonstrate three
-# additional paths of data flows supported by Babel; from a table in an
-# Org-mode buffer into a code block (/Table to Code/), from one code
-# block directly to another code block (/Code to Code/), and from a Code
-# block into a figure in an Org-mode buffer (/Code to Figure/).
-
 The tabular view of Pascal's triangle can be illustrated using the
 =dot= graphing language.  In the following code block the
 =pascals-triangle= table (Table \ref{pascals-triangle-tab}) is passed
@@ -681,31 +664,31 @@ code block uses to construct strings of =dot= commands.  The strings
 of =dot= commands are returned without being inserted into the
 Org-mode buffer, as indicated by the =:exports code= header argument.
 
-     #+source: ps-to-dot
-     #+begin_src ruby :var ps=pascals-triangle :exports code
-       r_cnt = 0
-       c_cnt = 0
-       ps.map do |r|
-         r_cnt += 1
-         c_cnt = 0
-         r.select{|x| x.size > 0}.map do |x|
-           c_cnt += 1
-           # node
-           r = ("\t\"#{r_cnt}_#{c_cnt}\" "+
-                "[label=\"#{x}\"];")
-           # edges
-           if (c_cnt > 1)
-             r = r+("\"#{r_cnt-1}_#{c_cnt-1}\""+
-                    "--\"#{r_cnt}_#{c_cnt}\";")
-           end
-           unless (c_cnt == r_cnt)
-             r = r+(" \"#{r_cnt-1}_#{c_cnt}\""+
-                    "--\"#{r_cnt}_#{c_cnt}\";")
-           end
-           r
-         end.join("\n")
-       end.join("\n")
-     #+end_src
+#+source: ps-to-dot
+#+begin_src ruby :var ps=pascals-triangle :exports code
+  r_cnt = 0
+  c_cnt = 0
+  ps.map do |r|
+    r_cnt += 1
+    c_cnt = 0
+    r.select{|x| x.size > 0}.map do |x|
+      c_cnt += 1
+      # node
+      r = ("\t\"#{r_cnt}_#{c_cnt}\" "+
+           "[label=\"#{x}\"];")
+      # edges
+      if (c_cnt > 1)
+        r = r+("\"#{r_cnt-1}_#{c_cnt-1}\""+
+               "--\"#{r_cnt}_#{c_cnt}\";")
+      end
+      unless (c_cnt == r_cnt)
+        r = r+(" \"#{r_cnt-1}_#{c_cnt}\""+
+               "--\"#{r_cnt}_#{c_cnt}\";")
+      end
+      r
+    end.join("\n")
+  end.join("\n")
+#+end_src
 
 Instead, the value of the output is passed directly into a block of
 =dot= code by assigning the name of the =ruby= code block to the
@@ -720,26 +703,28 @@ expand to include the contents of the image upon export -- it is also
 possible to view linked images from within an Org-mode buffer.
 
 # This doesn't run for me, I get an empty pdf file (TD)
+#
+# Fixed I had removed the required :cmdline -Tpdf header argument (Eric)
 
-     #+source: ps-to-fig
-     #+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf :exports results
-       graph {
-         $ps-vals
-       }
-     #+end_src
-     #+begin_src org
-       ,#+source: ps-to-fig
-       ,#+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf
-       ,  graph {
-       ,    $ps-vals
-       ,  }
-       ,#+end_src
-     #+end_src
-     #+LaTeX: %$
+#+source: ps-to-fig
+#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf :file pascals-triangle.pdf :exports results
+  graph {
+    $ps-vals
+  }
+#+end_src
+#+begin_src org
+  ,#+source: ps-to-fig
+  ,#+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf :cmdline -Tpdf
+  ,  graph {
+  ,    $ps-vals
+  ,  }
+  ,#+end_src
+#+end_src
+#+LaTeX: %$
 
-     #+Caption: Pascal's Triangle
-     #+results: ps-to-fig
-     [[file:pascals-triangle.pdf]]
+#+Caption: Pascal's Triangle
+#+results: ps-to-fig
+[[file:pascals-triangle.pdf]]
 
 *** Testing for correctness
 Now that Pascal's triangle has been constructed and a graphic
@@ -784,7 +769,7 @@ correct.
 #+results: pascals-triangle
 | 0 |    1 |    2 |    3 |    4 |    5 |
 |---+------+------+------+------+------|
-|   | pass | pass | fail | fail | fail |
+|   | pass | pass | pass | pass | pass |
 | 1 |      |      |      |      |      |
 | 1 |    1 |      |      |      |      |
 | 1 |    2 |    1 |      |      |      |
@@ -792,36 +777,6 @@ correct.
 | 1 |    4 |    6 |    4 |    1 |      |
 | 1 |    5 |   10 |   10 |    5 |    1 |
 #+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
-
-*** COMMENT Code to Table
-# this is currently not being used
-
-Output of code blocks can be inserted into Org-mode documents in
-tabular form.  The following simple Emacs Lisp function can be used to
-return a table of the first 10 Fibonacci numbers.
-
-#+source: fibs
-#+begin_src emacs-lisp :var n=10 :colnames '("n" "fn")
-  (defun fib (n)
-    (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2)))))
-  
-  (mapcar (lambda (n) (list n (fib n))) (number-sequence 0 n))
-#+end_src
-
-#+results: fibs
-|  n | fn |
-|----+----|
-|  0 |  1 |
-|  1 |  1 |
-|  2 |  2 |
-|  3 |  3 |
-|  4 |  5 |
-|  5 |  8 |
-|  6 | 13 |
-|  7 | 21 |
-|  8 | 34 |
-|  9 | 55 |
-| 10 | 89 |
 
 ** Generate a Figure with =ditaa=
 
