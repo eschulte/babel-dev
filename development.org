@@ -6324,7 +6324,39 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/93]
+* Bugs [83/94]
+** TODO sha1 hash visibility with org-mode-restart
+- State "TODO"       from ""           [2010-07-29 Thu 21:28]
+
+In the example below, first execute the block to get a hidden sha1
+hash. Then if you use C-c C-c on the #+ line, the hash becomes fully
+visible.
+
+#+begin_src emacs-lisp :cache yes
+1
+#+end_src
+
+#+results[6a71fb0c2a1a1d0e79f72d9391908cf396bef3a0]:
+: 1
+
+#+whatever
+
+Basically what happens on C-c C-c is that the outline overlays are
+recorded, org-mode-restart gets called, then outline visibility is
+restored. The problem is that the hash overlay is not dealt with by
+this. A simple workaround is
+
+-        (overlay-put ov2 'invisible 'org-babel-hide-hash)
++        (overlay-put ov2 'invisible 'outline)
+
+But this is not nice from a design point of view. One solution might be
+to alter `org-save-outline-visibility' such that it saves a broader
+class of overlays?
+
+There's a (I think a separate?) problem that with the hash fully
+displayed, folding the headline leaves the hash displayed in a nasty
+way.
+
 ** DONE conditionally remove existing results of source-code block on export
    - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
    - State "TODO"       from ""           [2010-06-07 Mon 13:07]
