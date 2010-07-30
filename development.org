@@ -3,7 +3,61 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/163]
+* Tasks [79/164]
+** PROPOSED Allow contents of source blocks to be in external files
+- State "PROPOSED"   from ""           [2010-07-29 Thu 21:33]
+
+Dan Davison <davison@stats.ox.ac.uk> writes:
+
+> Hi Eric,
+>
+> I'd like to revisit the discussion that we had before about the
+> possibility of having src blocks in which the code is not actually
+> embedded in an org file.
+>
+> This is the only major obstacle I've encountered in using babel: what
+> started off as a project with tangled babel src blocks ended up as a
+> traditional non-babel project: the babel part died completely.
+
+I've had similar issues, and see some more on the horizon.
+
+> The reason was that some of the collaborators were non babel users,
+> and we needed a way for changes to the code to be propagated in all
+> directions among the authors. We were using git, and a related point
+> is that I am attracted to tracking code changes and org text changes
+> separately in my VCS (e.g. as would be done automatically if they
+> resided in separate files)
+>
+> The thread from the list discussion we had is 
+>
+> http://thread.gmane.org/gmane.emacs.orgmode/24431
+>
+> Do you have any updated thoughts on this topic? Is it relevant to babel?
+
+I think that a general "remote block" solution would be best, maybe even
+a solution which allows remote tables (would include radio tables).
+
+> 
+> Should we be thinking in terms of org blocks or org links or both or
+> neither??
+>
+
+I'm not sure what the best implementation system would be.  I'd check
+what the radio table implementation uses.  Currently there is some
+minimal support for relating source code sections to org-mode documents
+through comments, however special comment insertion may not always be
+possible (thinking legacy code, or large projects).  So ideally the
+solution should require *no* org-specific markup in the source files.
+
+Definitely a challenging problem -- I wonder if there is existing
+similar Emacs support for maintaining remote references to sections of
+files (e.g. TAGS).
+
+Best -- Eric
+
+>
+> Dan
+
 ** PROPOSED don't add babel actions to comint input history
    - State "PROPOSED"   from ""           [2010-07-27 Tue 12:40]
 
