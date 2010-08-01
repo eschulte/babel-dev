@@ -6378,7 +6378,34 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/94]
+* Bugs [83/95]
+** TODO remove octave prompt from session output
+- State "TODO" from "" [2010-08-01 Sun 11:53] 
+
+>> #+tblname: test
+>> | 1 | 2 | 3 |
+>> 
+>> #+source: outtest
+>> #+begin_src octave  :session *out*   :var vec=test :results output
+>> vecb=vec;
+>> vecb
+>> #+end_src
+>> 
+>> --8<---------------cut here---------------end--------------->8---
+>> 
+>> You will get following output
+>> 
+>> #+results: outtest
+>> : vec =
+>> : 
+>> :    1   2   3
+>> : octave.exe> vecb =
+>> : 
+>> :    1   2   3
+>> 
+>> As you see I get two outputs : vec variable and vecb (with octave prompt).
+>> It is what I expected, excepted vec output.
+
 ** TODO sha1 hash visibility with org-mode-restart
 - State "TODO"       from ""           [2010-07-29 Thu 21:28]
 
