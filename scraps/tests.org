@@ -454,7 +454,9 @@ ans =
 #+end_src
 
 #+results:
-: 3.00763000e+05
+: 300763
+
+
 ********* string
 #+begin_src octave :session *babel-octave*
   ans = 'string from octave with 100%'
@@ -462,6 +464,7 @@ ans =
 
 #+results:
 : string from octave with 100%
+
 ********* vector
 #+tblname: octave-test-vec
 | 1 | 2 | 3 |
@@ -475,17 +478,15 @@ x+0
 #+end_src
 
 #+results:
-: 1.00000000e+00 2.00000000e+00 3.00000000e+00
+| 1 | 2 | 3 |
 
 #+begin_src octave :session :var x=octave-test-mat
 x+0
 #+end_src
 
 #+results:
-| 1.00000000e+00 | 2.00000000e+00 | 3.00000000e+00 |
-| 4.00000000e+00 | 5.00000000e+00 | 6.00000000e+00 |
-
-
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |
 
 ******* WORKS matlab
 	Strings still returned as ascii codes
@@ -495,9 +496,9 @@ x+0
 #+end_src
 
 #+results:
-| 8.0000000e+00 | 1.0000000e+00 | 6.0000000e+00 |
-| 3.0000000e+00 | 5.0000000e+00 | 7.0000000e+00 |
-| 4.0000000e+00 | 9.0000000e+00 | 2.0000000e+00 |
+| 8 | 1 | 6 |
+| 3 | 5 | 7 |
+| 4 | 9 | 2 |
 ********* WORKS string
 #+begin_src matlab :session *babel-matlab* :dir /ddavison@tombstone.princeton.edu:
   'string from matlab'
@@ -505,6 +506,7 @@ x+0
 
 #+results:
 : string from matlab
+
 ***** non-session
     :PROPERTIES:
     :session: none
@@ -678,14 +680,16 @@ x+0
 #+end_src
 
 #+results:
-| 6.75000000e+00 |
+| 6.75 |
+
 ********* string
 #+begin_src octave :var z=676
-  'string from octave'
+['tab	with', 'embedded tabs']
 #+end_src
 
 #+results:
-: string from octave
+: tab   withembedded tabs
+
 ******* matlab
 ********* numeric
 #+begin_src matlab :dir /ddavison@sixtyfour.princeton.edu: :var z=20
@@ -693,8 +697,9 @@ x+0
 #+end_src
 
 #+results:
-:    3.3333333e+00
-:    2.8571429e+00
+| 3.3333 |
+| 2.8571 |
+
 ********* string
 #+begin_src matlab :dir /ddavison@sixtyfour.princeton.edu: :var z=20
   'string from matlab'
@@ -702,6 +707,7 @@ x+0
 
 #+results:
 : string from matlab
+
 * File output links
   :PROPERTIES:
   :exports: both
