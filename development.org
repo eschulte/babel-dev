@@ -6378,7 +6378,17 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/95]
+* Bugs [83/96]
+** TODO src block regexp doesn't match with empty body
+- State "TODO"       from ""           [2010-08-05 Thu 00:25]
+
+Sometimes I like to create an empty body just to do C-c C-v z and
+start my session.q
+
+#+begin_src R :session *R-Papilio*
+
+#+end_src
+
 ** TODO remove octave prompt from session output
 - State "TODO" from "" [2010-08-01 Sun 11:53] 
 
