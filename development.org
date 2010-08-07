@@ -6378,7 +6378,21 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/97]
+* Bugs [83/98]
+** TODO org-babel-read bug
+- State "TODO"       from ""           [2010-08-07 Sat 18:36]
+
+The second evaluation results in "Symbol's function definition is
+void: a", during `org-babel-read'
+
+#+begin_src emacs-lisp :cache yes
+'((a . b))
+#+end_src
+
+#+results[bb636ec8540a08d49cd3b04273d14984ba4ec31d]:
+| (a . b) |
+
+
 ** TODO org-babel-prep-session:R sometimes fails to evaluate code
 - State "TODO"       from ""           [2010-08-07 Sat 18:01]
 
