@@ -6378,7 +6378,27 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/99]
+* Bugs [83/100]
+** TODO Appended newline character when using indexing
+- State "TODO"       from ""           [2010-08-08 Sun 16:25]
+
+#+srcname: totals 
+#+begin_src perl  :var details=expenses[1:-1]
+  my $total = 0;
+  foreach my $row  (@$details) {
+      $total += @$row[2];
+  }
+  
+return $total;
+#+end_src
+
+(sbe "totals(details=expenses[1:-1])")
+
+thius sbe call returns "155..."
+
+The ellipsis comes from `org-babel-table-truncate-at-newline', which
+encounters a newline char that shouldn't be there.
+
 ** TODO sbe adds extra ()s
 - State "TODO"       from ""           [2010-08-08 Sun 16:22]
 
@@ -6422,7 +6442,6 @@ void: a", during `org-babel-read'
 
 #+results[bb636ec8540a08d49cd3b04273d14984ba4ec31d]:
 | (a . b) |
-
 
 ** TODO org-babel-prep-session:R sometimes fails to evaluate code
 - State "TODO"       from ""           [2010-08-07 Sat 18:01]
