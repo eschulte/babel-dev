@@ -3,7 +3,89 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/161]
+* Tasks [79/164]
+** PROPOSED Allow contents of source blocks to be in external files
+- State "PROPOSED"   from ""           [2010-07-29 Thu 21:33]
+
+Dan Davison <davison@stats.ox.ac.uk> writes:
+
+> Hi Eric,
+>
+> I'd like to revisit the discussion that we had before about the
+> possibility of having src blocks in which the code is not actually
+> embedded in an org file.
+>
+> This is the only major obstacle I've encountered in using babel: what
+> started off as a project with tangled babel src blocks ended up as a
+> traditional non-babel project: the babel part died completely.
+
+I've had similar issues, and see some more on the horizon.
+
+> The reason was that some of the collaborators were non babel users,
+> and we needed a way for changes to the code to be propagated in all
+> directions among the authors. We were using git, and a related point
+> is that I am attracted to tracking code changes and org text changes
+> separately in my VCS (e.g. as would be done automatically if they
+> resided in separate files)
+>
+> The thread from the list discussion we had is 
+>
+> http://thread.gmane.org/gmane.emacs.orgmode/24431
+>
+> Do you have any updated thoughts on this topic? Is it relevant to babel?
+
+I think that a general "remote block" solution would be best, maybe even
+a solution which allows remote tables (would include radio tables).
+
+> 
+> Should we be thinking in terms of org blocks or org links or both or
+> neither??
+>
+
+I'm not sure what the best implementation system would be.  I'd check
+what the radio table implementation uses.  Currently there is some
+minimal support for relating source code sections to org-mode documents
+through comments, however special comment insertion may not always be
+possible (thinking legacy code, or large projects).  So ideally the
+solution should require *no* org-specific markup in the source files.
+
+Definitely a challenging problem -- I wonder if there is existing
+similar Emacs support for maintaining remote references to sections of
+files (e.g. TAGS).
+
+Best -- Eric
+
+>
+> Dan
+
+** PROPOSED don't add babel actions to comint input history
+   - State "PROPOSED"   from ""           [2010-07-27 Tue 12:40]
+
+This should be doable by protecting the value of the comint-input-ring
+from babel-evaluated lines.
+
+Maybe a wrapper in org-babel-comint-with-output.
+
+** PROPOSED add org-mode lists as babel data types
+   - State "PROPOSED"   from "TODO"       [2010-07-25 Sun 10:33]
+
+from the mailing list
+#+begin_verse
+  > 3) Since I can't help but relate things to Babel... What do you think
+  >    about having list types recognized by Babel (as arrays).  This could
+  >    add nice flexibility to passing data back and forth between Babel and
+  >    the buffer, it could make it possible to do some fancy list stuff,
+  >    and if we add Hash-Maps or Dictionaries to Babel as first class
+  >    objects (which seems like a reasonable move at some point in the
+  >    nearish future) then they could integrate well with description
+  >    lists.
+
+  It's a good idea, and I think the job from org-list side is already
+  done, thanks to Bastien Guerry. You should have a look at
+  `org-list-parse-list' and `org-list-to-generic'. With both of them,
+  you can change a list back and forth to anything you'd like.
+#+end_verse
+
 ** PROPOSED allow edit of header arguments from src-edit buffer
    - State "PROPOSED"   from ""           [2010-07-20 Tue 17:09]
 Thanks to Jambunathan K for this suggestion
@@ -2706,7 +2788,7 @@ buffer had no associated filename. So this is a problem which needs
 addressing. Maybe defadvice could be used on ess functions where
 necessary to make org/org-babel play nicely with ess?
 
-**** DONE C-x s steals focus
+*** DONE C-x s steals focus
      With two modified edit buffers open, make one of them the current
      buffer and issue C-x s. It will offer to save both of them, but
      the second one to be saved will become the current buffer at the
@@ -6296,7 +6378,165 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/93]
+* Bugs [83/100]
+** TODO Appended newline character when using indexing
+- State "TODO"       from ""           [2010-08-08 Sun 16:25]
+
+#+srcname: totals 
+#+begin_src perl  :var details=expenses[1:-1]
+  my $total = 0;
+  foreach my $row  (@$details) {
+      $total += @$row[2];
+  }
+  
+return $total;
+#+end_src
+
+(sbe "totals(details=expenses[1:-1])")
+
+thius sbe call returns "155..."
+
+The ellipsis comes from `org-babel-table-truncate-at-newline', which
+encounters a newline char that shouldn't be there.
+
+** TODO sbe adds extra ()s
+- State "TODO"       from ""           [2010-08-08 Sun 16:22]
+
+(sbe "totals()")
+
+I think this patch should be applied so that () is not added in the above sbe call
+
+	Modified lisp/ob-table.el
+diff --git a/lisp/ob-table.el b/lisp/ob-table.el
+index 4a0454c..5e2770d 100644
+--- a/lisp/ob-table.el
++++ b/lisp/ob-table.el
+@@ -104,7 +104,7 @@ example above."
+                 (eval `(org-babel-parse-header-arguments
+                         (concat ":var results="
+                                 ,source-block
+-                                "("
++			       (if ,variables (concat "("
+                                 (mapconcat
+ 				 (lambda (var-spec)
+ 				   (if (> (length (cdr var-spec)) 1)
+@@ -113,7 +113,7 @@ example above."
+ 				     (format "%S=%s"
+ 					     (car var-spec) (cadr var-spec))))
+ 				 ',variables ", ")
+-                                ")")))))
++                                ")")))))))
+            (org-babel-execute-src-block
+             nil (list "emacs-lisp" "results"
+                       (org-babel-merge-params '((:results . "silent")) params))))
+
+** TODO org-babel-read bug
+- State "TODO"       from ""           [2010-08-07 Sat 18:36]
+
+The second evaluation results in "Symbol's function definition is
+void: a", during `org-babel-read'
+
+#+begin_src emacs-lisp :cache yes
+'((a . b))
+#+end_src
+
+#+results[bb636ec8540a08d49cd3b04273d14984ba4ec31d]:
+| (a . b) |
+
+** TODO org-babel-prep-session:R sometimes fails to evaluate code
+- State "TODO"       from ""           [2010-08-07 Sat 18:01]
+
+Sometimes the R-prep-session function fails to evaluate the code,
+because there is some text lying around at the prompt in the session
+buffer. Is there a way of guarenteeing that the session is ready to
+accept input?
+** TODO src block regexp doesn't match with empty body
+- State "TODO"       from ""           [2010-08-05 Thu 00:25]
+
+Sometimes I like to create an empty body just to do C-c C-v z and
+start my session.
+
+#+begin_src R :session *R-Papilio*
+
+#+end_src
+
+This seems to fix it but I haven't tested and not confident about the
++? *? stuff.
+
+	Modified lisp/ob.el
+diff --git a/lisp/ob.el b/lisp/ob.el
+index 6e74c15..eb06488 100644
+--- a/lisp/ob.el
++++ b/lisp/ob.el
+@@ -113,7 +113,7 @@ remove code block execution from the C-c C-c keybinding."
+    ;; (4) header arguments
+    "\\([^\n]*\\)\n"
+    ;; (5) body
+-   "\\([^\000]+?\n\\)[ \t]*#\\+end_src")
++   "\\([^\000]*?\n\\)[ \t]*#\\+end_src")
+   "Regexp used to identify code blocks.")
+ 
+ (defvar org-babel-inline-src-block-regexp
+
+** TODO remove octave prompt from session output
+- State "TODO" from "" [2010-08-01 Sun 11:53] 
+
+>> #+tblname: test
+>> | 1 | 2 | 3 |
+>> 
+>> #+source: outtest
+>> #+begin_src octave  :session *out*   :var vec=test :results output
+>> vecb=vec;
+>> vecb
+>> #+end_src
+>> 
+>> --8<---------------cut here---------------end--------------->8---
+>> 
+>> You will get following output
+>> 
+>> #+results: outtest
+>> : vec =
+>> : 
+>> :    1   2   3
+>> : octave.exe> vecb =
+>> : 
+>> :    1   2   3
+>> 
+>> As you see I get two outputs : vec variable and vecb (with octave prompt).
+>> It is what I expected, excepted vec output.
+
+** TODO sha1 hash visibility with org-mode-restart
+- State "TODO"       from ""           [2010-07-29 Thu 21:28]
+
+In the example below, first execute the block to get a hidden sha1
+hash. Then if you use C-c C-c on the #+ line, the hash becomes fully
+visible.
+
+#+begin_src emacs-lisp :cache yes
+1
+#+end_src
+
+#+results[6a71fb0c2a1a1d0e79f72d9391908cf396bef3a0]:
+: 1
+
+#+whatever
+
+Basically what happens on C-c C-c is that the outline overlays are
+recorded, org-mode-restart gets called, then outline visibility is
+restored. The problem is that the hash overlay is not dealt with by
+this. A simple workaround is
+
+-        (overlay-put ov2 'invisible 'org-babel-hide-hash)
++        (overlay-put ov2 'invisible 'outline)
+
+But this is not nice from a design point of view. One solution might be
+to alter `org-save-outline-visibility' such that it saves a broader
+class of overlays?
+
+There's a (I think a separate?) problem that with the hash fully
+displayed, folding the headline leaves the hash displayed in a nasty
+way.
+
 ** DONE conditionally remove existing results of source-code block on export
    - State "DONE"       from "TODO"       [2010-06-07 Mon 13:17]
    - State "TODO"       from ""           [2010-06-07 Mon 13:07]

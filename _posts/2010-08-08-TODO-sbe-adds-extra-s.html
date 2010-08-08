@@ -1,0 +1,61 @@
+---
+title: TODO sbe adds extra ()s
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> sbe adds extra ()s </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-08 Sun 16:22</span></span>
+</li>
+</ul>
+
+
+<p>
+(sbe "totals()")
+</p>
+<p>
+I think this patch should be applied so that () is not added in the above sbe call
+</p>
+<p>
+Modified lisp/ob-table.el
+diff &ndash;git a/lisp/ob-table.el b/lisp/ob-table.el
+index 4a0454c..5e2770d 100644
+&mdash; a/lisp/ob-table.el
++++ b/lisp/ob-table.el
+@@ -104,7 +104,7 @@ example above."
+(eval `(org-babel-parse-header-arguments
+(concat ":var results="
+,source-block
+</p><ul>
+<li>
+                               "("
+</li>
+<li>
+                             (if ,variables (concat "("
+(mapconcat
+(lambda (var-spec)
+(if (&gt; (length (cdr var-spec)) 1)
+</li>
+</ul>
+
+<p>@@ -113,7 +113,7 @@ example above."
+(format "%S=%s"
+(car var-spec) (cadr var-spec))))
+',variables ", ")
+</p><ul>
+<li>
+                               ")")))))
+</li>
+<li>
+                               ")")))))))
+(org-babel-execute-src-block
+nil (list "emacs-lisp" "results"
+(org-babel-merge-params '((:results . "silent")) params))))
+</li>
+</ul>
+</div>
+</div>

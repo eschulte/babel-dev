@@ -1,0 +1,57 @@
+---
+title: TODO src block regexp doesn't match with empty body
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> src block regexp doesn't match with empty body </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-05 Thu 00:25</span></span>
+</li>
+</ul>
+
+
+<p>
+Sometimes I like to create an empty body just to do C-c C-v z and
+start my session.
+</p>
+
+
+
+<pre class="src src-nil">nil
+</pre>
+
+
+
+<p>
+This seems to fix it but I haven't tested and not confident about the
++? *? stuff.
+</p>
+<p>
+Modified lisp/ob.el
+diff &ndash;git a/lisp/ob.el b/lisp/ob.el
+index 6e74c15..eb06488 100644
+&mdash; a/lisp/ob.el
++++ b/lisp/ob.el
+@@ -113,7 +113,7 @@ remove code block execution from the C-c C-c keybinding."
+;; (4) header arguments
+"\\([<sup>\n]</sup>*\\)\n"
+;; (5) body
+</p><ul>
+<li>
+  "\\([<sup>\000]</sup>+?\n\\)[ \t]*#\\+end<sub>src</sub>")
+</li>
+<li>
+  "\\([<sup>\000]</sup>*?\n\\)[ \t]*#\\+end<sub>src</sub>")
+"Regexp used to identify code blocks.")
+</li>
+</ul>
+
+
+<p>
+(defvar org-babel-inline-src-block-regexp
+</p></div>
+</div>

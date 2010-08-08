@@ -1,0 +1,78 @@
+---
+title: PROPOSED Allow contents of source blocks to be in external files
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Allow contents of source blocks to be in external files </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-07-29 Thu 21:33</span></span>
+</li>
+</ul>
+
+
+<p>
+Dan Davison &lt;davison@stats.ox.ac.uk&gt; writes:
+</p>
+<p>
+&gt; Hi Eric,
+&gt;
+&gt; I'd like to revisit the discussion that we had before about the
+&gt; possibility of having src blocks in which the code is not actually
+&gt; embedded in an org file.
+&gt;
+&gt; This is the only major obstacle I've encountered in using babel: what
+&gt; started off as a project with tangled babel src blocks ended up as a
+&gt; traditional non-babel project: the babel part died completely.
+</p>
+<p>
+I've had similar issues, and see some more on the horizon.
+</p>
+<p>
+&gt; The reason was that some of the collaborators were non babel users,
+&gt; and we needed a way for changes to the code to be propagated in all
+&gt; directions among the authors. We were using git, and a related point
+&gt; is that I am attracted to tracking code changes and org text changes
+&gt; separately in my VCS (e.g. as would be done automatically if they
+&gt; resided in separate files)
+&gt;
+&gt; The thread from the list discussion we had is 
+&gt;
+&gt; <a href="http://thread.gmane.org/gmane.emacs.orgmode/24431">http://thread.gmane.org/gmane.emacs.orgmode/24431</a>
+&gt;
+&gt; Do you have any updated thoughts on this topic? Is it relevant to babel?
+</p>
+<p>
+I think that a general "remote block" solution would be best, maybe even
+a solution which allows remote tables (would include radio tables).
+</p>
+<p>
+&gt; 
+&gt; Should we be thinking in terms of org blocks or org links or both or
+&gt; neither??
+&gt;
+</p>
+<p>
+I'm not sure what the best implementation system would be.  I'd check
+what the radio table implementation uses.  Currently there is some
+minimal support for relating source code sections to org-mode documents
+through comments, however special comment insertion may not always be
+possible (thinking legacy code, or large projects).  So ideally the
+solution should require <b>no</b> org-specific markup in the source files.
+</p>
+<p>
+Definitely a challenging problem &ndash; I wonder if there is existing
+similar Emacs support for maintaining remote references to sections of
+files (e.g. TAGS).
+</p>
+<p>
+Best &ndash; Eric
+</p>
+<p>
+&gt;
+&gt; Dan
+</p></div>
+</div>

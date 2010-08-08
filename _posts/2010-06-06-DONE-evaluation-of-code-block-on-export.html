@@ -13,11 +13,12 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-06 Sun 15:00</span></span>
-
 </li>
 </ul>
 
-<p>Currently when exporting a code block with the <code>:exports code</code> header
+
+<p>
+Currently when exporting a code block with the <code>:exports code</code> header
 argument, the code block is <b>not</b> evaluated.  this can lead to
 unexpected behavior when there is a session argument, in situations
 like the following
@@ -25,7 +26,7 @@ like the following
 
 
 
-<pre class="src src-org"><span class="org-org-level-2">** inline expressions</span>
+<pre class="src src-org"><span class="org-org-hide">*</span><span class="org-org-level-2">* inline expressions</span>
 <span class="org-org-special-keyword">   :PROPERTIES:</span>
    <span class="org-org-special-keyword">:session:</span>  <span class="org-org-property-value">default</span>
 <span class="org-org-special-keyword">   :END:</span>

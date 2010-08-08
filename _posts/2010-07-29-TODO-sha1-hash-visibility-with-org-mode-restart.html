@@ -1,0 +1,58 @@
+---
+title: TODO sha1 hash visibility with org-mode-restart
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> sha1 hash visibility with org-mode-restart </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-07-29 Thu 21:28</span></span>
+</li>
+</ul>
+
+
+<p>
+In the example below, first execute the block to get a hidden sha1
+hash. Then if you use C-c C-c on the #+ line, the hash becomes fully
+visible.
+</p>
+
+
+
+<pre class="src src-emacs-lisp">1
+</pre>
+
+
+
+
+
+<p>
+Basically what happens on C-c C-c is that the outline overlays are
+recorded, org-mode-restart gets called, then outline visibility is
+restored. The problem is that the hash overlay is not dealt with by
+this. A simple workaround is
+</p>
+<ul>
+<li>
+       (overlay-put ov2 'invisible 'org-babel-hide-hash)
+</li>
+<li>
+       (overlay-put ov2 'invisible 'outline)
+</li>
+</ul>
+
+
+<p>
+But this is not nice from a design point of view. One solution might be
+to alter `org-save-outline-visibility' such that it saves a broader
+class of overlays?
+</p>
+<p>
+There's a (I think a separate?) problem that with the hash fully
+displayed, folding the headline leaves the hash displayed in a nasty
+way.
+</p></div>
+</div>

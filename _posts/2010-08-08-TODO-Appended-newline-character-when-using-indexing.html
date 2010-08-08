@@ -1,0 +1,41 @@
+---
+title: TODO Appended newline character when using indexing
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> Appended newline character when using indexing </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-08 Sun 16:25</span></span>
+</li>
+</ul>
+
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">totals(details=expenses[1:-1])</label><pre class="src src-perl">
+  <span class="org-type">my</span> $<span class="org-variable-name">total</span> = 0;
+  <span class="org-keyword">foreach</span> <span class="org-type">my</span> $<span class="org-variable-name">row</span>  (@$<span class="org-variable-name">details</span>) {
+      $<span class="org-variable-name">total</span> += @$<span class="org-variable-name">row</span>[2];
+  }
+
+<span class="org-keyword">return</span> $<span class="org-variable-name">total</span>;
+</pre></div>
+
+
+
+<p>
+(sbe "totals(details=expenses[1:-1])")
+</p>
+<p>
+thius sbe call returns "155&hellip;"
+</p>
+<p>
+The ellipsis comes from `org-babel-table-truncate-at-newline', which
+encounters a newline char that shouldn't be there.
+</p></div>
+</div>
