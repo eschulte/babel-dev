@@ -6378,7 +6378,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/100]
+* Bugs [83/101]
+** TODO sbe functionality is not documented in manual
+- State "TODO"       from ""           [2010-08-08 Sun 18:34]
 ** TODO Appended newline character when using indexing
 - State "TODO"       from ""           [2010-08-08 Sun 16:25]
 
