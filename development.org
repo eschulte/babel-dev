@@ -2788,7 +2788,7 @@ buffer had no associated filename. So this is a problem which needs
 addressing. Maybe defadvice could be used on ess functions where
 necessary to make org/org-babel play nicely with ess?
 
-**** DONE C-x s steals focus
+*** DONE C-x s steals focus
      With two modified edit buffers open, make one of them the current
      buffer and issue C-x s. It will offer to save both of them, but
      the second one to be saved will become the current buffer at the
@@ -6435,11 +6435,29 @@ accept input?
 - State "TODO"       from ""           [2010-08-05 Thu 00:25]
 
 Sometimes I like to create an empty body just to do C-c C-v z and
-start my session.q
+start my session.
 
 #+begin_src R :session *R-Papilio*
 
 #+end_src
+
+This seems to fix it but I haven't tested and not confident about the
++? *? stuff.
+
+	Modified lisp/ob.el
+diff --git a/lisp/ob.el b/lisp/ob.el
+index 6e74c15..eb06488 100644
+--- a/lisp/ob.el
++++ b/lisp/ob.el
+@@ -113,7 +113,7 @@ remove code block execution from the C-c C-c keybinding."
+    ;; (4) header arguments
+    "\\([^\n]*\\)\n"
+    ;; (5) body
+-   "\\([^\000]+?\n\\)[ \t]*#\\+end_src")
++   "\\([^\000]*?\n\\)[ \t]*#\\+end_src")
+   "Regexp used to identify code blocks.")
+ 
+ (defvar org-babel-inline-src-block-regexp
 
 ** TODO remove octave prompt from session output
 - State "TODO" from "" [2010-08-01 Sun 11:53] 
