@@ -6378,7 +6378,26 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/101]
+* Bugs [83/102]
+** TODO sbe doesn't work during export
+- State "TODO"       from ""           [2010-08-11 Wed 16:59]
+Alternatively, I believe we should be able to use sbe to put the elisp
+code in blocks:
+
+#+begin_src gnuplot :term (sbe "get-image-type") :file (sbe "get-file-path")
+  plot sin(x)
+#+end_src
+
+#+source: get-image-type
+#+begin_src emacs-lisp
+(if (and (boundp 'latexp) latexp) "postscript" "png")
+#+end_src
+
+#+source: get-file-path
+#+begin_src emacs-lisp
+(if (and (boundp 'latexp) latexp) "sin.eps" "sin.png")
+#+end_src
+
 ** TODO sbe functionality is not documented in manual
 - State "TODO"       from ""           [2010-08-08 Sun 18:34]
 ** TODO Appended newline character when using indexing
