@@ -6386,7 +6386,25 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/102]
+* Bugs [83/103]
+** TODO shell remote dir bug
+- State "TODO"       from ""           [2010-08-15 Sun 12:58]
+
+This seems to be a bug in tramp. If the target directory is specified
+with a relative path (as in ':bennch' below) then while it is fine on
+the first evaluation, subsequent evaluations seem to "remember" the
+location of the default directory. So they are already in it when they
+try to cd into it again. Thus there is an error because ~/bench exists
+while ~/bench/bench does not.
+
+#+begin_src sh :dir /dan@yakuba.princeton.edu:bench
+ls
+#+end_src
+
+#+results:
+| sh:     | cd:    | bench/: | No | such | file | or | directory |
+| Papilio | aslink |         |    |      |      |    |           |
+
 ** TODO sbe doesn't work during export
 - State "TODO"       from ""           [2010-08-11 Wed 16:59]
 Alternatively, I believe we should be able to use sbe to put the elisp
