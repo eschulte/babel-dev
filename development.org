@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/165]
+* Tasks [79/166]
 ** PROPOSED Header argument to specify table delimiter
    - State "PROPOSED"   from ""           [2010-08-13 Fri 11:50]
 
@@ -12,6 +12,9 @@ In code blocks which don't have a well defined table syntax
 argument which could be used to specify the delimiter (possibly to be
 passed as the optional argument to `org-table-convert-region').
 
+** TODO Review David O'Toole export patch
+- State "TODO"       from ""           [2010-08-15 Sun 13:31]
+[[http://patchwork.newartisans.com/patch/187/]]
 ** PROPOSED Allow contents of source blocks to be in external files
 - State "PROPOSED"   from ""           [2010-07-29 Thu 21:33]
 
