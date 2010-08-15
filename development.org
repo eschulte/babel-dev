@@ -6389,7 +6389,14 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/103]
+* Bugs [83/104]
+** PROPOSED How to quietly exclude block from evaluation? 
+- State "PROPOSED"   from ""           [2010-08-15 Sun 14:06]
+
+I want to prevent a block from being evaluated. I'm evaluating the
+subtree with C-c C-v s. :eval never throws an error which prevents the
+rest of the blocks from being evaluated.
+
 ** TODO shell remote dir bug
 - State "TODO"       from ""           [2010-08-15 Sun 12:58]
 
