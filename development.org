@@ -6411,7 +6411,22 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/104]
+* Bugs [83/105]
+** PROPOSED How do I get colnames with e.g. shell?
+- State "PROPOSED"   from ""           [2010-08-15 Sun 14:26]
+   :PROPERTIES:
+   :session: none
+   :END:
+
+#+begin_src python :colnames yes :session none
+  return [[1,2],None, [3,4]]
+#+end_src
+
+#+results:
+| 1 | 2 |
+|---+---|
+| 3 | 4 |
+
 ** PROPOSED How to quietly exclude block from evaluation? 
 - State "PROPOSED"   from ""           [2010-08-15 Sun 14:06]
 
