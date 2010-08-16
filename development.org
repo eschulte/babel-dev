@@ -373,6 +373,19 @@ This could be very useful both when evaluating an entire block or
 subtree, and also when old error messages have built up in the Error
 buffer.
 
+python.el seems to make use of compile.el to provide links to
+errors. I wonder if there is any way we can do something similar.
+
+Line 1632 in python.el
+#+begin_src emacs-lisp
+    (with-current-buffer (process-buffer (python-proc))
+      ;; Tell compile.el to redirect error locations in file `f' to
+      ;; positions past marker `orig-start'.  It has to be done *after*
+      ;; `python-send-command''s call to `compilation-forget-errors'.
+      (compilation-fake-loc orig-start f))))
+#+end_src
+
+
 *** TODO q should bury the error buffer
 - State "TODO"       from ""           [2010-07-13 Tue 10:22]
 `q' should be bound to bury-buffer, or something similar
