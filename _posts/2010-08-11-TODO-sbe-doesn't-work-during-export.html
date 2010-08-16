@@ -1,0 +1,36 @@
+---
+title: TODO sbe doesn't work during export
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> sbe doesn't work during export </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-11 Wed 16:59</span></span>
+</li>
+</ul>
+
+<p>Alternatively, I believe we should be able to use sbe to put the elisp
+code in blocks:
+</p>
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">get-image-type()</label><pre class="src src-emacs-lisp">
+(<span class="org-keyword">if</span> (and (boundp 'latexp) latexp) <span class="org-string">"postscript"</span> <span class="org-string">"png"</span>)
+</pre></div>
+
+
+
+
+<div class="org-src-container"><label class="org-src-name">get-file-path()</label><pre class="src src-emacs-lisp">
+(<span class="org-keyword">if</span> (and (boundp 'latexp) latexp) <span class="org-string">"sin.eps"</span> <span class="org-string">"sin.png"</span>)
+</pre></div>
+
+
+</div>
+</div>

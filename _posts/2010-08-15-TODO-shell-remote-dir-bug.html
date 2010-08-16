@@ -1,0 +1,34 @@
+---
+title: TODO shell remote dir bug
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> shell remote dir bug </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-15 Sun 12:58</span></span>
+</li>
+</ul>
+
+
+<p>
+This seems to be a bug in tramp. If the target directory is specified
+with a relative path (as in ':bennch' below) then while it is fine on
+the first evaluation, subsequent evaluations seem to "remember" the
+location of the default directory. So they are already in it when they
+try to cd into it again. Thus there is an error because ~/bench exists
+while ~/bench/bench does not.
+</p>
+
+
+
+<pre class="src src-sh">ls
+</pre>
+
+
+
+</div>
+</div>

@@ -3,7 +3,27 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/164]
+* Tasks [79/167]
+** PROPOSED Alter internal treatment of :session
+   - State "PROPOSED"   from ""           [2010-08-16 Mon 12:16]
+
+     Would it make sense for `org-babel-get-src-block-info' to look at
+     the value of the :session param, and if it is "none", then set it
+     to nil? That would mean that all the other code could simply test
+     for non-nil :session, and not worry about the possibility
+     of :session being "none".
+
+** PROPOSED Header argument to specify table delimiter
+   - State "PROPOSED"   from ""           [2010-08-13 Fri 11:50]
+
+In code blocks which don't have a well defined table syntax
+(e.g. shell and ledger) it would be worthwhile to have a header
+argument which could be used to specify the delimiter (possibly to be
+passed as the optional argument to `org-table-convert-region').
+
+** TODO Review David O'Toole export patch
+- State "TODO"       from ""           [2010-08-15 Sun 13:31]
+[[http://patchwork.newartisans.com/patch/187/]]
 ** PROPOSED Allow contents of source blocks to be in external files
 - State "PROPOSED"   from ""           [2010-07-29 Thu 21:33]
 
@@ -361,6 +381,19 @@ Thanks to Russel Adams for this idea.
 This could be very useful both when evaluating an entire block or
 subtree, and also when old error messages have built up in the Error
 buffer.
+
+python.el seems to make use of compile.el to provide links to
+errors. I wonder if there is any way we can do something similar.
+
+Line 1632 in python.el
+#+begin_src emacs-lisp
+    (with-current-buffer (process-buffer (python-proc))
+      ;; Tell compile.el to redirect error locations in file `f' to
+      ;; positions past marker `orig-start'.  It has to be done *after*
+      ;; `python-send-command''s call to `compilation-forget-errors'.
+      (compilation-fake-loc orig-start f))))
+#+end_src
+
 
 *** TODO q should bury the error buffer
 - State "TODO"       from ""           [2010-07-13 Tue 10:22]
@@ -6378,7 +6411,68 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/100]
+* Bugs [83/105]
+** PROPOSED How do I get colnames with e.g. shell?
+- State "PROPOSED"   from ""           [2010-08-15 Sun 14:26]
+   :PROPERTIES:
+   :session: none
+   :END:
+
+#+begin_src python :colnames yes :session none
+  return [[1,2],None, [3,4]]
+#+end_src
+
+#+results:
+| 1 | 2 |
+|---+---|
+| 3 | 4 |
+
+** PROPOSED How to quietly exclude block from evaluation? 
+- State "PROPOSED"   from ""           [2010-08-15 Sun 14:06]
+
+I want to prevent a block from being evaluated. I'm evaluating the
+subtree with C-c C-v s. :eval never throws an error which prevents the
+rest of the blocks from being evaluated.
+
+** TODO shell remote dir bug
+- State "TODO"       from ""           [2010-08-15 Sun 12:58]
+
+This seems to be a bug in tramp. If the target directory is specified
+with a relative path (as in ':bennch' below) then while it is fine on
+the first evaluation, subsequent evaluations seem to "remember" the
+location of the default directory. So they are already in it when they
+try to cd into it again. Thus there is an error because ~/bench exists
+while ~/bench/bench does not.
+
+#+begin_src sh :dir /dan@yakuba.princeton.edu:bench
+ls
+#+end_src
+
+#+results:
+| sh:     | cd:    | bench/: | No | such | file | or | directory |
+| Papilio | aslink |         |    |      |      |    |           |
+
+** TODO sbe doesn't work during export
+- State "TODO"       from ""           [2010-08-11 Wed 16:59]
+Alternatively, I believe we should be able to use sbe to put the elisp
+code in blocks:
+
+#+begin_src gnuplot :term (sbe "get-image-type") :file (sbe "get-file-path")
+  plot sin(x)
+#+end_src
+
+#+source: get-image-type
+#+begin_src emacs-lisp
+(if (and (boundp 'latexp) latexp) "postscript" "png")
+#+end_src
+
+#+source: get-file-path
+#+begin_src emacs-lisp
+(if (and (boundp 'latexp) latexp) "sin.eps" "sin.png")
+#+end_src
+
+** TODO sbe functionality is not documented in manual
+- State "TODO"       from ""           [2010-08-08 Sun 18:34]
 ** TODO Appended newline character when using indexing
 - State "TODO"       from ""           [2010-08-08 Sun 16:25]
 
