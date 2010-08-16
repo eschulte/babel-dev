@@ -3,7 +3,16 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/166]
+* Tasks [79/167]
+** PROPOSED Alter internal treatment of :session
+   - State "PROPOSED"   from ""           [2010-08-16 Mon 12:16]
+
+     Would it make sense for `org-babel-get-src-block-info' to look at
+     the value of the :session param, and if it is "none", then set it
+     to nil? That would mean that all the other code could simply test
+     for non-nil :session, and not worry about the possibility
+     of :session being "none".
+
 ** PROPOSED Header argument to specify table delimiter
    - State "PROPOSED"   from ""           [2010-08-13 Fri 11:50]
 
