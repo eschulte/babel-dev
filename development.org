@@ -3,7 +3,47 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/168]
+* Tasks [79/169]
+** TODO Interleaved results
+   - State "TODO"       from ""           [2010-08-18 Wed 19:37]
+
+See [[http://thread.gmane.org/gmane.emacs.orgmode/28989]] a summary of
+which follows.
+
+Interleaved input and output can be achieved easily in R :results
+output (no session) using the method below. So it might be nice to
+offer :results output echo, where "echo" means include the input
+commands. This requires:
+
+- implementation for :session
+
+  (in principle sounds not hard, as it involves *not* doing something
+  (i.e. not removing commands from comint output)).
+
+- implementation for other external interpreter processes
+
+  For bash, it's somewhat similar to 'bash -x'. I looked at man python
+  and didn't see anything; perhaps it is accomplished by modifying the
+  output stream when python is running rather than as a command line
+  option to the interpreter. ruby? etc.
+
+R :results output external interpreter process implementation:
+
+(setq org-babel-R-command "R --silent --no-save")
+
+#+begin_src R :results output
+2+2
+3+3
+#+end_src
+
+#+results:
+: > 2+2
+: [1] 4
+: > 3+3
+: [1] 6
+: >
+
+
 ** PROPOSED end\_results syntax for org formatted results
    - State "PROPOSED"   from ""           [2010-08-18 Wed 16:15]
 This would allow =:results org= style results to be replaced in
