@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/169]
+* Tasks [79/168]
 ** TODO Interleaved results
    - State "TODO"       from ""           [2010-08-18 Wed 19:37]
 
@@ -43,20 +43,10 @@ R :results output external interpreter process implementation:
 : [1] 6
 : >
 
-
 ** PROPOSED end\_results syntax for org formatted results
    - State "PROPOSED"   from ""           [2010-08-18 Wed 16:15]
 This would allow =:results org= style results to be replaced in
 buffer.  Thanks to David Hajage for suggesting this change.
-
-** PROPOSED Alter internal treatment of :session
-   - State "PROPOSED"   from ""           [2010-08-16 Mon 12:16]
-
-     Would it make sense for `org-babel-get-src-block-info' to look at
-     the value of the :session param, and if it is "none", then set it
-     to nil? That would mean that all the other code could simply test
-     for non-nil :session, and not worry about the possibility
-     of :session being "none".
 
 ** PROPOSED Header argument to specify table delimiter
    - State "PROPOSED"   from ""           [2010-08-13 Fri 11:50]
