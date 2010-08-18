@@ -3,7 +3,12 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/167]
+* Tasks [79/168]
+** PROPOSED end\_results syntax for org formatted results
+   - State "PROPOSED"   from ""           [2010-08-18 Wed 16:15]
+This would allow =:results org= style results to be replaced in
+buffer.  Thanks to David Hajage for suggesting this change.
+
 ** PROPOSED Alter internal treatment of :session
    - State "PROPOSED"   from ""           [2010-08-16 Mon 12:16]
 
