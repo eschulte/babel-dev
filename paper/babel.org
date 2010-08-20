@@ -349,6 +349,104 @@ Babel's language support facilities (Section \ref{languages}).
    :CUSTOM_ID: org-mode
    :END:
 
+Org-mode is an Emacs extension.  Extensions in Emacs are often
+so-called /modes/.  A mode defines the way how the user can edit and
+interact with the content of certain files.  Org-mode is a general
+tool box to support note taking, task management, project planning,
+documentation and authoring.  Org-mode documents are plain text files,
+usually with the file name extension /.org/.  Emacs has been ported to
+a large number of operating systems and devices.  Consequently,
+Org-mode is available on all these systems.  Its plain text documents
+are compatible between arbitrary platforms.
+
+*** Document structure
+
+The fundamental structure of Org-mode documents is that of an outline.
+A document can have a section of text before the first node.  This
+segment is often used for defining general properties of the document
+like a title, and for technical setup.  The first top-level node then
+starts an outline structure that extends to the end of the document.
+Nodes in the outline are single lines identified by one or more
+asterisks at the beginning of the line.  The number of asterisks
+indicates the hierarchical level of the node.  For example
+
+#+begin_src org
+  ,* First heading
+  ,* Second heading
+  ,** A subsection of the second heading
+  ,* Third heading
+#+end_src
+
+These headlines give the document the logical structure of a book or
+article.  In the hierarchical outline structure, trees can be folded
+in order make quick access and overview possible.
+
+*** Meta data on nodes
+
+The primary design goal of Org-mode was to define a system that
+combines efficient note-taking and brainstorming with a task
+management and project planning system.  A single document in a single
+application can hold both notes and all data necessary to keep track
+of tasks and projects associated with the notes.
+
+Special syntax is used to assign meta-data to outline nodes.  For
+example, a node can have a task state like TODO or DONE, a priority,
+tags, dates, and arbitrary key-value pairs (properties) associated
+with it:
+
+#+begin_src org
+  ,* TODO [#A] Some task         :@work:urgent:
+  ,  SCHEDULED: <2010-08-18 Wed>
+  ,  :PROPERTIES:
+  ,    :delegated_to: Peter 
+  ,  :END:
+#+end_src
+
+The task and project management of Org-mode is centered around the
+meta-data associated with nodes.  It allows to conduct searches based
+on the data, clocking of tasks and many other tools to use and modify
+this data.
+
+The outline structure of documents also defines a hierarchy of data
+with inheritance as downward propagation operator, and summation (or
+other similar functions) for upward propagation.  Code snippets
+defined and used by the babel system live in this hierarchy can
+access the data in it.
+
+*** Tables and Spreadsheets
+
+Org-mode implements tables in plain text, and it uses the Emacs
+calculator /calc/ ([[David Gillespie 1990,
+http://www.gnu.org/software/emacs/calc.html]]) in order to implement
+computations in tables.  This feature is similar to spreadsheet
+programs, but it uses plain text to represent both data and formulas.
+A complete description of Org-mode tables and spreadsheet computations
+is beyond the scope of this paper - we only introduce them here as a
+way to represent vector and matrix data inside plain text documents.
+Tables in Org-mode have the following structure
+
+#+begin_src org
+  ,| Name 1 | Name 2 | ... | Name N |
+  ,|--------+--------+-----+--------|
+  ,| Value  | ...    | ... | ...    |
+  ,| ...    | ...    | ... | ...    |
+#+end_src
+
+*** Source code blocks
+
+Another design goal of Org-mode was to use it to create technical
+documentation.   Special syntax is present to mark blocks
+of code, originally with the sole purpose to ensure verbatim,
+mono-spaced type setting when a document would be published as PDF or
+HTML.  The syntax to mark code blocks is a pair of begin/end markers
+which will be explained in detail in section XXXXX.
+
+*** Wiki-like syntax for links and document markup
+
+When an Org-mode document is published as HTML for websites or as PDF
+for printing, wiki-like markup can be used to produce rich documents
+with formatting, table of contents, figures and more.
+
 Thank you Carsten!
 
 - hierarchically structured text
@@ -358,7 +456,7 @@ Thank you Carsten!
 - code blocks
 - more?
 
-** Code and Data Blocks
+** Code and Data Block Extensions
     :PROPERTIES:
     :CUSTOM_ID: code-blocks
     :END:
