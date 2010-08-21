@@ -167,38 +167,41 @@ beings what we want a computer to do.
 #+end_quote
 
 The technique of /literate programming/ was introduced by Donald Knuth
-\cite{web} in the early 1980's, not long after his creation of the TeX
+\cite{web} in the early 1980's, not long after he created the TeX
 typesetting software.  The goals of literate programming are to
 encourage the author of a computational work to approach the project
 "as an essayist, whose main concern is with exposition and excellence
-of style". 
+of style." 
 # need citation with page number
 
-Accordingly, literate programming tools use input files that mix
+Accordingly, the input files for literate programming tools mix
 sections of computer code with sections of natural language typically
-marked up in TeX or LaTeX.  The literate programming tool then
+marked up in TeX or LaTeX.  The literate programming tool
 provides methods to create two types of /view/ into the document;
 articles of typset prose and marked-up code blocks intended for human
 consumption, and computer readable documents of pure source code.  The
 literate programming terms for generating these views are /weaving/
-and /tangling/ respectively.  A common feature of literate programming
+and /tangling/, respectively.  A common feature of literate programming
 tools is the ability to organize code blocks differently when
-/tangling/ and /weaving/ thereby allowing the programmer to introduce
-concepts to humans in a different order than code is introduced to the
+/tangling/ and /weaving/, thereby allowing the programmer to introduce
+material to humans in a different order than code is introduced to the
 computer.
 
 The original literate programming tool, developed by Knuth, was =WEB=,
-which consists of two primary programs, =TANGLE= and =WEAVE=.  This
-system supported the Pascal programming language and produced
-documents typeset with TeX.  A modern descendent is =noweb=
-\cite{noweb} which is designed to be language independent.  Its
-primary programs, =notangle= and =noweave=, are both written in =C=.
-Documents produced by =noweave= can be typeset with =TeX=, =LaTeX=,
-and =troff= or displayed in a web browser as =HTML=.  Software tools
-such as =WEB= and =noweb= enable the /authoring/ of both prose and
-code, but do not provide facilities for the execution of code from
-within documents.  Instead, code intended for execution is tangled and
-the resulting source code files are sent to a compiler or interpreter.
+which consists of two primary programs, =TANGLE= and =WEAVE=
+\cite{web}.  This system supported the Pascal programming language and
+produced documents typeset with TeX.  Somewhat later, Knuth and Silvio
+Levy produced a C language version, =cWeb=
+\cite{knuth94:_cweb_system_struc_docum}.  A modern descendent of these
+tools is =noweb= \cite{noweb} which is designed to be language
+independent.  Its primary programs, =notangle= and =noweave=, are both
+written in =C=.  Documents produced by =noweave= can be typeset with
+=TeX=, =LaTeX=, and =troff= or displayed in a web browser as =HTML=.
+Software tools such as =WEB=, =cWeb=, and =noweb= enable the
+/authoring/ of both prose and code, but do not provide facilities for
+the execution of code from within documents.  Instead, code intended
+for execution is tangled and the resulting source code files are sent
+to a compiler or interpreter.
 
 ** Reproducible Research
 #+begin_quote
@@ -228,6 +231,7 @@ Temple Lang \cite{compendium}, who "introduce the concept of a
 /compendium/ as both a container for the different elements that make
 up the document and its computations (i.e. text, code, data, ...), and
 as a means for distributing, managing and updating the collection."
+
 They summarize the uses and implications of a compendium:
 
   - it encapsulates the actual work of the author, not just an
@@ -288,19 +292,19 @@ and extension.
 #+end_quote
 
 =Sweave= \cite{sweave} is a modern software tool, written in the =R=
-statistical programming language, that can be used for reproducible
-research.  =Sweave= (and the =R= community at large) inspired the work
-that led to the /compendium/ idea.  The recent resurgence in
-reproducible research owes much to the success of both =R= and
-=Sweave=.  =Sweave= documents consist of code blocks of the =R=
-statistical programming language embedded into LaTeX documents.  The
-=R= functions that make up =Sweave= execute the embedded =R= code and
-produce a LaTeX document that includes the resulting tables, graphical
-figures, and inline results.  If the =Sweave= document is accompanied
-by the data files used in the statistical computations along with any
-=R= language files that are sourced, then the reader can trace a
-result back to the relevant =R= computations and through to the
-original data.
+statistical programming language \cite{r-software}, that can be used
+for reproducible research.  =Sweave= (and the =R= community at large)
+inspired the work that led to the /compendium/ idea.  The recent
+resurgence in reproducible research owes much to the success of both
+=R= and =Sweave=.  =Sweave= documents consist of code blocks of the
+=R= statistical programming language embedded into LaTeX documents.
+The =R= functions that make up =Sweave= execute the embedded =R= code
+and produce a LaTeX document that includes the resulting tables,
+graphical figures, and inline results.  If the =Sweave= document is
+accompanied by the data files used in the statistical computations
+along with any =R= language files that are sourced, then the reader
+can trace a result back to the relevant =R= computations and through
+to the original data.
 
 # It might be useful to start this section with Lisp and how bottom-up
 # programming changes the language to suit the problem.  So emacs
@@ -312,29 +316,30 @@ original data.
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
-At the core of Babel is the Emacs text editor and emacs-lisp,
-a dialect of lisp that supports editing text documents.  Emacs has
-been under development since the mid 1970s and is currently at
-version 23.  Org-mode extends Emacs with a simple, yet powerful markup
-language that turns it into a language for creating and parsing
+At the core of Babel is the Emacs text editor \cite{emacs} and Emacs
+Lisp \cite{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp
+that supports editing text documents.  The Emacs editor has been under
+development since the mid 1970s and is currently at version 23.
+Org-mode extends Emacs with a simple, yet powerful markup language
+that turns it into a language for creating and parsing
 hierarchically-organized text documents.  It was originally designed
-for keeping notes, maintaining task lists, and planning
-projects.  Its rich feature set includes text structuring, project
-management, and a publishing system that can export to a variety of
-formats.  Babel extends Org-mode by activating sections of Org-mode
-documents, effectively distinguishing code and data blocks from text
-sections.  Activation means that code and data blocks can be
-/evaluated/ to return their contents or their computational results.
-The results of code block evaluation can be written
-to a named data block in the document, where it can be referred to by
-other code blocks, any one of which can be written in a different
-computing language.  In this way, an Org-mode buffer becomes a place
-where different computer languages communicate with one another.  Like
-Emacs, Babel is extensible: support for new languages can be added by
-in a modular fashion through the definition of a small number of Emacs
-Lisp functions.  Additionaly, generally useful code or data blocks can
-be added to a "Library of Babel", from which they can be called by any
-Org-mode document.
+for keeping notes, maintaining task lists, and planning projects.  Its
+rich feature set includes text structuring, project management, and a
+publishing system that can export to a variety of formats.  Babel
+extends Org-mode by activating sections of Org-mode documents,
+effectively distinguishing code and data blocks from text sections.
+Activation means that code and data blocks can be /evaluated/ to
+return their contents or their computational results.  The results of
+code block evaluation can be written to a named data block in the
+document, where it can be referred to by other code blocks, any one of
+which can be written in a different computing language.  In this way,
+an Org-mode buffer becomes a place where different computer languages
+communicate with one another.  Like Emacs, Babel is extensible:
+support for new languages can be added by in a modular fashion through
+the definition of a small number of Emacs Lisp functions.
+Additionaly, generally useful code or data blocks can be added to a
+"Library of Babel", from which they can be called by any Org-mode
+document.
 
 In the remainder of this section, we first introduce Org-mode,
 focusing on those features that support the literate programming and
@@ -349,50 +354,56 @@ Babel's language support facilities (Section \ref{languages}).
    :CUSTOM_ID: org-mode
    :END:
 
-Org-mode is an Emacs extension.  Extensions in Emacs are often
-so-called /modes/.  A mode defines the way how the user can edit and
-interact with the content of certain files.  Org-mode is a general
-tool box to support note taking, task management, project planning,
-documentation and authoring.  Org-mode documents are plain text files,
-usually with the file name extension /.org/.  Emacs has been ported to
-a large number of operating systems and devices.  Consequently,
-Org-mode is available on all these systems.  Its plain text documents
-are compatible between arbitrary platforms.
+Org-mode is an Emacs extension that organizes note taking, task
+management, project planning, documentation and authoring.  Its name
+comes from its organizing function and the fact that extensions to
+Emacs are often called /modes/.  A mode in Emacs defines the way a
+user can edit and interact with certain documents.  Org-mode documents
+are plain text files, usually with the file name extension /.org/.
+Because Emacs has been ported to a large number of operating systems
+Org-mode can be run on a wide variety of devices and its plain text
+documents are compatible between arbitrary platforms.
 
 *** Document structure
 
-The fundamental structure of Org-mode documents is that of an outline.
-A document can have a section of text before the first node.  This
-segment is often used for defining general properties of the document
+The fundamental structure of Org-mode documents is the outline,
+conceptualized as a hierarchically ordered series of nodes.  A
+document can have a section of text before the first node.  This
+section is often used for defining general properties of the document
 like a title, and for technical setup.  The first top-level node then
 starts an outline structure that extends to the end of the document.
-Nodes in the outline are single lines identified by one or more
+Nodes in the outline are single line headings identified by one or more
 asterisks at the beginning of the line.  The number of asterisks
-indicates the hierarchical level of the node.  For example
+indicates the hierarchical level of the node, e.g.,
 
 #+begin_src org
   ,* First heading
+  ,    Some arbitrary text
   ,* Second heading
   ,** A subsection of the second heading
   ,* Third heading
 #+end_src
 
-These headlines give the document the logical structure of a book or
-article.  In the hierarchical outline structure, trees can be folded
-in order make quick access and overview possible.
+Each heading lines, or headline, can be followed by arbitrary text,
+giving the document the logical structure of a book or article.  The
+hierarchical outline structure can be folded at every node, making it
+possible to expose selected sections for quick access or to provide a
+structural overview of the document.
 
 *** Meta data on nodes
 
-The primary design goal of Org-mode was to define a system that
-combines efficient note-taking and brainstorming with a task
-management and project planning system.  A single document in a single
-application can hold both notes and all data necessary to keep track
-of tasks and projects associated with the notes.
-
-Special syntax is used to assign meta-data to outline nodes.  For
-example, a node can have a task state like TODO or DONE, a priority,
-tags, dates, and arbitrary key-value pairs (properties) associated
-with it:
+One of the primary design goals of Org-mode was to define a system
+that combines efficient note-taking and brainstorming with a task
+management and project planning system.  A single Org-mode document
+can hold both notes and all data necessary to keep track of tasks and
+projects associated with the notes.  This is accomplished by assigning
+meta-data to outline nodes using a special syntax.  Meta-data for a
+node can include a task state, like TODO or DONE, a priority, and one
+or more tags, dates, and arbitrary key-value pairs called properties.
+In the following example a top-level node is a task with a "to do"
+state, a priority of A, and tagged for urgent attention at work.  The
+task has been scheduled for August 18th and a property indicates that
+it was delegated to Peter.
 
 #+begin_src org
   ,* TODO [#A] Some task         :@work:urgent:
@@ -402,10 +413,12 @@ with it:
   ,  :END:
 #+end_src
 
-The task and project management of Org-mode is centered around the
-meta-data associated with nodes.  It allows to conduct searches based
-on the data, clocking of tasks and many other tools to use and modify
-this data.
+The task and project management functionality of Org-mode is centered
+around the meta-data associated with nodes.  Org-mode provides
+facilities to create and modify meta-data quickly and efficiently.  It
+also provides facilities to search, sort, and filter headlines, to
+display tabular views of selected headlines, to clock in and out of headlines
+defined as tasks, and many other tools.
 
 The outline structure of documents also defines a hierarchy of data
 with inheritance as downward propagation operator, and summation (or
@@ -715,7 +728,7 @@ data flows in Babel.  Data are passed from a code block to an Org-mode
 table, from an Org-mode table to a code block, from one code block to
 another, and from a code block to a graphic figure.  Finally, the
 example uses a property of the triangle to test the correctness of the
-implementation, using emacs-lisp code blocks embedded in a tabular
+implementation, using Emacs Lisp code blocks embedded in a tabular
 view of the triangle to test whether the property is satisfied.
 
 *** Calculating Pascal's Triangle
