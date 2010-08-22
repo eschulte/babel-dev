@@ -384,11 +384,11 @@ indicates the hierarchical level of the node, e.g.,
   ,* Third heading
 #+end_src
 
-Each heading lines, or headline, can be followed by arbitrary text,
+Each heading line, or headline, can be followed by arbitrary text,
 giving the document the logical structure of a book or article.  The
 hierarchical outline structure can be folded at every node, making it
 possible to expose selected sections for quick access or to provide a
-structural overview of the document.
+structural overview of the document at any level of structure.
 
 *** Meta data on nodes
 
@@ -420,24 +420,27 @@ also provides facilities to search, sort, and filter headlines, to
 display tabular views of selected headlines, to clock in and out of headlines
 defined as tasks, and many other tools.
 
-The outline structure of documents also defines a hierarchy of data
-with inheritance as downward propagation operator, and summation (or
-other similar functions) for upward propagation.  Code snippets
-defined and used by the babel system live in this hierarchy can
-access the data in it.
+The outline structure of documents also defines a hierarchy of
+meta-data.  Tags and properties of a node are inherited by its
+sub-nodes and views of the document can be designed that sum or
+average the properties inherited by a node.  Code blocks defined and
+used by Babel live in this hierarchy of content and meta-data, which
+are accessible to and can be modified by it.
 
 *** Tables and Spreadsheets
 
-Org-mode implements tables in plain text, and it uses the Emacs
-calculator /calc/ ([[David Gillespie 1990,
-http://www.gnu.org/software/emacs/calc.html]]) in order to implement
+The arbitrary text following a headline in an Org-mode document can
+also be structured to represent various types of information.  Vector
+and matrix data are represented as tables where the columns are marked
+by vertical bars and rows are optionally separated by dashed lines
+(table \ref{tab:org-mode-table}).  The Emacs
+calculator, /calc/ ([[David Gillespie 1990,
+http://www.gnu.org/software/emacs/calc.html]]), can be used to carry out
 computations in tables.  This feature is similar to spreadsheet
-programs, but it uses plain text to represent both data and formulas.
-A complete description of Org-mode tables and spreadsheet computations
-is beyond the scope of this paper - we only introduce them here as a
-way to represent vector and matrix data inside plain text documents.
-Tables in Org-mode have the following structure
+applications, but Org-mode uses plain text to represent both data and
+formulas.  Babel makes extensive use of Org-mode tables.
 
+#+Caption: Org-mode table structure \label{tab:org-mode-table}
 #+begin_src org
   ,| Name 1 | Name 2 | ... | Name N |
   ,|--------+--------+-----+--------|
@@ -460,14 +463,6 @@ When an Org-mode document is published as HTML for websites or as PDF
 for printing, wiki-like markup can be used to produce rich documents
 with formatting, table of contents, figures and more.
 
-Thank you Carsten!
-
-- hierarchically structured text
-- readable markup language
-- export targets (html, latex, beamer, ascii)
-- spreadsheets, tables links
-- code blocks
-- more?
 
 ** Code and Data Block Extensions
     :PROPERTIES:
@@ -1170,13 +1165,6 @@ factors.  These include:
 - complex configuration, one of the beauties of Emacs is that it is
   completely configurable, but the myriad options can be confusing,
   even to experienced Emacs users. 
-#+begin_comment
-- steep learning curve
-  Let's find a way of more nuanced way of saying that. I find that it
-  gets exagerrated: Emacs has a menu with Open and Save, and when you
-  hit "a" an "a" appears in the document, so in a sense how much more
-  easy does it get?
- #+end_comment
 - small community of users
 - it's not the best execution VM or sublayer
   - single threaded
