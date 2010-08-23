@@ -424,8 +424,8 @@ The outline structure of documents also defines a hierarchy of
 meta-data.  Tags and properties of a node are inherited by its
 sub-nodes and views of the document can be designed that sum or
 average the properties inherited by a node.  Code blocks defined and
-used by Babel live in this hierarchy of content and meta-data, which
-are accessible to and can be modified by it.
+used by Babel live in this hierarchy of content and meta-data, all of which
+is accessible to and can be modified by it.
 
 *** Tables and Spreadsheets
 
@@ -433,7 +433,7 @@ The arbitrary text following a headline in an Org-mode document can
 also be structured to represent various types of information.  Vector
 and matrix data are represented as tables where the columns are marked
 by vertical bars and rows are optionally separated by dashed lines
-(table \ref{tab:org-mode-table}).  The Emacs
+(Table \ref{tab:org-mode-table}).  The Emacs
 calculator, /calc/ ([[David Gillespie 1990,
 http://www.gnu.org/software/emacs/calc.html]]), can be used to carry out
 computations in tables.  This feature is similar to spreadsheet
