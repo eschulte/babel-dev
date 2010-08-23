@@ -432,15 +432,13 @@ is accessible to and can be modified by it.
 The arbitrary text following a headline in an Org-mode document can
 also be structured to represent various types of information.  Vector
 and matrix data are represented as tables where the columns are marked
-by vertical bars and rows are optionally separated by dashed lines
-(Table \ref{tab:org-mode-table}).  The Emacs
-calculator, /calc/ ([[David Gillespie 1990,
-http://www.gnu.org/software/emacs/calc.html]]), can be used to carry out
-computations in tables.  This feature is similar to spreadsheet
-applications, but Org-mode uses plain text to represent both data and
-formulas.  Babel makes extensive use of Org-mode tables.
+by vertical bars and rows are optionally separated by dashed lines as
+shown in the following example.  The Emacs calculator, /calc/ ([[David
+Gillespie 1990, http://www.gnu.org/software/emacs/calc.html]]), can be
+used to carry out computations in tables.  This feature is similar to
+spreadsheet applications, but Org-mode uses plain text to represent
+both data and formulas.  Babel makes extensive use of Org-mode tables.
 
-#+Caption: Org-mode table structure \label{tab:org-mode-table}
 #+begin_src org
   ,| Name 1 | Name 2 | ... | Name N |
   ,|--------+--------+-----+--------|
