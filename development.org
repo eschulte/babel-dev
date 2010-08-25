@@ -106,7 +106,7 @@ R :results output external interpreter process implementation:
 : [1] 6
 : >
 
-** PROPOSED end\_results syntax for org formatted results
+** PROPOSED end results syntax for org formatted results
    - State "PROPOSED"   from ""           [2010-08-18 Wed 16:15]
 This would allow =:results org= style results to be replaced in
 buffer.  Thanks to David Hajage for suggesting this change.
@@ -489,7 +489,7 @@ Line 1632 in python.el
       ;; Tell compile.el to redirect error locations in file `f' to
       ;; positions past marker `orig-start'.  It has to be done *after*
       ;; `python-send-command''s call to `compilation-forget-errors'.
-      (compilation-fake-loc orig-start f))))
+      (compilation-fake-loc orig-start f))
 #+end_src
 
 
