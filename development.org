@@ -6509,7 +6509,16 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/106]
+* Bugs [83/107]
+** TODO different properties when exporting than when manually evaluating
+   - State "TODO"       from ""           [2010-08-25 Wed 12:04]
+Thanks to Tom Short for pointing this out.
+[[gnus:lists.babel#loom.20100819T225748-321@post.gmane.org][Email from Tom Short: {Orgmode} Re: {babel} exports,]]
+
+So for example see [[file:scraps.org::*looks%20like%20this%20is%20a%20problem%20with%20info%20collection][looks like this is a problem with info collection]]
+in the scraps.org buffer.  It output different values on export and on
+manual execution.
+
 ** TODO shell sessions hang in many cases
    - State "TODO"       from ""           [2010-08-25 Wed 11:24]
 for example
