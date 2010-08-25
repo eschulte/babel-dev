@@ -3,15 +3,113 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/167]
-** PROPOSED Alter internal treatment of :session
-   - State "PROPOSED"   from ""           [2010-08-16 Mon 12:16]
+* Tasks [79/169]
+** STARTED Cleaner session evaluation (especially R)
+   - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 10:53]
+   - State "PROPOSED"   from ""           [2010-08-23 Mon 13:59]
 
-     Would it make sense for `org-babel-get-src-block-info' to look at
-     the value of the :session param, and if it is "none", then set it
-     to nil? That would mean that all the other code could simply test
-     for non-nil :session, and not worry about the possibility
-     of :session being "none".
+Currently, with :results value, the babel session output is very
+noisy:
+
+#+begin_src R :session
+  a <- 1
+  b <- 2
+  c <- 3
+#+end_src
+
+#+results:
+: 3
+
+#+begin_example 
+> a <- 1
+b <- 2
+c <- 3
+write.table(.Last.value, file="/tmp/org-babel-R1486ljh", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+'org_babel_R_eoe'
+a <- 1
+> b <- 2
+> c <- 3
+> write.table(.Last.value, file="/tmp/org-babel-R1486ljh", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+> 'org_babel_R_eoe'
+[1] "org_babel_R_eoe"
+>
+#+end_example
+
+This contains a write.table command and the org_babel_eoe indicator
+and echos all the input. The write.table and eoe are internal
+implementation details which it would be nice to hide from the user.
+
+Using the new R evaluation code (branch ob-comint) for the :results
+value :session case, currently results in the following output:
+
+#+begin_src R :session
+  a <- 1
+  b <- 2
+  c <- 3
+#+end_src
+
+#+results:
+: 3
+
+#+begin_example
+> a <- 1
+> b <- 2
+> c <- 3
+
+> > 
+#+end_example
+
+I currently have not managed to make the write.table command invisible
+without adding extra prompt characters. The invisible command is done
+by `org-babel-comint-eval-invisibly'. The extra prompt chars also
+occur with ess-eval-region when ess-eval-visibly-p is set to nil. The
+invisible evaluation currently blocks until the temporary transit file
+to come into existence rather than watching the comint buffer as is
+done by `org-babel-comint-with-output'.
+
+** TODO Interleaved results
+   - State "TODO"       from ""           [2010-08-18 Wed 19:37]
+
+See [[http://thread.gmane.org/gmane.emacs.orgmode/28989]] a summary of
+which follows.
+
+Interleaved input and output can be achieved easily in R :results
+output (no session) using the method below. So it might be nice to
+offer :results output echo, where "echo" means include the input
+commands. This requires:
+
+- implementation for :session
+
+  (in principle sounds not hard, as it involves *not* doing something
+  (i.e. not removing commands from comint output)).
+
+- implementation for other external interpreter processes
+
+  For bash, it's somewhat similar to 'bash -x'. I looked at man python
+  and didn't see anything; perhaps it is accomplished by modifying the
+  output stream when python is running rather than as a command line
+  option to the interpreter. ruby? etc.
+
+R :results output external interpreter process implementation:
+
+(setq org-babel-R-command "R --silent --no-save")
+
+#+begin_src R :results output
+2+2
+3+3
+#+end_src
+
+#+results:
+: > 2+2
+: [1] 4
+: > 3+3
+: [1] 6
+: >
+
+** PROPOSED end results syntax for org formatted results
+   - State "PROPOSED"   from ""           [2010-08-18 Wed 16:15]
+This would allow =:results org= style results to be replaced in
+buffer.  Thanks to David Hajage for suggesting this change.
 
 ** PROPOSED Header argument to specify table delimiter
    - State "PROPOSED"   from ""           [2010-08-13 Fri 11:50]
@@ -391,7 +489,7 @@ Line 1632 in python.el
       ;; Tell compile.el to redirect error locations in file `f' to
       ;; positions past marker `orig-start'.  It has to be done *after*
       ;; `python-send-command''s call to `compilation-forget-errors'.
-      (compilation-fake-loc orig-start f))))
+      (compilation-fake-loc orig-start f))
 #+end_src
 
 
@@ -6411,7 +6509,27 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/105]
+* Bugs [83/107]
+** TODO different properties when exporting than when manually evaluating
+   - State "TODO"       from ""           [2010-08-25 Wed 12:04]
+Thanks to Tom Short for pointing this out.
+[[gnus:lists.babel#loom.20100819T225748-321@post.gmane.org][Email from Tom Short: {Orgmode} Re: {babel} exports,]]
+
+So for example see [[file:scraps.org::*looks%20like%20this%20is%20a%20problem%20with%20info%20collection][looks like this is a problem with info collection]]
+in the scraps.org buffer.  It output different values on export and on
+manual execution.
+
+** TODO shell sessions hang in many cases
+   - State "TODO"       from ""           [2010-08-25 Wed 11:24]
+for example
+#+begin_src sh :results silent
+  cd ~/src/org/
+  make
+#+end_src
+
+maybe rather than sending an eoe character in shell, we should just
+check for a prompt...
+
 ** PROPOSED How do I get colnames with e.g. shell?
 - State "PROPOSED"   from ""           [2010-08-15 Sun 14:26]
    :PROPERTIES:
@@ -6427,12 +6545,18 @@ dot("$(2a,0)$",(2,0),N+E);
 |---+---|
 | 3 | 4 |
 
-** PROPOSED How to quietly exclude block from evaluation? 
+** STARTED How to quietly exclude block from evaluation? 
+   - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 11:32]
 - State "PROPOSED"   from ""           [2010-08-15 Sun 14:06]
 
 I want to prevent a block from being evaluated. I'm evaluating the
 subtree with C-c C-v s. :eval never throws an error which prevents the
 rest of the blocks from being evaluated.
+
+Yes, these should not throw errors, similarly the =:noeval= header
+argument should be folded into the =:eval= header argument, something
+like "manual".  Maybe =:noeval= should stick around as an alias for
+=:eval manual=.  Also these header arguments should be documented.
 
 ** TODO shell remote dir bug
 - State "TODO"       from ""           [2010-08-15 Sun 12:58]

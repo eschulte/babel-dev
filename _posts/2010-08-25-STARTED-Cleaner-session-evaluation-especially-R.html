@@ -1,0 +1,90 @@
+---
+title: STARTED Cleaner session evaluation (especially R)
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> Cleaner session evaluation (especially R) </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-25 Wed 10:53</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-23 Mon 13:59</span></span>
+
+</li>
+</ul>
+
+<p>Currently, with :results value, the babel session output is very
+noisy:
+</p>
+
+
+
+<pre class="src src-R">a <span class="org-constant">&lt;-</span> 1
+b <span class="org-constant">&lt;-</span> 2
+c <span class="org-constant">&lt;-</span> 3
+</pre>
+
+
+
+
+
+<pre class="example">&gt; a &lt;- 1
+b &lt;- 2
+c &lt;- 3
+write.table(.Last.value, file="/tmp/org-babel-R1486ljh", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+'org_babel_R_eoe'
+a &lt;- 1
+&gt; b &lt;- 2
+&gt; c &lt;- 3
+&gt; write.table(.Last.value, file="/tmp/org-babel-R1486ljh", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+&gt; 'org_babel_R_eoe'
+[1] "org_babel_R_eoe"
+&gt;
+</pre>
+
+
+
+<p>
+This contains a write.table command and the org<sub>babel</sub><sub>eoe</sub> indicator
+and echos all the input. The write.table and eoe are internal
+implementation details which it would be nice to hide from the user.
+</p>
+<p>
+Using the new R evaluation code (branch ob-comint) for the :results
+value :session case, currently results in the following output:
+</p>
+
+
+
+<pre class="src src-R">a <span class="org-constant">&lt;-</span> 1
+b <span class="org-constant">&lt;-</span> 2
+c <span class="org-constant">&lt;-</span> 3
+</pre>
+
+
+
+
+
+<pre class="example">&gt; a &lt;- 1
+&gt; b &lt;- 2
+&gt; c &lt;- 3
+
+&gt; &gt; 
+</pre>
+
+
+
+<p>
+I currently have not managed to make the write.table command invisible
+without adding extra prompt characters. The invisible command is done
+by `org-babel-comint-eval-invisibly'. The extra prompt chars also
+occur with ess-eval-region when ess-eval-visibly-p is set to nil. The
+invisible evaluation currently blocks until the temporary transit file
+to come into existence rather than watching the comint buffer as is
+done by `org-babel-comint-with-output'.
+</p></div>
+</div>

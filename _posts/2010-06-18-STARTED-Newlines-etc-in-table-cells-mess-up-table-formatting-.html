@@ -13,12 +13,11 @@ State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 23:36</span></span>
+
 </li>
 </ul>
 
-
-<p>
-Put together an org-table.el patch and submitted to the list, so we'll
+<p>Put together an org-table.el patch and submitted to the list, so we'll
 see.  For some reason the patch still doesn't fix the aberrant R
 behavior.
 </p>
@@ -33,18 +32,18 @@ Maybe this is worth a post to the mailing list&hellip;
 
 
 
-<pre class="src src-emacs-lisp">(orgtbl-to-orgtbl '((<span class="org-string">"first"</span> <span class="org-string">"line"</span>) (<span class="org-string">"second"</span> <span class="org-string">"line
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>orgtbl-to-orgtbl '<span class="org-esk-paren">((</span><span class="org-string">"first"</span> <span class="org-string">"line"</span><span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span><span class="org-string">"second"</span> <span class="org-string">"line
 with
-newlines"</span>)) '())
+newlines"</span><span class="org-esk-paren">))</span> '<span class="org-esk-paren">())</span>
 </pre>
 
 
 
 
 
-<pre class="src src-emacs-lisp">  '((1 2 3 4) (<span class="org-string">"eric
+<pre class="src src-emacs-lisp">  '<span class="org-esk-paren">((</span>1 2 3 4<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span><span class="org-string">"eric
 michael
-schulte"</span>))
+schulte"</span><span class="org-esk-paren">))</span>
 </pre>
 
 

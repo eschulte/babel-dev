@@ -13,12 +13,11 @@ State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class=
 </li>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-09 Tue 09:33</span></span>
+
 </li>
 </ul>
 
-
-<p>
-Graham's problem was that on C-c C-c, this
+<p>Graham's problem was that on C-c C-c, this
 </p>
 
 
@@ -54,10 +53,9 @@ that we find a pre-existing results block?
 </li>
 <li>
 How should a user use a #+ATTR<sub>LaTeX</sub> line?
+
 </li>
 </ol>
-
-
 
 </div>
 
@@ -91,15 +89,15 @@ the results should be <span class="org-bold">*above*</span> the block
 <span class="org-org-meta-line">#+srcname: in-situ</span>
 <span class="org-org-meta-line">#+begin_src emacs-lisp :results prepend
 </span><span class="org-org-block">  (format "update me in place please -- %s"
-          (current-time-string))</span><span class="org-org-meta-line">
-#+end_src</span>
-
+          (current-time-string))
+</span><span class="org-org-meta-line">#+end_src
+</span>
 <span class="org-org-meta-line">#+srcname: in-situ</span>
 <span class="org-org-meta-line">#+begin_src emacs-lisp :results append
 </span><span class="org-org-block">  (format "update me in place please (at the bottom) -- %s"
-          (current-time-string))</span><span class="org-org-meta-line">
-#+end_src</span>
-</pre>
+          (current-time-string))
+</span><span class="org-org-meta-line">#+end_src
+</span></pre>
 
 
 

@@ -13,12 +13,11 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-30 Wed 17:05</span></span>
+
 </li>
 </ul>
 
-
-<p>
-This is most likely due to the fact that `org-babel-execute-subtree'
+<p>This is most likely due to the fact that `org-babel-execute-subtree'
 calls `org-narrow-to-subtree', which narrows the buffer making
 functions defined in other sub-trees invisible.  This is demonstrated
 by calling `org-babel-execute-subtree' (bound to C-c M-b s) inside of

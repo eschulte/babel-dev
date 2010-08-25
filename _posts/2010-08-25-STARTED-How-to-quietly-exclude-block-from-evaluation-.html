@@ -1,0 +1,30 @@
+---
+title: STARTED How to quietly exclude block from evaluation? 
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo STARTED"> STARTED</span> How to quietly exclude block from evaluation? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "STARTED"    from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-25 Wed 11:32</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-15 Sun 14:06</span></span>
+
+</li>
+</ul>
+
+<p>I want to prevent a block from being evaluated. I'm evaluating the
+subtree with C-c C-v s. :eval never throws an error which prevents the
+rest of the blocks from being evaluated.
+</p>
+<p>
+Yes, these should not throw errors, similarly the <code>:noeval</code> header
+argument should be folded into the <code>:eval</code> header argument, something
+like "manual".  Maybe <code>:noeval</code> should stick around as an alias for
+<code>:eval manual</code>.  Also these header arguments should be documented.
+</p></div>
+</div>

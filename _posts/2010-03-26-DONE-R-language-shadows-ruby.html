@@ -16,22 +16,21 @@ State "TODO"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-31 Thu 12:57</span></span>
+
 </li>
 </ul>
 
-
-<p>
-simple fix, we just sort the language names by length, that way the
+<p>simple fix, we just sort the language names by length, that way the
 longer names will be tried first and the shorter names won't have a
 chance to overshadow them.
 </p>
 
 
 
-<pre class="src src-emacs-lisp">(setq org-babel-interpreters
-      (sort (cons interpreter org-babel-interpreters)
-            (<span class="org-keyword">lambda</span> (left right)
-              (&gt; (length left) (length right)))))
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>setq org-babel-interpreters
+      <span class="org-esk-paren">(</span>sort <span class="org-esk-paren">(</span>cons interpreter org-babel-interpreters<span class="org-esk-paren">)</span>
+            <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>left right<span class="org-esk-paren">)</span>
+              <span class="org-esk-paren">(</span>&gt; <span class="org-esk-paren">(</span>length left<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>length right<span class="org-esk-paren">)))))</span>
 </pre>
 
 
@@ -55,11 +54,11 @@ I was initializing org-babel with the following from my init.el file
 
 
 
-<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span>)
-(org-babel-load-library-of-babel)
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
 </pre>
 
 
@@ -74,11 +73,11 @@ When I change the order of the language initializations, the error goes away:
 
 
 
-<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span>)
-(org-babel-load-library-of-babel)
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
+<span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
 </pre>
 
 

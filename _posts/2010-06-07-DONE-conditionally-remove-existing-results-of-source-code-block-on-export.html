@@ -13,16 +13,15 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-07 Mon 13:07</span></span>
+
 </li>
 </ul>
 
-
-<p>
-so for example the following
+<p>so for example the following
 </p>
 
 
-<pre class="src src-org"><span class="org-org-hide">*</span><span class="org-org-level-2">* stripping existing results</span>
+<pre class="src src-org"><span class="org-org-level-2">** stripping existing results</span>
 <span class="org-org-meta-line">#+results: trickily-located-somehwere-else</span>
 <span class="org-org-code">: I shouldn't be exported
 </span>
@@ -31,17 +30,17 @@ be included in the export.  And only one of the bodies should be
 included...
 
 <span class="org-org-meta-line">#+begin_src emacs-lisp :exports code
-</span><span class="org-org-block">  (+ 1 1 1 1)</span><span class="org-org-meta-line">
-#+end_src</span>
-
+</span><span class="org-org-block">  (+ 1 1 1 1)
+</span><span class="org-org-meta-line">#+end_src
+</span>
 <span class="org-org-meta-line">#+results:</span>
 <span class="org-org-code">: don't include me in the export!!!!!!!
 </span>
 <span class="org-org-meta-line">#+srcname: trickily-located-somehwere-else</span>
 <span class="org-org-meta-line">#+begin_src emacs-lisp :exports none
-</span><span class="org-org-block">  (message "I shouldn't be exported")</span><span class="org-org-meta-line">
-#+end_src</span>
-</pre>
+</span><span class="org-org-block">  (message "I shouldn't be exported")
+</span><span class="org-org-meta-line">#+end_src
+</span></pre>
 
 
 

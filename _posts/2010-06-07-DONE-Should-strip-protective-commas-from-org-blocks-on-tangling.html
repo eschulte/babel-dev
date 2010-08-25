@@ -13,12 +13,11 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-15 Thu 13:14</span></span>
+
 </li>
 </ul>
 
-
-<p>
-This has been fixed with a simple call to `replace-regexp-in-string',
+<p>This has been fixed with a simple call to `replace-regexp-in-string',
 one may thing that there would be a complex function for removing the
 commas, but org-mode uses a simple regexp as well &ndash; so apparently
 this approach is safe.

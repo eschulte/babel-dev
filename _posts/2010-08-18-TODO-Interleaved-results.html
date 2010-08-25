@@ -1,0 +1,62 @@
+---
+title: TODO Interleaved results
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> Interleaved results </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-18 Wed 19:37</span></span>
+
+</li>
+</ul>
+
+<p>See <a href="http://thread.gmane.org/gmane.emacs.orgmode/28989">http://thread.gmane.org/gmane.emacs.orgmode/28989</a> a summary of
+which follows.
+</p>
+<p>
+Interleaved input and output can be achieved easily in R :results
+output (no session) using the method below. So it might be nice to
+offer :results output echo, where "echo" means include the input
+commands. This requires:
+</p>
+<ul>
+<li>
+implementation for :session
+
+<p>
+(in principle sounds not hard, as it involves <b>not</b> doing something
+(i.e. not removing commands from comint output)).
+</p>
+</li>
+<li>
+implementation for other external interpreter processes
+
+<p>
+For bash, it's somewhat similar to 'bash -x'. I looked at man python
+and didn't see anything; perhaps it is accomplished by modifying the
+output stream when python is running rather than as a command line
+option to the interpreter. ruby? etc.
+</p>
+</li>
+</ul>
+
+<p>R :results output external interpreter process implementation:
+</p>
+<p>
+(setq org-babel-R-command "R &ndash;silent &ndash;no-save")
+</p>
+
+
+
+<pre class="src src-R">2+2
+3+3
+</pre>
+
+
+
+</div>
+</div>
