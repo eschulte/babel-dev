@@ -6509,7 +6509,18 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/105]
+* Bugs [83/106]
+** TODO shell sessions hang in many cases
+   - State "TODO"       from ""           [2010-08-25 Wed 11:24]
+for example
+#+begin_src sh :results silent
+  cd ~/src/org/
+  make
+#+end_src
+
+maybe rather than sending an eoe character in shell, we should just
+check for a prompt...
+
 ** PROPOSED How do I get colnames with e.g. shell?
 - State "PROPOSED"   from ""           [2010-08-15 Sun 14:26]
    :PROPERTIES:
