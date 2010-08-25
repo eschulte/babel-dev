@@ -3,7 +3,70 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/168]
+* Tasks [79/169]
+** STARTED Cleaner session evaluation (especially R)
+   - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 10:53]
+   - State "PROPOSED"   from ""           [2010-08-23 Mon 13:59]
+
+Currently, with :results value, the babel session output is very
+noisy:
+
+#+begin_src R :session
+  a <- 1
+  b <- 2
+  c <- 3
+#+end_src
+
+#+results:
+: 3
+
+#+begin_example 
+> a <- 1
+b <- 2
+c <- 3
+write.table(.Last.value, file="/tmp/org-babel-R1486ljh", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+'org_babel_R_eoe'
+a <- 1
+> b <- 2
+> c <- 3
+> write.table(.Last.value, file="/tmp/org-babel-R1486ljh", sep="\t", na="nil",row.names=FALSE, col.names=FALSE, quote=FALSE)
+> 'org_babel_R_eoe'
+[1] "org_babel_R_eoe"
+>
+#+end_example
+
+This contains a write.table command and the org_babel_eoe indicator
+and echos all the input. The write.table and eoe are internal
+implementation details which it would be nice to hide from the user.
+
+Using the new R evaluation code (branch ob-comint) for the :results
+value :session case, currently results in the following output:
+
+#+begin_src R :session
+  a <- 1
+  b <- 2
+  c <- 3
+#+end_src
+
+#+results:
+: 3
+
+#+begin_example
+> a <- 1
+> b <- 2
+> c <- 3
+
+> > 
+#+end_example
+
+I currently have not managed to make the write.table command invisible
+without adding extra prompt characters. The invisible command is done
+by `org-babel-comint-eval-invisibly'. The extra prompt chars also
+occur with ess-eval-region when ess-eval-visibly-p is set to nil. The
+invisible evaluation currently blocks until the temporary transit file
+to come into existence rather than watching the comint buffer as is
+done by `org-babel-comint-with-output'.
+
 ** TODO Interleaved results
    - State "TODO"       from ""           [2010-08-18 Wed 19:37]
 
