@@ -2267,6 +2267,35 @@ most of these all follow this simple basic form
 *** TODO Improve temp file creation and remote reading
     - State "TODO"       from ""           [2010-02-21 Sun 17:02]
       See reply from Michael Albinus
+
+      As an example from several such instances, consider this in
+      ob-ruby.el:
+
+#+begin_src emacs-lisp
+      (case result-type
+	(output (org-babel-eval org-babel-ruby-command body))
+	(value (let ((tmp-file (make-temp-file "org-babel-ruby-results-")))
+		 (org-babel-eval org-babel-ruby-command
+				 (format (if (member "pp" result-params)
+					     org-babel-ruby-pp-wrapper-method
+					   org-babel-ruby-wrapper-method)
+					 body tmp-file))
+		 ((lambda (raw)
+		    (if (or (member "code" result-params)
+			    (member "pp" result-params))
+			raw
+		      (org-babel-ruby-table-or-string raw)))
+		  (org-babel-eval-read-file tmp-file)))))
+#+end_src
+
+The prefix passed to make-temp-file is relative; if default-directory
+happens to be remote, then make-temp-file guarantees that the file
+name returned does not already exists on the *local* host, whereas
+what is wanted is a guarantee that it does not exist on thr remote
+host. It seems from Michael Albinu's reply below that we should in
+that case be passing a prefix using remote syntax, expanded against
+the value of temporary-file-directory appropriate for the remote host.
+
 **** Email from Dan
      From: Dan Davison <davison@stats.ox.ac.uk>
      Subject: retrieving output from temp file
