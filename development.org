@@ -3,7 +3,45 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/169]
+* Tasks [80/170]
+** DONE integrate plantuml support
+   - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
+   - State "TODO"       from ""           [2010-08-26 Thu 10:12]
+Babel now support blocks of [[http://plantuml.sourceforge.net/][plantuml]] code.  Thanks to Zhang Weize for
+adding this support.
+
+Setup
+1) With the latest version of Org-mode setup consists of adding
+   plantuml to `org-babel-load-languages' with code like the following
+   or through the customization interface.
+   #+begin_src emacs-lisp
+     ;; active Org-babel languages
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '(;; other Babel languages
+        (plantuml . t)))
+   #+end_src
+2) Then [[http://plantuml.sourceforge.net/download.html][download the jar file]] save it somewhere on your system, set
+   `org-plantuml-jar-path' to point to this file.
+   #+begin_src emacs-lisp
+     (setq org-plantuml-jar-path
+           (expand-file-name "~/src/org/contrib/scripts/plantuml.jar"))
+   #+end_src
+
+Usage
+- see http://plantuml.sourceforge.net/ for a variety of example
+  usages, the following code block is an example of usage from within
+  an Org-mode file.
+  #+begin_src org :exports code
+    ,#+begin_src plantuml :file tryout.png
+    ,  Alice -> Bob: synchronous call
+    ,  Alice ->> Bob: asynchronous call
+    ,#+end_src
+    
+    ,#+results:
+    ,[[file:tryout.png]]
+  #+end_src
+
 ** STARTED Cleaner session evaluation (especially R)
    - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 10:53]
    - State "PROPOSED"   from ""           [2010-08-23 Mon 13:59]
