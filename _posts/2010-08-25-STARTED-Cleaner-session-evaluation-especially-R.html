@@ -14,13 +14,20 @@ State "STARTED"    from "PROPOSED" <span class="timestamp-wrapper"> <span class=
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-23 Mon 13:59</span></span>
 
-</li>
-</ul>
-
-<p>Currently, with :results value, the babel session output is very
+<p>
+I've made progress on using low-level ess functions for the
+':session :results value' case. This results in much less noisy
+session evaluation, which is similar to the experience of sending
+R code from a .R buffer. This work is in branch ob-comint in
+git@github.com:dandavison/org-devel.git.
+</p>
+<p>
+Currently, with :results value, the babel session output is very
 noisy:
 </p>
 
+</li>
+</ul>
 
 
 <pre class="src src-R">a <span class="org-constant">&lt;-</span> 1
@@ -86,5 +93,104 @@ occur with ess-eval-region when ess-eval-visibly-p is set to nil. The
 invisible evaluation currently blocks until the temporary transit file
 to come into existence rather than watching the comint buffer as is
 done by `org-babel-comint-with-output'.
-</p></div>
+</p>
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">Old task </h3>
+<div class="outline-text-3" id="text-1_1">
+
+
+</div>
+
+<div id="outline-container-1_1_1" class="outline-4">
+<h4 id="sec-1_1_1"><span class="done REJECTED"> REJECTED</span> re-implement R evaluation using ess-command or ess-execute </h4>
+<div class="outline-text-4" id="text-1_1_1">
+
+<p>I don't have any complaints with the current R evaluation code or
+behaviour, but I think it would be good to use the ESS functions
+from a political point of view. Plus of course it has the normal
+benefits of an API (insulates us from any underlying changes etc). [DED]
+</p>
+<p>
+I'll look into this.  I believe that I looked at and rejected these
+functions initially but now I can't remember why.  I agree with
+your overall point about using API's where available.  I will take
+a look back at these and either switch to using the ess commands,
+or at least articulate under this TODO the reasons for using our
+custom R-interaction commands. [Eric]
+</p>
+<p>
+ess-execute
+</p>
+<p>
+Lets just replace <code>org-babel-R-input-command</code> with <code>ess-execute</code>.
+</p>
+<p>
+I tried this, and although it works in some situations, I find that
+<code>ess-command</code> will often just hang indefinitely without returning
+results.  Also <code>ess-execute</code> will occasionally hang, and pops up
+the buffer containing the results of the command's execution, which
+is undesirable.  For now these functions can not be used.  Maybe
+someone more familiar with the ESS code can recommend proper usage
+of <code>ess-command</code> or some other lower-level function which could be
+used in place of <a href="lisp/org-babel-R.el">org-babel-R-input-command</a>.
+</p>
+<ul>
+<li id="sec-1_1_1_1">ess functions <br/>
+
+<blockquote>
+
+<p>(ess-command COM &amp;optional BUF SLEEP NO-PROMPT-CHECK)
+</p>
+<p>
+Send the ESS process command COM and delete the output
+from the ESS process buffer.  If an optional second argument BUF exists
+save the output in that buffer. BUF is erased before use.
+COM should have a terminating newline.
+Guarantees that the value of .Last.value will be preserved.
+When optional third arg SLEEP is non-nil, `(sleep-for (* a SLEEP))'
+will be used in a few places where `a' is proportional to `ess-cmd-delay'.
+</p>
+</blockquote>
+
+
+<blockquote>
+
+<p>(ess-execute COMMAND &amp;optional INVERT BUFF MESSAGE)
+</p>
+<p>
+Send a command to the ESS process.
+A newline is automatically added to COMMAND.  Prefix arg (or second arg
+INVERT) means invert the meaning of
+`ess-execute-in-process-buffer'.  If INVERT is 'buffer, output is
+forced to go to the process buffer.  If the output is going to a
+buffer, name it <b>BUFF</b>.  This buffer is erased before use.  Optional
+fourth arg MESSAGE is text to print at the top of the buffer (defaults
+to the command if BUFF is not given.)
+</p>
+</blockquote>
+
+
+</li>
+<li id="sec-1_1_1_2">out current setup <br/>
+
+<ol>
+<li>
+The body of the R source code block is wrapped in a function
+</li>
+<li>
+The function is called inside of a <code>write.table</code> function call
+writing the results to a table
+</li>
+<li>
+The table is read using <code>org-table-import</code>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>

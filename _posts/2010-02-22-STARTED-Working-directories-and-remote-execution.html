@@ -117,8 +117,43 @@ This all needs to be fixed.
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-21 Sun 17:02</span></span>
 See reply from Michael Albinus
+
+<p>
+As an example from several such instances, consider this in
+ob-ruby.el:
+</p>
+
 </li>
 </ul>
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">case</span> result-type
+  <span class="org-esk-paren">(</span>output <span class="org-esk-paren">(</span>org-babel-eval org-babel-ruby-command body<span class="org-esk-paren">))</span>
+  <span class="org-esk-paren">(</span>value <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>tmp-file <span class="org-esk-paren">(</span>make-temp-file <span class="org-string">"org-babel-ruby-results-"</span><span class="org-esk-paren">)))</span>
+           <span class="org-esk-paren">(</span>org-babel-eval org-babel-ruby-command
+                           <span class="org-esk-paren">(</span>format <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>member <span class="org-string">"pp"</span> result-params<span class="org-esk-paren">)</span>
+                                       org-babel-ruby-pp-wrapper-method
+                                     org-babel-ruby-wrapper-method<span class="org-esk-paren">)</span>
+                                   body tmp-file<span class="org-esk-paren">))</span>
+           <span class="org-esk-paren">((</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>raw<span class="org-esk-paren">)</span>
+              <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>or <span class="org-esk-paren">(</span>member <span class="org-string">"code"</span> result-params<span class="org-esk-paren">)</span>
+                      <span class="org-esk-paren">(</span>member <span class="org-string">"pp"</span> result-params<span class="org-esk-paren">))</span>
+                  raw
+                <span class="org-esk-paren">(</span>org-babel-ruby-table-or-string raw<span class="org-esk-paren">)))</span>
+            <span class="org-esk-paren">(</span>org-babel-eval-read-file tmp-file<span class="org-esk-paren">)))))</span>
+</pre>
+
+
+
+<p>
+The prefix passed to make-temp-file is relative; if default-directory
+happens to be remote, then make-temp-file guarantees that the file
+name returned does not already exists on the <b>local</b> host, whereas
+what is wanted is a guarantee that it does not exist on thr remote
+host. It seems from Michael Albinu's reply below that we should in
+that case be passing a prefix using remote syntax, expanded against
+the value of temporary-file-directory appropriate for the remote host.
+</p>
 
 </div>
 
