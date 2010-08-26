@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [80/170]
+* Tasks [79/169]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -46,8 +46,14 @@ Usage
    - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 10:53]
    - State "PROPOSED"   from ""           [2010-08-23 Mon 13:59]
 
-Currently, with :results value, the babel session output is very
-noisy:
+     I've made progress on using low-level ess functions for the
+     ':session :results value' case. This results in much less noisy
+     session evaluation, which is similar to the experience of sending
+     R code from a .R buffer. This work is in branch ob-comint in
+     git@github.com:dandavison/org-devel.git.
+
+     Currently, with :results value, the babel session output is very
+     noisy:
 
 #+begin_src R :session
   a <- 1
@@ -104,6 +110,67 @@ occur with ess-eval-region when ess-eval-visibly-p is set to nil. The
 invisible evaluation currently blocks until the temporary transit file
 to come into existence rather than watching the comint buffer as is
 done by `org-babel-comint-with-output'.
+
+*** Old task
+**** REJECTED re-implement R evaluation using ess-command or ess-execute
+      I don't have any complaints with the current R evaluation code or
+      behaviour, but I think it would be good to use the ESS functions
+      from a political point of view. Plus of course it has the normal
+      benefits of an API (insulates us from any underlying changes etc). [DED]
+
+      I'll look into this.  I believe that I looked at and rejected these
+      functions initially but now I can't remember why.  I agree with
+      your overall point about using API's where available.  I will take
+      a look back at these and either switch to using the ess commands,
+      or at least articulate under this TODO the reasons for using our
+      custom R-interaction commands. [Eric]
+
+      ess-execute
+
+      Lets just replace =org-babel-R-input-command= with =ess-execute=.
+
+      I tried this, and although it works in some situations, I find that
+      =ess-command= will often just hang indefinitely without returning
+      results.  Also =ess-execute= will occasionally hang, and pops up
+      the buffer containing the results of the command's execution, which
+      is undesirable.  For now these functions can not be used.  Maybe
+      someone more familiar with the ESS code can recommend proper usage
+      of =ess-command= or some other lower-level function which could be
+      used in place of [[file:lisp/org-babel-R.el::defun%20org-babel%20R%20input%20command%20command][org-babel-R-input-command]].
+
+***** ess functions
+   
+#+begin_quote ess-command
+(ess-command COM &optional BUF SLEEP NO-PROMPT-CHECK)
+
+Send the ESS process command COM and delete the output
+from the ESS process buffer.  If an optional second argument BUF exists
+save the output in that buffer. BUF is erased before use.
+COM should have a terminating newline.
+Guarantees that the value of .Last.value will be preserved.
+When optional third arg SLEEP is non-nil, `(sleep-for (* a SLEEP))'
+will be used in a few places where `a' is proportional to `ess-cmd-delay'.
+#+end_quote
+
+#+begin_quote ess-execute
+(ess-execute COMMAND &optional INVERT BUFF MESSAGE)
+
+Send a command to the ESS process.
+A newline is automatically added to COMMAND.  Prefix arg (or second arg
+INVERT) means invert the meaning of
+`ess-execute-in-process-buffer'.  If INVERT is 'buffer, output is
+forced to go to the process buffer.  If the output is going to a
+buffer, name it *BUFF*.	 This buffer is erased before use.  Optional
+fourth arg MESSAGE is text to print at the top of the buffer (defaults
+to the command if BUFF is not given.)
+#+end_quote
+
+***** out current setup
+
+      1) The body of the R source code block is wrapped in a function
+      2) The function is called inside of a =write.table= function call
+       	 writing the results to a table
+      3) The table is read using =org-table-import=
 
 ** TODO Interleaved results
    - State "TODO"       from ""           [2010-08-18 Wed 19:37]
@@ -2238,6 +2305,35 @@ most of these all follow this simple basic form
 *** TODO Improve temp file creation and remote reading
     - State "TODO"       from ""           [2010-02-21 Sun 17:02]
       See reply from Michael Albinus
+
+      As an example from several such instances, consider this in
+      ob-ruby.el:
+
+#+begin_src emacs-lisp
+      (case result-type
+	(output (org-babel-eval org-babel-ruby-command body))
+	(value (let ((tmp-file (make-temp-file "org-babel-ruby-results-")))
+		 (org-babel-eval org-babel-ruby-command
+				 (format (if (member "pp" result-params)
+					     org-babel-ruby-pp-wrapper-method
+					   org-babel-ruby-wrapper-method)
+					 body tmp-file))
+		 ((lambda (raw)
+		    (if (or (member "code" result-params)
+			    (member "pp" result-params))
+			raw
+		      (org-babel-ruby-table-or-string raw)))
+		  (org-babel-eval-read-file tmp-file)))))
+#+end_src
+
+The prefix passed to make-temp-file is relative; if default-directory
+happens to be remote, then make-temp-file guarantees that the file
+name returned does not already exists on the *local* host, whereas
+what is wanted is a guarantee that it does not exist on thr remote
+host. It seems from Michael Albinu's reply below that we should in
+that case be passing a prefix using remote syntax, expanded against
+the value of temporary-file-directory appropriate for the remote host.
+
 **** Email from Dan
      From: Dan Davison <davison@stats.ox.ac.uk>
      Subject: retrieving output from temp file
@@ -6048,65 +6144,6 @@ the three) source blocks.  See the examples in the [[* (sandbox) referencing oth
 This is currently working only with emacs lisp as in the following
 example in the [[* emacs lisp source reference][emacs lisp source reference]].
 
-** REJECTED re-implement R evaluation using ess-command or ess-execute
-   I don't have any complaints with the current R evaluation code or
-   behaviour, but I think it would be good to use the ESS functions
-   from a political point of view. Plus of course it has the normal
-   benefits of an API (insulates us from any underlying changes etc). [DED]
-
-   I'll look into this.  I believe that I looked at and rejected these
-   functions initially but now I can't remember why.  I agree with
-   your overall point about using API's where available.  I will take
-   a look back at these and either switch to using the ess commands,
-   or at least articulate under this TODO the reasons for using our
-   custom R-interaction commands. [Eric]
-
-   ess-execute
-
-   Lets just replace =org-babel-R-input-command= with =ess-execute=.
-
-   I tried this, and although it works in some situations, I find that
-   =ess-command= will often just hang indefinitely without returning
-   results.  Also =ess-execute= will occasionally hang, and pops up
-   the buffer containing the results of the command's execution, which
-   is undesirable.  For now these functions can not be used.  Maybe
-   someone more familiar with the ESS code can recommend proper usage
-   of =ess-command= or some other lower-level function which could be
-   used in place of [[file:lisp/org-babel-R.el::defun%20org-babel%20R%20input%20command%20command][org-babel-R-input-command]].
-
-*** ess functions
-   
-#+begin_quote ess-command
-(ess-command COM &optional BUF SLEEP NO-PROMPT-CHECK)
-
-Send the ESS process command COM and delete the output
-from the ESS process buffer.  If an optional second argument BUF exists
-save the output in that buffer. BUF is erased before use.
-COM should have a terminating newline.
-Guarantees that the value of .Last.value will be preserved.
-When optional third arg SLEEP is non-nil, `(sleep-for (* a SLEEP))'
-will be used in a few places where `a' is proportional to `ess-cmd-delay'.
-#+end_quote
-
-#+begin_quote ess-execute
-(ess-execute COMMAND &optional INVERT BUFF MESSAGE)
-
-Send a command to the ESS process.
-A newline is automatically added to COMMAND.  Prefix arg (or second arg
-INVERT) means invert the meaning of
-`ess-execute-in-process-buffer'.  If INVERT is 'buffer, output is
-forced to go to the process buffer.  If the output is going to a
-buffer, name it *BUFF*.	 This buffer is erased before use.  Optional
-fourth arg MESSAGE is text to print at the top of the buffer (defaults
-to the command if BUFF is not given.)
-#+end_quote
-
-*** out current setup
-
-    1) The body of the R source code block is wrapped in a function
-    2) The function is called inside of a =write.table= function call
-       writing the results to a table
-    3) The table is read using =org-table-import=
 ** REJECTED add a =:requires= header argument
 Given the use of noweb references we no longer need to have a need for
 this sort of functionality.
