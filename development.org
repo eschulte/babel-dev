@@ -6453,7 +6453,7 @@ trivial [[file:lisp/langs/org-babel-css.el][org-babel-css.el]]
 |             1.3 |          0.19615368 |           0.21730748 |
 
 #+srcname: implementing-gnuplot
-#+begin_src gnuplot :var data=gnuplot-data :results silent
+#+begin_src gnuplot :var data=gnuplot-data :results silent :noeval
 set title "Implementing Gnuplot"
 plot data using 1:2 with lines
 #+end_src
@@ -6484,7 +6484,7 @@ can wait.
 to specify a file holding the results
 
 #+srcname: gnuplot-to-file-implementation
-#+begin_src gnuplot :file plot.png :var data=gnuplot-data
+#+begin_src gnuplot :file plot.png :var data=gnuplot-data :noeval
 plot data using 1:2, data using 1:3 with lines
 #+end_src
 
@@ -6516,7 +6516,7 @@ These should all be in place by now.
 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 #+srcname: implementing-gnuplot-grid-plots
-#+begin_src gnuplot :vars data=org-grid
+#+begin_src gnuplot :vars data=org-grid :noeval
 
 #+end_src
 
@@ -6720,7 +6720,7 @@ ls
 Alternatively, I believe we should be able to use sbe to put the elisp
 code in blocks:
 
-#+begin_src gnuplot :term (sbe "get-image-type") :file (sbe "get-file-path")
+#+begin_src gnuplot :term (sbe "get-image-type") :file (sbe "get-file-path") :noeval
   plot sin(x)
 #+end_src
 
