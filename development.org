@@ -6584,7 +6584,7 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [83/107]
+* Bugs [84/107]
 ** TODO different properties when exporting than when manually evaluating
    - State "TODO"       from ""           [2010-08-25 Wed 12:04]
 Thanks to Tom Short for pointing this out.
@@ -6620,18 +6620,82 @@ check for a prompt...
 |---+---|
 | 3 | 4 |
 
-** STARTED How to quietly exclude block from evaluation? 
+** DONE eval and noeval
+   - State "DONE"       from "STARTED"    [2010-08-26 Thu 17:05]
    - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 11:32]
 - State "PROPOSED"   from ""           [2010-08-15 Sun 14:06]
 
-I want to prevent a block from being evaluated. I'm evaluating the
-subtree with C-c C-v s. :eval never throws an error which prevents the
-rest of the blocks from being evaluated.
+In general if `org-confirm-babel-evaluate' is set to =nil=, then code
+blocks can be evaluated without the need for explicit confirmation and
+if it is set to a truthy value then explicit confirmation is required
+by the user for every code block evaluation.
 
-Yes, these should not throw errors, similarly the =:noeval= header
-argument should be folded into the =:eval= header argument, something
-like "manual".  Maybe =:noeval= should stick around as an alias for
-=:eval manual=.  Also these header arguments should be documented.
+The =:eval= header argument can never be used to decrease the level of
+confirmation required from the user, because that could result in a
+security risk, however it can create additional barriers to
+evaluation.  For example the following should make you nervous if the
+=:eval no= header argument were not present.
+: #+begin_src sh :eval never
+:   sudo rm -rf /
+: #+end_src
+
+The =:eval= header argument can take the following values.
+- =no= or =never= :: the source block can not be evaluated, no matter what
+- =query= :: the user will be queried before every evaluation
+     regardless of the value of `org-confirm-babel-evaluate'
+
+For backwards compatibility the =:noeval= header argument is an alias
+for =:eval no=.
+
+The following demonstrates this header argument.  On export the user
+is queried once, for the =this-is-ls= which is called by the final
+=emacs-lisp= code block.
+: *** eval and noeval
+: date, should export both, but won't output results because of presence
+: of the =:noeval= header argument.
+: #+begin_src sh :noeval :exports both
+:   date
+: #+end_src
+: 
+: should export code, so no need to do anything
+: #+begin_src sh
+:   date
+: #+end_src
+: 
+: should export nothing, and should not query
+: #+source: this-is-ls
+: #+begin_src sh :eval query :exports none
+:   date
+: #+end_src
+: 
+: should export results, and should trigger query above
+: #+begin_src emacs-lisp :var ls=this-is-ls :exports results
+:   ls
+: #+end_src
+
+It exports to the following...
+*** eval and noeval
+date, should export both, but won't output results because of presence
+of the =:noeval= header argument.
+#+begin_src sh :noeval :exports both
+  date
+#+end_src
+
+should export code, so no need to do anything
+#+begin_src sh
+  date
+#+end_src
+
+should export nothing, and should not query
+#+source: this-is-ls
+#+begin_src sh :exports none
+  date
+#+end_src
+
+should export results, and should trigger query above
+#+begin_src emacs-lisp :var ls=this-is-ls :exports results
+  ls
+#+end_src
 
 ** TODO shell remote dir bug
 - State "TODO"       from ""           [2010-08-15 Sun 12:58]
