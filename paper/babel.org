@@ -364,7 +364,7 @@ Because Emacs has been ported to a large number of operating systems
 Org-mode can be run on a wide variety of devices and its plain text
 documents are compatible between arbitrary platforms.
 
-*** Document structure
+*** Document Structure
 
 The fundamental structure of Org-mode documents is the outline,
 conceptualized as a hierarchically ordered series of nodes.  A
@@ -390,7 +390,7 @@ hierarchical outline structure can be folded at every node, making it
 possible to expose selected sections for quick access or to provide a
 structural overview of the document at any level of structure.
 
-*** Meta data on nodes
+*** Metadata on Nodes
 
 One of the primary design goals of Org-mode was to define a system
 that combines efficient note-taking and brainstorming with a task
@@ -429,15 +429,17 @@ is accessible to and can be modified by it.
 
 *** Tables and Spreadsheets
 
-The arbitrary text following a headline in an Org-mode document can
-also be structured to represent various types of information.  Vector
-and matrix data are represented as tables where the columns are marked
-by vertical bars and rows are optionally separated by dashed lines as
-shown in the following example.  The Emacs calculator, /calc/ ([[David
-Gillespie 1990, http://www.gnu.org/software/emacs/calc.html]]), can be
-used to carry out computations in tables.  This feature is similar to
-spreadsheet applications, but Org-mode uses plain text to represent
-both data and formulas.  Babel makes extensive use of Org-mode tables.
+The text following a headline in an Org-mode document can
+be structured to represent various types of information,
+including vectors, matrices, source code, and arbitrary pieces of
+text.  Vector and matrix data are represented as tables where the
+columns are marked by vertical bars and rows are optionally separated
+by dashed lines as shown in the following example.  The Emacs
+calculator, /calc/ ([[David Gillespie 1990,
+http://www.gnu.org/software/emacs/calc.html]]), can be used to carry out
+computations in tables.  This feature is similar to spreadsheet
+applications, but Org-mode uses plain text to represent both data and
+formulas.  Babel makes extensive use of Org-mode tables.
 
 #+begin_src org
   ,| Name 1 | Name 2 | ... | Name N |
@@ -446,21 +448,14 @@ both data and formulas.  Babel makes extensive use of Org-mode tables.
   ,| ...    | ...    | ... | ...    |
 #+end_src
 
-*** Source code blocks
-
-Another design goal of Org-mode was to use it to create technical
-documentation.   Special syntax is present to mark blocks
-of code, originally with the sole purpose to ensure verbatim,
-mono-spaced type setting when a document would be published as PDF or
-HTML.  The syntax to mark code blocks is a pair of begin/end markers
-which will be explained in detail in section XXXXX.
-
-*** Wiki-like syntax for links and document markup
-
-When an Org-mode document is published as HTML for websites or as PDF
-for printing, wiki-like markup can be used to produce rich documents
-with formatting, table of contents, figures and more.
-
+Source code blocks were added to Org-mode as an aid to creating
+technical documentation.  Originally, their sole purpose was to set
+verbatim, mono-spaced type when publishing to PDF or HTML.  Code
+blocks are marked with either a =#+BEGIN_EXAMPLE ... #+END_EXAMPLE=
+pair, or with a =#+BEGIN_SRC ... #+END_SRC= pair.  The latter form
+can leverage Emacs source code editing modes to indent and
+fontify code examples.  Additional markup is provided with wiki-like
+syntax, which can be applied to any piece of text.
 
 ** Code and Data Block Extensions
     :PROPERTIES:
