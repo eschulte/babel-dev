@@ -2960,7 +2960,7 @@ be selecting a key sequence.
   =raw= is inconsistent with =:results latex=, =:results html=,
   =:results code=. [Dan]
 
-** TODO support for working with org-src-mode edit buffers [5/7]
+** TODO support for working with org-src-mode edit buffers [7/8]
 *** DONE Patch against org source. 
     I've worked on several related changes to source code edit buffer
     behaviour in the org core.  My current patch (below) does the
@@ -3138,7 +3138,8 @@ assignments are made in the appropriate session.
   end
 #+end_src
 
-*** TODO set buffer-local-process variables appropriately [DED]
+*** DONE set buffer-local-process variables appropriately [DED]
+    - State "DONE"       from "TODO"       [2010-08-29 Sun 19:23]
     When switching to a edit buffer for R, if :session is active then
     we should set ess-current-process-name (or is it
     ess-local-process-name?) to the session name. Implementation?
