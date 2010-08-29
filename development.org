@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [83/169]
+* Tasks [84/169]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -2158,9 +2158,12 @@ least hlines as 2nd element of elisp table).
    OK, you made it interactive (c4d385681f6c70), so I'm closing this
    item.
 
-** STARTED How do we mark a block as not to be executed?
+** DONE How do we mark a block as not to be executed?
+   - State "DONE"       from "STARTED"    [2010-08-29 Sun 19:10]
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:35]
    - State "TODO"       from ""           [2010-02-14 Sun 11:19]
+
+     Done: (e52909d90274) The header arg is :eval no
 
    E.g. by org-babel-execute-buffer
    
