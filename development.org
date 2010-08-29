@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/169]
+* Tasks [80/169]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -1570,8 +1570,11 @@ headline properties
          Maurizio 
 #+end_example
 
-** PROPOSED Make org-babel-switch-to-buffer show code edit buffer
+** DONE Make org-babel-switch-to-buffer show code edit buffer
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 18:53]
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:20]
+
+     Done: see commit b05f8c91fed5d743adf5df787f2b28fb58274bf5
 
      See also [[*org%20babel%20R%20show%20comint%20buffer%20patch%20from%20Julien%20Barnier][org-babel-R show comint buffer patch from Julien Barnier]]
 
