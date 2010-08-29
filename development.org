@@ -224,7 +224,8 @@ In code blocks which don't have a well defined table syntax
 argument which could be used to specify the delimiter (possibly to be
 passed as the optional argument to `org-table-convert-region').
 
-** TODO Review David O'Toole export patch
+** STARTED Review David O'Toole export patch
+   - State "STARTED"    from "TODO"       [2010-08-29 Sun 18:50]
 - State "TODO"       from ""           [2010-08-15 Sun 13:31]
 [[http://patchwork.newartisans.com/patch/187/]]
 ** PROPOSED Allow contents of source blocks to be in external files
