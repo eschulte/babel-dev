@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [89/168]
+* Tasks [90/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -3493,11 +3493,15 @@ cbind(a, b)
 maybe controlled by an argument
 ** PROPOSED Control precision of numerical output
    Does org have an option controlling precision of numbers in tables?
-** PROPOSED allow `anonymous' function block with function call args?
+** REJECTED allow `anonymous' function block with function call args?
+   - State "REJECTED"   from "PROPOSED"   [2010-08-29 Sun 19:26]
    My question here is simply whether we're going to allow
 #+begin_src python(arg=ref)
 # whatever
 #+end_src
+
+I think we're probably not going to do this seeing as the
+functionality is available with :var, and it's dubious syntax anyway.
 
 but with preference given to
 #+srcname blockname(arg=ref)
