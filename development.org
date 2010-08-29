@@ -8144,7 +8144,8 @@ I have stripped bare my .emacs, and still:
 
 jm
 
-** TODO should delete temp files after evaluation
+** STARTED should delete temp files after evaluation
+   - State "STARTED"    from "TODO"       [2010-08-29 Sun 18:49]
 ** DONE tangle is outputting multiple shebang lines with python code
 ** DONE o-b-execute-subtree places output outside of folded subtree
    - State "DONE"       from "TODO"       [2010-06-07 Mon 18:39]
