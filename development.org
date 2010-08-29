@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [85/169]
+* Tasks [85/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -2642,12 +2642,6 @@ I've had other permutations of 2)
 If all of the source code blocks have :tangle arguments, then all seems to be well.
 #+end_example
 
-** TODO documentation odds and ends
-this is just a place to hold random notes for items that should make
-it into the documentation at some point.
-
-- org-src-preserve-indentation
-
 ** TODO strip ansi-color characters (sh)
 This should definitely be done in org-babel-sh, I don't think it is
 common enough to move the functionality to org-babel-comint, but I
@@ -2838,6 +2832,12 @@ our documentation has fallen behind our development.  We should:
 5) ensure that all new header arguments (e.g. =results_switches=) are
    represented in the documentation
 6) add the /org-babel-template.el/ new language template
+
+*** documentation odds and ends
+this is just a place to hold random notes for items that should make
+it into the documentation at some point.
+
+- org-src-preserve-indentation
 
 *** new layout
     what should this look like? I'm thinking something like.
