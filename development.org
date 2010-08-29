@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [82/169]
+* Tasks [83/169]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -2127,7 +2127,8 @@ least hlines as 2nd element of elisp table).
      to true -- or maybe header arguments aren't the appropriate tool
      for this situation?
 
-** STARTED How do we open all source blocks in buffer?
+** DONE How do we open all source blocks in buffer?
+   - State "DONE"       from "STARTED"    [2010-08-29 Sun 19:08]
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:34]
    - State "TODO"       from ""           [2010-02-14 Sun 11:18]
 
@@ -2153,6 +2154,9 @@ least hlines as 2nd element of elisp table).
    And should it be made interactive? If so let's raise it on
    list. Personally I can deal with it not being part of visibility
    cycling, so I think this item may be almost DONE.
+
+   OK, you made it interactive (c4d385681f6c70), so I'm closing this
+   item.
 
 ** STARTED How do we mark a block as not to be executed?
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:35]
