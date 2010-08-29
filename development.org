@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [85/168]
+* Tasks [86/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -2871,8 +2871,8 @@ from the mailing list
 #+end_quote
 
 ** PROPOSED allow hiding of code blocks with <tab> on srcname line?
-** PROPOSED Allow hiding of results blocks?
-=======
+** DONE Allow hiding of results blocks?
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:17]
 ** PROPOSED Support passing of data to source block on stdin?
 ** PROPOSED add data serialization language result types (XML, YAML, JSON, etc...)
 these could be cached in source-code blocks of the appropriate
