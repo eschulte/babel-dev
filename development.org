@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [86/168]
+* Tasks [87/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -2870,7 +2870,10 @@ from the mailing list
  well.
 #+end_quote
 
-** PROPOSED allow hiding of code blocks with <tab> on srcname line?
+** REJECTED allow hiding of code blocks with <tab> on srcname line?
+   - State "REJECTED"   from "PROPOSED"   [2010-08-29 Sun 19:18]
+     I think this is out of keeping with other Org behaviour
+     
 ** DONE Allow hiding of results blocks?
    - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:17]
 ** PROPOSED Support passing of data to source block on stdin?
