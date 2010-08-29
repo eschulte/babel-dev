@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [84/169]
+* Tasks [85/169]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -227,6 +227,9 @@ passed as the optional argument to `org-table-convert-region').
 ** STARTED Review David O'Toole export patch
    - State "STARTED"    from "TODO"       [2010-08-29 Sun 18:50]
 - State "TODO"       from ""           [2010-08-15 Sun 13:31]
+   :PROPERTIES:
+   :ID:       0ee521bb-b2db-4f59-8c75-b01085b2653a
+   :END:
 [[http://patchwork.newartisans.com/patch/187/]]
 ** PROPOSED Allow contents of source blocks to be in external files
 - State "PROPOSED"   from ""           [2010-07-29 Thu 21:33]
@@ -2781,7 +2784,13 @@ preferable if we could make our noweb syntax customizable.
 allow some generic system of macro expansion, maybe borrowing from the
 noweb expansion system...
 
-** TODO export source code block names on export
+** DONE export source code block names on export
+   - State "DONE"       from "TODO"       [2010-08-29 Sun 19:15]
+
+     We do this now. There is currently a pending patch by david
+     O'Toole which concerns this. See [[id:0ee521bb-b2db-4f59-8c75-b01085b2653a][Review David O'Toole export
+     patch]].
+
 - perhaps using an org-mode macro
 - noweb has a syntax for doing this on latex export
 - maybe even include a list of where it is used...
