@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [87/168]
+* Tasks [88/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -2922,9 +2922,13 @@ it is possible to *open* results from a source block, but yea I think
 jumping would be nice.  The hardest part of this implementation will
 be selecting a key sequence.
 
-** PROPOSED :results org should be org block
+** DONE :results org should be org block
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:21]
    - State "PROPOSED"   from "REJECTED"   [2010-02-28 Sun 15:10]
    - State "REJECTED"   from "PROPOSED"   [2009-12-22 Tue 14:40]
+
+     This is done now, albeit motivated differently. See commits
+     2c33b2eb66 and 3d2dbf8604.
 
    The reason that =:results org= was introduced was to support
    seamless insertion of results into an org-mode buffer.  This
