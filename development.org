@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [90/168]
+* Tasks [91/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -3506,7 +3506,15 @@ functionality is available with :var, and it's dubious syntax anyway.
 but with preference given to
 #+srcname blockname(arg=ref)
 ** PROPOSED allow :result as synonym for :results?
-** PROPOSED Creating presentations
+** DONE Creating presentations
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:29]
+
+     This should now be possible as beamer support has been added to
+     Org mode. It might be nice to have other presentation
+     formats. I'm marking this as done as the babel part should
+     already be working via existing export mechanisms
+
+
    The [[mairix:t:@@9854.1246500519@gamaville.dokosmarshall.org][recent thread]] containing posts by Nick Dokos and Sebastian
    Vaubán on exporting to beamer looked very interesting, but I
    haven't had time to try it out yet. I would really like it if,
