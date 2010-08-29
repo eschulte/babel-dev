@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [88/168]
+* Tasks [89/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -329,6 +329,9 @@ It may be hard to implement, but could be worth the effort.
 ** STARTED library of babel for google API
    - State "STARTED"    from "PROPOSED"   [2010-07-20 Tue 16:53]
    - State "PROPOSED"   from ""           [2010-07-14 Wed 16:56]
+   :PROPERTIES:
+   :ID:       5e48c427-99db-471b-a1b8-839df2ee294e
+   :END:
 
 see
 - http://code.google.com/apis/documents/overview.html
@@ -3256,6 +3259,9 @@ This will rely upon [[* resolve references to other buffers][resolve references 
     - plotting and analysis functions in R (incl. re-implement those from org-R?)
     - plotting with gnuplot (incl. re-implement org-plot??)
 
+*** google API
+    See [[id:5e48c427-99db-471b-a1b8-839df2ee294e][library of babel for google API]]
+
 ** STARTED Improve error checking
    - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:00]
    - State "TODO"       from "DEFERRED"   [2010-03-01 Mon 05:49]
@@ -3479,7 +3485,11 @@ cbind(a, b)
 **** Alternatively
      Use org-table-export, do it in external spreadsheet software,
      then org-table-import
-** PROPOSED allow for stripping of header rows from table data
+** DONE allow for stripping of header rows from table data
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:25]
+     
+     See documentation of :colnames and :rownames header args
+
 maybe controlled by an argument
 ** PROPOSED Control precision of numerical output
    Does org have an option controlling precision of numbers in tables?
