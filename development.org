@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [81/169]
+* Tasks [82/169]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -1704,9 +1704,13 @@ user.
      projects (ruby, python, R, etc) but it would be interesting to
      see.
 
-** STARTED In-buffer graphical results 
+** DONE In-buffer graphical results 
+   - State "DONE"       from "STARTED"    [2010-08-29 Sun 19:00]
    - State "STARTED"    from "PROPOSED"   [2010-03-15 Mon 17:21]
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:15]
+
+     This functionality was implemented by Carsten. See
+     `org-toggle-inline-images'.
 
      A proof-of-principle implementation of this is below. It uses
      org-babel-after-execute-hook to refresh the inline image displays
