@@ -1690,8 +1690,12 @@ user.
       have to be one of the earlier elements in the list, thus pushing
       the others along by one.
      
-** PROPOSED org-icons for src blocks
+** STARTED org-icons for src blocks
+   - State "STARTED"    from "PROPOSED"   [2010-08-29 Sun 19:01]
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
+
+     Started: see branch org-icons at git@github.com:dandavison/org-devel.git
+
 
      I would like to investigate using org-icons to replace the code
      block boilerplate (#+begin_src LANG ... #+end_src) with nice
