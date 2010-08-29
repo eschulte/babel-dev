@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [80/169]
+* Tasks [81/169]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -1610,7 +1610,11 @@ index d01e6d6..5121fbc 100644
  (defalias 'org-babel-pop-to-session 'org-babel-switch-to-session)
 #+end_example
 
-** PROPOSED Make some org-babel commands available from edit buffer?
+** DONE Make some org-babel commands available from edit buffer?
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 18:55]
+
+     Done: see commit 441288ee72778931c3e1853b8221f7049289df91
+
    For example, it might be nice to be able to do the following from
    the code edit buffer:
 
