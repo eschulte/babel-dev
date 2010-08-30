@@ -3,7 +3,33 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [91/168]
+* Tasks [91/169]
+** PROPOSED org-mode and code block major mode integration
+   - State "PROPOSED"   from ""           [2010-08-29 Sun 23:36]
+The theme of tighter integration between org-mode and the major modes of
+code blocks has appeared recently in a number of different forms.
+
+- major-mode syntax coloring of code blocks in org-mode files [1]
+
+- execution of code-specific major-mode functions from within org-mode
+  files (e.g. indentation of code) [2]
+
+- execution of org-mode functions (e.g. tangling) from within
+  Org-Edit-Src buffers [3]
+
+It seems that all of these issue should be addressed in a unified
+manner, but it's not clear exactly how...
+
+Footnotes: 
+[1]  "Mode-specific fontification of babel source blocks"
+     http://thread.gmane.org/gmane.emacs.orgmode/28307
+
+[2]  "Indent code with TAB in Org buffer"
+     http://thread.gmane.org/gmane.emacs.orgmode/28790
+
+[3]  "Seemless editing of Babel Blocks"
+     http://thread.gmane.org/gmane.emacs.orgmode/27788
+
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
