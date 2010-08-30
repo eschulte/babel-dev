@@ -10,6 +10,9 @@ layout: default
 <ul>
 <li>
 State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-23 Fri 09:44</span></span>
+</li>
+</ul>
+
 
 <p>
 In org-babel, code is "expanded" prior to evaluation. I.e. the
@@ -20,16 +23,17 @@ expanded contents, and also to expand code during during
 tangling.  This expansion takes into account all header
 arguments, and variables.
 </p>
-</li>
-</ul>
 <dl>
 <dt>preview</dt><dd>
 A new key-binding <code>C-c M-b p</code> bound to
 `org-babel-expand-src-block' can be used from inside of a source
 code block to preview its expanded contents (which can be very
 useful for debugging).
-
 </dd>
+</dl>
+
+
+<dl>
 <dt>tangling</dt><dd>
 The expanded body can now be tangled, this includes
 variable values which may be the results of other source-code
@@ -39,11 +43,12 @@ initialization to store values (e.g. usernames, passwords,
 etc&hellip;) in headline properties or in tables.  The <code>:no-expand</code>
 header argument can be used to inhibit expansion of a code block
 body during tangling.
-
 </dd>
 </dl>
 
-<p>Here is an example of a code block and its resulting expanded body.
+
+<p>
+Here is an example of a code block and its resulting expanded body.
 </p>
 <p>
 The data in the file.
@@ -64,8 +69,8 @@ The actual code block
 
 
 <div class="org-src-container"><label class="org-src-name">setup-my-account(data=user-data)</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span>setq my-special-username <span class="org-esk-paren">(</span>first <span class="org-esk-paren">(</span>first data<span class="org-esk-paren">)))</span>
-<span class="org-esk-paren">(</span>setq my-special-password <span class="org-esk-paren">(</span>first <span class="org-esk-paren">(</span>second data<span class="org-esk-paren">)))</span>
+(setq my-special-username (first (first data)))
+(setq my-special-password (first (second data)))
 </pre></div>
 
 
@@ -75,10 +80,10 @@ its expanded contents, as seen with <code>C-c M-b p</code>
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>data <span class="org-esk-paren">(</span>quote <span class="org-esk-paren">((</span><span class="org-string">"john-doe"</span><span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span><span class="org-string">"abc123"</span><span class="org-esk-paren">)))))</span>
-<span class="org-esk-paren">(</span>setq my-special-username <span class="org-esk-paren">(</span>first <span class="org-esk-paren">(</span>first data<span class="org-esk-paren">)))</span>
-<span class="org-esk-paren">(</span>setq my-special-password <span class="org-esk-paren">(</span>first <span class="org-esk-paren">(</span>second data<span class="org-esk-paren">)))</span>
-<span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">let</span> ((data (quote ((<span class="org-string">"john-doe"</span>) (<span class="org-string">"abc123"</span>)))))
+(setq my-special-username (first (first data)))
+(setq my-special-password (first (second data)))
+)
 </pre>
 
 

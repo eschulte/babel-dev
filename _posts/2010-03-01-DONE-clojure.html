@@ -22,11 +22,12 @@ State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <ul>
 <li>
 State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-06 Wed 17:41</span></span>
-
 </li>
 </ul>
 
-<p>Thanks to Joel Boehland org-babel-clojure now supports multiple
+
+<p>
+Thanks to Joel Boehland org-babel-clojure now supports multiple
 sessions.  This can be exercised through the following
 </p>
 
@@ -86,7 +87,7 @@ sessions.  This can be exercised through the following
 
 
 <div class="org-src-container"><label class="org-src-name">set-clojure-session-var-s1()</label><pre class="src src-clojure">
-<span class="org-esk-paren">(</span><span class="org-keyword">def</span> <span class="org-function-name">*var*</span> [1 2 3]<span class="org-esk-paren">)</span>
+(<span class="org-keyword">def</span> <span class="org-function-name">*var*</span> [1 2 3])
 </pre></div>
 
 
@@ -95,7 +96,7 @@ sessions.  This can be exercised through the following
 
 
 <div class="org-src-container"><label class="org-src-name">set-clojure-session-var-s2()</label><pre class="src src-clojure">
-<span class="org-esk-paren">(</span><span class="org-keyword">def</span> <span class="org-function-name">*var*</span> [3 4 5 6 7 8 9]<span class="org-esk-paren">)</span>
+(<span class="org-keyword">def</span> <span class="org-function-name">*var*</span> [3 4 5 6 7 8 9])
 </pre></div>
 
 
@@ -104,7 +105,7 @@ sessions.  This can be exercised through the following
 
 
 <div class="org-src-container"><label class="org-src-name">get-clojure-session-var-s1()</label><pre class="src src-clojure">
-<span class="org-esk-paren">(</span><span class="org-builtin">count</span> *var*<span class="org-esk-paren">)</span>
+(<span class="org-builtin">count</span> *var*)
 </pre></div>
 
 
@@ -113,7 +114,7 @@ sessions.  This can be exercised through the following
 
 
 <div class="org-src-container"><label class="org-src-name">get-clojure-session-var-s2()</label><pre class="src src-clojure">
-<span class="org-esk-paren">(</span><span class="org-builtin">count</span> *var*<span class="org-esk-paren">)</span>
+(<span class="org-builtin">count</span> *var*)
 </pre></div>
 
 

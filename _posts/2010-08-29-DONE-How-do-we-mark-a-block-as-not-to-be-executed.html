@@ -1,0 +1,38 @@
+---
+title: DONE How do we mark a block as not to be executed?
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> How do we mark a block as not to be executed? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-29 Sun 19:10</span></span>
+</li>
+<li>
+State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-14 Sun 10:35</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-14 Sun 11:19</span></span>
+</li>
+</ul>
+
+
+<p>
+Done: (e52909d90274) The header arg is :eval no
+</p>
+<p>
+E.g. by org-babel-execute-buffer
+</p>
+<p>
+Hmm, should this be a new header argument, maybe <code>:run</code> which can
+take a <code>yes</code> or <code>no</code> argument?
+</p>
+<p>
+Perhaps, if it's the case that it won't be used often, we should
+use <code>:execute</code> so that the terminology is kept consistent with the
+corresponding function (like "tangle").
+</p></div>
+</div>

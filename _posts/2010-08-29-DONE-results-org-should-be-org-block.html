@@ -1,0 +1,73 @@
+---
+title: DONE :results org should be org block
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> :results org should be org block </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-29 Sun 19:21</span></span>
+</li>
+<li>
+State "PROPOSED"   from "REJECTED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-28 Sun 15:10</span></span>
+</li>
+<li>
+State "REJECTED"   from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 14:40</span></span>
+</li>
+</ul>
+
+
+<p>
+This is done now, albeit motivated differently. See commits
+2c33b2eb66 and 3d2dbf8604.
+</p>
+<p>
+The reason that <code>:results org</code> was introduced was to support
+seamless insertion of results into an org-mode buffer.  This
+proposal would defeat that initial purpose. [Eric]
+</p>
+<p>
+No, we already have <code>:results raw</code> which is currently synonymous
+with <code>org</code>. [Dan]
+</p>
+<p>
+Also, the idea of org source blocks in an org-mode document seems
+needlessly complex and contorted.  Of course I could be missing
+something here. [Eric]
+</p>
+<p>
+Org already supports org source blocks (e.g. line 50
+org-src.el). And there's at least one clear use case for them,
+i.e. demonstrating, in HTML, what an org buffer looks like:
+</p>
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">Test export </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<p>You're reading HTML at the moment, but this is what org looks like
+in your emacs buffer.
+</p>
+
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+SEQ_TODO: TODO | DONE</span>
+<span class="org-org-level-1">* </span><span class="org-org-todo">TODO</span><span class="org-org-level-1"> todo item</span>
+  <span class="org-org-special-keyword">SCHEDULED:</span> <span class="org-org-date">&lt;2010-02-28 Sun&gt;</span>
+</pre>
+
+
+
+<p>
+I admit that I don't know how often one will want to generate org
+blocks using babel, but I think that to use <code>org</code> as a synonym of
+<code>raw</code> is inconsistent with <code>:results latex</code>, <code>:results html</code>,
+<code>:results code</code>. [Dan]
+</p></div>
+</div>
+</div>

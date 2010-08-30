@@ -1,0 +1,64 @@
+---
+title: DONE Make org-babel-switch-to-buffer show code edit buffer
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> Make org-babel-switch-to-buffer show code edit buffer </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-29 Sun 18:53</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-20 Sat 12:20</span></span>
+</li>
+</ul>
+
+
+<p>
+Done: see commit b05f8c91fed5d743adf5df787f2b28fb58274bf5
+</p>
+<p>
+See also <a href="#*org==babel==R==show==comint==buffer==patch==from==Julien==Barnier">org-babel-R show comint buffer patch from Julien Barnier</a>
+</p>
+<p>
+This patch changes org-babel-switch-to-buffer so that the session
+and the code edit buffer are shown side-by-side, with point in
+the code edit buffer. With R, I find this to be the behaviour
+that I most often want, and I think it will be good for
+introducing ESS users to org-babel.
+</p>
+<p>
+I don't know how whether we want to change
+org-babel-switch-to-buffer as below, or whether we make this
+functionality available via some other interface (a different
+function, prefix args, etc).
+</p>
+
+
+
+<pre class="example">diff --git a/contrib/babel/lisp/org-babel.el b/contrib/babel/lisp/org-babel.el
+index d01e6d6..5121fbc 100644
+--- a/contrib/babel/lisp/org-babel.el
++++ b/contrib/babel/lisp/org-babel.el
+@@ -281,9 +281,11 @@ of the source block to the kill ring."
+     (with-temp-buffer (insert (org-babel-trim body)) (copy-region-as-kill (point-min) (point-max)))
+     ;; if called with a prefix argument, then process header arguments
+     (if arg (funcall (intern (concat "org-babel-prep-session:" lang)) session params))
+-    ;; just to the session using pop-to-buffer
+-    (pop-to-buffer (funcall (intern (format "org-babel-%s-initiate-session" lang)) session params))
+-    (move-end-of-line 1)))
++    ;; switch to the session using pop-to-buffer
++    (save-excursion
++      (pop-to-buffer (funcall (intern (format "org-babel-%s-initiate-session" lang)) session params))
++      (move-end-of-line 1))
++    (org-edit-src-code)))
+ 
+ (defalias 'org-babel-pop-to-session 'org-babel-switch-to-session)
+</pre>
+
+
+</div>
+</div>

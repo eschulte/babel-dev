@@ -10,11 +10,12 @@ layout: default
 <ul>
 <li>
 State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 14:42</span></span>
-
 </li>
 </ul>
 
-<p>This has been implemented.  Results can now be cached using the
+
+<p>
+This has been implemented.  Results can now be cached using the
 <code>:cache</code> header argument.  See the following example.
 </p>
 <pre class="example">
@@ -46,6 +47,9 @@ I find the saving of cached results in external files to
 be very upsetting.  It pollutes the user's disk, and it breaks
 what is to me a very fundamental part of org-mode, namely the
 fact that all data is saved in plain text in org-mode files.
+</dd>
+</dl>
+
 
 <p>
 Currently I'm leaning towards some combination of file-local
@@ -59,13 +63,16 @@ the hash is hidden in the resname, I think we
 definitely want the in-buffer mechanism. Apart from
 anything else it improves the mechanism by which we
 decide whether or not to over-write existing results.
+</dd>
+</dl>
+
 
 <p>
 The only slight drawback I can see is export: someone who
 doesn't want the results in their org file is forced to
 regenerate them on every export.
 </p>
-</dd>
+<dl>
 <dt>[EMS]</dt><dd>
 alright, that sounds good to me.  I can't think of a
 good solution to the export problem right now.  The approach
@@ -78,11 +85,10 @@ object, I'll merge in the in-buffer caching, and we can keep
 the export caching as an open issue, then possibly add the
 RAM/local-variable caching on top (which seems like it only
 require a couple of lines of code).
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
+
 
 </div>
 

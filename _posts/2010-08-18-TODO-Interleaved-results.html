@@ -10,11 +10,12 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-18 Wed 19:37</span></span>
-
 </li>
 </ul>
 
-<p>See <a href="http://thread.gmane.org/gmane.emacs.orgmode/28989">http://thread.gmane.org/gmane.emacs.orgmode/28989</a> a summary of
+
+<p>
+See <a href="http://thread.gmane.org/gmane.emacs.orgmode/28989">http://thread.gmane.org/gmane.emacs.orgmode/28989</a> a summary of
 which follows.
 </p>
 <p>
@@ -26,14 +27,20 @@ commands. This requires:
 <ul>
 <li>
 implementation for :session
+</li>
+</ul>
+
 
 <p>
 (in principle sounds not hard, as it involves <b>not</b> doing something
 (i.e. not removing commands from comint output)).
 </p>
-</li>
+<ul>
 <li>
 implementation for other external interpreter processes
+</li>
+</ul>
+
 
 <p>
 For bash, it's somewhat similar to 'bash -x'. I looked at man python
@@ -41,10 +48,8 @@ and didn't see anything; perhaps it is accomplished by modifying the
 output stream when python is running rather than as a command line
 option to the interpreter. ruby? etc.
 </p>
-</li>
-</ul>
-
-<p>R :results output external interpreter process implementation:
+<p>
+R :results output external interpreter process implementation:
 </p>
 <p>
 (setq org-babel-R-command "R &ndash;silent &ndash;no-save")

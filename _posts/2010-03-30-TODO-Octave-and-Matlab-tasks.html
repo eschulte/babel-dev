@@ -10,14 +10,15 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-30 Tue 10:09</span></span>
+</li>
+</ul>
+
 
 <p>
 From Darlan Cavalcante
 </p>
-</li>
-</ul>
-
-<p>If I understood correctly you always save the output to a file using the
+<p>
+If I understood correctly you always save the output to a file using the
 function org-babel-octave-wrapper-method, right? Maybe instead of using
 "%s save -ascii %s ans"
 to save the information to a file you can use
@@ -61,11 +62,12 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-30 Fri 17:00</span></span>
-
 </li>
 </ul>
 
-<p>Current solution is imperfect: it involves the matlab process
+
+<p>
+Current solution is imperfect: it involves the matlab process
 signaling completion by removing a lock file rather than using the
 canonical org-babel comint completion functions.
 </p></div>

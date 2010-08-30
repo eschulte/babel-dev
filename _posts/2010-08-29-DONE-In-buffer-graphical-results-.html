@@ -1,0 +1,80 @@
+---
+title: DONE In-buffer graphical results 
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> In-buffer graphical results </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-29 Sun 19:00</span></span>
+</li>
+<li>
+State "STARTED"    from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-15 Mon 17:21</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-15 Mon 17:15</span></span>
+</li>
+</ul>
+
+
+<p>
+This functionality was implemented by Carsten. See
+`org-toggle-inline-images'.
+</p>
+<p>
+A proof-of-principle implementation of this is below. It uses
+org-babel-after-execute-hook to refresh the inline image displays
+in the whole buffer. This means that the code for plots and latex
+fragments can be edited and then the graphic updated with C-c
+C-c.
+</p>
+<p>
+However, after looking briefly at Nicolas Girard's work on
+org-icons.el, I wonder whether it would be nicer to implement
+this using the font-lock machinery, similar to how the org icons
+are implemented.
+</p>
+
+
+
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">ded/iimage-mode-buffer</span> (arg <span class="org-type">&amp;optional</span> refresh)
+<span class="org-doc">"Display/undisplay images.
+With numeric ARG, display the images if and only if ARG is positive."</span>
+  (interactive)
+  (<span class="org-keyword">let</span> ((ing (<span class="org-keyword">if</span> (numberp arg)
+                 (&gt; arg 0)
+               iimage-mode))
+        (modp (buffer-modified-p (current-buffer)))
+        file img)
+    (<span class="org-keyword">save-excursion</span>
+      (goto-char (point-min))
+      (<span class="org-keyword">dolist</span> (pair iimage-mode-image-regex-alist)
+        (<span class="org-keyword">while</span> (re-search-forward (car pair) nil t)
+          (<span class="org-keyword">if</span> (and (setq file (match-string (cdr pair)))
+                   (setq file (iimage-locate-file file
+                                   (cons default-directory
+                                         iimage-mode-image-search-path))))
+              (<span class="org-keyword">if</span> ing
+                  (<span class="org-keyword">let</span> ((img (create-image file)))
+                    (add-text-properties (match-beginning 0) (match-end 0) (list 'display img))
+                    (<span class="org-keyword">if</span> refresh (image-refresh img)))
+                (remove-text-properties (match-beginning 0) (match-end 0) '(display)))))))
+    (set-buffer-modified-p modp)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">ded/org-iimage-refresh</span> ()
+  (interactive)
+  (redisplay t)
+  (set-face-underline-p 'org-link nil)
+  (ded/iimage-mode-buffer 1 'refresh)
+  (redisplay t))
+
+(add-hook 'org-babel-after-execute-hook 'ded/org-iimage-refresh)
+</pre>
+
+
+
+</div>
+</div>

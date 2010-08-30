@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [79/169]
+* Tasks [91/168]
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -224,8 +224,12 @@ In code blocks which don't have a well defined table syntax
 argument which could be used to specify the delimiter (possibly to be
 passed as the optional argument to `org-table-convert-region').
 
-** TODO Review David O'Toole export patch
+** STARTED Review David O'Toole export patch
+   - State "STARTED"    from "TODO"       [2010-08-29 Sun 18:50]
 - State "TODO"       from ""           [2010-08-15 Sun 13:31]
+   :PROPERTIES:
+   :ID:       0ee521bb-b2db-4f59-8c75-b01085b2653a
+   :END:
 [[http://patchwork.newartisans.com/patch/187/]]
 ** PROPOSED Allow contents of source blocks to be in external files
 - State "PROPOSED"   from ""           [2010-07-29 Thu 21:33]
@@ -325,6 +329,9 @@ It may be hard to implement, but could be worth the effort.
 ** STARTED library of babel for google API
    - State "STARTED"    from "PROPOSED"   [2010-07-20 Tue 16:53]
    - State "PROPOSED"   from ""           [2010-07-14 Wed 16:56]
+   :PROPERTIES:
+   :ID:       5e48c427-99db-471b-a1b8-839df2ee294e
+   :END:
 
 see
 - http://code.google.com/apis/documents/overview.html
@@ -1569,8 +1576,11 @@ headline properties
          Maurizio 
 #+end_example
 
-** PROPOSED Make org-babel-switch-to-buffer show code edit buffer
+** DONE Make org-babel-switch-to-buffer show code edit buffer
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 18:53]
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:20]
+
+     Done: see commit b05f8c91fed5d743adf5df787f2b28fb58274bf5
 
      See also [[*org%20babel%20R%20show%20comint%20buffer%20patch%20from%20Julien%20Barnier][org-babel-R show comint buffer patch from Julien Barnier]]
 
@@ -1606,7 +1616,11 @@ index d01e6d6..5121fbc 100644
  (defalias 'org-babel-pop-to-session 'org-babel-switch-to-session)
 #+end_example
 
-** PROPOSED Make some org-babel commands available from edit buffer?
+** DONE Make some org-babel commands available from edit buffer?
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 18:55]
+
+     Done: see commit 441288ee72778931c3e1853b8221f7049289df91
+
    For example, it might be nice to be able to do the following from
    the code edit buffer:
 
@@ -1682,8 +1696,12 @@ user.
       have to be one of the earlier elements in the list, thus pushing
       the others along by one.
      
-** PROPOSED org-icons for src blocks
+** STARTED org-icons for src blocks
+   - State "STARTED"    from "PROPOSED"   [2010-08-29 Sun 19:01]
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
+
+     Started: see branch org-icons at git@github.com:dandavison/org-devel.git
+
 
      I would like to investigate using org-icons to replace the code
      block boilerplate (#+begin_src LANG ... #+end_src) with nice
@@ -1696,9 +1714,13 @@ user.
      projects (ruby, python, R, etc) but it would be interesting to
      see.
 
-** STARTED In-buffer graphical results 
+** DONE In-buffer graphical results 
+   - State "DONE"       from "STARTED"    [2010-08-29 Sun 19:00]
    - State "STARTED"    from "PROPOSED"   [2010-03-15 Mon 17:21]
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:15]
+
+     This functionality was implemented by Carsten. See
+     `org-toggle-inline-images'.
 
      A proof-of-principle implementation of this is below. It uses
      org-babel-after-execute-hook to refresh the inline image displays
@@ -2111,7 +2133,8 @@ least hlines as 2nd element of elisp table).
      to true -- or maybe header arguments aren't the appropriate tool
      for this situation?
 
-** STARTED How do we open all source blocks in buffer?
+** DONE How do we open all source blocks in buffer?
+   - State "DONE"       from "STARTED"    [2010-08-29 Sun 19:08]
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:34]
    - State "TODO"       from ""           [2010-02-14 Sun 11:18]
 
@@ -2138,9 +2161,15 @@ least hlines as 2nd element of elisp table).
    list. Personally I can deal with it not being part of visibility
    cycling, so I think this item may be almost DONE.
 
-** STARTED How do we mark a block as not to be executed?
+   OK, you made it interactive (c4d385681f6c70), so I'm closing this
+   item.
+
+** DONE How do we mark a block as not to be executed?
+   - State "DONE"       from "STARTED"    [2010-08-29 Sun 19:10]
    - State "STARTED"    from "TODO"       [2010-02-14 Sun 10:35]
    - State "TODO"       from ""           [2010-02-14 Sun 11:19]
+
+     Done: (e52909d90274) The header arg is :eval no
 
    E.g. by org-babel-execute-buffer
    
@@ -2616,12 +2645,6 @@ I've had other permutations of 2)
 If all of the source code blocks have :tangle arguments, then all seems to be well.
 #+end_example
 
-** TODO documentation odds and ends
-this is just a place to hold random notes for items that should make
-it into the documentation at some point.
-
-- org-src-preserve-indentation
-
 ** TODO strip ansi-color characters (sh)
 This should definitely be done in org-babel-sh, I don't think it is
 common enough to move the functionality to org-babel-comint, but I
@@ -2758,7 +2781,13 @@ preferable if we could make our noweb syntax customizable.
 allow some generic system of macro expansion, maybe borrowing from the
 noweb expansion system...
 
-** TODO export source code block names on export
+** DONE export source code block names on export
+   - State "DONE"       from "TODO"       [2010-08-29 Sun 19:15]
+
+     We do this now. There is currently a pending patch by david
+     O'Toole which concerns this. See [[id:0ee521bb-b2db-4f59-8c75-b01085b2653a][Review David O'Toole export
+     patch]].
+
 - perhaps using an org-mode macro
 - noweb has a syntax for doing this on latex export
 - maybe even include a list of where it is used...
@@ -2807,6 +2836,12 @@ our documentation has fallen behind our development.  We should:
    represented in the documentation
 6) add the /org-babel-template.el/ new language template
 
+*** documentation odds and ends
+this is just a place to hold random notes for items that should make
+it into the documentation at some point.
+
+- org-src-preserve-indentation
+
 *** new layout
     what should this look like? I'm thinking something like.
 
@@ -2838,9 +2873,12 @@ from the mailing list
  well.
 #+end_quote
 
-** PROPOSED allow hiding of code blocks with <tab> on srcname line?
-** PROPOSED Allow hiding of results blocks?
-=======
+** REJECTED allow hiding of code blocks with <tab> on srcname line?
+   - State "REJECTED"   from "PROPOSED"   [2010-08-29 Sun 19:18]
+     I think this is out of keeping with other Org behaviour
+     
+** DONE Allow hiding of results blocks?
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:17]
 ** PROPOSED Support passing of data to source block on stdin?
 ** PROPOSED add data serialization language result types (XML, YAML, JSON, etc...)
 these could be cached in source-code blocks of the appropriate
@@ -2887,9 +2925,13 @@ it is possible to *open* results from a source block, but yea I think
 jumping would be nice.  The hardest part of this implementation will
 be selecting a key sequence.
 
-** PROPOSED :results org should be org block
+** DONE :results org should be org block
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:21]
    - State "PROPOSED"   from "REJECTED"   [2010-02-28 Sun 15:10]
    - State "REJECTED"   from "PROPOSED"   [2009-12-22 Tue 14:40]
+
+     This is done now, albeit motivated differently. See commits
+     2c33b2eb66 and 3d2dbf8604.
 
    The reason that =:results org= was introduced was to support
    seamless insertion of results into an org-mode buffer.  This
@@ -2921,7 +2963,7 @@ be selecting a key sequence.
   =raw= is inconsistent with =:results latex=, =:results html=,
   =:results code=. [Dan]
 
-** TODO support for working with org-src-mode edit buffers [5/7]
+** TODO support for working with org-src-mode edit buffers [7/8]
 *** DONE Patch against org source. 
     I've worked on several related changes to source code edit buffer
     behaviour in the org core.  My current patch (below) does the
@@ -3099,7 +3141,8 @@ assignments are made in the appropriate session.
   end
 #+end_src
 
-*** TODO set buffer-local-process variables appropriately [DED]
+*** DONE set buffer-local-process variables appropriately [DED]
+    - State "DONE"       from "TODO"       [2010-08-29 Sun 19:23]
     When switching to a edit buffer for R, if :session is active then
     we should set ess-current-process-name (or is it
     ess-local-process-name?) to the session name. Implementation?
@@ -3215,6 +3258,9 @@ This will rely upon [[* resolve references to other buffers][resolve references 
 *** plotting
     - plotting and analysis functions in R (incl. re-implement those from org-R?)
     - plotting with gnuplot (incl. re-implement org-plot??)
+
+*** google API
+    See [[id:5e48c427-99db-471b-a1b8-839df2ee294e][library of babel for google API]]
 
 ** STARTED Improve error checking
    - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:00]
@@ -3439,20 +3485,36 @@ cbind(a, b)
 **** Alternatively
      Use org-table-export, do it in external spreadsheet software,
      then org-table-import
-** PROPOSED allow for stripping of header rows from table data
+** DONE allow for stripping of header rows from table data
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:25]
+     
+     See documentation of :colnames and :rownames header args
+
 maybe controlled by an argument
 ** PROPOSED Control precision of numerical output
    Does org have an option controlling precision of numbers in tables?
-** PROPOSED allow `anonymous' function block with function call args?
+** REJECTED allow `anonymous' function block with function call args?
+   - State "REJECTED"   from "PROPOSED"   [2010-08-29 Sun 19:26]
    My question here is simply whether we're going to allow
 #+begin_src python(arg=ref)
 # whatever
 #+end_src
 
+I think we're probably not going to do this seeing as the
+functionality is available with :var, and it's dubious syntax anyway.
+
 but with preference given to
 #+srcname blockname(arg=ref)
 ** PROPOSED allow :result as synonym for :results?
-** PROPOSED Creating presentations
+** DONE Creating presentations
+   - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:29]
+
+     This should now be possible as beamer support has been added to
+     Org mode. It might be nice to have other presentation
+     formats. I'm marking this as done as the babel part should
+     already be working via existing export mechanisms
+
+
    The [[mairix:t:@@9854.1246500519@gamaville.dokosmarshall.org][recent thread]] containing posts by Nick Dokos and Sebastian
    Vaubán on exporting to beamer looked very interesting, but I
    haven't had time to try it out yet. I would really like it if,
@@ -6183,6 +6245,66 @@ them, and bubble any that you particularly care about up to the top.
 Any new language should be implemented in a org-babel-lang.el file.
 Follow the pattern set by [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and [[file:lisp/org-babel-R.el][org-babel-R.el]].
 
+#+function: org-babel-list-supported-languages()
+#+begin_src emacs-lisp
+  (defun org-babel-list-supported-languages ()
+    (interactive)
+    (sort
+     (set-difference
+     (mapcar
+      (lambda (s) (intern (progn (string-match "^ob-\\(.+\\)\.el$" s)
+                            (match-string 1 s))))
+      (directory-files
+       (save-window-excursion
+         (file-name-directory
+          (buffer-file-name (find-library "ob"))))
+       nil "^ob-.+\.el$"))
+     '(comint eval exp keys lob ref table tangle))
+     (lambda (x y) (string< (downcase (symbol-name x))
+                       (downcase (symbol-name y))))))
+  
+  (mapcar 'list (org-babel-list-supported-languages))
+#+end_src
+
+#+results: org-babel-list-supported-languages
+| asymptote  |
+| C          |
+| clojure    |
+| css        |
+| ditaa      |
+| dot        |
+| emacs-lisp |
+| gnuplot    |
+| haskell    |
+| js         |
+| latex      |
+| ledger     |
+| lisp       |
+| matlab     |
+| mscgen     |
+| ocaml      |
+| octave     |
+| org        |
+| perl       |
+| plantuml   |
+| python     |
+| R          |
+| ruby       |
+| sass       |
+| scheme     |
+| screen     |
+| sh         |
+| sql        |
+| sqlite     |
+
+#+source: count-org-babel-languages
+#+begin_src emacs-lisp :var langs=org-babel-list-supported-languages()
+(length langs)
+#+end_src
+
+#+results: count-org-babel-languages
+: 29
+
 *** DONE matlab and octave
     - State "DONE"       from "STARTED"    [2010-03-18 Thu 17:35]
     - State "STARTED"    from "TODO"       [2010-03-16 Tue 19:25]
@@ -6453,7 +6575,7 @@ trivial [[file:lisp/langs/org-babel-css.el][org-babel-css.el]]
 |             1.3 |          0.19615368 |           0.21730748 |
 
 #+srcname: implementing-gnuplot
-#+begin_src gnuplot :var data=gnuplot-data :results silent
+#+begin_src gnuplot :var data=gnuplot-data :results silent :noeval
 set title "Implementing Gnuplot"
 plot data using 1:2 with lines
 #+end_src
@@ -6484,7 +6606,7 @@ can wait.
 to specify a file holding the results
 
 #+srcname: gnuplot-to-file-implementation
-#+begin_src gnuplot :file plot.png :var data=gnuplot-data
+#+begin_src gnuplot :file plot.png :var data=gnuplot-data :noeval
 plot data using 1:2, data using 1:3 with lines
 #+end_src
 
@@ -6516,7 +6638,7 @@ These should all be in place by now.
 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 #+srcname: implementing-gnuplot-grid-plots
-#+begin_src gnuplot :vars data=org-grid
+#+begin_src gnuplot :vars data=org-grid :noeval
 
 #+end_src
 
@@ -6720,7 +6842,7 @@ ls
 Alternatively, I believe we should be able to use sbe to put the elisp
 code in blocks:
 
-#+begin_src gnuplot :term (sbe "get-image-type") :file (sbe "get-file-path")
+#+begin_src gnuplot :term (sbe "get-image-type") :file (sbe "get-file-path") :noeval
   plot sin(x)
 #+end_src
 
@@ -8208,7 +8330,8 @@ I have stripped bare my .emacs, and still:
 
 jm
 
-** TODO should delete temp files after evaluation
+** STARTED should delete temp files after evaluation
+   - State "STARTED"    from "TODO"       [2010-08-29 Sun 18:49]
 ** DONE tangle is outputting multiple shebang lines with python code
 ** DONE o-b-execute-subtree places output outside of folded subtree
    - State "DONE"       from "TODO"       [2010-06-07 Mon 18:39]

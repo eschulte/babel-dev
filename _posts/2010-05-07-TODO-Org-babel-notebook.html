@@ -10,11 +10,12 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-05-07 Fri 15:29</span></span>
-
 </li>
 </ul>
 
-<p>How to make it possible to use org-babel interactively from within an
+
+<p>
+How to make it possible to use org-babel interactively from within an
 interactive terminal (read: notebook, REPL, shell, or comint buffer --
 whatever name makes sense to you), rather than in it's current context
 of an Org-mode file.
@@ -42,16 +43,22 @@ possibly allow function definitions
 <li>
 possibly support some form of export (maybe should export to an
 org-mode buffer which would then export arbitrarily)
-
 </li>
 </ul>
 </li>
+</ol>
+
+
+<ol>
 <li>
 a way to maintain a persistent environment, s.t. variables and
 functions can maintain a persistent value over the course of a
 session
-
 </li>
+</ol>
+
+
+<ol>
 <li>
 sage for example provides a base library of operations, which can
 be called outside of the use of any particular package.  In the
@@ -59,20 +66,24 @@ same way we should provide for calling basic operations directly
 without having to open up a code block, examples could be a generic
 means of graphing objects, simple arithmetic and matrix operations,
 file I/O, etc&hellip;
+</li>
+</ol>
+
 
 <p>
 we should be able to use the existing lob and named code block
 functionality to define all of these primitives &ndash; probably using
 elisp as the preferred language for these code blocks.
 </p>
-</li>
+<ol>
 <li>
 undoubtedly there is more&hellip;
-
 </li>
 </ol>
 
-<p>Another popular notebook system is <a href="http://www.sagemath.org/">sage</a>, maybe some inspiration can be
+
+<p>
+Another popular notebook system is <a href="http://www.sagemath.org/">sage</a>, maybe some inspiration can be
 drawn from there.
 </p>
 <p>

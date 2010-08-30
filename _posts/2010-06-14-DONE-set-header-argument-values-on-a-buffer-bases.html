@@ -13,11 +13,12 @@ State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="tim
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-14 Mon 11:38</span></span>
-
 </li>
 </ul>
 
-<p>This is currently implemented using a <code>#+BABEL:</code> line similar to the
+
+<p>
+This is currently implemented using a <code>#+BABEL:</code> line similar to the
 existing <code>#+OPTIONS:</code> style lines.
 </p>
 
@@ -49,9 +50,9 @@ any suggestions for a better alternative are welcome.
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">babel/clear-buffer-header-arguments</span> <span class="org-esk-paren">()</span>
-  <span class="org-esk-paren">(</span>interactive<span class="org-esk-paren">)</span>
-  <span class="org-esk-paren">(</span>setq org-babel-current-buffer-properties nil<span class="org-esk-paren">))</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">babel/clear-buffer-header-arguments</span> ()
+  (interactive)
+  (setq org-babel-current-buffer-properties nil))
 </pre>
 
 
