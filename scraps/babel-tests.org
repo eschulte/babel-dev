@@ -228,7 +228,7 @@ table.class.name
 
 *** sessions
     :PROPERTIES:
-    :noeval:   nope
+    :eval:   yes
     :END:
 
 #+srcname: set-ruby-session-var
