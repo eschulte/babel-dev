@@ -20,28 +20,20 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 <p>Graham's problem was that on C-c C-c, this
 </p>
 
-
-
-<pre class="src src-org"><span class="org-org-meta-line">#+ATTR_LaTeX: width=10cm</span>
-<span class="org-org-meta-line">#+results: BoxplotFlowering</span>
-<span class="org-org-link">file:FloweringBoxplot.pdf</span>
-</pre>
-
-
-
+<p>
+,#+ATTR<sub>LaTeX</sub>: width=10cm
+,#+results: BoxplotFlowering
+,<a href="FloweringBoxplot.pdf">FloweringBoxplot.pdf</a>
+</p>
 <p>
 turns into this:
 </p>
 
-
-
-<pre class="src src-org"><span class="org-org-meta-line">#+results: BoxplotFlowering</span>
-<span class="org-org-link">file:FloweringBoxplot.pdf</span>
-<span class="org-org-meta-line">#+ATTR_LaTeX: width=10cm</span>
-</pre>
-
-
-
+<p>
+,#+results: BoxplotFlowering
+,<a href="FloweringBoxplot.pdf">FloweringBoxplot.pdf</a>
+,#+ATTR<sub>LaTeX</sub>: width=10cm
+</p>
 <p>
 Two questions:
 </p><ol>
@@ -72,35 +64,34 @@ either before or after existing results.  The following demonstrates
 this new behavior
 </p>
 
-
-
-<pre class="src src-org"><span class="org-org-meta-line">#+results: in-situ</span>
-<span class="org-org-code">: update me in place please -- Mon Jun  7 16:44:44 2010
-: update me in place please -- Mon Jun  7 16:44:43 2010
-: update me in place please -- Mon Jun  7 16:44:42 2010
-: update me in place please -- Mon Jun  7 16:44:37 2010
-: update me in place please -- Mon Jun  7 16:42:14 2010
-: update me in place please (at the bottom) -- Mon Jun  7 16:44:59 2010
-: update me in place please (at the bottom) -- Mon Jun  7 16:45:00 2010
-: update me in place please (at the bottom) -- Mon Jun  7 16:45:02 2010
-</span>
-the results should be <span class="org-bold">*above*</span> the block
-
-<span class="org-org-meta-line">#+srcname: in-situ</span>
-<span class="org-org-meta-line">#+begin_src emacs-lisp :results prepend
-</span><span class="org-org-block">  (format "update me in place please -- %s"
-          (current-time-string))
-</span><span class="org-org-meta-line">#+end_src
-</span>
-<span class="org-org-meta-line">#+srcname: in-situ</span>
-<span class="org-org-meta-line">#+begin_src emacs-lisp :results append
-</span><span class="org-org-block">  (format "update me in place please (at the bottom) -- %s"
-          (current-time-string))
-</span><span class="org-org-meta-line">#+end_src
-</span></pre>
-
-
-
+<p>
+,#+results: in-situ
+,: update me in place please &ndash; Mon Jun  7 16:44:44 2010
+,: update me in place please &ndash; Mon Jun  7 16:44:43 2010
+,: update me in place please &ndash; Mon Jun  7 16:44:42 2010
+,: update me in place please &ndash; Mon Jun  7 16:44:37 2010
+,: update me in place please &ndash; Mon Jun  7 16:42:14 2010
+,: update me in place please (at the bottom) &ndash; Mon Jun  7 16:44:59 2010
+,: update me in place please (at the bottom) &ndash; Mon Jun  7 16:45:00 2010
+,: update me in place please (at the bottom) &ndash; Mon Jun  7 16:45:02 2010
+</p>
+<p>
+,the results should be <b>above</b> the block
+</p>
+<p>
+,#+srcname: in-situ
+,#+begin<sub>src</sub> emacs-lisp :results prepend
+,  (format "update me in place please &ndash; %s"
+,          (current-time-string))
+,#+end<sub>src</sub>
+</p>
+<p>
+,#+srcname: in-situ
+,#+begin<sub>src</sub> emacs-lisp :results append
+,  (format "update me in place please (at the bottom) &ndash; %s"
+,          (current-time-string))
+,#+end<sub>src</sub>
+</p>
 </div>
 
 </div>

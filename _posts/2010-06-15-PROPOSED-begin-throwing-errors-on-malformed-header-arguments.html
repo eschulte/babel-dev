@@ -10,37 +10,30 @@ layout: default
 <ul>
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-15 Tue 15:00</span></span>
+
 </li>
 </ul>
 
-
-<p>
-It is easy to type in a bad header argument string and get confusing
+<p>It is easy to type in a bad header argument string and get confusing
 results.  For example this
 </p>
-
-
-<pre class="src src-org"><span class="org-org-meta-line">#+begin_src python results:output
-</span><span class="org-org-block">  print 'hello'
-</span><span class="org-org-meta-line">#+end_src
-</span></pre>
-
-
+<p>
+,#+begin<sub>src</sub> python results:output
+,  print 'hello'
+,#+end<sub>src</sub>
+</p>
 <p>
 doesn't return any value, while this does
 </p>
-
-
-<pre class="src src-org"><span class="org-org-meta-line">#+begin_src python :results output
-</span><span class="org-org-block">  print 'hello'
-</span><span class="org-org-meta-line">#+end_src
-</span>
-<span class="org-org-meta-line">#+results:</span>
-<span class="org-org-code">: hello
-</span></pre>
-
-
-
+<p>
+,#+begin<sub>src</sub> python :results output
+,  print 'hello'
+,#+end<sub>src</sub>
+</p>
+<p>
+,#+results:
+,: hello
+</p>
 <p>
 Thanks to Ben Edwards for this suggestion.
 </p></div>

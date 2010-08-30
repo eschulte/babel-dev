@@ -19,12 +19,11 @@ State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timesta
 </li>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-23 Tue 12:22</span></span>
+
 </li>
 </ul>
 
-
-<p>
-Org-babel now supports three new header arguments, and new default
+<p>Org-babel now supports three new header arguments, and new default
 behavior for handling horizontal lines in tables (hlines), column
 names, and rownames across all languages.  These are as follows
 </p>
@@ -32,9 +31,6 @@ names, and rownames across all languages.  These are as follows
 <dt><code>:hlines</code></dt><dd>
 Can take on the values of "yes" or "no", with a default
 value of "no".  These values have the following effects.
-</dd>
-</dl>
-
 
 <dl>
 <dt>"no"</dt><dd>
@@ -44,9 +40,6 @@ raw 'hline symbol generally is interpreted as an unbound
 variable and leads to and error.  The following table would
 previously have lead to an error but is now processed as
 shown.
-</dd>
-</dl>
-
 
 <pre class="example">
 #+tblname: many-cols
@@ -68,23 +61,19 @@ shown.
 </pre>
 
 
-<dl>
+</dd>
 <dt>"yes"</dt><dd>
 leaves 'hlines in the table. This is the default for
 emacs-lisp which may want to handle hline symbols
 explicitly.
+
 </dd>
 </dl>
-
-
-<dl>
+</dd>
 <dt><code>:colnames</code></dt><dd>
 Can take on the values of "yes", "no", or <code>nil</code> for
 unassigned.  The default value is <code>nil</code>.  These values have the
 following effects
-</dd>
-</dl>
-
 
 <dl>
 <dt><code>nil</code></dt><dd>
@@ -93,9 +82,6 @@ If an input table <i>looks like</i> it has column names
 names will be removed from the table by org-babel before
 processing, then reapplied to the results, so for example
 the following code block has the effect shown.
-</dd>
-</dl>
-
 
 <pre class="example">
 #+tblname: less-cols
@@ -117,45 +103,32 @@ the following code block has the effect shown.
 </pre>
 
 
-<dl>
+</dd>
 <dt>"no"</dt><dd>
 No column name pre-processing will take place.
+
 </dd>
-</dl>
-
-
-<dl>
 <dt>"yes"</dt><dd>
 Column names are removed and reapplied as with <code>nil</code>
 even if the table does not look like it has column names
 (i.e. the second row is not an hline)
+
 </dd>
 </dl>
-
-
-<dl>
+</dd>
 <dt><code>:rownames</code></dt><dd>
 Can take on the values of "yes" or "no", with a
 default value of "no".  These values have the following effects.
-</dd>
-</dl>
-
 
 <dl>
 <dt>"no"</dt><dd>
 No row name pre-processing will take place.
+
 </dd>
-</dl>
-
-
-<dl>
 <dt>"yes"</dt><dd>
 The first column of the table is removed from the
 table by org-babel before processing, and is then reapplied
 to the results.  This has the effect shown below.
-</dd>
-</dl>
-
 
 <pre class="example">
 #+tblname: with-rownames
@@ -179,6 +152,10 @@ to the results.  This has the effect shown below.
 Thanks to Julien Barnier for adding rownames support in R.
 </p>
 
+</dd>
+</dl>
+</dd>
+</dl>
 
 </div>
 
@@ -292,13 +269,13 @@ We could remove the hline with the following, but need to think about whether to
 
 
 
-<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">org-babel-python-var-to-python</span> (var)
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-python-var-to-python</span> <span class="org-esk-paren">(</span>var<span class="org-esk-paren">)</span>
   <span class="org-doc">"Convert an elisp var into a string of python source code
 specifying a var of the same value."</span>
-  (<span class="org-keyword">if</span> (listp var)
-      (concat <span class="org-string">"["</span> (mapconcat #'org-babel-python-var-to-python (remq 'hline var) <span class="org-string">", "</span>) <span class="org-string">"]"</span>)
+  <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>listp var<span class="org-esk-paren">)</span>
+      <span class="org-esk-paren">(</span>concat <span class="org-string">"["</span> <span class="org-esk-paren">(</span>mapconcat #'org-babel-python-var-to-python <span class="org-esk-paren">(</span>remq 'hline var<span class="org-esk-paren">)</span> <span class="org-string">", "</span><span class="org-esk-paren">)</span> <span class="org-string">"]"</span><span class="org-esk-paren">)</span>
       <span class="org-comment-delimiter">;; </span><span class="org-comment">(concat "[" (mapconcat #'org-babel-python-var-to-python var ", ") "]")
-</span>    (format <span class="org-string">"%S"</span> var)))
+</span>    <span class="org-esk-paren">(</span>format <span class="org-string">"%S"</span> var<span class="org-esk-paren">)))</span>
 </pre>
 
 
