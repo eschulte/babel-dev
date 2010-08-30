@@ -6245,6 +6245,66 @@ them, and bubble any that you particularly care about up to the top.
 Any new language should be implemented in a org-babel-lang.el file.
 Follow the pattern set by [[file:lisp/org-babel-shell.el][org-babel-shell.el]] and [[file:lisp/org-babel-R.el][org-babel-R.el]].
 
+#+function: org-babel-list-supported-languages()
+#+begin_src emacs-lisp
+  (defun org-babel-list-supported-languages ()
+    (interactive)
+    (sort
+     (set-difference
+     (mapcar
+      (lambda (s) (intern (progn (string-match "^ob-\\(.+\\)\.el$" s)
+                            (match-string 1 s))))
+      (directory-files
+       (save-window-excursion
+         (file-name-directory
+          (buffer-file-name (find-library "ob"))))
+       nil "^ob-.+\.el$"))
+     '(comint eval exp keys lob ref table tangle))
+     (lambda (x y) (string< (downcase (symbol-name x))
+                       (downcase (symbol-name y))))))
+  
+  (mapcar 'list (org-babel-list-supported-languages))
+#+end_src
+
+#+results: org-babel-list-supported-languages
+| asymptote  |
+| C          |
+| clojure    |
+| css        |
+| ditaa      |
+| dot        |
+| emacs-lisp |
+| gnuplot    |
+| haskell    |
+| js         |
+| latex      |
+| ledger     |
+| lisp       |
+| matlab     |
+| mscgen     |
+| ocaml      |
+| octave     |
+| org        |
+| perl       |
+| plantuml   |
+| python     |
+| R          |
+| ruby       |
+| sass       |
+| scheme     |
+| screen     |
+| sh         |
+| sql        |
+| sqlite     |
+
+#+source: count-org-babel-languages
+#+begin_src emacs-lisp :var langs=org-babel-list-supported-languages()
+(length langs)
+#+end_src
+
+#+results: count-org-babel-languages
+: 29
+
 *** DONE matlab and octave
     - State "DONE"       from "STARTED"    [2010-03-18 Thu 17:35]
     - State "STARTED"    from "TODO"       [2010-03-16 Tue 19:25]
