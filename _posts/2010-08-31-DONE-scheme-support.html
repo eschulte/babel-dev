@@ -1,0 +1,75 @@
+---
+title: DONE scheme support
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> scheme support </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-31 Tue 08:46</span></span>
+
+</li>
+</ul>
+
+<p>Scheme code blocks are now supported.  The scheme used for both
+external and interactive evaluation can be controlled through the
+<code>org-babel-scheme-cmd</code> variable and through the <code>:scheme</code> header
+argument.
+</p>
+<p>
+The following demonstrates both regular and session based evaluation.
+</p>
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">initial scheme support </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<pre class="example">
+#+source: numbers
+#+begin_src scheme
+  (map (lambda (el) (+ el 1)) '(1 2 3))
+#+end_src
+
+#+results:
+| 2 | 3 | 4 |
+
+#+begin_src scheme :var numbers=numbers
+  (map (lambda (el) (- el 1)) numbers)
+#+end_src
+
+#+results:
+| 1 | 2 | 3 |
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2">scheme sessions </h3>
+<div class="outline-text-3" id="text-1_2">
+
+<pre class="example">
+#+begin_src scheme :var number=9 :session *scheme* :scheme guile
+  (+ number 0)
+#+end_src
+
+#+results:
+: 9
+
+#+begin_src scheme :var number=9 :session *scheme* :scheme racket
+  (+ number 1)
+#+end_src
+
+#+results:
+: 10
+</pre>
+
+</div>
+</div>
+</div>
