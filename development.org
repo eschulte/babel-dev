@@ -3,7 +3,11 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [92/170]
+* Tasks [92/171]
+** PROPOSED  display results in an overlay?
+   - State "PROPOSED"   from ""           [2010-08-31 Tue 17:25]
+see [[http://news.gmane.org/find-root.php?message_id=871vafljbr%2Efsf%40hydra%2Evioletti%2Eorg][Babel - display results in an overlay?]]
+
 ** DONE scheme support
    - State "DONE"       from ""           [2010-08-31 Tue 08:46]
 
