@@ -457,7 +457,7 @@ can leverage Emacs source code editing modes to indent and
 fontify code examples.  Additional markup is provided with wiki-like
 syntax, which can be applied to any piece of text.
 
-*** Export Facilities
+*** TODO Export Facilities
 # I think we need an overview of export facilities (TD)
 
 ** Code and Data Block Extensions
