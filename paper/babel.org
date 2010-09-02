@@ -335,7 +335,7 @@ document, where it can be referred to by other code blocks, any one of
 which can be written in a different computing language.  In this way,
 an Org-mode buffer becomes a place where different computer languages
 communicate with one another.  Like Emacs, Babel is extensible:
-support for new languages can be added by in a modular fashion through
+support for new languages can be added by the user in a modular fashion through
 the definition of a small number of Emacs Lisp functions.
 Additionaly, generally useful code or data blocks can be added to a
 "Library of Babel", from which they can be called by any Org-mode
@@ -414,20 +414,20 @@ it was delegated to Peter.
 #+end_src
 
 The task and project management functionality of Org-mode is centered
-around the meta-data associated with nodes.  Org-mode provides
-facilities to create and modify meta-data quickly and efficiently.  It
+around the metadata associated with nodes.  Org-mode provides
+facilities to create and modify metadata quickly and efficiently.  It
 also provides facilities to search, sort, and filter headlines, to
 display tabular views of selected headlines, to clock in and out of headlines
 defined as tasks, and many other tools.
 
 The outline structure of documents also defines a hierarchy of
-meta-data.  Tags and properties of a node are inherited by its
+metadata.  Tags and properties of a node are inherited by its
 sub-nodes and views of the document can be designed that sum or
 average the properties inherited by a node.  Code blocks defined and
-used by Babel live in this hierarchy of content and meta-data, all of which
+used by Babel live in this hierarchy of content and metadata, all of which
 is accessible to and can be modified by it.
 
-*** Tables and Spreadsheets
+*** Special Document Content
 
 The text following a headline in an Org-mode document can
 be structured to represent various types of information,
@@ -456,6 +456,9 @@ pair, or with a =#+BEGIN_SRC ... #+END_SRC= pair.  The latter form
 can leverage Emacs source code editing modes to indent and
 fontify code examples.  Additional markup is provided with wiki-like
 syntax, which can be applied to any piece of text.
+
+*** Export Facilities
+# I think we need an overview of export facilities (TD)
 
 ** Code and Data Block Extensions
     :PROPERTIES:
@@ -956,7 +959,7 @@ Org-mode source-code for the above
   ,[[file:lp-rr.png]]
 #+end_src
 
-** Tangle a Python Script
+** TODO Tangle a Python Script                                     :noexport:
 ** Tangle C code
 # should our tangling example include noweb references?
 #
@@ -1038,7 +1041,7 @@ strncpy(change_buffer,buffer,limit-buffer+1);
 }
 #+end_src
 
-** Simple Bioinformatics
+** TODO Simple Bioinformatics                                      :noexport:
 - data from http://www.ncbi.nlm.nih.gov/
 - process with =R=
 - [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
@@ -1077,16 +1080,16 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
 
 3) Then =R= can access the tables and generate a calculation or a plot.
 
-** COMMENT Maybe something calling babel from a table
-** COMMENT Maintained State
+** TODO Maybe something calling babel from a table                 :noexport:
+** Maintained State
 # I think this might be useful in the Applications section.
 # Maintaining state can be achieved in Babel with sessions and by
 # writing granular code blocks that write out intermediate values to
 # the Org-mode buffer.  The contrast between the two approaches might
 # make for a good example.
 Session evaluation can be useful when the code block changes some
-state the retention of which is desirable for manual inspection, or
-for use by subsequent code blocks.  For example the first block of =R=
+state, the retention of which is desirable for manual inspection or
+for use by subsequent code blocks.  For example, the first block of =R=
 code below sets variables in an interactive session and the second
 block of =R= code can access these variables because it is run in the
 same =R= session (adapted from [fn::
@@ -1147,7 +1150,7 @@ combined natural and computational language documents.
      sophisticated editing modes available for many computer languages
      can be used to author code in the Babel environment. 
 
-** Weaknesses and Future Work
+** Directions for Future Development
    :PROPERTIES:
    :CUSTOM_ID: future-work
    :END:
@@ -1302,6 +1305,6 @@ turn on the listings package, and define the =twocolumn= latex class
 * Footnotes
 
 [fn:1] These confirmation requests can be stifled by customizing the
-`org-confirm-babel-evaluate' variable.
+=org-confirm-babel-evaluate= variable.
 
 [fn:2] Part of Graphviz (see http://www.graphviz.org/)
