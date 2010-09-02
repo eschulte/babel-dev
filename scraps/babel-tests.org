@@ -227,9 +227,6 @@ table.class.name
 #+end_src
 
 *** sessions
-    :PROPERTIES:
-    :noeval:   nope
-    :END:
 
 #+srcname: set-ruby-session-var
 #+begin_src ruby :session :results silent
