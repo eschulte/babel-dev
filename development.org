@@ -3,7 +3,15 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [92/172]
+* Tasks [92/173]
+** TODO explicit handling of header arguments without arguments
+   - State "TODO"       from ""           [2010-09-01 Wed 22:11]
+
+e.g.
+- ":noweb" should work as ":noweb yes"
+- when exporting blocks with :session arguments are not being
+  evaluated in the same way as code blocks with named sessions
+
 ** PROPOSED :exports results :results silent
    - State "PROPOSED"   from ""           [2010-09-01 Wed 18:16]
 This should reliably evaluate the block on export, but not include
