@@ -3,7 +3,13 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [92/173]
+* Tasks [92/174]
+** PROPOSED remove existing results on nil result
+   - State "PROPOSED"   from ""           [2010-09-03 Fri 15:38]
+
+Currently when a code block returns =nil= Babel stops working, however
+it should probably remove any existing results from that block.
+
 ** TODO explicit handling of header arguments without arguments
    - State "TODO"       from ""           [2010-09-01 Wed 22:11]
 
