@@ -14,15 +14,16 @@ State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class=
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-17 Wed 23:59</span></span>
 
+</li>
+</ul>
+
 <pre class="example">
 (replace-regexp-in-string "\n" "\r\n" (regexp-quote ,full-body)) string-buffer))
 </pre>
 
 
-</li>
-</ul>
-
-<p>if it is either Mac or langauge specific, then it was probably
+<p>
+if it is either Mac or langauge specific, then it was probably
 required at some point.  I'll replace "\n\r" with "[\n\r]+" so that it
 won't break any instance where the comint process returns "\n" instead
 of "\n\r".

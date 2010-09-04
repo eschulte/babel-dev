@@ -1,0 +1,434 @@
+---
+title: DONE tangle entire org-mode file in comments
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> tangle entire org-mode file in comments </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-09-04 Sat 08:47</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-06-16 Wed 20:37</span></span>
+
+</li>
+</ul>
+
+<p>The <code>:comments</code> header argument has been expanded to support the
+following options.  These should implement at least a first pass at
+the functionality described below.  The new header arguments are&hellip;
+</p><dl>
+<dt>no</dt><dd>
+retains its behavior of not tangling any comments
+</dd>
+<dt>yes</dt><dd>
+retains its behavior of wrapping the code in links back to
+the original org-mode file
+</dd>
+<dt>link</dt><dd>
+is synonymous with "yes"
+</dd>
+<dt>org</dt><dd>
+does not wrap the code in links back to the original org
+file, but does include preceding text from the org-mode file as a
+comment before the code block
+</dd>
+<dt>both</dt><dd>
+turns on both the "link" and "org" options
+
+</dd>
+</dl>
+
+<p>examples are given of the effects of these header arguments (notice
+that the header arguments are contains as properties in the containing
+headline)
+</p>
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">examples </h3>
+<div class="outline-text-3" id="text-1_1">
+
+
+</div>
+
+<div id="outline-container-1_1_1" class="outline-4">
+<h4 id="sec-1_1_1">tangling with no comments </h4>
+<div class="outline-text-4" id="text-1_1_1">
+
+<p>This
+</p><pre class="example">
+**** tangling with no comments
+   :PROPERTIES:
+   :comments: no
+   :tangle:   comments.el
+   :END:
+The top block
+#+begin_src emacs-lisp
+  (message "first block")
+#+end_src
+
+here's some text which won't be tangled
+
+***** subheading
+another block
+| 1 | first  |
+| 2 | second |
+#+source: tangle-el-the-second
+#+begin_src emacs-lisp
+  (message "second")
+#+end_src
+
+and finally a block with a =:noweb= header argument
+#+begin_src emacs-lisp :noweb yes
+  (progn
+    &lt;&lt;tangle-el-the-second&gt;&gt;)
+#+end_src
+</pre>
+
+<p>results in
+</p>
+
+
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
+
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
+
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_1_2" class="outline-4">
+<h4 id="sec-1_1_2">tangling with yes or link comments </h4>
+<div class="outline-text-4" id="text-1_1_2">
+
+<p>This
+</p><pre class="example">
+**** tangling with yes or link comments
+   :PROPERTIES:
+   :comments: yes
+   :tangle:   comments.el
+   :END:
+The top block
+#+begin_src emacs-lisp
+  (message "first block")
+#+end_src
+
+here's some text which won't be tangled
+
+***** subheading
+another block
+| 1 | first  |
+| 2 | second |
+#+source: tangle-el-the-second
+#+begin_src emacs-lisp
+  (message "second")
+#+end_src
+
+and finally a block with a =:noweb= header argument
+#+begin_src emacs-lisp :noweb yes
+  (progn
+    &lt;&lt;tangle-el-the-second&gt;&gt;)
+#+end_src
+</pre>
+
+<p>results in
+</p>
+
+
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*tangling%20with%20yes%20or%20link%20comments][tangling-with-yes-or-link-comments:1]]
+</span>
+<span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">tangling-with-yes-or-link-comments:1 ends here
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
+</span>
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">tangle-el-the-second ends here
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
+</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">subheading:2 ends here
+</span></pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_1_3" class="outline-4">
+<h4 id="sec-1_1_3">tangling with org comments </h4>
+<div class="outline-text-4" id="text-1_1_3">
+
+<p>This
+</p><pre class="example">
+**** tangling with org comments
+   :PROPERTIES:
+   :comments: org
+   :tangle:   comments.el
+   :END:
+The top block
+#+begin_src emacs-lisp
+  (message "first block")
+#+end_src
+
+here's some text which won't be tangled
+
+***** subheading
+another block
+| 1 | first  |
+| 2 | second |
+#+source: tangle-el-the-second
+#+begin_src emacs-lisp
+  (message "second")
+#+end_src
+
+and finally a block with a =:noweb= header argument
+#+begin_src emacs-lisp :noweb yes
+  (progn
+    &lt;&lt;tangle-el-the-second&gt;&gt;)
+#+end_src
+</pre>
+
+
+<p>
+results in
+</p>
+
+
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">tangling with org comments
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:PROPERTIES:
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:comments: org
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:tangle:   comments.el
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:END:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">The top block
+</span>
+<span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">***** subheading
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">another block
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">| 1 | first  |
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">| 2 | second |
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">#+source: tangle-el-the-second
+</span>
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">and finally a block with a =:noweb= header argument
+</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_1_4" class="outline-4">
+<h4 id="sec-1_1_4">tangling with both comments </h4>
+<div class="outline-text-4" id="text-1_1_4">
+
+<p>This
+</p><pre class="example">
+**** tangling with both comments
+   :PROPERTIES:
+   :comments: both
+   :tangle:   comments.el
+   :END:
+The top block
+#+begin_src emacs-lisp
+  (message "first block")
+#+end_src
+
+here's some text which won't be tangled
+
+***** subheading
+another block
+| 1 | first  |
+| 2 | second |
+#+source: tangle-el-the-second
+#+begin_src emacs-lisp
+  (message "second")
+#+end_src
+
+and finally a block with a =:noweb= header argument
+#+begin_src emacs-lisp :noweb yes
+  (progn
+    &lt;&lt;tangle-el-the-second&gt;&gt;)
+#+end_src
+</pre>
+
+<p>results in
+</p>
+
+
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">tangling with both comments
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:PROPERTIES:
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:comments: both
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:tangle:   comments.el
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:END:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">The top block
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*tangling%20with%20both%20comments][tangling-with-both-comments:1]]
+</span>
+<span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">tangling-with-both-comments:1 ends here
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">***** subheading
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">another block
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">| 1 | first  |
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">| 2 | second |
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">#+source: tangle-el-the-second
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
+</span>
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">tangle-el-the-second ends here
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">and finally a block with a =:noweb= header argument
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
+</span>
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">subheading:2 ends here
+</span></pre>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2">preliminary discussion </h3>
+<div class="outline-text-3" id="text-1_2">
+
+<p>TD notes that Babel already supports LP, which is designed to make
+excellent notes.
+</p>
+<p>
+Belatedly documenting this issue from the mailing list.  This issue
+has resurfaced on the mailing list, see
+</p><ul>
+<li>
+<a href="http://thread.gmane.org/gmane.emacs.orgmode/29767/focus=29770">http://thread.gmane.org/gmane.emacs.orgmode/29767/focus=29770</a>
+</li>
+<li>
+<a href="http://thread.gmane.org/gmane.emacs.orgmode/27788/focus=29779">http://thread.gmane.org/gmane.emacs.orgmode/27788/focus=29779</a>
+
+</li>
+</ul>
+
+<p>The main idea being that it would be nice to allow large chunks of an
+org-mode file to be exported as comments to tangled source code files.
+That way all the excellent documentation is not lost.  The main
+questions seem to be about the best implementation.  The entire thread
+is available on gmane at <a href="http://thread.gmane.org/gmane.emacs.orgmode/25779">gmane.emacs.orgmode/25779</a>.
+</p>
+<p>
+some excerpts
+</p>
+<dl>
+<dt>Erik Iverson</dt><dd>
+
+
+<p class="verse">
+</p><pre class="example">
+Yes, your idea about prefixing every line in the org file behind a
+comment except for the tangled code was the initial idea in my head.
+I then thought that there may be several different languages of code
+in an org-mode file, and even if there is only one language, the
+tangling of that file could be generating multiple source files, for
+example, one per function.  In addition, some of the org-mode material
+I have in my file might not relate to a commented source file, per se.
+For example, the org-mode file where I maintain my source for a
+function might have links to emails discussing the implementation, or
+internal dialogs relating to alternative approaches that were
+abandoned.
+
+So, I thought it might be neat to have some way of specifying which
+subtrees would be a part of the comments for a source file, and for
+which tangled file.  My guess as the easiest way to do that would be
+through properties.  That is, you'd set a property for (sub)tree like,
+for example:
+
+:PROPERTIES:
+:SrcComment: Yes
+:SrcCommentTangleFile: cube.R
+:SrcCommentCharacter: ##
+:END:
+
+These (sub)trees would then appear as comments in their respective
+tangled source files in whatever order they appear in the org-mode
+file.
+
+Why am I suggesting this?
+
+People obviously like commented code.  Writing a function in
+org-babel, I am in effect using org-mode as the commenting system.
+Giving someone who does not use Emacs an org-mode file to see how
+something was implemented is not going to fly, to say the least :).
+Giving them the tangled version of the code along with, say, an HTML
+export of the org-mode buffer is a good start.  But if they're used to
+reviewing code in the typical, "just send me the source file" manner,
+they would appreciate comments in the code. This is one way they could
+be automatically generated from org-mode/org-babel, which is, in my
+mind, the ideal.
+
+As I'm sure you have plenty to do, I would be happy to take a look at
+this.  I'll give the requisite "I'm just getting started with elisp
+..." warning though. :)
+</pre>
+
+
+
+
+</dd>
+<dt>Tom Dye</dt><dd>
+
+
+<p class="verse">
+</p><pre class="example">
+I would pass the function an org-mode link then write out the contents
+pointed at by the link inside a named code block, with each line
+preceded by an optional comment character.  If this were written in a
+general way, then it would be possible to include comments from any
+link--on-line manuals, standards, blogs, etc.--in addition to notes in
+the org-mode file.
+
+If it were written in a very general way, with a transformation
+function responsible for adding the comment character, then a variety
+of transformations might be possible.
+</pre>
+
+
+
+
+</dd>
+</dl>
+
+
+</div>
+</div>
+</div>

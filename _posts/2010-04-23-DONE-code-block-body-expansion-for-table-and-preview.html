@@ -21,16 +21,14 @@ tangling.  This expansion takes into account all header
 arguments, and variables.
 </p>
 </li>
-</ul>
-<dl>
-<dt>preview</dt><dd>
+<li>
 A new key-binding <code>C-c M-b p</code> bound to
 `org-babel-expand-src-block' can be used from inside of a source
 code block to preview its expanded contents (which can be very
 useful for debugging).
 
-</dd>
-<dt>tangling</dt><dd>
+</li>
+<li>
 The expanded body can now be tangled, this includes
 variable values which may be the results of other source-code
 blocks, or stored in headline properties or tables.  One possible
@@ -40,8 +38,8 @@ etc&hellip;) in headline properties or in tables.  The <code>:no-expand</code>
 header argument can be used to inhibit expansion of a code block
 body during tangling.
 
-</dd>
-</dl>
+</li>
+</ul>
 
 <p>Here is an example of a code block and its resulting expanded body.
 </p>

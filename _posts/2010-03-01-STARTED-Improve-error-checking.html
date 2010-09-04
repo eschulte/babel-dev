@@ -29,16 +29,14 @@ write stderr to <b>Org-Babel Error Output</b>
 <li>
 display <b>Org-Babel Error Output</b>
 
-</li>
-</ul>
-</li>
-</ul>
-
-<p>:results output mixes stderr with stdout and does not otherwise notify on error.
+<p>
+:results output mixes stderr with stdout and does not otherwise notify on error.
 </p>
 <p>
 Questions:
-</p><ul>
+</p></li>
+</ul>
+</li>
 <li>
 What should we do when stderr is non-empty but exit code is
 zero?
@@ -48,11 +46,12 @@ What should we do in the case of shell non-session :results value?
 </li>
 <li>
 What should we do in the case of :session?
+</li>
+</ul>
+</li>
+</ul>
 
-</li>
-</ul>
-</li>
-</ul>
+
 
 </div>
 
@@ -122,9 +121,10 @@ You get the error message from R
 <li>
 Execution halts at first error
 E.g.
-
 </li>
 </ul>
+
+
 
 
 <pre class="src src-R"><span class="org-function-name">f</span> <span class="org-constant">&lt;-</span> <span class="org-keyword">function</span>() {
@@ -210,6 +210,7 @@ index 0e8695f..060f880 100644
 ('lob (setq result (org-babel-execute-src-block t lob-info args)))))))
 </li>
 </ul>
+
 </div>
 </div>
 </div>

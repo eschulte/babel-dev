@@ -10,11 +10,12 @@ layout: default
 <ul>
 <li>
 State "DONE"       from "STARTED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 14:42</span></span>
-
 </li>
 </ul>
 
-<p>This has been implemented.  Results can now be cached using the
+
+<p>
+This has been implemented.  Results can now be cached using the
 <code>:cache</code> header argument.  See the following example.
 </p>
 <pre class="example">
@@ -78,11 +79,12 @@ object, I'll merge in the in-buffer caching, and we can keep
 the export caching as an open issue, then possibly add the
 RAM/local-variable caching on top (which seems like it only
 require a couple of lines of code).
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
+
 
 </div>
 
@@ -136,7 +138,10 @@ doesn't rely on anything <i>external</i> to the org-mode file
 Persistent across emacs sessions
 </li>
 </ul>
+
 </li>
+</ul>
+<ul>
 <li id="sec-1_1_2_2">Minus <br/>
 <ul>
 <li>
@@ -179,6 +184,7 @@ you need to know the hash value for some reason pressing <code>C-c        C-c</c
 your kill ring
 </li>
 </ul>
+
 </li>
 </ul>
 </div>
@@ -203,7 +209,10 @@ persisting large tables in memory
 Fastest of the three
 </li>
 </ul>
+
 </li>
+</ul>
+<ul>
 <li id="sec-1_1_3_2">Minus <br/>
 <ul>
 <li>
@@ -222,6 +231,7 @@ include cached results)
 user can't read cached data
 </li>
 </ul>
+
 </li>
 </ul>
 </div>
@@ -245,7 +255,10 @@ Result is not easily editable
 Persistent across emacs sessions
 </li>
 </ul>
+
 </li>
+</ul>
+<ul>
 <li id="sec-1_1_4_2">Minus <br/>
 <ul>
 <li>
@@ -287,6 +300,7 @@ elisp may not be the ideal serialization language
 the cached data is not visible or readable by the user
 </li>
 </ul>
+
 </li>
 </ul>
 </div>
