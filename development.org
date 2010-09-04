@@ -762,7 +762,10 @@ this may be an org-mode issue
 TD notes that Babel already supports LP, which is designed to make
 excellent notes.
 
-Belatedly documenting this issue from the mailing list.
+Belatedly documenting this issue from the mailing list.  This issue
+has resurfaced on the mailing list, see
+- http://thread.gmane.org/gmane.emacs.orgmode/29767/focus=29770
+- http://thread.gmane.org/gmane.emacs.orgmode/27788/focus=29779
 
 The main idea being that it would be nice to allow large chunks of an
 org-mode file to be exported as comments to tangled source code files.
@@ -773,7 +776,7 @@ is available on gmane at [[http://thread.gmane.org/gmane.emacs.orgmode/25779][gm
 some excerpts
 
 - Erik Iverson ::
-     #+begin_verse 
+     #+begin_verse
        : Yes, your idea about prefixing every line in the org file behind a
        : comment except for the tangled code was the initial idea in my head.
        : I then thought that there may be several different languages of code
