@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [92/174]
+* Tasks [93/174]
 ** PROPOSED remove existing results on nil result
    - State "PROPOSED"   from ""           [2010-09-03 Fri 15:38]
 
@@ -756,9 +756,234 @@ this may be an org-mode issue
   ideal.
 #+end_verse
 
-** PROPOSED tangle entire org-mode file in comments
+** DONE tangle entire org-mode file in comments
+   - State "DONE"       from "PROPOSED"   [2010-09-04 Sat 08:47]
    - State "PROPOSED"   from ""           [2010-06-16 Wed 20:37]
 
+The =:comments= header argument has been expanded to support the
+following options.  These should implement at least a first pass at
+the functionality described below.  The new header arguments are...
+- no :: retains its behavior of not tangling any comments
+- yes :: retains its behavior of wrapping the code in links back to
+     the original org-mode file
+- link :: is synonymous with "yes"
+- org :: does not wrap the code in links back to the original org
+     file, but does include preceding text from the org-mode file as a
+     comment before the code block
+- both :: turns on both the "link" and "org" options
+
+examples are given of the effects of these header arguments (notice
+that the header arguments are contains as properties in the containing
+headline)
+*** examples
+**** tangling with no comments
+This
+: **** tangling with no comments
+:    :PROPERTIES:
+:    :comments: no
+:    :tangle:   comments.el
+:    :END:
+: The top block
+: #+begin_src emacs-lisp
+:   (message "first block")
+: #+end_src
+: 
+: here's some text which won't be tangled
+: 
+: ***** subheading
+: another block
+: | 1 | first  |
+: | 2 | second |
+: #+source: tangle-el-the-second
+: #+begin_src emacs-lisp
+:   (message "second")
+: #+end_src
+: 
+: and finally a block with a =:noweb= header argument
+: #+begin_src emacs-lisp :noweb yes
+:   (progn
+:     <<tangle-el-the-second>>)
+: #+end_src
+results in
+#+begin_src emacs-lisp
+  (message "first block")
+  
+  (message "second")
+  
+  (progn
+    (message "second"))
+#+end_src
+
+**** tangling with yes or link comments
+This
+: **** tangling with yes or link comments
+:    :PROPERTIES:
+:    :comments: yes
+:    :tangle:   comments.el
+:    :END:
+: The top block
+: #+begin_src emacs-lisp
+:   (message "first block")
+: #+end_src
+: 
+: here's some text which won't be tangled
+: 
+: ***** subheading
+: another block
+: | 1 | first  |
+: | 2 | second |
+: #+source: tangle-el-the-second
+: #+begin_src emacs-lisp
+:   (message "second")
+: #+end_src
+: 
+: and finally a block with a =:noweb= header argument
+: #+begin_src emacs-lisp :noweb yes
+:   (progn
+:     <<tangle-el-the-second>>)
+: #+end_src
+results in
+#+begin_src emacs-lisp
+  ;; [[file:~/src/babel-dev/development.org::*tangling%20with%20yes%20or%20link%20comments][tangling-with-yes-or-link-comments:1]]
+  
+  (message "first block")
+  
+  ;; tangling-with-yes-or-link-comments:1 ends here
+  
+  ;; [[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
+  
+  (message "second")
+  
+  ;; tangle-el-the-second ends here
+  
+  ;; [[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
+  
+  (progn
+    (message "second"))
+  
+  ;; subheading:2 ends here
+#+end_src
+
+**** tangling with org comments
+This
+: **** tangling with org comments
+:    :PROPERTIES:
+:    :comments: org
+:    :tangle:   comments.el
+:    :END:
+: The top block
+: #+begin_src emacs-lisp
+:   (message "first block")
+: #+end_src
+: 
+: here's some text which won't be tangled
+: 
+: ***** subheading
+: another block
+: | 1 | first  |
+: | 2 | second |
+: #+source: tangle-el-the-second
+: #+begin_src emacs-lisp
+:   (message "second")
+: #+end_src
+: 
+: and finally a block with a =:noweb= header argument
+: #+begin_src emacs-lisp :noweb yes
+:   (progn
+:     <<tangle-el-the-second>>)
+: #+end_src
+
+results in
+#+begin_src emacs-lisp
+  ;; tangling with org comments
+  ;;    :PROPERTIES:
+  ;;    :comments: org
+  ;;    :tangle:   comments.el
+  ;;    :END:
+  ;; The top block
+  
+  (message "first block")
+  
+  ;; ***** subheading
+  ;; another block
+  ;; | 1 | first  |
+  ;; | 2 | second |
+  ;; #+source: tangle-el-the-second
+  
+  (message "second")
+  
+  ;; and finally a block with a =:noweb= header argument
+  
+  (progn
+    (message "second"))
+#+end_src
+
+**** tangling with both comments
+This
+: **** tangling with both comments
+:    :PROPERTIES:
+:    :comments: both
+:    :tangle:   comments.el
+:    :END:
+: The top block
+: #+begin_src emacs-lisp
+:   (message "first block")
+: #+end_src
+: 
+: here's some text which won't be tangled
+: 
+: ***** subheading
+: another block
+: | 1 | first  |
+: | 2 | second |
+: #+source: tangle-el-the-second
+: #+begin_src emacs-lisp
+:   (message "second")
+: #+end_src
+: 
+: and finally a block with a =:noweb= header argument
+: #+begin_src emacs-lisp :noweb yes
+:   (progn
+:     <<tangle-el-the-second>>)
+: #+end_src
+results in
+#+begin_src emacs-lisp
+  ;; tangling with both comments
+  ;;    :PROPERTIES:
+  ;;    :comments: both
+  ;;    :tangle:   comments.el
+  ;;    :END:
+  ;; The top block
+  
+  ;; [[file:~/src/babel-dev/development.org::*tangling%20with%20both%20comments][tangling-with-both-comments:1]]
+  
+  (message "first block")
+  
+  ;; tangling-with-both-comments:1 ends here
+  
+  ;; ***** subheading
+  ;; another block
+  ;; | 1 | first  |
+  ;; | 2 | second |
+  ;; #+source: tangle-el-the-second
+  
+  ;; [[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
+  
+  (message "second")
+  
+  ;; tangle-el-the-second ends here
+  
+  ;; and finally a block with a =:noweb= header argument
+  
+  ;; [[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
+  
+  (progn
+    (message "second"))
+  
+  ;; subheading:2 ends here
+#+end_src
+
+*** preliminary discussion
 TD notes that Babel already supports LP, which is designed to make
 excellent notes.
 
