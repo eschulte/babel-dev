@@ -7023,7 +7023,23 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [84/107]
+* Bugs [84/108]
+** TODO Non-elisp is getting into elisp tangle with org-babel-load-file
+   - State "TODO"       from ""           [2010-09-05 Sun 20:26]
+
+org-babel-load-file on a file containing the following:
+
+---------------------------------
+*** elisp
+#+begin_src emacs-lisp
+(setq dan 'here)
+#+end_src
+
+*** R
+#+begin_src R
+"This shouldn't get into the elisp tangle output"
+#+end_src
+--------------------------------
 ** TODO different properties when exporting than when manually evaluating
    - State "TODO"       from ""           [2010-08-25 Wed 12:04]
 Thanks to Tom Short for pointing this out.
