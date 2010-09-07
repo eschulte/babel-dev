@@ -3067,13 +3067,22 @@ the values of user-specific information (i.e. the user's shell)
 *** TODO allow tangle to be called on a single source block
 this should have a reasonable binding
 
-*** REJECTED make tangled files read-only?
+*** PROPOSED make tangled files read-only?
+    - State "PROPOSED"   from "REJECTED"   [2010-09-07 Tue 14:00]
     - State "REJECTED"   from "PROPOSED"   [2010-06-16 Wed 20:36]
      With a file-local variable setting, yea that makes sense.  Maybe
      the header should reference the related org-mode file.
 
 I fear the only time this sort of feature would even be noticed is
 when it is not wanted.
+
+Ah, not sure I agree with that. I've done it plenty of times. In fact,
+I have a project which has drifted out of Org because I realised too
+late that I was editing tangled files and haven't got round to putting
+the bits back into the relevant Org blocks. Plus, I just came across
+the same complaint on-line:
+
+http://splash-of-open-sauce.blogspot.com/2010/01/moving-to-emacs-init-files.html
 
 *** DONE make tangled files executable?
     - State "DONE"       from "PROPOSED"   [2010-06-16 Wed 20:35]
