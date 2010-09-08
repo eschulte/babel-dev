@@ -33,7 +33,7 @@ statements like
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel</span><span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">org-babel</span>)
 </pre>
 
 
@@ -42,7 +42,7 @@ or
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span>)
 </pre>
 
 
@@ -73,27 +73,29 @@ default)
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>org-babel-do-load-languages
+<pre class="src src-emacs-lisp">(org-babel-do-load-languages
  'org-babel-load-languages
- '<span class="org-esk-paren">((</span>R . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>ditaa . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>dot . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>emacs-lisp . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>gnuplot . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>haskell . nil<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>ocaml . nil<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>python . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>ruby . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>screen . nil<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>sh . t<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>sql . nil<span class="org-esk-paren">)</span>
-   <span class="org-esk-paren">(</span>sqlite . t<span class="org-esk-paren">)))</span>
+ '((R . t)
+   (ditaa . t)
+   (dot . t)
+   (emacs-lisp . t)
+   (gnuplot . t)
+   (haskell . nil)
+   (ocaml . nil)
+   (python . t)
+   (ruby . t)
+   (screen . nil)
+   (sh . t)
+   (sql . nil)
+   (sqlite . t)))
 </pre>
 
 
 
-<p>
-Despite this change it is still possible to add
+</dd>
+</dl>
+
+<p>Despite this change it is still possible to add
 language support through the use of <code>require</code>
 statements, however to conform to Emacs file-name
 regulations all Babel language files have changed
@@ -102,7 +104,7 @@ lines must also change e.g.
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span>)
 </pre>
 
 
@@ -111,15 +113,13 @@ should be changed to
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">ob-R</span><span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">ob-R</span>)
 </pre>
 
 
 
-</dd>
-</dl>
-
-<p>We have eliminated the <code>org-babel-tangle-w-comments</code> variable as
+<p>
+We have eliminated the <code>org-babel-tangle-w-comments</code> variable as
 well as the two main internal lists of languages, namely
 </p><ul>
 <li>
@@ -154,11 +154,15 @@ arguments.  So the shebang for a single file can be set at the
 code block level, e.g.
 </p>
 
-<p>
-,#+begin<sub>src</sub> clojure :shebang #!/usr/bin/env clj
-,  (println "with a shebang line, I can be run as a script!")
-,#+end<sub>src</sub>  
-</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+begin_src clojure :shebang #!/usr/bin/env clj
+</span><span class="org-org-block">  (println "with a shebang line, I can be run as a script!")
+</span><span class="org-org-meta-line">#+end_src  
+</span></pre>
+
+
+
 <p>
 Note that whenever a file is tangled which includes a <i>shebang</i>
 line, Babel will make the file executable, so there is good
@@ -172,12 +176,12 @@ language, e.g.
 
 
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">ensure this variable is defined defined
-</span><span class="org-esk-paren">(</span><span class="org-keyword">unless</span> <span class="org-esk-paren">(</span>boundp 'org-babel-default-header-args:sh<span class="org-esk-paren">)</span>
-  <span class="org-esk-paren">(</span>setq org-babel-default-header-args:sh '<span class="org-esk-paren">()))</span>
+</span>(<span class="org-keyword">unless</span> (boundp 'org-babel-default-header-args:sh)
+  (setq org-babel-default-header-args:sh '()))
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">add a default shebang header argument
-</span><span class="org-esk-paren">(</span>add-to-list 'org-babel-default-header-args:sh
-             '<span class="org-esk-paren">(</span><span class="org-builtin">:shebang</span> . <span class="org-string">"#!/bin/bash"</span><span class="org-esk-paren">))</span>  
+</span>(add-to-list 'org-babel-default-header-args:sh
+             '(<span class="org-builtin">:shebang</span> . <span class="org-string">"#!/bin/bash"</span>))  
 </pre>
 
 
@@ -194,7 +198,7 @@ These confirmations can be stifled through customization of the
 
 
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">I don't want to be prompted on every code block evaluation
-</span><span class="org-esk-paren">(</span>setq org-confirm-babel-evaluate nil<span class="org-esk-paren">)</span>
+</span>(setq org-confirm-babel-evaluate nil)
 </pre>
 
 
@@ -208,7 +212,7 @@ e.g.
 
 
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">I don't want to execute code blocks with C-c C-c
-</span><span class="org-esk-paren">(</span>setq org-babel-no-eval-on-ctrl-c-ctrl-c t<span class="org-esk-paren">)</span>
+</span>(setq org-babel-no-eval-on-ctrl-c-ctrl-c t)
 </pre>
 
 

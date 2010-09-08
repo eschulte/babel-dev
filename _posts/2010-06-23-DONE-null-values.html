@@ -17,14 +17,16 @@ State "DONE"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <p>it's now possible to assign variable the value of <code>nil</code>
 </p>
 
-<p>
-,#+begin<sub>src</sub> emacs-lisp :var notme='()
-,  (when (null notme) (message "it's NULL"))
-,#+end<sub>src</sub>
-</p>
-<p>
-,#+results:
-,: it's NULL
-</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+begin_src emacs-lisp :var notme='()
+</span><span class="org-org-block">  (when (null notme) (message "it's NULL"))
+</span><span class="org-org-meta-line">#+end_src
+</span>
+<span class="org-org-meta-line">#+results:</span>
+<span class="org-org-code">: it's NULL
+</span></pre>
+
+
 </div>
 </div>

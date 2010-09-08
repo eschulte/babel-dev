@@ -69,14 +69,14 @@ most of these all follow this simple basic form
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">org-babel-load-session:R</span> <span class="org-esk-paren">(</span>session body params<span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">org-babel-load-session:R</span> (session body params)
   <span class="org-doc">"Load BODY into SESSION."</span>
-  <span class="org-esk-paren">(</span><span class="org-keyword">save-window-excursion</span>
-    <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">((</span>buffer <span class="org-esk-paren">(</span>org-babel-prep-session:R session params<span class="org-esk-paren">)))</span>
-      <span class="org-esk-paren">(</span><span class="org-keyword">with-current-buffer</span> buffer
-        <span class="org-esk-paren">(</span>goto-char <span class="org-esk-paren">(</span>process-mark <span class="org-esk-paren">(</span>get-buffer-process <span class="org-esk-paren">(</span>current-buffer<span class="org-esk-paren">))))</span>
-        <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>org-babel-chomp body<span class="org-esk-paren">)))</span>
-      buffer<span class="org-esk-paren">)))</span>
+  (<span class="org-keyword">save-window-excursion</span>
+    (<span class="org-keyword">let</span> ((buffer (org-babel-prep-session:R session params)))
+      (<span class="org-keyword">with-current-buffer</span> buffer
+        (goto-char (process-mark (get-buffer-process (current-buffer))))
+        (insert (org-babel-chomp body)))
+      buffer)))
 </pre>
 
 

@@ -86,11 +86,11 @@ exports to the following <b>html</b>
 
 
 <div class="org-src-container"><label class="org-src-name">fibonacci(input=0)</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">fib</span> <span class="org-esk-paren">(</span>n<span class="org-esk-paren">)</span>
-  <span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>&gt; n 1<span class="org-esk-paren">)</span>
-      <span class="org-esk-paren">(</span>+ <span class="org-esk-paren">(</span>fib <span class="org-esk-paren">(</span>- n 1<span class="org-esk-paren">))</span> <span class="org-esk-paren">(</span>fib <span class="org-esk-paren">(</span>- n 2<span class="org-esk-paren">)))</span>
-      1<span class="org-esk-paren">))</span>
-<span class="org-esk-paren">(</span>fib input<span class="org-esk-paren">)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">fib</span> (n)
+  (<span class="org-keyword">if</span> (&gt; n 1)
+      (+ (fib (- n 1)) (fib (- n 2)))
+      1))
+(fib input)
 </pre></div>
 
 
@@ -137,7 +137,7 @@ exports to the following html
 
 
 <div class="org-src-container"><label class="org-src-name">square(input=1)</label><pre class="src src-emacs-lisp">
-<span class="org-esk-paren">(</span>* input input<span class="org-esk-paren">)</span>
+(* input input)
 </pre></div>
 
 
@@ -162,9 +162,9 @@ and the following raw latex
 
 
 
-<pre class="src src-latex"><span class="org-font-latex-sedate">\lstset</span>{language=Lisp}<span class="org-font-latex-sedate"><span class="org-keyword">\begin</span></span>{<span class="org-function-name">lstlisting</span>}[title={square}]
+<pre class="src src-latex"><span class="org-keyword">\lstset</span>{language=Lisp}<span class="org-keyword">\begin</span>{<span class="org-function-name">lstlisting</span>}[title={square}]
 (* input input)
-<span class="org-font-latex-sedate"><span class="org-keyword">\end</span></span>{<span class="org-function-name">lstlisting</span>}
+<span class="org-keyword">\end</span>{<span class="org-function-name">lstlisting</span>}
 </pre>
 
 

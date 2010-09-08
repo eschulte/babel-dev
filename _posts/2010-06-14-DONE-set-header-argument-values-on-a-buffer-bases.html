@@ -20,18 +20,20 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <p>This is currently implemented using a <code>#+BABEL:</code> line similar to the
 existing <code>#+OPTIONS:</code> style lines.
 </p>
-<p>
-,#+BABEL: :var number=8
-</p>
-<p>
-,#+begin<sub>src</sub> ruby
-,  number + 1
-,#+end<sub>src</sub>
-</p>
-<p>
-,#+results:
-,: 9
-</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+BABEL: :var number=8</span>
+
+<span class="org-org-meta-line">#+begin_src ruby
+</span><span class="org-org-block">  number + 1
+</span><span class="org-org-meta-line">#+end_src
+</span>
+<span class="org-org-meta-line">#+results:</span>
+<span class="org-org-code">: 9
+</span></pre>
+
+
+
 <p>
 <b>NOTE</b>: currently once this value is read the list of header arguments
 is cached in a buffer local variable to avoid excessive load while
@@ -47,9 +49,9 @@ any suggestions for a better alternative are welcome.
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">defun</span> <span class="org-function-name">babel/clear-buffer-header-arguments</span> <span class="org-esk-paren">()</span>
-  <span class="org-esk-paren">(</span>interactive<span class="org-esk-paren">)</span>
-  <span class="org-esk-paren">(</span>setq org-babel-current-buffer-properties nil<span class="org-esk-paren">))</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">babel/clear-buffer-header-arguments</span> ()
+  (interactive)
+  (setq org-babel-current-buffer-properties nil))
 </pre>
 
 

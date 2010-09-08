@@ -17,14 +17,14 @@ State "PROPOSED"   from "REJECTED" <span class="timestamp-wrapper"> <span class=
 <li>
 State "REJECTED"   from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2009-12-22 Tue 14:40</span></span>
 
-<p>
-This is done now, albeit motivated differently. See commits
-2c33b2eb66 and 3d2dbf8604.
-</p>
 </li>
 </ul>
 
-<p>The reason that <code>:results org</code> was introduced was to support
+<p>This is done now, albeit motivated differently. See commits
+2c33b2eb66 and 3d2dbf8604.
+</p>
+<p>
+The reason that <code>:results org</code> was introduced was to support
 seamless insertion of results into an org-mode buffer.  This
 proposal would defeat that initial purpose. [Eric]
 </p>
@@ -53,11 +53,15 @@ i.e. demonstrating, in HTML, what an org buffer looks like:
 in your emacs buffer.
 </p>
 
-<p>
-,#+SEQ<sub>TODO</sub>: TODO | DONE
-,* TODO todo item
-,   <span class="timestamp-wrapper"><span class="timestamp-kwd">SCHEDULED: </span> <span class="timestamp">2010-02-28 Sun</span></span>
-</p>
+
+
+<pre class="src src-org"><span class="org-org-meta-line">#+SEQ_TODO: TODO | DONE</span>
+<span class="org-org-level-1">* </span><span class="org-org-todo">TODO</span><span class="org-org-level-1"> todo item</span>
+  <span class="org-org-special-keyword">SCHEDULED:</span> <span class="org-org-date">&lt;2010-02-28 Sun&gt;</span>
+</pre>
+
+
+
 <p>
 I admit that I don't know how often one will want to generate org
 blocks using babel, but I think that to use <code>org</code> as a synonym of

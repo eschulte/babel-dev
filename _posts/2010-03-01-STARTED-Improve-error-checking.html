@@ -14,8 +14,10 @@ State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="tim
 <li>
 State "TODO"       from "DEFERRED" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-01 Mon 05:49</span></span>
 
-<p>
-Current solution for :results value mode:
+</li>
+</ul>
+
+<p>Current solution for :results value mode:
 </p><ul>
 <li>
 store shell exit code and stderr
@@ -29,14 +31,16 @@ write stderr to <b>Org-Babel Error Output</b>
 <li>
 display <b>Org-Babel Error Output</b>
 
-<p>
-:results output mixes stderr with stdout and does not otherwise notify on error.
+</li>
+</ul>
+</li>
+</ul>
+
+<p>:results output mixes stderr with stdout and does not otherwise notify on error.
 </p>
 <p>
 Questions:
-</p></li>
-</ul>
-</li>
+</p><ul>
 <li>
 What should we do when stderr is non-empty but exit code is
 zero?
@@ -46,11 +50,9 @@ What should we do in the case of shell non-session :results value?
 </li>
 <li>
 What should we do in the case of :session?
-</li>
-</ul>
-</li>
-</ul>
 
+</li>
+</ul>
 
 
 </div>
@@ -63,14 +65,14 @@ What should we do in the case of :session?
 </p>
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">if</span> <span class="org-esk-paren">(</span>and <span class="org-esk-paren">(</span>consp result<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>eq <span class="org-esk-paren">(</span>first result 'org-babel-error-flag<span class="org-esk-paren">)))</span>
-    <span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
-      <span class="org-esk-paren">(</span>message <span class="org-string">"Shell command exited with error %d"</span> <span class="org-esk-paren">(</span>second result<span class="org-esk-paren">))</span>
-      <span class="org-esk-paren">(</span><span class="org-keyword">unless</span> <span class="org-esk-paren">(</span>= <span class="org-esk-paren">(</span>length <span class="org-esk-paren">(</span>third result<span class="org-esk-paren">))</span> 0<span class="org-esk-paren">)</span>
-        <span class="org-esk-paren">(</span><span class="org-keyword">let</span> <span class="org-esk-paren">(</span>error-buffer <span class="org-esk-paren">(</span>get-buffer-create <span class="org-string">"*Org-Babel Error Output"</span><span class="org-esk-paren">))</span>
-          <span class="org-esk-paren">(</span><span class="org-keyword">with-current-buffer</span> error-buffer <span class="org-esk-paren">(</span>insert <span class="org-esk-paren">(</span>third result<span class="org-esk-paren">)))</span>
-          <span class="org-esk-paren">(</span>display-buffer error-buffer<span class="org-esk-paren">))))</span>
-    <span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">if</span> (and (consp result) (eq (first result 'org-babel-error-flag)))
+    (<span class="org-keyword">progn</span>
+      (message <span class="org-string">"Shell command exited with error %d"</span> (second result))
+      (<span class="org-keyword">unless</span> (= (length (third result)) 0)
+        (<span class="org-keyword">let</span> (error-buffer (get-buffer-create <span class="org-string">"*Org-Babel Error Output"</span>))
+          (<span class="org-keyword">with-current-buffer</span> error-buffer (insert (third result)))
+          (display-buffer error-buffer))))
+    )
 </pre>
 
 
