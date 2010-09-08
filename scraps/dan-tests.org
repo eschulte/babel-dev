@@ -24,7 +24,7 @@
 #+end_src
 
 #+results:
-: [1] "Wed Mar  3 16:14:23 2010"
+: [1] "Mon Aug 30 11:31:17 2010"
 : Luscinia
 : [1] "/tmp"
       
@@ -34,7 +34,7 @@
 #+end_src
 
 #+results:
-: [1] "Wed Mar  3 16:14:31 2010"
+: [1] "Mon Aug 30 16:33:13 2010"
 : oak
 : [1] "/data/oak/user/davison/bench"
 
@@ -200,7 +200,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: [1] "Tue Mar  2 15:34:32 2010"
+: [1] "Mon Aug 30 11:33:47 2010"
 : Luscinia
 : [1] "/home/dan"
 ********* remote
@@ -209,7 +209,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: [1] "Tue Mar  2 15:34:40 2010"
+: [1] "Mon Aug 30 15:55:29 2010"
 : oak
 : [1] "/data/oak/user/davison/bench"
 
@@ -362,20 +362,18 @@ ans =
 #+end_src
 
 #+results:
-| Tue      | Mar | 2 | 15:35:31 | 2010 |
-| Luscinia |     |   |          |      |
-| /tmp     |     |   |          |      |
+| Mon Aug 30 08:55:46 2010 |
+| Luscinia                 |
+| /tmp                     |
 ********* remote
-	  The data is written remotely, but currently we attempt to
-          read it locally.
 #+begin_src R :session R-remote :dir /davison@oak.well.ox.ac.uk:bench
   <<dir-test-R-value>>
 #+end_src
 
 #+results:
-| Tue                          | Mar | 2 | 15:35:36 | 2010 |
-| oak                          |     |   |          |      |
-| /data/oak/user/davison/bench |     |   |          |      |
+| Mon Aug 30 17:02:43 2010     |
+| oak                          |
+| /data/oak/user/davison/bench |
 ******* ruby
 ********* code
 #+source: dir-test-ruby-value
@@ -518,11 +516,10 @@ x+0
 #+end_src
 
 #+results:
-| Sun       | Feb | 21 | 01:10:26 | 2010 |
-| Luscinia  |     |    |          |      |
-| /home/dan |     |    |          |      |
+| Mon Aug 30 09:02:57 2010 |
+| Luscinia                 |
+| /home/dan                |
 ********* remote
-	  Runs remotely, but no results returned
 #+begin_src R :dir /davison@oak.well.ox.ac.uk:~
   <<dir-test-R-value>>
   ## system("date >> /tmp/babel-R")
@@ -531,9 +528,9 @@ x+0
 #+end_src
 
 #+results:
-| Sun           | Feb | 21 | 06:10:34 | 2010 |
-| oak           |     |    |          |      |
-| /home/davison |     |    |          |      |
+| Mon Aug 30 16:03:10 2010 |
+| oak                      |
+| /home/davison            |
 ******* ruby
 ********* local
 #+begin_src ruby :dir /home/dan
@@ -1068,4 +1065,20 @@ a
 #+begin_src sh :file=euler :results output
 mogrify -resize 200% $file
 echo $file
+#+end_src
+
+* R session
+  :PROPERTIES:
+  :session: *R-testing*
+  :END:
+
+#+begin_src R
+2+2
+#+end_src
+
+#+results:
+: 4
+
+#+begin_src R :dir /dan@yakuba.princeton.edu: :session *R-remote*
+system("hostname", intern=TRUE)
 #+end_src
