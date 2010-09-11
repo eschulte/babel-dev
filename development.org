@@ -3,7 +3,101 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/174]
+* Tasks [94/175]
+** PROPOSED Use new R-style session evaluation for other languages
+   Commit 08cdd0557967d69a093b1642a4467e800fe84c4b switched R to a
+   different style of evaluation in the ":session :results value"
+   case. It waits for the output file to be created, rather than for
+   an end-of-output string. One advantage is a less cluttered session
+   buffer. It may be worth investigating this switch for other
+   languages. For example, here's a quick go at moving python in that
+   direction:
+
+#+begin_example 
+    Towards using ob-comint-eval-invisibly-and-wait-for-file for python
+    
+    python-send-region evaluates invisibly, so this commit results in no
+    output to the python buffer. Also needs to be generalised to allow
+    python-mode.
+
+	Modified lisp/ob-python.el
+diff --git a/lisp/ob-python.el b/lisp/ob-python.el
+index 1d2e8f5..a1e58ad 100644
+--- a/lisp/ob-python.el
++++ b/lisp/ob-python.el
+@@ -236,45 +236,34 @@ last statement in BODY, as elisp."
+ If RESULT-TYPE equals 'output then return standard output as a
+ string. If RESULT-TYPE equals 'value then return the value of the
+ last statement in BODY, as elisp."
+-  (flet ((dump-last-value
+-	  (tmp-file pp)
+-	  (mapc
+-	   (lambda (statement) (insert statement) (comint-send-input))
+-	   (if pp
+-	       (list
+-		"import pp"
+-		(format "open('%s', 'w').write(pprint.pformat(_))" tmp-file))
+-	     (list (format "open('%s', 'w').write(str(_))" tmp-file)))))
+-	 (input-body (body)
+-		     (mapc (lambda (statement) (insert statement) (comint-send-input))
+-			   (split-string (org-babel-trim body) "[\r\n]+"))
+-		     (comint-send-input) (comint-send-input)))
+-    (case result-type
+-      (output
+-       (mapconcat
+-	#'org-babel-trim
+-	(butlast
+-	 (org-babel-comint-with-output
+-	     (session org-babel-python-eoe-indicator t body)
+-	   (let ((comint-process-echoes nil))
+-	     (input-body body)
+-	     (insert org-babel-python-eoe-indicator)
+-	     (comint-send-input))) 2) "\n"))
+-      (value
+-       ((lambda (results)
+-	  (if (or (member "code" result-params) (member "pp" result-params))
+-	      results
+-	    (org-babel-python-table-or-string results)))
+-	(let ((tmp-file (org-babel-temp-file "python-results-")))
+-	  (org-babel-comint-with-output
+-	      (session org-babel-python-eoe-indicator t body)
+-	    (let ((comint-process-echoes nil))
+-	      (input-body body)
+-	      (dump-last-value tmp-file (member "pp" result-params))
+-	      (comint-send-input) (comint-send-input)
+-	      (insert org-babel-python-eoe-indicator)
+-	      (comint-send-input)))
+-	  (org-babel-eval-read-file tmp-file)))))))
++  (case result-type
++    (output
++     (mapconcat
++      #'org-babel-trim
++      (butlast
++       (org-babel-comint-with-output
++	   (session org-babel-python-eoe-indicator t body)
++	 (let ((comint-process-echoes nil))
++	   (input-body body)
++	   (insert org-babel-python-eoe-indicator)
++	   (comint-send-input))) 2) "\n"))
++    (value
++     ((lambda (results)
++	(if (or (member "code" result-params) (member "pp" result-params))
++	    results
++	  (org-babel-python-table-or-string results)))
++      (let ((tmp-file (org-babel-temp-file "python-results-")))
++	(with-temp-buffer
++	  (insert body)
++	  (let ((python-buffer session))
++	    (python-send-region (point-min) (point-max))))
++	(org-babel-comint-eval-invisibly-and-wait-for-file
++	 session tmp-file
++	 (if (member "pp" result-params)
++	     (format
++	      "import pp and open('%s', 'w').write(pprint.pformat(_))" tmp-file)
++	   (format "open('%s', 'w').write(str(_))" tmp-file)))
++	(org-babel-eval-read-file tmp-file))))))
+#+end_example
+
 ** PROPOSED remove existing results on nil result
    - State "PROPOSED"   from ""           [2010-09-03 Fri 15:38]
 
