@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [93/174]
+* Tasks [94/174]
 ** PROPOSED remove existing results on nil result
    - State "PROPOSED"   from ""           [2010-09-03 Fri 15:38]
 
@@ -131,7 +131,8 @@ Usage
     ,[[file:tryout.png]]
   #+end_src
 
-** STARTED Cleaner session evaluation (especially R)
+** DONE Visually cleaner session evaluation for R
+
    - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 10:53]
    - State "PROPOSED"   from ""           [2010-08-23 Mon 13:59]
 
