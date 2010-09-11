@@ -3,7 +3,8 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/175]
+* Tasks [94/176]
+** PROPOSED Support ipython sessions?
 ** PROPOSED Use new R-style session evaluation for other languages
    Commit 08cdd0557967d69a093b1642a4467e800fe84c4b switched R to a
    different style of evaluation in the ":session :results value"
