@@ -81,7 +81,6 @@ system("pwd")
   print time.ctime()
   print os.uname()
   print os.getcwd()
-  print '\n' ## We have a bug involving losing final lines
 #+end_src
 
 ********* local
@@ -90,8 +89,9 @@ system("pwd")
 #+end_src
 
 #+results:
-: Tue Mar  2 15:32:35 2010
-: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: 
+: Tue Sep  7 21:47:03 2010
+: ('Linux', 'Luscinia', '2.6.35-19-generic', '#28-Ubuntu SMP Sun Aug 29 06:36:51 UTC 2010', 'i686')
 : /home/dan
 ********* remote
 #+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
@@ -99,7 +99,8 @@ system("pwd")
 #+end_src
 
 #+results:
-: Tue Mar  2 15:32:45 2010
+: 
+: Wed Sep  8 02:47:37 2010
 : ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
 : /data/oak/user/davison/bench
 
@@ -239,22 +240,18 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: Fri Mar  5 11:15:54 2010
-: ('Linux', 'Luscinia', '2.6.31-19-generic', '#56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010', 'i686')
+: Tue Sep  7 21:47:53 2010
+: ('Linux', 'Luscinia', '2.6.35-19-generic', '#28-Ubuntu SMP Sun Aug 29 06:36:51 UTC 2010', 'i686')
 : /home/dan
-: 
-: 
 ********* remote
 #+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
 <<dir-test-python>>
 #+end_src
 
 #+results:
-: Fri Mar  5 11:15:50 2010
+: Wed Sep  8 01:48:01 2010
 : ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
 : /data/oak/user/davison/bench
-: 
-: 
 ******* shell
 ********* local
 #+begin_src sh :dir /tmp
@@ -409,7 +406,7 @@ ans =
 #+end_src
 
 #+results:
-| Tue Mar  2 15:36:07 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+| Tue Sep  7 21:48:18 2010 | (Linux Luscinia 2.6.35-19-generic #28-Ubuntu SMP Sun Aug 29 06:36:51 UTC 2010 i686) | /home/dan |
 ********* remote
 #+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
 <<dir-test-python-value>>
@@ -561,7 +558,7 @@ x+0
 #+end_src
 
 #+results:
-| Fri Mar  5 11:15:32 2010 | (Linux Luscinia 2.6.31-19-generic #56-Ubuntu SMP Thu Jan 28 01:26:53 UTC 2010 i686) | /home/dan |
+| Tue Sep  7 21:54:22 2010 | (Linux Luscinia 2.6.35-19-generic #28-Ubuntu SMP Sun Aug 29 06:36:51 UTC 2010 i686) | /home/dan |
 ********* remote
 	  Runs remotely but no results returned
 #+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
