@@ -1801,8 +1801,7 @@ statement will be necessary, whether inserted automatically or not.
 
 ** TODO Octave and Matlab tasks
    - State "TODO"       from ""           [2010-03-30 Tue 10:09]
-
-     From Darlan Cavalcante
+*** From Darlan Cavalcante
 
 If I understood correctly you always save the output to a file using the
 function org-babel-octave-wrapper-method, right? Maybe instead of using
@@ -1838,6 +1837,135 @@ user handle this in the code and just put the link to the file.
 Current solution is imperfect: it involves the matlab process
 signaling completion by removing a lock file rather than using the
 canonical org-babel comint completion functions.
+*** DONE How to detect if result is numeric or string?
+     - State "TODO"       from ""           [2010-03-18 Thu 12:37]
+
+       Strings were being returned as their ascii codes.
+
+       We have adopted Darlan's suggestion of using save -text %s ans
+       (and delting the comment lines), which seems to provide a
+       solution.
+
+#+begin_src octave
+  'octave string'
+#+end_src
+
+#+results:
+: octave string
+
+#+begin_src matlab :dir /ddavison@tombstone.princeton.edu:
+  'string from matlab'
+#+end_src
+
+#+results:
+: 1.1500000e+02   1.1600000e+02   1.1400000e+02   1.0500000e+02   1.1000000e+02   1.0300000e+02   3.2000000e+01   1.0200000e+02   1.1400000e+02   1.1100000e+02   1.0900000e+02   3.2000000e+01   1.0900000e+02   9.7000000e+01   1.1600000e+02   1.0800000e+02   9.7000000e+01   9.8000000e+01
+
+*** TODO How to divert graphical output to file?
+    - State "TODO"       from ""           [2010-03-17 Wed 23:3
+
+      Currently we are like pyuthon and ruby in that we can
+      use :results file and the block will output a link to that file,
+      but unless your code takes care of it (e.g. write graphics to
+      file), no content will be written to that file.
+
+      However, would it be appropriate to move to the org-babel-R model,
+      whereby if :results file is supplied, any graphical is
+      automatically diverted to that file?
+
+*** Related: getting graphical output from octave
+
+In order to get graphical output without leaving open graph windows
+during evaluation, the following can be used:
+
+#+begin_example
+#+begin_src octave :output file :file chart.png
+figure( 1, "visible" , "off" );
+sombrero;
+print -dpng chart.png
+#+end_src
+#+end_example
+
+The =figure= command opens an invisible graph window where the next plot commands should act.
+
+Then, the =print= command exports the graph to a file.
+
+*** TODO Ensure that value is returned when expected
+     - State "TODO"       from ""           [2010-03-18 Thu 13:57]
+
+       In :results value mode, we return whatever value the variable
+       'ans' has at the end of the block. However, there are some
+       problems with this as can be seen from the following session:
+
+#+begin_example
+octave> 'hello'
+ans = hello
+octave> ans
+ans = hello
+octave> x = 19
+x =  19
+octave> x
+x =  19
+octave> ans
+ans = hello
+#+end_example
+
+So although this works as expected:
+
+#+begin_src octave :var z=67
+  z + 0
+#+end_src
+
+#+results:
+: 6.70000000e+01
+
+This doesn't
+
+#+begin_src octave :var z=67
+  z
+#+end_src
+
+#+results:
+: 4.70000000e+01 1.17000000e+02 1.15000000e+02 1.14000000e+02 4.70000000e+01 1.15000000e+02 1.04000000e+02 9.70000000e+01 1.14000000e+02 1.01000000e+02 4.70000000e+01 1.11000000e+02 9.90000000e+01 1.16000000e+02 9.70000000e+01 1.18000000e+02 1.01000000e+02 4.70000000e+01 1.12000000e+02 9.70000000e+01 9.90000000e+01 1.07000000e+02 9.70000000e+01 1.03000000e+02 1.01000000e+02 1.15000000e+02 4.70000000e+01 5.10000000e+01 4.60000000e+01 5.00000000e+01
+
+  As part of its internal operation, org-babel appends a special
+  end-of-output string at the end of each block and it is this
+  string's value (integer ascii codes) that is being returned here.
+
+Of course, this works
+
+#+begin_src octave :var ans=67
+  ans
+#+end_src
+
+#+results:
+: 6.70000000e+01
+
+*** TODO Allow multiple sessions
+    - State "TODO"       from ""           [2010-03-16 Tue 22:12]
+
+*** TODO Should we use these by default to save external process startup time?
+    - State "TODO"       from ""           [2010-03-18 Thu 01:27]
+    - -nodisplay ?
+    - -nojvm ?
+
+*** TODO How to implement :results pp, :results code?
+    - State "TODO"       from ""           [2010-03-18 Thu 01:10]
+
+*** TODO How to get rid of the matlab splash message
+    - State "TODO"       from ""           [2010-03-18 Thu 01:09]
+
+      -nosplash doesn't seem to do the trick.
+
+*** TODO submit patch to matlab.el so that matlab session can be remote
+      - State "TODO"       from ""           [2010-03-18 Thu 01:29]
+
+       	At the moment I'm using a massive hack: insert
+
+   (cd "/ddavison@tombstone.princeton.edu:") ;; DED
+
+   around line 4253 in matlab.el so that my matlab sessions run on a
+   machine with matlab installed.
+
 ** TODO Customize interface
    - State "TODO"       from ""           [2010-03-26 Fri 00:31]
      Make sure we're happy with the customize interface in the
