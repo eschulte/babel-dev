@@ -16,7 +16,7 @@ functionality
   export-target variable to =tangle=
 - would automatically expand =#+INCLUDE:= lines
 
-** PROPOSED "results none" header arg?
+** PROPOSED results none header arg?
    - State "PROPOSED"   from ""           [2010-09-16 Thu 06:28]
 
    I have some blocks which I'm executing in a remote session purely
@@ -24,6 +24,11 @@ functionality
    than wait for the tramp machinery to transfer an empty results file
    back to local, I'm wondering whether a new header arg :results none
    might make sense.
+
+   This seems a near duplicate of the results =silent= header
+   argument.  Maybe =none= should just be an alias for =silent=.  Or
+   maybe =silent= should notice when it is used in remote execution
+   and in such cases not bother transferring back a result?
 
 ** PROPOSED Support ipython sessions?
 ** PROPOSED Use new R-style session evaluation for other languages
