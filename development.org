@@ -3,7 +3,19 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/177]
+* Tasks [94/178]
+** PROPOSED integrate tangling with org export functionality
+   - State "PROPOSED"   from ""           [2010-09-17 Fri 09:31]
+
+Reasons for integrating tangling with org mode's existing export
+functionality
+- tangling is a kind of export, to source code
+- ensures the original buffer remains unchanged through the temporary
+  export buffer
+- makes expansion through tangling clear through setting the temporary
+  export-target variable to =tangle=
+- would automatically expand =#+INCLUDE:= lines
+
 ** PROPOSED "results none" header arg?
    - State "PROPOSED"   from ""           [2010-09-16 Thu 06:28]
 
@@ -214,6 +226,12 @@ Setup
       '(;; other Babel languages
         (plantuml . t)))
    #+end_src
+
+#+results: subject
+#+BEGIN_LaTeX
+Composing letters using Org mode and the \LaTeX{} isodoc class
+#+END_LaTeX
+
 2) Then [[http://plantuml.sourceforge.net/download.html][download the jar file]] save it somewhere on your system, set
    `org-plantuml-jar-path' to point to this file.
    #+begin_src emacs-lisp
@@ -7265,13 +7283,20 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [84/108]
-** TODO Non-elisp is getting into elisp tangle with org-babel-load-file
+* Bugs [86/109]
+** TODO can't evaluate org block on export
+   - State "TODO"       from ""           [2010-09-17 Fri 10:12]
+
+This involves nested calls to the org exporter which breaks because
+the temporary buffer name =org-mode-tmp= is hard-coded in
+`org-export-preprocess-string'.
+
+** DONE Non-elisp is getting into elisp tangle with org-babel-load-file
+   - State "DONE"       from "TODO"       [2010-09-18 Sat 13:25]
    - State "TODO"       from ""           [2010-09-05 Sun 20:26]
 
 org-babel-load-file on a file containing the following:
 
----------------------------------
 *** elisp
 #+begin_src emacs-lisp
 (setq dan 'here)
@@ -7281,8 +7306,9 @@ org-babel-load-file on a file containing the following:
 #+begin_src R
 "This shouldn't get into the elisp tangle output"
 #+end_src
---------------------------------
-** TODO different properties when exporting than when manually evaluating
+
+** DONE different properties when exporting than when manually evaluating
+   - State "DONE"       from "TODO"       [2010-09-18 Sat 20:01]
    - State "TODO"       from ""           [2010-08-25 Wed 12:04]
 Thanks to Tom Short for pointing this out.
 [[gnus:lists.babel#loom.20100819T225748-321@post.gmane.org][Email from Tom Short: {Orgmode} Re: {babel} exports,]]
@@ -7290,6 +7316,33 @@ Thanks to Tom Short for pointing this out.
 So for example see [[file:scraps.org::*looks%20like%20this%20is%20a%20problem%20with%20info%20collection][looks like this is a problem with info collection]]
 in the scraps.org buffer.  It output different values on export and on
 manual execution.
+
+Two different issues here,
+
+1) First, the order of the arguments to header arguments may vary,
+   however `org-babel-sha1-hash' now controls for this as of this
+   commit.
+   : commit fbb828a1077d4d8879b00beab2923876d93416e7
+   : Author: Eric Schulte <schulte.eric@gmail.com>
+   : Date:   Sat Sep 18 14:02:33 2010 -0400
+   : 
+   :     ob: hash construction invariant to order of header arguments
+2) Second, when exporting from a narrowed region, any header arguments
+   specified outside of the region are not collected, because only the
+   narrowed region is coppied to the temporary export buffer.  This
+   requires some complicated jumping back to the original file to
+   collect header arguments during export, implemented as of this
+   commit
+   : commit efdf78172d9f7c0070c781d136a9b49a2a56fcc4
+   : Author: Eric Schulte <schulte.eric@gmail.com>
+   : Date:   Sat Sep 18 19:01:49 2010 -0600
+   : 
+   :     ob-exp: resolving code block parameters in the original file on export
+   :     
+   :     * lisp/ob-exp.el (org-babel-exp-src-blocks): now switching back to the
+   :       original file before resolving code block parameters to ensure
+   :       headline and buffer wide parameters are taken into consideration
+   :       when only a narrowed portion of the file is exported
 
 ** TODO shell sessions hang in many cases
    - State "TODO"       from ""           [2010-08-25 Wed 11:24]
