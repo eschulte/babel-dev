@@ -7283,13 +7283,20 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [86/109]
-** TODO can't evaluate org block on export
+* Bugs [87/109]
+** DONE can't evaluate org block on export
+   - State "DONE"       from "TODO"       [2010-09-19 Sun 10:52]
    - State "TODO"       from ""           [2010-09-17 Fri 10:12]
 
 This involves nested calls to the org exporter which breaks because
 the temporary buffer name =org-mode-tmp= is hard-coded in
 `org-export-preprocess-string'.
+
+For now the solution here is to *not* set the =:results= header
+argument of the org code block, which will result in the code block
+safely evaluating without requiring an Org-mode export, then the
+content of the code block will export successfully with the rest of
+the org-mode file.
 
 ** DONE Non-elisp is getting into elisp tangle with org-babel-load-file
    - State "DONE"       from "TODO"       [2010-09-18 Sat 13:25]
