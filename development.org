@@ -3,7 +3,22 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/178]
+* Tasks [94/179]
+** TODO resolve references before cache calculation
+   - State "TODO"       from ""           [2010-09-19 Sun 15:09]
+
+In order to re-run cached code blocks when the values of their
+variables have changed we will need to resolve variables in ob.el
+before hash calculation.  This could significantly cleanup the code by
+moving all variable resolution into ob.el and out of language-specific
+files.
+
+This will require a change to =org-babel-get-src-block-info=, adding a
+new optional argument (or re-using =HEADER-VARS-ONLY=) to inhibit the
+full expansion of parameters and of variables in certain cases,
+e.g. during export when the code block exists in a temporary export
+buffer which may not contain the entire org-mode file.
+
 ** PROPOSED integrate tangling with org export functionality
    - State "PROPOSED"   from ""           [2010-09-17 Fri 09:31]
 
