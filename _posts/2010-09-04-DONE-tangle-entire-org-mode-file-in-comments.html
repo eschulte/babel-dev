@@ -93,12 +93,12 @@ and finally a block with a =:noweb= header argument
 </p>
 
 
-<pre class="src src-emacs-lisp">(message <span class="org-string">"first block"</span>)
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
 
-(message <span class="org-string">"second"</span>)
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
 
-(<span class="org-keyword">progn</span>
-  (message <span class="org-string">"second"</span>))
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
 </pre>
 
 
@@ -147,20 +147,20 @@ and finally a block with a =:noweb= header argument
 
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*tangling%20with%20yes%20or%20link%20comments][tangling-with-yes-or-link-comments:1]]
 </span>
-(message <span class="org-string">"first block"</span>)
+<span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">tangling-with-yes-or-link-comments:1 ends here
 </span>
 <span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
 </span>
-(message <span class="org-string">"second"</span>)
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">tangle-el-the-second ends here
 </span>
 <span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
 </span>
-(<span class="org-keyword">progn</span>
-  (message <span class="org-string">"second"</span>))
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">subheading:2 ends here
 </span></pre>
@@ -218,7 +218,7 @@ results in
 </span><span class="org-comment-delimiter">;;    </span><span class="org-comment">:END:
 </span><span class="org-comment-delimiter">;; </span><span class="org-comment">The top block
 </span>
-(message <span class="org-string">"first block"</span>)
+<span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">***** subheading
 </span><span class="org-comment-delimiter">;; </span><span class="org-comment">another block
@@ -226,12 +226,12 @@ results in
 </span><span class="org-comment-delimiter">;; </span><span class="org-comment">| 2 | second |
 </span><span class="org-comment-delimiter">;; </span><span class="org-comment">#+source: tangle-el-the-second
 </span>
-(message <span class="org-string">"second"</span>)
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">and finally a block with a =:noweb= header argument
 </span>
-(<span class="org-keyword">progn</span>
-  (message <span class="org-string">"second"</span>))
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
 </pre>
 
 
@@ -287,7 +287,7 @@ and finally a block with a =:noweb= header argument
 </span>
 <span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*tangling%20with%20both%20comments][tangling-with-both-comments:1]]
 </span>
-(message <span class="org-string">"first block"</span>)
+<span class="org-esk-paren">(</span>message <span class="org-string">"first block"</span><span class="org-esk-paren">)</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">tangling-with-both-comments:1 ends here
 </span>
@@ -299,7 +299,7 @@ and finally a block with a =:noweb= header argument
 </span>
 <span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
 </span>
-(message <span class="org-string">"second"</span>)
+<span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">)</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">tangle-el-the-second ends here
 </span>
@@ -307,8 +307,8 @@ and finally a block with a =:noweb= header argument
 </span>
 <span class="org-comment-delimiter">;; </span><span class="org-comment">[[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
 </span>
-(<span class="org-keyword">progn</span>
-  (message <span class="org-string">"second"</span>))
+<span class="org-esk-paren">(</span><span class="org-keyword">progn</span>
+  <span class="org-esk-paren">(</span>message <span class="org-string">"second"</span><span class="org-esk-paren">))</span>
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">subheading:2 ends here
 </span></pre>

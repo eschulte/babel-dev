@@ -1,0 +1,31 @@
+---
+title: DONE can't evaluate org block on export
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> can't evaluate org block on export </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-09-19 Sun 10:52</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-09-17 Fri 10:12</span></span>
+
+</li>
+</ul>
+
+<p>This involves nested calls to the org exporter which breaks because
+the temporary buffer name <code>org-mode-tmp</code> is hard-coded in
+`org-export-preprocess-string'.
+</p>
+<p>
+For now the solution here is to <b>not</b> set the <code>:results</code> header
+argument of the org code block, which will result in the code block
+safely evaluating without requiring an Org-mode export, then the
+content of the code block will export successfully with the rest of
+the org-mode file.
+</p></div>
+</div>

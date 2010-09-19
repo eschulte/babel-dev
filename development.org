@@ -3,7 +3,128 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [93/174]
+* Tasks [94/178]
+** PROPOSED integrate tangling with org export functionality
+   - State "PROPOSED"   from ""           [2010-09-17 Fri 09:31]
+
+Reasons for integrating tangling with org mode's existing export
+functionality
+- tangling is a kind of export, to source code
+- ensures the original buffer remains unchanged through the temporary
+  export buffer
+- makes expansion through tangling clear through setting the temporary
+  export-target variable to =tangle=
+- would automatically expand =#+INCLUDE:= lines
+
+** PROPOSED results none header arg?
+   - State "PROPOSED"   from ""           [2010-09-16 Thu 06:28]
+
+   I have some blocks which I'm executing in a remote session purely
+   for their side effects (defining functions in the session). Rather
+   than wait for the tramp machinery to transfer an empty results file
+   back to local, I'm wondering whether a new header arg :results none
+   might make sense.
+
+   This seems a near duplicate of the results =silent= header
+   argument.  Maybe =none= should just be an alias for =silent=.  Or
+   maybe =silent= should notice when it is used in remote execution
+   and in such cases not bother transferring back a result?
+
+** PROPOSED Support ipython sessions?
+** PROPOSED Use new R-style session evaluation for other languages
+   Commit 08cdd0557967d69a093b1642a4467e800fe84c4b switched R to a
+   different style of evaluation in the ":session :results value"
+   case. It waits for the output file to be created, rather than for
+   an end-of-output string. One advantage is a less cluttered session
+   buffer. It may be worth investigating this switch for other
+   languages. For example, here's a quick go at moving python in that
+   direction:
+
+#+begin_example 
+    Towards using ob-comint-eval-invisibly-and-wait-for-file for python
+    
+    python-send-region evaluates invisibly, so this commit results in no
+    output to the python buffer. Also needs to be generalised to allow
+    python-mode.
+
+	Modified lisp/ob-python.el
+diff --git a/lisp/ob-python.el b/lisp/ob-python.el
+index 1d2e8f5..a1e58ad 100644
+--- a/lisp/ob-python.el
++++ b/lisp/ob-python.el
+@@ -236,45 +236,34 @@ last statement in BODY, as elisp."
+ If RESULT-TYPE equals 'output then return standard output as a
+ string. If RESULT-TYPE equals 'value then return the value of the
+ last statement in BODY, as elisp."
+-  (flet ((dump-last-value
+-	  (tmp-file pp)
+-	  (mapc
+-	   (lambda (statement) (insert statement) (comint-send-input))
+-	   (if pp
+-	       (list
+-		"import pp"
+-		(format "open('%s', 'w').write(pprint.pformat(_))" tmp-file))
+-	     (list (format "open('%s', 'w').write(str(_))" tmp-file)))))
+-	 (input-body (body)
+-		     (mapc (lambda (statement) (insert statement) (comint-send-input))
+-			   (split-string (org-babel-trim body) "[\r\n]+"))
+-		     (comint-send-input) (comint-send-input)))
+-    (case result-type
+-      (output
+-       (mapconcat
+-	#'org-babel-trim
+-	(butlast
+-	 (org-babel-comint-with-output
+-	     (session org-babel-python-eoe-indicator t body)
+-	   (let ((comint-process-echoes nil))
+-	     (input-body body)
+-	     (insert org-babel-python-eoe-indicator)
+-	     (comint-send-input))) 2) "\n"))
+-      (value
+-       ((lambda (results)
+-	  (if (or (member "code" result-params) (member "pp" result-params))
+-	      results
+-	    (org-babel-python-table-or-string results)))
+-	(let ((tmp-file (org-babel-temp-file "python-results-")))
+-	  (org-babel-comint-with-output
+-	      (session org-babel-python-eoe-indicator t body)
+-	    (let ((comint-process-echoes nil))
+-	      (input-body body)
+-	      (dump-last-value tmp-file (member "pp" result-params))
+-	      (comint-send-input) (comint-send-input)
+-	      (insert org-babel-python-eoe-indicator)
+-	      (comint-send-input)))
+-	  (org-babel-eval-read-file tmp-file)))))))
++  (case result-type
++    (output
++     (mapconcat
++      #'org-babel-trim
++      (butlast
++       (org-babel-comint-with-output
++	   (session org-babel-python-eoe-indicator t body)
++	 (let ((comint-process-echoes nil))
++	   (input-body body)
++	   (insert org-babel-python-eoe-indicator)
++	   (comint-send-input))) 2) "\n"))
++    (value
++     ((lambda (results)
++	(if (or (member "code" result-params) (member "pp" result-params))
++	    results
++	  (org-babel-python-table-or-string results)))
++      (let ((tmp-file (org-babel-temp-file "python-results-")))
++	(with-temp-buffer
++	  (insert body)
++	  (let ((python-buffer session))
++	    (python-send-region (point-min) (point-max))))
++	(org-babel-comint-eval-invisibly-and-wait-for-file
++	 session tmp-file
++	 (if (member "pp" result-params)
++	     (format
++	      "import pp and open('%s', 'w').write(pprint.pformat(_))" tmp-file)
++	   (format "open('%s', 'w').write(str(_))" tmp-file)))
++	(org-babel-eval-read-file tmp-file))))))
+#+end_example
+
 ** PROPOSED remove existing results on nil result
    - State "PROPOSED"   from ""           [2010-09-03 Fri 15:38]
 
@@ -110,6 +231,12 @@ Setup
       '(;; other Babel languages
         (plantuml . t)))
    #+end_src
+
+#+results: subject
+#+BEGIN_LaTeX
+Composing letters using Org mode and the \LaTeX{} isodoc class
+#+END_LaTeX
+
 2) Then [[http://plantuml.sourceforge.net/download.html][download the jar file]] save it somewhere on your system, set
    `org-plantuml-jar-path' to point to this file.
    #+begin_src emacs-lisp
@@ -131,7 +258,8 @@ Usage
     ,[[file:tryout.png]]
   #+end_src
 
-** STARTED Cleaner session evaluation (especially R)
+** DONE Visually cleaner session evaluation for R
+
    - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 10:53]
    - State "PROPOSED"   from ""           [2010-08-23 Mon 13:59]
 
@@ -1696,8 +1824,7 @@ statement will be necessary, whether inserted automatically or not.
 
 ** TODO Octave and Matlab tasks
    - State "TODO"       from ""           [2010-03-30 Tue 10:09]
-
-     From Darlan Cavalcante
+*** From Darlan Cavalcante
 
 If I understood correctly you always save the output to a file using the
 function org-babel-octave-wrapper-method, right? Maybe instead of using
@@ -1733,6 +1860,135 @@ user handle this in the code and just put the link to the file.
 Current solution is imperfect: it involves the matlab process
 signaling completion by removing a lock file rather than using the
 canonical org-babel comint completion functions.
+*** DONE How to detect if result is numeric or string?
+     - State "TODO"       from ""           [2010-03-18 Thu 12:37]
+
+       Strings were being returned as their ascii codes.
+
+       We have adopted Darlan's suggestion of using save -text %s ans
+       (and delting the comment lines), which seems to provide a
+       solution.
+
+#+begin_src octave
+  'octave string'
+#+end_src
+
+#+results:
+: octave string
+
+#+begin_src matlab :dir /ddavison@tombstone.princeton.edu:
+  'string from matlab'
+#+end_src
+
+#+results:
+: 1.1500000e+02   1.1600000e+02   1.1400000e+02   1.0500000e+02   1.1000000e+02   1.0300000e+02   3.2000000e+01   1.0200000e+02   1.1400000e+02   1.1100000e+02   1.0900000e+02   3.2000000e+01   1.0900000e+02   9.7000000e+01   1.1600000e+02   1.0800000e+02   9.7000000e+01   9.8000000e+01
+
+*** TODO How to divert graphical output to file?
+    - State "TODO"       from ""           [2010-03-17 Wed 23:3
+
+      Currently we are like pyuthon and ruby in that we can
+      use :results file and the block will output a link to that file,
+      but unless your code takes care of it (e.g. write graphics to
+      file), no content will be written to that file.
+
+      However, would it be appropriate to move to the org-babel-R model,
+      whereby if :results file is supplied, any graphical is
+      automatically diverted to that file?
+
+*** Related: getting graphical output from octave
+
+In order to get graphical output without leaving open graph windows
+during evaluation, the following can be used:
+
+#+begin_example
+#+begin_src octave :output file :file chart.png
+figure( 1, "visible" , "off" );
+sombrero;
+print -dpng chart.png
+#+end_src
+#+end_example
+
+The =figure= command opens an invisible graph window where the next plot commands should act.
+
+Then, the =print= command exports the graph to a file.
+
+*** TODO Ensure that value is returned when expected
+     - State "TODO"       from ""           [2010-03-18 Thu 13:57]
+
+       In :results value mode, we return whatever value the variable
+       'ans' has at the end of the block. However, there are some
+       problems with this as can be seen from the following session:
+
+#+begin_example
+octave> 'hello'
+ans = hello
+octave> ans
+ans = hello
+octave> x = 19
+x =  19
+octave> x
+x =  19
+octave> ans
+ans = hello
+#+end_example
+
+So although this works as expected:
+
+#+begin_src octave :var z=67
+  z + 0
+#+end_src
+
+#+results:
+: 6.70000000e+01
+
+This doesn't
+
+#+begin_src octave :var z=67
+  z
+#+end_src
+
+#+results:
+: 4.70000000e+01 1.17000000e+02 1.15000000e+02 1.14000000e+02 4.70000000e+01 1.15000000e+02 1.04000000e+02 9.70000000e+01 1.14000000e+02 1.01000000e+02 4.70000000e+01 1.11000000e+02 9.90000000e+01 1.16000000e+02 9.70000000e+01 1.18000000e+02 1.01000000e+02 4.70000000e+01 1.12000000e+02 9.70000000e+01 9.90000000e+01 1.07000000e+02 9.70000000e+01 1.03000000e+02 1.01000000e+02 1.15000000e+02 4.70000000e+01 5.10000000e+01 4.60000000e+01 5.00000000e+01
+
+  As part of its internal operation, org-babel appends a special
+  end-of-output string at the end of each block and it is this
+  string's value (integer ascii codes) that is being returned here.
+
+Of course, this works
+
+#+begin_src octave :var ans=67
+  ans
+#+end_src
+
+#+results:
+: 6.70000000e+01
+
+*** TODO Allow multiple sessions
+    - State "TODO"       from ""           [2010-03-16 Tue 22:12]
+
+*** TODO Should we use these by default to save external process startup time?
+    - State "TODO"       from ""           [2010-03-18 Thu 01:27]
+    - -nodisplay ?
+    - -nojvm ?
+
+*** TODO How to implement :results pp, :results code?
+    - State "TODO"       from ""           [2010-03-18 Thu 01:10]
+
+*** TODO How to get rid of the matlab splash message
+    - State "TODO"       from ""           [2010-03-18 Thu 01:09]
+
+      -nosplash doesn't seem to do the trick.
+
+*** TODO submit patch to matlab.el so that matlab session can be remote
+      - State "TODO"       from ""           [2010-03-18 Thu 01:29]
+
+       	At the moment I'm using a massive hack: insert
+
+   (cd "/ddavison@tombstone.princeton.edu:") ;; DED
+
+   around line 4253 in matlab.el so that my matlab sessions run on a
+   machine with matlab installed.
+
 ** TODO Customize interface
    - State "TODO"       from ""           [2010-03-26 Fri 00:31]
      Make sure we're happy with the customize interface in the
@@ -7032,13 +7288,27 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
     
-* Bugs [84/108]
-** TODO Non-elisp is getting into elisp tangle with org-babel-load-file
+* Bugs [87/109]
+** DONE can't evaluate org block on export
+   - State "DONE"       from "TODO"       [2010-09-19 Sun 10:52]
+   - State "TODO"       from ""           [2010-09-17 Fri 10:12]
+
+This involves nested calls to the org exporter which breaks because
+the temporary buffer name =org-mode-tmp= is hard-coded in
+`org-export-preprocess-string'.
+
+For now the solution here is to *not* set the =:results= header
+argument of the org code block, which will result in the code block
+safely evaluating without requiring an Org-mode export, then the
+content of the code block will export successfully with the rest of
+the org-mode file.
+
+** DONE Non-elisp is getting into elisp tangle with org-babel-load-file
+   - State "DONE"       from "TODO"       [2010-09-18 Sat 13:25]
    - State "TODO"       from ""           [2010-09-05 Sun 20:26]
 
 org-babel-load-file on a file containing the following:
 
----------------------------------
 *** elisp
 #+begin_src emacs-lisp
 (setq dan 'here)
@@ -7048,8 +7318,9 @@ org-babel-load-file on a file containing the following:
 #+begin_src R
 "This shouldn't get into the elisp tangle output"
 #+end_src
---------------------------------
-** TODO different properties when exporting than when manually evaluating
+
+** DONE different properties when exporting than when manually evaluating
+   - State "DONE"       from "TODO"       [2010-09-18 Sat 20:01]
    - State "TODO"       from ""           [2010-08-25 Wed 12:04]
 Thanks to Tom Short for pointing this out.
 [[gnus:lists.babel#loom.20100819T225748-321@post.gmane.org][Email from Tom Short: {Orgmode} Re: {babel} exports,]]
@@ -7057,6 +7328,33 @@ Thanks to Tom Short for pointing this out.
 So for example see [[file:scraps.org::*looks%20like%20this%20is%20a%20problem%20with%20info%20collection][looks like this is a problem with info collection]]
 in the scraps.org buffer.  It output different values on export and on
 manual execution.
+
+Two different issues here,
+
+1) First, the order of the arguments to header arguments may vary,
+   however `org-babel-sha1-hash' now controls for this as of this
+   commit.
+   : commit fbb828a1077d4d8879b00beab2923876d93416e7
+   : Author: Eric Schulte <schulte.eric@gmail.com>
+   : Date:   Sat Sep 18 14:02:33 2010 -0400
+   : 
+   :     ob: hash construction invariant to order of header arguments
+2) Second, when exporting from a narrowed region, any header arguments
+   specified outside of the region are not collected, because only the
+   narrowed region is coppied to the temporary export buffer.  This
+   requires some complicated jumping back to the original file to
+   collect header arguments during export, implemented as of this
+   commit
+   : commit efdf78172d9f7c0070c781d136a9b49a2a56fcc4
+   : Author: Eric Schulte <schulte.eric@gmail.com>
+   : Date:   Sat Sep 18 19:01:49 2010 -0600
+   : 
+   :     ob-exp: resolving code block parameters in the original file on export
+   :     
+   :     * lisp/ob-exp.el (org-babel-exp-src-blocks): now switching back to the
+   :       original file before resolving code block parameters to ensure
+   :       headline and buffer wide parameters are taken into consideration
+   :       when only a narrowed portion of the file is exported
 
 ** TODO shell sessions hang in many cases
    - State "TODO"       from ""           [2010-08-25 Wed 11:24]

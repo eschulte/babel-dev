@@ -1,0 +1,29 @@
+---
+title: PROPOSED results none header arg?
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> results none header arg? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-09-16 Thu 06:28</span></span>
+
+</li>
+</ul>
+
+<p>I have some blocks which I'm executing in a remote session purely
+for their side effects (defining functions in the session). Rather
+than wait for the tramp machinery to transfer an empty results file
+back to local, I'm wondering whether a new header arg :results none
+might make sense.
+</p>
+<p>
+This seems a near duplicate of the results <code>silent</code> header
+argument.  Maybe <code>none</code> should just be an alias for <code>silent</code>.  Or
+maybe <code>silent</code> should notice when it is used in remote execution
+and in such cases not bother transferring back a result?
+</p></div>
+</div>

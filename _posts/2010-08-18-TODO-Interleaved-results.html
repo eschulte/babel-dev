@@ -27,26 +27,24 @@ commands. This requires:
 <li>
 implementation for :session
 
-</li>
-</ul>
-
-<p>(in principle sounds not hard, as it involves <b>not</b> doing something
+<p>
+(in principle sounds not hard, as it involves <b>not</b> doing something
 (i.e. not removing commands from comint output)).
 </p>
-<ul>
+</li>
 <li>
 implementation for other external interpreter processes
 
-</li>
-</ul>
-
-<p>For bash, it's somewhat similar to 'bash -x'. I looked at man python
+<p>
+For bash, it's somewhat similar to 'bash -x'. I looked at man python
 and didn't see anything; perhaps it is accomplished by modifying the
 output stream when python is running rather than as a command line
 option to the interpreter. ruby? etc.
 </p>
-<p>
-R :results output external interpreter process implementation:
+</li>
+</ul>
+
+<p>R :results output external interpreter process implementation:
 </p>
 <p>
 (setq org-babel-R-command "R &ndash;silent &ndash;no-save")

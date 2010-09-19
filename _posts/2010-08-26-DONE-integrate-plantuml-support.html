@@ -30,22 +30,27 @@ or through the customization interface.
 
 
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">active Org-babel languages
-</span>(org-babel-do-load-languages
+</span><span class="org-esk-paren">(</span>org-babel-do-load-languages
  'org-babel-load-languages
- '(<span class="org-comment-delimiter">;; </span><span class="org-comment">other Babel languages
-</span>   (plantuml . t)))
+ '<span class="org-esk-paren">(</span><span class="org-comment-delimiter">;; </span><span class="org-comment">other Babel languages
+</span>   <span class="org-esk-paren">(</span>plantuml . t<span class="org-esk-paren">)))</span>
 </pre>
 
 
+
 </li>
+</ol>
+
+
+<ol>
 <li>
 Then <a href="http://plantuml.sourceforge.net/download.html">download the jar file</a> save it somewhere on your system, set
 `org-plantuml-jar-path' to point to this file.
 
 
 
-<pre class="src src-emacs-lisp">(setq org-plantuml-jar-path
-      (expand-file-name <span class="org-string">"~/src/org/contrib/scripts/plantuml.jar"</span>))
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>setq org-plantuml-jar-path
+      <span class="org-esk-paren">(</span>expand-file-name <span class="org-string">"~/src/org/contrib/scripts/plantuml.jar"</span><span class="org-esk-paren">))</span>
 </pre>
 
 

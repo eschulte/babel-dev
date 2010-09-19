@@ -1,0 +1,68 @@
+---
+title: DONE different properties when exporting than when manually evaluating
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> different properties when exporting than when manually evaluating </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "TODO" <span class="timestamp-wrapper"> <span class="timestamp">2010-09-18 Sat 20:01</span></span>
+</li>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-08-25 Wed 12:04</span></span>
+</li>
+</ul>
+
+<p>Thanks to Tom Short for pointing this out.
+<i>&lt;gnus:lists.babel#loom.20100819T225748-321@post.gmane.org&gt;</i>
+</p>
+<p>
+So for example see <a href="scraps.html">looks like this is a problem with info collection</a>
+in the scraps.org buffer.  It output different values on export and on
+manual execution.
+</p>
+<p>
+Two different issues here,
+</p>
+<ol>
+<li>
+First, the order of the arguments to header arguments may vary,
+however `org-babel-sha1-hash' now controls for this as of this
+commit.
+<pre class="example">
+commit fbb828a1077d4d8879b00beab2923876d93416e7
+Author: Eric Schulte &lt;schulte.eric@gmail.com&gt;
+Date:   Sat Sep 18 14:02:33 2010 -0400
+
+    ob: hash construction invariant to order of header arguments
+</pre>
+
+</li>
+<li>
+Second, when exporting from a narrowed region, any header arguments
+specified outside of the region are not collected, because only the
+narrowed region is coppied to the temporary export buffer.  This
+requires some complicated jumping back to the original file to
+collect header arguments during export, implemented as of this
+commit
+<pre class="example">
+commit efdf78172d9f7c0070c781d136a9b49a2a56fcc4
+Author: Eric Schulte &lt;schulte.eric@gmail.com&gt;
+Date:   Sat Sep 18 19:01:49 2010 -0600
+
+    ob-exp: resolving code block parameters in the original file on export
+    
+    * lisp/ob-exp.el (org-babel-exp-src-blocks): now switching back to the
+      original file before resolving code block parameters to ensure
+      headline and buffer wide parameters are taken into consideration
+      when only a narrowed portion of the file is exported
+</pre>
+
+</li>
+</ol>
+
+</div>
+</div>

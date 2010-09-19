@@ -52,11 +52,11 @@ Line 1632 in python.el
 </p>
 
 
-<pre class="src src-emacs-lisp">(<span class="org-keyword">with-current-buffer</span> (process-buffer (python-proc))
+<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">with-current-buffer</span> <span class="org-esk-paren">(</span>process-buffer <span class="org-esk-paren">(</span>python-proc<span class="org-esk-paren">))</span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Tell compile.el to redirect error locations in file `f' to
 </span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">positions past marker `</span><span class="org-comment"><span class="org-constant">orig-start</span></span><span class="org-comment">'.  It has to be done *after*
 </span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">`</span><span class="org-comment"><span class="org-constant">python-send-command</span></span><span class="org-comment">''s call to `</span><span class="org-comment"><span class="org-constant">compilation-forget-errors</span></span><span class="org-comment">'.
-</span>  (compilation-fake-loc orig-start f))
+</span>  <span class="org-esk-paren">(</span>compilation-fake-loc orig-start f<span class="org-esk-paren">))</span>
 </pre>
 
 

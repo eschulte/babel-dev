@@ -10,12 +10,17 @@ layout: default
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-30 Tue 10:09</span></span>
-
 </li>
 </ul>
 
-<p>From Darlan Cavalcante
-</p>
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">From Darlan Cavalcante </h3>
+<div class="outline-text-3" id="text-1_1">
+
+
 <p>
 If I understood correctly you always save the output to a file using the
 function org-babel-octave-wrapper-method, right? Maybe instead of using
@@ -48,12 +53,13 @@ Regarding the graphical output, It is probably better to use :results file
 as suggested in the TODO. There may be necessary a lot of details in the
 graphic output such as labels, setting axis, etc.. It is better to let the
 user handle this in the code and just put the link to the file. 
-</p>
+</p></div>
+
 </div>
 
-<div id="outline-container-1_1" class="outline-3">
-<h3 id="sec-1_1"><span class="done DONE"> DONE</span> Get matlab "Emacs Link" working </h3>
-<div class="outline-text-3" id="text-1_1">
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="done DONE"> DONE</span> Get matlab "Emacs Link" working </h3>
+<div class="outline-text-3" id="text-1_2">
 
 <ul>
 <li>
@@ -68,6 +74,272 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <p>Current solution is imperfect: it involves the matlab process
 signaling completion by removing a lock file rather than using the
 canonical org-babel comint completion functions.
+</p></div>
+
+</div>
+
+<div id="outline-container-1_3" class="outline-3">
+<h3 id="sec-1_3"><span class="done DONE"> DONE</span> How to detect if result is numeric or string? </h3>
+<div class="outline-text-3" id="text-1_3">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 12:37</span></span>
+
+<p>
+Strings were being returned as their ascii codes.
+</p>
+<p>
+We have adopted Darlan's suggestion of using save -text %s ans
+(and delting the comment lines), which seems to provide a
+solution.
+</p>
+</li>
+</ul>
+
+
+
+
+<pre class="src src-octave">'octave string'
+</pre>
+
+
+
+
+
+<pre class="src src-matlab">'string from matlab'
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_4" class="outline-3">
+<h3 id="sec-1_4"><span class="todo TODO"> TODO</span> How to divert graphical output to file? </h3>
+<div class="outline-text-3" id="text-1_4">
+
+<ul>
+<li>
+State "TODO"       from ""           [2010-03-17 Wed 23:3
+
+<p>
+Currently we are like pyuthon and ruby in that we can
+use :results file and the block will output a link to that file,
+but unless your code takes care of it (e.g. write graphics to
+file), no content will be written to that file.
+</p>
+<p>
+However, would it be appropriate to move to the org-babel-R model,
+whereby if :results file is supplied, any graphical is
+automatically diverted to that file?
+</p></li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_5" class="outline-3">
+<h3 id="sec-1_5">Related: getting graphical output from octave </h3>
+<div class="outline-text-3" id="text-1_5">
+
+
+<p>
+In order to get graphical output without leaving open graph windows
+during evaluation, the following can be used:
+</p>
+
+
+
+<pre class="example">#+begin_src octave :output file :file chart.png
+figure( 1, "visible" , "off" );
+sombrero;
+print -dpng chart.png
+#+end_src
+</pre>
+
+
+
+<p>
+The <code>figure</code> command opens an invisible graph window where the next plot commands should act.
+</p>
+<p>
+Then, the <code>print</code> command exports the graph to a file.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1_6" class="outline-3">
+<h3 id="sec-1_6"><span class="todo TODO"> TODO</span> Ensure that value is returned when expected </h3>
+<div class="outline-text-3" id="text-1_6">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 13:57</span></span>
+
+<p>
+In :results value mode, we return whatever value the variable
+'ans' has at the end of the block. However, there are some
+problems with this as can be seen from the following session:
+</p>
+</li>
+</ul>
+
+
+
+
+<pre class="example">octave&gt; 'hello'
+ans = hello
+octave&gt; ans
+ans = hello
+octave&gt; x = 19
+x =  19
+octave&gt; x
+x =  19
+octave&gt; ans
+ans = hello
+</pre>
+
+
+
+<p>
+So although this works as expected:
+</p>
+
+
+
+<pre class="src src-octave">z + 0
+</pre>
+
+
+
+
+<p>
+This doesn't
+</p>
+
+
+
+<pre class="src src-octave">z
+</pre>
+
+
+
+
+<p>
+As part of its internal operation, org-babel appends a special
+end-of-output string at the end of each block and it is this
+string's value (integer ascii codes) that is being returned here.
+</p>
+<p>
+Of course, this works
+</p>
+
+
+
+<pre class="src src-octave"><span class="org-variable-name">ans</span>
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_7" class="outline-3">
+<h3 id="sec-1_7"><span class="todo TODO"> TODO</span> Allow multiple sessions </h3>
+<div class="outline-text-3" id="text-1_7">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 22:12</span></span>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_8" class="outline-3">
+<h3 id="sec-1_8"><span class="todo TODO"> TODO</span> Should we use these by default to save external process startup time? </h3>
+<div class="outline-text-3" id="text-1_8">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 01:27</span></span>
+</li>
+<li>
+-nodisplay ?
+</li>
+<li>
+-nojvm ?
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_9" class="outline-3">
+<h3 id="sec-1_9"><span class="todo TODO"> TODO</span> How to implement :results pp, :results code? </h3>
+<div class="outline-text-3" id="text-1_9">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 01:10</span></span>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_10" class="outline-3">
+<h3 id="sec-1_10"><span class="todo TODO"> TODO</span> How to get rid of the matlab splash message </h3>
+<div class="outline-text-3" id="text-1_10">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 01:09</span></span>
+
+<p>
+-nosplash doesn't seem to do the trick.
+</p></li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_11" class="outline-3">
+<h3 id="sec-1_11"><span class="todo TODO"> TODO</span> submit patch to matlab.el so that matlab session can be remote </h3>
+<div class="outline-text-3" id="text-1_11">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 01:29</span></span>
+
+<p>
+At the moment I'm using a massive hack: insert
+</p>
+</li>
+</ul>
+
+<p>(cd "/ddavison@tombstone.princeton.edu:") ;; DED
+</p>
+<p>
+around line 4253 in matlab.el so that my matlab sessions run on a
+machine with matlab installed.
 </p></div>
 </div>
 </div>
