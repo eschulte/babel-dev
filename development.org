@@ -1356,6 +1356,9 @@ note that the actual exportation is handled in org-exp.el (see
 ** TODO don't require named arguments
    - State "TODO"       from "TODO"       [2010-06-08 Tue 11:52]
    - State "TODO"       from ""           [2010-06-08 Tue 11:49]
+   :PROPERTIES:
+   :ID:       2388ad29-e6f3-4ee5-9833-23cbdc95b23a
+   :END:
 
 The requirement for named arguments is a little overmuch, when the
 argument can be inferred form the order in which they're received.
