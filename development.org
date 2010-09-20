@@ -3,7 +3,26 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/179]
+* Tasks [94/180]
+** TODO org-babel-lob-add-function
+   - State "TODO"       from ""           [2010-09-19 Sun 21:43]
+
+In the spirit of =org-agenda-file-to-front= add a new function for
+adding lob files, =org-babel-lob-add=.  This should work similarly to
+the agenda-files function, and should not require any hand written
+customization files.
+
+This will probably come in the form of org-babel-lob-add and
+org-babel-lob-remove functions, and a new org-babel-lob-files
+variable.
+
+Now I just need to figure out how to load up these files when Org-mode
+is first initialized.  The simplest solution may be to ask the user to
+place a call to org-babel-lob-initialize or somesuch in their .emacs
+file.
+
+Thanks to Aidan Gauland and Jambunathan K. for the suggestion
+
 ** TODO resolve references before cache calculation
    - State "TODO"       from ""           [2010-09-19 Sun 15:09]
 
