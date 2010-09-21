@@ -1,0 +1,30 @@
+---
+title: TODO resolve references before cache calculation
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo TODO"> TODO</span> resolve references before cache calculation </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-09-19 Sun 15:09</span></span>
+
+</li>
+</ul>
+
+<p>In order to re-run cached code blocks when the values of their
+variables have changed we will need to resolve variables in ob.el
+before hash calculation.  This could significantly cleanup the code by
+moving all variable resolution into ob.el and out of language-specific
+files.
+</p>
+<p>
+This will require a change to <code>org-babel-get-src-block-info</code>, adding a
+new optional argument (or re-using <code>HEADER-VARS-ONLY</code>) to inhibit the
+full expansion of parameters and of variables in certain cases,
+e.g. during export when the code block exists in a temporary export
+buffer which may not contain the entire org-mode file.
+</p></div>
+</div>

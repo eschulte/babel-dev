@@ -3,7 +3,72 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/178]
+* Tasks [94/181]
+** TODO wrap results in environment on export
+   - State "TODO"       from ""           [2010-09-21 Tue 07:10]
+
+Suggested by Sébastien Vauban
+#+begin_verse
+: >>> Would you mind creating an LaTeX environment around the =results= block, so
+: >>> that we could have the code colorized (via listings or Minted), and clearly
+: >>> distinguish the results, if we want so.
+: >>>
+: >>> Having an environment would allow one to use non-proportional font for the
+: >>> results, or a shadowed background, or...
+: >>
+: >> Would such an environment be in addition too or in place of wrapping results
+: >> in the example environment?
+: >
+: > I would think of something like this:
+: >
+: > \begin{orgresults}
+: > <... results block ...>
+: > \end{orgresults}
+: >
+: > so that one can customize the =orgresults= environment in LaTeX to get a
+: > colored background, another font, etc.
+: >
+: >
+: >> What would you suggest for tabular results?
+: >
+: > Nothing different for tables: just the same plain default environment around
+: > the results part.  
+#+end_verse
+
+** TODO org-babel-lob-add-function
+   - State "TODO"       from ""           [2010-09-19 Sun 21:43]
+
+In the spirit of =org-agenda-file-to-front= add a new function for
+adding lob files, =org-babel-lob-add=.  This should work similarly to
+the agenda-files function, and should not require any hand written
+customization files.
+
+This will probably come in the form of org-babel-lob-add and
+org-babel-lob-remove functions, and a new org-babel-lob-files
+variable.
+
+Now I just need to figure out how to load up these files when Org-mode
+is first initialized.  The simplest solution may be to ask the user to
+place a call to org-babel-lob-initialize or somesuch in their .emacs
+file.
+
+Thanks to Aidan Gauland and Jambunathan K. for the suggestion
+
+** TODO resolve references before cache calculation
+   - State "TODO"       from ""           [2010-09-19 Sun 15:09]
+
+In order to re-run cached code blocks when the values of their
+variables have changed we will need to resolve variables in ob.el
+before hash calculation.  This could significantly cleanup the code by
+moving all variable resolution into ob.el and out of language-specific
+files.
+
+This will require a change to =org-babel-get-src-block-info=, adding a
+new optional argument (or re-using =HEADER-VARS-ONLY=) to inhibit the
+full expansion of parameters and of variables in certain cases,
+e.g. during export when the code block exists in a temporary export
+buffer which may not contain the entire org-mode file.
+
 ** PROPOSED integrate tangling with org export functionality
    - State "PROPOSED"   from ""           [2010-09-17 Fri 09:31]
 
@@ -1322,6 +1387,9 @@ note that the actual exportation is handled in org-exp.el (see
 ** TODO don't require named arguments
    - State "TODO"       from "TODO"       [2010-06-08 Tue 11:52]
    - State "TODO"       from ""           [2010-06-08 Tue 11:49]
+   :PROPERTIES:
+   :ID:       2388ad29-e6f3-4ee5-9833-23cbdc95b23a
+   :END:
 
 The requirement for named arguments is a little overmuch, when the
 argument can be inferred form the order in which they're received.
