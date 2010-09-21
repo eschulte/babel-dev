@@ -12,7 +12,7 @@
 ******* R
 ********* code
 #+source: dir-test-R
-#+begin_src R 
+#+begin_src R :eval no
   date()
   system("hostname")
   getwd()
@@ -24,7 +24,7 @@
 #+end_src
 
 #+results:
-: [1] "Mon Sep 20 23:33:07 2010"
+: [1] "Tue Sep 21 22:55:13 2010"
 : Luscinia
 : [1] "/tmp"
       
@@ -41,7 +41,7 @@
 ******* ruby
 ********* code
 #+source: dir-test-ruby
-#+begin_src ruby
+#+begin_src ruby :eval no
 system("date")
 system("hostname")
 system("pwd")
@@ -73,7 +73,7 @@ system("pwd")
 ******* python
 ********* code
 #+source: dir-test-python
-#+begin_src python
+#+begin_src python :eval no
   import os, time
   print time.ctime()
   print os.uname()
@@ -104,7 +104,7 @@ system("pwd")
 ******* shell
 ********* code
 #+source: dir-test-shell
-#+begin_src sh
+#+begin_src sh :eval no
   date
   hostname
   pwd
@@ -277,7 +277,7 @@ into matlab-shell.
 ******* perl
 ********* code
 #+source: dir-test-perl
-#+begin_src perl
+#+begin_src perl :eval no
   system("date");
   system("hostname");
   system("pwd");
@@ -354,7 +354,7 @@ ans =
 ******* R
 ********* code
 #+source: dir-test-R-value
-#+begin_src R 
+#+begin_src R :eval no
   c(date(), system("hostname", intern=TRUE), getwd())
 #+end_src
 
@@ -379,7 +379,7 @@ ans =
 ******* ruby
 ********* code
 #+source: dir-test-ruby-value
-#+begin_src ruby
+#+begin_src ruby :eval no
   [1, 2]
 #+end_src
 
@@ -402,7 +402,7 @@ ans =
 ******* python
 ********* code
 #+source: dir-test-python-value
-#+begin_src python
+#+begin_src python :eval no
   import os, time
   [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
@@ -424,7 +424,7 @@ ans =
 ******* shell
 ********* code
 #+source: dir-test-shell-value
-#+begin_src sh
+#+begin_src sh :eval no
   echo This is the first line
   echo There should have been a line before me
   echo `hostname`
@@ -455,7 +455,6 @@ ans =
 
 #+results:
 : 300763
-
 
 ********* string
 #+begin_src octave :session *babel-octave*
@@ -554,7 +553,7 @@ x+0
 ******* python
 ********* code
 #+source: dir-test-python-value-nonsession
-#+begin_src python
+#+begin_src python :eval no
   import os, time
   return [time.ctime(), os.uname(),os.getcwd()]
 #+end_src
@@ -606,11 +605,11 @@ x+0
 | /home/davison/bench |        |      |       |      |       |        |    |
 | There               | should | be   | a     | line | after | me     |    |
 | This                | is     | the  | last  | line |       |        |    |
-
+  
 ******* perl
 ********* code
 #+source: dir-test-perl-value
-#+begin_src perl :results value
+#+begin_src perl :results value :eval no
 (`date`,`hostname`,`pwd`) ;
 #+end_src
 
@@ -648,7 +647,7 @@ x+0
 |                              |     |   |          |     |      |
 ******* clojure
 ********* code
-#+begin_src clojure
+#+begin_src clojure :eval no
   (+ 2 2)
 #+end_src
 ********* local
