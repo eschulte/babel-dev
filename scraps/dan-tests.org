@@ -24,7 +24,7 @@
 #+end_src
 
 #+results:
-: [1] "Tue Sep 21 22:55:13 2010"
+: [1] "Tue Sep 21 23:08:11 2010"
 : Luscinia
 : [1] "/tmp"
       
@@ -34,7 +34,7 @@
 #+end_src
 
 #+results:
-: [1] "Mon Sep 20 23:35:31 2010"
+: [1] "Tue Sep 21 23:08:21 2010"
 : oak
 : [1] "/data/oak/user/davison/bench"
 
@@ -53,7 +53,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Mon Sep 20 23:35:47 BST 2010
+: Tue Sep 21 23:08:41 BST 2010
 : true
 : Luscinia
 : true
@@ -65,7 +65,7 @@ system("pwd")
 #+end_src
 
 #+results:
-: Mon Sep 20 18:33:23 EDT 2010
+: Tue Sep 21 18:05:52 EDT 2010
 : true
 : yakuba.princeton.edu
 : true
@@ -87,7 +87,7 @@ system("pwd")
 
 #+results:
 : 
-: Mon Sep 20 23:36:43 2010
+: Tue Sep 21 23:09:07 2010
 : ('Linux', 'Luscinia', '2.6.35-21-generic', '#31-Ubuntu SMP Mon Sep 13 22:39:43 UTC 2010', 'i686')
 : /home/dan
 ********* remote
@@ -97,7 +97,7 @@ system("pwd")
 
 #+results:
 : 
-: Mon Sep 20 23:36:59 2010
+: Tue Sep 21 23:09:19 2010
 : ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
 : /data/oak/user/davison/bench
 
@@ -202,7 +202,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: [1] "Mon Sep 20 23:48:36 2010"
+: [1] "Tue Sep 21 22:58:18 2010"
 : Luscinia
 : [1] "/home/dan"
 ********* remote
@@ -211,7 +211,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: [1] "Mon Sep 20 22:48:59 2010"
+: [1] "Tue Sep 21 21:58:39 2010"
 : oak
 : [1] "/data/oak/user/davison/bench"
 
@@ -222,7 +222,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: Mon Sep 20 23:49:04 BST 2010
+: Tue Sep 21 22:58:42 BST 2010
 : Luscinia
 : /home/dan
 ********* remote
@@ -231,7 +231,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: Mon Sep 20 22:46:07 UTC 2010
+: Tue Sep 21 21:55:50 UTC 2010
 : yakuba.princeton.edu
 : /data/dan
 ******* python
@@ -241,7 +241,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: Mon Sep 20 23:49:24 2010
+: Tue Sep 21 22:58:58 2010
 : ('Linux', 'Luscinia', '2.6.35-21-generic', '#31-Ubuntu SMP Mon Sep 13 22:39:43 UTC 2010', 'i686')
 : /home/dan
 ********* remote
@@ -250,8 +250,8 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: cd: 104: can't cd to bench/
-: Mon Sep 20 22:49:36 2010
+: cd: 59: can't cd to bench/
+: Tue Sep 21 21:59:00 2010
 : ('Linux', 'oak', '2.6.28-15-server', '#52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009', 'x86_64')
 : /data/oak/user/davison/bench
 ******* shell
@@ -261,7 +261,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: Mon Sep 20 23:51:08 BST 2010
+: Tue Sep 21 22:59:01 BST 2010
 : Luscinia
 : /tmp
 ********* remote
@@ -270,8 +270,8 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: cd: 151: can't cd to bench/
-: Mon Sep 20 22:51:21 UTC 2010
+: cd: 153: can't cd to bench/
+: Tue Sep 21 22:06:20 UTC 2010
 : oak
 : /home/davison/bench
 ******* perl
@@ -288,7 +288,7 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: Mon Sep 20 23:51:27 BST 2010
+: Tue Sep 21 22:59:05 BST 2010
 : Luscinia
 : /tmp
 
@@ -298,8 +298,8 @@ into matlab-shell.
 #+end_src
 
 #+results:
-: cd: 174: can't cd to bench/
-: Mon Sep 20 22:51:35 UTC 2010
+: cd: 105: can't cd to bench/
+: Tue Sep 21 21:59:07 UTC 2010
 : oak
 : /data/oak/user/davison/bench
 ******* WORKS matlab
@@ -364,7 +364,7 @@ ans =
 #+end_src
 
 #+results:
-| Mon Sep 20 23:53:48 2010 |
+| Tue Sep 21 23:13:06 2010 |
 | Luscinia                 |
 | /tmp                     |
 ********* remote
@@ -373,7 +373,7 @@ ans =
 #+end_src
 
 #+results:
-| Mon Sep 20 23:55:42 2010     |
+| Tue Sep 21 23:13:11 2010     |
 | oak                          |
 | /data/oak/user/davison/bench |
 ******* ruby
@@ -413,14 +413,14 @@ ans =
 #+end_src
 
 #+results:
-| Mon Sep 20 23:57:09 2010 | (Linux Luscinia 2.6.35-21-generic #31-Ubuntu SMP Mon Sep 13 22:39:43 UTC 2010 i686) | /home/dan |
+| Tue Sep 21 23:14:09 2010 | (Linux Luscinia 2.6.35-21-generic #31-Ubuntu SMP Mon Sep 13 22:39:43 UTC 2010 i686) | /home/dan |
 ********* remote
 #+begin_src python :session python-remote :dir /davison@oak.well.ox.ac.uk:bench
 <<dir-test-python-value>>
 #+end_src
 
 #+results:
-| Mon Sep 20 23:57:16 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+| Tue Sep 21 23:14:16 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
 ******* shell
 ********* code
 #+source: dir-test-shell-value
@@ -439,13 +439,19 @@ ans =
   <<dir-test-shell-value>>
 #+end_src
 
-********* DOESN'T_WORK remote
+********* WORKS remote
 #+begin_src sh :session sh-remote :dir /davison@oak.well.ox.ac.uk:bench :results vector
   <<dir-test-shell-value>>
 #+end_src
 
 #+results:
-| This is the last line |
+| This                | is     | the  | first | line |       |        |    |
+| There               | should | have | been  | a    | line  | before | me |
+| oak                 |        |      |       |      |       |        |    |
+| /home/davison/bench |        |      |       |      |       |        |    |
+| There               | should | be   | a     | line | after | me     |    |
+| This                | is     | the  | last  | line |       |        |    |
+
 ******* perl : NA
 ******* WORKS octave
 ********* WORKS numeric
@@ -478,7 +484,6 @@ x+0
 
 #+results:
 | 1 | 2 | 3 |
-
 
 #+begin_src octave :session :var x=octave-test-mat
 x+0
@@ -519,19 +524,16 @@ x+0
 #+end_src
 
 #+results:
-| Mon Aug 30 09:02:57 2010 |
+| Tue Sep 21 23:16:33 2010 |
 | Luscinia                 |
 | /home/dan                |
 ********* remote
 #+begin_src R :dir /davison@oak.well.ox.ac.uk:~
   <<dir-test-R-value>>
-  ## system("date >> /tmp/babel-R")
-  ## system("echo hello-from-R >> /tmp/babel-R")
-  ## system("hostname")
 #+end_src
 
 #+results:
-| Mon Aug 30 16:03:10 2010 |
+| Tue Sep 21 22:16:49 2010 |
 | oak                      |
 | /home/davison            |
 ******* ruby
@@ -542,14 +544,16 @@ x+0
 
 #+results:
 | 1 | 2 |
+
 ********* remote
 	  Runs remotely, but no results returned
-#+begin_src ruby :dir /yakuba:
+#+begin_src ruby :dir /dan@yakuba.princeton.edu:
   [1,2]
 #+end_src
 
 #+results:
 | 1 | 2 |
+
 ******* python
 ********* code
 #+source: dir-test-python-value-nonsession
@@ -564,7 +568,7 @@ x+0
 #+end_src
 
 #+results:
-| Tue Sep  7 21:54:22 2010 | (Linux Luscinia 2.6.35-19-generic #28-Ubuntu SMP Sun Aug 29 06:36:51 UTC 2010 i686) | /home/dan |
+| Tue Sep 21 23:17:52 2010 | (Linux Luscinia 2.6.35-21-generic #31-Ubuntu SMP Mon Sep 13 22:39:43 UTC 2010 i686) | /home/dan |
 ********* remote
 	  Runs remotely but no results returned
 #+begin_src python :dir /davison@oak.well.ox.ac.uk:bench
@@ -572,7 +576,7 @@ x+0
 #+end_src
 
 #+results:
-| Sun Feb 21 06:11:10 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
+| Tue Sep 21 22:17:58 2010 | (Linux oak 2.6.28-15-server #52-Ubuntu SMP Wed Sep 9 11:34:09 UTC 2009 x86_64) | /data/oak/user/davison/bench |
 ******* shell
 ********* local
 #+begin_src sh :dir /tmp
@@ -599,12 +603,13 @@ x+0
 #+end_src
 
 #+results:
-| This                | is     | the  | first | line |       |        |    |
-| There               | should | have | been  | a    | line  | before | me |
-| oak                 |        |      |       |      |       |        |    |
-| /home/davison/bench |        |      |       |      |       |        |    |
-| There               | should | be   | a     | line | after | me     |    |
-| This                | is     | the  | last  | line |       |        |    |
+| cd:                 | 201:   | can't | cd    | to   | bench/ |        |    |
+| This                | is     | the   | first | line |        |        |    |
+| There               | should | have  | been  | a    | line   | before | me |
+| oak                 |        |       |       |      |        |        |    |
+| /home/davison/bench |        |       |       |      |        |        |    |
+| There               | should | be    | a     | line | after  | me     |    |
+| This                | is     | the   | last  | line |        |        |    |
   
 ******* perl
 ********* code
@@ -613,25 +618,18 @@ x+0
 (`date`,`hostname`,`pwd`) ;
 #+end_src
 
-#+results: dir-test-perl-value
-| Wed                 | Mar | 3 | 15:14:59 | GMT | 2010 |
-|                     |     |   |          |     |      |
-| Luscinia            |     |   |          |     |      |
-|                     |     |   |          |     |      |
-| /home/dan/babel-dev |     |   |          |     |      |
-|                     |     |   |          |     |      |
 ********* local
 #+begin_src perl :dir /tmp
 <<dir-test-perl-value>>
 #+end_src
 
 #+results:
-| Wed      | Mar | 3 | 16:01:51 | GMT | 2010 |
-|          |     |   |          |     |      |
-| Luscinia |     |   |          |     |      |
-|          |     |   |          |     |      |
-| /tmp     |     |   |          |     |      |
-|          |     |   |          |     |      |
+: Tue Sep 21 23:18:28 BST 2010
+: 
+: Luscinia
+: 
+: /tmp
+: 
 
 ********* remote
 #+begin_src perl :dir /davison@oak.well.ox.ac.uk:bench
@@ -639,12 +637,12 @@ x+0
 #+end_src
 
 #+results:
-| Wed                          | Mar | 3 | 16:07:08 | UTC | 2010 |
-|                              |     |   |          |     |      |
-| oak                          |     |   |          |     |      |
-|                              |     |   |          |     |      |
-| /data/oak/user/davison/bench |     |   |          |     |      |
-|                              |     |   |          |     |      |
+: Tue Sep 21 22:18:52 UTC 2010
+: 
+: oak
+: 
+: /data/oak/user/davison/bench
+: 
 ******* clojure
 ********* code
 #+begin_src clojure :eval no
@@ -657,6 +655,7 @@ x+0
 
 #+results:
 : 4
+
 ********* remote
 (setq swank-clojure-binary "/home/dan/bin/clojure")
 
@@ -665,7 +664,7 @@ x+0
 #+end_src
 
 #+results:
-: 35
+
 #+begin_src clojure :dir /ssh:localhost:
   (+ 2 2)
 #+end_src
@@ -732,7 +731,7 @@ mkdir -p /tmp/images
 #+end_src
 
 #+results: ditaa-dir-eg
-[[file:/tmp/My ditaa.png]]
+[[file:/tmp/"My ditaa.png"]]
 
 ***** latex
 #+source: latex-dir-eg
