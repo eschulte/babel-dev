@@ -7,7 +7,7 @@
 ** TODO wrap results in environment on export
    - State "TODO"       from ""           [2010-09-21 Tue 07:10]
 
-Suggested by Sébastien Vauban
+Suggested by Sébastien Vauban (see [[http://thread.gmane.org/gmane.emacs.orgmode/30512/focus=30705][gmane]])
 #+begin_verse
 : >>> Would you mind creating an LaTeX environment around the =results= block, so
 : >>> that we could have the code colorized (via listings or Minted), and clearly
