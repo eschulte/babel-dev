@@ -54,6 +54,23 @@ file.
 
 Thanks to Aidan Gauland and Jambunathan K. for the suggestion
 
+a suggestion from Jambunathan
+#+begin_verse 
+: That 'sounds' like a new #+STARTUP directive to me ... 
+: 
+: 
+: ,----[ C-h v org-startup-options RET ]
+: | org-startup-options is a variable defined in `org.el'.
+: |
+: | Documentation:
+: | Variable associated with STARTUP options for org-mode.
+: | Each element is a list of three items: The startup options as written
+: | in the #+STARTUP line, the corresponding variable, and the value to
+: | set this variable to if the option is found.  An optional forth element PUSH
+: | means to push this value onto the list in the variable.
+: `----  
+#+end_verse
+
 ** TODO resolve references before cache calculation
    - State "TODO"       from ""           [2010-09-19 Sun 15:09]
 
