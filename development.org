@@ -3,7 +3,38 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/180]
+* Tasks [94/181]
+** TODO wrap results in environment on export
+   - State "TODO"       from ""           [2010-09-21 Tue 07:10]
+
+Suggested by Sébastien Vauban
+#+begin_verse
+: >>> Would you mind creating an LaTeX environment around the =results= block, so
+: >>> that we could have the code colorized (via listings or Minted), and clearly
+: >>> distinguish the results, if we want so.
+: >>>
+: >>> Having an environment would allow one to use non-proportional font for the
+: >>> results, or a shadowed background, or...
+: >>
+: >> Would such an environment be in addition too or in place of wrapping results
+: >> in the example environment?
+: >
+: > I would think of something like this:
+: >
+: > \begin{orgresults}
+: > <... results block ...>
+: > \end{orgresults}
+: >
+: > so that one can customize the =orgresults= environment in LaTeX to get a
+: > colored background, another font, etc.
+: >
+: >
+: >> What would you suggest for tabular results?
+: >
+: > Nothing different for tables: just the same plain default environment around
+: > the results part.  
+#+end_verse
+
 ** TODO org-babel-lob-add-function
    - State "TODO"       from ""           [2010-09-19 Sun 21:43]
 
