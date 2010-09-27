@@ -3,7 +3,106 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/181]
+* Tasks [94/182]
+** PROPOSED Create simple vectors in R?
+   - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
+   :PROPERTIES:
+   :session: none
+   :results: output
+   :END:
+
+   Currently all variables are received in R as data frames: we cannot
+   create simple vectors and we cannot create matrices (i.e. simple
+   vectors with a dimension attribute).
+
+   I wonder whether it would make sense for the 1D vector case below
+   to be turned into c(1,2) in R.
+
+*** integer
+#+begin_src R :var x=1
+print(str(x))
+#+end_src
+
+#+results:
+:  num 1
+: NULL
+
+*** 1D vector
+#+begin_src R :var x='(1 2)
+print(str(x))
+#+end_src
+
+#+results:
+: 'data.frame':	1 obs. of  2 variables:
+:  $ V1: int 1
+:  $ V2: int 2
+: NULL
+
+*** Column table
+#+tblname: R-input-column    
+    | 1 |
+    | 2 |
+#+begin_src emacs-lisp :var x=R-input-column :results pp
+x
+#+end_src
+
+#+results:
+: ((1)
+:  (2))
+
+#+begin_src R :var x=R-input-column
+print(str(x))
+#+end_src
+
+#+results:
+: 'data.frame':	2 obs. of  1 variable:
+:  $ V1: int  1 2
+: NULL
+
+*** Row table
+#+tblname: R-input-row
+    | 1 | 2 |
+#+begin_src emacs-lisp :var x=R-input-row :results pp
+x
+#+end_src
+
+#+results:
+: ((1 2))
+
+#+begin_src R :var x=R-input-row
+print(str(x))
+#+end_src
+
+#+results:
+: 'data.frame':	1 obs. of  2 variables:
+:  $ V1: int 1
+:  $ V2: int 2
+: NULL
+
+
+*** 2D table
+#+tblname: R-input-tab
+    | 1 | 3 |
+    | 2 | 4 |
+
+#+begin_src emacs-lisp :var x=R-input-tab :results pp
+x
+#+end_src
+
+#+results:
+: ((1 3)
+:  (2 4))
+
+#+begin_src R :var x=R-input-tab
+print(str(x))
+#+end_src
+
+#+results:
+: 'data.frame':	2 obs. of  2 variables:
+:  $ V1: int  1 2
+:  $ V2: int  3 4
+: NULL
+
 ** TODO wrap results in environment on export
    - State "TODO"       from ""           [2010-09-21 Tue 07:10]
 
