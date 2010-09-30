@@ -7566,6 +7566,15 @@ check for a prompt...
 |---+---|
 | 3 | 4 |
 
+#+begin_src sh :colnames yes
+  echo 1, 2
+  echo 3, 4
+#+end_src
+
+#+results:
+| 1 | 2 |
+| 3 | 4 |
+
 ** DONE eval and noeval
    - State "DONE"       from "STARTED"    [2010-08-26 Thu 17:05]
    - State "STARTED"    from "PROPOSED"   [2010-08-25 Wed 11:32]
