@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/182]
+* Tasks [95/182]
 ** PROPOSED Create simple vectors in R?
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
    :PROPERTIES:
@@ -369,8 +369,10 @@ The following demonstrates both regular and session based evaluation.
 : #+results:
 : : 10
 
-** PROPOSED org-mode and code block major mode integration
+** DONE org-mode and code block major mode integration
+   - State "DONE"       from "PROPOSED"   [2010-10-05 Tue 14:34]
    - State "PROPOSED"   from ""           [2010-08-29 Sun 23:36]
+
 The theme of tighter integration between org-mode and the major modes of
 code blocks has appeared recently in a number of different forms.
 
@@ -394,7 +396,10 @@ Footnotes:
 
 [3]  "Seemless editing of Babel Blocks"
      http://thread.gmane.org/gmane.emacs.orgmode/27788
-
+*** Solution
+    See variables `org-src-fontify-natively',
+    `org-src-tab-acts-natively' and functions
+    `org-src-do-at-code-block' and `org-babel-do-in-edit-buffer'.
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
