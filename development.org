@@ -8723,7 +8723,7 @@ But evaluate it again and the second line will not be output.
 *** TODO (R) session evaluation fails if no new line terminating output
 
 #+srcname: nonewline
-#+begin_src R :session :noeval
+#+begin_src R :session :results output :eval no
 cat("There's no newline ending this")
 #+end_src
 
