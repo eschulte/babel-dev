@@ -4,7 +4,8 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [95/182]
-** PROPOSED Create simple vectors in R?
+** STARTED Create simple vectors in R?
+   - State "STARTED"    from "PROPOSED"   [2010-10-09 Sat 13:01]
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
    :PROPERTIES:
    :session: none
@@ -8723,7 +8724,7 @@ But evaluate it again and the second line will not be output.
 *** TODO (R) session evaluation fails if no new line terminating output
 
 #+srcname: nonewline
-#+begin_src R :session :noeval
+#+begin_src R :session :results output :eval no
 cat("There's no newline ending this")
 #+end_src
 
