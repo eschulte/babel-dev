@@ -7534,8 +7534,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [87/110]
-** TODO Org block should remove protective commas
+* Bugs [88/110]
+** DONE Org block should remove protective commas
+   - State "DONE"       from "TODO"       [2010-10-09 Sat 11:53]
    - State "TODO"       from ""           [2010-10-08 Fri 18:15]
 
    #+begin_src org :results html replace
