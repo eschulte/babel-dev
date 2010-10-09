@@ -7534,7 +7534,23 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [88/110]
+* Bugs [88/111]
+** TODO R variables import
+   - State "TODO"       from ""           [2010-10-09 Sat 11:59]
+   :PROPERTIES:
+   :session: *R-test*
+   :END:
+
+   #+begin_src R :var x='(1 1 3) :rownames yes
+     table(x)
+   #+end_src
+
+   With the R-vctors patch applied, the variable seems to be imported
+   OK using C-u C-c C-v z, but fails with straight C-c C-c. This is
+   related to the fact that there is (I believe) confusing variable
+   resolution code duplication between `org-babel-expand-body:R' and
+   `org-babel-prep-session:R'.
+
 ** DONE Org block should remove protective commas
    - State "DONE"       from "TODO"       [2010-10-09 Sat 11:53]
    - State "TODO"       from ""           [2010-10-08 Fri 18:15]
