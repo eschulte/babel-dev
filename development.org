@@ -14,11 +14,69 @@
    Currently all variables are received in R as data frames: we cannot
    create simple vectors and we cannot create matrices (i.e. simple
    vectors with a dimension attribute).
+*** Proposals
 
-   I wonder whether it would make sense for the 1D vector case below
-   to be turned into c(1,2) in R.
+|                                | Current | A   | B   |
+|--------------------------------+---------+-----+-----|
+| Create data frames             | Yes     | Yes | No  |
+| Create R vectors?              | No      | Yes | No  |
+| Pass arbitrarily nested lists? | No      | No  | Yes |
 
-*** integer
+
+
+    NA = no native representation
+**** Current behaviour
+| Org    | elisp             | R                         | python            |
+|--------+-------------------+---------------------------+-------------------|
+| string | string            | length 1 character vector | string            |
+| number | number            | length 1 numeric vector   | number            |
+| NA     | list              | data frame                | list              |
+| table  | list of lists     | data frame                | list of lists     |
+| NA     | other nested list | ERROR                     | other nested list |
+
+Rows omitted from the proposals below are the same as in the current
+behaviour above.
+***** Advantages
+***** Disadvantages
+      - Cannot create vectors ::
+      - Cannot pass arbitrarily nested lisp lists ::
+
+**** Proposal A: My initial patch in this thread
+| Org   | elisp             | R          |
+|-------+-------------------+------------|
+| NA    | list              | vector     |
+***** Advantages
+      - Simple way to create vectors in R ::
+***** Disadvantages
+      - Cannot pass arbitrarily nested lisp lists ::
+**** Proposal B: Using R lists
+| Org    | elisp             | R                         |
+|--------+-------------------+---------------------------|
+| NA     | list              | list                      |
+| table  | list of lists     | list of lists             |
+| NA     | other nested list | other nested list         |
+
+***** Advantages
+      - Conceptually simple ::
+      lisp lists == R lists
+      - Appropriate ::
+      These are the analogous data structures in the two
+      languages (mutable, mixed-type, arbitrarily nested lists). It
+      solves the problem of sending nested lisp structures to R.
+***** Disadvantages
+      - Unnatural conversion to data frame ::
+       	| a | b |
+       	| 1 | 2 |
+
+      is '((a b) (1 2))
+
+      which becomes list(list("a", "b"), list(1,2))
+
+      It would be natural to use data.frame(lapply(x, unlist)) but this
+      would give us the transpose of what we want.
+
+*** Cases
+**** integer
 #+begin_src R :var x=1
 print(str(x))
 #+end_src
@@ -27,7 +85,7 @@ print(str(x))
 :  num 1
 : NULL
 
-*** 1D vector
+**** 1D vector
 #+begin_src R :var x='(1 2)
 print(str(x))
 #+end_src
@@ -38,8 +96,8 @@ print(str(x))
 :  $ V2: int 2
 : NULL
 
-*** Column table
-#+tblname: R-input-column    
+**** Column table
+#+tblname: R-input-column
     | 1 |
     | 2 |
 #+begin_src emacs-lisp :var x=R-input-column :results pp
@@ -59,7 +117,7 @@ print(str(x))
 :  $ V1: int  1 2
 : NULL
 
-*** Row table
+**** Row table
 #+tblname: R-input-row
     | 1 | 2 |
 #+begin_src emacs-lisp :var x=R-input-row :results pp
@@ -79,8 +137,7 @@ print(str(x))
 :  $ V2: int 2
 : NULL
 
-
-*** 2D table
+**** 2D table
 #+tblname: R-input-tab
     | 1 | 3 |
     | 2 | 4 |
