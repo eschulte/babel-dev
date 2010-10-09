@@ -30,10 +30,10 @@ or through the customization interface.
 
 
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">active Org-babel languages
-</span><span class="org-esk-paren">(</span>org-babel-do-load-languages
+</span>(org-babel-do-load-languages
  'org-babel-load-languages
- '<span class="org-esk-paren">(</span><span class="org-comment-delimiter">;; </span><span class="org-comment">other Babel languages
-</span>   <span class="org-esk-paren">(</span>plantuml . t<span class="org-esk-paren">)))</span>
+ '(<span class="org-comment-delimiter">;; </span><span class="org-comment">other Babel languages
+</span>   (plantuml . t)))
 </pre>
 
 
@@ -49,8 +49,8 @@ Then <a href="http://plantuml.sourceforge.net/download.html">download the jar fi
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>setq org-plantuml-jar-path
-      <span class="org-esk-paren">(</span>expand-file-name <span class="org-string">"~/src/org/contrib/scripts/plantuml.jar"</span><span class="org-esk-paren">))</span>
+<pre class="src src-emacs-lisp">(setq org-plantuml-jar-path
+      (expand-file-name <span class="org-string">"~/src/org/contrib/scripts/plantuml.jar"</span>))
 </pre>
 
 
@@ -67,10 +67,10 @@ an Org-mode file.
 
 
 
-<pre class="src src-org"><span class="org-org-meta-line">#+begin_src plantuml :file tryout.png
-</span><span class="org-org-block">  Alice -&gt; Bob: synchronous call
-  Alice -&gt;&gt; Bob: asynchronous call
-</span><span class="org-org-meta-line">#+end_src
+<pre class="src src-org"><span class="org-org-meta-line">#+begin_src plantuml :file tryout.png</span>
+  Alice <span class="org-keyword">-&gt;</span> Bob: synchronous call
+  Alice <span class="org-keyword">-&gt;&gt;</span> Bob: asynchronous call
+<span class="org-org-meta-line">#+end_src
 </span>
 <span class="org-org-meta-line">#+results:</span>
 <span class="org-org-link">file:tryout.png</span>

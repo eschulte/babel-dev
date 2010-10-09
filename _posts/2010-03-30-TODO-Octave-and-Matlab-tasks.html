@@ -52,7 +52,7 @@ python.
 Regarding the graphical output, It is probably better to use :results file
 as suggested in the TODO. There may be necessary a lot of details in the
 graphic output such as labels, setting axis, etc.. It is better to let the
-user handle this in the code and just put the link to the file. 
+user handle this in the code and just put the link to the file.
 </p></div>
 
 </div>
@@ -86,17 +86,16 @@ canonical org-babel comint completion functions.
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 12:37</span></span>
 
-<p>
-Strings were being returned as their ascii codes.
+</li>
+</ul>
+
+<p>Strings were being returned as their ascii codes.
 </p>
 <p>
 We have adopted Darlan's suggestion of using save -text %s ans
 (and delting the comment lines), which seems to provide a
 solution.
 </p>
-</li>
-</ul>
-
 
 
 
@@ -125,8 +124,10 @@ solution.
 <li>
 State "TODO"       from ""           [2010-03-17 Wed 23:3
 
-<p>
-Currently we are like pyuthon and ruby in that we can
+</li>
+</ul>
+
+<p>Currently we are like pyuthon and ruby in that we can
 use :results file and the block will output a link to that file,
 but unless your code takes care of it (e.g. write graphics to
 file), no content will be written to that file.
@@ -135,10 +136,7 @@ file), no content will be written to that file.
 However, would it be appropriate to move to the org-babel-R model,
 whereby if :results file is supplied, any graphical is
 automatically diverted to that file?
-</p></li>
-</ul>
-
-
+</p>
 </div>
 
 </div>
@@ -182,14 +180,13 @@ Then, the <code>print</code> command exports the graph to a file.
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 13:57</span></span>
 
-<p>
-In :results value mode, we return whatever value the variable
-'ans' has at the end of the block. However, there are some
-problems with this as can be seen from the following session:
-</p>
 </li>
 </ul>
 
+<p>In :results value mode, we return whatever value the variable
+'ans' has at the end of the block. However, there are some
+problems with this as can be seen from the following session:
+</p>
 
 
 
@@ -259,9 +256,9 @@ Of course, this works
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-16 Tue 22:12</span></span>
+
 </li>
 </ul>
-
 
 </div>
 
@@ -280,9 +277,9 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 </li>
 <li>
 -nojvm ?
+
 </li>
 </ul>
-
 
 </div>
 
@@ -295,9 +292,9 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <ul>
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 01:10</span></span>
+
 </li>
 </ul>
-
 
 </div>
 
@@ -311,12 +308,11 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 01:09</span></span>
 
-<p>
--nosplash doesn't seem to do the trick.
-</p></li>
+</li>
 </ul>
 
-
+<p>-nosplash doesn't seem to do the trick.
+</p>
 </div>
 
 </div>
@@ -329,13 +325,13 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-18 Thu 01:29</span></span>
 
-<p>
-At the moment I'm using a massive hack: insert
-</p>
 </li>
 </ul>
 
-<p>(cd "/ddavison@tombstone.princeton.edu:") ;; DED
+<p>At the moment I'm using a massive hack: insert
+</p>
+<p>
+(cd "/ddavison@tombstone.princeton.edu:") ;; DED
 </p>
 <p>
 around line 4253 in matlab.el so that my matlab sessions run on a

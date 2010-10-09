@@ -20,31 +20,6 @@ State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timesta
 <p>so for example the following
 </p>
 <p>
-,** stripping existing results
-,#+results: trickily-located-somehwere-else
-,: I shouldn't be exported
-</p>
-<p>
-,Neither of the result strings for the following two code blocks should
-,be included in the export.  And only one of the bodies should be
-,included&hellip;
-</p>
-<p>
-,#+begin<sub>src</sub> emacs-lisp :exports code
-,  (+ 1 1 1 1)
-,#+end<sub>src</sub>
-</p>
-<p>
-,#+results:
-,: don't include me in the export!!!!!!!
-</p>
-<p>
-,#+srcname: trickily-located-somehwere-else
-,#+begin<sub>src</sub> emacs-lisp :exports none
-,  (message "I shouldn't be exported")
-,#+end<sub>src</sub>
-</p>
-<p>
 Should export only the bodies of the code blocks, but should remove
 the existing results.
 </p>

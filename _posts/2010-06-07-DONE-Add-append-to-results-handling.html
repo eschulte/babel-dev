@@ -51,7 +51,7 @@ AND a.material IN %s AND c.context_type = 'cultural' AND c.duration IN %s  AND b
 2 order by 1, 2"</span>, project, project, project, class, material, duration, start,
 end)
 
-art.wt <span class="org-constant">&lt;-</span> dbGetQuery(con, q) 
+art.wt <span class="org-constant">&lt;-</span> dbGetQuery(con, q)
 
 art.wt
 </pre></div>

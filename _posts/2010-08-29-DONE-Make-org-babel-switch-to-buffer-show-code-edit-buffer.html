@@ -14,8 +14,10 @@ State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class=
 <li>
 State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-20 Sat 12:20</span></span>
 
-<p>
-Done: see commit b05f8c91fed5d743adf5df787f2b28fb58274bf5
+</li>
+</ul>
+
+<p>Done: see commit b05f8c91fed5d743adf5df787f2b28fb58274bf5
 </p>
 <p>
 See also <a href="#*org==babel==R==show==comint==buffer==patch==from==Julien==Barnier">org-babel-R show comint buffer patch from Julien Barnier</a>
@@ -33,9 +35,6 @@ org-babel-switch-to-buffer as below, or whether we make this
 functionality available via some other interface (a different
 function, prefix args, etc).
 </p>
-</li>
-</ul>
-
 
 
 
@@ -55,7 +54,7 @@ index d01e6d6..5121fbc 100644
 +      (pop-to-buffer (funcall (intern (format "org-babel-%s-initiate-session" lang)) session params))
 +      (move-end-of-line 1))
 +    (org-edit-src-code)))
- 
+
  (defalias 'org-babel-pop-to-session 'org-babel-switch-to-session)
 </pre>
 

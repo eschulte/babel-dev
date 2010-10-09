@@ -28,10 +28,10 @@ chance to overshadow them.
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>setq org-babel-interpreters
-      <span class="org-esk-paren">(</span>sort <span class="org-esk-paren">(</span>cons interpreter org-babel-interpreters<span class="org-esk-paren">)</span>
-            <span class="org-esk-paren">(</span><span class="org-keyword">lambda</span> <span class="org-esk-paren">(</span>left right<span class="org-esk-paren">)</span>
-              <span class="org-esk-paren">(</span>&gt; <span class="org-esk-paren">(</span>length left<span class="org-esk-paren">)</span> <span class="org-esk-paren">(</span>length right<span class="org-esk-paren">)))))</span>
+<pre class="src src-emacs-lisp">(setq org-babel-interpreters
+      (sort (cons interpreter org-babel-interpreters)
+            (<span class="org-keyword">lambda</span> (left right)
+              (&gt; (length left) (length right)))))
 </pre>
 
 
@@ -55,11 +55,11 @@ I was initializing org-babel with the following from my init.el file
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span>)
+(org-babel-load-library-of-babel)
 </pre>
 
 
@@ -74,11 +74,11 @@ When I change the order of the language initializations, the error goes away:
 
 
 
-<pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span><span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span><span class="org-esk-paren">)</span>
-<span class="org-esk-paren">(</span>org-babel-load-library-of-babel<span class="org-esk-paren">)</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-init</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-R</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-ruby</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">org-babel-python</span>)
+(org-babel-load-library-of-babel)
 </pre>
 
 
@@ -86,6 +86,6 @@ When I change the order of the language initializations, the error goes away:
 <p>
 Now, ruby is recognized.  Looks like the function for parsing the src block is seeing the 'r' in ruby and
 stopping
-because 'R" is a valid language, but then choking when it tries to run 'r'.  
+because 'R" is a valid language, but then choking when it tries to run 'r'.
 </p></div>
 </div>

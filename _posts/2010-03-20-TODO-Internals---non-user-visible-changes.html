@@ -12,17 +12,20 @@ layout: default
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-03-20 Sat 12:34</span></span>
 
 </li>
-<li>
+</ul>
+
+<dl>
+<dt>[ ] org-babel-LANG-evaluate variable name</dt><dd>
 In some languages the
 argument list includes BUFFER but we then refer to SESSION in the
 function.
-</li>
-<li>
+</dd>
+<dt>[ ] split org-babel-LANG-evaluate into session and non-session</dt><dd>
 
 <p>
 Like clojure does.
-</p></li>
-<li>
+</p></dd>
+<dt>[ ] tangle to buffers and write to file at end</dt><dd>
 Now that we don't
 use append-to-file (see
 73d8e5768570d62e79f19b117b599f668b6abc17), it would be more
@@ -32,8 +35,8 @@ implement that, as it required a fair bit of kessing about with
 org-babel-tangle, but if someone has time it would be nice. The
 efficiency gain will presumably be considerable for remote tangle
 files.
-</li>
-<li>
+</dd>
+<dt>[ ] Internals - Code sharing with org-babel-execute-buffer</dt><dd>
 
 <p>
 Functions like org-babel-pop-to-session have to go through some
@@ -43,21 +46,20 @@ would be nice to abstract the common set-up into shared code. For
 example, I recently added default-directory in the let-binding of
 o-b-execute-src-block, and subsequently realised that it also
 needed to be added to o-b-pop-to-session.
-</p></li>
-<li>
+</p></dd>
+<dt>[ ] Make docstrings obey emacs rules</dt><dd>
 First descriptive sentence
 on own line less than 80 chars (or something like that).
-</li>
-<li>
+</dd>
+<dt>[ ] Avoid multiple calls to org-babel-where-is-src-block-head</dt><dd>
 
 <p>
 the posiion of head can be stored in the 'info' data
 structure. This would entail a bit of messing about as it would
 have to be one of the earlier elements in the list, thus pushing
 the others along by one.
-</p></li>
-</ul>
-
+</p></dd>
+</dl>
 
 </div>
 </div>

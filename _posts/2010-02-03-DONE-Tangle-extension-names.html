@@ -1,0 +1,52 @@
+---
+title: DONE Tangle extension names
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="done DONE"> DONE</span> Tangle extension names </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "DONE"       from "PROPOSED" <span class="timestamp-wrapper"> <span class="timestamp">2010-02-03 Wed 13:17</span></span>
+</li>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-01-13 Wed 12:50</span></span>
+</li>
+</ul>
+
+<p>I found this patch hanging around in my repo and seem to remember
+thinking this was a good change but can't remember now the
+details.
+</p>
+
+
+
+<pre class="example">   diff --git a/contrib/babel/lisp/org-babel-tangle.el b/contrib/babel/lisp/org-babel-tangle.el
+index c805373..1d7fe3b 100644
+--- a/contrib/babel/lisp/org-babel-tangle.el
++++ b/contrib/babel/lisp/org-babel-tangle.el
+@@ -102,9 +102,10 @@ exported source code blocks by language."
+                                      ((&gt; (length tangle) 0) tangle))
+                                     target-file))
+                      (file-name (when base-name
+-                                  (if (string= base-name
+-                                               (file-name-sans-extension base-name))
+-                                      (concat base-name "." ext) base-name))))
++                                  (if (and ext
++                                          (string= base-name
++                                                   (file-name-sans-extension base-name)))
++                                     (concat base-name "." ext) base-name))))
+                 ;; ;; debugging
+                 ;; (message "tangle=%S base-name=%S file-name=%S"
+                 ;;          tangle base-name file-name)
+</pre>
+
+
+
+<p>
+This has been applied &ndash; it was a good idea &ndash; as it's now possible
+to export a <code>Makefile</code> without an extension.
+</p></div>
+</div>

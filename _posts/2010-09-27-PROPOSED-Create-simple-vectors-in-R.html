@@ -1,0 +1,352 @@
+---
+title: PROPOSED Create simple vectors in R?
+layout: default
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="todo PROPOSED"> PROPOSED</span> Create simple vectors in R? </h2>
+<div class="outline-text-2" id="text-1">
+
+<ul>
+<li>
+State "PROPOSED"   from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-09-27 Mon 13:38</span></span>
+</li>
+</ul>
+
+
+<p>
+Currently all variables are received in R as data frames: we cannot
+create simple vectors and we cannot create matrices (i.e. simple
+vectors with a dimension attribute).
+</p>
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1">Proposals </h3>
+<div class="outline-text-3" id="text-1_1">
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col"></th><th scope="col">Current</th><th scope="col">A</th><th scope="col">B</th></tr>
+</thead>
+<tbody>
+<tr><td>Create data frames</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+<tr><td>Create R vectors?</td><td>No</td><td>Yes</td><td>No</td></tr>
+<tr><td>Pass arbitrarily nested lists?</td><td>No</td><td>No</td><td>Yes</td></tr>
+</tbody>
+</table>
+
+
+
+
+<p>
+NA = no native representation
+</p>
+</div>
+
+<div id="outline-container-1_1_1" class="outline-4">
+<h4 id="sec-1_1_1">Current behaviour </h4>
+<div class="outline-text-4" id="text-1_1_1">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Org</th><th scope="col">elisp</th><th scope="col">R</th><th scope="col">python</th></tr>
+</thead>
+<tbody>
+<tr><td>string</td><td>string</td><td>length 1 character vector</td><td>string</td></tr>
+<tr><td>number</td><td>number</td><td>length 1 numeric vector</td><td>number</td></tr>
+<tr><td>NA</td><td>list</td><td>data frame</td><td>list</td></tr>
+<tr><td>table</td><td>list of lists</td><td>data frame</td><td>list of lists</td></tr>
+<tr><td>NA</td><td>other nested list</td><td>ERROR</td><td>other nested list</td></tr>
+</tbody>
+</table>
+
+
+<p>
+Rows omitted from the proposals below are the same as in the current
+behaviour above.
+</p><ul>
+<li id="sec-1_1_1_1">Advantages <br/>
+</li>
+</ul>
+<ul>
+<li id="sec-1_1_1_2">Disadvantages <br/>
+<dl>
+<dt>Cannot create vectors</dt><dd>
+
+</dd>
+<dt>Cannot pass arbitrarily nested lisp lists</dt><dd>
+
+
+</dd>
+</dl>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1_1_2" class="outline-4">
+<h4 id="sec-1_1_2">Proposal A: My initial patch in this thread </h4>
+<div class="outline-text-4" id="text-1_1_2">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Org</th><th scope="col">elisp</th><th scope="col">R</th></tr>
+</thead>
+<tbody>
+<tr><td>NA</td><td>list</td><td>vector</td></tr>
+</tbody>
+</table>
+
+<ul>
+<li id="sec-1_1_2_1">Advantages <br/>
+<dl>
+<dt>Simple way to create vectors in R</dt><dd>
+
+</dd>
+</dl>
+
+</li>
+</ul>
+<ul>
+<li id="sec-1_1_2_2">Disadvantages <br/>
+<dl>
+<dt>Cannot pass arbitrarily nested lisp lists</dt><dd>
+
+</dd>
+</dl>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1_1_3" class="outline-4">
+<h4 id="sec-1_1_3">Proposal B: Using R lists </h4>
+<div class="outline-text-4" id="text-1_1_3">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Org</th><th scope="col">elisp</th><th scope="col">R</th></tr>
+</thead>
+<tbody>
+<tr><td>NA</td><td>list</td><td>list</td></tr>
+<tr><td>table</td><td>list of lists</td><td>list of lists</td></tr>
+<tr><td>NA</td><td>other nested list</td><td>other nested list</td></tr>
+</tbody>
+</table>
+
+
+<ul>
+<li id="sec-1_1_3_1">Advantages <br/>
+<dl>
+<dt>Conceptually simple</dt><dd>
+
+</dd>
+</dl>
+
+<p>lisp lists == R lists
+</p><dl>
+<dt>Appropriate</dt><dd>
+
+</dd>
+</dl>
+
+<p>These are the analogous data structures in the two
+languages (mutable, mixed-type, arbitrarily nested lists). It
+solves the problem of sending nested lisp structures to R.
+</p></li>
+</ul>
+<ul>
+<li id="sec-1_1_3_2">Disadvantages <br/>
+<dl>
+<dt>Unnatural conversion to data frame</dt><dd>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<tbody>
+<tr><td>a</td><td>b</td></tr>
+<tr><td>1</td><td>2</td></tr>
+</tbody>
+</table>
+
+
+</dd>
+</dl>
+
+<p>is '((a b) (1 2))
+</p>
+<p>
+which becomes list(list("a", "b"), list(1,2))
+</p>
+<p>
+It would be natural to use data.frame(lapply(x, unlist)) but this
+would give us the transpose of what we want.
+</p>
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2">Cases </h3>
+<div class="outline-text-3" id="text-1_2">
+
+
+</div>
+
+<div id="outline-container-1_2_1" class="outline-4">
+<h4 id="sec-1_2_1">integer </h4>
+<div class="outline-text-4" id="text-1_2_1">
+
+
+
+
+<pre class="src src-R">print(str(x))
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2_2" class="outline-4">
+<h4 id="sec-1_2_2">1D vector </h4>
+<div class="outline-text-4" id="text-1_2_2">
+
+
+
+
+<pre class="src src-R">print(str(x))
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2_3" class="outline-4">
+<h4 id="sec-1_2_3">Column table </h4>
+<div class="outline-text-4" id="text-1_2_3">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" />
+</colgroup>
+<tbody>
+<tr><td>1</td></tr>
+<tr><td>2</td></tr>
+</tbody>
+</table>
+
+
+
+
+<pre class="src src-emacs-lisp">x
+</pre>
+
+
+
+
+
+<pre class="src src-R">print(str(x))
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2_4" class="outline-4">
+<h4 id="sec-1_2_4">Row table </h4>
+<div class="outline-text-4" id="text-1_2_4">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="right" />
+</colgroup>
+<tbody>
+<tr><td>1</td><td>2</td></tr>
+</tbody>
+</table>
+
+
+
+
+<pre class="src src-emacs-lisp">x
+</pre>
+
+
+
+
+
+<pre class="src src-R">print(str(x))
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2_5" class="outline-4">
+<h4 id="sec-1_2_5">2D table </h4>
+<div class="outline-text-4" id="text-1_2_5">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="right" /><col align="right" />
+</colgroup>
+<tbody>
+<tr><td>1</td><td>3</td></tr>
+<tr><td>2</td><td>4</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+<pre class="src src-emacs-lisp">x
+</pre>
+
+
+
+
+
+<pre class="src src-R">print(str(x))
+</pre>
+
+
+
+</div>
+</div>
+</div>
+</div>

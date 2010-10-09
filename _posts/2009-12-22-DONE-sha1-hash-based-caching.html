@@ -48,8 +48,10 @@ be very upsetting.  It pollutes the user's disk, and it breaks
 what is to me a very fundamental part of org-mode, namely the
 fact that all data is saved in plain text in org-mode files.
 
-<p>
-Currently I'm leaning towards some combination of file-local
+</dd>
+</dl>
+
+<p>Currently I'm leaning towards some combination of file-local
 variable (RAM) caching and in-buffer caching.  I have more
 comments in-line below.
 </p>
@@ -61,12 +63,14 @@ definitely want the in-buffer mechanism. Apart from
 anything else it improves the mechanism by which we
 decide whether or not to over-write existing results.
 
-<p>
-The only slight drawback I can see is export: someone who
+</dd>
+</dl>
+
+<p>The only slight drawback I can see is export: someone who
 doesn't want the results in their org file is forced to
 regenerate them on every export.
 </p>
-</dd>
+<dl>
 <dt>[EMS]</dt><dd>
 alright, that sounds good to me.  I can't think of a
 good solution to the export problem right now.  The approach
@@ -79,11 +83,9 @@ object, I'll merge in the in-buffer caching, and we can keep
 the export caching as an open issue, then possibly add the
 RAM/local-variable caching on top (which seems like it only
 require a couple of lines of code).
-</dd>
-</dl>
-</dd>
-</dl>
 
+</dd>
+</dl>
 
 
 </div>

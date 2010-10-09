@@ -14,12 +14,11 @@ State "STARTED"    from "TODO" <span class="timestamp-wrapper"> <span class="tim
 <li>
 State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2010-04-07 Wed 12:34</span></span>
 
-<p>
-See also <a href="#*Make==org==babel==switch==to==buffer==show==code==edit==buffer">Make org-babel-switch-to-buffer show code edit buffer</a>
-</p>
 </li>
 </ul>
 
+<p>See also <a href="#*Make==org==babel==switch==to==buffer==show==code==edit==buffer">Make org-babel-switch-to-buffer show code edit buffer</a>
+</p>
 
 
 
@@ -45,7 +44,7 @@ modifications from master.
 
 Sincerely,
 
--- 
+--
 Julien
 
 
@@ -61,7 +60,7 @@ index 8b333cc..3924089 100644
    (if column-names-p
        (cons (car result) (cons 'hline (cdr result)))
      result))
--  
+-
 +
 +
 +(defcustom org-babel-R-edit-src-show-process nil
@@ -88,10 +87,10 @@ index 8b333cc..3924089 100644
 +              (ess-switch-to-end-of-ESS)
 +              (other-window 1)))))
 +    ad-do-it))
- 
+
  (provide 'org-babel-R)
  ;;; org-babel-R.el ends here
--- 
+--
 1.7.0.4
 
 
