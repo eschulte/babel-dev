@@ -7534,7 +7534,21 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [87/111]
+* Bugs [87/110]
+** TODO Org block should remove protective commas
+   - State "TODO"       from ""           [2010-10-08 Fri 18:15]
+
+   #+begin_src org :results html replace
+     ,|a|
+   #+end_src
+
+   #+results:
+   #+BEGIN_HTML
+
+   <p>,|a|
+   </p>
+   #+END_HTML
+
 ** DONE can't evaluate org block on export
    - State "DONE"       from "TODO"       [2010-09-19 Sun 10:52]
    - State "TODO"       from ""           [2010-09-17 Fri 10:12]
