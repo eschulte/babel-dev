@@ -3,8 +3,9 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [94/182]
-** PROPOSED Create simple vectors in R?
+* Tasks [95/182]
+** STARTED Create simple vectors in R?
+   - State "STARTED"    from "PROPOSED"   [2010-10-09 Sat 13:01]
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
    :PROPERTIES:
    :session: none
@@ -14,11 +15,69 @@
    Currently all variables are received in R as data frames: we cannot
    create simple vectors and we cannot create matrices (i.e. simple
    vectors with a dimension attribute).
+*** Proposals
 
-   I wonder whether it would make sense for the 1D vector case below
-   to be turned into c(1,2) in R.
+|                                | Current | A   | B   |
+|--------------------------------+---------+-----+-----|
+| Create data frames             | Yes     | Yes | No  |
+| Create R vectors?              | No      | Yes | No  |
+| Pass arbitrarily nested lists? | No      | No  | Yes |
 
-*** integer
+
+
+    NA = no native representation
+**** Current behaviour
+| Org    | elisp             | R                         | python            |
+|--------+-------------------+---------------------------+-------------------|
+| string | string            | length 1 character vector | string            |
+| number | number            | length 1 numeric vector   | number            |
+| NA     | list              | data frame                | list              |
+| table  | list of lists     | data frame                | list of lists     |
+| NA     | other nested list | ERROR                     | other nested list |
+
+Rows omitted from the proposals below are the same as in the current
+behaviour above.
+***** Advantages
+***** Disadvantages
+      - Cannot create vectors ::
+      - Cannot pass arbitrarily nested lisp lists ::
+
+**** Proposal A: My initial patch in this thread
+| Org   | elisp             | R          |
+|-------+-------------------+------------|
+| NA    | list              | vector     |
+***** Advantages
+      - Simple way to create vectors in R ::
+***** Disadvantages
+      - Cannot pass arbitrarily nested lisp lists ::
+**** Proposal B: Using R lists
+| Org    | elisp             | R                         |
+|--------+-------------------+---------------------------|
+| NA     | list              | list                      |
+| table  | list of lists     | list of lists             |
+| NA     | other nested list | other nested list         |
+
+***** Advantages
+      - Conceptually simple ::
+      lisp lists == R lists
+      - Appropriate ::
+      These are the analogous data structures in the two
+      languages (mutable, mixed-type, arbitrarily nested lists). It
+      solves the problem of sending nested lisp structures to R.
+***** Disadvantages
+      - Unnatural conversion to data frame ::
+       	| a | b |
+       	| 1 | 2 |
+
+      is '((a b) (1 2))
+
+      which becomes list(list("a", "b"), list(1,2))
+
+      It would be natural to use data.frame(lapply(x, unlist)) but this
+      would give us the transpose of what we want.
+
+*** Cases
+**** integer
 #+begin_src R :var x=1
 print(str(x))
 #+end_src
@@ -27,7 +86,7 @@ print(str(x))
 :  num 1
 : NULL
 
-*** 1D vector
+**** 1D vector
 #+begin_src R :var x='(1 2)
 print(str(x))
 #+end_src
@@ -38,8 +97,8 @@ print(str(x))
 :  $ V2: int 2
 : NULL
 
-*** Column table
-#+tblname: R-input-column    
+**** Column table
+#+tblname: R-input-column
     | 1 |
     | 2 |
 #+begin_src emacs-lisp :var x=R-input-column :results pp
@@ -59,7 +118,7 @@ print(str(x))
 :  $ V1: int  1 2
 : NULL
 
-*** Row table
+**** Row table
 #+tblname: R-input-row
     | 1 | 2 |
 #+begin_src emacs-lisp :var x=R-input-row :results pp
@@ -79,8 +138,7 @@ print(str(x))
 :  $ V2: int 2
 : NULL
 
-
-*** 2D table
+**** 2D table
 #+tblname: R-input-tab
     | 1 | 3 |
     | 2 | 4 |
@@ -131,7 +189,7 @@ Suggested by Sébastien Vauban (see [[http://thread.gmane.org/gmane.emacs.orgmod
 : >> What would you suggest for tabular results?
 : >
 : > Nothing different for tables: just the same plain default environment around
-: > the results part.  
+: > the results part.
 #+end_verse
 
 ** TODO org-babel-lob-add-function
@@ -154,10 +212,10 @@ file.
 Thanks to Aidan Gauland and Jambunathan K. for the suggestion
 
 a suggestion from Jambunathan
-#+begin_verse 
-: That 'sounds' like a new #+STARTUP directive to me ... 
-: 
-: 
+#+begin_verse
+: That 'sounds' like a new #+STARTUP directive to me ...
+:
+:
 : ,----[ C-h v org-startup-options RET ]
 : | org-startup-options is a variable defined in `org.el'.
 : |
@@ -167,7 +225,7 @@ a suggestion from Jambunathan
 : | in the #+STARTUP line, the corresponding variable, and the value to
 : | set this variable to if the option is found.  An optional forth element PUSH
 : | means to push this value onto the list in the variable.
-: `----  
+: `----
 #+end_verse
 
 ** TODO resolve references before cache calculation
@@ -221,9 +279,9 @@ functionality
    languages. For example, here's a quick go at moving python in that
    direction:
 
-#+begin_example 
+#+begin_example
     Towards using ob-comint-eval-invisibly-and-wait-for-file for python
-    
+
     python-send-region evaluates invisibly, so this commit results in no
     output to the python buffer. Also needs to be generalised to allow
     python-mode.
@@ -343,14 +401,14 @@ The following demonstrates both regular and session based evaluation.
 : #+begin_src scheme
 :   (map (lambda (el) (+ el 1)) '(1 2 3))
 : #+end_src
-: 
+:
 : #+results:
 : | 2 | 3 | 4 |
-: 
+:
 : #+begin_src scheme :var numbers=numbers
 :   (map (lambda (el) (- el 1)) numbers)
 : #+end_src
-: 
+:
 : #+results:
 : | 1 | 2 | 3 |
 
@@ -358,19 +416,21 @@ The following demonstrates both regular and session based evaluation.
 : #+begin_src scheme :var number=9 :session *scheme* :scheme guile
 :   (+ number 0)
 : #+end_src
-: 
+:
 : #+results:
 : : 9
-: 
+:
 : #+begin_src scheme :var number=9 :session *scheme* :scheme racket
 :   (+ number 1)
 : #+end_src
-: 
+:
 : #+results:
 : : 10
 
-** PROPOSED org-mode and code block major mode integration
+** DONE org-mode and code block major mode integration
+   - State "DONE"       from "PROPOSED"   [2010-10-05 Tue 14:34]
    - State "PROPOSED"   from ""           [2010-08-29 Sun 23:36]
+
 The theme of tighter integration between org-mode and the major modes of
 code blocks has appeared recently in a number of different forms.
 
@@ -385,7 +445,7 @@ code blocks has appeared recently in a number of different forms.
 It seems that all of these issue should be addressed in a unified
 manner, but it's not clear exactly how...
 
-Footnotes: 
+Footnotes:
 [1]  "Mode-specific fontification of babel source blocks"
      http://thread.gmane.org/gmane.emacs.orgmode/28307
 
@@ -394,7 +454,10 @@ Footnotes:
 
 [3]  "Seemless editing of Babel Blocks"
      http://thread.gmane.org/gmane.emacs.orgmode/27788
-
+*** Solution
+    See variables `org-src-fontify-natively',
+    `org-src-tab-acts-natively' and functions
+    `org-src-do-at-code-block' and `org-babel-do-in-edit-buffer'.
 ** DONE integrate plantuml support
    - State "DONE"       from "TODO"       [2010-08-26 Thu 11:28]
    - State "TODO"       from ""           [2010-08-26 Thu 10:12]
@@ -434,7 +497,7 @@ Usage
     ,  Alice -> Bob: synchronous call
     ,  Alice ->> Bob: asynchronous call
     ,#+end_src
-    
+
     ,#+results:
     ,[[file:tryout.png]]
   #+end_src
@@ -462,7 +525,7 @@ Usage
 #+results:
 : 3
 
-#+begin_example 
+#+begin_example
 > a <- 1
 b <- 2
 c <- 3
@@ -498,7 +561,7 @@ value :session case, currently results in the following output:
 > b <- 2
 > c <- 3
 
-> > 
+> >
 #+end_example
 
 I currently have not managed to make the write.table command invisible
@@ -537,7 +600,7 @@ done by `org-babel-comint-with-output'.
       used in place of [[file:lisp/org-babel-R.el::defun%20org-babel%20R%20input%20command%20command][org-babel-R-input-command]].
 
 ***** ess functions
-   
+
 #+begin_quote ess-command
 (ess-command COM &optional BUF SLEEP NO-PROMPT-CHECK)
 
@@ -567,7 +630,7 @@ to the command if BUFF is not given.)
 
       1) The body of the R source code block is wrapped in a function
       2) The function is called inside of a =write.table= function call
-       	 writing the results to a table
+	 writing the results to a table
       3) The table is read using =org-table-import=
 
 ** TODO Interleaved results
@@ -653,7 +716,7 @@ I've had similar issues, and see some more on the horizon.
 > separately in my VCS (e.g. as would be done automatically if they
 > resided in separate files)
 >
-> The thread from the list discussion we had is 
+> The thread from the list discussion we had is
 >
 > http://thread.gmane.org/gmane.emacs.orgmode/24431
 >
@@ -662,7 +725,7 @@ I've had similar issues, and see some more on the horizon.
 I think that a general "remote block" solution would be best, maybe even
 a solution which allows remote tables (would include radio tables).
 
-> 
+>
 > Should we be thinking in terms of org blocks or org links or both or
 > neither??
 >
@@ -775,7 +838,7 @@ it apart from a more general "activate org-mode links in comments"
 minor mode.  Any ideas or suggestions would be welcome!
 
 also,
-#+begin_verse 
+#+begin_verse
   (Rainer)
   >
   > 2) It would be brilliant, if one could call the function from the
@@ -813,7 +876,7 @@ also,
           (org-babel-goto-named-src-block block-name))
         (setq target-char (point)))
       (pop-to-buffer target-buffer)
-      (goto-char target-char)))  
+      (goto-char target-char)))
 #+end_src
 ** PROPOSED post-processing code block
    - State "PROPOSED"   from ""           [2010-07-12 Mon 21:59]
@@ -881,7 +944,7 @@ of Babel (both core functionality and language specific support).
           (sql . nil)
           (sqlite . t)))
      #+end_src
-     
+
 	   Despite this change it is still possible to add
 	   language support through the use of =require=
 	   statements, however to conform to Emacs file-name
@@ -899,7 +962,7 @@ of Babel (both core functionality and language specific support).
 We have eliminated the =org-babel-tangle-w-comments= variable as
 well as the two main internal lists of languages, namely
 - =org-babel-interpreters= and
-- =org-babel-tangle-langs= 
+- =org-babel-tangle-langs=
 
 so any config lines which mention those variables, can/should be
 stripped out in their entirety.  This includes any calls to the
@@ -924,7 +987,7 @@ code block level, e.g.
 #+begin_src org
   ,#+begin_src clojure :shebang #!/usr/bin/env clj
   ,  (println "with a shebang line, I can be run as a script!")
-  ,#+end_src  
+  ,#+end_src
 #+end_src
 
 Note that whenever a file is tangled which includes a /shebang/
@@ -939,10 +1002,10 @@ language, e.g.
   ;; ensure this variable is defined defined
   (unless (boundp 'org-babel-default-header-args:sh)
     (setq org-babel-default-header-args:sh '()))
-  
+
   ;; add a default shebang header argument
   (add-to-list 'org-babel-default-header-args:sh
-               '(:shebang . "#!/bin/bash"))  
+               '(:shebang . "#!/bin/bash"))
 #+end_src
 
 The final important change included in this release is the
@@ -1025,7 +1088,7 @@ it's now possible to assign variable the value of =nil=
   ,#+begin_src emacs-lisp :var notme='()
   ,  (when (null notme) (message "it's NULL"))
   ,#+end_src
-  
+
   ,#+results:
   ,: it's NULL
 #+end_src
@@ -1096,9 +1159,9 @@ This
 : #+begin_src emacs-lisp
 :   (message "first block")
 : #+end_src
-: 
+:
 : here's some text which won't be tangled
-: 
+:
 : ***** subheading
 : another block
 : | 1 | first  |
@@ -1107,7 +1170,7 @@ This
 : #+begin_src emacs-lisp
 :   (message "second")
 : #+end_src
-: 
+:
 : and finally a block with a =:noweb= header argument
 : #+begin_src emacs-lisp :noweb yes
 :   (progn
@@ -1116,9 +1179,9 @@ This
 results in
 #+begin_src emacs-lisp
   (message "first block")
-  
+
   (message "second")
-  
+
   (progn
     (message "second"))
 #+end_src
@@ -1134,9 +1197,9 @@ This
 : #+begin_src emacs-lisp
 :   (message "first block")
 : #+end_src
-: 
+:
 : here's some text which won't be tangled
-: 
+:
 : ***** subheading
 : another block
 : | 1 | first  |
@@ -1145,7 +1208,7 @@ This
 : #+begin_src emacs-lisp
 :   (message "second")
 : #+end_src
-: 
+:
 : and finally a block with a =:noweb= header argument
 : #+begin_src emacs-lisp :noweb yes
 :   (progn
@@ -1154,22 +1217,22 @@ This
 results in
 #+begin_src emacs-lisp
   ;; [[file:~/src/babel-dev/development.org::*tangling%20with%20yes%20or%20link%20comments][tangling-with-yes-or-link-comments:1]]
-  
+
   (message "first block")
-  
+
   ;; tangling-with-yes-or-link-comments:1 ends here
-  
+
   ;; [[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
-  
+
   (message "second")
-  
+
   ;; tangle-el-the-second ends here
-  
+
   ;; [[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
-  
+
   (progn
     (message "second"))
-  
+
   ;; subheading:2 ends here
 #+end_src
 
@@ -1184,9 +1247,9 @@ This
 : #+begin_src emacs-lisp
 :   (message "first block")
 : #+end_src
-: 
+:
 : here's some text which won't be tangled
-: 
+:
 : ***** subheading
 : another block
 : | 1 | first  |
@@ -1195,7 +1258,7 @@ This
 : #+begin_src emacs-lisp
 :   (message "second")
 : #+end_src
-: 
+:
 : and finally a block with a =:noweb= header argument
 : #+begin_src emacs-lisp :noweb yes
 :   (progn
@@ -1210,19 +1273,19 @@ results in
   ;;    :tangle:   comments.el
   ;;    :END:
   ;; The top block
-  
+
   (message "first block")
-  
+
   ;; ***** subheading
   ;; another block
   ;; | 1 | first  |
   ;; | 2 | second |
   ;; #+source: tangle-el-the-second
-  
+
   (message "second")
-  
+
   ;; and finally a block with a =:noweb= header argument
-  
+
   (progn
     (message "second"))
 #+end_src
@@ -1238,9 +1301,9 @@ This
 : #+begin_src emacs-lisp
 :   (message "first block")
 : #+end_src
-: 
+:
 : here's some text which won't be tangled
-: 
+:
 : ***** subheading
 : another block
 : | 1 | first  |
@@ -1249,7 +1312,7 @@ This
 : #+begin_src emacs-lisp
 :   (message "second")
 : #+end_src
-: 
+:
 : and finally a block with a =:noweb= header argument
 : #+begin_src emacs-lisp :noweb yes
 :   (progn
@@ -1263,32 +1326,32 @@ results in
   ;;    :tangle:   comments.el
   ;;    :END:
   ;; The top block
-  
+
   ;; [[file:~/src/babel-dev/development.org::*tangling%20with%20both%20comments][tangling-with-both-comments:1]]
-  
+
   (message "first block")
-  
+
   ;; tangling-with-both-comments:1 ends here
-  
+
   ;; ***** subheading
   ;; another block
   ;; | 1 | first  |
   ;; | 2 | second |
   ;; #+source: tangle-el-the-second
-  
+
   ;; [[file:~/src/babel-dev/development.org::*subheading][tangle-el-the-second]]
-  
+
   (message "second")
-  
+
   ;; tangle-el-the-second ends here
-  
+
   ;; and finally a block with a =:noweb= header argument
-  
+
   ;; [[file:~/src/babel-dev/development.org::*subheading][subheading:2]]
-  
+
   (progn
     (message "second"))
-  
+
   ;; subheading:2 ends here
 #+end_src
 
@@ -1322,25 +1385,25 @@ some excerpts
        : function might have links to emails discussing the implementation, or
        : internal dialogs relating to alternative approaches that were
        : abandoned.
-       : 
+       :
        : So, I thought it might be neat to have some way of specifying which
        : subtrees would be a part of the comments for a source file, and for
        : which tangled file.  My guess as the easiest way to do that would be
        : through properties.  That is, you'd set a property for (sub)tree like,
        : for example:
-       : 
+       :
        : :PROPERTIES:
        : :SrcComment: Yes
        : :SrcCommentTangleFile: cube.R
        : :SrcCommentCharacter: ##
        : :END:
-       : 
+       :
        : These (sub)trees would then appear as comments in their respective
        : tangled source files in whatever order they appear in the org-mode
        : file.
-       : 
+       :
        : Why am I suggesting this?
-       : 
+       :
        : People obviously like commented code.  Writing a function in
        : org-babel, I am in effect using org-mode as the commenting system.
        : Giving someone who does not use Emacs an org-mode file to see how
@@ -1351,7 +1414,7 @@ some excerpts
        : they would appreciate comments in the code. This is one way they could
        : be automatically generated from org-mode/org-babel, which is, in my
        : mind, the ideal.
-       : 
+       :
        : As I'm sure you have plenty to do, I would be happy to take a look at
        : this.  I'll give the requisite "I'm just getting started with elisp
        : ..." warning though. :)
@@ -1364,12 +1427,12 @@ some excerpts
        : general way, then it would be possible to include comments from any
        : link--on-line manuals, standards, blogs, etc.--in addition to notes in
        : the org-mode file.
-       : 
+       :
        : If it were written in a very general way, with a transformation
        : function responsible for adding the comment character, then a variety
        : of transformations might be possible.
      #+end_verse
-     
+
 ** PROPOSED begin throwing errors on malformed header arguments
    - State "PROPOSED"   from ""           [2010-06-15 Tue 15:00]
 
@@ -1385,7 +1448,7 @@ doesn't return any value, while this does
   ,#+begin_src python :results output
   ,  print 'hello'
   ,#+end_src
-  
+
   ,#+results:
   ,: hello
 #+end_src
@@ -1400,11 +1463,11 @@ This is currently implemented using a =#+BABEL:= line similar to the
 existing =#+OPTIONS:= style lines.
 #+begin_src org
   ,#+BABEL: :var number=8
-  
+
   ,#+begin_src ruby
   ,  number + 1
   ,#+end_src
-  
+
   ,#+results:
   ,: 9
 #+end_src
@@ -1416,7 +1479,7 @@ existing =#+OPTIONS:= style lines.
  the buffer for these changes to take place, or run something like the
  following which will clear out the current value of the local
  variable
- 
+
  any suggestions for a better alternative are welcome.
 
  #+begin_src emacs-lisp
@@ -1452,7 +1515,7 @@ ugh... complete
 
 *** DONE can't use cl functions
     - State "DONE"       from "TODO"       [2010-06-23 Wed 13:25]
-#+begin_quote 
+#+begin_quote
 1. Packages that are part of Emacs are not allowed to load cl at
    runtime.  So you can use (eval-when-compile (require 'cl)) in order
    to get the cl macros expanded, but you cannot use cl functions.
@@ -1548,11 +1611,11 @@ like the following
   ,   :PROPERTIES:
   ,   :session:  default
   ,   :END:
-  
+
   ,#+begin_src R :exports code :results silent
   ,  x<-8
   ,#+end_src
-  
+
   ,the sum of 1 and 4 is equal to src_R{x}
 #+end_src
 
@@ -1605,7 +1668,7 @@ of an Org-mode file.
 This would require a number of new features...
 1) a nice interface
    - embedded images, and videos, or arbitrary x-windows (e.g. a
-     screen make by gnuplot), maybe a generic 
+     screen make by gnuplot), maybe a generic
    - allow input of multi-line code segments -- maybe related to
      language selection...
    - allow for switching the /current language/
@@ -1623,7 +1686,7 @@ This would require a number of new features...
    without having to open up a code block, examples could be a generic
    means of graphing objects, simple arithmetic and matrix operations,
    file I/O, etc...
-   
+
    we should be able to use the existing lob and named code block
    functionality to define all of these primitives -- probably using
    elisp as the preferred language for these code blocks.
@@ -1709,7 +1772,7 @@ The actual code block
   (setq my-special-username (first (first data)))
   (setq my-special-password (first (second data)))
 #+end_src
-  
+
   its expanded contents, as seen with =C-c M-b p=
 #+begin_src emacs-lisp
   (let ((data (quote (("john-doe") ("abc123")))))
@@ -1772,7 +1835,7 @@ link in the headline.
 
      See also [[*Make%20org%20babel%20switch%20to%20buffer%20show%20code%20edit%20buffer][Make org-babel-switch-to-buffer show code edit buffer]]
 
-#+begin_example 
+#+begin_example
 From: Julien Barnier <julien@no-log.org>
 Subject: [Orgmode] [PATCH] [babel] Add option to display process buffer when editing R source code blocks
 User-Agent: Gnus/5.110006 (No Gnus v0.6) Emacs/23.1.91 (gnu/linux)
@@ -1795,7 +1858,7 @@ modifications from master.
 
 Sincerely,
 
--- 
+--
 Julien
 
 
@@ -1811,7 +1874,7 @@ index 8b333cc..3924089 100644
    (if column-names-p
        (cons (car result) (cons 'hline (cdr result)))
      result))
--  
+-
 +
 +
 +(defcustom org-babel-R-edit-src-show-process nil
@@ -1838,10 +1901,10 @@ index 8b333cc..3924089 100644
 +              (ess-switch-to-end-of-ESS)
 +              (other-window 1)))))
 +    ad-do-it))
- 
+
  (provide 'org-babel-R)
  ;;; org-babel-R.el ends here
--- 
+--
 1.7.0.4
 
 
@@ -1864,14 +1927,14 @@ http://lists.gnu.org/mailman/listinfo/emacs-orgmode
 
      To turn off comments in perl tangling the best I came up with was
      this. What is an easier method?
-     
+
 #+begin_src emacs-lisp
 (setq org-babel-tangle-langs
       (cons '("perl" "pl" "#!/usr/bin/env perl" t)
             (remove-if (lambda (el) (equal (car el) "perl"))
                        org-babel-tangle-langs)))
 #+end_src
-     
+
 ** PROPOSED Option to apply table formulae after C-c C-c
    - State "PROPOSED"   from ""           [2010-04-02 Fri 08:57]
 
@@ -1883,7 +1946,7 @@ http://lists.gnu.org/mailman/listinfo/emacs-orgmode
 | 1 |   2 |
 | 3 | nil |
 #+tblfm: @2$2=@2$1
-   
+
 Can we make it so that after C-c C-c, the table looks like this?
 
 | 1 | 2 |
@@ -1913,7 +1976,7 @@ of artifact in the results.
 #+srcname: artifacts-class-wt
 #+begin_src R :noweb yes :var project=112 :var duration="('event','process')" :var material = "('wood')" :var class="('charcoal')" :var start=35 :var end=61 :colnames yes
   <<r-connect-to-data>>
-  
+
   q <- sprintf("SELECT c.context, a.class,
   round(sum(a.weight),1) AS weight FROM artifacts a, baglist b,
   context c WHERE a.bag = b.bag AND b.context = c.context AND
@@ -1921,8 +1984,8 @@ of artifact in the results.
   AND a.material IN %s AND c.context_type = 'cultural' AND c.duration IN %s  AND b.context >= %i AND b.context <= %i group by 1,
   2 order by 1, 2", project, project, project, class, material, duration, start,
   end)
-  
-  art.wt <- dbGetQuery(con, q) 
+
+  art.wt <- dbGetQuery(con, q)
   <<r-disconnect>>
   art.wt
 #+end_src
@@ -1973,12 +2036,12 @@ Hmm, I see three good options here -- there are certainly more;
   (and similar) for the entire manual - this would save quite some
   space, I believe.  But I still need to make test prints to see if this
   is a viable option.
-  
+
   Then we will mention Org babel stuff where-ever necessary - obviously
   in the section about literal examples, and in the export chapter.  I
   don't see right now where else - yes, in the Introduction of course,
   with one sentence.
-  
+
   - Carsten
 #+end_quote
 
@@ -2036,7 +2099,7 @@ python.
 Regarding the graphical output, It is probably better to use :results file
 as suggested in the TODO. There may be necessary a lot of details in the
 graphic output such as labels, setting axis, etc.. It is better to let the
-user handle this in the code and just put the link to the file. 
+user handle this in the code and just put the link to the file.
 *** DONE Get matlab "Emacs Link" working
 - State "DONE"       from "TODO"       [2010-05-21 Fri 20:43]
 - State "TODO"       from ""           [2010-04-30 Fri 17:00]
@@ -2166,7 +2229,7 @@ Of course, this works
 *** TODO submit patch to matlab.el so that matlab session can be remote
       - State "TODO"       from ""           [2010-03-18 Thu 01:29]
 
-       	At the moment I'm using a massive hack: insert
+	At the moment I'm using a massive hack: insert
 
    (cd "/ddavison@tombstone.princeton.edu:") ;; DED
 
@@ -2218,7 +2281,7 @@ following
 : # Testing
 : echo $ip
 : #+end_src
-: 
+:
 : #+results: system-ping
 : : 192.168.42.24
 
@@ -2267,7 +2330,7 @@ for example, the following simple example
 : #+begin_src emacs-lisp :var two=(+ 1 1)
 :   (sqrt two)
 : #+end_src
-: 
+:
 : #+results:
 : : 1.4142135623730951
 
@@ -2278,18 +2341,18 @@ headline properties
 :     :special:  89
 :     :last-name: schulte
 :     :END:
-: 
+:
 : #+begin_src emacs-lisp :var special=(string-to-number (org-entry-get nil "special" t))
 :   (+ special 1)
 : #+end_src
-: 
+:
 : #+results:
 : : 90
-: 
+:
 : #+begin_src emacs-lisp :var last-name=(org-entry-get nil "last-name" t))
 :   (message "hello %s" last-name)
 : #+end_src
-: 
+:
 : #+results:
 : : hello schulte
 
@@ -2309,28 +2372,28 @@ headline properties
   User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
   Date: Wed, 17 Mar 2010 14:39:43 -0400
   To: emacs-orgmode@gnu.org
-  
-  
+
+
   I'd find useful to use tramp syntax in the :tangle specification.
   In my case it would be to specify sudo when tangling config files that
-  are supposed to go to areas not writable by the user running Emacs. 
+  are supposed to go to areas not writable by the user running Emacs.
   Something like:
-  
+
   #+begin_src sh :tangle /sudo::/etc/my_config_file
   ...
   #+end_src
-  
+
   other people might be interested in remote access to tangle targets.
-  
+
   Is there a way to achieve the above?
-  
+
   If I try to tangle the above, I get something along the lines that
   "tramp cannot append to file". Would it be possible to have org-babel to
   (optionally) tangle to a buffer and then save to file in one go?
-  
+
   Thanks a lot for the excellent addition to org-mode.
-  
-         Maurizio 
+
+         Maurizio
 #+end_example
 
 ** DONE Make org-babel-switch-to-buffer show code edit buffer
@@ -2352,7 +2415,7 @@ headline properties
      functionality available via some other interface (a different
      function, prefix args, etc).
 
-#+begin_example 
+#+begin_example
 diff --git a/contrib/babel/lisp/org-babel.el b/contrib/babel/lisp/org-babel.el
 index d01e6d6..5121fbc 100644
 --- a/contrib/babel/lisp/org-babel.el
@@ -2369,7 +2432,7 @@ index d01e6d6..5121fbc 100644
 +      (pop-to-buffer (funcall (intern (format "org-babel-%s-initiate-session" lang)) session params))
 +      (move-end-of-line 1))
 +    (org-edit-src-code)))
- 
+
  (defalias 'org-babel-pop-to-session 'org-babel-switch-to-session)
 #+end_example
 
@@ -2391,7 +2454,7 @@ index d01e6d6..5121fbc 100644
    - State "PROPOSED"   from ""           [2010-03-03 Wed 14:04]
      I just noticed the following link types in the [[http://orgmode.org/manual/External-links.html#External-links][org manual]]
 
-#+begin_example 
+#+begin_example
    shell:ls *.org                            A shell command
    elisp:org-agenda                          Interactive Elisp command
    elisp:(find-file-other-frame "Elisp.org") Elisp form to evaluate
@@ -2408,14 +2471,14 @@ The above suggests that babel could extend org by supporting
 
 : [[ruby: 2+2]] and [[ruby: 2+2][description]]
 
-etc. 
+etc.
 
 And perhaps header args in {} rather than []
 
 : [[ruby{:session}]] and [[ruby{:session}: 2+2][description]]
 
 If we needed to differentiate the babel handler from the org handler
-then we could use 
+then we could use
 : [[src_ruby: 2+2]]
 although I think I would like to keep the syntax identical, using
 variables to decide who handles what, so that it is invisible to the
@@ -2447,12 +2510,12 @@ user.
      needed to be added to o-b-pop-to-session.
 - [ ] Make docstrings obey emacs rules :: First descriptive sentence
      on own line less than 80 chars (or something like that).
-- [ ] Avoid multiple calls to org-babel-where-is-src-block-head :: 
+- [ ] Avoid multiple calls to org-babel-where-is-src-block-head ::
       the posiion of head can be stored in the 'info' data
       structure. This would entail a bit of messing about as it would
       have to be one of the earlier elements in the list, thus pushing
       the others along by one.
-     
+
 ** STARTED org-icons for src blocks
    - State "STARTED"    from "PROPOSED"   [2010-08-29 Sun 19:01]
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:22]
@@ -2465,13 +2528,13 @@ user.
      language-specific icons. Personally, even with code block
      folding, I find the remaining block boilerplate to be a bit
      intrusive.
-     
+
      As for default icons...ideas? I don't know what it would look
      like using the icons associated with the respective software
      projects (ruby, python, R, etc) but it would be interesting to
      see.
 
-** DONE In-buffer graphical results 
+** DONE In-buffer graphical results
    - State "DONE"       from "STARTED"    [2010-08-29 Sun 19:00]
    - State "STARTED"    from "PROPOSED"   [2010-03-15 Mon 17:21]
    - State "PROPOSED"   from ""           [2010-03-15 Mon 17:15]
@@ -2551,8 +2614,8 @@ e.g. the following
   ,   :var: x=1
   ,   :var: y=2
   ,   :END:
-  ,     
-  ,#+begin_src emacs-lisp 
+  ,
+  ,#+begin_src emacs-lisp
   ,(list x y)
   ,#+end_src
 #+end_src
@@ -2590,18 +2653,18 @@ results in
      org-link-file-path-type.
 
      Perhaps org-insert-link can be refactored along the lines of
-     
-#+begin_src emacs-lisp 
+
+#+begin_src emacs-lisp
   (defun org-insert-link (...)
     ...
     (insert (org-create-link ...)))
 #+end_src
 
     in which case we could use org-create-link.
-     
+
 ** PROPOSED Are we happy with boolean header arg semantics?
    - State "PROPOSED"   from ""           [2010-02-24 Wed 15:51]
-     
+
      For boolean header args like cache, noweb and colnames, the value
      is <on> if the header arg is yes; absent or any other value is
      <off>.
@@ -2614,7 +2677,7 @@ results in
      and anyone who is supplying them is likely to be wanting to turn
      them <on>, and so the only way for them to fail to do what they
      want would be if they supplied nil.
-     
+
      In particular, users might be surprised that t, y, Y, on, Yes
      don't work.
 
@@ -2622,7 +2685,7 @@ results in
      accept the backwards incompatibility cost, but I'm just noting it
      down. It could always be implemented by a variable.
 
-** DONE Handling of table column names and hlines across languages 
+** DONE Handling of table column names and hlines across languages
    - State "DONE"       from "TODO"       [2010-04-23 Fri 09:42]
    - State "TODO"       from "PROPOSED"   [2010-03-26 Fri 21:38]
    - State "PROPOSED"   from ""           [2010-02-23 Tue 20:04]
@@ -2648,17 +2711,17 @@ names, and rownames across all languages.  These are as follows
           : | d | e | f |
           : |---+---+---|
           : | g | h | i |
-          : 
+          :
           : #+source: echo-table
           : #+begin_src python :var tab=many-cols
           :   return tab
           : #+end_src
-          : 
+          :
           : #+results: echo-table
           : | a | b | c |
           : | d | e | f |
           : | g | h | i |
-          
+
      - "yes" :: leaves 'hlines in the table. This is the default for
           emacs-lisp which may want to handle hline symbols
           explicitly.
@@ -2666,7 +2729,7 @@ names, and rownames across all languages.  These are as follows
 - =:colnames= :: Can take on the values of "yes", "no", or =nil= for
      unassigned.  The default value is =nil=.  These values have the
      following effects
-     
+
      - =nil= :: If an input table /looks like/ it has column names
           (meaning if it's second row is an hline), then the column
           names will be removed from the table by org-babel before
@@ -2678,12 +2741,12 @@ names, and rownames across all languages.  These are as follows
           : |---|
           : | b |
           : | c |
-          :   
+          :
           : #+srcname: echo-table-again
           : #+begin_src python :var tab=less-cols
           :   return [[val + '*' for val in row] for row in tab]
           : #+end_src
-          : 
+          :
           : #+results: echo-table-again
           : | a  |
           : |----|
@@ -2707,18 +2770,18 @@ names, and rownames across all languages.  These are as follows
 
           : #+tblname: with-rownames
           : | one | 1 | 2 | 3 | 4 |  5 |
-          : | two | 6 | 7 | 8 | 9 | 10 | 
-          : 
+          : | two | 6 | 7 | 8 | 9 | 10 |
+          :
           : #+srcname: echo-table-once-again
           : #+begin_src python :var tab=with-rownames :rownames yes
-          :   return [[val + 10 for val in row] for row in tab]            
+          :   return [[val + 10 for val in row] for row in tab]
           : #+end_src
-          : 
+          :
           : #+results: echo-table-once-again
           : | one | 11 | 12 | 13 | 14 | 15 |
           : | two | 16 | 17 | 18 | 19 | 20 |
 
-		
+
 
 	Thanks to Julien Barnier for adding rownames support in R.
 
@@ -2729,11 +2792,11 @@ names, and rownames across all languages.  These are as follows
       Julien Barnier has made a patch implementing rownames in R. This
       is in branch julien-barnier-R-rownames in the devel repo (commit
       f29c00432e6091bc1fbce8d1eb9052eff61da7b7)
-      
+
       There is a test file for column and rownames [[file:col-row-names.org][here]].
 
 **** From Tom Dye
-#+begin_quote 
+#+begin_quote
 IIUC, the difficulty is introduced by the difference between R, which
 keeps row names "under the hood," and org-mode, which doesn't have a
 concept of row names.  So, the question becomes one of preserving R's
@@ -2781,7 +2844,7 @@ Results in error because of 'hline
 
 We could remove the hline with the following, but need to think about whether to include the column names or not.
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 (defun org-babel-python-var-to-python (var)
   "Convert an elisp var into a string of python source code
 specifying a var of the same value."
@@ -2899,15 +2962,15 @@ least hlines as 2nd element of elisp table).
    cycling just opens headings. An example of when you might want
    absolutely everything to be open is when using C-s to search
    through a buffer.
-   
+
    So, currently even closed source blocks will open temporarily for
    searching because of the way they are hidden.  Also there is the
    `org-show-block-all'
-   #+begin_example 
+   #+begin_example
      org-show-block-all is a Lisp function in `org.el'.
-     
+
      (org-show-block-all)
-     
+
      Unfold all blocks in the current buffer.
    #+end_example
    function which will reveal all blocks in the current buffer, I
@@ -2929,7 +2992,7 @@ least hlines as 2nd element of elisp table).
      Done: (e52909d90274) The header arg is :eval no
 
    E.g. by org-babel-execute-buffer
-   
+
    Hmm, should this be a new header argument, maybe =:run= which can
    take a =yes= or =no= argument?
 
@@ -2996,7 +3059,7 @@ most of these all follow this simple basic form
    See email thread started by Graham Smith 12 Dec.
 
    Should we be setting ATTR_LaTeX in this situation?
-   
+
    So it looks like we somehow need to pass the width through to R as
    a variable.  Are the current variable passing methods insufficient
    for this task?  Or would it just be more convenient if the R
@@ -3008,7 +3071,7 @@ most of these all follow this simple basic form
 #+begin_example
   ,#+options toc:nil
   ,#+title: R latex graphics
-    
+
   Text before figure.
   ,#+CAPTION:    Trial boxplots with babel
   ,#+LABEL:      fig:trial boxplots
@@ -3019,10 +3082,10 @@ most of these all follow this simple basic form
     Head <- rnorm(100, 3) ; Wt <- rnorm(100, 40)
     boxplot(Wingcrd,Tarsus,Head,Wt,names=c("Wingcrd","Tarsus","Head","Wt"))
   ,#+end_src
-  
+
   ,#+results: Boxplots
   [[file:BoxplotSummary.pdf]]
-  
+
   Text after figure.
 #+end_example
 
@@ -3064,7 +3127,7 @@ most of these all follow this simple basic form
 
       At line 217 of org-babel.el, we rebind call-process-region so
       that a handler from tramp is used:
-      
+
 #+begin_src emacs-lisp
   (let (
         ...
@@ -3087,7 +3150,7 @@ most of these all follow this simple basic form
       terminated.
 
       This all needs to be fixed.
-      
+
 *** TODO Improve temp file creation and remote reading
     - State "TODO"       from ""           [2010-02-21 Sun 17:02]
       See reply from Michael Albinus
@@ -3132,20 +3195,20 @@ the value of temporary-file-directory appropriate for the remote host.
      to learn how to use tramp, and I think that this is not how it would be
      done by someone who knew what they were doing.
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
   (defun retrieve-output ()
     (let ((default-directory "/user@host:dirpath")
           (output-file (make-temp-file "zzz-")))
       (shell-command (format "hostname > %s" output-file))
       (insert-file-contents
        (if (file-remote-p default-directory) (make-remote-file-name output-file) output-file))))
-  
+
   (defun make-remote-file-name (file)
     (let* ((vec (tramp-dissect-file-name default-directory))
            (user (tramp-file-name-user vec))
            (host (tramp-file-name-host vec)))
       (concat "/" user (when user "@") host ":" file)))
-  
+
   (retrieve-output)
 #+end_src
 
@@ -3214,7 +3277,7 @@ the value of temporary-file-directory appropriate for the remote host.
              (or (file-remote-p tmpfile 'localname) tmpfile))
             (insert-file-contents tmpfile))
         (delete-file tmpfile))))
-  
+
   (retrieve-output)
 #+end_src
 
@@ -3247,7 +3310,7 @@ the value of temporary-file-directory appropriate for the remote host.
       010cd73feb4a1dcb2da6f9a7352a35cfb4dac00e.
 **** TODO Make gnuplot respond to default-directory
      - State "TODO"       from ""           [2010-02-28 Sun 15:34]
-       
+
        gnuplot currently uses shell-command-to-string. I think this may
        be the reason why it does not respond to a change in
        default-directory. We may want to use shell-command-on-region
@@ -3284,13 +3347,13 @@ good to you then I'd say we're set and go ahead and commit.
 Since remote directories are working, the user could always put the path
 to the directory on their webserver in the :dir option, in which case
 the links may actually resolve.
-       
+
 *** PROPOSED should we allow :results file without explicitly giving path?
     I.e. should we create a file in /tmp or in the current directory?
 *** DONE Improve support for :session t :results output
     - State "DONE"       from "TODO"       [2010-02-21 Sun 00:48]
     - State "TODO"       from ""           [2010-02-16 Tue 13:59]
-      
+
 **** DEFERRED :dir has no effect on existing session
      - State "DEFERRED"   from "TODO"       [2010-02-21 Sun 00:48]
      - State "TODO"       from ""           [2010-02-16 Tue 15:53]
@@ -3314,7 +3377,7 @@ the links may actually resolve.
       and then (in elisp) attempts to retrieve it from the local
       machine. Thus the necessary network data transmission is not
       currently attempted. Perhaps tramp can be used to achieve this?
-      
+
       Hmm, If there is some programmatic way to detect that the
       current buffer is visiting a remote machine, then it should be
       easy to change the code which is writing and reading to
@@ -3352,24 +3415,24 @@ the links may actually resolve.
 
       We need:
       - A way to specify the machine on which a remote process should be
-       	run (and to retrieve stdout/stderr)
+	run (and to retrieve stdout/stderr)
       - A way of retrieving file contents in the case of :results value.
 
       The second of the above should be handled by the
       [[remote-results-value]] case above.  As for telling org-babel to
       start the process on a remote machine, it's not immediately clear
       to me how that would work.
-      
+
       The first thing that occurs to me is that maybe if we accept a
       path so that a buffer on the remote machine can be opened using
       tramp then we can switch to that buffer and remote execution will
       happen naturally in a language-agnostic way.  This is a slight
       automation of the process described above.  So something like
-      
+
       : #+begin_src clojure :host my-other-machine:~/some-file
       :   (println (System/getProperties))
       : #+end_src
-      
+
       would result in Org-babel first opening a buffer with the value of
       =:host= and then running through the same execution pattern as
       above.
@@ -3478,9 +3541,9 @@ the values of user-specific information (i.e. the user's shell)
      > case.
 
      Thank you for the information and explanation.
-     It seems that the problem comes from the windows shell. 
+     It seems that the problem comes from the windows shell.
 
-     I try the following :  I explicitely told emacs to use bash 
+     I try the following :  I explicitely told emacs to use bash
      with the following instructions :
      (setq explicit-shell-file-name "C:/msys/1.0/bin/bash.exe")
      (setq shell-file-name explicit-shell-file-name)
@@ -3488,7 +3551,7 @@ the values of user-specific information (i.e. the user's shell)
      It works with bash.
 
 
-     > 
+     >
      > #+srcname:trial
      > #+begin_src R :session org-babel-R-session
      >    c(4,5,6,7,8,9)
@@ -3496,7 +3559,7 @@ the values of user-specific information (i.e. the user's shell)
 
      The "session" way works too.
 
-     Thank you.  
+     Thank you.
 #+end_verse
 
 **** Bernd Weiss email
@@ -3558,7 +3621,7 @@ noweb expansion system...
 - noweb has a syntax for doing this on latex export
 - maybe even include a list of where it is used...
 
-#+begin_quote 
+#+begin_quote
 : >>> That sounds like a good idea.  It would be nice to make the
 : >>> appearance
 : >>> of the exported names customizable as I can see many different
@@ -3570,22 +3633,22 @@ noweb expansion system...
 : >>
 : >
 : > understood :) I'll look into this
-: 
-: 
+:
+:
 : I don't know whether you can call Emacs Lisp functions in an Org
 : macro, but perhaps you can talk the Org developers into allowing for
 : that. Emacs Lisp functions can be over written.. Even better, you
-: could then define a hook, and have a clean extendable solution.  
+: could then define a hook, and have a clean extendable solution.
 #+end_quote
 
 ** PROPOSED asynchronous
    :PROPERTIES:
    :CUSTOM_ID: asynchronous-execution
-   :END: 
+   :END:
 
    This may duplicate some of the contents of the
    [[rework-running-proc-interaction]] task.
-   
+
    Basically it would be great to be able to run processes asynchronously
    in the background.  Emacs has support for and even encourages this, it
    would just be a question of make the changes both for sessions and
@@ -3630,7 +3693,7 @@ it into the documentation at some point.
    o-b-merge-params.
 ** TODO =:hide= header argument for automatically folding source blocks
 from the mailing list
-#+begin_quote 
+#+begin_quote
  My suggestion is that if a source block has the :hide header argument
  it should be closed by default as if the user had pressed tab. The
  user could then press tab at the "#BEGIN_SRC ..." line to show the
@@ -3642,7 +3705,7 @@ from the mailing list
 ** REJECTED allow hiding of code blocks with <tab> on srcname line?
    - State "REJECTED"   from "PROPOSED"   [2010-08-29 Sun 19:18]
      I think this is out of keeping with other Org behaviour
-     
+
 ** DONE Allow hiding of results blocks?
    - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:17]
 ** PROPOSED Support passing of data to source block on stdin?
@@ -3653,7 +3716,7 @@ languages (like ruby) which support dumping object to/from these
 serialization languages.
 
 ** PROPOSED allow references to bound emacs lisp variables?
-   I don't *think* we can do this currently. Something like this? 
+   I don't *think* we can do this currently. Something like this?
 #+begin_src emacs-lisp
 (defun org-babel-ref-literal (ref)
   "Determine if the right side of a header argument variable
@@ -3705,7 +3768,7 @@ be selecting a key sequence.
 
    No, we already have =:results raw= which is currently synonymous
    with =org=. [Dan]
-   
+
    Also, the idea of org source blocks in an org-mode document seems
    needlessly complex and contorted.  Of course I could be missing
    something here. [Eric]
@@ -3730,7 +3793,7 @@ be selecting a key sequence.
   =:results code=. [Dan]
 
 ** TODO support for working with org-src-mode edit buffers [7/8]
-*** DONE Patch against org source. 
+*** DONE Patch against org source.
     I've worked on several related changes to source code edit buffer
     behaviour in the org core.  My current patch (below) does the
     following. Detailed explanation / working notes are below.
@@ -3745,10 +3808,10 @@ be selecting a key sequence.
 
     These changes were added to the main org repository in commit
     4b6988bf36cb458c9d113ee4332e016990c1eb04
-    
+
 **** Detailed working notes to go with that patch
 ***** Recap of current org-src-mode
-      
+
       If you use C-c ' to work on code in a begin_source block, the code
       buffer is put in minor mode org-src-mode, which features the
       following two useful key-bindings:
@@ -3787,7 +3850,7 @@ be selecting a key sequence.
 
        - C-x s still does *not* offer to save the edit buffer. That's
 	 because buffer-file-name is nil.
-       
+
        - C-x C-c does ask us whether we want to save the
 	 edit buffer. However, since buffer-file-name is nil it asks us
 	 for a file name. The check in org-edit-src-exit throws an error
@@ -3802,11 +3865,11 @@ be selecting a key sequence.
        though we don't really want to associate this buffer with a file
        in the normal way. As for the file name, my current suggestion
        is parent-org-filename[edit-buffer-name].
-       
+
        [I had to move the (org-src-mode) call to the end of
        org-edit-src-code to make sure that the required variables were
        defined when the hook was called.]
-       
+
 ****** And so where are we now?
        - C-x s *does* offer to save the edit buffer, but in saving
 	 produces a warning that the edit buffer is modified.
@@ -3944,7 +4007,7 @@ process variable. [Eric]
     come to mind in that regard:
 
 **** DONE Remap C-x C-s to save the source to the org buffer?
-     I've done this personally and I find it essential. I'm using 
+     I've done this personally and I find it essential. I'm using
 #+begin_src emacs-lisp
 (defun org-edit-src-save ()
   "Update the parent org buffer with the edited source code, save
@@ -3958,7 +4021,7 @@ buffer."
     (goto-char p)))
 
 (define-key org-exit-edit-mode-map "\C-x\C-s" 'org-edit-src-save)
-#+end_src     
+#+end_src
     which seems to work.
 
 I think this is great, but I think it should be implemented in the
@@ -3986,13 +4049,13 @@ org-mode core
      mode, making it even more of a misnomer. Perhaps something like
      org-src-mode would be better.
 **** DONE Changed minor mode name and added hooks
-     
+
 **** DONE a hook called when the src edit buffer is created
      This should be implemented in the org-mode core
 ** TODO resolve references to other org buffers/files
    This would allow source blocks to call upon tables, source-blocks,
    and results in other org buffers/files.
-   
+
    See...
    - [[file:lisp/org-babel-ref.el::TODO%20allow%20searching%20for%20names%20in%20other%20buffers][org-babel-ref.el:searching-in-other-buffers]]
    - [[file:lisp/org-babel.el::defun%20org-babel%20find%20named%20result%20name][org-babel.el#org-babel-find-named-result]]
@@ -4007,7 +4070,7 @@ will be easy using the =sbe= function in [[file:lisp/org-babel-table.el][org-bab
 
 This will rely upon [[* resolve references to other buffers][resolve references to other buffers]].
 ** TODO LoB: start to provide some useful functionality
-   
+
    Now that things are more settled down than a few months ago it may
    be a good time to start working out what functionality LoB should
    provide. Let's collect ideas here for now.
@@ -4141,7 +4204,7 @@ index 0e8695f..060f880 100644
 ** TODO Finalise argument-passing syntax
 
 #+srcname: unnamedargs(x=7)
-#+begin_src python 
+#+begin_src python
 x
 #+end_src
 
@@ -4218,7 +4281,7 @@ no-brainer in a spreadsheet but my attempts in Org have failed. Any
 ideas?
 
 By the way, thanks for this great piece of software!
--- 
+--
  hector
 
 **** Suppose the tables are as follows
@@ -4253,7 +4316,7 @@ cbind(a, b)
      then org-table-import
 ** DONE allow for stripping of header rows from table data
    - State "DONE"       from "PROPOSED"   [2010-08-29 Sun 19:25]
-     
+
      See documentation of :colnames and :rownames header args
 
 maybe controlled by an argument
@@ -4292,16 +4355,16 @@ but with preference given to
 ** PROPOSED conversion between org-babel and noweb (e.g. .Rnw) format
    I haven't thought about this properly. Just noting it down. What
    Sweave uses is called "R noweb" (.Rnw).
-   
+
    I found a good description of noweb in the following article (see
    the [[http://www.cs.tufts.edu/~nr/pubs/lpsimp.pdf][pdf]]).
-   
+
    I think there are two parts to noweb, the construction of
    documentation and the extraction of source-code (with notangle).
 
    *documentation*: org-mode handles all of our documentation needs in
    a manner that I believe is superior to noweb.
-   
+
    *source extraction* At this point I don't see anyone writing large
    applications with 100% of the source code contained in org-babel
    files, rather I see org-babel files containing things like
@@ -4404,7 +4467,7 @@ this.  Closing this issue for now.
 #+TBLFM: @2$4=@2$2 - @2$3::@2$6=@2$2 - @2$5::@3$4=@3$2-@3$3::@3$6=@3$2 - @3$5::@4$4=@4$2 - @4$3::@4$6=@4$2 - @4$5::@5$4=@5$2-@5$3::@5$6=@5$2 - @5$5::@6$4=vsum(@2$4..@5$4)::@6$6=vsum(@2$6..@5$6)
 
 #+srcname: make-size-table(size=sample-sizes)
-#+begin_src R 
+#+begin_src R
   rownames(size) <- size[,1]
   size <- size[,-1]
 #+end_src
@@ -4427,8 +4490,8 @@ Examples
 > # a named vector
 > vec <- c(a=1, b=2)
 > vec["b"]
-b 
-2 
+b
+2
 > mat <- matrix(1:4, nrow=2, ncol=2, dimnames=list(c("r1","r2"), c("c1","c2")))
 > mat
    c1 c2
@@ -4471,10 +4534,10 @@ g    7   20
    markers are placed in the first column. An hline is unnecessary
    (indeed hlines are purely cosmetic in org [correct?]
  - Org does not have a notion of "row names" [correct?]
-    
+
    The full org table functionality exeplified [[http://orgmode.org/manual/Advanced-features.html#Advanced-features][here]] has features that
    we would not support in e.g. R (like names for the row below).
-   
+
 **** Initial statement: allow tables with hline to be passed as args into R
    This doesn't seem to work at the moment (example below). It would
    also be nice to have a natural way for the column names of the org
@@ -4575,17 +4638,17 @@ mean(mean(vec))
     the benefits of
     1) allowing background execution
     2) maintaining state between source-blocks
-       - allowing inline blocks w/o header arguments 
+       - allowing inline blocks w/o header arguments
 
 **** R sessions
      (like ess-switch-process in .R buffers)
-     
+
      Maybe this could be packaged into a header argument, something
      like =:R_session= which could accept either the name of the
      session to use, or the string =prompt=, in which case we could use
      the =ess-switch-process= command to select a new process.
-     
-*** TODO evaluation of shell code as background process? 
+
+*** TODO evaluation of shell code as background process?
     After C-c C-c on an R code block, the process may appear to
     block, but C-g can be used to reclaim control of the .org buffer,
     without interrupting the R evalution. However I believe this is not
@@ -4595,11 +4658,11 @@ mean(mean(vec))
     The other languages (aside from emacs lisp) are run through the
     shell, so if we find a shell solution it should work for them as
     well.
-    
+
     Adding an ampersand seems to be a supported way to run commands in
     the background (see [[http://www.emacswiki.org/emacs/ExecuteExternalCommand#toc4][external-commands]]).  Although a more extensible
     solution may involve the use of the [[elisp:(progn (describe-function 'call-process-region) nil)][call-process-region]] function.
-    
+
     Going to try this out in a new file [[file:lisp/org-babel-proc.el][org-babel-proc.el]].  This should
     contain functions for asynchronously running generic shell commands
     in the background, and then returning their input.
@@ -4649,46 +4712,46 @@ So files can be referenced by source code blocks
 
 - Here's a simple example counting the size of the user's =.profile=
   file.
-  
+
   The raw org-mode text
-  
-  #+begin_example 
+
+  #+begin_example
     ,#+results: my-profile
     [[file:~/.profile][my-profile]]
-    
+
     ,#+begin_src sh :var profile=my-profile
       wc $profile
     ,#+end_src
-    
+
     ,#+results:
     : 22 109 675 /home/eschulte/.profile
   #+end_example
-  
+
   Now exported to html
 
 #+results: my-profile
   [[file:~/.profile][my-profile]]
-  
+
   #+begin_src sh :var profile=my-profile
     wc $profile
   #+end_src
-  
+
 #+results:
   : 22 109 675 /home/eschulte/.profile
-  
+
 - Or perhaps a slightly fancier example using the =host= command to
   grab IP information for the org-mode homepage.
 
   The raw org-mode text
 
-  #+begin_example 
+  #+begin_example
     ,#+results: org-mode-page
     [[http://orgmode.org/][org-mode-page]]
-    
+
     ,#+begin_src sh :var page=org-mode-page
       host $page |head -1
     ,#+end_src
-    
+
     ,#+results:
     : http://orgmode.org/ has address 63.123.155.104
   #+end_example
@@ -4697,11 +4760,11 @@ So files can be referenced by source code blocks
 
 #+results: org-mode-page
   [[http://orgmode.org/][org-mode-page]]
-  
+
   #+begin_src sh :var page=org-mode-page
     host $page |head -1
   #+end_src
-  
+
 #+results:
   : http://orgmode.org/ has address 63.123.155.104
 
@@ -4734,7 +4797,7 @@ to generate a complex figure (converted to png for web display).
 :   \usetikzlibrary{shapes,arrows}
 :   \tikzstyle{astate} = [circle, draw, text centered, font=\footnotesize, fill=blue!25]
 :   \tikzstyle{rstate} = [circle, draw, text centered, font=\footnotesize, fill=red!25]
-: 
+:
 :   \begin{tikzpicture}[->,>=stealth', shorten >=1pt, auto, node distance=2.8cm, semithick]
 :     \node [astate] (1) at (0,0) {1};
 :     \node [astate] (2) at (1,0) {2};
@@ -4773,11 +4836,11 @@ block:
 
 :shebang NIL for default, other string for the shebang line
 :headers NIL for default, NONE for no headers, other string for custom headers
- 
+
 
     If so we may want to move this customization behind a header argument.
 
-That would be great  
+That would be great
 #+end_verse
 
 I think the best names for these new header-arguments would be
@@ -4843,23 +4906,23 @@ source-code blocks and names in =div= which is given the
 =org-src-container= class.  This allows for styling of the name and
 block, and for explicit association of the name and block using css
 like the following which we will apply here with an HTML block
-: #+begin_html 
-:   <style type="text/css"> 
+: #+begin_html
+:   <style type="text/css">
 :     .org-src-container {
 :     border-left: 4px solid gray; /* gray bar offsetting code and name */
 :     padding: 0.5em 0.5em 0.5em 1em; }
 :     .org-src-container pre {
 :       margin-left: 1em; }        /* indentation of code blocks w/names */
-:   </style> 
+:   </style>
 : #+end_html
-#+begin_html 
-  <style type="text/css"> 
+#+begin_html
+  <style type="text/css">
     .org-src-container {
     border-left: 4px solid gray; /* gray bar offsetting code and name */
     padding: 0.5em 0.5em 0.5em 1em; }
     .org-src-container pre {
       margin-left: 1em; }        /* indentation of code blocks w/names */
-  </style> 
+  </style>
 #+end_html
 
 So, for example the following *raw* org-mode text
@@ -4872,14 +4935,14 @@ So, for example the following *raw* org-mode text
 :         1))
 :   (fib input)
 : #+end_src
-: 
+:
 : #+results: fibonacci
 : : 1
-: 
+:
 : now applying our Fibonacci function
-: 
+:
 : #+call: fibonacci(input=5)
-: 
+:
 : #+results: fibonacci(input=5)
 : : 8
 
@@ -4957,7 +5020,7 @@ This has been implemented.  Results can now be cached using the
 : #+begin_src emacs-lisp :cache yes
 :   (+ 1 2)
 : #+end_src
-: 
+:
 : #+results[e1b5...]:
 : : 3
 
@@ -4969,35 +5032,35 @@ This has been implemented.  Results can now be cached using the
     approaches would be best.
 
     - [EMS] :: I find the saving of cached results in external files to
-         be very upsetting.  It pollutes the user's disk, and it breaks
-         what is to me a very fundamental part of org-mode, namely the
-         fact that all data is saved in plain text in org-mode files.
+	 be very upsetting.  It pollutes the user's disk, and it breaks
+	 what is to me a very fundamental part of org-mode, namely the
+	 fact that all data is saved in plain text in org-mode files.
 
-         Currently I'm leaning towards some combination of file-local
-         variable (RAM) caching and in-buffer caching.  I have more
-         comments in-line below.
+	 Currently I'm leaning towards some combination of file-local
+	 variable (RAM) caching and in-buffer caching.  I have more
+	 comments in-line below.
 
      - [DED] :: I agree about caching to external files. And now that
-         the hash is hidden in the resname, I think we
-         definitely want the in-buffer mechanism. Apart from
-         anything else it improves the mechanism by which we
-         decide whether or not to over-write existing results.
+	 the hash is hidden in the resname, I think we
+	 definitely want the in-buffer mechanism. Apart from
+	 anything else it improves the mechanism by which we
+	 decide whether or not to over-write existing results.
 
 	 The only slight drawback I can see is export: someone who
-         doesn't want the results in their org file is forced to
-         regenerate them on every export.
+	 doesn't want the results in their org file is forced to
+	 regenerate them on every export.
 
      - [EMS] :: alright, that sounds good to me.  I can't think of a
-          good solution to the export problem right now.  The approach
-          taken in org-exp-blocks -- suggested by Carsten -- is to add
-          the hash to the file name where the results were stored, so I
-          guess that could be an option, but it would be fairly
-          intrusive, and it would share the problem of saving state
-          outside of the actual org-mode buffer.  So if you don't
-          object, I'll merge in the in-buffer caching, and we can keep
-          the export caching as an open issue, then possibly add the
-          RAM/local-variable caching on top (which seems like it only
-          require a couple of lines of code).
+	  good solution to the export problem right now.  The approach
+	  taken in org-exp-blocks -- suggested by Carsten -- is to add
+	  the hash to the file name where the results were stored, so I
+	  guess that could be an option, but it would be fairly
+	  intrusive, and it would share the problem of saving state
+	  outside of the actual org-mode buffer.  So if you don't
+	  object, I'll merge in the in-buffer caching, and we can keep
+	  the export caching as an open issue, then possibly add the
+	  RAM/local-variable caching on top (which seems like it only
+	  require a couple of lines of code).
 
 **** How well do org buffers function with large folded tables?
 
@@ -5011,7 +5074,7 @@ This has been implemented.  Results can now be cached using the
      familiar with [[http://www.yaml.org/][YAML]] which at least has ruby, python (and I believe
      elisp) bindings, so that's my first thought, but there are
      probably more efficient solutions.
-     
+
      Given one function for writing to a file, taking a piece of data
      and a file-name and another function for reading from a file given
      a file name that should be sufficient for most *large* storage
@@ -5020,45 +5083,45 @@ This has been implemented.  Results can now be cached using the
 **** cache in buffer
 ****** Plus
       - Fits cleanly into existing org-babel paradigm.
-        - simple to implement -- minimal code changes
-        - doesn't rely on anything /external/ to the org-mode file
+	- simple to implement -- minimal code changes
+	- doesn't rely on anything /external/ to the org-mode file
       - Persistent across emacs sessions
 ****** Minus
       - I don't think it will work for export will it?
-        - This does work for exporting results.  If a result line is
-          already in the buffer then it will be used instead of
-          re-evaluation of the result on export.  *note* I did however
-          notice two bugs when checking this out which I just pushed up
-          a fix to in the ems-babel branch.
-        - So still a slight drawback, as the results must be in the org
-          buffer.
+	- This does work for exporting results.  If a result line is
+	  already in the buffer then it will be used instead of
+	  re-evaluation of the result on export.  *note* I did however
+	  notice two bugs when checking this out which I just pushed up
+	  a fix to in the ems-babel branch.
+	- So still a slight drawback, as the results must be in the org
+	  buffer.
       - The result is editable; no promise that repeat evaluation will
-        give the original result.  true, but that is also true of
-        results stored in local variables (RAM) or on disk -- although
-        admittedly it would be harder in those cases.  It would be cool
-        if we could automatically remove the hash when a result is
-        edited by hand...
+	give the original result.  true, but that is also true of
+	results stored in local variables (RAM) or on disk -- although
+	admittedly it would be harder in those cases.  It would be cool
+	if we could automatically remove the hash when a result is
+	edited by hand...
       - [Therefore difficult to confirm that cache is working] nope,
-        I've tested it and it works :)
+	I've tested it and it works :)
       - Not good for large tables, yes storing large tables in org-mode
-        buffers can be a pain, perhaps some sort of result folding
-        would be generally useful -- beyond cached results
+	buffers can be a pain, perhaps some sort of result folding
+	would be generally useful -- beyond cached results
       - sha1 hashes are ugly and not-for-humans: hide them? yes, they
-        are hidden in the most recent version in branch ems-babel.  If
-        you need to know the hash value for some reason pressing =C-c
-        C-c= on the small visible portion of the hash will copy it to
-        your kill ring
+	are hidden in the most recent version in branch ems-babel.  If
+	you need to know the hash value for some reason pressing =C-c
+	C-c= on the small visible portion of the hash will copy it to
+	your kill ring
 **** cache in RAM
 ****** Plus
        - Result is not editable -- without editing local variables
        - Good for very large tables -- as long as we don't mind
-         persisting large tables in memory
+	 persisting large tables in memory
        - Fastest of the three
 ****** Minus
        - Not part of babel paradigm (but should be very unobtrusive)
        - Not persistent across emacs sessions
-         - Not sharable (impossible to send a file to someone else and
-           include cached results)
+	 - Not sharable (impossible to send a file to someone else and
+	   include cached results)
        - user can't read cached data
 **** cache on disk
 ****** Plus
@@ -5067,24 +5130,24 @@ This has been implemented.  Results can now be cached using the
        - Persistent across emacs sessions
 ****** Minus
        - Not currently part of babel paradigm
-         - (but we will probably want to implement external table
-           access) meaning tables in foreign org-mode files? because I
-           think that is already implemented.  If some other sort of
-           foreign table then I'm not sure what you mean.
-         - Not sharable (impossible to send a file to someone else and
-           include cached results)
+	 - (but we will probably want to implement external table
+	   access) meaning tables in foreign org-mode files? because I
+	   think that is already implemented.  If some other sort of
+	   foreign table then I'm not sure what you mean.
+	 - Not sharable (impossible to send a file to someone else and
+	   include cached results)
        - pollutes user's directories with new files
        - saves state outside of the org-mode buffer
        - no longer "everything in plain text"
        - currently saving data in /tmp directories where it won't
-         survive reboot
+	 survive reboot
        - using =(format "%S" object)= to serialize data will not work
-         for large lists/tables
+	 for large lists/tables
        - elisp may not be the ideal serialization language
        - the cached data is not visible or readable by the user
 **** How do we distinguish a nil result from a lack of a cached result?
 
-#+begin_quote 
+#+begin_quote
 I wonder if we should consider some cashing of images, also for
 export.  I think we could have an alist with sha1 hashes as keys and
 image files as values.  The sha1 hash could be made from the entire
@@ -5093,7 +5156,7 @@ code and the command that is used to create the image..
 -- Carsten
 #+end_quote
 
-#+begin_quote 
+#+begin_quote
 (sha1 stuff) seems to work.
 
 org-feed.el has a (require 'sha1) and org-publish.el uses it too.
@@ -5164,9 +5227,9 @@ other than "yes".
 ,----
 | org-babel-pop-to-session is an alias for `org-babel-switch-to-session'
 | in `org-babel.el'.
-| 
+|
 | (org-babel-pop-to-session &optional arg info)
-| 
+|
 | Switch to the session of the current source-code block.
 | If called with a prefix argument then evaluate the header arguments
 | for the source block before entering the session. Copy the body
@@ -5175,11 +5238,11 @@ other than "yes".
 
 ,----
 | org-babel-switch-to-session is an interactive Lisp function.
-| 
+|
 | It is bound to C-c M-b z.
-| 
+|
 | (org-babel-switch-to-session &optional arg info)
-| 
+|
 | Switch to the session of the current source-code block.
 | If called with a prefix argument then evaluate the header arguments
 | for the source block before entering the session. Copy the body
@@ -5189,11 +5252,11 @@ other than "yes".
 ,----
 | ruby-switch-to-inf is an interactive compiled Lisp function in
 | `inf-ruby.el'.
-| 
+|
 | It is bound to C-c C-z.
-| 
+|
 | (ruby-switch-to-inf eob-p)
-| 
+|
 | Switch to the ruby process buffer.
 | With argument, positions cursor at end of buffer.
 `----
@@ -5201,25 +5264,25 @@ other than "yes".
 ,----
 | python-switch-to-python is an interactive compiled Lisp function in
 | `python.el'.
-| 
+|
 | It is bound to C-c C-z, <menu-bar> <Python> <Switch to interpreter>.
-| 
+|
 | (python-switch-to-python eob-p)
-| 
+|
 | Switch to the Python process buffer, maybe starting new process.
 | With prefix arg, position cursor at end of buffer.
-| 
+|
 `----
 
 ,----
 | ess-switch-to-end-of-ESS is an interactive compiled Lisp function in
 | `ess-inf.el'.
-| 
+|
 | It is bound to C-c C-z, <menu-bar> <ESS> <Motion...> <Goto end of ESS
 | buffer>, C-M-r.
-| 
+|
 | (ess-switch-to-end-of-ESS)
-| 
+|
 | Switch to the end of the inferior ESS process buffer.
 `----
 
@@ -5239,28 +5302,28 @@ other than "yes".
   User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
   Date: Wed, 17 Mar 2010 14:39:43 -0400
   To: emacs-orgmode@gnu.org
-  
-  
+
+
   I'd find useful to use tramp syntax in the :tangle specification.
   In my case it would be to specify sudo when tangling config files that
-  are supposed to go to areas not writable by the user running Emacs. 
+  are supposed to go to areas not writable by the user running Emacs.
   Something like:
-  
+
   #+begin_src sh :tangle /sudo::/etc/my_config_file
   ...
   #+end_src
-  
+
   other people might be interested in remote access to tangle targets.
-  
+
   Is there a way to achieve the above?
-  
+
   If I try to tangle the above, I get something along the lines that
   "tramp cannot append to file". Would it be possible to have org-babel to
   (optionally) tangle to a buffer and then save to file in one go?
-  
+
   Thanks a lot for the excellent addition to org-mode.
-  
-         Maurizio 
+
+         Maurizio
 #+end_example
 
 ** DONE allow 'output mode to return stdout as value?
@@ -5285,9 +5348,9 @@ other than "yes".
       this value, or is it overcome by the verbatim/code options?  For
       now I propose we leave the scalar option unchanged.
     - [X] We rename :results vector -> table (even though this will be
-         the default it is nice to have a name for it, and we need a
-         symbolic name for implementing -- and allowing users to
-         change -- the default behavior)
+	 the default it is nice to have a name for it, and we need a
+	 symbolic name for implementing -- and allowing users to
+	 change -- the default behavior)
    - [X] We force :results output to be empty for elisp
 *** Parseable output
     - output as code block
@@ -5315,7 +5378,7 @@ other than "yes".
 |            |               |                             |                                 |
 
 *** DONE pretty print source results
-    
+
     [ see above ]
 
 add a result type for the display of source-code objects.  results of
@@ -5323,7 +5386,7 @@ this type should be wrapped in source-code blocks.
 
 inspired by Benny's pp patch for emacs-lisp (below)
 
-#+begin_example 
+#+begin_example
   diff --git a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el b/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
 index 39f5cc7..60671ac 100644
 --- a/contrib/babel/lisp/langs/org-babel-emacs-lisp.el
@@ -5344,7 +5407,7 @@ index 39f5cc7..60671ac 100644
 +                                              (concat "(pp " body ")")
 +                                              body)
 +                                ")"))))))))
- 
+
  (provide 'org-babel-emacs-lisp)
  ;;; org-babel-emacs-lisp.el ends here
 #+end_example
@@ -5414,12 +5477,12 @@ Here's a source block that defines the action we want to do.
 And here's some more text.
 
 **** Another heading
-     
+
 **** Finally
   Here is where we actually want the image to appear
 
 #+lob: myplot() :file blue.png
-  
+
 #+resname: myplot()
 [[file:blue.png]]
 ** DONE dynamic clock tables (as input to source blocks)
@@ -5435,7 +5498,7 @@ be named using a =#+TBLNAME:= line.
 : #+BEGIN: clocktable :maxlevel 2 :block today :scope tree1 :link t :name todays-clock
 : #+END: clocktable
 ** DONE figure out how to handle graphic output
-   
+
 This is listed under [[* graphical output][graphical output]] in out objectives.
 
 This should take advantage of the =:results file= option, and
@@ -5481,7 +5544,7 @@ R users.
 > Dan
 >
 > #+srcname: cohort-scatter-plots-2d(org_babel_graphical_output_file="cohort-scatter-plots-2d.png")
-> #+begin_src R 
+> #+begin_src R
 >   if(exists("org_babel_output_file"))
 >       png(filename=org_babel_graphical_output_file, width=1000, height=1000)
 >   ## plotting code in here
@@ -5517,7 +5580,7 @@ would be file output (subject to the :exports directives).
 : cat("| 1 | 2 | 3 |\n")
 : cat("[[http://google.com][Google it here]]\n"
 : #+end_src
-:        
+:
 : #+resname:
 : ***** This is a table
 : | 1 | 2 | 3 |
@@ -5599,7 +5662,7 @@ Not sure how/if this would work, but it may be desirable.
 ** DONE take default values for header args from properties
    Use file-wide and subtree wide properties to set default values for
    header args.
-   
+
    [DED] One thing I'm finding when working with R is that an org file
    may contain many source blocks, but that I just want to evaluate a
    subset of them. Typically this is in order to take up where I left
@@ -5634,12 +5697,12 @@ replaced with the actual body of the referenced source-code block.
 See the following for an example.
 
 #+srcname: ems-ruby-print-header
-#+begin_src ruby 
+#+begin_src ruby
 puts "---------------------------header---------------------------"
 #+end_src
 
 #+srcname: emacs-ruby-print-footer
-#+begin_src ruby 
+#+begin_src ruby
 puts "---------------------------footer---------------------------"
 #+end_src
 
@@ -5685,7 +5748,7 @@ can happen in two ways...
    =no= or =yes= then it is used as the file name
 
 #+srcname: test-new-tangling
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
   (org-babel-load-file "test-tangle.org")
   (if (string= test-tangle-advert "use org-babel-tangle for all your emacs initialization files!!")
       "succeed"
@@ -5817,10 +5880,10 @@ this is tested in [[file:test-tangle.org::*Emacs%20Lisp%20initialization%20stuff
     - So maybe a #+BABELDO line will have header args
       - :data (a reference to a table or source code block)
       - :action (or should that be :srcname?) which will be something
-        like :action pie-chart, referring to a source block which will
-        be executed with the :data referent passed in using a :var arg.
+	like :action pie-chart, referring to a source block which will
+	be executed with the :data referent passed in using a :var arg.
       - :showcode or something controlling whether to show the code
-      
+
 *** Modification to design
     I'm implementing this, at least initially, as a new interpreter
     named 'babel', which has an empty body. 'babel' blocks take
@@ -5859,9 +5922,9 @@ this is tested in [[file:test-tangle.org::*Emacs%20Lisp%20initialization%20stuff
    customizable variable.
 *** DONE add ability to remove such results
 ** DONE exclusive =exports= params
-   
+
 #+srcname: implement-export-exclusivity
-#+begin_src ruby 
+#+begin_src ruby
 :this_is_a_test
 #+end_src
 
@@ -6075,14 +6138,14 @@ is not preserved because it is assigned inside of a functional
 wrapper.
 
 #+srcname: task-R-sessions
-#+begin_src R 
+#+begin_src R
 a <- 9
 b <- 21
 a + b
 #+end_src
 
 #+srcname: task-R-same-session
-#+begin_src R 
+#+begin_src R
 a
 #+end_src
 
@@ -6164,38 +6227,38 @@ Got this idea from the following [[http://linux.derkeiler.com/Mailing-Lists/Fedo
 suggested from mailing list
 
 #+srcname: bash-save-last-output-to-file
-#+begin_src sh 
-while read line 
-do 
-  bash -c "$line" | tee /tmp/last.out1 
-  mv /tmp/last.out1 /tmp/last.out 
+#+begin_src sh
+while read line
+do
+  bash -c "$line" | tee /tmp/last.out1
+  mv /tmp/last.out1 /tmp/last.out
 done
 #+end_src
 
 another proposed solution from the above thread
 
 #+srcname: bash-save-in-variable
-#+begin_src sh 
-#!/bin/bash 
-# so - Save Output. Saves output of command in OUT shell variable. 
-OUT=`$*` 
-echo $OUT 
+#+begin_src sh
+#!/bin/bash
+# so - Save Output. Saves output of command in OUT shell variable.
+OUT=`$*`
+echo $OUT
 #+end_src
 
 and another
 
 #+begin_verse
-.inputrc: 
-"^[k": accept-line 
-"^M": " | tee /tmp/h_lastcmd.out ^[k" 
+.inputrc:
+"^[k": accept-line
+"^M": " | tee /tmp/h_lastcmd.out ^[k"
 
-.bash_profile: 
-export __=/tmp/h_lastcmd.out 
+.bash_profile:
+export __=/tmp/h_lastcmd.out
 
-If you try it, Alt-k will stand for the old Enter; use "command $__" to 
-access the last output. 
+If you try it, Alt-k will stand for the old Enter; use "command $__" to
+access the last output.
 
-Best, 
+Best,
 
 --
 
@@ -6268,7 +6331,7 @@ worry about session support for emacs-lisp.
     functional style of org-babel. I am constantly horrified at the
     messy 'scripts' that my colleagues produce in perl or R or
     whatever! Nevertheless that seems to be how a lot of people work.
-    
+
     I think you were leaning towards the last-value approach because
     it offered the possibility of unified code supporting both the
     single evaluation environment and the functional style. If you
@@ -6336,12 +6399,12 @@ for the execution of source-code blocks.
 
    new header =:results= arguments
    - script :: explicitly states that we want to use STDOUT to
-               initialize our results
+	       initialize our results
    - return_last :: stdout is ignored instead the *value* of the final
-                    statement in the block is returned
+		    statement in the block is returned
    - echo :: means echo the contents of the source-code block along
-             with the results (this implies the *script* =:results=
-             argument as well)
+	     with the results (this implies the *script* =:results=
+	     argument as well)
 
 *** DONE rework evaluation lang-by-lang [4/4]
 
@@ -6352,7 +6415,7 @@ This should include...
     - write a macro which runs the first redirection, executes the
       body, then runs the second redirection
   - last :: return the value of the last statement
-    - 
+    -
 
 - sessions in comint buffers
 
@@ -6648,7 +6711,7 @@ interpreted as a vector.
 #+TBLFM: @1$3='(sbe simple-sbe-example (n 4))::@2$3='(sbe task-table-range (n @1$1..@6$1))::@3$3='(sbe task-table-range (n (@1$1..@6$1)))
 
 #+srcname: simple-sbe-example
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 "simple"
 #+end_src
 
@@ -6678,7 +6741,7 @@ how about an alist... =org-babel-default-header-args= this may already
 exist... just execute the following and all source blocks will default
 to vector output
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 (setq org-babel-default-header-args '((:results . "vector")))
 #+end_src
 
@@ -6686,7 +6749,7 @@ to vector output
 currently this isn't happening although it should be
 
 #+srcname: test-naming-named-source-blocks
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 :namer
 #+end_src
 
@@ -6704,7 +6767,7 @@ see the TODO comment in [[file:lisp/org-babel-ref.el::TODO%20This%20should%20exp
    force scalar or vector results.  This could be done with a header
    argument, and the default behavior could be controlled through a
    configuration variable.
-   
+
 #+srcname: task-trivial-vector
 #+begin_src ruby :results replace vector
 :scalar
@@ -6715,7 +6778,7 @@ see the TODO comment in [[file:lisp/org-babel-ref.el::TODO%20This%20should%20exp
 
    since it doesn't make sense to turn a vector into a scalar, lets
    just add a two values...
-   
+
    - vector :: forces the results to be a vector (potentially 1 dimensional)
    - file :: this throws an error if the result isn't a string, and
              tries to treat it as a path to a file.
@@ -6852,7 +6915,7 @@ Allow source code blocks to be called like functions, with arguments
 specified.  We are already able to call a source-code block and assign
 it's return result to a variable.  This would just add the ability to
 specify the values of the arguments to the source code block assuming
-any exist.  For an example see 
+any exist.  For an example see
 
 When a variable appears in a header argument, how do we differentiate
 between it's value being a reference or a literal value?  I guess this
@@ -6874,7 +6937,7 @@ and evaluate it.
 *** REJECTED folding of results
     So, lets do a three-stage tab cycle... First fold the src block,
     then fold the results, then unfold.
-    
+
     There's no way to tell if the results are a table or not w/o
     actually executing the block which would be too expensive of an
     operation.
@@ -6892,7 +6955,7 @@ and evaluate it.
    the mechanics of org-mode properties).  And then as a source block
    header argument which will apply only to a specific source code
    block.  A header argument of =:export= with values of
-   
+
    - =code= :: just show the code in the source code block
    - =none= :: don't show the code or the results of the evaluation
    - =results= :: just show the results of the code evaluation (don't
@@ -6981,7 +7044,7 @@ should be appended to the body of the current source-code block before
 evaluation.
 
 #+srcname: setup
-#+begin_src python 
+#+begin_src python
   import types
 #+end_src
 
@@ -7028,7 +7091,7 @@ Follow the pattern set by [[file:lisp/org-babel-shell.el][org-babel-shell.el]] a
      '(comint eval exp keys lob ref table tangle))
      (lambda (x y) (string< (downcase (symbol-name x))
                        (downcase (symbol-name y))))))
-  
+
   (mapcar 'list (org-babel-list-supported-languages))
 #+end_src
 
@@ -7098,34 +7161,34 @@ sessions.  This can be exercised through the following
 : #+begin_src clojure :session s1 :results value
 : (def *var* [1 2 3])
 : #+end_src
-: 
+:
 : #+results: set-clojure-session-var-s1
 : : #'user/*var*
-: 
-: 
+:
+:
 : #+srcname: set-clojure-session-var-s2
 : #+begin_src clojure :session s2 :results value
 : (def *var* [3 4 5 6 7 8 9])
 : #+end_src
-: 
+:
 : #+results: set-clojure-session-var-s2
 : : #'user/*var*
-: 
-: 
+:
+:
 : #+srcname: get-clojure-session-var-s1
 : #+begin_src clojure :session s1 :results value
 : (count *var*)
 : #+end_src
-: 
+:
 : #+results: get-clojure-session-var-s1
 : : 3
-: 
-: 
+:
+:
 : #+srcname: get-clojure-session-var-s2
 : #+begin_src clojure :session s2 :results value
 : (count *var*)
 : #+end_src
-: 
+:
 : #+results: get-clojure-session-var-s2
 : : 7
 
@@ -7471,8 +7534,39 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE emacs-lisp
 *** DONE sh
 
-    
-* Bugs [87/109]
+
+* Bugs [88/111]
+** TODO R variables import
+   - State "TODO"       from ""           [2010-10-09 Sat 11:59]
+   :PROPERTIES:
+   :session: *R-test*
+   :END:
+
+   #+begin_src R :var x='(1 1 3) :rownames yes
+     table(x)
+   #+end_src
+
+   With the R-vctors patch applied, the variable seems to be imported
+   OK using C-u C-c C-v z, but fails with straight C-c C-c. This is
+   related to the fact that there is (I believe) confusing variable
+   resolution code duplication between `org-babel-expand-body:R' and
+   `org-babel-prep-session:R'.
+
+** DONE Org block should remove protective commas
+   - State "DONE"       from "TODO"       [2010-10-09 Sat 11:53]
+   - State "TODO"       from ""           [2010-10-08 Fri 18:15]
+
+   #+begin_src org :results html replace
+     ,|a|
+   #+end_src
+
+   #+results:
+   #+BEGIN_HTML
+
+   <p>,|a|
+   </p>
+   #+END_HTML
+
 ** DONE can't evaluate org block on export
    - State "DONE"       from "TODO"       [2010-09-19 Sun 10:52]
    - State "TODO"       from ""           [2010-09-17 Fri 10:12]
@@ -7521,7 +7615,7 @@ Two different issues here,
    : commit fbb828a1077d4d8879b00beab2923876d93416e7
    : Author: Eric Schulte <schulte.eric@gmail.com>
    : Date:   Sat Sep 18 14:02:33 2010 -0400
-   : 
+   :
    :     ob: hash construction invariant to order of header arguments
 2) Second, when exporting from a narrowed region, any header arguments
    specified outside of the region are not collected, because only the
@@ -7532,9 +7626,9 @@ Two different issues here,
    : commit efdf78172d9f7c0070c781d136a9b49a2a56fcc4
    : Author: Eric Schulte <schulte.eric@gmail.com>
    : Date:   Sat Sep 18 19:01:49 2010 -0600
-   : 
+   :
    :     ob-exp: resolving code block parameters in the original file on export
-   :     
+   :
    :     * lisp/ob-exp.el (org-babel-exp-src-blocks): now switching back to the
    :       original file before resolving code block parameters to ensure
    :       headline and buffer wide parameters are taken into consideration
@@ -7611,18 +7705,18 @@ is queried once, for the =this-is-ls= which is called by the final
 : #+begin_src sh :noeval :exports both
 :   date
 : #+end_src
-: 
+:
 : should export code, so no need to do anything
 : #+begin_src sh
 :   date
 : #+end_src
-: 
+:
 : should export nothing, and should not query
 : #+source: this-is-ls
 : #+begin_src sh :eval query :exports none
 :   date
 : #+end_src
-: 
+:
 : should export results, and should trigger query above
 : #+begin_src emacs-lisp :var ls=this-is-ls :exports results
 :   ls
@@ -7694,13 +7788,13 @@ code in blocks:
 ** TODO Appended newline character when using indexing
 - State "TODO"       from ""           [2010-08-08 Sun 16:25]
 
-#+srcname: totals 
+#+srcname: totals
 #+begin_src perl  :var details=expenses[1:-1]
   my $total = 0;
   foreach my $row  (@$details) {
       $total += @$row[2];
   }
-  
+
 return $total;
 #+end_src
 
@@ -7787,33 +7881,33 @@ index 6e74c15..eb06488 100644
 -   "\\([^\000]+?\n\\)[ \t]*#\\+end_src")
 +   "\\([^\000]*?\n\\)[ \t]*#\\+end_src")
    "Regexp used to identify code blocks.")
- 
+
  (defvar org-babel-inline-src-block-regexp
 
 ** TODO remove octave prompt from session output
-- State "TODO" from "" [2010-08-01 Sun 11:53] 
+- State "TODO" from "" [2010-08-01 Sun 11:53]
 
 >> #+tblname: test
 >> | 1 | 2 | 3 |
->> 
+>>
 >> #+source: outtest
 >> #+begin_src octave  :session *out*   :var vec=test :results output
 >> vecb=vec;
 >> vecb
 >> #+end_src
->> 
+>>
 >> --8<---------------cut here---------------end--------------->8---
->> 
+>>
 >> You will get following output
->> 
+>>
 >> #+results: outtest
 >> : vec =
->> : 
+>> :
 >> :    1   2   3
 >> : octave.exe> vecb =
->> : 
+>> :
 >> :    1   2   3
->> 
+>>
 >> As you see I get two outputs : vec variable and vecb (with octave prompt).
 >> It is what I expected, excepted vec output.
 
@@ -7858,18 +7952,18 @@ so for example the following
   ,** stripping existing results
   ,#+results: trickily-located-somehwere-else
   ,: I shouldn't be exported
-  
+
   ,Neither of the result strings for the following two code blocks should
   ,be included in the export.  And only one of the bodies should be
   ,included...
-  
+
   ,#+begin_src emacs-lisp :exports code
   ,  (+ 1 1 1 1)
   ,#+end_src
-  
+
   ,#+results:
   ,: don't include me in the export!!!!!!!
-  
+
   ,#+srcname: trickily-located-somehwere-else
   ,#+begin_src emacs-lisp :exports none
   ,  (message "I shouldn't be exported")
@@ -7887,9 +7981,9 @@ This is now the case as the above now exports to the following
   be included in the export.  And only one of the bodies should be
   included&hellip;
   </p>
-  
-  
-  
+
+
+
   <pre class="src src-emacs-lisp"><span class="org-esk-paren">(</span>+ 1 1 1 1<span class="org-esk-paren">)</span>
   </pre>
 #+end_src
@@ -7904,7 +7998,7 @@ This source:
 : *** Cook Observations on Hawaiian Homes
 : #+srcname: homestead-cook
 : #+begin_src latex :tangle yes
-: 
+:
 : #+end_src
 now yields the following LaTeX
 : \begin{verbatim}
@@ -7916,7 +8010,7 @@ however *this* source (notice latex vs. LaTeX)
 : *** Cook Observations on Hawaiian Homes
 : #+srcname: homestead-cook
 : #+begin_src LaTeX :tangle yes
-: 
+:
 : #+end_src
 *is* noticed by org-babel, and is eliminated by the org-babel
 pre-processing because we are exporting to LaTeX and the body is
@@ -7949,7 +8043,7 @@ this approach is safe.
 e.g. when calling `org-babel-execute-subtree' If there's an error you
 end up with a narrowed buffer.
 
-** DEFERRED We're eating up org code block flags 
+** DEFERRED We're eating up org code block flags
    - State "DEFERRED"   from "TODO"       [2010-04-17 Sat 13:42]
    - State "TODO"       from ""           [2010-04-11 Sun 09:59]
 
@@ -7968,7 +8062,7 @@ this has been deferred because it should be addressed in another task
 
      Email from me to Andrea Crotti:
 
-#+begin_verse 
+#+begin_verse
 > And it doesn't export any source even if it looks something like this
 >
 > * Org mode
@@ -8011,7 +8105,7 @@ a problem with the following error
      comint buffer and insert stuff and do comint-send-input. However,
      the user might have left some characters lying around after the
      comint prompt.
-     
+
 ** DONE noweb R error?
    - State "DONE"       from "PROPOSED"   [2010-04-08 Thu 22:47]
    - State "PROPOSED"   from ""           [2010-04-03 Sat 20:50]
@@ -8027,13 +8121,13 @@ Execute in dir with dir "temp" present
 
 #+source: plotting-code
 #+begin_src R
-  library(ggplot2) 
-  g <- ggplot(x, aes(x = weight)) 
+  library(ggplot2)
+  g <- ggplot(x, aes(x = weight))
   g + geom_histogram(aes(y=..density..)) + geom_density(weight=2) + scale_x_log10()
 #+end_src
 
 #+srcname: test-no-session
-#+begin_src R :var x=whole-adzes :file temp/test-no-session.png :width 400 :height 300 
+#+begin_src R :var x=whole-adzes :file temp/test-no-session.png :width 400 :height 300
 <<plotting-code>>
 #+end_src
 
@@ -8041,7 +8135,7 @@ Execute in dir with dir "temp" present
 [[file:temp/test-no-session.png]]
 Brings up *Org-Babel Error Output* buffer containing
 
-#+begin_quote 
+#+begin_quote
 Error: unexpected input in:
 "x <- read.table("/tmp/org-babel-R-import10613QvG", header=TRUE, sep="\t", as.is=TRUE)
 <<"
@@ -8104,7 +8198,7 @@ x
 | t |   |
 |   |   |
 
-** REJECTED point movement during #+call 
+** REJECTED point movement during #+call
    - State "REJECTED"   from "DEFERRED"   [2010-06-07 Mon 12:28]
    - State "TODO"       from ""           [2010-03-25 Thu 14:47]
 
@@ -8152,7 +8246,7 @@ For end_src, it should probably be anchored to the begin of line.
 
 Best regards,
 
-     Maurizio   
+     Maurizio
 #+end_verse
 
 : #+begin_src emacs-lisp
@@ -8162,10 +8256,10 @@ Best regards,
 : ;;; evaluating the following C-x C-e with the point at the end is not ok
 : (message "%d" (org-babel-where-is-src-block-head))
 : #+end_src
-: 
+:
 : #+results:
 : : 182800
-: 
+:
 : #+begin_src emacs-lisp
 : ;;; evaluating the following C-x C-e with the point at the end is ok
 : (org-babel-where-is-src-block-head)
@@ -8173,21 +8267,21 @@ Best regards,
 : ;;; evaluating the following C-x C-e with the point at the end is not ok
 : (org-babel-where-is-src-block-head)
 : #+end_src
-: 
+:
 : #+results:
 : : 183148
-: 
+:
 : #+begin_src ruby
 :   "#+end_src"
 : #+end_src
-: 
+:
 : #+results:
 : : #+end_src
 
 ** DONE Why are referenced source blocks evaluated twice?
    - State "DONE"       from "PROPOSED"   [2010-03-27 Sat 17:00]
    - State "PROPOSED"   from ""           [2010-03-20 Sat 12:48]
-     
+
      Fixed at 47571965d4b4977d72781f8a80ac29c6a609e731
 
 *** Example
@@ -8201,7 +8295,7 @@ return 'from python'
 #+end_src
 
 With this debugging patch
-#+begin_example 
+#+begin_example
 diff --git a/contrib/babel/lisp/org-babel.el b/contrib/babel/lisp/org-babel.el
 index d01e6d6..40331a0 100644
 --- a/contrib/babel/lisp/org-babel.el
@@ -8217,7 +8311,7 @@ index d01e6d6..40331a0 100644
 #+end_example
 
 We get this output
-#+begin_example 
+#+begin_example
 ("emacs-lisp" "x\n"
  ((:comments . "")
   (:shebang . "")
@@ -8308,7 +8402,7 @@ required at some point.  I'll replace "\n\r" with "[\n\r]+" so that it
 won't break any instance where the comint process returns "\n" instead
 of "\n\r".
 
-** STARTED Newlines etc in table cells mess up table formatting 
+** STARTED Newlines etc in table cells mess up table formatting
    - State "STARTED"    from "TODO"       [2010-06-18 Fri 12:35]
    - State "TODO"       from ""           [2010-03-16 Tue 23:36]
 
@@ -8396,29 +8490,29 @@ used to be that C-c C-c \rightarrow End of file during parsing
 : User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.50 (gnu/linux)
 : Date: Thu, 11 Mar 2010 12:19:09 -0500
 : To: emacs-orgmode@gnu.org
-: 
-: 
+:
+:
 : [sorry for the double posting, but the control char in the regexp
 : prevented the full message from appearing. This is what I meant to send]
-: 
+:
 : There're problems with org-babel-src-block-regexp when the src block
 : contains the block delimiters (for instance in strings or comments).
-: 
+:
 : Granted, this is an uncommon occurrence (which I discovered by accident)
 : editing an org-file containing elisp code that needed to insert
 : #+begin_src...#+end_src pairs, but if it is not too difficult to fix it
 : would be nice to have a more useful behaviour.
-: 
+:
 : This is my setting (replaced 0x0 with ^@ to avoid posting problems):
 : org-babel-src-block-regexp is a variable defined in `org-babel.el'.
-: Its value is 
+: Its value is
 : "^[ 	]*#\\+begin_src[ 	]+\\(python\\|sh\\|emacs-lisp\\)[ 	]*\\([^\":\n]*\"[^\"\n*]*\"[^\":\n]*\\|[^\":\n]*\\)\\([^\n]*\\)\n\\([^^@]+?\\)#\\+end_src"
-: 
+:
 : And these are two test cases. I'm particularly puzzled by the first,
 : because the regexp seems to be anchored to the begin of line and hence
 : it shouldn't match the begin_src inside the string.
 : For end_src, it should probably be anchored to the begin of line.
-: 
+:
 : #+begin_src emacs-lisp
 : ;;; evaluating the following C-x C-e with the point at the end is ok
 : (org-babel-where-is-src-block-head)
@@ -8426,7 +8520,7 @@ used to be that C-c C-c \rightarrow End of file during parsing
 : ;;; evaluating the following C-x C-e with the point at the end is not ok
 : (org-babel-where-is-src-block-head)
 : #+end_src
-: 
+:
 : #+begin_src emacs-lisp
 : ;;; evaluating the following C-x C-e with the point at the end is ok
 : (org-babel-where-is-src-block-head)
@@ -8434,10 +8528,10 @@ used to be that C-c C-c \rightarrow End of file during parsing
 : ;;; evaluating the following C-x C-e with the point at the end is not ok
 : (org-babel-where-is-src-block-head)
 : #+end_src
-: 
+:
 : Best regards,
-: 
-:      Maurizio 
+:
+:      Maurizio
 
 ** DONE results deletion and insertion
    - State "DONE"       from "PROPOSED"   [2010-06-07 Mon 16:46]
@@ -8484,15 +8578,15 @@ this new behavior
   ,: update me in place please (at the bottom) -- Mon Jun  7 16:44:59 2010
   ,: update me in place please (at the bottom) -- Mon Jun  7 16:45:00 2010
   ,: update me in place please (at the bottom) -- Mon Jun  7 16:45:02 2010
-  
+
   ,the results should be *above* the block
-  
+
   ,#+srcname: in-situ
   ,#+begin_src emacs-lisp :results prepend
   ,  (format "update me in place please -- %s"
   ,          (current-time-string))
   ,#+end_src
-  
+
   ,#+srcname: in-situ
   ,#+begin_src emacs-lisp :results append
   ,  (format "update me in place please (at the bottom) -- %s"
@@ -8508,46 +8602,46 @@ this new behavior
   Date: Tue, 09 Mar 2010 09:32:19 -0500
   To: Graham Smith <myotisone@gmail.com>
   Cc: emacs-orgmode@gnu.org
-  
+
   Graham Smith <myotisone@gmail.com> writes:
-  
+
   > This is driving me mad here:  I have removed all the fig and size code
   > and replaced it with onky one line that should be resizing the first
   > graph(FloweringBoxplot.pdf).  However, its resizing the second graph
   > (NonFloweringBoxplot/pdf) and not affecting the first graph. This
   > works on other files, so I am really at a loss here.
-  
+
   Hi Graham,
-  
+
   We can see what's going on here by executing the block manually with C-c
   C-c, which transforms your results block from this:
-  
+
   ,#+ATTR_LaTeX: width=10cm
   ,#+results: BoxplotFlowering
   [[file:FloweringBoxplot.pdf]]
-  
+
   into this:
-  
+
   ,#+results: BoxplotFlowering
   [[file:FloweringBoxplot.pdf]]
   ,#+ATTR_LaTeX: width=10cm
-  
+
   (The reason is that the results block corresponding to the code block is
   first deleted and then re-inserted immediately below the code block).
-  
+
   You are using ':exports both' which means that the above transformation
   actually occurs during export, but in a special pre-export org buffer
   which the user never sees. The fact that the ATTR_LaTeX line ends up
   last explains why it modifies the *second* block.
-  
+
   Thanks for pointing this out -- we will revisit this behaviour as it
   does seem surprising and on the face of it undesirable.
-  
+
   As a workaround, is it necessary for you to execute the block on export?
   Or could you instead use :exports code? I.e. before export, execute the
   block manually and ensure that the #+ATTR_LaTeX and #+results lines are
   arranged in the correct way.
-  
+
   Dan
 #+end_src
 
@@ -8581,7 +8675,7 @@ this new behavior
     (shell-command-on-region (point-min) (point-max) "R --slave --no-save" 'replace)
 
     Note that replace is 5th argument, not 4th:
-    
+
     (shell-command-on-region start end command &optional output-buffer
     replace error-buffer display-error-buffer)
 
@@ -8595,7 +8689,7 @@ this new behavior
 *** PROPOSED shell different results for :session and external process
    - State "PROPOSED"   from "TODO"       [2010-02-25 Thu 16:58]
    - State "TODO"       from ""           [2010-02-19 Fri 13:27]
-     
+
 #+begin_src sh :session yes :noeval
   echo 1
   echo 2
@@ -8621,11 +8715,11 @@ But without :session this gives
   hostname
   pwd
 #+end_src
-*** TODO python 'session output' evaluation is not outputting last line 
+*** TODO python 'session output' evaluation is not outputting last line
    - State "TODO"       from "PROPOSED"   [2010-02-25 Thu 18:13]
    This is a bit weird. The first evaluation in a session is OK, but
    second and subsequent evaluations fail to output the last line.
-   
+
 #+begin_src python :session newsession :results output :noeval
   print 'hello'
   print 'bye'
@@ -8639,10 +8733,10 @@ But evaluate it again and the second line will not be output.
 *** TODO (R) session evaluation fails if no new line terminating output
 
 #+srcname: nonewline
-#+begin_src R :session :noeval
+#+begin_src R :session :results output :eval no
 cat("There's no newline ending this")
 #+end_src
-  
+
 ** DONE python :session :results value not working
    - State "DONE"       from "TODO"       [2010-02-25 Thu 16:59]
    - State "TODO"       from ""           [2010-02-18 Thu 17:49]
@@ -8650,7 +8744,7 @@ cat("There's no newline ending this")
      22fc3b2d333e0d440cdc972a6478a834180b188d
      and
      f19692578a958d42fb03048e574949231a83c2f7
-     
+
 #+begin_src python :results value :session :noeval
 import os, time
 [time.ctime(), os.uname(),os.getcwd()]
@@ -8670,22 +8764,22 @@ Author: Dan Davison <davison@stats.ox.ac.uk>
 Date:   Fri Feb 19 11:34:16 2010 -0500
 
     babel: Fix unquoting of strings
-    
+
     Before this change we have
-    
+
      #+begin_src ruby :results value :session :noeval
      ["1", "3"]
      #+end_src
-    
+
      #+results:
      : 1", "3
-    
+
      After, we have
-    
+
      #+begin_src ruby :results value :session :noeval
      ["1", "3"]
      #+end_src
-    
+
      #+results:
      | 1 | 3 |
 
@@ -8720,7 +8814,7 @@ Date:   Fri Feb 19 11:34:16 2010 -0500
 so for example
 
 : #+results: haskell-hiding
-: 
+:
 : #+begin_src haskell :var num=haskell-hiding
 :   num + 1
 : #+end_src
@@ -8765,7 +8859,7 @@ index dc51020..c0e6a55 100644
 +       ((or (string= holder "(") (string= holder "[")) (setq depth (+ depth 1)))
 +       ((or (string= holder ")") (string= holder "]")) (setq depth (- depth 1)))))
      (mapcar #'org-babel-trim (reverse (cons buffer return)))))
- 
+
  (defun org-babel-ref-at-ref-p ()
 #+end_src
 
@@ -8775,7 +8869,7 @@ index dc51020..c0e6a55 100644
 
 Thanks to Sébastien for this bug report.
 
-#+begin_quote 
+#+begin_quote
   You see that when the language is unknown to Org-babel (=Delphi= in
   this example), it gets ignored during export, and gets replaced by
   the previous code block!!
@@ -8792,17 +8886,17 @@ Probably has something to do with the conflicting regular expressions
 between org-babel-exp.el and org-exp-blocks.el...
 
 This has been fixed in the following commit
-#+begin_examle 
+#+begin_examle
 : commit d154f2794741275a41d4631892335d581d7da27a
 : Author: Eric Schulte
 : Date:   Mon Jan 18 13:03:36 2010 -0700
-: 
+:
 :     babel: no longer overwriting non-babel src blocks
 :     org-exp-blocks: adding progress-marker local variable
-:     
+:
 :       the progress-marker local variable set inside of a let in
 :       org-exp-blocks is used to constrain searches in org-babel-exp to
-:       ensure that a babel block doesn't overwrite non-babel src blocks  
+:       ensure that a babel block doesn't overwrite non-babel src blocks
 #+end_examle
 which introduces a local variable to org-ex-blocks which is used by
 org-babel-exp to ensure that previous blocks do not overwrite the
@@ -8862,7 +8956,7 @@ When I change the order of the language initializations, the error goes away:
 
 Now, ruby is recognized.  Looks like the function for parsing the src block is seeing the 'r' in ruby and
 stopping
-because 'R" is a valid language, but then choking when it tries to run 'r'.  
+because 'R" is a valid language, but then choking when it tries to run 'r'.
 
 ** DONE subtree execution can't find blocks in other sub-trees
    - State "DONE"       from "TODO"       [2010-06-07 Mon 17:39]
@@ -8939,7 +9033,7 @@ both of these issues were resolved in changes to
                    ;; (message "prop %s=%s" header-arg val) ;; debugging
                    (cons (intern (concat ":" header-arg)) val))))
              '("cache" "cmdline" "exports" "file" "noweb" "results"
-               "session" "tangle" "var")))))  
+               "session" "tangle" "var")))))
 #+end_src
 ** TODO Error in R if block is merely defining a function
 First idea which occurs to me is we could check whether the object
@@ -8952,7 +9046,7 @@ that will work for all objects, e.g. str().
   f <- function(x) x
 #+end_src
 
-Error in as.data.frame.default(x[[i]], optional = TRUE) : 
+Error in as.data.frame.default(x[[i]], optional = TRUE) :
   cannot coerce class "function" into a data.frame
 Calls: write.table ... data.frame -> as.data.frame -> as.data.frame.default
 Execution halted
@@ -8978,13 +9072,13 @@ ext here
 
 My working suggestion is this (branch results-insert-bug)
 
-#+begin_example 
+#+begin_example
 commit 0ab4b84375060e750764347b3335f110b2bfee20
 Author: Dan Davison <davison@stats.ox.ac.uk>
 Date:   Fri Nov 27 14:03:25 2009 -0500
 
     org-babel: Fix insertion of new results
-    
+
     Insertion of new results was failing if the block was followed by
     end-of-buffer. Also, if the block was followed by non-empty lines, the
     \#+resname was being inserted away from column 0.
@@ -9022,10 +9116,10 @@ fix that problem.
 
 ** TODO :results code not dealt with correctly?
 
-E.g. here in org-babel-python-evaluate. Should that be 
+E.g. here in org-babel-python-evaluate. Should that be
 (or (member "pp" result-params) (member "code" result-params))
 ?
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
   (format
    (if (member "pp" result-params)
        org-babel-python-pp-wrapper-method
@@ -9058,7 +9152,7 @@ arguments from properties.
    thinking this was a good change but can't remember now the
    details.
 
-#+begin_example 
+#+begin_example
    diff --git a/contrib/babel/lisp/org-babel-tangle.el b/contrib/babel/lisp/org-babel-tangle.el
 index c805373..1d7fe3b 100644
 --- a/contrib/babel/lisp/org-babel-tangle.el
@@ -9122,24 +9216,24 @@ when "yes" =(cdr (assoc :keyword params))= instances are found.
 done, e.g.
 #+begin_src org
   ,   #+srcname: i-am-indented
-  ,   #+begin_src emacs-lisp 
+  ,   #+begin_src emacs-lisp
   ,     (message "i am indented")
   ,   #+end_src
-  
+
   ,#+results: i-am-indented
   ,: i am indented
-  
+
   ,#+begin_src emacs-lisp :var output=i-am-indented
   ,  (length output)
   ,#+end_src
-  
+
   ,#+results:
   ,: 13
 #+end_src
 
 ** REJECTED Juan Reyero bug report
    - State "REJECTED"   from "TODO"   [2010-02-25 Thu 18:19]
-   
+
 > ... However I can't replicate this
 > behaviour under linux. I get
 >
@@ -9187,7 +9281,7 @@ echo 7
 
 ** STARTED point should go to end of comint buffer after execution
    - State "STARTED"    from "TODO"       [2010-03-01 Mon 10:07]
-     
+
      NB the variable comint-scroll-to-bottom-on-output
 
      At the moment it seems that point goes to the end when the comint
@@ -9232,7 +9326,7 @@ cat("hello\n")
    python demand a return statement.
 
    Edit: Not true for perl
-   
+
    That currently means that we have to separate the code into
    "statements" (not sure that's the right term), in order to stick a
    "return" in front of the last one. But in general, I think you
@@ -9241,7 +9335,7 @@ cat("hello\n")
    valid python code, involving mutliline statements and/or semicolons
    that don't work in current org-babel. E.g.
 
-#+begin_src python 
+#+begin_src python
   def f(x,y):
       return x + y
   a = f(4,
@@ -9280,7 +9374,7 @@ the same for the other languages. [Dan]
 #+begin_src python
 class X(object):
 #+end_src
-   
+
 ***** Init method
 #+begin_src python
   def __init__(self):
@@ -9341,7 +9435,7 @@ cat("hello\n")
 
 
 1
-#+end_src      
+#+end_src
 
 #+resname:
 : [1] 3
@@ -9350,7 +9444,7 @@ cat("hello\n")
 : [1] 1
 ** DONE changed srcname doesn't change resname
 #+srcname: b()
-#+begin_src sh 
+#+begin_src sh
    echo a
 #+end_src
 
@@ -9381,7 +9475,7 @@ This is a problem in [[file:lisp/org-babel-exp.el][org-babel-exp.el]].
 ** DONE failing to write srcname to resname when evaluating a named block
 
 #+srcname: please-name-my-result
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 "I'm the result"
 #+end_src
 
@@ -9398,14 +9492,14 @@ This is a problem in [[file:lisp/org-babel-exp.el][org-babel-exp.el]].
 #+begin_src python :session pysession :results value :noeval
   import os
   from subprocess import *
-  
+
   chunk = 10000
   format = '.gen.gz'
-  
+
   cc = [('58C','NBS'),
         ('58C','POBI'),
         ('NBS','POBI')]
-  
+
   for outdir in ['none', 'noscots', 'lax', 'strict']:
       outdir = os.path.join('exclusion-study', outdir)
       for case, control in cc:
@@ -9452,14 +9546,14 @@ solution.  Thoughts?
 
 *** proposed
 
-we add something like the following to the instillation instructions  
+we add something like the following to the instillation instructions
 
 #+begin_src emacs-lisp
 ;; Uncomment each of the following require lines if you want org-babel
 ;; to support that language.  Each language has a comment explaining
 ;; it's dependencies.  See the related files in lisp/langs for more
 ;; detailed explanations of requirements.
-;; 
+;;
 ;; (require 'org-babel-R)         ;; ess-mode
 ;; (require 'org-babel-asymptote) ;; asymptote be installed on your system
 ;; (require 'org-babel-css)       ;; none
@@ -9560,7 +9654,7 @@ print('\n'.join(map(str, range(4))))
 : 3
 
 *** collapsing consecutive newlines in string output
-    
+
     This is an example of the same bug
 
 #+srcname: multi-line-string-output
@@ -9590,10 +9684,10 @@ even a third"
 
 #+resname:
 : the first line ends here
-: 
-: 
+:
+:
 :      and this is the second one
-: 
+:
 : even a third
 
 However, the behaviour with :results value is wrong
@@ -9644,7 +9738,7 @@ for example
 
 #+resname:
 | eric | schulte |
-   
+
 ** DONE adding blank line when source-block produces no output
 
 #+srcname: show-org-babel-trim
@@ -9675,7 +9769,7 @@ find . \( -path \*/SCCS -o -path \*/RCS -o -path \*/CVS -o -path \*/MCVS -o -pat
 ** DONE are the org-babel-trim s necessary?
    at the end of e.g. org-babel-R-evaluate, org-babel-python-evaluate, but
    not org-babel-ruby-evaluate
-   
+
    I think it depends on the language, if we find that extra blank
    lines are being inserted in a particular language that is a good
    indication that the trim or chomp functions may be appropriate.
@@ -9752,7 +9846,7 @@ lisp//org-babel.el:709:                    (org-babel-chomp (org-babel-reverse-s
 ** DONE use new merge function [[file:lisp/org-babel-ref.el::t%20nil%20org%20combine%20plists%20args%20nil][here]]?
    And at other occurrences of org-combine-plists?
 ** DONE creeping blank lines
-   There's still inappropriate addition of blank lines in some circumstances. 
+   There's still inappropriate addition of blank lines in some circumstances.
 
    Hmm, it's a bit confusing. It's to do with o-b-remove-result. LoB
    removes the entire (#+resname and result) and starts from scratch,
@@ -9785,7 +9879,7 @@ b=5
 ---------------------
 ** DONE #+srcname arg parsing bug
 #+srcname: test-zz(arg=adder(a=1, b=1))
-#+begin_src python 
+#+begin_src python
 arg
 #+end_src
 
@@ -9794,7 +9888,7 @@ arg
 
 
 #+srcname: test-zz-nasty(arg=adder(a=adder(a=19,b=adder(a=5,b=2)),b=adder(a=adder(a=1,b=9),b=adder(a=1,b=3))))
-#+begin_src python 
+#+begin_src python
 arg
 #+end_src
 
@@ -9823,7 +9917,7 @@ arg
     source blocks, now might be a good time to think about this. It
     would be nice to do the full thing at some point, but otoh we may
     not consider it a massive priority.
-    
+
     AIui, there are two stages: (i) construct a parse tree, and (ii)
     evaluate it and return the value at the root. In the parse tree
     each node represents an unevaluated value (either a literal value
@@ -9854,12 +9948,12 @@ arg
 
     Or, a complete hack, but maybe it would be we easy to transform it
     to XML and then parse that with some existing tool?
-    
+
     But if we're doing it ourselves, something very vaguely like this?
     (I'm sure there're lots of problems with this)
 
 #+srcname: org-babel-call-parse(call)
-#+begin_src python 
+#+begin_src python
   ## we are currently reading a reference name: the name of the root function
   whereami = "refname"
   node = root = Node()
@@ -9886,7 +9980,7 @@ arg
           elif whereami = "refname":
               node.name += c
 #+end_src
-    
+
 *** discussion / investigation
 I believe that this issue should be addressed as a bug rather than as
 a point for new development.   The code in [[file:lisp/org-babel-ref.el][org-babel-ref.el]] already
@@ -9930,7 +10024,7 @@ specification.
 ***** doesn't work with functional syntax
 
 #+srcname: adder-func(a=3, b=2)
-#+begin_src python 
+#+begin_src python
 a + b
 #+end_src
 
@@ -9938,7 +10032,7 @@ a + b
 : 5
 
 #+srcname: after-adder-func(arg=adder-func(a=8))
-#+begin_src python 
+#+begin_src python
 arg
 #+end_src
 
@@ -10054,9 +10148,9 @@ more flexible to allow the source block language to handle the error.
 ## should be 3
 
 *** Example that fails
-    
+
 #+srcname: adder(a=0, b=99)
-#+begin_src python 
+#+begin_src python
 return a+b
 #+end_src
 
@@ -10272,7 +10366,7 @@ arg
 
 
 #+srcname: test-zz(arg=adder(a=adder(a=19,b=adder(a=5,b=2)),b=adder(a=adder(a=1,b=9),b=adder(a=1,b=3))))
-#+begin_src python 
+#+begin_src python
 arg
 #+end_src
 
@@ -10284,7 +10378,7 @@ arg
    is not understood; the default arg b=6 is not understood.
 
 #+srcname: adder-with-arg-lacking-default(a, b=6)
-#+begin_src python 
+#+begin_src python
 a+b
 #+end_src
 
@@ -10317,12 +10411,12 @@ var
    This may be partly solved by using o-b-chomp rather than o-b-trim
    in the o-b-LANG-evaluate functions.
 ** DONE function calls in #+srcname: refs
-   
+
    My srcname references don't seem to be working for function
    calls. This needs fixing.
-   
+
 #+srcname: called()
-#+begin_src python 
+#+begin_src python
 59
 #+end_src
 
@@ -10342,7 +10436,7 @@ var1
 
 They do work for a simple reference
 #+srcname: caller2(var1=56)
-#+begin_src python 
+#+begin_src python
 var1
 #+end_src
 
@@ -10352,7 +10446,7 @@ var1
 
 and they do work for :var header arg
 #+srcname: caller3
-#+begin_src python :var var1=called() 
+#+begin_src python :var var1=called()
 var1
 #+end_src
 
@@ -10415,7 +10509,7 @@ var1
    creates mess, and that the cleaner `replace' option should be the
    default. E.g. when a source block creates an image, we would want
    that to be updated, rather than have a new one be added.
-   
+
    I agree.
 
 ** DONE ruby evaluation not working under ubuntu emacs 23
@@ -10438,7 +10532,7 @@ of `ruby-program-name').  Runs the hooks `inferior-ruby-mode-hook'
    So, I may have a non-standard inf-ruby.el.  Here's my version of
    run-ruby.
 
-#+begin_example 
+#+begin_example
 run-ruby is an interactive Lisp function in `inf-ruby.el'.
 
 (run-ruby &optional COMMAND NAME)
@@ -10503,7 +10597,7 @@ buggy
 ** DONE R-code broke on "org-babel" rename
 
 #+srcname: bug-R-babels
-#+begin_src R 
+#+begin_src R
 8 * 2
 #+end_src
 
@@ -10555,7 +10649,7 @@ Currently the R code seems to work on vertical (but not landscape)
 tables
 
 #+srcname: little-fake
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 "schulte"
 #+end_src
 
@@ -10605,7 +10699,7 @@ mean(table)
    brackets). This is bad for R code at least, and more generally
    could be argued to be inappropriate. Is it difficult to get org to
    ignore text in code blocks? [DED]
-   
+
    I believe Carsten addressed this recently on the mailing list with
    the comment that it was indeed a difficult issue.  I believe this
    may be one area where we could wait for an upstream (org-mode) fix.
@@ -10693,12 +10787,12 @@ ar.first.first
 fix regexp so it works when there's a space trailing the language name
 
 #+srcname: test-trailing-space
-#+begin_src ruby 
+#+begin_src ruby
 :schulte
 #+end_src
 
 ** DONE Args out of range error
-   
+
 The following block resulted in the error below [DED]. It ran without
 error directly in the shell.
 #+begin_src sh
@@ -10711,7 +10805,7 @@ for platf in ill aff ; do
     done
 done
 #+end_src
-  
+
  executing source block with sh...
 finished executing source block
 string-equal: Args out of range: "", -1, 0
@@ -10741,8 +10835,8 @@ recognition of ruby arrays as such.
    E.g. this doesn't work. Should the shell sessions set a sane prompt
    when they start up? Or is it a question of altering
    comint-prompt-regexp? Or altering org-babel regexps?
-   
-#+begin_src sh   
+
+#+begin_src sh
    black=30 ; red=31 ; green=32 ; yellow=33 ; blue=34 ; magenta=35 ; cyan=36 ; white=37
    prompt_col=$red
    prompt_char='>'
@@ -10768,7 +10862,7 @@ recognition of ruby arrays as such.
 ** REJECTED elisp reference fails for literal number
    That's a bug in Dan's elisp, not in org-babel.
 #+srcname: elisp-test(a=4)
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp
 (message a)
 #+end_src
 
@@ -10901,13 +10995,13 @@ table.first.join("-")
 #+end_src
 
 #+srcname: ruby-makes-table
-#+begin_src ruby 
+#+begin_src ruby
 [[1, 2], [3, 4]]
 #+end_src
 
 #+srcname: table-from-ruby
 #+begin_src ruby :var tab=ruby-makes-table
-tab[1][1]  
+tab[1][1]
 #+end_src
 
 #+srcname: table-python
@@ -10916,13 +11010,13 @@ return table[1][1]
 #+end_src
 
 #+srcname: python-makes-table
-#+begin_src python 
+#+begin_src python
 return [[1, 2], [3, 4]]
 #+end_src
 
 #+srcname: table-from-python
 #+begin_src python :var tab=python-makes-table
-return tab[1][1]  
+return tab[1][1]
 #+end_src
 
 #+srcname: table-R(table=test-table)
