@@ -3,7 +3,7 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [95/182]
+* Tasks [96/182]
 ** STARTED Create simple vectors in R?
    - State "STARTED"    from "PROPOSED"   [2010-10-09 Sat 13:01]
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
@@ -364,11 +364,14 @@ index 1d2e8f5..a1e58ad 100644
 +	(org-babel-eval-read-file tmp-file))))))
 #+end_example
 
-** PROPOSED remove existing results on nil result
+** DONE remove existing results on nil result
+   - State "DONE"       from "PROPOSED"   [2010-10-14 Thu 19:04]
    - State "PROPOSED"   from ""           [2010-09-03 Fri 15:38]
 
 Currently when a code block returns =nil= Babel stops working, however
 it should probably remove any existing results from that block.
+*** Resolution
+    This behaviour was changed at commit 1ebb9131ef0b0dbecdf08f88fdafbf6136952016a
 
 ** TODO explicit handling of header arguments without arguments
    - State "TODO"       from ""           [2010-09-01 Wed 22:11]
