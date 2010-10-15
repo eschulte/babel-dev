@@ -810,11 +810,15 @@ possible to view linked images from within an Org-mode buffer.
 # Yes, works here, too.  Dot does a nice job.
 
 #+source: ps-to-fig
-#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf :file pascals-triangle.pdf :exports results
+#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf :file pascals-triangle.pdf :exports none
   graph {
     $ps-vals
   }
 #+end_src
+
+#+results: ps-to-fig
+[[file:pascals-triangle.pdf]]
+
 #+begin_src org
   ,#+source: ps-to-fig
   ,#+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf :cmdline -Tpdf
@@ -826,7 +830,6 @@ possible to view linked images from within an Org-mode buffer.
 #+LaTeX: %$
 
 #+Caption: Pascal's Triangle
-#+results: ps-to-fig
 [[file:pascals-triangle.pdf]]
 
 *** Testing for correctness
@@ -907,25 +910,25 @@ to =ditaa=, and =:cache yes= ensures that the code block will only be
 evaluated when its contents have changed.
 
 #+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
-                                  +-------+
-                                  |       |
-  Mixed                  +--------+ Babel +--------+
-  Languages              |        | cGRE  |        |
-                         |        +-------+        |
-                         |                         |
-                     +---+----+                    |
-                     |        |                    |
-  Arbitrary          | noweb  |                    |
-  Language           | cBLU   |                    |
-                     +---+----+                    |
-                         |                         |
-                     +---+----+  +----------+  +---+----+
-                     |        |  |          |  |        |
-  Single             |  WEB   |  | Scribble |  | Sweave |
-  Language           | cBLU   |  |  c798    |  | cYEL   |
-                     +--------+  +----------+  +--------+
-                     Literate      Mixed       Reproducible
-                    Programming    Use          Research
+                         +-------+
+                         |       |
+  Mixed          +-------+ Babel +--------+
+  Languages      |       | cGRE  |        |
+                 |       +-------+        |
+                 |                        |
+             +---+---+                    |
+             |       |                    |
+  Arbitrary  | noweb |                    |
+  Language   | cBLU  |                    |
+             +---+---+                    |
+                 |                        |
+             +---+---+  +----------+  +---+----+
+             |       |  |          |  |        |
+  Single     |  WEB  |  | Scribble |  | Sweave |
+  Language   | cBLU  |  |  c798    |  | cYEL   |
+             +-------+  +----------+  +--------+
+             Literate     Mixed      Reproducible
+            Programming    Use         Research
 #+END_SRC
 
 #+results[453d41f8b5030fd9d46eea76a9dc71e4a4a81f24]:
@@ -934,33 +937,34 @@ evaluated when its contents have changed.
 Org-mode source-code for the above
 #+begin_src org
   ,#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
-  ,                                  +-------+
-  ,                                  |       |
-  ,  Mixed                  +--------+ Babel +--------+
-  ,  Languages              |        | cGRE  |        |
-  ,                         |        +-------+        |
-  ,                         |                         |
-  ,                     +---+----+                    |
-  ,                     |        |                    |
-  ,  Arbitrary          | noweb  |                    |
-  ,  Language           | cBLU   |                    |
-  ,                     +---+----+                    |
-  ,                         |                         |
-  ,                     +---+----+  +----------+  +---+----+
-  ,                     |        |  |          |  |        |
-  ,  Single             |  WEB   |  | Scribble |  | Sweave |
-  ,  Language           | cBLU   |  |  c798    |  | cYEL   |
-  ,                     +--------+  +----------+  +--------+
-  ,                     Literate      Mixed       Reproducible
-  ,                    Programming    Use          Research
+  ,                        +-------+
+  ,                        |       |
+  , Mixed          +-------+ Babel +--------+
+  , Languages      |       | cGRE  |        |
+  ,                |       +-------+        |
+  ,                |                        |
+  ,            +---+---+                    |
+  ,            |       |                    |
+  , Arbitrary  | noweb |                    |
+  , Language   | cBLU  |                    |
+  ,            +---+---+                    |
+  ,                |                        |
+  ,            +---+---+  +----------+  +---+----+
+  ,            |       |  |          |  |        |
+  , Single     |  WEB  |  | Scribble |  | Sweave |
+  , Language   | cBLU  |  |  c798    |  | cYEL   |
+  ,            +-------+  +----------+  +--------+
+  ,            Literate     Mixed      Reproducible
+  ,           Programming    Use         Research
   ,#+END_SRC
   
   ,#+results[453d...]:
   ,[[file:lp-rr.png]]
+  
 #+end_src
 
 ** TODO Tangle a Python Script                                     :noexport:
-** Tangle C code
+** Tangle C code                                                   :noexport:
 # should our tangling example include noweb references?
 #
 # also, we should probably have copies of some of the code examples
@@ -1051,18 +1055,25 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
 
 1) Grab the raw temperature
    #+begin_src org
+     ,#+results: raw-temps-url
+     ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z
+     
      ,#+source: raw-temps
-     ,#+begin_src sh
-     ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
-     ,      |gunzip |sed 's/-/ /g'|sed 's/^\([0-9]\{3\}\)[0-9]\{9\}/\1 /'|head -500
+     ,#+begin_src sh :var url=raw-temps-url
+     , curl $url |gunzip |sed 's/-/ /g'| \
+     ,   sed 's/^\([0-9]\{3\}\)[0-9]\{9\}/\1 /'|head -500
      ,#+end_src
+     
    #+end_src
    and country code data
    #+begin_src org
+     ,#+results: country-code-url
+     ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes
+     
      ,#+source: country-codes
-     ,#+begin_src sh
-     ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
-     ,      |sed 's/ *$//' |sed 's/ \(.*\)$/,"\1"/'
+     ,#+begin_src sh :car url=country-code-url
+     ,  curl $url |sed 's/ *$//' \
+     ,      |sed 's/ \(.*\)$/,"\1"/'
      ,#+end_src
    #+end_src
    from the web.
@@ -1070,7 +1081,8 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
 2) Setup a =sqlite= database and import the data
    #+begin_src org
      ,#+begin_src sqlite :db climate.sqlite :var temps=raw-temps :var countries=country-codes[1:-1,0:1]
-     ,  create table temps (country,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+     ,  create table temps (country,year,jan,feb,
+     ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
      ,  create table countries (code, name);
      ,  .separator ","
      ,  .import $temps temps
@@ -1284,8 +1296,10 @@ paper.
 * COMMENT publish
 turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :results silent
+  (require 'org-latex)
+  
   ;; use latex listings for fontified code blocks
-  (setq org-export-latex-listings t)
+  (set-default 'org-export-latex-listings t)
   
   ;; two column export
   (add-to-list 'org-export-latex-classes
@@ -1300,6 +1314,10 @@ turn on the listings package, and define the =twocolumn= latex class
   (add-hook 'org-export-latex-final-hook
             (lambda ()
               (replace-regexp "’" "'")))
+  
+  ;; export the bodies of org-mode blocks
+  (setq org-babel-default-header-args:org
+        '((:results . "raw silent")))
 #+end_src
 
 * Footnotes
