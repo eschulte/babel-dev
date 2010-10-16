@@ -457,7 +457,7 @@ can leverage Emacs source code editing modes to indent and
 fontify code examples.  Additional markup is provided with wiki-like
 syntax, which can be applied to any piece of text.
 
-*** TODO Export Facilities
+*** TODO Export Facilities                                         :noexport:
 # I think we need an overview of export facilities (TD)
 
 ** Code and Data Block Extensions
@@ -810,7 +810,8 @@ possible to view linked images from within an Org-mode buffer.
 # Yes, works here, too.  Dot does a nice job.
 
 #+source: ps-to-fig
-#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf :file pascals-triangle.pdf :exports none
+#+headers: :file pascals-triangle.pdf :cmdline -Tpdf
+#+begin_src dot :var ps-vals=ps-to-dot :exports none
   graph {
     $ps-vals
   }
@@ -821,7 +822,8 @@ possible to view linked images from within an Org-mode buffer.
 
 #+begin_src org
   ,#+source: ps-to-fig
-  ,#+begin_src dot :var ps-vals=ps-to-dot :file pascals-triangle.pdf :cmdline -Tpdf
+  ,#+headers: :file pascals-triangle.pdf :exports none
+  ,#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf
   ,  graph {
   ,    $ps-vals
   ,  }
@@ -867,7 +869,7 @@ correct.
   ,| 1 |    3 |    3 |    1 |      |      |
   ,| 1 |    4 |    6 |    4 |    1 |      |
   ,| 1 |    5 |   10 |   10 |    5 |    1 |
-  ,#+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))...
+  ,#+TBLFM: @2$2='(sbe ps-check (row @3$1)...
 #+end_src
 
 # I still get these results (TD), not sure why cols 3-5 fail
@@ -908,8 +910,8 @@ In the following diagram, the header argument =:file= is used to
 specify the name of the =ditaa= output, =:cmdline= passes parameters
 to =ditaa=, and =:cache yes= ensures that the code block will only be
 evaluated when its contents have changed.
-
-#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
+#+headers: :cmdline -r -s 0.8 :cache yes
+#+BEGIN_SRC ditaa :file lp-rr.png
                          +-------+
                          |       |
   Mixed          +-------+ Babel +--------+
@@ -934,9 +936,10 @@ evaluated when its contents have changed.
 #+results[453d41f8b5030fd9d46eea76a9dc71e4a4a81f24]:
 [[file:lp-rr.png]]
 
-Org-mode source-code for the above
+Org-mode source code for the above
 #+begin_src org
-  ,#+BEGIN_SRC ditaa :file lp-rr.png :cmdline -r -s 0.8 :cache yes
+  ,#+headers: :cmdline -r -s 0.8 :cache yes
+  ,#+begin_src ditaa :file lp-rr.png
   ,                        +-------+
   ,                        |       |
   , Mixed          +-------+ Babel +--------+
@@ -956,7 +959,7 @@ Org-mode source-code for the above
   ,            +-------+  +----------+  +--------+
   ,            Literate     Mixed      Reproducible
   ,           Programming    Use         Research
-  ,#+END_SRC
+  ,#+end_src
   
   ,#+results[453d...]:
   ,[[file:lp-rr.png]]
@@ -1055,24 +1058,29 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
 
 1) Grab the raw temperature
    #+begin_src org
-     ,#+results: raw-temps-url
-     ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z
+     ,#+results: url-base
+     ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
+     
+     ,#+results: raw-temps
+     ,: v2.mean_adj.Z
      
      ,#+source: raw-temps
-     ,#+begin_src sh :var url=raw-temps-url
-     , curl $url |gunzip |sed 's/-/ /g'| \
-     ,   sed 's/^\([0-9]\{3\}\)[0-9]\{9\}/\1 /'|head -500
+     ,#+headers: :var base=url-base
+     ,#+begin_src sh  :var file=raw-temps-url
+     , curl $base$file |gunzip |sed 's/-/ /g'| \
+     ,   sed 's/^\([0-9]\{3\}\)[0-9]\{9\}/\1 /'| \
+     ,   head -500
      ,#+end_src
      
    #+end_src
    and country code data
    #+begin_src org
-     ,#+results: country-code-url
-     ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes
+     ,#+results: country-code
+     ,: v2.slp.country.codes
      
      ,#+source: country-codes
      ,#+begin_src sh :car url=country-code-url
-     ,  curl $url |sed 's/ *$//' \
+     ,  curl $base$file |sed 's/ *$//' \
      ,      |sed 's/ \(.*\)$/,"\1"/'
      ,#+end_src
    #+end_src
@@ -1080,7 +1088,9 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
 
 2) Setup a =sqlite= database and import the data
    #+begin_src org
-     ,#+begin_src sqlite :db climate.sqlite :var temps=raw-temps :var countries=country-codes[1:-1,0:1]
+     ,#+headers: :var temps=raw-temps
+     ,#+headers: :var countries=country-codes[1:-1,0:1]
+     ,#+begin_src sqlite :db climate.sqlite
      ,  create table temps (country,year,jan,feb,
      ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
      ,  create table countries (code, name);
@@ -1088,6 +1098,7 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
      ,  .import $temps temps
      ,  .import $countries countries
      ,#+end_src
+     
    #+end_src
 
 3) Then =R= can access the tables and generate a calculation or a plot.
