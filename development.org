@@ -7539,7 +7539,8 @@ dot("$(2a,0)$",(2,0),N+E);
 
 
 * Bugs [88/111]
-** TODO R variables import
+** STARTED R variables import
+   - State "STARTED"    from "TODO"       [2010-10-16 Sat 15:37]
    - State "TODO"       from ""           [2010-10-09 Sat 11:59]
    :PROPERTIES:
    :session: *R-test*
@@ -7549,11 +7550,26 @@ dot("$(2a,0)$",(2,0),N+E);
      table(x)
    #+end_src
 
-   With the R-vctors patch applied, the variable seems to be imported
+   With the R-vectors patch applied, the variable seems to be imported
    OK using C-u C-c C-v z, but fails with straight C-c C-c. This is
    related to the fact that there is (I believe) confusing variable
    resolution code duplication between `org-babel-expand-body:R' and
    `org-babel-prep-session:R'.
+
+
+   #+begin_src R :var tab='((row1 a b) hline (row2 1 2)) :colnames yes
+     tab
+   #+end_src
+
+   #+results:
+   | row1 | a | b |
+   |------+---+---|
+   | row2 | 1 | 2 |
+
+   | row1 | a | b |
+   |------+---+---|
+   | row2 | 1 | 2 |
+
 
 ** DONE Org block should remove protective commas
    - State "DONE"       from "TODO"       [2010-10-09 Sat 11:53]
