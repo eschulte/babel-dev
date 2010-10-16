@@ -3,7 +3,27 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [96/182]
+* Tasks [96/183]
+** STARTED Resolve references earlier and rewrite of variable assignments 
+   - State "STARTED"    from ""           [2010-10-16 Sat 15:40]
+
+*** TODO Newlines
+    - State "TODO"       from ""           [2010-10-16 Sat 17:22]
+      We may need to add "\n" on the end of body in ob-expand-body:generic?
+
+*** TODO python bug
+    - State "TODO"       from ""           [2010-10-16 Sat 15:42]
+    #+begin_src python :var tab='(("row1" "a" "b") hline ("row2" 1 2)) :colnames yes
+      return tab
+    #+end_src
+
+    #+results:
+    | row1 | a | b |
+    |------+---+---|
+    | row1 | a | b |
+    |------+---+---|
+    | row2 | 1 | 2 |
+
 ** STARTED Create simple vectors in R?
    - State "STARTED"    from "PROPOSED"   [2010-10-09 Sat 13:01]
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
