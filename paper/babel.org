@@ -901,83 +901,6 @@ correct.
 | 1 |    5 |   10 |   10 |    5 |    1 |
 #+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
 
-** Generate a Figure with =ditaa=                                  :noexport:
-
-# my fear with this example is that ditaa doesn't produce the best
-# looking images, for example were I to generate this diagram, I would
-# use tikz or maybed dot.  Also, I fear ASCII art risks looking like a
-# toy application (Eric)
-
-# Eric, your diagram is a big improvement.  I threw together the ditaa
-# diagram on the bus to work this morning because I saw the headline
-# already in the document.  If you think it would be better to draw
-# the diagram in some other application, that's fine with me.  I
-# *like* the diagram, though.  And it strikes me as RR-like to have
-# the code for the diagram appear in the paper. (Tom)
-
-Diagrams often play a useful role in source code documentation and as
-illustrations of research concepts.  The =Java= command line utility
-=ditaa= converts diagrams drawn with ascii art into bit map graphics.
-In the following diagram, the header argument =:file= is used to
-specify the name of the =ditaa= output, =:cmdline= passes parameters
-to =ditaa=, and =:cache yes= ensures that the code block will only be
-evaluated when its contents have changed.
-#+headers: :cmdline -r -s 0.8 :cache yes
-#+BEGIN_SRC ditaa :file lp-rr.png
-                         +-------+
-                         |       |
-  Mixed          +-------+ Babel +--------+
-  Languages      |       | cGRE  |        |
-                 |       +-------+        |
-                 |                        |
-             +---+---+                    |
-             |       |                    |
-  Arbitrary  | noweb |                    |
-  Language   | cBLU  |                    |
-             +---+---+                    |
-                 |                        |
-             +---+---+  +----------+  +---+----+
-             |       |  |          |  |        |
-  Single     |  WEB  |  | Scribble |  | Sweave |
-  Language   | cBLU  |  |  c798    |  | cYEL   |
-             +-------+  +----------+  +--------+
-             Literate     Mixed      Reproducible
-            Programming    Use         Research
-#+END_SRC
-
-#+results[453d41f8b5030fd9d46eea76a9dc71e4a4a81f24]:
-[[file:lp-rr.png]]
-
-Org-mode source code for the above
-#+begin_src org
-  ,#+headers: :cmdline -r -s 0.8 :cache yes
-  ,#+begin_src ditaa :file lp-rr.png
-  ,                        +-------+
-  ,                        |       |
-  , Mixed          +-------+ Babel +--------+
-  , Languages      |       | cGRE  |        |
-  ,                |       +-------+        |
-  ,                |                        |
-  ,            +---+---+                    |
-  ,            |       |                    |
-  , Arbitrary  | noweb |                    |
-  , Language   | cBLU  |                    |
-  ,            +---+---+                    |
-  ,                |                        |
-  ,            +---+---+  +----------+  +---+----+
-  ,            |       |  |          |  |        |
-  , Single     |  WEB  |  | Scribble |  | Sweave |
-  , Language   | cBLU  |  |  c798    |  | cYEL   |
-  ,            +-------+  +----------+  +--------+
-  ,            Literate     Mixed      Reproducible
-  ,           Programming    Use         Research
-  ,#+end_src
-  
-  ,#+results[453d...]:
-  ,[[file:lp-rr.png]]
-  
-#+end_src
-
 ** Literate Programming -- Cocktail Sort
 This implementation of Cocktail Sort is adapted from
 http://http://rosettacode.org/.
@@ -1048,92 +971,6 @@ short script which can then be tangled out to the file =cocktail.c=.
 
   <<main>>
 #+end_src
-
-** Tangle C code                                                   :noexport:
-# should our tangling example include noweb references?
-#
-# also, we should probably have copies of some of the code examples
-# presented inside of "begin_src org" blocks so that we can
-# demonstrate the babel syntax.
-
-This is the Babel version of an excerpt from the =CWEB= program used
-as an example by Knuth and Levy in /The CWEB System of Structured
-Documentation/. 
-
-*** Procedure =prime_the_change_buffer= 
-
-Sets =change_buffer= in preparation for the next matching operation. 
-Since blank lines in the change file are not used for matching, we have 
-=(change_limit==change_buffer && !changing)= if and only if 
-the change file is exhausted. This procedure is called only when 
-=changing= is 1; hence error messages will be reported correctly. 
-
-#+srcname: prime_the_change_buffer
-#+begin_src C :tangle cweb-example.c :noweb yes
-void 
-prime_the_change_buffer() 
-{ 
-change_limit=change_buffer; /* this value is used if the change file ends */ 
- /* Skip over comment lines in the change buffer */
-<<skip-over>>;
- /* Skip to the next nonblank line; return if end of file */
-<<skip-to-nonblank-line>>;
-/* Move buffer and limit to change_buffer and change_limit */
-<<move-buffer-and-limit>>;
-} 
-#+end_src
-
-*** Skip over comment lines in the change buffer; =return= if end of file
-While looking for a line that begins with @x in the change file, we 
-allow lines that begin with @, as long as they don’t begin with @y, 
-@z, or @i (which would probably mean that the change file is fouled up). 
-
-#+srcname: skip-over
-#+begin_src C
-while(1) { 
-change_line++; 
-if (!input_ln(change_file)) return; 
-if (limit<buffer+2) continue; 
-if (buffer[0]!=’@’) continue; 
-if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]); 
-if (buffer[1]==’x’) break; 
-if (buffer[1]==’y’ == buffer[1]==’z’ == buffer[1]==’i’) { 
-loc=buffer+2; 
-err_print("! Missing @x in change file"); 
-
-} 
-} 
-#+end_src
-
-Here we are looking at lines following the @x.
-
-*** Skip to the next nonblank line; =return= if end of file
-
-#+srcname: Skip-to-nonblank-line
-#+begin_src C
-do { 
-change_line++; 
-if (!input_ln(change_file)) { 
-err_print("! Change file ended after @x"); 
-
-return; 
-} 
-} while (limit==buffer); 
-#+end_src
-
-*** Move =buffer= and =limit= to =change_buffer= and =change_limit=
-#+srcname: Move-buffer-and-limit
-#+begin_src C
-{ 
-change_limit=change_buffer-buffer+limit; 
-strncpy(change_buffer,buffer,limit-buffer+1); 
-}
-#+end_src
-
-** TODO Simple Bioinformatics                                      :noexport:
-- data from http://www.ncbi.nlm.nih.gov/
-- process with =R=
-- [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
 
 ** External Data -- Live Climate Data
 By referencing external data a work of Reproducible Research can
@@ -1207,40 +1044,6 @@ and Atmospheric Administration (NOAA).
 
 4) Finally the persistent variables in the R session are used to
    generate figures of the climate data.
-
-** TODO Maybe something calling babel from a table                 :noexport:
-** Maintained State                                                :noexport:
-# I think this might be useful in the Applications section.
-# Maintaining state can be achieved in Babel with sessions and by
-# writing granular code blocks that write out intermediate values to
-# the Org-mode buffer.  The contrast between the two approaches might
-# make for a good example.
-Session evaluation can be useful when the code block changes some
-state, the retention of which is desirable for manual inspection or
-for use by subsequent code blocks.  For example, the first block of =R=
-code below sets variables in an interactive session and the second
-block of =R= code can access these variables because it is run in the
-same =R= session (adapted from [fn::
-http://www.stat.umn.edu/~charlie/Sweave/]).
-
-#+begin_src org
-  ,#+begin_src R :session *R* :results silent
-  ,  n <- 50
-  ,  x <- seq(1, n)
-  ,  a.true <- 3
-  ,  b.true <- 1.5
-  ,  y.true <- a.true + b.true * x
-  ,  s.true <- 17.3
-  ,  y <- y.true + s.true * rnorm(n)
-  ,  out1 <- lm(y ~ x)
-  ,  summary(out1)
-  ,#+end_src
-  
-  ,#+begin_src R :session *R* :file fig.pdf
-  ,  plot(x, y)
-  ,  abline(out1)
-  ,#+end_src
-#+end_src
 
 * Discussion
   :PROPERTIES:
@@ -1392,22 +1195,6 @@ communicate and to make their work more accessible.
   \small
   \bibliography{babel}
 #+end_LaTeX
-
-* COMMENT notes
-** scribble
-This is definitely related work, it extends the scheme programming
-language into a documentation language.
-
-It is used for JavaDoc style documentation, and also for all of the
-Racket documentation (see http://docs.racket-lang.org/)
-
-It allows code evaluation like babel, and sort-of literate
-programming, in that you can certainly Weave out documentation, but
-there is no analog to /tangling/ because the original document is
-already pure source code.
-
-While this is relevant, I'm not sure where it could fit into the
-paper.
 
 * COMMENT publish
 turn on the listings package, and define the =twocolumn= latex class
