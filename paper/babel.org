@@ -130,8 +130,8 @@ the use cases for mixed natural and computer language documents
 (Section \ref{design}) and Org-mode (Section \ref{org-mode}), and
 # This is the first mention of "Org-mode". Needs some prior
 # introductory sentence.
-demonstrate their application to some common use cases (Section
-\ref{applications}).  We conclude with a discussion of why we believe
+demonstrate their usage through two short examples (Section
+\ref{examples}).  We conclude with a discussion of why we believe
 Babel constitutes a uniquely productive environment for authoring
 mixed prose and code projects (Section \ref{points-for}), as well as
 some limits of the current implementation and directions for future
@@ -634,8 +634,8 @@ All values passed to variables are served by the Emacs Lisp
 interpreter that is at the core of Emacs.  This argument passing
 syntax allows for complex chaining of raw values in a document, and
 the results of computations in one computer language can be used as
-input to blocks of code in another language, as
-shown in Section \ref{applications}.
+input to blocks of code in another language, as shown in Section
+\ref{examples}.
 
 ** Export
     :PROPERTIES:
@@ -705,12 +705,24 @@ e=.  The three key strokes required for this binding, and the fact
 that it is not used elsewhere in Org-mode, provides some degree of
 protection against unintended evaluation of code blocks.
 
-* Applications
+* Examples
    :PROPERTIES:
-   :CUSTOM_ID: applications
+   :CUSTOM_ID: examples
    :END:
+
+The following section demonstrates a number of common Babel usage
+patterns through short examples.  The first example highlights how
+Babel allows data and calculation to flow between tables, code blocks
+of multiple languages, and graphical figures.  The second demonstrates
+the use of traditional literate programming techniques in Babel.  The
+final example demonstrates interaction with external data sources,
+including the automated creation and use of local databases from with
+Babel documents for long-term persistence of potentially large amounts
+of data, and the use of session-based evaluation for short term
+persistence of smaller amounts of data.
+
+** Data Flow -- Pascal's Triangle
 # I think this is a terrific example (TD)
-** Pascal's Triangle
 Pascal's triangle is one name for a geometric arrangement of the
 binomial coefficients in a triangle.  The triangle has several
 interesting and useful mathematical properties.  This example
@@ -889,7 +901,7 @@ correct.
 | 1 |    5 |   10 |   10 |    5 |    1 |
 #+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
 
-** Generate a Figure with =ditaa=
+** Generate a Figure with =ditaa=                                  :noexport:
 
 # my fear with this example is that ditaa doesn't produce the best
 # looking images, for example were I to generate this diagram, I would
@@ -966,7 +978,77 @@ Org-mode source code for the above
   
 #+end_src
 
-** TODO Tangle a Python Script                                     :noexport:
+** Literate Programming -- Cocktail Sort
+This implementation of Cocktail Sort is adapted from
+http://http://rosettacode.org/.
+
+Cocktail Sort is a variation of Bubble Sort in which the direction of
+array traversal is alternated with each pass.  As a result of this
+difference Cocktail Sort is much more efficient than bubble sort on
+arrays with small elements located at the end of the array.
+
+First we define the conditional swapping of adjacent array elements
+which are not in sorted order.
+#+source: bubble
+#+begin_src C
+  if ( a[i] > a[i+1] ) {
+    int temp = a[i];
+    a[i] = a[i+1];
+    a[i+1] = temp;
+    swapped = 1;
+  }
+#+end_src
+
+The array is repeatedly traversed in alternating directions swapping
+out-of-order elements.  This process continues until no more swaps
+have been made and the array is sorted.
+#+source: cocktail-sort
+#+begin_src C :noweb tangle
+  void sort(int *a, unsigned int l)
+  {
+    int swapped = 0;
+    int i;
+   
+    do {
+      for(i=0; i < (l-1); i++) {
+        <<bubble>>
+      }
+      if ( swapped == 0 ) break;
+      swapped = 0;
+      for(i= l - 2; i >= 0; i--) {
+        <<bubble>>
+      }
+    } while(swapped > 0);
+  }  
+#+end_src
+
+A =main= method can be used to call this sorting algorithm from the
+command line and print the results.
+#+source: main
+#+begin_src C
+  int main(int argc, char *argv[]) {
+    int lst[argc-1];
+    int i;
+    for(i=1;i<argc;i++)
+      lst[i-1] = atoi(argv[i]);
+    sort(lst, argc-1);
+    for(i=1;i<argc;i++)
+      printf("%d ", lst[i-1]);
+    printf("\n");
+  }
+#+end_src
+
+One final code block can be used to combine these functions into a
+short script which can then be tangled out to the file =cocktail.c=.
+#+source: cocktail.c
+#+begin_src C :noweb tangle :tangle cocktail.c
+  #include <stdio.h>
+
+  <<cocktail-sort>>
+
+  <<main>>
+#+end_src
+
 ** Tangle C code                                                   :noexport:
 # should our tangling example include noweb references?
 #
@@ -1053,10 +1135,22 @@ strncpy(change_buffer,buffer,limit-buffer+1);
 - process with =R=
 - [[http://www.scmbb.ulb.ac.be/Users/jvanheld/statistics_bioinformatics/practicals/clustering_R.html][scmbb.ulb.ac.be/clustering_R]] has examples
 
-** Live Climate Data
-Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme][noaa data]].
+** External Data -- Live Climate Data
+By referencing external data a work of Reproducible Research can
+remain up-to-date long after its initial composition and publication.
+This example demonstrates the ability of code blocks in a Babel
+document to reference external data, to construct and use local stores
+of data outside of the Babel document, and to maintain persistent
+state in external sessions, all in an automated fashion.  This allows
+each reader of the document to automatically update the document to
+reflect recent data, and to propagate a full local workspace with the
+data used in the document.
 
-1) Grab the raw temperature
+This example references climate change data from the National Oceanic
+and Atmospheric Administration (NOAA).
+
+1) The first two code blocks fetch and parse up-to-date external data
+   is fetched from the NOAA.
    #+begin_src org
      ,#+results: url-base
      ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
@@ -1086,7 +1180,8 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
    #+end_src
    from the web.
 
-2) Setup a =sqlite= database and import the data
+2) Next the output of the first two blocks is cross referenced and
+   used to create a local sqlite database of the data.
    #+begin_src org
      ,#+headers: :var temps=raw-temps
      ,#+headers: :var countries=country-codes[1:-1,0:1]
@@ -1098,13 +1193,23 @@ Alright, a revised simpler approach, using this [[ftp://ftp.ncdc.noaa.gov/pub/da
      ,  .import $temps temps
      ,  .import $countries countries
      ,#+end_src
-     
    #+end_src
 
-3) Then =R= can access the tables and generate a calculation or a plot.
+3) Data from this new database is then called from R to initialize
+   local variables inside of a /session/.  Creating these variables in
+   a persistent session allows the variables to be persisted and used
+   by later code blocks.
+   #+begin_src org
+     ,#+begin_src R
+     ,  
+     ,#+end_src
+   #+end_src
+
+4) Finally the persistent variables in the R session are used to
+   generate figures of the climate data.
 
 ** TODO Maybe something calling babel from a table                 :noexport:
-** Maintained State
+** Maintained State                                                :noexport:
 # I think this might be useful in the Applications section.
 # Maintaining state can be achieved in Babel with sessions and by
 # writing granular code blocks that write out intermediate values to
