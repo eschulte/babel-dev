@@ -57,7 +57,7 @@ of elements such as code in arbitrary programming languages, raw data,
 links to external resources, project management data, working notes,
 and text for publication. Code fragments may be executed in situ with
 graphical, numerical and text output captured in, or linked to, the file. Export
-to LaTeX, HTML, Beamer, DocBook and other formats permits working
+to LaTeX, HTML, LaTeX Beamer, DocBook and other formats permits working
 reports, presentations and manuscripts for publication to be generated
 from the file. In addition, code extraction (tangling) permits
 functioning pure code files to be extracted from the file. This
