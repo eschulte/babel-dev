@@ -24,6 +24,22 @@
     |------+---+---|
     | row2 | 1 | 2 |
 
+*** TODO interactive versus non-interactive assignments
+    - State "TODO"       from ""           [2010-10-16 Sat 17:39]
+
+      Eric says: They differ in haskell and some lisps. (But
+      prep-session and expand-body look pretty similar in ob-haskell?)
+
+*** TODO I don't think ocaml prep-session loads the variables
+    - State "TODO"       from ""           [2010-10-16 Sat 18:26]
+*** TODO Error in recent scheme change? 
+    - State "TODO"       from ""           [2010-10-16 Sat 18:40]
+    I changed org-babel-expand-body:scheme so that it applied the (mapcar #'cdr
+    onto the (org-babel-get-header params :var). OK?
+
+    (What are those 6 spaces doing after the \n in
+    org-babel-expand-body:scheme?)
+
 ** STARTED Create simple vectors in R?
    - State "STARTED"    from "PROPOSED"   [2010-10-09 Sat 13:01]
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
