@@ -45,7 +45,7 @@ unified environment that supports many different approaches to
 composition and application of combined prose and code (Table
 \ref{grid}).  Babel is implemented as part of the Org-mode plain text
 markup language, which provides the high level structure of Babel
-documents and many of export functions.  Babel and Org-mode are
+documents.  Babel and Org-mode are 
 designed for ease of use and adoption.  The Babel environment aims to
 be a general solution for authoring projects with mixed computational
 and natural languages.  It supports multiple languages, export
@@ -94,7 +94,7 @@ work (Section \ref{future-work}).
   :PROPERTIES:
   :CUSTOM_ID: background
   :END:
-The combined authoring of prose and code has been historically
+The combined authoring of prose and code has historically been
 approached from two different standpoints.
 
 - Literate Programming :: enhances traditional software development by
@@ -495,7 +495,7 @@ Adding a =:session= /header argument/ to a block causes Babel to
 Session-based evaluation is similar to the approach to evaluation
 taken by =Sweave=, in which every code block is evaluated in the same
 persistent session.  In Babel, the =:session= header argument takes an
-optional name, making it possible to maintain multiple disjoint 
+optional name, making it possible to maintain multiple disjoint
 sessions.
 
 *** Results
