@@ -7574,7 +7574,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [88/111]
+* Bugs [88/112]
+** PROPOSED Should ob-execute-{buffer,subtree} execute lob lines?
+   - State "PROPOSED"   from ""           [2010-10-18 Mon 14:07]
 ** STARTED R variables import
    - State "STARTED"    from "TODO"       [2010-10-16 Sat 15:37]
    - State "TODO"       from ""           [2010-10-09 Sat 11:59]
@@ -7605,7 +7607,6 @@ dot("$(2a,0)$",(2,0),N+E);
    | row1 | a | b |
    |------+---+---|
    | row2 | 1 | 2 |
-
 
 ** DONE Org block should remove protective commas
    - State "DONE"       from "TODO"       [2010-10-09 Sat 11:53]
