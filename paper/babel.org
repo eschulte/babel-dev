@@ -509,13 +509,8 @@ evaluation and export.
 
 *** Evaluation
 
-Babel typically evaluates a code block by
-1) writing its contents to a temporary file;
-2) calling an appropriate system command to execute the file; and
-3) capturing the value returned by the system command.
-
-By default the captured output appears in the Org-mode buffer
-immediately following the code block, e.g.,
+When a code block is evaluated, the captured output appears by default
+in the Org-mode buffer immediately following the code block, e.g.,
 #+begin_src org
   ,#+begin_src ruby
   ,  require 'date'
