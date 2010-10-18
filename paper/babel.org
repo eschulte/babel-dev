@@ -70,8 +70,9 @@ as well as sophisticated project management capabilities.
 There are a variety of settings in which it is desirable to mix prose
 and code in a single container.
 - /Scientific research/ increasingly involves the use of computational
-  tools, the inclusion of which is vital to successful communication
-  and verification of research results.
+  tools. Successful communication and verification of research results
+  requires that this code is distributed together with results and
+  explanatory prose.
 - In /software development/ the exchange of ideas is accomplished
   through both shared code and prose; code provides 
   concrete and succinct description and prose provides higher level
