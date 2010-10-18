@@ -473,9 +473,20 @@ in the Org-mode buffer immediately following the code block, e.g.,
   ,: This block was last evaluated on 2010-06-25
 #+end_src
 
-In languages that support interactive sessions, Babel can take
-advantage of this facility.  Adding a =:session= /header argument/
-causes Babel to
+By default a code block is evaluated in a dedicated system process
+which does not persist after evaluation is complete. In addition, for
+several languages evaluation may be performed in an interactive
+"session" which persists indefinitely. A good example is session-based
+evaluation of R code which uses R sessions provided by the Emacs
+Speaks Statistics (ESS) project. [ESS CITATION] Thus both the Org
+buffer and the language-specific session buffers may be used for
+sharing of functions and data structures between blocks. ESS
+successfully provides a feature-rich environment for development of
+R code; babel complements rather than replaces ESS in that code
+editing and session-based evaluation in Babel is implemented using
+ESS.
+
+Adding a =:session= /header argument/ to a block causes Babel to
 1) start a persistent process associated with a new Emacs
    buffer;
 2) pass the code body to that process; and
