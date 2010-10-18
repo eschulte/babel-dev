@@ -1,53 +1,5 @@
 # -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
 #+TITLE: Babel /DRAFT/
-#+AUTHOR: 
-#+OPTIONS: ^:nil toc:nil H:4
-#+STARTUP: oddeven
-#+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
-#+LATEX_HEADER: \usepackage{attrib}
-#+LATEX_HEADER: \usepackage{mathpazo}
-#+LATEX_HEADER: \usepackage{listings}
-#+LaTeX_CLASS: twocolumn
-#+begin_latex
-  \lstdefinelanguage{org}
-  {
-    morekeywords={:results, :session, :var, :noweb, :exports},
-    sensitive=false,
-    morecomment=[l]{\#},
-    morestring=[b]",
-  }
-  \lstdefinelanguage{dot}
-  {
-    morekeywords={graph},
-    sensitive=false,
-  }
-  \hypersetup{
-    linkcolor=blue,
-    pdfborder={0 0 0 0}
-  }
-  \renewcommand\t[1]{{\tt #1}}
-  \newcommand\ATCES{{\sf atce/r}}
-  \newcommand\lt[1]{{\lstinline+#1+}}
-  \definecolor{dkgreen}{rgb}{0,0.5,0}
-  \definecolor{dkred}{rgb}{0.5,0,0}
-  \definecolor{gray}{rgb}{0.5,0.5,0.5}
-  \lstset{basicstyle=\ttfamily\bfseries\scriptsize,
-    morekeywords={virtualinvoke,fucompp,fnstsw,fldl,fstpl,movl},
-    keywordstyle=\color{blue},
-    ndkeywordstyle=\color{red},
-    commentstyle=\color{dkred},
-    stringstyle=\color{dkgreen},
-    numbers=left,
-    numberstyle=\ttfamily\footnotesize\color{gray},
-    stepnumber=1,
-    numbersep=10pt,
-    backgroundcolor=\color{white},
-    tabsize=4,
-    showspaces=false,
-    showstringspaces=false,
-    xleftmargin=.23in
-  }
-#+end_latex
 
 #+LaTeX: \begin{abstract}
 We present a new computing environment for authoring mixed natural and
@@ -1225,3 +1177,53 @@ turn on the listings package, and define the =twocolumn= latex class
 =org-confirm-babel-evaluate= variable.
 
 [fn:2] Part of Graphviz (see http://www.graphviz.org/)
+* COMMENT Org document configuration
+#+AUTHOR: 
+#+OPTIONS: ^:nil toc:nil H:4
+#+STARTUP: oddeven
+#+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
+#+LATEX_HEADER: \usepackage{attrib}
+#+LATEX_HEADER: \usepackage{mathpazo}
+#+LATEX_HEADER: \usepackage{listings}
+#+LaTeX_CLASS: twocolumn
+#+begin_latex
+  \lstdefinelanguage{org}
+  {
+    morekeywords={:results, :session, :var, :noweb, :exports},
+    sensitive=false,
+    morecomment=[l]{\#},
+    morestring=[b]",
+  }
+  \lstdefinelanguage{dot}
+  {
+    morekeywords={graph},
+    sensitive=false,
+  }
+  \hypersetup{
+    linkcolor=blue,
+    pdfborder={0 0 0 0}
+  }
+  \renewcommand\t[1]{{\tt #1}}
+  \newcommand\ATCES{{\sf atce/r}}
+  \newcommand\lt[1]{{\lstinline+#1+}}
+  \definecolor{dkgreen}{rgb}{0,0.5,0}
+  \definecolor{dkred}{rgb}{0.5,0,0}
+  \definecolor{gray}{rgb}{0.5,0.5,0.5}
+  \lstset{basicstyle=\ttfamily\bfseries\scriptsize,
+    morekeywords={virtualinvoke,fucompp,fnstsw,fldl,fstpl,movl},
+    keywordstyle=\color{blue},
+    ndkeywordstyle=\color{red},
+    commentstyle=\color{dkred},
+    stringstyle=\color{dkgreen},
+    numbers=left,
+    numberstyle=\ttfamily\footnotesize\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{white},
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    xleftmargin=.23in
+  }
+#+end_latex
+
