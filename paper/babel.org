@@ -1077,7 +1077,12 @@ further development of Babel, or for a future tool of this type.
      exist in Babel).
      
      Also, the execution of Emacs Lisp requires a running Emacs
-     process.  There is no low-overhead method of evaluating Emacs
+     process. 
+
+     [I DON'T SEE THE PROBLEM HERE APART FROM A SECOND OR TWO
+     TO LOAD NECESSARY EMACS ENVIRONMENT -- Dan]
+
+     There is no low-overhead method of evaluating Emacs
      Lisp in the absence of an Emacs session.  In the presence of such
      functionality it may be possible for Babel to support the
      tangling of multi-language /stand-alone executables/, further
