@@ -405,7 +405,7 @@ state, a priority of A, and tagged for urgent attention at work.  The
 task has been scheduled for August 18th and a property indicates that
 it was delegated to Peter.
 
-#+begin_src org
+#+begin_src org :exports code
   ,* TODO [#A] Some task         :@work:urgent:
   ,  SCHEDULED: <2010-08-18 Wed>
   ,  :PROPERTIES:
@@ -456,9 +456,6 @@ pair, or with a =#+BEGIN_SRC ... #+END_SRC= pair.  The latter form
 can leverage Emacs source code editing modes to indent and
 fontify code examples.  Additional markup is provided with wiki-like
 syntax, which can be applied to any piece of text.
-
-*** TODO Export Facilities                                         :noexport:
-# I think we need an overview of export facilities (TD)
 
 ** Code and Data Block Extensions
     :PROPERTIES:
@@ -744,12 +741,15 @@ the Emacs Lisp function into the Org-mode document as a table named
   (defun pascals-triangle (n)
     (if (= n 0)
         (list (list 1))
-      (let* ((prev-triangle (pascals-triangle (- n 1)))
-             (prev-row (car (reverse prev-triangle))))
-        (append prev-triangle
-                (list (map 'list #'+
-                           (append prev-row '(0))
-                           (append '(0) prev-row)))))))
+      (let* ((prev-triangle (pascals-triangle
+                             (- n 1)))
+             (prev-row (car (reverse
+                             prev-triangle))))
+        (append
+         prev-triangle
+         (list (map 'list #'+
+                    (append prev-row '(0))
+                    (append '(0) prev-row)))))))
   
   (pascals-triangle n)
 #+end_src
@@ -864,9 +864,14 @@ correct.
 #+source: ps-check
 #+begin_src emacs-lisp :var row='(1 2 1) :var n=0
   (defun fib (n)
-    (if (<= n 2) 1 (+ (fib (- n 1)) (fib (- n 2)))))
+    (if (<= n 2)
+        1
+      (+ (fib (- n 1)) (fib (- n 2)))))
+  
   (let ((row (if (listp row) row (list row))))
-    (if (= (fib n) (reduce #'+ row)) "pass" "fail"))
+    (if (= (fib n) (reduce #'+ row))
+        "pass"
+      "fail"))
 #+end_src
 
 #+begin_src org
@@ -902,13 +907,11 @@ correct.
 #+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
 
 ** Literate Programming -- Cocktail Sort
-This implementation of Cocktail Sort is adapted from
-http://http://rosettacode.org/.
-
-Cocktail Sort is a variation of Bubble Sort in which the direction of
-array traversal is alternated with each pass.  As a result of this
-difference Cocktail Sort is much more efficient than bubble sort on
-arrays with small elements located at the end of the array.
+Cocktail Sort [fn:2] is a variation of Bubble Sort in which the
+direction of array traversal is alternated with each pass.  As a
+result of this difference Cocktail Sort is much more efficient than
+bubble sort on arrays with small elements located at the end of the
+array.
 
 First we define the conditional swapping of adjacent array elements
 which are not in sorted order.
@@ -1037,13 +1040,18 @@ and Atmospheric Administration (NOAA).
    a persistent session allows the variables to be persisted and used
    by later code blocks.
    #+begin_src org
-     ,#+begin_src R
-     ,  
+     ,#+begin_src R :session *R*
+     ,  TODO: climate data from sqlite
      ,#+end_src
    #+end_src
 
 4) Finally the persistent variables in the R session are used to
    generate figures of the climate data.
+   #+begin_src org
+     ,#+begin_src R :session *R*
+     ,  TODO: graph climate data
+     ,#+end_src
+   #+end_src
 
 * Discussion
   :PROPERTIES:
@@ -1228,4 +1236,5 @@ turn on the listings package, and define the =twocolumn= latex class
 [fn:1] These confirmation requests can be stifled by customizing the
 =org-confirm-babel-evaluate= variable.
 
-[fn:2] Part of Graphviz (see http://www.graphviz.org/)
+[fn:2] This implementation of Cocktail Sort is adapted from
+http://rosettacode.org/.
