@@ -1,6 +1,6 @@
 # -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
 #+TITLE: Babel /DRAFT/
-#+AUTHOR: 
+#+AUTHOR: Eric Schulte\\ University of New Mexico\\ eschulte@cs.unm.edu \and Dan Davison\\ University of Oxford\\ dandavison7@gmail.com \and Carsten Dominik\\ carsten.dominik@gmail.com \and Thomas Dye\\ tsd@tsdye.com
 #+OPTIONS: ^:nil toc:nil H:4
 #+STARTUP: oddeven
 #+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
