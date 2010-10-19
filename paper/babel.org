@@ -988,7 +988,7 @@ short script which can then be tangled out to the file =cocktail.c=.
   <<main>>
 #+end_src
 
-** External Data -- Live Climate Data
+** Reproducible Research -- Live Climate Data
 By referencing external data a work of Reproducible Research can
 remain up-to-date long after its initial composition and publication.
 This example demonstrates the ability of code blocks in a Babel
