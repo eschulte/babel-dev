@@ -1,5 +1,53 @@
 # -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
 #+TITLE: Babel /DRAFT/
+#+AUTHOR: 
+#+OPTIONS: ^:nil toc:nil H:4
+#+STARTUP: oddeven
+#+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
+#+LATEX_HEADER: \usepackage{attrib}
+#+LATEX_HEADER: \usepackage{mathpazo}
+#+LATEX_HEADER: \usepackage{listings}
+#+LaTeX_CLASS: twocolumn
+#+begin_latex
+  \lstdefinelanguage{org}
+  {
+    morekeywords={:results, :session, :var, :noweb, :exports},
+    sensitive=false,
+    morecomment=[l]{\#},
+    morestring=[b]",
+  }
+  \lstdefinelanguage{dot}
+  {
+    morekeywords={graph},
+    sensitive=false,
+  }
+  \hypersetup{
+    linkcolor=blue,
+    pdfborder={0 0 0 0}
+  }
+  \renewcommand\t[1]{{\tt #1}}
+  \newcommand\ATCES{{\sf atce/r}}
+  \newcommand\lt[1]{{\lstinline+#1+}}
+  \definecolor{dkgreen}{rgb}{0,0.5,0}
+  \definecolor{dkred}{rgb}{0.5,0,0}
+  \definecolor{gray}{rgb}{0.5,0.5,0.5}
+  \lstset{basicstyle=\ttfamily\bfseries\scriptsize,
+    morekeywords={virtualinvoke,fucompp,fnstsw,fldl,fstpl,movl},
+    keywordstyle=\color{blue},
+    ndkeywordstyle=\color{red},
+    commentstyle=\color{dkred},
+    stringstyle=\color{dkgreen},
+    numbers=left,
+    numberstyle=\ttfamily\footnotesize\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{white},
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    xleftmargin=.23in
+  }
+#+end_latex
 
 #+LaTeX: \begin{abstract}
 We present a new computing environment for authoring mixed natural and
@@ -463,11 +511,11 @@ in the Org-mode buffer immediately following the code block, e.g.,
 #+begin_src org
   ,#+begin_src ruby
   ,  require 'date'
-  ,  "This block was last evaluated on #{Date.today}"
+  ,  "This was last evaluated on #{Date.today}"
   ,#+end_src
   
   ,#+results:
-  ,: This block was last evaluated on 2010-06-25
+  ,: This was last evaluated on 2010-06-25
 #+end_src
 
 By default a code block is evaluated in a dedicated system process
@@ -475,13 +523,12 @@ which does not persist after evaluation is complete. In addition, for
 several languages evaluation may be performed in an interactive
 "session" which persists indefinitely. A good example is session-based
 evaluation of R code which uses R sessions provided by the Emacs
-Speaks Statistics (ESS) project. [ESS CITATION] Thus both the Org
-buffer and the language-specific session buffers may be used for
-sharing of functions and data structures between blocks. ESS
-successfully provides a feature-rich environment for development of
-R code; babel complements rather than replaces ESS in that code
-editing and session-based evaluation in Babel is implemented using
-ESS.
+Speaks Statistics (ESS) project \cite{ess}.  Thus both the Org buffer
+and the language-specific session buffers may be used for sharing of
+functions and data structures between blocks. ESS successfully
+provides a feature-rich environment for development of R code; babel
+complements rather than replaces ESS in that code editing and
+session-based evaluation in Babel is implemented using ESS.
 
 Adding a =:session= /header argument/ to a block causes Babel to
 1) start a persistent process associated with a new Emacs
@@ -1094,23 +1141,6 @@ further development of Babel, or for a future tool of this type.
      /single threaded/, this makes the asynchronous evaluation of code
      blocks needlessly complex (in fact this feature does not yet
      exist in Babel).
-     
-     Also, the execution of Emacs Lisp requires a running Emacs
-     process. 
-
-     [I DON'T SEE THE PROBLEM HERE APART FROM A SECOND OR TWO
-     TO LOAD NECESSARY EMACS ENVIRONMENT -- Dan]
-
-     There is no low-overhead method of evaluating Emacs
-     Lisp in the absence of an Emacs session.  In the presence of such
-     functionality it may be possible for Babel to support the
-     tangling of multi-language /stand-alone executables/, further
-     reducing the barrier to reproduction of works authored in Babel.
-     
-     Both of the above issues may be resolved naturally if Guile
-     scheme replaces the existing Emacs Lisp execution engine, which
-     at the time of writing seems a distinct possibility [fn::
-     http://lists.gnu.org/archive/html/emacs-devel/2010-04/msg00665.html].
 
 ** Conclusion
 As a single tool Babel satisfies the needs of both the reproducible
