@@ -726,7 +726,7 @@ Babel allows data and calculation to flow between tables, code blocks
 of multiple languages, and graphical figures.  The second demonstrates
 the use of traditional literate programming techniques in Babel.  The
 final example demonstrates interaction with external data sources,
-including the automated creation and use of local databases from with
+including the automated creation and use of local databases from within
 Babel documents for long-term persistence of potentially large amounts
 of data, and the use of session-based evaluation for short term
 persistence of smaller amounts of data.
