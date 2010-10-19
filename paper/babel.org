@@ -1205,6 +1205,13 @@ communicate and to make their work more accessible.
   \bibliography{babel}
 #+end_LaTeX
 
+* COMMENT Tasks
+** TODO URL for Org source of the document
+The document (and anything else needed to recreate the pdf) should be
+made available on the web, and the URL should be published in the
+paper.
+** TODO Implement R examples in RR example
+** TODO Enclose all blocks and results in org blocks
 * COMMENT publish
 turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :results silent
