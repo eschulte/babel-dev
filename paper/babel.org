@@ -713,6 +713,13 @@ protection against unintended evaluation of code blocks.
    :CUSTOM_ID: examples
    :END:
 
+TODO: Make it so that all code and results are typeset verbatim, along
+with their header arguments and #+begin_src / #+results elements, as
+they appear in the Emacs buffer. Show the file link as well as the
+graphical output. This TODO applies to the Pascal's Triangle and
+Literate Programming examples (the RR example satisfies this
+already). (DD)
+
 The following section demonstrates a number of common Babel usage
 patterns through short examples.  The first example highlights how
 Babel allows data and calculation to flow between tables, code blocks
