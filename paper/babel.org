@@ -1642,32 +1642,31 @@ This leaves dangling the question of whether and why asynchronous
 evaluation is useful.  TD
 
 ** Conclusion
-As a single tool Babel satisfies the needs of both the reproducible
-research and literate programming disciplines, it is in effect both a
-/compendium/ and a /web/.
+Babel simultaneously satisfies the software requirements of
+reproducible research and literate programming; it is in effect both a
+/compendium/ and a /web/.  The Babel environment, used in combination
+with a suitable version control tool, satisfies the requirements for
+authoring, auxiliary, transformation, quality control and distribution
+software set out by Gentleman and Temple Lang in their formulation of
+a compendium.  In addition, Babel already accomplishes three of the
+four goals of their "future work", namely support for /multiple
+languages/, /conditional chunks/ (where "chunks" are blocks of text or
+code), and /interactivity/, which refers to Babel's ability to execute
+code from within the authoring environment.
 
-- compendium :: The formulation of a compendium as put forth by
-     Gentleman and Temple Lang requires the following elements.
-     1) Authoring Software
-     2) Auxiliary Software
-     3) Transformation Software
-     4) Quality control Software
-     5) Distribution Software
+What is the fourth goal that Babel doesn't accomplish?  TD
 
-     The Babel environment used in combination with a traditional
-     version control tool satisfies all of these requirements.  In
-     addition, Babel handles three of the four points laid out in
-     their proposed "Future Work", namely /multiple languages/,
-     /conditional chunks/ (where "chunks" are blocks of text or code),
-     and /interactivity/, meaning that the code can be executed from
-     within the authoring environment.
+Babel is a full featured /web/ tool.  It supports both /tangling/ and
+/weaving/ of code, as well as a sophisticated code block reference
+system along the lines of =noweb=.  Additionally the executability of
+code blocks in Babel allows for interactive development, and
+integration of test suites in a manner not supported in previous
+literate programming systems.
 
-- web :: Babel is a full featured /web/ tool.  It supports both
-     /tangling/ and /weaving/ of code, as well as a sophisticated code
-     block reference system along the lines of =noweb=.  Additionally
-     the executability of code blocks in Babel allows for interactive
-     development, and integration of test suites in a manner not
-     supported in previous literate programming systems.
+Perhaps here we should discuss the kinds of projects that Babel has
+been used to accomplish instead of the following two paragraphs?  I'm
+a bit concerned that "ease of use" contradicts the "complex
+configuration" problems discussed above.  TD
 
 Through making it possible to adopt literate programming and
 reproducible research practices while retaining a familiar editing
