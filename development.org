@@ -40,6 +40,12 @@
     (What are those 6 spaces doing after the \n in
     org-babel-expand-body:scheme?)
 
+*** TODO Need to look at various calls to ob-get-src-block-info
+    - State "TODO"       from ""           [2010-10-20 Wed 18:18]
+      Which of them should use 'light argument?
+
+*** TODO Dan needs to create rebased branch with clean commit logs
+    - State "TODO"       from ""           [2010-10-20 Wed 18:19]
 ** STARTED Create simple vectors in R?
    - State "STARTED"    from "PROPOSED"   [2010-10-09 Sat 13:01]
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
@@ -7574,7 +7580,22 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [88/112]
+* Bugs [88/114]
+** PROPOSED What does the arg argument do in `org-babel-expand-src-block'?
+   - State "PROPOSED"   from ""           [2010-10-20 Wed 18:36]
+** PROPOSED lob issues
+   - State "PROPOSED"   from ""           [2010-10-20 Wed 10:27]
+
+#+lob: lib/psi.org:qplots()
+
+This lob line didn't complete, which resulted in the active buffer
+switching to a buffer visiting psi.org, and the following message in
+the R buffer.
+
+> Warning message:
+In file.create(transfer.file) :
+  cannot create file '/tmp/babel-4519BQr/R-4519bsb', reason 'No such file or directory'
+
 ** PROPOSED Should ob-execute-{buffer,subtree} execute lob lines?
    - State "PROPOSED"   from ""           [2010-10-18 Mon 14:07]
 ** STARTED R variables import
