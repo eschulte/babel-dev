@@ -7580,7 +7580,20 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [88/112]
+* Bugs [88/113]
+** PROPOSED lob issues
+   - State "PROPOSED"   from ""           [2010-10-20 Wed 10:27]
+
+#+lob: lib/psi.org:qplots()
+
+This lob line didn't complete, which resulted in the active buffer
+switching to a buffer visiting psi.org, and the following message in
+the R buffer.
+
+> Warning message:
+In file.create(transfer.file) :
+  cannot create file '/tmp/babel-4519BQr/R-4519bsb', reason 'No such file or directory'
+
 ** PROPOSED Should ob-execute-{buffer,subtree} execute lob lines?
    - State "PROPOSED"   from ""           [2010-10-18 Mon 14:07]
 ** STARTED R variables import
