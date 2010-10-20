@@ -1104,29 +1104,15 @@ combined natural and computational language documents.
    :PROPERTIES:
    :CUSTOM_ID: future-work
    :END:
-Babel's integration with Emacs brings it many mature and full-featured
-environments for authoring code and text and for controlling the
-evaluation of text. However, it also brings with it some limiting
-factors.  These include:
-- complex configuration, one of the beauties of Emacs is that it is
-  completely configurable, but the myriad options can be confusing,
-  even to experienced Emacs users. 
-- small community of users
-- it's not the best execution VM or sublayer
-  - single threaded
-  - inefficient
 
 These items indicate a number of paths for future work, either for
 further development of Babel, or for a future tool of this type.
 
-- editor agnostic :: One point where Babel is not as general as it
-     could be is the range of available editing environments.  Despite
-     the large number of features that Emacs and Org-mode provide
-     to Babel, they both also place limits on the pool of potential
-     users to those who either already use Emacs and Org-mode, or are
-     willing and able to adopt what can conservatively be described as
-     a /sophisticated/ text editing environment.
-     
+- editor agnostic :: Babel was developed within the rich framework of
+     Emacs and Org-mode, which made the idea of Babel possible in the
+     first place.  Now that Babel is developed, however, the tie to a single
+     editing environment, even one as completely configurable as
+     Emacs, means that Babel is less general than it might be.
      It seems that it would be possible for future tools of this
      nature to provide code evaluation and exportation as a service
      which could be called from any number of editors.  Such a
@@ -1138,14 +1124,15 @@ further development of Babel, or for a future tool of this type.
      common denominator of Emacs Lisp.  This works well for Babel as
      it allows for re-use of many pre-existing Emacs tools for
      evaluation of code in a variety of language, often making the
-     addition of support for new languages trivial.
+     addition of support for new languages trivial.  There are however
+     properties of Emacs Lisp which make it less than ideal as a
+     medium of data exchange and as a shepherd of evaluation.  Most
+     importantly the Emacs Lisp interpreter is /single threaded/,
+     which makes the asynchronous evaluation of code blocks needlessly
+     complex (in fact this feature does not yet exist in Babel).
 
-     There are however properties of Emacs Lisp which make it less
-     than ideal as a medium of data exchange and as a shepherd of
-     evaluation.  Most importantly the Emacs Lisp interpreter is
-     /single threaded/, this makes the asynchronous evaluation of code
-     blocks needlessly complex (in fact this feature does not yet
-     exist in Babel).
+This leaves dangling the question of whether and why asynchronous
+evaluation is useful.  TD
 
 ** Conclusion
 As a single tool Babel satisfies the needs of both the reproducible
