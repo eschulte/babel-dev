@@ -40,6 +40,12 @@
     (What are those 6 spaces doing after the \n in
     org-babel-expand-body:scheme?)
 
+*** TODO Need to look at various calls to ob-get-src-block-info
+    - State "TODO"       from ""           [2010-10-20 Wed 18:18]
+      Which of them should use 'light argument?
+
+*** TODO Dan needs to create rebased branch with clean commit logs
+    - State "TODO"       from ""           [2010-10-20 Wed 18:19]
 ** STARTED Create simple vectors in R?
    - State "STARTED"    from "PROPOSED"   [2010-10-09 Sat 13:01]
    - State "PROPOSED"   from ""           [2010-09-27 Mon 13:38]
