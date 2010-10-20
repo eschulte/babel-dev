@@ -7580,7 +7580,23 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [88/114]
+* Bugs [88/115]
+** TODO Results appending rather than replacing
+   - State "TODO"       from ""           [2010-10-20 Wed 23:03]
+
+Originally a :cache yes header was present, but I have now removed
+it. The results are being appended to the results block rather than
+replacing.
+
+#+srcname: random
+#+begin_src R
+runif(1)
+#+end_src
+
+#+results[cbe5590c35d34b4cb69ad08c58f081e9cd30802f]: random
+: 0.195455290842801
+: 0.366889806697145
+
 ** PROPOSED What does the arg argument do in `org-babel-expand-src-block'?
    - State "PROPOSED"   from ""           [2010-10-20 Wed 18:36]
 ** PROPOSED lob issues
