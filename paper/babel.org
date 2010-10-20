@@ -1004,7 +1004,9 @@ and Atmospheric Administration (NOAA).
 
 1) The first two code blocks fetch and parse up-to-date external data
    is fetched from the NOAA.
+
 #   #+begin_src org
+
 #+results: url-base
 : ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
 
@@ -1013,13 +1015,13 @@ and Atmospheric Administration (NOAA).
 
 #+source: raw-temps
 #+headers: :var base=url-base
-#+begin_src sh  :var file=raw-temps-file
- curl $base$file |gunzip |sed 's/-/ /g'| \
+#+begin_src sh  :var file=raw-temps-file :cache yes 
+ curl $base$file | gunzip | sed 's/-/ /g'| \
    sed 's/^\([0-9]\{3\}\)[0-9]\{9\}/\1 /'| \
-   head -500
+   head -n 500
 #+end_src
 
-#+results: raw-temps
+#+results[79a1cd6f66012f8ea3d505d91ec421fc490f2f87]: raw-temps
 | 101 | 1856 |  106 |   89 |  115 |  141 |  184 |  198 |  227 |  232 |  202 |  169 |  108 |   89 |
 | 101 | 1857 |   53 |   95 |  113 |  134 |  164 |  197 |  216 |  229 |  220 |  168 |  154 |   97 |
 | 101 | 1858 |   68 |   98 |  115 |  161 |  171 |  220 |  240 |  245 |  227 |  184 |  144 |  102 |
@@ -1522,19 +1524,259 @@ and Atmospheric Administration (NOAA).
 | 101 | 1866 |   98 |  121 |  124 |  150 |  175 |  208 |  242 |  247 |  225 |  183 |  152 | 9999 |
      
 #   #+end_src
+
    and country code data
+
 #   #+begin_src org
 
-#+results: country-code
+#+results: country-code-file
 : v2.slp.country.codes
 
 #+source: country-codes
-#+begin_src sh :car url=country-code-url
+#+headers: :var base=url-base
+#+begin_src sh :var file=country-code-file :cache yes
   curl $base$file |sed 's/ *$//' \
       |sed 's/ \(.*\)$/,"\1"/'
 #+end_src
-     
+
+#+results[3e6fa3b5256c91da4d7fc66a8088d29280778cbd]: country-codes
+| 101 | ALGERIA                                 |
+| 102 | ANGOLA                                  |
+| 103 | BENIN                                   |
+| 104 | BOTSWANA                                |
+| 105 | BURKINA FASO                            |
+| 106 | BURUNDI                                 |
+| 107 | CAMEROON                                |
+| 108 | CAPE VERDE                              |
+| 109 | CENTRAL AFRICAN REPUBLIC                |
+| 110 | CHAD                                    |
+| 111 | COMOROS                                 |
+| 112 | CONGO                                   |
+| 113 | COTE D'IVOIRE                           |
+| 114 | DJIBOUTI                                |
+| 115 | EGYPT                                   |
+| 116 | ERITREA                                 |
+| 117 | ETHIOPIA                                |
+| 118 | GABON                                   |
+| 119 | GHANA                                   |
+| 120 | GUINEA                                  |
+| 121 | GUINEA-BISSAU                           |
+| 122 | KENYA                                   |
+| 123 | LIBERIA                                 |
+| 124 | LIBYA                                   |
+| 125 | MADAGASCAR                              |
+| 126 | MALAWI                                  |
+| 127 | MALI                                    |
+| 128 | MAURITANIA                              |
+| 129 | MAURITIUS                               |
+| 130 | MOROCCO                                 |
+| 131 | MOZAMBIQUE                              |
+| 132 | NAMIBIA                                 |
+| 133 | NIGER                                   |
+| 134 | NIGERIA                                 |
+| 136 | SAO TOME AND PRINCIPE                   |
+| 137 | SENEGAL                                 |
+| 138 | SEYCHELLES                              |
+| 139 | SIERRA LEONE                            |
+| 140 | SOMALIA                                 |
+| 141 | SOUTH AFRICA                            |
+| 148 | SUDAN                                   |
+| 149 | TANZANIA                                |
+| 150 | THE GAMBIA                              |
+| 151 | TOGO                                    |
+| 152 | TUNISIA                                 |
+| 153 | UGANDA                                  |
+| 154 | ZAIRE                                   |
+| 155 | ZAMBIA                                  |
+| 156 | ZIMBABWE                                |
+| 157 | AMSTERDAM ISLAND (FRANCE)               |
+| 158 | ASCENSION ISLAND (U.K.)                 |
+| 159 | CANARY ISLANDS (SPAIN)                  |
+| 160 | CEUTA (SPAIN)                           |
+| 161 | CHAGOS ARCHIPELAGO (U.K.)               |
+| 162 | LESOTHO                                 |
+| 163 | MAYOTTE (FRANCE)                        |
+| 164 | MELILLA (SPAIN)                         |
+| 165 | REUNION ISLAND (FRANCE)                 |
+| 166 | RWANDA                                  |
+| 167 | SWAZILAND                               |
+| 168 | TROMELIN ISLAND (FRANCE)                |
+| 169 | WESTERN SAHARA (MOROCCO)                |
+| 201 | AFGHANISTAN                             |
+| 202 | BAHRAIN                                 |
+| 203 | BANGLADESH                              |
+| 204 | CAMBODIA                                |
+| 205 | CHINA                                   |
+| 206 | DEMOCRATIC PEOPLE'S REPUBLIC OF KOREA   |
+| 207 | INDIA                                   |
+| 208 | IRAN                                    |
+| 209 | IRAQ                                    |
+| 210 | JAPAN                                   |
+| 211 | KAZAKHSTAN                              |
+| 212 | KUWAIT                                  |
+| 213 | KYRGYZSTAN                              |
+| 214 | LAOS                                    |
+| 215 | MONGOLIA                                |
+| 216 | MYANMAR                                 |
+| 217 | NEPAL                                   |
+| 218 | OMAN                                    |
+| 219 | PAKISTAN                                |
+| 220 | QATAR                                   |
+| 221 | REPUBLIC OF KOREA                       |
+| 222 | RUSSIAN FEDERATION (ASIAN SECTOR)       |
+| 223 | SAUDI ARABIA                            |
+| 224 | SRI LANKA                               |
+| 227 | TAJIKISTAN                              |
+| 228 | THAILAND                                |
+| 229 | TURKMENISTAN                            |
+| 230 | UNITED ARAB EMIRATES                    |
+| 231 | UZBEKISTAN                              |
+| 232 | VIETNAM                                 |
+| 233 | YEMEN                                   |
+| 234 | MACAU (PORTUGAL)                        |
+| 235 | MALDIVES                                |
+| 236 | TAIWAN                                  |
+| 301 | ARGENTINA                               |
+| 302 | BOLIVIA                                 |
+| 303 | BRAZIL                                  |
+| 304 | CHILE                                   |
+| 305 | COLOMBIA                                |
+| 306 | ECUADOR                                 |
+| 307 | GUYANA                                  |
+| 308 | PARAGUAY                                |
+| 309 | PERU                                    |
+| 312 | SURINAME                                |
+| 313 | URUGUAY                                 |
+| 314 | VENEZUELA                               |
+| 315 | FRENCH GUIANA (FRANCE)                  |
+| 316 | FALKLAND ISLANDS (U.K.)                 |
+| 317 | SOUTH GEORGIA (U.K.)                    |
+| 401 | BARBADOS                                |
+| 402 | BELIZE                                  |
+| 403 | CANADA                                  |
+| 405 | COSTA RICA                              |
+| 406 | CUBA                                    |
+| 407 | DOMINICAN REPUBLIC                      |
+| 408 | EL SALVADOR                             |
+| 409 | GRENADA                                 |
+| 410 | GUATEMALA                               |
+| 411 | HAITI                                   |
+| 412 | HONDURAS                                |
+| 413 | JAMAICA                                 |
+| 414 | MEXICO                                  |
+| 415 | NICARAGUA                               |
+| 416 | PANAMA                                  |
+| 417 | SAINT KITTS AND NEVIS                   |
+| 423 | THE BAHAMAS                             |
+| 424 | TRINIDAD AND TOBAGO                     |
+| 425 | UNITED STATES OF AMERICA                |
+| 426 | ANTIGUA AND BARBUDA                     |
+| 427 | BERMUDA (U.K.)                          |
+| 428 | BRITISH VIRGIN ISLANDS (U.K.)           |
+| 429 | CAYMAN ISLANDS (U.K.)                   |
+| 430 | DOMINICA                                |
+| 431 | GREENLAND (DENMARK)                     |
+| 432 | GUADELOUPE (FRANCE)                     |
+| 433 | MARTINIQUE (FRANCE)                     |
+| 434 | NETHERLANDS ANTILLES (NETHERLANDS)      |
+| 435 | PUERTO RICO (U.S.A.)                    |
+| 436 | SAINT LUCIA                             |
+| 437 | SAINT VINCENT AND THE GRENADINES        |
+| 438 | SAINT PIERRE & MIQUELON ISLAND (FRANCE) |
+| 439 | TURKS AND CAICOS ISLANDS                |
+| 440 | VIRGIN ISLANDS (U.S.A.)                 |
+| 501 | AUSTRALIA                               |
+| 502 | FIJI                                    |
+| 503 | INDONESIA                               |
+| 504 | KIRIBATI                                |
+| 505 | MALAYSIA                                |
+| 506 | NAURU                                   |
+| 507 | NEW ZEALAND                             |
+| 508 | PAPUA NEW GUINEA                        |
+| 509 | PHILIPPINES                             |
+| 511 | SINGAPORE                               |
+| 512 | SOLOMON ISLANDS                         |
+| 517 | TONGA                                   |
+| 518 | TUVALU                                  |
+| 520 | VANUATU                                 |
+| 521 | AMERICAN SAMOA (U.S.A.)                 |
+| 522 | BRUNEI                                  |
+| 523 | CHRISTMAS ISLAND (AUSTRALIA)            |
+| 524 | COCOS ISLANDS (AUSTRALIA)               |
+| 525 | COOK ISLANDS (NEW ZEALAND)              |
+| 526 | CORAL SEA ISLANDS (AUSTRALIA)           |
+| 527 | FEDERATED STATES OF MICRONESIA          |
+| 528 | FRENCH POLYNESIA (FRANCE)               |
+| 529 | GUAM (U.S.A.)                           |
+| 530 | JOHNSTON ATOLL (U.S.A.)                 |
+| 531 | MARSHALL ISLANDS                        |
+| 532 | NEW CALEDONIA (FRANCE)                  |
+| 533 | NIUE (NEW ZEALAND)                      |
+| 534 | NORFOLK ISLAND (AUSTRALIA)              |
+| 535 | NORTHERN MARIANA ISLANDS (U.S.A.)       |
+| 536 | BELAU                                   |
+| 537 | PITCAIRN ISLAND (U.K.)                  |
+| 538 | TOKELAU                                 |
+| 539 | WAKE ISLAND (U.S.A.)                    |
+| 540 | WALLIS AND FUTUNA (FRANCE)              |
+| 541 | SAMOA                                   |
+| 601 | ALBANIA                                 |
+| 602 | ARMENIA                                 |
+| 603 | AUSTRIA                                 |
+| 604 | AZERBAIJAN                              |
+| 605 | BELARUS                                 |
+| 606 | BELGIUM                                 |
+| 607 | BOSNIA AND HERZEGOVINA                  |
+| 608 | BULGARIA                                |
+| 609 | CROATIA                                 |
+| 610 | CYPRUS                                  |
+| 611 | CZECH REPUBLIC                          |
+| 612 | DENMARK                                 |
+| 613 | ESTONIA                                 |
+| 614 | FINLAND                                 |
+| 615 | FRANCE                                  |
+| 616 | GEORGIA                                 |
+| 617 | GERMANY                                 |
+| 618 | GREECE                                  |
+| 619 | HUNGARY                                 |
+| 620 | ICELAND                                 |
+| 621 | IRELAND                                 |
+| 622 | ISRAEL                                  |
+| 623 | ITALY                                   |
+| 624 | JORDAN                                  |
+| 625 | KAZAKHSTAN                              |
+| 626 | LATVIA                                  |
+| 627 | LEBANON                                 |
+| 628 | LITHUANIA                               |
+| 629 | LUXEMBOURG                              |
+| 630 | MALTA                                   |
+| 631 | MOLDOVA                                 |
+| 632 | MONTENEGRO                              |
+| 633 | NETHERLANDS                             |
+| 634 | NORWAY                                  |
+| 635 | POLAND                                  |
+| 636 | PORTUGAL                                |
+| 637 | ROMANIA                                 |
+| 638 | RUSSIAN FEDERATION (EUROPEAN SECTOR)    |
+| 639 | SERBIA                                  |
+| 641 | SLOVAKIA                                |
+| 642 | SLOVENIA                                |
+| 643 | SPAIN                                   |
+| 645 | SWEDEN                                  |
+| 646 | SWITZERLAND                             |
+| 647 | SYRIA                                   |
+| 648 | MACEDONIA                               |
+| 649 | TURKEY                                  |
+| 650 | UKRAINE                                 |
+| 651 | UNITED KINGDOM                          |
+| 652 | FAROE ISLANDS (DENMARK)                 |
+| 653 | GIBRALTAR (U.K.)                        |
+| 654 | MADEIRA ISLANDS (PORTUGAL)              |
+| 700 | ANTARCTICA                              |
+| 800 | SHIP STATIONS                           |
+
 #   #+end_src
+
    from the web.
 
 2) Next the output of the first two blocks is cross referenced and
@@ -1553,25 +1795,46 @@ and Atmospheric Administration (NOAA).
   .import $countries countries
 #+end_src
 
+#+results:
+
 # #+end_src
 
 3) Data from this new database is then called from R to initialize
    local variables inside of a /session/.  Creating these variables in
    a persistent session allows the variables to be persisted and used
    by later code blocks.
-   #+begin_src org
-     ,#+begin_src R :session *R*
-     ,  TODO: climate data from sqlite
-     ,#+end_src
-   #+end_src
+
+#   #+begin_src org
+
+#+headers: :var temps=raw-temps
+#+headers: :var countries=country-codes
+#+begin_src R :session *R*
+NULL
+#+end_src
+
+#+results:
+
+#   #+end_src
 
 4) Finally the persistent variables in the R session are used to
    generate figures of the climate data.
-   #+begin_src org
-     ,#+begin_src R :session *R*
-     ,  TODO: graph climate data
-     ,#+end_src
-   #+end_src
+#   #+begin_src org
+ 
+#+begin_src R :session *R* :file temp-plot.png
+  names(countries) <- c("Code","Country")
+  colnames(temps) <- c("CountryCode","Year",
+                       "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+  temps[temps == 9999] <- NA
+  temps$Country <- countries$Country[match(temps$CountryCode, countries$Code)]
+  country.temps <- split(temps[-1], factor(temps$Country))
+  
+  plot(Jul ~ Year, data=country.temps$ALGERIA)
+#+end_src
+
+#+results:
+[[file:temp-plot.png]]
+
+#   #+end_src
 
 * Discussion
   :PROPERTIES:
@@ -1717,6 +1980,8 @@ made available on the web, and the URL should be published in the
 paper.
 ** TODO Implement R examples in RR example
 ** TODO Enclose all blocks and results in org blocks
+** TODO Is this indexing correct?
+#+headers: :var countries=country-codes[1:-1,0:1]
 * COMMENT publish
 turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :results silent
