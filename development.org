@@ -7580,7 +7580,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [88/113]
+* Bugs [88/114]
+** PROPOSED What does the arg argument do in `org-babel-expand-src-block'?
+   - State "PROPOSED"   from ""           [2010-10-20 Wed 18:36]
 ** PROPOSED lob issues
    - State "PROPOSED"   from ""           [2010-10-20 Wed 10:27]
 
