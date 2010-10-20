@@ -7580,7 +7580,29 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [88/115]
+* Bugs [88/116]
+** TODO In-buffer results not being used when sha1 present
+   - State "TODO"       from ""           [2010-10-20 Wed 23:04]
+
+When executing "caller" below I expect it to returned the cached
+result; instead it re-evaluates "random" each time.
+
+#+srcname: random
+#+begin_src R :cache yes
+runif(1)
+#+end_src
+
+#+results[cbe5590c35d34b4cb69ad08c58f081e9cd30802f]: random
+: 0.195455290842801
+
+#+srcname: caller
+#+begin_src emacs-lisp :var x=random :cache yes
+x
+#+end_src
+
+#+results[6711a199a84f80cd91a348df704f70bef0ca16d1]: caller
+: 0.995861092349514
+
 ** TODO Results appending rather than replacing
    - State "TODO"       from ""           [2010-10-20 Wed 23:03]
 
