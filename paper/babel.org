@@ -1075,32 +1075,30 @@ and Atmospheric Administration (NOAA).
    :CUSTOM_ID: points-for
    :END:
 
-Babel has several features that make it a useful tool for composing
+Babel has several features that make it a productive tool for composing
 combined natural and computational language documents.
 
-- Open source :: Babel is both /open source/, meaning its inner
-     workings are publicly visible, and further, its copyright is
-     owned by the Free Software Foundation \cite{fsf}, meaning that
-     Babel, and any work deriving from Babel will always be fully open
-     to public scrutiny and modification.  This is *essential* for any
-     tool supporting scientific peer review.
+- Open source :: Babel is /open source/, which means its inner
+     workings are publicly visible, and its copyright is
+     owned by the Free Software Foundation \cite{fsf}, which means that
+     Babel, and any work deriving from Babel, will always be fully open
+     to public scrutiny and modification.  These are *essential*
+     qualities for software tools used for reproducible research.
 
-- Friendly active community :: the Org-mode community and by extension
-     the community surrounding Babel is extremely friendly, which can
-     be immeasurably helpful for novices learning how to use the tool,
-     and for developers looking for ideas and feedback.  Without this
-     community the Babel project would never have reached a useable
-     state.
+- Friendly active community :: The Org-mode community is extremely
+     friendly, which makes it easy for novices to get help on how to
+     use Babel, and for developers to discuss ideas on how to improve
+     and extend it.  Without this community the Babel project would
+     never have reached a useable state.
 
 - General :: A leading drive in the design of Babel was pursuit of
-     generality.  Babel, through Org-mode, exports to many target file
-     types (e.g. LaTeX, HTML, Beamer slideshows, ASCII, etc...), it
-     supports arbitrary programming languages.  It displays no
-     reproducible research or literate programming bias.
+     generality.  As a result, it displays no reproducible research or
+     literate programming bias.  Babel supports arbitrary programming
+     languages, and through Org-mode it exports to a wide variety of
+     file types, including ASCII, LaTeX, HTML, and DocBook.
 
-- Integration :: Babel's integration with Emacs means that the
-     sophisticated editing modes available for many computer languages
-     can be used to author code in the Babel environment. 
+- Integration :: Babel leverages the sophisticated editing modes
+     available in Emacs for both natural and computational languages.
 
 ** Directions for Future Development
    :PROPERTIES:
