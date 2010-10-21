@@ -1917,7 +1917,26 @@ languages/, /conditional chunks/ (where "chunks" are blocks of text or
 code), and /interactivity/, which refers to Babel's ability to execute
 code from within the authoring environment.
 
-What is the fourth goal that Babel doesn't accomplish?  TD
+What is the fourth goal that Babel doesn't accomplish?  Here it is:
+
+Metadata Inclusion of programmatically accessible meta-information in docu- 
+ments facilitates both richer interactions and better descriptions of the con- 
+tent. Many scientiﬁc documents contain keywords as part of the text. Mak- 
+ing these explicitly available to cataloging and indexing software as pro- 
+grammatically extractable elements of the dynamic document will facilitate 
+richer distribution services. Since dynamic documents are software, licens- 
+ing also becomes pertinent. One may wish to restrict evaluation or access 
+to data within the compendium. This can be done with meta-information 
+such as license key matching or explicit code within the document to verify 
+authorization. Another use of meta-information is the inclusion of digital 
+signatures which can be used to verify the origin and legitimacy of the com- 
+pendium. 
+
+I probably don't understand this fully, but it seems to me that it
+would be possible to provide "programmatically accessible
+meta-information."  I implemented a simple OAI interface to my web
+site many years ago--that mostly involved understanding the metadata
+structure known as the Dublin core used by librarians.  TD
 
 Babel is a full featured /web/ tool.  It supports both /tangling/ and
 /weaving/ of code, as well as a sophisticated code block reference
