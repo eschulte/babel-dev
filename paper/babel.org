@@ -1005,404 +1005,88 @@ and Atmospheric Administration (NOAA).
 1) The first two code blocks fetch and parse up-to-date external data
    from the NOAA,
 
-#   #+begin_src org
-
-#+results: url-base
-: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
-
-#+results: raw-temps-file
-: v2.mean_adj.Z
-
-#+source: raw-temps
-#+headers: :var base=url-base
-#+begin_src sh  :var file=raw-temps-file :cache yes 
-  curl $base$file | gunzip | \
-    sed 's/-9999/ -9999/g'| \
-    sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 \2 ,' \
-    > $file
+#+begin_src org
+  ,#+results: url-base
+  ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
+  
+  ,#+results: raw-temps-file
+  ,: v2.mean_adj.Z
+  
+  ,#+source: raw-temps
+  ,#+headers: :var base=url-base
+  ,#+begin_src sh  :var file=raw-temps-file :cache yes 
+  ,  curl $base$file | gunzip | \
+  ,    sed 's/-9999/ -9999/g'| \
+  ,    sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 \2 ,' \
+  ,    > $file
+  ,#+end_src
 #+end_src
 
-#+results[9ed1361c12a1744880ff064d397efc6f0b1c850b]: raw-temps
-| 101 | 603900000.0 | 1856 |   106 |  89 |   115 | 141 |   184 |   198 | 227 |   232 |   202 |   169 |   108 |    89 |
-| 101 | 603900000.0 | 1857 |    53 |  95 |   113 | 134 |   164 |   197 | 216 |   229 |   220 |   168 |   154 |    97 |
-| 101 | 603900000.0 | 1858 |    68 |  98 |   115 | 161 |   171 |   220 | 240 |   245 |   227 |   184 |   144 |   102 |
-| 101 | 603900000.0 | 1859 |    71 |  83 |   104 | 161 | -9999 |   177 | 234 |   222 |   181 |   158 |   103 |    71 |
-| 101 | 603900000.0 | 1860 |    87 |  53 |    84 | 114 |   157 | -9999 | 208 |   204 |   186 |   136 |   104 |    90 |
-| 101 | 603900000.0 | 1861 |    58 |  70 |   112 | 129 |   154 |   197 | 216 |   208 |   179 |   155 |   128 | -9999 |
-| 101 | 603900000.0 | 1862 |    94 |  98 | -9999 | 159 | -9999 |   208 | 231 |   228 |   193 |   161 | -9999 |   119 |
-| 101 | 603900000.0 | 1863 | -9999 |  75 |   105 | 149 |   172 |   226 | 234 |   226 |   189 |   151 |   100 | -9999 |
-| 101 | 603900000.0 | 1864 |    55 |  81 |   128 | 141 |   186 |   227 | 257 |   241 |   208 |   174 |   111 |    76 |
-| 101 | 603900000.0 | 1865 |    94 |  88 | -9999 | 158 |   185 |   208 | 234 |   241 |   214 |   173 |   120 | -9999 |
-| 101 | 603900000.0 | 1866 |    81 | 110 |   112 | 144 |   157 |   203 | 232 | -9999 | -9999 | -9999 | -9999 | -9999 |
-| 101 | 603900000.0 | 1878 |    75 |  92 |   108 | 159 |   184 |   209 | 234 |   256 |   210 |   177 |   110 |   102 |
-| 101 | 603900000.0 | 1879 |   101 | 102 |   107 | 131 |   147 |   211 | 219 |   225 |   198 |   158 |   113 |    67 |
-| 101 | 603900000.0 | 1880 |    75 |  92 |   111 | 141 |   159 |   200 | 243 |   240 |   208 |   178 |   121 |    96 |
-| 101 | 603900000.0 | 1881 |   112 | 113 |   134 | 148 |   168 |   193 | 244 |   260 |   216 |   168 |   120 |    95 |
-| 101 | 603900000.0 | 1882 |    77 |  97 |   105 | 149 |   182 |   202 | 224 |   226 |   185 |   157 |   127 |    97 |
-| 101 | 603900000.0 | 1883 |    92 |  94 |    98 | 129 |   163 |   194 | 225 |   220 |   203 |   154 |   125 |    80 |
-| 101 | 603900000.0 | 1884 |    74 | 102 |    94 | 114 |   156 |   169 | 223 |   238 |   199 |   139 |   102 |    72 |
-| 101 | 603900000.0 | 1885 |    57 | 121 |   103 | 109 |   163 |   183 | 217 |   242 |   208 |   139 |   101 |    87 |
-| 101 | 603900000.0 | 1886 |    64 |  74 |   109 | 129 |   163 |   184 | 215 |   209 |   200 |   155 |   104 |    77 |
-| 101 | 603900000.0 | 1887 |    62 |  67 |   102 | 119 |   156 |   202 | 233 |   230 |   204 |   121 |   111 |    71 |
-| 101 | 603900000.0 | 1888 |    91 |  76 |   121 | 149 |   168 |   208 | 228 |   220 |   206 |   166 |   133 |   113 |
-| 101 | 603900000.0 | 1889 |    75 |  90 |   105 | 132 |   167 |   199 | 232 |   225 |   202 |   144 |   121 |    78 |
-| 101 | 603900000.0 | 1890 |    92 |  90 |   101 | 129 |   154 |   201 | 207 |   230 |   200 |   157 |   112 |    85 |
-| 101 | 603900000.0 | 1891 |    58 |  79 |   116 | 141 |   170 |   201 | 241 |   230 |   209 |   176 |   137 |   105 |
-| 101 | 603900000.0 | 1892 |    97 | 108 |   121 | 136 |   176 |   219 | 249 |   234 |   215 |   177 |   135 |    97 |
-| 101 | 603900000.0 | 1893 |    78 | 109 |   131 | 156 |   185 |   218 | 237 |   230 |   229 |   180 |   127 |    95 |
-| 101 | 603900000.0 | 1894 |    86 | 102 |   110 | 142 |   160 |   208 | 240 |   250 |   212 |   189 |   149 |    99 |
-| 101 | 603900000.0 | 1895 |    82 | 118 |   113 | 147 |   156 |   202 | 245 |   221 |   223 |   193 |   157 |   118 |
-| 101 | 603900000.0 | 1896 |    93 | 100 |   123 | 121 |   150 |   202 | 252 |   223 |   215 |   152 |   105 |    98 |
-| 101 | 603900000.0 | 1897 |    96 | 106 |   141 | 150 |   168 |   211 | 252 |   248 |   208 |   164 |   147 |   100 |
-| 101 | 603900000.0 | 1898 |   107 |  96 |   109 | 128 |   164 |   202 | 239 |   241 |   211 |   173 |   130 |    90 |
-| 101 | 603900000.0 | 1899 |   109 | 126 |   121 | 152 |   175 |   200 | 232 |   240 |   228 |   204 |   150 |   104 |
-| 101 | 603900000.0 | 1900 |    96 | 135 |   106 | 128 |   161 |   211 | 213 |   225 |   218 |   183 |   113 |    98 |
-| 101 | 603900000.0 | 1901 |    91 |  76 |   111 | 149 |   151 |   230 | 240 |   230 |   211 |   146 |   120 |    85 |
-| 101 | 603900000.0 | 1902 |    86 | 111 |   120 | 150 |   146 |   194 | 244 |   251 |   206 |   155 |   133 |    98 |
-| 101 | 603900000.0 | 1903 |   102 |  98 |   118 | 127 |   156 |   182 | 225 |   235 |   201 |   175 |   116 |    87 |
-| 101 | 603900000.0 | 1904 |    77 | 101 |   105 | 133 |   175 |   205 | 244 |   251 |   194 |   165 |   118 |   106 |
-| 101 | 603900000.0 | 1905 |    75 |  75 |   130 | 150 |   151 |   206 | 225 |   240 |   207 |   154 |   119 |    89 |
-| 101 | 603900000.0 | 1906 |    93 |  77 |   110 | 120 |   155 |   200 | 218 |   231 |   209 |   168 |   123 |    89 |
-| 101 | 603900000.0 | 1907 |    79 |  72 |    99 | 121 |   156 |   208 | 211 |   241 |   199 |   155 |   136 |   114 |
-| 101 | 603900000.0 | 1908 |   100 |  85 |    95 | 114 |   184 |   189 | 226 |   241 |   215 |   171 |   142 |   103 |
-| 101 | 603900000.0 | 1909 |    68 |  77 |   105 | 130 |   145 |   182 | 210 |   229 |   192 |   171 |   125 |   116 |
-| 101 | 603900000.0 | 1910 |    85 |  98 |    98 | 123 |   135 |   191 | 218 |   220 |   185 |   176 |   129 |   104 |
-| 101 | 603900000.0 | 1911 |    68 |  96 |   102 | 116 |   141 |   192 | 233 |   243 |   220 |   171 |   125 |   126 |
-| 101 | 603900000.0 | 1912 |    97 | 129 |   131 | 112 |   174 |   198 | 211 |   221 |   172 |   154 |    97 |    93 |
-| 101 | 603900000.0 | 1913 |   102 |  90 |   115 | 121 |   159 |   194 | 223 |   238 |   199 |   176 |   144 |    97 |
-| 101 | 603900000.0 | 1914 |    74 | 103 |   115 | 151 |   153 |   172 | 214 |   212 |   200 |   156 |   119 |   100 |
-| 101 | 603900000.0 | 1915 |    83 |  89 |   118 | 104 |   161 |   195 | 239 |   236 |   194 |   148 |   125 |   114 |
-| 101 | 603900000.0 | 1916 |    88 |  94 |   108 | 122 |   156 |   184 | 221 |   232 |   186 |   168 |   128 |   109 |
-     
-#   #+end_src
+# #+results: country-code-file
+# : v2.slp.country.codes
 
-#   #+begin_src org
+# #+source: country-codes
+# #+headers: :var base=url-base
+# #+begin_src sh :var file=country-code-file :cache yes
+#   curl $base$file |sed 's/ *$//' \
+#       |sed 's/ \(.*\)$/,"\1"/'
+# #+end_src
 
-#+results: country-code-file
-: v2.slp.country.codes
-
-#+source: country-codes
-#+headers: :var base=url-base
-#+begin_src sh :var file=country-code-file :cache yes
-  curl $base$file |sed 's/ *$//' \
-      |sed 's/ \(.*\)$/,"\1"/'
-#+end_src
-
-#+results[3e6fa3b5256c91da4d7fc66a8088d29280778cbd]: country-codes
-
-#+results: country-codes
-| 101 | ALGERIA                                 |
-| 102 | ANGOLA                                  |
-| 103 | BENIN                                   |
-| 104 | BOTSWANA                                |
-| 105 | BURKINA FASO                            |
-| 106 | BURUNDI                                 |
-| 107 | CAMEROON                                |
-| 108 | CAPE VERDE                              |
-| 109 | CENTRAL AFRICAN REPUBLIC                |
-| 110 | CHAD                                    |
-| 111 | COMOROS                                 |
-| 112 | CONGO                                   |
-| 113 | COTE D'IVOIRE                           |
-| 114 | DJIBOUTI                                |
-| 115 | EGYPT                                   |
-| 116 | ERITREA                                 |
-| 117 | ETHIOPIA                                |
-| 118 | GABON                                   |
-| 119 | GHANA                                   |
-| 120 | GUINEA                                  |
-| 121 | GUINEA-BISSAU                           |
-| 122 | KENYA                                   |
-| 123 | LIBERIA                                 |
-| 124 | LIBYA                                   |
-| 125 | MADAGASCAR                              |
-| 126 | MALAWI                                  |
-| 127 | MALI                                    |
-| 128 | MAURITANIA                              |
-| 129 | MAURITIUS                               |
-| 130 | MOROCCO                                 |
-| 131 | MOZAMBIQUE                              |
-| 132 | NAMIBIA                                 |
-| 133 | NIGER                                   |
-| 134 | NIGERIA                                 |
-| 136 | SAO TOME AND PRINCIPE                   |
-| 137 | SENEGAL                                 |
-| 138 | SEYCHELLES                              |
-| 139 | SIERRA LEONE                            |
-| 140 | SOMALIA                                 |
-| 141 | SOUTH AFRICA                            |
-| 148 | SUDAN                                   |
-| 149 | TANZANIA                                |
-| 150 | THE GAMBIA                              |
-| 151 | TOGO                                    |
-| 152 | TUNISIA                                 |
-| 153 | UGANDA                                  |
-| 154 | ZAIRE                                   |
-| 155 | ZAMBIA                                  |
-| 156 | ZIMBABWE                                |
-| 157 | AMSTERDAM ISLAND (FRANCE)               |
-| 158 | ASCENSION ISLAND (U.K.)                 |
-| 159 | CANARY ISLANDS (SPAIN)                  |
-| 160 | CEUTA (SPAIN)                           |
-| 161 | CHAGOS ARCHIPELAGO (U.K.)               |
-| 162 | LESOTHO                                 |
-| 163 | MAYOTTE (FRANCE)                        |
-| 164 | MELILLA (SPAIN)                         |
-| 165 | REUNION ISLAND (FRANCE)                 |
-| 166 | RWANDA                                  |
-| 167 | SWAZILAND                               |
-| 168 | TROMELIN ISLAND (FRANCE)                |
-| 169 | WESTERN SAHARA (MOROCCO)                |
-| 201 | AFGHANISTAN                             |
-| 202 | BAHRAIN                                 |
-| 203 | BANGLADESH                              |
-| 204 | CAMBODIA                                |
-| 205 | CHINA                                   |
-| 206 | DEMOCRATIC PEOPLE'S REPUBLIC OF KOREA   |
-| 207 | INDIA                                   |
-| 208 | IRAN                                    |
-| 209 | IRAQ                                    |
-| 210 | JAPAN                                   |
-| 211 | KAZAKHSTAN                              |
-| 212 | KUWAIT                                  |
-| 213 | KYRGYZSTAN                              |
-| 214 | LAOS                                    |
-| 215 | MONGOLIA                                |
-| 216 | MYANMAR                                 |
-| 217 | NEPAL                                   |
-| 218 | OMAN                                    |
-| 219 | PAKISTAN                                |
-| 220 | QATAR                                   |
-| 221 | REPUBLIC OF KOREA                       |
-| 222 | RUSSIAN FEDERATION (ASIAN SECTOR)       |
-| 223 | SAUDI ARABIA                            |
-| 224 | SRI LANKA                               |
-| 227 | TAJIKISTAN                              |
-| 228 | THAILAND                                |
-| 229 | TURKMENISTAN                            |
-| 230 | UNITED ARAB EMIRATES                    |
-| 231 | UZBEKISTAN                              |
-| 232 | VIETNAM                                 |
-| 233 | YEMEN                                   |
-| 234 | MACAU (PORTUGAL)                        |
-| 235 | MALDIVES                                |
-| 236 | TAIWAN                                  |
-| 301 | ARGENTINA                               |
-| 302 | BOLIVIA                                 |
-| 303 | BRAZIL                                  |
-| 304 | CHILE                                   |
-| 305 | COLOMBIA                                |
-| 306 | ECUADOR                                 |
-| 307 | GUYANA                                  |
-| 308 | PARAGUAY                                |
-| 309 | PERU                                    |
-| 312 | SURINAME                                |
-| 313 | URUGUAY                                 |
-| 314 | VENEZUELA                               |
-| 315 | FRENCH GUIANA (FRANCE)                  |
-| 316 | FALKLAND ISLANDS (U.K.)                 |
-| 317 | SOUTH GEORGIA (U.K.)                    |
-| 401 | BARBADOS                                |
-| 402 | BELIZE                                  |
-| 403 | CANADA                                  |
-| 405 | COSTA RICA                              |
-| 406 | CUBA                                    |
-| 407 | DOMINICAN REPUBLIC                      |
-| 408 | EL SALVADOR                             |
-| 409 | GRENADA                                 |
-| 410 | GUATEMALA                               |
-| 411 | HAITI                                   |
-| 412 | HONDURAS                                |
-| 413 | JAMAICA                                 |
-| 414 | MEXICO                                  |
-| 415 | NICARAGUA                               |
-| 416 | PANAMA                                  |
-| 417 | SAINT KITTS AND NEVIS                   |
-| 423 | THE BAHAMAS                             |
-| 424 | TRINIDAD AND TOBAGO                     |
-| 425 | UNITED STATES OF AMERICA                |
-| 426 | ANTIGUA AND BARBUDA                     |
-| 427 | BERMUDA (U.K.)                          |
-| 428 | BRITISH VIRGIN ISLANDS (U.K.)           |
-| 429 | CAYMAN ISLANDS (U.K.)                   |
-| 430 | DOMINICA                                |
-| 431 | GREENLAND (DENMARK)                     |
-| 432 | GUADELOUPE (FRANCE)                     |
-| 433 | MARTINIQUE (FRANCE)                     |
-| 434 | NETHERLANDS ANTILLES (NETHERLANDS)      |
-| 435 | PUERTO RICO (U.S.A.)                    |
-| 436 | SAINT LUCIA                             |
-| 437 | SAINT VINCENT AND THE GRENADINES        |
-| 438 | SAINT PIERRE & MIQUELON ISLAND (FRANCE) |
-| 439 | TURKS AND CAICOS ISLANDS                |
-| 440 | VIRGIN ISLANDS (U.S.A.)                 |
-| 501 | AUSTRALIA                               |
-| 502 | FIJI                                    |
-| 503 | INDONESIA                               |
-| 504 | KIRIBATI                                |
-| 505 | MALAYSIA                                |
-| 506 | NAURU                                   |
-| 507 | NEW ZEALAND                             |
-| 508 | PAPUA NEW GUINEA                        |
-| 509 | PHILIPPINES                             |
-| 511 | SINGAPORE                               |
-| 512 | SOLOMON ISLANDS                         |
-| 517 | TONGA                                   |
-| 518 | TUVALU                                  |
-| 520 | VANUATU                                 |
-| 521 | AMERICAN SAMOA (U.S.A.)                 |
-| 522 | BRUNEI                                  |
-| 523 | CHRISTMAS ISLAND (AUSTRALIA)            |
-| 524 | COCOS ISLANDS (AUSTRALIA)               |
-| 525 | COOK ISLANDS (NEW ZEALAND)              |
-| 526 | CORAL SEA ISLANDS (AUSTRALIA)           |
-| 527 | FEDERATED STATES OF MICRONESIA          |
-| 528 | FRENCH POLYNESIA (FRANCE)               |
-| 529 | GUAM (U.S.A.)                           |
-| 530 | JOHNSTON ATOLL (U.S.A.)                 |
-| 531 | MARSHALL ISLANDS                        |
-| 532 | NEW CALEDONIA (FRANCE)                  |
-| 533 | NIUE (NEW ZEALAND)                      |
-| 534 | NORFOLK ISLAND (AUSTRALIA)              |
-| 535 | NORTHERN MARIANA ISLANDS (U.S.A.)       |
-| 536 | BELAU                                   |
-| 537 | PITCAIRN ISLAND (U.K.)                  |
-| 538 | TOKELAU                                 |
-| 539 | WAKE ISLAND (U.S.A.)                    |
-| 540 | WALLIS AND FUTUNA (FRANCE)              |
-| 541 | SAMOA                                   |
-| 601 | ALBANIA                                 |
-| 602 | ARMENIA                                 |
-| 603 | AUSTRIA                                 |
-| 604 | AZERBAIJAN                              |
-| 605 | BELARUS                                 |
-| 606 | BELGIUM                                 |
-| 607 | BOSNIA AND HERZEGOVINA                  |
-| 608 | BULGARIA                                |
-| 609 | CROATIA                                 |
-| 610 | CYPRUS                                  |
-| 611 | CZECH REPUBLIC                          |
-| 612 | DENMARK                                 |
-| 613 | ESTONIA                                 |
-| 614 | FINLAND                                 |
-| 615 | FRANCE                                  |
-| 616 | GEORGIA                                 |
-| 617 | GERMANY                                 |
-| 618 | GREECE                                  |
-| 619 | HUNGARY                                 |
-| 620 | ICELAND                                 |
-| 621 | IRELAND                                 |
-| 622 | ISRAEL                                  |
-| 623 | ITALY                                   |
-| 624 | JORDAN                                  |
-| 625 | KAZAKHSTAN                              |
-| 626 | LATVIA                                  |
-| 627 | LEBANON                                 |
-| 628 | LITHUANIA                               |
-| 629 | LUXEMBOURG                              |
-| 630 | MALTA                                   |
-| 631 | MOLDOVA                                 |
-| 632 | MONTENEGRO                              |
-| 633 | NETHERLANDS                             |
-| 634 | NORWAY                                  |
-| 635 | POLAND                                  |
-| 636 | PORTUGAL                                |
-| 637 | ROMANIA                                 |
-| 638 | RUSSIAN FEDERATION (EUROPEAN SECTOR)    |
-| 639 | SERBIA                                  |
-| 641 | SLOVAKIA                                |
-| 642 | SLOVENIA                                |
-| 643 | SPAIN                                   |
-| 645 | SWEDEN                                  |
-| 646 | SWITZERLAND                             |
-| 647 | SYRIA                                   |
-| 648 | MACEDONIA                               |
-| 649 | TURKEY                                  |
-| 650 | UKRAINE                                 |
-| 651 | UNITED KINGDOM                          |
-| 652 | FAROE ISLANDS (DENMARK)                 |
-| 653 | GIBRALTAR (U.K.)                        |
-| 654 | MADEIRA ISLANDS (PORTUGAL)              |
-| 700 | ANTARCTICA                              |
-| 800 | SHIP STATIONS                           |
-
-#   #+end_src
 
 2) Next the output of the first two blocks is cross referenced and
    used to create a local sqlite database of the data.
 
-# I haven't plugged this into the pipeline yet.
+TODO: I haven't plugged this into the pipeline yet.
 
-# #+begin_src org
-
-#+headers: :var temps=raw-temps
-#+headers: :var countries=country-codes[1:-1,0:1]
-#+begin_src sqlite :db climate.sqlite
-  create table temps (country,year,jan,feb,
-         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
-  create table countries (code, name);
-  .separator ","
-  .import $temps temps
-  .import $countries countries
+#+begin_src org
+  ,#+headers: :var temps=raw-temps
+  ,#+headers: :var countries=country-codes[1:-1,0:1]
+  ,#+begin_src sqlite :db climate.sqlite
+  ,  create table temps (country,year,jan,feb,
+  ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+  ,  create table countries (code, name);
+  ,  .separator ","
+  ,  .import $temps temps
+  ,  .import $countries countries
+  ,#+end_src
 #+end_src
 
-#+results:
-
-# #+end_src
 
 3) Data from this new database is then called from R to initialize
    local variables inside of a /session/.  Creating these variables in
    a persistent session allows the variables to be persisted and used
    by later code blocks.
 
-#   #+begin_src org
+#+begin_src org
+  ,#+headers: :var temps=raw-temps
+  ,#+headers: :var countries=country-codes
+  ,#+begin_src R :session *R*
+  ,  temps <- read.table(datafile, as.is=TRUE)
+  ,  months <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+  ,  colnames(temps) <- c("CountryCode","Station", "Year", months)
+  ,  temps.split <- split(temps, temps[c("CountryCode", "Station")], drop=TRUE)
+  ,#+end_src
+#+end_src
 
-#+headers: :var temps=raw-temps
 
-#+headers: :var countries=country-codes
-#+begin_src R :session *R*
-NULL ## Block exists only to assign variables
+4) Finally the persistent variables in the R session are used to
+   generate figures from the climate data. Here we fit a straight line
+   to the July temperatures at each station which has data throughout
+   the period 1880-1980, and plot a histogram of the fitted slopes
+   parameters.
+
+#+begin_src org
+  ,#+begin_src R :session *R* :file mean-temps.pdf
+  ,  retain <- function(t) t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
+  ,  fit.july.slope <- function(t) with(t, coefficients(lm(Jul ~ Year))["Year"])
+  ,  filtered <- temps.split[sapply(temps.split, retain)]
+  ,  slopes <- sapply(filtered, fit.july.slope)
+  ,  hist(slopes)
+  ,#+end_src
 #+end_src
 
 #+results:
-
-#   #+end_src
-
-4) Finally the persistent variables in the R session are used to
-   generate figures of the climate data.
-
-
-#+begin_src R :session *R* :var datafile=raw-temps-file
-  ## These data input lines will change if we are taking data from the
-  ## Org buffer or from an sqlite data base.
-  temps <- read.table(datafile, as.is=TRUE)
-  
-  
-  
-  
-  names(countries) <- c("Code","Country")
-  months <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
-  colnames(temps) <- c("CountryCode","Station", "Year", months)
-  temps$Country <- countries$Country[match(temps$CountryCode, countries$Code)]
-  
-  temps[temps == -9999] <- NA
-  
-  ## Split by country/station and retain only stations covering 1880 - 1980
-  temp.by.station <- split(temps, temps[c("Country", "Station")], drop=TRUE)
-  retain <- function(x) x$Year[1] <= 1880 && x$Year[nrow(x)] >= 1980
-  temp.by.station <- temp.by.station[sapply(temp.by.station, retain)]
-  
-  ## Regress annual mean temp on year
-  mean.temp.betas <- sapply(temp.by.station,
-                            function(x) coefficients(lm(rowMeans(x[,months]) ~ Year, data=x))["Year"])
-  
-  july.temp.betas <- sapply(temp.by.station,
-                            function(x) coefficients(lm(x[,"Jul"] ~ Year, data=x))["Year"])
-  
-#+end_src
-
-
-
+[[file:mean-temps.pdf]]
 
 
 * Discussion
