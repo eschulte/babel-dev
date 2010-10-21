@@ -1,6 +1,6 @@
 # -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
 #+TITLE: Babel /DRAFT/
-#+AUTHOR: Eric Schulte\\ University of New Mexico\\ eschulte@cs.unm.edu \and Dan Davison\\ University of Oxford\\ dandavison7@gmail.com \and Carsten Dominik\\ carsten.dominik@gmail.com \and Thomas Dye\\ tsd@tsdye.com
+#+AUTHOR: Eric Schulte \and Dan Davison \and Carsten Dominik \and Thomas Dye
 #+OPTIONS: ^:nil toc:nil H:4
 #+STARTUP: oddeven
 #+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
@@ -1960,6 +1960,45 @@ communicate and to make their work more accessible.
 #+end_LaTeX
 
 * COMMENT Tasks
+** TODO include Author information
+The following looks like little much on the title page, I guess leave
+this until there's an actual template for us to use.
+#+begin_src latex
+  \author{Eric Schulte\\
+  \small Department of Computer Science\\
+  \small University of New Mexico\\
+  \small 1 University of New Mexico\\
+  \small Albuquerque, NM 87131\\
+  \small United States of America\\
+  \small eschulte@cs.unm.edu
+  \and
+  Dan Davison\\
+  \small Mathematical Genetics and Bioinformatics Group\\
+  \small Department of Statistics\\
+  \small University of Oxford\\
+  \small 1 South Parks Road\\
+  \small Oxford OX1 3TG\\
+  \small United Kingdom\\
+  \small dandavison7@gmail.com
+  \and
+  Carsten Dominik\\
+  \small Sterrenkundig Instituut "Anton Pannekoek"\\
+  \small University of Amsterdam,\\
+  \small Science Park 904\\
+  \small 1098 XH Amsterdam\\
+  \small The Netherlands\\
+  \small Department of Astrophysics\\
+  \small Radboud University Nijmegen, P.O. Box\\
+  \small 9010, NL-6500 GL Nijmegen\\
+  \small The Netherlands\\
+  \small email: dominik@uva.nl
+  \and
+  Thomas S. Dye\\
+  \small T. S. Dye \& Colleagues, Archaeologists, Inc.\\
+  \small tsd@tsdye.com
+  }
+#+end_src
+
 ** TODO URL for Org source of the document
 The document (and anything else needed to recreate the pdf) should be
 made available on the web, and the URL should be published in the
