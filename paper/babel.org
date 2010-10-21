@@ -1062,9 +1062,14 @@ TODO: I haven't plugged this into the pipeline yet.
   ,#+headers: :var countries=country-codes
   ,#+begin_src R :session *R*
   ,  temps <- read.table(datafile, as.is=TRUE)
-  ,  months <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
-  ,  colnames(temps) <- c("CountryCode","Station", "Year", months)
-  ,  temps.split <- split(temps, temps[c("CountryCode", "Station")], drop=TRUE)
+  ,  months <- c("Jan","Feb","Mar","Apr",
+  ,              "May","Jun","Jul","Aug",
+  ,              "Sep","Oct","Nov","Dec")
+  ,  colnames(temps) <- c("CountryCode","Station",
+  ,                       "Year", months)
+  ,  temps.split <- split(temps,
+  ,                       temps[c("CountryCode", "Station")],
+  ,                       drop=TRUE)
   ,#+end_src
 #+end_src
 
@@ -1077,15 +1082,16 @@ TODO: I haven't plugged this into the pipeline yet.
 
 #+begin_src org
   ,#+begin_src R :session *R* :file mean-temps.pdf
-  ,  retain <- function(t) t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
-  ,  fit.july.slope <- function(t) with(t, coefficients(lm(Jul ~ Year))["Year"])
+  ,  retain <- function(t)
+  ,      t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
+  ,  fit.july.slope <- function(t)
+  ,      with(t, coefficients(lm(Jul ~ Year))["Year"])
   ,  filtered <- temps.split[sapply(temps.split, retain)]
   ,  slopes <- sapply(filtered, fit.july.slope)
   ,  hist(slopes)
   ,#+end_src
 #+end_src
 
-#+results:
 [[file:mean-temps.pdf]]
 
 
