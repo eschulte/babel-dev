@@ -1995,6 +1995,9 @@ this until there's an actual template for us to use.
   \and
   Thomas S. Dye\\
   \small T. S. Dye \& Colleagues, Archaeologists, Inc.\\
+  \small 735 Bishop St., Suite 315\\
+  \small Honolulu, HI 96813\\
+  \small United States of America\\
   \small tsd@tsdye.com
   }
 #+end_src
