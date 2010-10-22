@@ -394,12 +394,12 @@ that combines efficient note-taking and brainstorming with a task
 management and project planning system.  A single Org-mode document
 can hold both notes and all data necessary to keep track of tasks and
 projects associated with the notes.  This is accomplished by assigning
-meta-data to outline nodes using a special syntax.  Meta-data for a
-node can include a task state, like TODO or DONE, a priority, and one
+metadata to outline nodes using a special syntax.  Metadata for a
+node can include a task state, like =TODO= or =DONE=, a priority, and one
 or more tags, dates, and arbitrary key-value pairs called properties.
 In the following example a top-level node is a task with a "to do"
 state, a priority of A, and tagged for urgent attention at work.  The
-task has been scheduled for August 18th and a property indicates that
+task has been scheduled for 18 August 2010 and a property indicates that
 it was delegated to Peter.
 
 #+begin_src org :exports code
@@ -473,7 +473,7 @@ this extension of Org-mode was named Babel.
 
 # TODO: And #TBLNAME
 
-Data blocks which are preceded by a line that begins
+Data blocks that are preceded by a line that begins
 with =#+results:=, followed by a name unique within the document can
 be accessed by code blocks. These can be /tables/, /example blocks/, or /links/.
 #+begin_src org
@@ -516,12 +516,12 @@ in the Org-mode buffer immediately following the code block, e.g.,
   ,: This was last evaluated on 2010-06-25
 #+end_src
 
-By default a code block is evaluated in a dedicated system process
+By default, a code block is evaluated in a dedicated system process
 which does not persist after evaluation is complete. In addition, for
 several languages, evaluation may be performed in an interactive
 "session" which persists indefinitely. A good example is session-based
 evaluation of R code which uses R sessions provided by the Emacs
-Speaks Statistics (ESS) project \cite{ess}.  Thus both the Org buffer
+Speaks Statistics (ESS) project \cite{ess}.  Thus, both the Org buffer
 and the language-specific session buffers may be used for sharing of
 functions and data structures between blocks. ESS successfully
 provides a feature-rich environment for development of R code; Org-mode
@@ -648,7 +648,7 @@ input to blocks of code in another language, as shown in Section
 
 Borrowing terms from the Literate Programming community, Org-mode supports
 both /weaving/---the exportation of a mixed code/prose document to a
-prose format suitable for reading by a human---and /tangling/--the
+prose format suitable for reading by a human---and /tangling/---the
 exportation of a mixed code/prose document to a pure code file
 suitable for execution by a computer.
 
@@ -663,7 +663,7 @@ suitable for execution by a computer.
 - tangling :: Source code in an Org-mode document can be re-arranged
      on export.  Often, the order in which a computer needs to be
      presented with code differs from the order in which the code may
-     be best organized in a document.  Literate programmin systems
+     be best organized in a document.  Literate programming systems
      like =noweb= solve this problem using code-block references that
      are expanded as part of the tangle process \cite{noweb}.  Org-mode
      implements the =noweb= reference system using an identical syntax
@@ -674,12 +674,12 @@ suitable for execution by a computer.
     :CUSTOM_ID: languages
     :END:
 
-The core functions of Org-mode related to source code are language agnostic.  The tangling,
-source code edit, and export features can be used for any computer
-language, even those that are not specifically supported;
-only code evaluation and interaction with live sessions require
-language-specific functions.  Support for new languages can be added
-by defining a small number of elisp functions named according to
+The core functions of Org-mode related to source code are language
+agnostic.  The tangling, source code edit, and export features can be
+used for any computer language, even those that are not specifically
+supported; only code evaluation and interaction with live sessions
+require language-specific functions.  Support for new languages can be
+added by defining a small number of Emacs Lisp functions named according to
 language, following some simple conventions.  Currently, Org-mode has
 support for more than 30 languages.  The ease with which support for
 new languages can be added is evidenced by the fact that new language
@@ -923,25 +923,50 @@ correct.
 ** Literate Programming -- Cocktail Sort
 Cocktail Sort [fn:2] is a variation of Bubble Sort in which the
 direction of array traversal is alternated with each pass.  As a
-result of this difference Cocktail Sort is much more efficient than
-bubble sort on arrays with small elements located at the end of the
-array.
+result of this difference Cocktail Sort is more efficient than bubble
+sort for arrays with small elements located at the end of the array.
 
-First we define the conditional swapping of adjacent array elements
-which are not in sorted order.
-#+source: bubble
+The example produces a command line executable, =cocktail=, that will
+print out the sorted results.  This code block combines the three
+parts of the program: the standard C header for input/output; the
+implementation of the cocktail sort algorithm; and the command-line
+mechanism to accept input and return results.  These parts are tangled
+out to the file =cocktail.c=, as indicated by the =:tangle= header
+argument.
+
+#+source: cocktail.c
+#+begin_src C :noweb tangle :tangle cocktail.c
+  #include <stdio.h>
+
+  <<cocktail-sort>>
+
+  <<main>>
+#+end_src
+
+The =main= method is used to call the sorting algorithm from the
+command line and print the results.
+# TODO: Need to indicate what the arguments to main are about  TD
+
+#+source: main
 #+begin_src C
-  if ( a[i] > a[i+1] ) {
-    int temp = a[i];
-    a[i] = a[i+1];
-    a[i+1] = temp;
-    swapped = 1;
+  int main(int argc, char *argv[]) {
+    int lst[argc-1];
+    int i;
+    for(i=1;i<argc;i++)
+      lst[i-1] = atoi(argv[i]);
+    sort(lst, argc-1);
+    for(i=1;i<argc;i++)
+      printf("%d ", lst[i-1]);
+    printf("\n");
   }
 #+end_src
 
 The array is repeatedly traversed in alternating directions swapping
-out-of-order elements.  This process continues until no more swaps
-have been made and the array is sorted.
+out-of-order elements.  The actual swapping of elements is handled by
+a =bubble= method, which sets the =swapped= flag when it swaps
+elements, but leaves the flag alone if the elements are already in
+sorted order and do not need to be swapped.  This process continues
+until no more swaps have been made and the array is sorted.
 #+source: cocktail-sort
 #+begin_src C :noweb tangle
   void sort(int *a, unsigned int l)
@@ -962,32 +987,20 @@ have been made and the array is sorted.
   }  
 #+end_src
 
-A =main= method can be used to call this sorting algorithm from the
-command line and print the results.
-#+source: main
+The =bubble= method performs conditional swapping of adjacent array elements
+that are not in sorted order.  It sets the =swapped= flag if it
+performs a swap.
+
+#+source: bubble
 #+begin_src C
-  int main(int argc, char *argv[]) {
-    int lst[argc-1];
-    int i;
-    for(i=1;i<argc;i++)
-      lst[i-1] = atoi(argv[i]);
-    sort(lst, argc-1);
-    for(i=1;i<argc;i++)
-      printf("%d ", lst[i-1]);
-    printf("\n");
+  if ( a[i] > a[i+1] ) {
+    int temp = a[i];
+    a[i] = a[i+1];
+    a[i+1] = temp;
+    swapped = 1;
   }
 #+end_src
 
-One final code block can be used to combine these functions into a
-short script which can then be tangled out to the file =cocktail.c=.
-#+source: cocktail.c
-#+begin_src C :noweb tangle :tangle cocktail.c
-  #include <stdio.h>
-
-  <<cocktail-sort>>
-
-  <<main>>
-#+end_src
 
 ** Reproducible Research -- Live Climate Data
 By referencing external data a work of Reproducible Research can
