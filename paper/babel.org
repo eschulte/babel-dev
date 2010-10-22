@@ -961,12 +961,12 @@ command line and print the results.
   }
 #+end_src
 
-The array is repeatedly traversed in alternating directions swapping
+The array is repeatedly traversed in alternating directions, swapping
 out-of-order elements.  The actual swapping of elements is handled by
 a =bubble= method, which sets the =swapped= flag when it swaps
 elements, but leaves the flag alone if the elements are already in
-sorted order and do not need to be swapped.  This process continues
-until no more swaps have been made and the array is sorted.
+sorted order.  This process continues until no more swaps have been
+made and the array is sorted.
 #+source: cocktail-sort
 #+begin_src C :noweb tangle
   void sort(int *a, unsigned int l)
@@ -1003,21 +1003,24 @@ performs a swap.
 
 
 ** Reproducible Research -- Live Climate Data
-By referencing external data a work of Reproducible Research can
+By referencing external data, a work of Reproducible Research can
 remain up-to-date long after its initial composition and publication.
 This example demonstrates the ability of code blocks in an Org-mode
 document to reference external data, to construct and use local stores
-of data outside of the document, and to maintain persistent
-state in external sessions, all in an automated fashion.  This allows
-each reader of the document to automatically update the document to
-reflect recent data, and to propagate a full local workspace with the
-data used in the document.
+of data outside the document, and to maintain persistent state in
+external sessions, all in an automated fashion.  This allows each
+reader of the document to update the document with recent data, and to
+propagate a full local workspace with the data used in the document.
 
 This example references climate change data from the US National Oceanic
 and Atmospheric Administration (NOAA).
 
-1) The first two code blocks fetch and parse up-to-date external data
-   from the NOAA,
+# TODO Two code blocks or one?  TD
+The first two code blocks fetch and parse data from NOAA then write
+the data to file using shell scripts that call a variety of *nix
+tools.  In this instance the base URL for the NOAA data and the name
+of the output file are specified in named =#+results= blocks.  These
+blocks are passed to the shell scripts.
 
 #+begin_src org
   ,#+results: url-base
@@ -1047,10 +1050,14 @@ and Atmospheric Administration (NOAA).
 # #+end_src
 
 
-2) Next the output of the first two blocks is cross referenced and
-   used to create a local sqlite database of the data.
+Next, the output of the first two blocks is cross referenced and used
+to create a local sqlite database of the data.  The choice to store
+the data in the sqlite database, instead of the Org-mode buffer, was
+made because the data are potentially very large, which could make the
+Org-mode buffer unwieldy.
 
-TODO: I haven't plugged this into the pipeline yet.
+# TODO: Check TD's explanation of why sqlite was used, above.
+# TODO: I haven't plugged this into the pipeline yet.
 
 #+begin_src org
   ,#+headers: :var temps=raw-temps
@@ -1066,10 +1073,15 @@ TODO: I haven't plugged this into the pipeline yet.
 #+end_src
 
 
-3) Data from this new database is then called from R to initialize
-   local variables inside of a /session/.  Creating these variables in
-   a persistent session allows the variables to be persisted and used
-   by later code blocks.
+# TODO It might be useful to name the session something like =foo= to
+# get across the point that session naming is arbitrary TD
+
+Data from the sqlite database are read into R where they are used to
+initialize local variables inside of a /session/ named =*R*=.  Note
+that in Org-mode the session can take an arbitrary name.  The
+variables persist in the =*R*= session after the code block exits, so
+they can be manipulated by other code blocks that refer to the =*R*=
+session. 
 
 #+begin_src org
   ,#+headers: :var temps=raw-temps
@@ -1088,11 +1100,11 @@ TODO: I haven't plugged this into the pipeline yet.
 #+end_src
 
 
-4) Finally the persistent variables in the R session are used to
-   generate figures from the climate data. Here we fit a straight line
-   to the July temperatures at each station which has data throughout
-   the period 1880-1980, and plot a histogram of the fitted slopes
-   parameters.
+Finally the persistent variables in the =*R*= session are used to generate
+figures from the climate data. Here we fit a straight line to the July
+temperatures at each station which has data throughout the period
+1880-1980, and plot a histogram of the fitted slopes parameters.  The
+figures are written to a pdf file for subsequent use.
 
 #+begin_src org
   ,#+begin_src R :session *R* :file mean-temps.pdf
@@ -1107,6 +1119,21 @@ TODO: I haven't plugged this into the pipeline yet.
 #+end_src
 
 [[file:mean-temps.pdf]]
+
+The following LaTeX code block summarizes the analysis and presents
+the figures.  The code block is set up to tangle with other source
+code blocks to a LaTeX file that can be processed in the usual way.
+ 
+#+source: latex-eg
+#+begin_src latex :tangle temperature.tex
+  There is a pronounced trend in the climate data (fig.~\ref{fig:climate-trend}).
+  
+  \begin{figure}[htb!]
+    \includegraphic{mean-temps}
+    \caption[Temperature trends]{Temperature trends for the century 1880--1980.}
+    \label{fig:climate-trend}
+  \end{figure}
+#+end_src
 
 * Discussion
   :PROPERTIES:
