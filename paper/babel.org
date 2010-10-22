@@ -114,19 +114,19 @@ flows.
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
-Here we review existing approaches to the combined authoring of prose
 With Org-mode the entire life cycle of a research or development
 project can take place within a single document.  With the data,
 code and text of a project stored in a single location which can be
 exported to a variety of formats, the future reproducibility of the
-work is ensured and the practices of Reproducible Research and
-Literate Programming are encouraged by greatly reducing the burden
+work is ensured. Org-mode encourages the practices of Reproducible Research and
+Literate Programming by greatly reducing the burden
 on the author.
 
+We start by reviewing existing approaches to the combined authoring of prose
 and code, including software tools designed to address one or more of
 the use cases for mixed natural and computer language documents
 (Section \ref{background}).  We then describe the design of Org-mode
-(Section \ref{design}), and demonstrate their usage through three
+(Section \ref{design}), and demonstrate its usage through three
 short examples (Section \ref{examples}).  We conclude with a
 discussion of why we believe Org-mode constitutes a uniquely
 productive environment for authoring mixed prose and code projects
@@ -353,7 +353,7 @@ code and data blocks (Section \ref{syntax}), evaluation of code blocks
 Org-mode is an Emacs extension that organizes note taking, task
 management, project planning, documentation and authoring.  Its name
 comes from its organizing function and the fact that extensions to
-Emacs are often called /modes/.  A mode in Emacs defines the way a
+Emacs are often implemented as /modes/.  A mode in Emacs defines the way a
 user can edit and interact with certain documents.  Org-mode documents
 are plain text files, usually with the file name extension /.org/.
 Because Emacs has been ported to a large number of operating systems
@@ -363,11 +363,12 @@ documents are compatible between arbitrary platforms.
 *** Document Structure
 
 The fundamental structure of Org-mode documents is the outline,
-conceptualized as a hierarchically ordered series of nodes.  A
-document can have a section of text before the first node.  This
-section is often used for defining general properties of the document
-like a title, and for technical setup.  The first top-level node then
-starts an outline structure that extends to the end of the document.
+comprising a hierarchically arranged collection of nodes.  A
+document can have a section of text before the first node, which 
+is often used for defining general properties of the document
+such as a title, and for technical setup.  Following this initial 
+section is a sequence of top-level nodes, each of which is the root 
+of a subtree of arbitrary depth.
 Nodes in the outline are single line headings identified by one or
 more asterisks at the beginning of the line.  The number of asterisks
 indicates the hierarchical level of the node, e.g.,
@@ -380,11 +381,11 @@ indicates the hierarchical level of the node, e.g.,
   ,* Third heading
 #+end_src
 
-Each heading line, or headline, can be followed by arbitrary text,
+Each heading line can be followed by arbitrary text,
 giving the document the logical structure of a book or article.  The
 hierarchical outline structure can be folded at every node, making it
 possible to expose selected sections for quick access or to provide a
-structural overview of the document at any level of structure.
+structural overview of the document.
 
 *** Metadata on Nodes
 
@@ -421,7 +422,7 @@ metadata.  Tags and properties of a node are inherited by its
 sub-nodes and views of the document can be designed that sum or
 average the properties inherited by a node.  Code blocks live in this
 hierarchy of content and metadata, all of which is accessible to and
-can be modified by it.
+can be modified by the code.
 
 *** Special Document Content
 
