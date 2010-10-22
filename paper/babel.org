@@ -56,14 +56,15 @@ hierarchically-organized plain text source file may contain a variety
 of elements such as code in arbitrary programming languages, raw data,
 links to external resources, project management data, working notes,
 and text for publication. Code fragments may be executed in situ with
-graphical, numerical and text output captured in, or linked to, the file. Export
-to LaTeX, HTML, LaTeX Beamer, DocBook and other formats permits working
-reports, presentations and manuscripts for publication to be generated
-from the file. In addition, code extraction (tangling) permits
-functioning pure code files to be extracted from the file. This
-environment is implemented as an extension to the Emacs text editor
-and provides a rich set of features for authoring both prose and code,
-as well as sophisticated project management capabilities.
+graphical, numerical and text output captured in, or linked to, the
+file. Export to LaTeX, HTML, LaTeX Beamer, DocBook and other formats
+permits working reports, presentations and manuscripts for publication
+to be generated from the file. In addition, code extraction (tangling)
+permits functioning pure code files to be extracted from the
+file. This environment is implemented as an extension to the Emacs
+text editor and provides a rich set of features for authoring both
+prose and code, as well as sophisticated project management
+capabilities.
 #+LaTeX: \end{abstract}
 
 * Introduction
@@ -74,10 +75,10 @@ and code in a single container.
   requires that this code is distributed together with results and
   explanatory prose.
 - In /software development/ the exchange of ideas is accomplished
-  through both shared code and prose; code provides 
-  concrete and succinct description and prose provides higher level
-  explanation.  Without proper documentation the usability and future
-  extensibility of computational tools are severely compromised.
+  through both shared code and prose; code provides concrete and
+  succinct description and prose provides higher level explanation.
+  Without proper documentation the usability and future extensibility
+  of computational tools are severely compromised.
 - In /pedagogical/ environments it is important for descriptions of
   algorithms or techniques to go hand-in-hand with concrete
   implementations.  These environments range from in-class
@@ -85,18 +86,17 @@ and code in a single container.
   online tutorials or experiential blogs with accompanying
   instructions.
 
-In each of the situations described above, prose alone in the absence of
-code is typically insufficient.  Similarly, distribution of code
+In each of the situations described above, prose alone in the absence
+of code is typically insufficient.  Similarly, distribution of code
 without expository prose is a less than ideal medium for communication
-between people. In this paper we describe the plain text
-markup language Org-mode, with a focus on its provision of a
-unified environment supporting many different approaches to
-composition and application of combined prose and code (Table
-\ref{grid}). Org-mode is 
-designed for ease of use and adoption, and aims to
-be a general solution for authoring projects with mixed computational
-and natural languages.  It supports multiple languages, export
-targets, and work flows.
+between people. In this paper we describe the plain text markup
+language Org-mode, with a focus on its provision of a unified
+environment supporting many different approaches to composition and
+application of combined prose and code (Table \ref{grid}). Org-mode is
+designed for ease of use and adoption, and aims to be a general
+solution for authoring projects with mixed computational and natural
+languages.  It supports multiple languages, export targets, and work
+flows.
 
 #+LaTeX: \begin{table*}
 #+ATTR_LaTeX: align=r|c|c|
@@ -114,26 +114,25 @@ targets, and work flows.
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
-# With Org-mode the entire life cycle of a research or development
-# project can take place within a single document.  With the data,
-# code and text of a project stored in a single location which can be
-# exported to a variety of formats, the future reproducibility of the
-# work is ensured, and the practices of Reproducible Research and
-# Literate Programming are encouraged by greatly reducing the burden
-# on the author.
-# 
-# I didn't quite understand the last part of the preceding sentence (Dan)
-Here we review existing approaches to the combined authoring of prose
+With Org-mode the entire life cycle of a research or development
+project can take place within a single document.  With the data,
+code and text of a project stored in a single location which can be
+exported to a variety of formats, the future reproducibility of the
+work is ensured. Org-mode encourages the practices of Reproducible Research and
+Literate Programming by greatly reducing the burden
+on the author.
+
+We start by reviewing existing approaches to the combined authoring of prose
 and code, including software tools designed to address one or more of
 the use cases for mixed natural and computer language documents
 (Section \ref{background}).  We then describe the design of Org-mode
-(Section \ref{design}), and
-demonstrate their usage through three short examples (Section
-\ref{examples}).  We conclude with a discussion of why we believe
-Org-mode constitutes a uniquely productive environment for authoring
-mixed prose and code projects (Section \ref{points-for}), as well as
-some limits of the current implementation and directions for future
-work (Section \ref{future-work}).
+(Section \ref{design}), and demonstrate its usage through three
+short examples (Section \ref{examples}).  We conclude with a
+discussion of why we believe Org-mode constitutes a uniquely
+productive environment for authoring mixed prose and code projects
+(Section \ref{points-for}), as well as some limits of the current
+implementation and directions for future work (Section
+\ref{future-work}).
 
 * Background
   :PROPERTIES:
@@ -169,17 +168,17 @@ The technique of /literate programming/ was introduced by Donald Knuth
 typesetting software.  The goals of literate programming are to
 encourage the author of a computational work to approach the project
 "as an essayist, whose main concern is with exposition and excellence
-of style." 
+of style."
 # need citation with page number
 
 Accordingly, the input files for literate programming tools mix
 sections of computer code with sections of natural language typically
-marked up in TeX or LaTeX.  The literate programming tool
-provides methods to create two types of /view/ into the document;
-articles of typset prose and marked-up code blocks intended for human
-consumption, and computer readable documents of pure source code.  The
-literate programming terms for generating these views are /weaving/
-and /tangling/, respectively.  A common feature of literate programming
+marked up in TeX or LaTeX.  The literate programming tool provides
+methods to create two types of /view/ into the document; articles of
+typset prose and marked-up code blocks intended for human consumption,
+and computer readable documents of pure source code.  The literate
+programming terms for generating these views are /weaving/ and
+/tangling/, respectively.  A common feature of literate programming
 tools is the ability to organize code blocks differently when
 /tangling/ and /weaving/, thereby allowing the programmer to introduce
 material to humans in a different order than code is introduced to the
@@ -314,37 +313,37 @@ to the original data.
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
-At the core of Org-mode is the Emacs text editor \cite{emacs} and Emacs
-Lisp \cite{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp
-that supports editing text documents.  The Emacs editor has been under
-development since the mid 1970s and is currently at version 23.
+At the core of Org-mode is the Emacs text editor \cite{emacs} and
+Emacs Lisp \cite{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of
+Lisp that supports editing text documents.  The Emacs editor has been
+under development since the mid 1970s and is currently at version 23.
 Org-mode extends Emacs with a simple, yet powerful markup language
 that turns it into a language for creating and parsing
 hierarchically-organized text documents.  It was originally designed
 for keeping notes, maintaining task lists, and planning projects.  Its
 rich feature set includes text structuring, project management, and a
-publishing system that can export to a variety of formats.  Source code 
-and data are located in active blocks, distinct from text sections.
-Activation means that code and data blocks can be /evaluated/ to
-return their contents or their computational results.  The results of
-code block evaluation can be written to a named data block in the
-document, where it can be referred to by other code blocks, any one of
-which can be written in a different computing language.  In this way,
-an Org-mode buffer becomes a place where different computer languages
-communicate with one another.  Like Emacs, Org-mode is extensible:
-support for new languages can be added by the user in a modular fashion through
-the definition of a small number of Emacs Lisp functions.
-Additionaly, generally useful code or data blocks can be added to a
-"Library of Babel", from which they can be called by any Org-mode
-document.
+publishing system that can export to a variety of formats.  Source
+code and data are located in active blocks, distinct from text
+sections.  Activation means that code and data blocks can be
+/evaluated/ to return their contents or their computational results.
+The results of code block evaluation can be written to a named data
+block in the document, where it can be referred to by other code
+blocks, any one of which can be written in a different computing
+language.  In this way, an Org-mode buffer becomes a place where
+different computer languages communicate with one another.  Like
+Emacs, Org-mode is extensible: support for new languages can be added
+by the user in a modular fashion through the definition of a small
+number of Emacs Lisp functions.  Additionaly, generally useful code or
+data blocks can be added to a "Library of Babel", from which they can
+be called by any Org-mode document.
 
-In the remainder of this section, we first describe Org-mode,
-focusing on those features that support literate programming and
-reproducible research (Section \ref{org-mode}).
-We then describe the syntax of code and data blocks (Section
-\ref{syntax}), evaluation of code blocks (Section \ref{code-blocks}),
-weaving and tangling Org-mode documents (Section \ref{export}), and
-language support facilities (Section \ref{languages}).
+In the remainder of this section, we first describe Org-mode, focusing
+on those features that support literate programming and reproducible
+research (Section \ref{org-mode}).  We then describe the syntax of
+code and data blocks (Section \ref{syntax}), evaluation of code blocks
+(Section \ref{code-blocks}), weaving and tangling Org-mode documents
+(Section \ref{export}), and language support facilities (Section
+\ref{languages}).
 
 ** Org-mode
    :PROPERTIES:
@@ -354,7 +353,7 @@ language support facilities (Section \ref{languages}).
 Org-mode is an Emacs extension that organizes note taking, task
 management, project planning, documentation and authoring.  Its name
 comes from its organizing function and the fact that extensions to
-Emacs are often called /modes/.  A mode in Emacs defines the way a
+Emacs are often implemented as /modes/.  A mode in Emacs defines the way a
 user can edit and interact with certain documents.  Org-mode documents
 are plain text files, usually with the file name extension /.org/.
 Because Emacs has been ported to a large number of operating systems
@@ -364,13 +363,14 @@ documents are compatible between arbitrary platforms.
 *** Document Structure
 
 The fundamental structure of Org-mode documents is the outline,
-conceptualized as a hierarchically ordered series of nodes.  A
-document can have a section of text before the first node.  This
-section is often used for defining general properties of the document
-like a title, and for technical setup.  The first top-level node then
-starts an outline structure that extends to the end of the document.
-Nodes in the outline are single line headings identified by one or more
-asterisks at the beginning of the line.  The number of asterisks
+comprising a hierarchically arranged collection of nodes.  A
+document can have a section of text before the first node, which 
+is often used for defining general properties of the document
+such as a title, and for technical setup.  Following this initial 
+section is a sequence of top-level nodes, each of which is the root 
+of a subtree of arbitrary depth.
+Nodes in the outline are single line headings identified by one or
+more asterisks at the beginning of the line.  The number of asterisks
 indicates the hierarchical level of the node, e.g.,
 
 #+begin_src org
@@ -381,11 +381,11 @@ indicates the hierarchical level of the node, e.g.,
   ,* Third heading
 #+end_src
 
-Each heading line, or headline, can be followed by arbitrary text,
+Each heading line can be followed by arbitrary text,
 giving the document the logical structure of a book or article.  The
 hierarchical outline structure can be folded at every node, making it
 possible to expose selected sections for quick access or to provide a
-structural overview of the document at any level of structure.
+structural overview of the document.
 
 *** Metadata on Nodes
 
@@ -394,13 +394,13 @@ that combines efficient note-taking and brainstorming with a task
 management and project planning system.  A single Org-mode document
 can hold both notes and all data necessary to keep track of tasks and
 projects associated with the notes.  This is accomplished by assigning
-metadata to outline nodes using a special syntax.  Metadata for a
-node can include a task state, like =TODO= or =DONE=, a priority, and one
+metadata to outline nodes using a special syntax.  Metadata for a node
+can include a task state, like =TODO= or =DONE=, a priority, and one
 or more tags, dates, and arbitrary key-value pairs called properties.
 In the following example a top-level node is a task with a "to do"
 state, a priority of A, and tagged for urgent attention at work.  The
-task has been scheduled for 18 August 2010 and a property indicates that
-it was delegated to Peter.
+task has been scheduled for 18 August 2010 and a property indicates
+that it was delegated to Peter.
 
 #+begin_src org :exports code
   ,* TODO [#A] Some task         :@work:urgent:
@@ -414,29 +414,28 @@ The task and project management functionality of Org-mode is centered
 around the metadata associated with nodes.  Org-mode provides
 facilities to create and modify metadata quickly and efficiently.  It
 also provides facilities to search, sort, and filter headlines, to
-display tabular views of selected headlines, to clock in and out of headlines
-defined as tasks, and many other tools.
+display tabular views of selected headlines, to clock in and out of
+headlines defined as tasks, and many other tools.
 
 The outline structure of documents also defines a hierarchy of
 metadata.  Tags and properties of a node are inherited by its
 sub-nodes and views of the document can be designed that sum or
-average the properties inherited by a node.  Code blocks live in
-this hierarchy of content and metadata, all of which
-is accessible to and can be modified by it.
+average the properties inherited by a node.  Code blocks live in this
+hierarchy of content and metadata, all of which is accessible to and
+can be modified by the code.
 
 *** Special Document Content
 
-The text following a headline in an Org-mode document can
-be structured to represent various types of information,
-including vectors, matrices, source code, and arbitrary pieces of
-text.  Vector and matrix data are represented as tables where the
-columns are marked by vertical bars and rows are optionally separated
-by dashed lines as shown in the following example.  The Emacs
-calculator, /calc/ ([[David Gillespie 1990,
-http://www.gnu.org/software/emacs/calc.html]]), can be used to carry out
-computations in tables.  This feature is similar to spreadsheet
-applications, but Org-mode uses plain text to represent both data and
-formulas.
+The text following a headline in an Org-mode document can be
+structured to represent various types of information, including
+vectors, matrices, source code, and arbitrary pieces of text.  Vector
+and matrix data are represented as tables where the columns are marked
+by vertical bars and rows are optionally separated by dashed lines as
+shown in the following example.  The Emacs calculator, /calc/ ([[David
+Gillespie 1990, http://www.gnu.org/software/emacs/calc.html]]), can be
+used to carry out computations in tables.  This feature is similar to
+spreadsheet applications, but Org-mode uses plain text to represent
+both data and formulas.
 
 #+begin_src org
   ,| Name 1 | Name 2 | ... | Name N |
@@ -449,18 +448,18 @@ Source code blocks were added to Org-mode as an aid to creating
 technical documentation.  Originally, their sole purpose was to set
 verbatim, mono-spaced type when publishing to PDF or HTML.  Code
 blocks are marked with either a =#+BEGIN_EXAMPLE ... #+END_EXAMPLE=
-pair, or with a =#+BEGIN_SRC ... #+END_SRC= pair.  The latter form
-can leverage Emacs source code editing modes to indent and
-fontify code examples.  Additional markup is provided with wiki-like
-syntax, which can be applied to any piece of text.
+pair, or with a =#+BEGIN_SRC ... #+END_SRC= pair.  The latter form can
+leverage Emacs source code editing modes to indent and fontify code
+examples.  Additional markup is provided with wiki-like syntax, which
+can be applied to any piece of text.
 
 ** Code and Data Block Extensions
     :PROPERTIES:
     :CUSTOM_ID: code-blocks
     :END:
-Seubsequently, Org-mode gained a naming convention that identifies code
-or data blocks making them remotely callable.  In addition, the syntax
-of Org-mode code blocks was extended to facilitate evaluation.  
+Seubsequently, Org-mode gained a naming convention that identifies
+code or data blocks making them remotely callable.  In addition, the
+syntax of Org-mode code blocks was extended to facilitate evaluation.
 The results of source code evaluation are written to the document as
 Org-mode constructs, allowing for code and data blocks to interact
 through a simple but powerful variable passing system. Historically,
@@ -473,9 +472,9 @@ this extension of Org-mode was named Babel.
 
 # TODO: And #TBLNAME
 
-Data blocks that are preceded by a line that begins
-with =#+results:=, followed by a name unique within the document can
-be accessed by code blocks. These can be /tables/, /example blocks/, or /links/.
+Data blocks that are preceded by a line that begins with =#+results:=,
+followed by a name unique within the document can be accessed by code
+blocks. These can be /tables/, /example blocks/, or /links/.
 #+begin_src org
   ,#+results: tabular-data
   ,| 1 |  2 |
@@ -492,9 +491,8 @@ be accessed by code blocks. These can be /tables/, /example blocks/, or /links/.
 #+end_src
 
 Active code blocks are marked with a =#+srcname:= line, followed by a
-name unique within the document.  Such blocks are augmented
-by header aguments that control the way Org-mode handles
-evaluation and export.
+name unique within the document.  Such blocks are augmented by header
+aguments that control the way Org-mode handles evaluation and export.
 #+begin_src org
   ,#+srcname: <name>
   ,#+begin_src <language> <header arguments>
@@ -524,8 +522,8 @@ evaluation of R code which uses R sessions provided by the Emacs
 Speaks Statistics (ESS) project \cite{ess}.  Thus, both the Org buffer
 and the language-specific session buffers may be used for sharing of
 functions and data structures between blocks. ESS successfully
-provides a feature-rich environment for development of R code; Org-mode
-complements rather than replaces ESS in that code editing and
+provides a feature-rich environment for development of R code;
+Org-mode complements rather than replaces ESS in that code editing and
 session-based evaluation in Org-mode is implemented using ESS.
 
 Adding a =:session= /header argument/ to a block causes Org-mode to
@@ -536,8 +534,8 @@ Adding a =:session= /header argument/ to a block causes Org-mode to
 
 Session-based evaluation is similar to the approach to evaluation
 taken by =Sweave=, in which every code block is evaluated in the same
-persistent session.  In Org-mode, the =:session= header argument takes an
-optional name, making it possible to maintain multiple disjoint
+persistent session.  In Org-mode, the =:session= header argument takes
+an optional name, making it possible to maintain multiple disjoint
 sessions.
 
 *** Results
@@ -615,9 +613,9 @@ following two blocks of Haskell code.
 When the result of evaluating a code block is a file, such as an
 image, the =:file= header argument can be used to provide a path and
 name for the file.  Org-mode saves the results to the named file and
-places a link to it in the document.  These links are
-handled by Org-mode in the usual ways and can be opened from within
-the document and included in exports.
+places a link to it in the document.  These links are handled by
+Org-mode in the usual ways and can be opened from within the document
+and included in exports.
 
 Much more information about controlling the evaluation of code and the
 handling of code results is available in the Org-mode documentation.
@@ -626,12 +624,12 @@ handling of code results is available in the Org-mode documentation.
 # TODO: link to Org source for this paper and emphasise the fact
 
 *** Variables
-Org-mode implements a simple system of passing arguments to code blocks.
-The =:var= header argument takes a variable name and a value and
-assigns the value to the named variable inside the code block.  Values
-can be literal values, such as scalars or strings, references to
-named data blocks, links, or references to named code blocks.
-In addition, arguments can be passed to referenced code blocks using a
+Org-mode implements a simple system of passing arguments to code
+blocks.  The =:var= header argument takes a variable name and a value
+and assigns the value to the named variable inside the code block.
+Values can be literal values, such as scalars or strings, references
+to named data blocks, links, or references to named code blocks.  In
+addition, arguments can be passed to referenced code blocks using a
 traditional function syntax with named arguments.
 
 All values passed to variables are served by the Emacs Lisp
@@ -646,28 +644,27 @@ input to blocks of code in another language, as shown in Section
     :CUSTOM_ID: export
     :END:
 
-Borrowing terms from the Literate Programming community, Org-mode supports
-both /weaving/---the exportation of a mixed code/prose document to a
-prose format suitable for reading by a human---and /tangling/---the
-exportation of a mixed code/prose document to a pure code file
-suitable for execution by a computer.
+Borrowing terms from the Literate Programming community, Org-mode
+supports both /weaving/---the exportation of a mixed code/prose
+document to a prose format suitable for reading by a human---and
+/tangling/---the exportation of a mixed code/prose document to a pure
+code file suitable for execution by a computer.
 
 - weaving :: Org-mode provides a sophisticated and full-featured
-     system to export to HTML, LaTeX, and a number of other
-     target formats, with support for pre-processing code
-     blocks as part of the export process.  Using the =:exports=
-     header argument, the code of the code block, the results of
-     executing the code block, both code and results, or neither can
-     be included in the export.
+     system to export to HTML, LaTeX, and a number of other target
+     formats, with support for pre-processing code blocks as part of
+     the export process.  Using the =:exports= header argument, the
+     code of the code block, the results of executing the code block,
+     both code and results, or neither can be included in the export.
 
 - tangling :: Source code in an Org-mode document can be re-arranged
      on export.  Often, the order in which a computer needs to be
      presented with code differs from the order in which the code may
      be best organized in a document.  Literate programming systems
      like =noweb= solve this problem using code-block references that
-     are expanded as part of the tangle process \cite{noweb}.  Org-mode
-     implements the =noweb= reference system using an identical syntax
-     and functionality.
+     are expanded as part of the tangle process \cite{noweb}.
+     Org-mode implements the =noweb= reference system using an
+     identical syntax and functionality.
 
 ** Language Support
     :PROPERTIES:
@@ -679,12 +676,12 @@ agnostic.  The tangling, source code edit, and export features can be
 used for any computer language, even those that are not specifically
 supported; only code evaluation and interaction with live sessions
 require language-specific functions.  Support for new languages can be
-added by defining a small number of Emacs Lisp functions named according to
-language, following some simple conventions.  Currently, Org-mode has
-support for more than 30 languages.  The ease with which support for
-new languages can be added is evidenced by the fact that new language
-support is increasingly implemented by Org-mode users, rather than the
-original authors.
+added by defining a small number of Emacs Lisp functions named
+according to language, following some simple conventions.  Currently,
+Org-mode has support for more than 30 languages.  The ease with which
+support for new languages can be added is evidenced by the fact that
+new language support is increasingly implemented by Org-mode users,
+rather than the original authors.
 
 ** Safety Considerations
 A reproducible research document, by definition, includes code that
@@ -697,17 +694,17 @@ Sweave, but the difficulty increases if the document is written in
 several computer languages, one or more of which is not understood by
 the reader.
 
-Org-mode has been designed with security measures to protect users from
-the accidental or uninformed execution of code.  By default /every/
-execution of a code block requires explicit confirmation from the
-user.[fn:1]  In addition, it is possible to remove code block evaluation
-from the default =C-c C-c= key binding.  This key binding is
-ubiquitous in Org-mode, and is typically bound to the function most
-likely to be called from a particular context.  An alternative
-key binding is present for code block evaluation, namely =C-c C-v
-e=.  The three key strokes required for this binding, and the fact
-that it is not used elsewhere in Org-mode, provides some degree of
-protection against unintended evaluation of code blocks.
+Org-mode has been designed with security measures to protect users
+from the accidental or uninformed execution of code.  By default
+/every/ execution of a code block requires explicit confirmation from
+the user.[fn:1] In addition, it is possible to remove code block
+evaluation from the default =C-c C-c= key binding.  This key binding
+is ubiquitous in Org-mode, and is typically bound to the function most
+likely to be called from a particular context.  An alternative key
+binding is present for code block evaluation, namely =C-c C-v e=.  The
+three key strokes required for this binding, and the fact that it is
+not used elsewhere in Org-mode, provides some degree of protection
+against unintended evaluation of code blocks.
 
 * Examples
    :PROPERTIES:
@@ -723,13 +720,13 @@ already). (DD)
 
 The following section demonstrates a number of common Org-mode usage
 patterns through short examples.  The first example highlights how
-Org-mode allows data to flow between tables, code blocks
-of multiple languages, and graphical figures.  The second demonstrates
-the use of traditional literate programming techniques.  The
-final example demonstrates interaction with external data sources,
-including the automated creation and use of local databases from within
-Org-mode documents for long-term persistence of potentially large amounts
-of data, and the use of session-based evaluation for short term
+Org-mode allows data to flow between tables, code blocks of multiple
+languages, and graphical figures.  The second demonstrates the use of
+traditional literate programming techniques.  The final example
+demonstrates interaction with external data sources, including the
+automated creation and use of local databases from within Org-mode
+documents for long-term persistence of potentially large amounts of
+data, and the use of session-based evaluation for short term
 persistence of smaller amounts of data.
 
 ** Data Flow -- Pascal's Triangle
@@ -738,18 +735,19 @@ Pascal's triangle is one name for a geometric arrangement of the
 binomial coefficients in a triangle.  The triangle has several
 interesting and useful mathematical properties.  This example
 constructs and manipulates a Pascal's triangle to illustrate potential
-data flows in Org-mode.  Data are passed from a code block to an Org-mode
-table, from an Org-mode table to a code block, from one code block to
-another, and from a code block to a graphic figure.  Finally, the
-example uses a property of the triangle to test the correctness of the
-implementation, using Emacs Lisp code blocks embedded in a tabular
+data flows in Org-mode.  Data are passed from a code block to an
+Org-mode table, from an Org-mode table to a code block, from one code
+block to another, and from a code block to a graphic figure.  Finally,
+the example uses a property of the triangle to test the correctness of
+the implementation, using Emacs Lisp code blocks embedded in a tabular
 view of the triangle to test whether the property is satisfied.
 
 *** Calculating Pascal's Triangle
 The following Emacs Lisp source block calculates and returns the first
-five rows of Pascal's triangle.  Org-mode inserts the value returned by
-the Emacs Lisp function into the Org-mode document as a table named
-=pascals-triangle=.  This table can be referenced by other code blocks.
+five rows of Pascal's triangle.  Org-mode inserts the value returned
+by the Emacs Lisp function into the Org-mode document as a table named
+=pascals-triangle=.  This table can be referenced by other code
+blocks.
 #+source: pascals-triangle
 #+begin_src emacs-lisp :var n=5 :exports both
   (defun pascals-triangle (n)
@@ -787,10 +785,10 @@ The tabular view of Pascal's triangle can be illustrated using the
 =dot= graphing language.  In the following code block the
 =pascals-triangle= table (Table \ref{pascals-triangle-tab}) is passed
 to a block of code in the =ruby= language through the variable =ps=.
-Org-mode transforms the table into a =ruby= array, which the
-code block uses to construct strings of =dot= commands.  The strings
-of =dot= commands are returned without being inserted into the
-Org-mode buffer, as indicated by the =:exports code= header argument.
+Org-mode transforms the table into a =ruby= array, which the code
+block uses to construct strings of =dot= commands.  The strings of
+=dot= commands are returned without being inserted into the Org-mode
+buffer, as indicated by the =:exports code= header argument.
 
 #+source: ps-to-dot
 #+begin_src ruby :var ps=pascals-triangle :exports code
@@ -821,14 +819,15 @@ Org-mode buffer, as indicated by the =:exports code= header argument.
 Instead, the value of the output is passed directly into a block of
 =dot= code by assigning the name of the =ruby= code block to the
 variable =ps-vals=.  Passing the results of one code block to another
-in this way is called /chaining/; Org-mode places no limit on the number
-of code blocks that can be chained together.  Evaluation propagates
-backwards through chained code blocks.  In this example, the =:file=
-header argument causes the code block to save the image resulting from
-it's evaluation into a file named =pascals-triangle.pdf=, and inserts
-a link to this image into the Org-mode buffer.  This link will then
-expand to include the contents of the image upon export -- it is also
-possible to view linked images from within an Org-mode buffer.
+in this way is called /chaining/; Org-mode places no limit on the
+number of code blocks that can be chained together.  Evaluation
+propagates backwards through chained code blocks.  In this example,
+the =:file= header argument causes the code block to save the image
+resulting from it's evaluation into a file named
+=pascals-triangle.pdf=, and inserts a link to this image into the
+Org-mode buffer.  This link will then expand to include the contents
+of the image upon export -- it is also possible to view linked images
+from within an Org-mode buffer.
 
 # This doesn't run for me, I get an empty pdf file (TD)
 #
@@ -869,11 +868,11 @@ the triangle is correct.  This can be done in many ways; here, it is
 done with a short block of Emacs Lisp code that takes a row of numbers
 and a number =n= and returns =pass= if the sum of the numbers in the
 row is equal the nth Fibonacci number and returns =fail= otherwise.
-With Org-mode, calls to this code block can be embedded into the tabular
-view of Pascal's triangle using spreadsheet style formulas.  When the
-spreadsheet is calculated, it returns =pass= for each of the five
-diagonals, confirming that the implementation of Pascal's triangle is
-correct.
+With Org-mode, calls to this code block can be embedded into the
+tabular view of Pascal's triangle using spreadsheet style formulas.
+When the spreadsheet is calculated, it returns =pass= for each of the
+five diagonals, confirming that the implementation of Pascal's
+triangle is correct.
 
 #+source: ps-check
 #+begin_src emacs-lisp :var row='(1 2 1) :var n=0
@@ -987,9 +986,9 @@ made and the array is sorted.
   }  
 #+end_src
 
-The =bubble= method performs conditional swapping of adjacent array elements
-that are not in sorted order.  It sets the =swapped= flag if it
-performs a swap.
+The =bubble= method performs conditional swapping of adjacent array
+elements that are not in sorted order.  It sets the =swapped= flag if
+it performs a swap.
 
 #+source: bubble
 #+begin_src C
@@ -1012,8 +1011,8 @@ external sessions, all in an automated fashion.  This allows each
 reader of the document to update the document with recent data, and to
 propagate a full local workspace with the data used in the document.
 
-This example references climate change data from the US National Oceanic
-and Atmospheric Administration (NOAA).
+This example references climate change data from the US National
+Oceanic and Atmospheric Administration (NOAA).
 
 # TODO Two code blocks or one?  TD
 The first two code blocks fetch and parse data from NOAA then write
@@ -1148,24 +1147,25 @@ Org-mode has several features that make it a productive tool for composing
 combined natural and computational language documents.
 
 - Open source :: Org-mode is /open source/, which means its inner
-     workings are publicly visible, and its copyright is
-     owned by the Free Software Foundation \cite{fsf}, which means that
-     Oerg-mode, and any work deriving from Org-mode, will always be fully open
-     to public scrutiny and modification.  These are *essential*
+     workings are publicly visible, and its copyright is owned by the
+     Free Software Foundation \cite{fsf}, which means that Org-mode,
+     and any work deriving from Org-mode, will always be fully open to
+     public scrutiny and modification.  These are *essential*
      qualities for software tools used for reproducible research.
 
 - Friendly active community :: The Org-mode community is extremely
      friendly, which makes it easy for novices to get help on how to
-     use Org-mode, and for developers to discuss ideas on how to improve
-     and extend it.  Without this community the Babel project
-     (the part of Org-mode concerning literate programming and evaluation
-     of source code) would never have reached a useable state.
+     use Org-mode, and for developers to discuss ideas on how to
+     improve and extend it.  Without this community the Babel project
+     (the part of Org-mode concerning literate programming and
+     evaluation of source code) would never have reached a useable
+     state.
 
 - General :: A leading drive in the design of Babel was pursuit of
      generality.  As a result, it displays no reproducible research or
      literate programming bias.  Babel supports arbitrary programming
-     languages, and Org-mode exports to a wide variety of
-     file types, including ASCII, LaTeX, HTML, and DocBook.
+     languages, and Org-mode exports to a wide variety of file types,
+     including ASCII, LaTeX, HTML, and DocBook.
 
 - Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
@@ -1180,19 +1180,18 @@ further development of Org-mode, or for a future tool of this type.
 
 - editor agnostic :: Babel was developed within the rich framework of
      Emacs and Org-mode, which made the idea of Babel possible in the
-     first place.  Now that Babel is developed, however, the tie to a single
-     editing environment, even one as completely configurable as
-     Emacs, means that Babel is less general than it might be.
-     It seems that it would be possible for future tools of this
-     nature to provide code evaluation and exportation as a service
-     which could be called from any number of editors.  Such a
-     structure would raise a number of challenging implementation
-     issues.
+     first place.  Now that Babel is developed, however, the tie to a
+     single editing environment, even one as completely configurable
+     as Emacs, means that Babel is less general than it might be.  It
+     seems that it would be possible for future tools of this nature
+     to provide code evaluation and exportation as a service which
+     could be called from any number of editors.  Such a structure
+     would raise a number of challenging implementation issues.
 
 - virtual machine :: Org-mode allows heterogeneous programming
      environments to share data by dropping all shared values to the
-     common denominator of Emacs Lisp.  This works well for Org-mode as
-     it allows for re-use of many pre-existing Emacs tools for
+     common denominator of Emacs Lisp.  This works well for Org-mode
+     as it allows for re-use of many pre-existing Emacs tools for
      evaluation of code in a variety of languages, often making the
      addition of support for new languages trivial.  There are however
      properties of Emacs Lisp which make it less than ideal as a
@@ -1207,30 +1206,35 @@ evaluation is useful.  TD
 ** Conclusion
 Org-mode simultaneously satisfies the software requirements of
 reproducible research and literate programming; it is in effect both a
-/compendium/ and a /web/.  The Org-mode environment, used in combination
-with a suitable version control tool, satisfies the requirements for
-authoring, auxiliary, transformation, quality control and distribution
-software set out by Gentleman and Temple Lang in their formulation of
-a compendium.  In addition, Org-mode already accomplishes three of the
-four goals of their "future work", namely support for /multiple
-languages/, /conditional chunks/ (where "chunks" are blocks of text or
-code), and /interactivity/, which refers to Org-mode's ability to execute
-code from within the authoring environment.
+/compendium/ and a /web/.  The Org-mode environment, used in
+combination with a suitable version control tool, satisfies the
+requirements for authoring, auxiliary, transformation, quality control
+and distribution software set out by Gentleman and Temple Lang in
+their formulation of a compendium.  In addition, Org-mode already
+accomplishes three of the four goals of their "future work", namely
+support for /multiple languages/, /conditional chunks/ (where "chunks"
+are blocks of text or code), and /interactivity/, which refers to
+Org-mode's ability to execute code from within the authoring
+environment.
 
 What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
 
-Metadata Inclusion of programmatically accessible meta-information in docu- 
-ments facilitates both richer interactions and better descriptions of the con- 
-tent. Many scientiﬁc documents contain keywords as part of the text. Mak- 
-ing these explicitly available to cataloging and indexing software as pro- 
-grammatically extractable elements of the dynamic document will facilitate 
-richer distribution services. Since dynamic documents are software, licens- 
-ing also becomes pertinent. One may wish to restrict evaluation or access 
-to data within the compendium. This can be done with meta-information 
-such as license key matching or explicit code within the document to verify 
-authorization. Another use of meta-information is the inclusion of digital 
-signatures which can be used to verify the origin and legitimacy of the com- 
-pendium. 
+#+begin_quote
+    Metadata Inclusion of programmatically accessible meta-information
+    in documents facilitates both richer interactions and better
+    descriptions of the content. Many scientiﬁc documents contain
+    keywords as part of the text. Making these explicitly available
+    to cataloging and indexing software as programmatically
+    extractable elements of the dynamic document will facilitate
+    richer distribution services. Since dynamic documents are
+    software, licensing also becomes pertinent. One may wish to
+    restrict evaluation or access to data within the compendium. This
+    can be done with meta-information such as license key matching or
+    explicit code within the document to verify authorization. Another
+    use of meta-information is the inclusion of digital signatures
+    which can be used to verify the origin and legitimacy of the
+    com-pendium.
+#+end_quote
 
 I probably don't understand this fully, but it seems to me that it
 would be possible to provide "programmatically accessible
@@ -1238,8 +1242,8 @@ meta-information."  I implemented a simple OAI interface to my web
 site many years ago--that mostly involved understanding the metadata
 structure known as the Dublin core used by librarians.  TD
 
-Org-mode is a full featured /web/ tool.  It supports both /tangling/ and
-/weaving/ of code, as well as a sophisticated code block reference
+Org-mode is a full featured /web/ tool.  It supports both /tangling/
+and /weaving/ of code, as well as a sophisticated code block reference
 system along the lines of =noweb=.  Additionally the executability of
 code blocks in Org-mode allows for interactive development, and
 integration of test suites in a manner not supported in previous
@@ -1252,25 +1256,25 @@ configuration" problems discussed above.  TD
 
 Through making it possible to adopt literate programming and
 reproducible research practices while retaining a familiar editing
-environment, Org-mode significantly lowers the barrier of entry for both
-of these techniques.  Through encouraging all stages of the research
-and development cycle to take place within a single document Org-mode
-ensures that the code, data, and text relevant to a project will be
-collocated, reducing the burden on the author of compiling such pieces
-after the fact.  Difficulty of use and adoption has served as a major
-barrier to previous literate programming and reproducible research
-systems.  We believe that with its ease of adoption, familiar
+environment, Org-mode significantly lowers the barrier of entry for
+both of these techniques.  Through encouraging all stages of the
+research and development cycle to take place within a single document
+Org-mode ensures that the code, data, and text relevant to a project
+will be collocated, reducing the burden on the author of compiling
+such pieces after the fact.  Difficulty of use and adoption has served
+as a major barrier to previous literate programming and reproducible
+research systems.  We believe that with its ease of adoption, familiar
 environment, and universal applicability across programming languages,
 Org-mode represents a significant, qualitative advance in literate
 programming and reproducible research tools.
 
-As such we believe Org-mode has the potential to significantly increase
-the widespread expectation that all computational projects include
-/both/ code and prose; code should be accompanied by explanatory
-prose, and any discussion of computational experimental results should
-include the relevant code and data.  It is the authors' hope that this
-work will ultimately help both software developers and scientists to
-communicate and to make their work more accessible.
+As such we believe Org-mode has the potential to significantly
+increase the widespread expectation that all computational projects
+include /both/ code and prose; code should be accompanied by
+explanatory prose, and any discussion of computational experimental
+results should include the relevant code and data.  It is the authors'
+hope that this work will ultimately help both software developers and
+scientists to communicate and to make their work more accessible.
 
 #+begin_LaTeX
   \bibliographystyle{abbrv}
