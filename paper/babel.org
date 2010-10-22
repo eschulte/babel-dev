@@ -1,5 +1,5 @@
 # -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
-#+TITLE: Babel /DRAFT/
+#+TITLE: Org-mode paper /DRAFT/
 #+AUTHOR: Eric Schulte \and Dan Davison \and Carsten Dominik \and Thomas Dye
 #+OPTIONS: ^:nil toc:nil H:4
 #+STARTUP: oddeven
@@ -88,13 +88,12 @@ and code in a single container.
 In each of the situations described above, prose alone in the absence of
 code is typically insufficient.  Similarly, distribution of code
 without expository prose is a less than ideal medium for communication
-between people. In this paper we describe Babel, which provides a
-unified environment that supports many different approaches to
+between people. In this paper we describe the plain text
+markup language Org-mode, with a focus on its provision of a
+unified environment supporting many different approaches to
 composition and application of combined prose and code (Table
-\ref{grid}).  Babel is implemented as part of the Org-mode plain text
-markup language, which provides the high level structure of Babel
-documents.  Babel and Org-mode are 
-designed for ease of use and adoption.  The Babel environment aims to
+\ref{grid}). Org-mode is 
+designed for ease of use and adoption, and aims to
 be a general solution for authoring projects with mixed computational
 and natural languages.  It supports multiple languages, export
 targets, and work flows.
@@ -111,11 +110,11 @@ targets, and work flows.
 | application | a variety of document   | as well as the tangling of code |
 |             | and slideshow formats   | for external use                |
 |-------------+-------------------------+---------------------------------|
-#+LaTeX: \caption{Babel enables both the application and composition of code and prose.}
+#+LaTeX: \caption{Org-mode enables both the application and composition of code and prose.}
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
-# With Babel the entire life cycle of a research or development
+# With Org-mode the entire life cycle of a research or development
 # project can take place within a single document.  With the data,
 # code and text of a project stored in a single location which can be
 # exported to a variety of formats, the future reproducibility of the
@@ -127,13 +126,11 @@ targets, and work flows.
 Here we review existing approaches to the combined authoring of prose
 and code, including software tools designed to address one or more of
 the use cases for mixed natural and computer language documents
-(Section \ref{background}).  We then describe the design of Babel
-(Section \ref{design}) and Org-mode (Section \ref{org-mode}), and
-# This is the first mention of "Org-mode". Needs some prior
-# introductory sentence.
-demonstrate their usage through two short examples (Section
+(Section \ref{background}).  We then describe the design of Org-mode
+(Section \ref{design}), and
+demonstrate their usage through three short examples (Section
 \ref{examples}).  We conclude with a discussion of why we believe
-Babel constitutes a uniquely productive environment for authoring
+Org-mode constitutes a uniquely productive environment for authoring
 mixed prose and code projects (Section \ref{points-for}), as well as
 some limits of the current implementation and directions for future
 work (Section \ref{future-work}).
@@ -317,7 +314,7 @@ to the original data.
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
-At the core of Babel is the Emacs text editor \cite{emacs} and Emacs
+At the core of Org-mode is the Emacs text editor \cite{emacs} and Emacs
 Lisp \cite{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp
 that supports editing text documents.  The Emacs editor has been under
 development since the mid 1970s and is currently at version 23.
@@ -326,29 +323,28 @@ that turns it into a language for creating and parsing
 hierarchically-organized text documents.  It was originally designed
 for keeping notes, maintaining task lists, and planning projects.  Its
 rich feature set includes text structuring, project management, and a
-publishing system that can export to a variety of formats.  Babel
-extends Org-mode by activating sections of Org-mode documents,
-effectively distinguishing code and data blocks from text sections.
+publishing system that can export to a variety of formats.  Source code 
+and data are located in active blocks, distinct from text sections.
 Activation means that code and data blocks can be /evaluated/ to
 return their contents or their computational results.  The results of
 code block evaluation can be written to a named data block in the
 document, where it can be referred to by other code blocks, any one of
 which can be written in a different computing language.  In this way,
 an Org-mode buffer becomes a place where different computer languages
-communicate with one another.  Like Emacs, Babel is extensible:
+communicate with one another.  Like Emacs, Org-mode is extensible:
 support for new languages can be added by the user in a modular fashion through
 the definition of a small number of Emacs Lisp functions.
 Additionaly, generally useful code or data blocks can be added to a
 "Library of Babel", from which they can be called by any Org-mode
 document.
 
-In the remainder of this section, we first introduce Org-mode,
-focusing on those features that support the literate programming and
-reproducible research capabilities of Babel (Section \ref{org-mode}).
+In the remainder of this section, we first describe Org-mode,
+focusing on those features that support literate programming and
+reproducible research (Section \ref{org-mode}).
 We then describe the syntax of code and data blocks (Section
 \ref{syntax}), evaluation of code blocks (Section \ref{code-blocks}),
 weaving and tangling Org-mode documents (Section \ref{export}), and
-Babel's language support facilities (Section \ref{languages}).
+language support facilities (Section \ref{languages}).
 
 ** Org-mode
    :PROPERTIES:
@@ -424,8 +420,8 @@ defined as tasks, and many other tools.
 The outline structure of documents also defines a hierarchy of
 metadata.  Tags and properties of a node are inherited by its
 sub-nodes and views of the document can be designed that sum or
-average the properties inherited by a node.  Code blocks defined and
-used by Babel live in this hierarchy of content and metadata, all of which
+average the properties inherited by a node.  Code blocks live in
+this hierarchy of content and metadata, all of which
 is accessible to and can be modified by it.
 
 *** Special Document Content
@@ -440,7 +436,7 @@ calculator, /calc/ ([[David Gillespie 1990,
 http://www.gnu.org/software/emacs/calc.html]]), can be used to carry out
 computations in tables.  This feature is similar to spreadsheet
 applications, but Org-mode uses plain text to represent both data and
-formulas.  Babel makes extensive use of Org-mode tables.
+formulas.
 
 #+begin_src org
   ,| Name 1 | Name 2 | ... | Name N |
@@ -462,22 +458,24 @@ syntax, which can be applied to any piece of text.
     :PROPERTIES:
     :CUSTOM_ID: code-blocks
     :END:
-Babel extends Org-mode with a naming convention that identifies code
+Seubsequently, Org-mode gained a naming convention that identifies code
 or data blocks making them remotely callable.  In addition, the syntax
-of Org-mode code blocks is extended to facilitate evaluation.  Babel
-writes the results of source code evaluation to the document as
-Org-mode constructs, and allows for code and data blocks to interact
-through a simple but powerful variable passing system.
+of Org-mode code blocks was extended to facilitate evaluation.  
+The results of source code evaluation are written to the document as
+Org-mode constructs, allowing for code and data blocks to interact
+through a simple but powerful variable passing system. Historically,
+this extension of Org-mode was named Babel.
 
 *** Syntax
     :PROPERTIES:
     :CUSTOM_ID: syntax
     :END:
-Babel recognizes Org-mode /tables/, /examples/, and /links/ as data
-block content.  Data blocks which are preceded by a line that begins
+
+# TODO: And #TBLNAME
+
+Data blocks which are preceded by a line that begins
 with =#+results:=, followed by a name unique within the document can
-be manipulated by Babel.  All data block types can be named in this
-way.
+be accessed by code blocks. These can be /tables/, /example blocks/, or /links/.
 #+begin_src org
   ,#+results: tabular-data
   ,| 1 |  2 |
@@ -493,9 +491,9 @@ way.
   ,[[http://external-data.org]]
 #+end_src
 
-Babel marks active code blocks with a =#+srcname:= line, followed by a
-name unique within the document.  It also augments Org-mode code
-blocks with header aguments that control the way Babel handles
+Active code blocks are marked with a =#+srcname:= line, followed by a
+name unique within the document.  Such blocks are augmented
+by header aguments that control the way Org-mode handles
 evaluation and export.
 #+begin_src org
   ,#+srcname: <name>
@@ -520,17 +518,17 @@ in the Org-mode buffer immediately following the code block, e.g.,
 
 By default a code block is evaluated in a dedicated system process
 which does not persist after evaluation is complete. In addition, for
-several languages evaluation may be performed in an interactive
+several languages, evaluation may be performed in an interactive
 "session" which persists indefinitely. A good example is session-based
 evaluation of R code which uses R sessions provided by the Emacs
 Speaks Statistics (ESS) project \cite{ess}.  Thus both the Org buffer
 and the language-specific session buffers may be used for sharing of
 functions and data structures between blocks. ESS successfully
-provides a feature-rich environment for development of R code; babel
+provides a feature-rich environment for development of R code; Org-mode
 complements rather than replaces ESS in that code editing and
-session-based evaluation in Babel is implemented using ESS.
+session-based evaluation in Org-mode is implemented using ESS.
 
-Adding a =:session= /header argument/ to a block causes Babel to
+Adding a =:session= /header argument/ to a block causes Org-mode to
 1) start a persistent process associated with a new Emacs
    buffer;
 2) pass the code body to that process; and
@@ -538,16 +536,16 @@ Adding a =:session= /header argument/ to a block causes Babel to
 
 Session-based evaluation is similar to the approach to evaluation
 taken by =Sweave=, in which every code block is evaluated in the same
-persistent session.  In Babel, the =:session= header argument takes an
+persistent session.  In Org-mode, the =:session= header argument takes an
 optional name, making it possible to maintain multiple disjoint
 sessions.
 
 *** Results
-Babel returns the results of code block evaluation as strings,
-scalars, Org-mode tables, or Org-mode links.  By default, these are
+Org-mode returns the results of code block evaluation as strings,
+scalars, tables, or links.  By default, these are
 inserted in the Org-mode buffer as protected text immediately after
-the code block.  In practice, the user can control how Babel handles
-evaluation results with header arguments.  
+the code block.  In practice, the user has extensive control over how
+evaluation results are handled using header arguments.  
 
 At the most basic level, results can be collected from code blocks by
 value or as output.  This behavior is controlled by the =:results=
@@ -592,8 +590,8 @@ same code yields a string when output is returned.
 
 #+end_src org
 
-In addition to scalar results, Babel recognizes vector results and
-inserts them as tables into the Org-mode buffer as demonstrated in the
+In addition to scalar results, Org-mode recognizes vector results and
+inserts them as tables into the buffer as demonstrated in the
 following two blocks of Haskell code.
 
 #+begin_src org
@@ -616,20 +614,22 @@ following two blocks of Haskell code.
 
 When the result of evaluating a code block is a file, such as an
 image, the =:file= header argument can be used to provide a path and
-name for the file.  Babel saves the results to the named file and
-places an Org-mode link to it in the document.  These links are
+name for the file.  Org-mode saves the results to the named file and
+places a link to it in the document.  These links are
 handled by Org-mode in the usual ways and can be opened from within
 the document and included in exports.
 
 Much more information about controlling the evaluation of code and the
-handling of code results is available in the Babel documentation.
+handling of code results is available in the Org-mode documentation.
+
+# TODO: provide links to the website/manual/Worg
 
 *** Variables
-Babel implements a simple system of passing arguments to code blocks.
+Org-mode implements a simple system of passing arguments to code blocks.
 The =:var= header argument takes a variable name and a value and
 assigns the value to the named variable inside the code block.  Values
 can be literal values, such as scalars or strings, references to
-named data blocks, Org-mode links, or references to named code blocks.
+named data blocks, links, or references to named code blocks.
 In addition, arguments can be passed to referenced code blocks using a
 traditional function syntax with named arguments.
 
@@ -645,7 +645,7 @@ input to blocks of code in another language, as shown in Section
     :CUSTOM_ID: export
     :END:
 
-Borrowing terms from the Literate Programming community, Babel supports
+Borrowing terms from the Literate Programming community, Org-mode supports
 both /weaving/---the exportation of a mixed code/prose document to a
 prose format suitable for reading by a human---and /tangling/--the
 exportation of a mixed code/prose document to a pure code file
@@ -653,7 +653,7 @@ suitable for execution by a computer.
 
 - weaving :: Org-mode provides a sophisticated and full-featured
      system to export to HTML, LaTeX, and a number of other
-     target formats.  Babel adds support for pre-processing code
+     target formats, with support for pre-processing code
      blocks as part of the export process.  Using the =:exports=
      header argument, the code of the code block, the results of
      executing the code block, both code and results, or neither can
@@ -664,7 +664,7 @@ suitable for execution by a computer.
      presented with code differs from the order in which the code may
      be best organized in a document.  Literate programmin systems
      like =noweb= solve this problem using code-block references that
-     are expanded as part of the tangle process \cite{noweb}.  Babel
+     are expanded as part of the tangle process \cite{noweb}.  Org-mode
      implements the =noweb= reference system using an identical syntax
      and functionality.
 
@@ -673,17 +673,17 @@ suitable for execution by a computer.
     :CUSTOM_ID: languages
     :END:
 
-The core functions of Babel are language agnostic.  The tangling,
-source edit, and export features of Babel can be used for any computer
-language, even those that are not specifically supported by Babel;
+The core functions of Org-mode related to source code are language agnostic.  The tangling,
+source code edit, and export features can be used for any computer
+language, even those that are not specifically supported;
 only code evaluation and interaction with live sessions require
 language-specific functions.  Support for new languages can be added
 by defining a small number of elisp functions named according to
-language, following some simple conventions.  Currently, Babel has
-support for more than 20 languages.  The ease with which support for
+language, following some simple conventions.  Currently, Org-mode has
+support for more than 30 languages.  The ease with which support for
 new languages can be added is evidenced by the fact that new language
-support is increasingly implemented by Babel users, rather than the
-Babel authors.
+support is increasingly implemented by Org-mode users, rather than the
+original authors.
 
 ** Safety Considerations
 A reproducible research document, by definition, includes code that
@@ -696,7 +696,7 @@ Sweave, but the difficulty increases if the document is written in
 several computer languages, one or more of which is not understood by
 the reader.
 
-Babel has been designed with security measures to protect users from
+Org-mode has been designed with security measures to protect users from
 the accidental or uninformed execution of code.  By default /every/
 execution of a code block requires explicit confirmation from the
 user.[fn:1]  In addition, it is possible to remove code block evaluation
@@ -720,14 +720,14 @@ graphical output. This TODO applies to the Pascal's Triangle and
 Literate Programming examples (the RR example satisfies this
 already). (DD)
 
-The following section demonstrates a number of common Babel usage
+The following section demonstrates a number of common Org-mode usage
 patterns through short examples.  The first example highlights how
-Babel allows data and calculation to flow between tables, code blocks
+Org-mode allows data to flow between tables, code blocks
 of multiple languages, and graphical figures.  The second demonstrates
-the use of traditional literate programming techniques in Babel.  The
+the use of traditional literate programming techniques.  The
 final example demonstrates interaction with external data sources,
 including the automated creation and use of local databases from within
-Babel documents for long-term persistence of potentially large amounts
+Org-mode documents for long-term persistence of potentially large amounts
 of data, and the use of session-based evaluation for short term
 persistence of smaller amounts of data.
 
@@ -737,7 +737,7 @@ Pascal's triangle is one name for a geometric arrangement of the
 binomial coefficients in a triangle.  The triangle has several
 interesting and useful mathematical properties.  This example
 constructs and manipulates a Pascal's triangle to illustrate potential
-data flows in Babel.  Data are passed from a code block to an Org-mode
+data flows in Org-mode.  Data are passed from a code block to an Org-mode
 table, from an Org-mode table to a code block, from one code block to
 another, and from a code block to a graphic figure.  Finally, the
 example uses a property of the triangle to test the correctness of the
@@ -746,7 +746,7 @@ view of the triangle to test whether the property is satisfied.
 
 *** Calculating Pascal's Triangle
 The following Emacs Lisp source block calculates and returns the first
-five rows of Pascal's triangle.  Babel inserts the value returned by
+five rows of Pascal's triangle.  Org-mode inserts the value returned by
 the Emacs Lisp function into the Org-mode document as a table named
 =pascals-triangle=.  This table can be referenced by other code blocks.
 #+source: pascals-triangle
@@ -786,7 +786,7 @@ The tabular view of Pascal's triangle can be illustrated using the
 =dot= graphing language.  In the following code block the
 =pascals-triangle= table (Table \ref{pascals-triangle-tab}) is passed
 to a block of code in the =ruby= language through the variable =ps=.
-Babel transforms the Org-mode table into a =ruby= array, which the
+Org-mode transforms the table into a =ruby= array, which the
 code block uses to construct strings of =dot= commands.  The strings
 of =dot= commands are returned without being inserted into the
 Org-mode buffer, as indicated by the =:exports code= header argument.
@@ -820,7 +820,7 @@ Org-mode buffer, as indicated by the =:exports code= header argument.
 Instead, the value of the output is passed directly into a block of
 =dot= code by assigning the name of the =ruby= code block to the
 variable =ps-vals=.  Passing the results of one code block to another
-in this way is called /chaining/; Babel places no limit on the number
+in this way is called /chaining/; Org-mode places no limit on the number
 of code blocks that can be chained together.  Evaluation propagates
 backwards through chained code blocks.  In this example, the =:file=
 header argument causes the code block to save the image resulting from
@@ -868,7 +868,7 @@ the triangle is correct.  This can be done in many ways; here, it is
 done with a short block of Emacs Lisp code that takes a row of numbers
 and a number =n= and returns =pass= if the sum of the numbers in the
 row is equal the nth Fibonacci number and returns =fail= otherwise.
-With Babel, calls to this code block can be embedded into the tabular
+With Org-mode, calls to this code block can be embedded into the tabular
 view of Pascal's triangle using spreadsheet style formulas.  When the
 spreadsheet is calculated, it returns =pass= for each of the five
 diagonals, confirming that the implementation of Pascal's triangle is
@@ -991,9 +991,9 @@ short script which can then be tangled out to the file =cocktail.c=.
 ** Reproducible Research -- Live Climate Data
 By referencing external data a work of Reproducible Research can
 remain up-to-date long after its initial composition and publication.
-This example demonstrates the ability of code blocks in a Babel
+This example demonstrates the ability of code blocks in an Org-mode
 document to reference external data, to construct and use local stores
-of data outside of the Babel document, and to maintain persistent
+of data outside of the document, and to maintain persistent
 state in external sessions, all in an automated fashion.  This allows
 each reader of the document to automatically update the document to
 reflect recent data, and to propagate a full local workspace with the
@@ -1094,7 +1094,6 @@ TODO: I haven't plugged this into the pipeline yet.
 
 [[file:mean-temps.pdf]]
 
-
 * Discussion
   :PROPERTIES:
   :CUSTOM_ID: conclusion
@@ -1104,29 +1103,30 @@ TODO: I haven't plugged this into the pipeline yet.
    :CUSTOM_ID: points-for
    :END:
 
-Babel has several features that make it a productive tool for composing
+Org-mode has several features that make it a productive tool for composing
 combined natural and computational language documents.
 
-- Open source :: Babel is /open source/, which means its inner
+- Open source :: Org-mode is /open source/, which means its inner
      workings are publicly visible, and its copyright is
      owned by the Free Software Foundation \cite{fsf}, which means that
-     Babel, and any work deriving from Babel, will always be fully open
+     Oerg-mode, and any work deriving from Org-mode, will always be fully open
      to public scrutiny and modification.  These are *essential*
      qualities for software tools used for reproducible research.
 
 - Friendly active community :: The Org-mode community is extremely
      friendly, which makes it easy for novices to get help on how to
-     use Babel, and for developers to discuss ideas on how to improve
-     and extend it.  Without this community the Babel project would
-     never have reached a useable state.
+     use Org-mode, and for developers to discuss ideas on how to improve
+     and extend it.  Without this community the Babel project
+     (the part of Org-mode concerning literate programming and evaluation
+     of source code) would never have reached a useable state.
 
 - General :: A leading drive in the design of Babel was pursuit of
      generality.  As a result, it displays no reproducible research or
      literate programming bias.  Babel supports arbitrary programming
-     languages, and through Org-mode it exports to a wide variety of
+     languages, and Org-mode exports to a wide variety of
      file types, including ASCII, LaTeX, HTML, and DocBook.
 
-- Integration :: Babel leverages the sophisticated editing modes
+- Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
 
 ** Directions for Future Development
@@ -1135,7 +1135,7 @@ combined natural and computational language documents.
    :END:
 
 These items indicate a number of paths for future work, either for
-further development of Babel, or for a future tool of this type.
+further development of Org-mode, or for a future tool of this type.
 
 - editor agnostic :: Babel was developed within the rich framework of
      Emacs and Org-mode, which made the idea of Babel possible in the
@@ -1148,35 +1148,35 @@ further development of Babel, or for a future tool of this type.
      structure would raise a number of challenging implementation
      issues.
 
-- virtual machine :: Babel allows heterogeneous programming
+- virtual machine :: Org-mode allows heterogeneous programming
      environments to share data by dropping all shared values to the
-     common denominator of Emacs Lisp.  This works well for Babel as
+     common denominator of Emacs Lisp.  This works well for Org-mode as
      it allows for re-use of many pre-existing Emacs tools for
-     evaluation of code in a variety of language, often making the
+     evaluation of code in a variety of languages, often making the
      addition of support for new languages trivial.  There are however
      properties of Emacs Lisp which make it less than ideal as a
      medium of data exchange and as a shepherd of evaluation.  Most
      importantly the Emacs Lisp interpreter is /single threaded/,
      which makes the asynchronous evaluation of code blocks needlessly
-     complex (in fact this feature does not yet exist in Babel).
+     complex (in fact this feature does not yet exist in Org-mode).
 
 This leaves dangling the question of whether and why asynchronous
 evaluation is useful.  TD
 
 ** Conclusion
-Babel simultaneously satisfies the software requirements of
+Org-mode simultaneously satisfies the software requirements of
 reproducible research and literate programming; it is in effect both a
-/compendium/ and a /web/.  The Babel environment, used in combination
+/compendium/ and a /web/.  The Org-mode environment, used in combination
 with a suitable version control tool, satisfies the requirements for
 authoring, auxiliary, transformation, quality control and distribution
 software set out by Gentleman and Temple Lang in their formulation of
-a compendium.  In addition, Babel already accomplishes three of the
+a compendium.  In addition, Org-mode already accomplishes three of the
 four goals of their "future work", namely support for /multiple
 languages/, /conditional chunks/ (where "chunks" are blocks of text or
-code), and /interactivity/, which refers to Babel's ability to execute
+code), and /interactivity/, which refers to Org-mode's ability to execute
 code from within the authoring environment.
 
-What is the fourth goal that Babel doesn't accomplish?  Here it is:
+What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
 
 Metadata Inclusion of programmatically accessible meta-information in docu- 
 ments facilitates both richer interactions and better descriptions of the con- 
@@ -1197,37 +1197,37 @@ meta-information."  I implemented a simple OAI interface to my web
 site many years ago--that mostly involved understanding the metadata
 structure known as the Dublin core used by librarians.  TD
 
-Babel is a full featured /web/ tool.  It supports both /tangling/ and
+Org-mode is a full featured /web/ tool.  It supports both /tangling/ and
 /weaving/ of code, as well as a sophisticated code block reference
 system along the lines of =noweb=.  Additionally the executability of
-code blocks in Babel allows for interactive development, and
+code blocks in Org-mode allows for interactive development, and
 integration of test suites in a manner not supported in previous
 literate programming systems.
 
-Perhaps here we should discuss the kinds of projects that Babel has
+Perhaps here we should discuss the kinds of projects that Org-mode has
 been used to accomplish instead of the following two paragraphs?  I'm
 a bit concerned that "ease of use" contradicts the "complex
 configuration" problems discussed above.  TD
 
 Through making it possible to adopt literate programming and
 reproducible research practices while retaining a familiar editing
-environment, Babel significantly lowers the barrier of entry for both
+environment, Org-mode significantly lowers the barrier of entry for both
 of these techniques.  Through encouraging all stages of the research
-and development cycle to take place within a single document Babel
+and development cycle to take place within a single document Org-mode
 ensures that the code, data, and text relevant to a project will be
 collocated, reducing the burden on the author of compiling such pieces
 after the fact.  Difficulty of use and adoption has served as a major
 barrier to previous literate programming and reproducible research
 systems.  We believe that with its ease of adoption, familiar
 environment, and universal applicability across programming languages,
-Babel represents a significant, qualitative advance in literate
+Org-mode represents a significant, qualitative advance in literate
 programming and reproducible research tools.
 
-As such we believe Babel has the potential to significantly increase
+As such we believe Org-mode has the potential to significantly increase
 the widespread expectation that all computational projects include
 /both/ code and prose; code should be accompanied by explanatory
 prose, and any discussion of computational experimental results should
-include the relevant code and data.  It is the authors hope that this
+include the relevant code and data.  It is the authors' hope that this
 work will ultimately help both software developers and scientists to
 communicate and to make their work more accessible.
 
