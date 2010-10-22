@@ -114,16 +114,15 @@ flows.
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
-# With Org-mode the entire life cycle of a research or development
-# project can take place within a single document.  With the data,
-# code and text of a project stored in a single location which can be
-# exported to a variety of formats, the future reproducibility of the
-# work is ensured, and the practices of Reproducible Research and
-# Literate Programming are encouraged by greatly reducing the burden
-# on the author.
-# 
-# I didn't quite understand the last part of the preceding sentence (Dan)
 Here we review existing approaches to the combined authoring of prose
+With Org-mode the entire life cycle of a research or development
+project can take place within a single document.  With the data,
+code and text of a project stored in a single location which can be
+exported to a variety of formats, the future reproducibility of the
+work is ensured and the practices of Reproducible Research and
+Literate Programming are encouraged by greatly reducing the burden
+on the author.
+
 and code, including software tools designed to address one or more of
 the use cases for mixed natural and computer language documents
 (Section \ref{background}).  We then describe the design of Org-mode
