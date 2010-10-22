@@ -623,6 +623,7 @@ Much more information about controlling the evaluation of code and the
 handling of code results is available in the Org-mode documentation.
 
 # TODO: provide links to the website/manual/Worg
+# TODO: link to Org source for this paper and emphasise the fact
 
 *** Variables
 Org-mode implements a simple system of passing arguments to code blocks.
@@ -1237,6 +1238,8 @@ communicate and to make their work more accessible.
   \bibliography{babel}
 #+end_LaTeX
 
+* Acknowledgements
+TODO
 * COMMENT Tasks
 ** TODO include Author information
 The following looks like little much on the title page, I guess leave
