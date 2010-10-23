@@ -1387,6 +1387,23 @@ turn on the listings package, and define the =twocolumn= latex class
         '((:results . "raw silent")))
 #+end_src
 
+** Org-mode LaTeX export to JSS
+#+source: jss
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'org-export-latex-classes
+               '("jss"
+                 "\\documentclass[article]{jss}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;; replace nasty single-quotes returned by R
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (replace-regexp "’" "'")))
+#+end_src
+
 * Footnotes
 
 [fn:1] These confirmation requests can be stifled by customizing the
