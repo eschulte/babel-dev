@@ -8,7 +8,7 @@
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{listings}
 #+LATEX_HEADER: \usepackage{thumbpdf}
-#+LaTeX_CLASS: twocolumn
+#+LaTeX_CLASS: jss
 #+begin_latex
   \lstdefinelanguage{org}
   {
