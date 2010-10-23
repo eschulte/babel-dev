@@ -11,15 +11,8 @@
 #+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Carsten Dominick, Thomas Dye}
 #+LATEX_HEADER: \Shorttitle{Mixed Language Computing}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
-#+LATEX_HEADER: \Address{Eric Schulte\\
- Department of Computer Science\\
- University of New Mexico\\
- 1 University of New Mexico\\
- Albuquerque, NM 87131\\
- United States of America\\
- E-mail: eschulte@cs.unm.edu\\
- URL: http://cs.unm.edu/~eschulte/}
-
+#+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/~eschulte/}
+#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to, the file. Export to LaTeX{}, HTML, LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, code extraction (tangling) permits functioning pure code files to be extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
 #+LaTeX_CLASS: jss
 #+begin_latex
   \lstdefinelanguage{org}
@@ -62,23 +55,6 @@
   }
 #+end_latex
 
-#+LaTeX: \begin{abstract}
-We present a new computing environment for authoring mixed natural and
-computer language documents. In this environment a single
-hierarchically-organized plain text source file may contain a variety
-of elements such as code in arbitrary programming languages, raw data,
-links to external resources, project management data, working notes,
-and text for publication. Code fragments may be executed in situ with
-graphical, numerical and text output captured in, or linked to, the
-file. Export to LaTeX, HTML, LaTeX Beamer, DocBook and other formats
-permits working reports, presentations and manuscripts for publication
-to be generated from the file. In addition, code extraction (tangling)
-permits functioning pure code files to be extracted from the
-file. This environment is implemented as an extension to the Emacs
-text editor and provides a rich set of features for authoring both
-prose and code, as well as sophisticated project management
-capabilities.
-#+LaTeX: \end{abstract}
 
 * Introduction
 There are a variety of settings in which it is desirable to mix prose
@@ -177,7 +153,7 @@ beings what we want a computer to do.
 #+end_quote
 
 The technique of /literate programming/ was introduced by Donald Knuth
-\cite{web} in the early 1980's, not long after he created the TeX
+\citep{web} in the early 1980's, not long after he created the TeX
 typesetting software.  The goals of literate programming are to
 encourage the author of a computational work to approach the project
 "as an essayist, whose main concern is with exposition and excellence
@@ -199,11 +175,11 @@ computer.
 
 The original literate programming tool, developed by Knuth, was =WEB=,
 which consists of two primary programs, =TANGLE= and =WEAVE=
-\cite{web}.  This system supported the Pascal programming language and
+\citep{web}.  This system supported the Pascal programming language and
 produced documents typeset with TeX.  Somewhat later, Knuth and Silvio
 Levy produced a C language version, =cWeb=
-\cite{knuth94:_cweb_system_struc_docum}.  A modern descendent of these
-tools is =noweb= \cite{noweb} which is designed to be language
+\citep{knuth94:_cweb_system_struc_docum}.  A modern descendent of these
+tools is =noweb= \citep{noweb} which is designed to be language
 independent.  Its primary programs, =notangle= and =noweave=, are both
 written in =C=.  Documents produced by =noweave= can be typeset with
 =TeX=, =LaTeX=, and =troff= or displayed in a web browser as =HTML=.
@@ -237,7 +213,7 @@ for other researchers to understand fully or to reproduce the results
 of the research project.
  
 A software solution to this problem was proposed by Gentleman and
-Temple Lang \cite{compendium}, who "introduce the concept of a
+Temple Lang \citep{compendium}, who "introduce the concept of a
 /compendium/ as both a container for the different elements that make
 up the document and its computations (i.e. text, code, data, ...), and
 as a means for distributing, managing and updating the collection."
@@ -275,7 +251,7 @@ publication itself.
 
 # The requirements of a tool supporting reproducible research are
 # thoroughly explored by Gentleman and Temple Lang, and presented in the
-# concept of a /compendium/ \cite{compendium}.  In their formulation a
+# concept of a /compendium/ \citep{compendium}.  In their formulation a
 # compendium is a container that holds the text, code, and raw data
 # constituting a scholarly work.  Compendia are intended to facilitate
 # the distribution, management, re-creation, and extension of such
@@ -301,8 +277,8 @@ and extension.
 \attrib{Gentleman and Temple Lang}
 #+end_quote
 
-=Sweave= \cite{sweave} is a modern software tool, written in the =R=
-statistical programming language \cite{r-software}, that can be used
+=Sweave= \citep{sweave} is a modern software tool, written in the =R=
+statistical programming language \citep{r-software}, that can be used
 for reproducible research.  =Sweave= (and the =R= community at large)
 inspired the work that led to the /compendium/ idea.  The recent
 resurgence in reproducible research owes much to the success of both
@@ -326,8 +302,8 @@ to the original data.
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
-At the core of Org-mode is the Emacs text editor \cite{emacs} and
-Emacs Lisp \cite{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of
+At the core of Org-mode is the Emacs text editor \citep{emacs} and
+Emacs Lisp \citep{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of
 Lisp that supports editing text documents.  The Emacs editor has been
 under development since the mid 1970s and is currently at version 23.
 Org-mode extends Emacs with a simple, yet powerful markup language
@@ -538,7 +514,7 @@ which does not persist after evaluation is complete. In addition, for
 several languages, evaluation may be performed in an interactive
 "session" which persists indefinitely. A good example is session-based
 evaluation of R code which uses R sessions provided by the Emacs
-Speaks Statistics (ESS) project \cite{ess}.  Thus, both the Org buffer
+Speaks Statistics (ESS) project \citep{ess}.  Thus, both the Org buffer
 and the language-specific session buffers may be used for sharing of
 functions and data structures between blocks. ESS successfully
 provides a feature-rich environment for development of R code;
@@ -681,7 +657,7 @@ code file suitable for execution by a computer.
      presented with code differs from the order in which the code may
      be best organized in a document.  Literate programming systems
      like =noweb= solve this problem using code-block references that
-     are expanded as part of the tangle process \cite{noweb}.
+     are expanded as part of the tangle process \citep{noweb}.
      Org-mode implements the =noweb= reference system using an
      identical syntax and functionality.
 
@@ -835,6 +811,31 @@ buffer, as indicated by the =:exports code= header argument.
   end.join("\n")
 #+end_src
 
+#+results: ps-to-dot
+#+begin_example
+	"1_1" [label="1"];
+	"2_1" [label="1"]; "1_1"--"2_1";
+	"2_2" [label="1"];"1_1"--"2_2";
+	"3_1" [label="1"]; "2_1"--"3_1";
+	"3_2" [label="2"];"2_1"--"3_2"; "2_2"--"3_2";
+	"3_3" [label="1"];"2_2"--"3_3";
+	"4_1" [label="1"]; "3_1"--"4_1";
+	"4_2" [label="3"];"3_1"--"4_2"; "3_2"--"4_2";
+	"4_3" [label="3"];"3_2"--"4_3"; "3_3"--"4_3";
+	"4_4" [label="1"];"3_3"--"4_4";
+	"5_1" [label="1"]; "4_1"--"5_1";
+	"5_2" [label="4"];"4_1"--"5_2"; "4_2"--"5_2";
+	"5_3" [label="6"];"4_2"--"5_3"; "4_3"--"5_3";
+	"5_4" [label="4"];"4_3"--"5_4"; "4_4"--"5_4";
+	"5_5" [label="1"];"4_4"--"5_5";
+	"6_1" [label="1"]; "5_1"--"6_1";
+	"6_2" [label="5"];"5_1"--"6_2"; "5_2"--"6_2";
+	"6_3" [label="10"];"5_2"--"6_3"; "5_3"--"6_3";
+	"6_4" [label="10"];"5_3"--"6_4"; "5_4"--"6_4";
+	"6_5" [label="5"];"5_4"--"6_5"; "5_5"--"6_5";
+	"6_6" [label="1"];"5_5"--"6_6";
+#+end_example
+
 Instead, the value of the output is passed directly into a block of
 =dot= code by assigning the name of the =ruby= code block to the
 variable =ps-vals=.  Passing the results of one code block to another
@@ -861,7 +862,7 @@ from within an Org-mode buffer.
   }
 #+end_src
 
-#+results: ps-to-fig
+#+results:
 [[file:pascals-triangle.pdf]]
 
 #+begin_src org
@@ -1057,15 +1058,32 @@ blocks are passed to the shell scripts.
   ,#+end_src
 #+end_src
 
-# #+results: country-code-file
-# : v2.slp.country.codes
+ #+results: url-base
+  : ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
+  
+#+results: raw-temps-file
+  : v2.mean_adj.Z
+  
+#+source: raw-temps
+#+headers: :var base=url-base
+#+begin_src sh  :var file=raw-temps-file :cache yes 
+  curl $base$file | gunzip | \
+      sed 's/-9999/ -9999/g'| \
+      sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 \2 ,' \
+      > $file
+#+end_src
 
-# #+source: country-codes
-# #+headers: :var base=url-base
-# #+begin_src sh :var file=country-code-file :cache yes
-#   curl $base$file |sed 's/ *$//' \
-#       |sed 's/ \(.*\)$/,"\1"/'
-# #+end_src
+#+results[8be1259f237677a9a4342981bc6696a76d28eb3b]:
+
+#+results: country-code-file
+ : v2.slp.country.codes
+
+#+source: country-codes
+#+headers: :var base=url-base
+#+begin_src sh :var file=country-code-file :cache yes
+  curl $base$file |sed 's/ *$//' \
+       |sed 's/ \(.*\)$/,"\1"/'
+#+end_src
 
 
 Next, the output of the first two blocks is cross referenced and used
@@ -1117,6 +1135,22 @@ session.
   ,#+end_src
 #+end_src
 
+#+headers: :var temps=raw-temps
+#+headers: :var countries=country-codes
+#+begin_src R :session *R* :exports none
+  temps <- read.table(datafile, as.is=TRUE)
+  months <- c("Jan","Feb","Mar","Apr",
+              "May","Jun","Jul","Aug",
+              "Sep","Oct","Nov","Dec")
+  colnames(temps) <- c("CountryCode","Station",
+                       "Year", months)
+  temps.split <- split(temps,
+                       temps[c("CountryCode", "Station")],
+                       drop=TRUE)
+#+end_src
+
+#+results:
+
 
 Finally the persistent variables in the =*R*= session are used to generate
 figures from the climate data. Here we fit a straight line to the July
@@ -1136,7 +1170,19 @@ figures are written to a pdf file for subsequent use.
   ,#+end_src
 #+end_src
 
+#+begin_src R :session *R* :file mean-temps.pdf :exports none
+  retain <- function(t)
+    t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
+  fit.july.slope <- function(t)
+    with(t, coefficients(lm(Jul ~ Year))["Year"])
+  filtered <- temps.split[sapply(temps.split, retain)]
+  slopes <- sapply(filtered, fit.july.slope)
+  hist(slopes)
+#+end_src
+
+#+results:
 [[file:mean-temps.pdf]]
+
 
 The following LaTeX code block summarizes the analysis and presents
 the figures.  The code block is set up to tangle with other source
@@ -1147,7 +1193,7 @@ code blocks to a LaTeX file that can be processed in the usual way.
   There is a pronounced trend in the climate data (fig.~\ref{fig:climate-trend}).
   
   \begin{figure}[htb!]
-    \includegraphic{mean-temps}
+    % \includegraphic{mean-temps}
     \caption[Temperature trends]{Temperature trends for the century 1880--1980.}
     \label{fig:climate-trend}
   \end{figure}
@@ -1167,7 +1213,7 @@ combined natural and computational language documents.
 
 - Open source :: Org-mode is /open source/, which means its inner
      workings are publicly visible, and its copyright is owned by the
-     Free Software Foundation \cite{fsf}, which means that Org-mode,
+     Free Software Foundation \citep{fsf}, which means that Org-mode,
      and any work deriving from Org-mode, will always be fully open to
      public scrutiny and modification.  These are *essential*
      qualities for software tools used for reproducible research.
@@ -1241,7 +1287,7 @@ What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
 #+begin_quote
     Metadata Inclusion of programmatically accessible meta-information
     in documents facilitates both richer interactions and better
-    descriptions of the content. Many scientiﬁc documents contain
+    descriptions of the content. Many scientific documents contain
     keywords as part of the text. Making these explicitly available
     to cataloging and indexing software as programmatically
     extractable elements of the dynamic document will facilitate
@@ -1252,7 +1298,7 @@ What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
     explicit code within the document to verify authorization. Another
     use of meta-information is the inclusion of digital signatures
     which can be used to verify the origin and legitimacy of the
-    com-pendium.
+    compendium.
 #+end_quote
 
 I probably don't understand this fully, but it seems to me that it
@@ -1315,9 +1361,7 @@ hope that this work will ultimately help both software developers and
 scientists to communicate and to make their work more accessible.
 
 #+begin_LaTeX
-  \bibliographystyle{abbrv}
-  \small
-  \bibliography{babel}
+    \bibliography{babel}
 #+end_LaTeX
 
 * Acknowledgements
