@@ -1,6 +1,6 @@
 # -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
 #+TITLE: A Computing Environment for Mixed Natural and Computer Language Documents /DRAFT/
-#+AUTHOR: Eric Schulte \and Dan Davison \and Carsten Dominik \and Thomas Dye
+#+AUTHOR: Eric Schulte\\University of New Mexico \And Dan Davison\\University of Oxford \AND Carsten Dominik\\University of Amsterdam and Radboud University Nijmegen \AND Thomas Dye\\University of Hawai`i
 #+OPTIONS: ^:nil toc:nil H:4
 #+STARTUP: oddeven
 #+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
