@@ -444,14 +444,20 @@ both data and formulas.
   ,| ...    | ...    | ... | ...    |
 #+end_src
 
-Source code blocks were added to Org-mode as an aid to creating
-technical documentation.  Originally, their sole purpose was to set
-verbatim, mono-spaced type when publishing to PDF or HTML.  Code
-blocks are marked with either a =#+BEGIN_EXAMPLE ... #+END_EXAMPLE=
-pair, or with a =#+BEGIN_SRC ... #+END_SRC= pair.  The latter form can
-leverage Emacs source code editing modes to indent and fontify code
-examples.  Additional markup is provided with wiki-like syntax, which
-can be applied to any piece of text.
+In this paper we focus on the ways in which Org-mode supports working
+with source code. Source code in arbitrary languages can be included
+in an Org-mode document inside a =#+BEGIN_SRC <LANGUAGE>... #+END_SRC=
+pair.  Such source code blocks were originally added to Org-mode in
+order to set verbatim, mono-spaced type when publishing to PDF or
+HTML, as an aid to creating technical documentation. Org-mode code
+blocks leverage existing Emacs source code editing modes for
+indentation, coloured syntax highlighting and other language-specific
+functionality.
+
+Additional markup is provided with wiki-like syntax, which can be
+applied to any piece of text.
+
+[What are examples of this?]
 
 ** Code and Data Block Extensions
     :PROPERTIES:
