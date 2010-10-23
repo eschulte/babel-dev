@@ -722,16 +722,15 @@ blocks.
 , #+end_src
 #+end_src
 
-#+begin_src org :exports code
-, #+Caption: Pascal's Triangle \label{pascals-triangle-tab}
-, #+results: pascals-triangle
-, | 1 |   |    |    |   |   |
-, | 1 | 1 |    |    |   |   |
-, | 1 | 2 |  1 |    |   |   |
-, | 1 | 3 |  3 |  1 |   |   |
-, | 1 | 4 |  6 |  4 | 1 |   |
-, | 1 | 5 | 10 | 10 | 5 | 1 |
-#+end_src
+#+Caption: Pascal's Triangle \label{pascals-triangle-tab}
+#+results: pascals-triangle
+| 1 |   |    |    |   |   |
+| 1 | 1 |    |    |   |   |
+| 1 | 2 |  1 |    |   |   |
+| 1 | 3 |  3 |  1 |   |   |
+| 1 | 4 |  6 |  4 | 1 |   |
+| 1 | 5 | 10 | 10 | 5 | 1 |
+
 
 *** Drawing Pascal's triangle
 # I feel like python is more popular than ruby, and would thus be a
@@ -1393,7 +1392,7 @@ turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :tangle yes
   (add-to-list 'org-export-latex-classes
                '("jss"
-                 "\\documentclass[article]{jss}"
+                 "\\documentclass[article,shortnames]{jss}"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
