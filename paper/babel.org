@@ -321,7 +321,7 @@ Nodes in the outline are single line headings identified by one or
 more asterisks at the beginning of the line.  The number of asterisks
 indicates the hierarchical level of the node, e.g.,
 
-#+begin_src org
+#+begin_src org :exports code
   ,* First heading
   ,    Some arbitrary text
   ,* Second heading
@@ -385,7 +385,7 @@ used to carry out computations in tables.  This feature is similar to
 spreadsheet applications, but Org-mode uses plain text to represent
 both data and formulas.
 
-#+begin_src org
+#+begin_src org :exports code
   ,| Name 1 | Name 2 | ... | Name N |
   ,|--------+--------+-----+--------|
   ,| Value  | ...    | ... | ...    |
@@ -429,7 +429,7 @@ this extension of Org-mode was named Babel.
 Data blocks that are preceded by a line that begins with =#+results:=,
 followed by a name unique within the document can be accessed by code
 blocks. These can be /tables/, /example blocks/, or /links/.
-#+begin_src org
+#+begin_src org :exports code
   ,#+results: tabular-data
   ,| 1 |  2 |
   ,| 2 |  3 |
@@ -447,7 +447,7 @@ blocks. These can be /tables/, /example blocks/, or /links/.
 Active code blocks are marked with a =#+srcname:= line, followed by a
 name unique within the document.  Such blocks are augmented by header
 aguments that control the way Org-mode handles evaluation and export.
-#+begin_src org
+#+begin_src org :exports code
   ,#+srcname: <name>
   ,#+begin_src <language> <header arguments>
   ,  <body>
@@ -458,7 +458,7 @@ aguments that control the way Org-mode handles evaluation and export.
 
 When a code block is evaluated, the captured output appears by default
 in the Org-mode buffer immediately following the code block, e.g.,
-#+begin_src org
+#+begin_src org :exports code
   ,#+begin_src ruby
   ,  require 'date'
   ,  "This was last evaluated on #{Date.today}"
@@ -518,35 +518,35 @@ code that yields different results depending on the value of the
 default, =:results value=, and returns a scalar.  In contrast, the
 same code yields a string when output is returned.
 
-#+begin_src org
-       ,#+begin_src perl
-       ,  $x = 8;
-       ,  $x = $x + 1;
-       ,  print "shouting into the dark!\n";
-       ,  $x
-       ,#+end_src
-       
-       ,#+results:
-       ,: 9
-
-
-       ,#+begin_src perl :results output
-       ,$x = 8;
-       ,$x = $x + 1;
-       ,print "shouting into the dark!\n";
-       ,$x
-       ,#+end_src
-
-       ,#+results:
-       ,: shouting into the dark!
-
+#+begin_src org :exports code
+  ,#+begin_src perl
+  ,  $x = 8;
+  ,  $x = $x + 1;
+  ,  print "shouting into the dark!\n";
+  ,  $x
+  ,#+end_src
+  
+  ,#+results:
+  ,: 9
+  
+  
+  ,#+begin_src perl :results output
+  ,$x = 8;
+  ,$x = $x + 1;
+  ,print "shouting into the dark!\n";
+  ,$x
+  ,#+end_src
+  
+  ,#+results:
+  ,: shouting into the dark!
+  
 #+end_src org
 
 In addition to scalar results, Org-mode recognizes vector results and
 inserts them as tables into the buffer as demonstrated in the
 following two blocks of Haskell code.
 
-#+begin_src org
+#+begin_src org :exports code
   ,#+begin_src haskell
   ,  [1, 2, 3, 4, 5]
   ,#+end_src
@@ -824,7 +824,7 @@ from within an Org-mode buffer.
 #+results:
 [[file:pascals-triangle.pdf]]
 
-#+begin_src org
+#+begin_src org :exports code
   ,#+source: ps-to-fig
   ,#+headers: :file pascals-triangle.pdf :exports none
   ,#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf
@@ -854,7 +854,7 @@ five diagonals, confirming that the implementation of Pascal's
 triangle is correct.
 
 #+source: ps-check
-#+begin_src emacs-lisp :var row='(1 2 1) :var n=0
+#+begin_src emacs-lisp :var row='(1 2 1) :var n=0 :exports code
   (defun fib (n)
     (if (<= n 2)
         1
@@ -866,7 +866,7 @@ triangle is correct.
       "fail"))
 #+end_src
 
-#+begin_src org
+#+begin_src org :exports code
   ,#+Caption: Pascal's Triangle (verified)
   ,#+results: pascals-triangle
   ,| 0 |    1 |    2 |    3 |    4 |    5 |
@@ -1000,7 +1000,7 @@ tools.  In this instance the base URL for the NOAA data and the name
 of the output file are specified in named =#+results= blocks.  These
 blocks are passed to the shell scripts.
 
-#+begin_src org
+#+begin_src org :exports code
   ,#+results: url-base
   ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
   
@@ -1054,7 +1054,7 @@ Org-mode buffer unwieldy.
 # TODO: Check TD's explanation of why sqlite was used, above.
 # TODO: I haven't plugged this into the pipeline yet.
 
-#+begin_src org
+#+begin_src org :exports code
   ,#+headers: :var temps=raw-temps
   ,#+headers: :var countries=country-codes[1:-1,0:1]
   ,#+begin_src sqlite :db climate.sqlite
@@ -1078,7 +1078,7 @@ variables persist in the =*R*= session after the code block exits, so
 they can be manipulated by other code blocks that refer to the =*R*=
 session. 
 
-#+begin_src org
+#+begin_src org :exports code
   ,#+headers: :var temps=raw-temps
   ,#+headers: :var countries=country-codes
   ,#+begin_src R :session *R*
@@ -1117,7 +1117,7 @@ temperatures at each station which has data throughout the period
 1880-1980, and plot a histogram of the fitted slopes parameters.  The
 figures are written to a pdf file for subsequent use.
 
-#+begin_src org
+#+begin_src org :exports code
   ,#+begin_src R :session *R* :file mean-temps.pdf
   ,  retain <- function(t)
   ,      t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
@@ -1152,7 +1152,7 @@ code blocks to a LaTeX file that can be processed in the usual way.
   There is a pronounced trend in the climate data (fig.~\ref{fig:climate-trend}).
   
   \begin{figure}[htb!]
-    % \includegraphic{mean-temps}
+    \includegraphic{mean-temps}
     \caption[Temperature trends]{Temperature trends for the century 1880--1980.}
     \label{fig:climate-trend}
   \end{figure}
