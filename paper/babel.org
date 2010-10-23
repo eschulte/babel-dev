@@ -154,7 +154,7 @@ approached from two different standpoints.
 We discuss each of these approaches in turn including a review of
 existing software tools that support each technique.
 
-** Literate Programming
+** Literate programming
 #+begin_quote
 Let us change our traditional attitude to the construction of
 programs: Instead of imagining that our main task is to instruct a
@@ -201,7 +201,7 @@ the execution of code from within documents.  Instead, code intended
 for execution is tangled and the resulting source code files are sent
 to a compiler or interpreter.
 
-** Reproducible Research
+** Reproducible research
 #+begin_quote
 An article about computational science in a scientific publication is
 *not* the scholarship itself, it is merely *advertising* of the
@@ -361,7 +361,7 @@ Because Emacs has been ported to a large number of operating systems
 Org-mode can be run on a wide variety of devices and its plain text
 documents are compatible between arbitrary platforms.
 
-*** Document Structure
+*** Document structure
 
 The fundamental structure of Org-mode documents is the outline,
 comprising a hierarchically arranged collection of nodes.  A
@@ -388,7 +388,7 @@ hierarchical outline structure can be folded at every node, making it
 possible to expose selected sections for quick access or to provide a
 structural overview of the document.
 
-*** Metadata on Nodes
+*** Metadata on nodes
 
 One of the primary design goals of Org-mode was to define a system
 that combines efficient note-taking and brainstorming with a task
@@ -425,7 +425,7 @@ average the properties inherited by a node.  Code blocks live in this
 hierarchy of content and metadata, all of which is accessible to and
 can be modified by the code.
 
-*** Special Document Content
+*** Special document content
 
 The text following a headline in an Org-mode document can be
 structured to represent various types of information, including
@@ -460,7 +460,7 @@ applied to any piece of text.
 
 [What are examples of this?]
 
-** Code and Data Block Extensions
+** Code and data block extensions
     :PROPERTIES:
     :CUSTOM_ID: code-blocks
     :END:
@@ -673,7 +673,7 @@ code file suitable for execution by a computer.
      Org-mode implements the =noweb= reference system using an
      identical syntax and functionality.
 
-** Language Support
+** Language support
     :PROPERTIES:
     :CUSTOM_ID: languages
     :END:
@@ -690,7 +690,7 @@ support for new languages can be added is evidenced by the fact that
 new language support is increasingly implemented by Org-mode users,
 rather than the original authors.
 
-** Safety Considerations
+** Safety considerations
 A reproducible research document, by definition, includes code that
 can be evaluated.  This potentially gives malicious hackers direct
 access to the reader's computer.  The primary defense in this instance
@@ -736,7 +736,7 @@ documents for long-term persistence of potentially large amounts of
 data, and the use of session-based evaluation for short term
 persistence of smaller amounts of data.
 
-** Data Flow -- Pascal's Triangle
+** Data flow --- Pascal's triangle
 # I think this is a terrific example (TD)
 Pascal's triangle is one name for a geometric arrangement of the
 binomial coefficients in a triangle.  The triangle has several
@@ -749,7 +749,7 @@ the example uses a property of the triangle to test the correctness of
 the implementation, using Emacs Lisp code blocks embedded in a tabular
 view of the triangle to test whether the property is satisfied.
 
-*** Calculating Pascal's Triangle
+*** Calculating Pascal's triangle
 The following Emacs Lisp source block calculates and returns the first
 five rows of Pascal's triangle.  Org-mode inserts the value returned
 by the Emacs Lisp function into the Org-mode document as a table named
@@ -782,7 +782,7 @@ blocks.
 | 1 | 4 |  6 |  4 | 1 |   |
 | 1 | 5 | 10 | 10 | 5 | 1 |
 
-*** Drawing Pascal's Triangle
+*** Drawing Pascal's triangle
 # I feel like python is more popular than ruby, and would thus be a
 # more motivating code for this example block, however I don't know
 # *any* python, and after a brief attempted python implementation I
@@ -926,7 +926,7 @@ triangle is correct.
 | 1 |    5 |   10 |   10 |    5 |    1 |
 #+TBLFM: @2$2='(sbe ps-check (row @3$1) (n @-1))::@2$3='(sbe ps-check (row @4$1) (n @-1))::@2$4='(sbe ps-check (row @5$1 @5$3) (n @-1))::@2$5='(sbe ps-check (row @6$1 @5$2) (n @-1))::@2$6='(sbe ps-check (row @7$1 @6$2 @5$3) (n @-1))
 
-** Literate Programming -- Cocktail Sort
+** Literate programming --- cocktail sort
 Cocktail Sort [fn:2] is a variation of Bubble Sort in which the
 direction of array traversal is alternated with each pass.  As a
 result of this difference Cocktail Sort is more efficient than bubble
@@ -1008,7 +1008,7 @@ it performs a swap.
 #+end_src
 
 
-** Reproducible Research -- Live Climate Data
+** Reproducible research --- live climate data
 By referencing external data, a work of Reproducible Research can
 remain up-to-date long after its initial composition and publication.
 This example demonstrates the ability of code blocks in an Org-mode
@@ -1177,7 +1177,7 @@ combined natural and computational language documents.
 - Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
 
-** Directions for Future Development
+** Directions for future development
    :PROPERTIES:
    :CUSTOM_ID: future-work
    :END:
