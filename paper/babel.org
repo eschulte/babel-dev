@@ -47,7 +47,7 @@ languages.  It supports multiple languages, export targets, and work
 flows.
 
 #+LaTeX: \begin{table*}
-#+ATTR_LaTeX: align=r|c|c|
+#+ATTR_LaTeX: align=r|c|c
 |             | prose                   | code                            |
 |-------------+-------------------------+---------------------------------|
 |             | natural document        | natural code authoring          |
@@ -57,7 +57,7 @@ flows.
 |             | automated publishing to | in-situ interactive execution   |
 | application | a variety of document   | as well as the tangling of code |
 |             | and slideshow formats   | for external use                |
-|-------------+-------------------------+---------------------------------|
+
 #+LaTeX: \caption{Org-mode enables both the application and composition of code and prose.}
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
