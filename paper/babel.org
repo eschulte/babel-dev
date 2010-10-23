@@ -1249,6 +1249,24 @@ code blocks in Org-mode allows for interactive development, and
 integration of test suites in a manner not supported in previous
 literate programming systems.
 
+Because Org-mode is distributed with Emacs, it is installed on very
+many computer systems and is widely used.  The Org-mode mailing list
+has more than 1,400 subscribers, and the list receives several dozen
+messages a day.  Although Org-mode is being actively developed, its
+core functions are mature and stable.  Org-mode users rely on it in
+production situations in diverse applications such as time tracking,
+project planning, research note-taking, programming, systems
+management, web site creation, technical documentation, presentation
+graphics, data analysis, and manuscript preparation for publication.
+A comprehensive user manual and various shorter summary documents
+are available in formats for print, computer terminal, and web
+browser.  The official web site, [[http://orgmode.org/]], is supplemented
+by Worg ([[http://orgmode.org/worg/]]), where users jointly edit and
+maintain documentation about Org-mode including the Org-mod FAQ and a
+wide variety of tutorials.  The literate programming and reproducible
+research facilities of Org-mode have their own section of Worg with
+information on supported languages, examples of common use scenarios,
+current developments.
 
 Perhaps here we should discuss the kinds of projects that Org-mode has
 been used to accomplish instead of the following two paragraphs?  I'm
