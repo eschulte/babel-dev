@@ -8,6 +8,18 @@
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{listings}
 #+LATEX_HEADER: \usepackage{thumbpdf}
+#+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Carsten Dominick, Thomas Dye}
+#+LATEX_HEADER: \Shorttitle{Mixed Language Computing}
+#+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
+#+LATEX_HEADER: \Address{Eric Schulte\\
+ Department of Computer Science\\
+ University of New Mexico\\
+ 1 University of New Mexico\\
+ Albuquerque, NM 87131\\
+ United States of America\\
+ E-mail: eschulte@cs.unm.edu\\
+ URL: http://cs.unm.edu/~eschulte/}
+
 #+LaTeX_CLASS: jss
 #+begin_latex
   \lstdefinelanguage{org}
@@ -1321,7 +1333,7 @@ this until there's an actual template for us to use.
   \small 1 University of New Mexico\\
   \small Albuquerque, NM 87131\\
   \small United States of America\\
-  \small eschulte@cs.unm.edu
+  \small E-mail: eschulte@cs.unm.edu
   \and
   Dan Davison\\
   \small Mathematical Genetics and Bioinformatics Group\\
@@ -1330,7 +1342,7 @@ this until there's an actual template for us to use.
   \small 1 South Parks Road\\
   \small Oxford OX1 3TG\\
   \small United Kingdom\\
-  \small dandavison7@gmail.com
+  \small E-mail: dandavison7@gmail.com
   \and
   Carsten Dominik\\
   \small Sterrenkundig Instituut "Anton Pannekoek"\\
@@ -1342,14 +1354,14 @@ this until there's an actual template for us to use.
   \small Radboud University Nijmegen, P.O. Box\\
   \small 9010, NL-6500 GL Nijmegen\\
   \small The Netherlands\\
-  \small email: dominik@uva.nl
+  \small E-mail: dominik@uva.nl
   \and
   Thomas S. Dye\\
   \small T. S. Dye \& Colleagues, Archaeologists, Inc.\\
   \small 735 Bishop St., Suite 315\\
   \small Honolulu, HI 96813\\
   \small United States of America\\
-  \small tsd@tsdye.com
+  \small E-mail: tsd@tsdye.com
   }
 #+end_src
 
