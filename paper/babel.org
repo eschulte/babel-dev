@@ -6,13 +6,12 @@
 #+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
-
 #+LATEX_HEADER: \usepackage{thumbpdf}
 #+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Carsten Dominick, Thomas Dye}
 #+LATEX_HEADER: \Shorttitle{Mixed Language Computing}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
-#+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/~eschulte/}
-#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, code extraction (tangling) permits functioning pure code files to be extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
+#+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
+#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, code extraction (tangling) permits functioning pure code files to be extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
 #+LaTeX_CLASS: jss
 
 * Introduction
@@ -402,10 +401,12 @@ blocks leverage existing Emacs source code editing modes for
 indentation, coloured syntax highlighting and other language-specific
 functionality.
 
-Additional markup is provided with wiki-like syntax, which can be
-applied to any piece of text.
-
-[What are examples of this?]
+# Additional markup is provided with wiki-like syntax, which can be
+# applied to any piece of text.
+# 
+# [What are examples of this?]
+#
+# [I removed this as I don't think it's necessary -- Eric]
 
 ** Code and data block extensions
     :PROPERTIES:
@@ -471,8 +472,8 @@ in the Org-mode buffer immediately following the code block, e.g.,
 By default, a code block is evaluated in a dedicated system process
 which does not persist after evaluation is complete. In addition, for
 several languages, evaluation may be performed in an interactive
-"session" which persists indefinitely. A good example is session-based
-evaluation of R code which uses R sessions provided by the Emacs
+"session" which persists indefinitely. For example session-based
+evaluation of R code uses R sessions provided by the Emacs
 Speaks Statistics (ESS) project \citep{ess}.  Thus, both the Org buffer
 and the language-specific session buffers may be used for sharing of
 functions and data structures between blocks. ESS successfully
@@ -572,10 +573,10 @@ Org-mode in the usual ways and can be opened from within the document
 and included in exports.
 
 Much more information about controlling the evaluation of code and the
-handling of code results is available in the Org-mode documentation.
+handling of code results is available in the Org-mode documentation
+(http://orgmode.org/manual/Working-With-Source-Code.html).
 
-# TODO: provide links to the website/manual/Worg
-# TODO: link to Org source for this paper and emphasise the fact
+# DONE: provide links to the website/manual/Worg
 
 *** Variables
 Org-mode implements a simple system of passing arguments to code
@@ -665,12 +666,12 @@ against unintended evaluation of code blocks.
    :CUSTOM_ID: examples
    :END:
 
-TODO: Make it so that all code and results are typeset verbatim, along
-with their header arguments and #+begin_src / #+results elements, as
-they appear in the Emacs buffer. Show the file link as well as the
-graphical output. This TODO applies to the Pascal's Triangle and
-Literate Programming examples (the RR example satisfies this
-already). (DD)
+# TODO: Make it so that all code and results are typeset verbatim, along
+# with their header arguments and #+begin_src / #+results elements, as
+# they appear in the Emacs buffer. Show the file link as well as the
+# graphical output. This TODO applies to the Pascal's Triangle and
+# Literate Programming examples (the RR example satisfies this
+# already). (DD)
 
 The following section demonstrates a number of common Org-mode usage
 patterns through short examples.  The first example highlights how
@@ -701,25 +702,35 @@ The following Emacs Lisp source block calculates and returns the first
 five rows of Pascal's triangle.  Org-mode inserts the value returned
 by the Emacs Lisp function into the Org-mode document as a table named
 =pascals-triangle=.  This table can be referenced by other code
-blocks.
+blocks.  The table is shown both in raw Org-mode syntax and in
+exported form (see Table \ref{pascals-triangle-tab}).
 #+begin_src org :exports code
-, #+source: pascals-triangle
-, #+begin_src emacs-lisp :var n=5 :exports both
-,   (defun pascals-triangle (n)
-,     (if (= n 0)
-,         (list (list 1))
-,       (let* ((prev-triangle (pascals-triangle
-,                              (- n 1)))
-,              (prev-row (car (reverse
-,                              prev-triangle))))
-,         (append
-,          prev-triangle
-,          (list (map 'list #'+
-,                     (append prev-row '(0))
-,                     (append '(0) prev-row)))))))
-,   
-,   (pascals-triangle n)
-, #+end_src
+  ,#+source: pascals-triangle
+  ,#+begin_src emacs-lisp :var n=5 :exports both
+  ,  (defun pascals-triangle (n)
+  ,    (if (= n 0)
+  ,        (list (list 1))
+  ,      (let* ((prev-triangle (pascals-triangle
+  ,                             (- n 1)))
+  ,             (prev-row (car (reverse
+  ,                             prev-triangle))))
+  ,        (append
+  ,         prev-triangle
+  ,         (list (map 'list #'+
+  ,                    (append prev-row '(0))
+  ,                    (append '(0) prev-row)))))))
+  ,  
+  ,  (pascals-triangle n)
+  ,#+end_src
+  ,
+  ,#+Caption: Pascal's Triangle \label{pascals-triangle-tab}
+  ,#+results: pascals-triangle
+  ,| 1 |   |    |    |   |   |
+  ,| 1 | 1 |    |    |   |   |
+  ,| 1 | 2 |  1 |    |   |   |
+  ,| 1 | 3 |  3 |  1 |   |   |
+  ,| 1 | 4 |  6 |  4 | 1 |   |
+  ,| 1 | 5 | 10 | 10 | 5 | 1 |
 #+end_src
 
 #+Caption: Pascal's Triangle \label{pascals-triangle-tab}
@@ -730,7 +741,6 @@ blocks.
 | 1 | 3 |  3 |  1 |   |   |
 | 1 | 4 |  6 |  4 | 1 |   |
 | 1 | 5 | 10 | 10 | 5 | 1 |
-
 
 *** Drawing Pascal's triangle
 # I feel like python is more popular than ruby, and would thus be a
@@ -744,12 +754,13 @@ The tabular view of Pascal's triangle can be illustrated using the
 to a block of code in the =ruby= language through the variable =ps=.
 Org-mode transforms the table into a =ruby= array, which the code
 block uses to construct strings of =dot= commands.  The strings of
-=dot= commands are returned without being inserted into the Org-mode
-buffer, as indicated by the =:exports code= header argument.
+=dot= commands are intended for use by a subsequent code block, and
+not for inclusion into the exported document, as indicated by the
+=:exports none= header argument.
 
 #+begin_src org :exports code
 , #+source: ps-to-dot
-, #+begin_src ruby :var ps=pascals-triangle :exports code
+, #+begin_src ruby :var ps=pascals-triangle :exports none
 ,   r_cnt = 0
 ,   c_cnt = 0
 ,   ps.map do |r|
@@ -802,18 +813,19 @@ buffer, as indicated by the =:exports code= header argument.
 , #+end_example
 #+end_src
 
-Instead, the value of the output is passed directly into a block of
+The output is passed directly into a block of
 =dot= code by assigning the name of the =ruby= code block to the
 variable =ps-vals=.  Passing the results of one code block to another
 in this way is called /chaining/; Org-mode places no limit on the
 number of code blocks that can be chained together.  Evaluation
 propagates backwards through chained code blocks.  In this example,
 the =:file= header argument causes the code block to save the image
-resulting from it's evaluation into a file named
+resulting from its evaluation into a file named
 =pascals-triangle.pdf=, and inserts a link to this image into the
 Org-mode buffer.  This link will then expand to include the contents
 of the image upon export -- it is also possible to view linked images
-from within an Org-mode buffer.
+from within an Org-mode buffer.  The link is shown both in Org-mode
+syntax and in exported form (see Figure \ref{pascals-triangle-fig}).
 
 # This doesn't run for me, I get an empty pdf file (TD)
 #
@@ -841,10 +853,13 @@ from within an Org-mode buffer.
   ,    $ps-vals
   ,  }
   ,#+end_src
+  
+  ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
+  ,[[file:pascals-triangle.pdf]]
 #+end_src
 #+LaTeX: %$
 
-#+Caption: Pascal's Triangle
+#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
 [[file:pascals-triangle.pdf]]
 
 *** Testing for correctness
@@ -856,7 +871,7 @@ the triangle is correct.  This can be done in many ways; here, it is
 done with a short block of Emacs Lisp code that takes a row of numbers
 and a number =n= and returns =pass= if the sum of the numbers in the
 row is equal the nth Fibonacci number and returns =fail= otherwise.
-With Org-mode, calls to this code block can be embedded into the
+Calls to this code block can be embedded into the
 tabular view of Pascal's triangle using spreadsheet style formulas.
 When the spreadsheet is calculated, it returns =pass= for each of the
 five diagonals, confirming that the implementation of Pascal's
@@ -899,16 +914,16 @@ triangle is correct.
 ** Literate programming --- cocktail sort
 Cocktail Sort [fn:2] is a variation of Bubble Sort in which the
 direction of array traversal is alternated with each pass.  As a
-result of this difference Cocktail Sort is more efficient than bubble
-sort for arrays with small elements located at the end of the array.
+result Cocktail Sort is more efficient than Bubble Sort for arrays
+with small elements located at the end of the array.
 
-The example produces a command line executable, =cocktail=, that will
-print out the sorted results.  This code block combines the three
-parts of the program: the standard C header for input/output; the
-implementation of the cocktail sort algorithm; and the command-line
-mechanism to accept input and return results.  These parts are tangled
-out to the file =cocktail.c=, as indicated by the =:tangle= header
-argument.
+The following example produces a command line executable, =cocktail=,
+that will print its arguments in sorted order.  The =cocktail.c= code
+block combines the three parts of the program: the standard C header
+for input/output; the implementation of the cocktail sort algorithm;
+and the command-line mechanism to accept input and return results.
+These parts are tangled out to the file =cocktail.c=, as indicated by
+the =:tangle= header argument.
 
 #+LATEX: % This doesn't export correctly  TD
 
@@ -943,12 +958,12 @@ command line and print the results.
 , #+end_src
 #+end_src
 
-The array is repeatedly traversed in alternating directions, swapping
-out-of-order elements.  The actual swapping of elements is handled by
-a =bubble= method, which sets the =swapped= flag when it swaps
-elements, but leaves the flag alone if the elements are already in
-sorted order.  This process continues until no more swaps have been
-made and the array is sorted.
+In the implementation of Cocktail Sort the array is repeatedly
+traversed in alternating directions, swapping out-of-order elements.
+The actual swapping of elements is handled by =swap=, which sets the
+=swapped= flag when it swaps elements, but leaves the flag alone if
+the elements are already in sorted order.  This process continues
+until no more swaps have been made and the array is sorted.
 
 #+begin_src org :exports code
 , #+source: cocktail-sort
@@ -960,24 +975,24 @@ made and the array is sorted.
 ,   
 ,     do {
 ,       for(i=0; i < (l-1); i++) {
-,         <<bubble>>
+,         <<swap>>
 ,       }
 ,       if ( swapped == 0 ) break;
 ,       swapped = 0;
 ,       for(i= l - 2; i >= 0; i--) {
-,         <<bubble>>
+,         <<swap>>
 ,       }
 ,     } while(swapped > 0);
 ,   }  
 , #+end_src
 #+end_src
 
-The =bubble= method performs conditional swapping of adjacent array
+The =swap= method performs conditional swapping of adjacent array
 elements that are not in sorted order.  It sets the =swapped= flag if
 it performs a swap.
 
 #+begin_src org :exports code
-, #+source: bubble
+, #+source: swap
 , #+begin_src C
 ,   if ( a[i] > a[i+1] ) {
 ,     int temp = a[i];
@@ -1162,39 +1177,40 @@ combined natural and computational language documents.
      qualities for software tools used for reproducible research.
 
 - Friendly active community :: The Org-mode community is extremely
-     friendly, which makes it easy for novices to get help on how to
-     use Org-mode, and for developers to discuss ideas on how to
-     improve and extend it.  Without this community the Babel project
-     (the part of Org-mode concerning literate programming and
-     evaluation of source code) would never have reached a useable
-     state.
+     friendly and provides ready support to both novice users with
+     basic questions and to developers seeking to extend Org-mode.
+     The development of the extensive facilities described herein
+     would not have been possible without this community.
 
-- General :: A leading drive in the design of Babel was pursuit of
-     generality.  As a result, it displays no reproducible research or
-     literate programming bias.  Babel supports arbitrary programming
-     languages, and Org-mode exports to a wide variety of file types,
-     including ASCII, LaTeX, HTML, and DocBook.
+- General :: A main design goal of Org-mode's support for working with
+     source code was pursuit of generality.  As a result, it displays
+     no reproducible research or literate programming bias, supports
+     arbitrary programming languages, and exports to a wide variety of
+     file types, including ASCII, LaTeX, HTML, and DocBook.
 
 - Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
 
-** Directions for future development
+** COMMENT Directions for future development
    :PROPERTIES:
    :CUSTOM_ID: future-work
    :END:
 
-These items indicate a number of paths for future work, either for
-further development of Org-mode, or for a future tool of this type.
+# This sections doesn't seem to add to the paper, thoughts? -- Eric
 
-- editor agnostic :: Babel was developed within the rich framework of
-     Emacs and Org-mode, which made the idea of Babel possible in the
-     first place.  Now that Babel is developed, however, the tie to a
-     single editing environment, even one as completely configurable
-     as Emacs, means that Babel is less general than it might be.  It
-     seems that it would be possible for future tools of this nature
-     to provide code evaluation and exportation as a service which
-     could be called from any number of editors.  Such a structure
-     would raise a number of challenging implementation issues.
+There are a number of avenues for further development of Org-mode, or
+for a future tool of this type.
+
+- editor agnostic :: These  was developed within the rich framework
+     of Emacs and Org-mode, which made the idea of Babel possible in
+     the first place.  Now that Babel is developed, however, the tie
+     to a single editing environment, even one as completely
+     configurable as Emacs, means that Babel is less general than it
+     might be.  It seems that it would be possible for future tools of
+     this nature to provide code evaluation and exportation as a
+     service which could be called from any number of editors.  Such a
+     structure would raise a number of challenging implementation
+     issues.
 
 - virtual machine :: Org-mode allows heterogeneous programming
      environments to share data by dropping all shared values to the
@@ -1212,74 +1228,79 @@ This leaves dangling the question of whether and why asynchronous
 evaluation is useful.  TD
 
 ** Conclusion
-Org-mode simultaneously satisfies the software requirements of
-reproducible research and literate programming; it is in effect both a
-/compendium/ and a /web/.  The Org-mode environment, used in
-combination with a suitable version control tool, satisfies the
-requirements for authoring, auxiliary, transformation, quality control
-and distribution software set out by Gentleman and Temple Lang in
-their formulation of a compendium.  In addition, Org-mode already
-accomplishes three of the four goals of their "future work", namely
-support for /multiple languages/, /conditional chunks/ (where "chunks"
-are blocks of text or code), and /interactivity/, which refers to
-Org-mode's ability to execute code from within the authoring
-environment.
+# I'm commenting this out for now, perhaps some fo this discussion
+# should be included in the conclusion, but for now I feel that the
+# last two paragraphs of this section are a sufficient conclusion --
+# Eric
 
-What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
+# Org-mode simultaneously satisfies the software requirements of
+# reproducible research and literate programming; it is in effect both a
+# /compendium/ and a /web/.  The Org-mode environment, used in
+# combination with a suitable version control tool, satisfies the
+# requirements for authoring, auxiliary, transformation, quality control
+# and distribution software set out by Gentleman and Temple Lang in
+# their formulation of a compendium.  In addition, Org-mode already
+# accomplishes three of the four goals of their "future work", namely
+# support for /multiple languages/, /conditional chunks/ (where "chunks"
+# are blocks of text or code), and /interactivity/, which refers to
+# Org-mode's ability to execute code from within the authoring
+# environment.
 
-#+begin_quote
-    Metadata Inclusion of programmatically accessible meta-information
-    in documents facilitates both richer interactions and better
-    descriptions of the content. Many scientific documents contain
-    keywords as part of the text. Making these explicitly available
-    to cataloging and indexing software as programmatically
-    extractable elements of the dynamic document will facilitate
-    richer distribution services. Since dynamic documents are
-    software, licensing also becomes pertinent. One may wish to
-    restrict evaluation or access to data within the compendium. This
-    can be done with meta-information such as license key matching or
-    explicit code within the document to verify authorization. Another
-    use of meta-information is the inclusion of digital signatures
-    which can be used to verify the origin and legitimacy of the
-    compendium.
-#+end_quote
+# What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
 
-I probably don't understand this fully, but it seems to me that it
-would be possible to provide "programmatically accessible
-meta-information."  I implemented a simple OAI interface to my web
-site many years ago--that mostly involved understanding the metadata
-structure known as the Dublin core used by librarians.  TD
+# #+begin_quote
+#     Metadata Inclusion of programmatically accessible meta-information
+#     in documents facilitates both richer interactions and better
+#     descriptions of the content. Many scientific documents contain
+#     keywords as part of the text. Making these explicitly available
+#     to cataloging and indexing software as programmatically
+#     extractable elements of the dynamic document will facilitate
+#     richer distribution services. Since dynamic documents are
+#     software, licensing also becomes pertinent. One may wish to
+#     restrict evaluation or access to data within the compendium. This
+#     can be done with meta-information such as license key matching or
+#     explicit code within the document to verify authorization. Another
+#     use of meta-information is the inclusion of digital signatures
+#     which can be used to verify the origin and legitimacy of the
+#     compendium.
+# #+end_quote
 
-Org-mode is a full featured /web/ tool.  It supports both /tangling/
-and /weaving/ of code, as well as a sophisticated code block reference
-system along the lines of =noweb=.  Additionally the executability of
-code blocks in Org-mode allows for interactive development, and
-integration of test suites in a manner not supported in previous
-literate programming systems.
+# I probably don't understand this fully, but it seems to me that it
+# would be possible to provide "programmatically accessible
+# meta-information."  I implemented a simple OAI interface to my web
+# site many years ago--that mostly involved understanding the metadata
+# structure known as the Dublin core used by librarians.  TD
 
-Because Org-mode is distributed with Emacs, it is installed on very
-many computer systems and is widely used.  The Org-mode mailing list
-has more than 1,400 subscribers, and the list receives several dozen
-messages a day.  Although Org-mode is being actively developed, its
-core functions are mature and stable.  Org-mode users rely on it in
-production situations in diverse applications such as time tracking,
-project planning, research note-taking, programming, systems
-management, web site creation, technical documentation, presentation
-graphics, data analysis, and manuscript preparation for publication.
-A comprehensive user manual and various shorter summary documents
-are available in formats for print, computer terminal, and web
-browser.  The official web site, [[http://orgmode.org/]], is supplemented
-by Worg ([[http://orgmode.org/worg/]]), where users jointly edit and
-maintain documentation about Org-mode including the Org-mod FAQ and a
-wide variety of tutorials.  The literate programming and reproducible
-research facilities of Org-mode have their own section of Worg with
-information on supported languages, examples of common use scenarios,
-current developments.
+# Org-mode is a full featured /web/ tool.  It supports both /tangling/
+# and /weaving/ of code, as well as a sophisticated code block reference
+# system along the lines of =noweb=.  Additionally the executability of
+# code blocks in Org-mode allows for interactive development, and
+# integration of test suites in a manner not supported in previous
+# literate programming systems.
 
-Perhaps here we should discuss the kinds of projects that Org-mode has
-been used to accomplish instead of the following two paragraphs?  I'm
-a bit concerned that "ease of use" contradicts the "complex
-configuration" problems discussed above.  TD
+# Because Org-mode is distributed with Emacs, it is installed on very
+# many computer systems and is widely used.  The Org-mode mailing list
+# has more than 1,400 subscribers, and the list receives several dozen
+# messages a day.  Although Org-mode is being actively developed, its
+# core functions are mature and stable.  Org-mode users rely on it in
+# production situations in diverse applications such as time tracking,
+# project planning, research note-taking, programming, systems
+# management, web site creation, technical documentation, presentation
+# graphics, data analysis, and manuscript preparation for publication.
+# A comprehensive user manual and various shorter summary documents
+# are available in formats for print, computer terminal, and web
+# browser.  The official web site, [[http://orgmode.org/]], is supplemented
+# by Worg ([[http://orgmode.org/worg/]]), where users jointly edit and
+# maintain documentation about Org-mode including the Org-mod FAQ and a
+# wide variety of tutorials.  The literate programming and reproducible
+# research facilities of Org-mode have their own section of Worg with
+# information on supported languages, examples of common use scenarios,
+# current developments.
+
+# Perhaps here we should discuss the kinds of projects that Org-mode has
+# been used to accomplish instead of the following two paragraphs?  I'm
+# a bit concerned that "ease of use" contradicts the "complex
+# configuration" problems discussed above.  TD
 
 Through making it possible to adopt literate programming and
 reproducible research practices while retaining a familiar editing
@@ -1381,6 +1402,16 @@ turn on the listings package, and define the =twocolumn= latex class
   (add-hook 'org-export-latex-final-hook
             (lambda ()
               (replace-regexp "’" "'")))
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+                (replace-regexp
+                 "href{David==Gillespie==1990,==\\[\\[http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}\]\]"
+                 "href{David Gillespie 1990, http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}")))
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (re-search-forward (regexp-quote "file:pascals-triangle.pdf"))
+              (forward-line -1)
+              (insert "\n#+Caption: Pascal's Triangle \label{pascals-triangle-fig}")))
   
   ;; export the bodies of org-mode blocks
   (setq org-babel-default-header-args:org
@@ -1406,8 +1437,9 @@ turn on the listings package, and define the =twocolumn= latex class
   (setq org-export-latex-listings nil)
   (setq org-export-latex-verbatim-wrap
         '("\\begin{Code}\n" . "\\end{Code}\n"))
-
 #+end_src
+
+#+results: jss
 
 * COMMENT Conflicts with JSS style
 #+begin_latex
@@ -1459,4 +1491,5 @@ turn on the listings package, and define the =twocolumn= latex class
 
 [fn:2] This implementation of Cocktail Sort is adapted from
 http://rosettacode.org/.
+
 
