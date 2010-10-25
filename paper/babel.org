@@ -69,17 +69,17 @@ work is ensured. Org-mode encourages the practices of Reproducible Research and
 Literate Programming by greatly reducing the burden
 on the author.
 
-We start by reviewing existing approaches to the combined authoring of prose
-and code, including software tools designed to address one or more of
-the use cases for mixed natural and computer language documents
-(Section \ref{background}).  We then describe the design of Org-mode
-(Section \ref{design}), and demonstrate its usage through three
-short examples (Section \ref{examples}).  We conclude with a
+We start by reviewing existing approaches to the combined authoring of
+prose and code, including software tools designed to address one or
+more of the use cases for mixed natural and computer language
+documents (Section \ref{background}).  We then describe the design of
+Org-mode (Section \ref{design}), and demonstrate its usage through
+three short examples (Section \ref{examples}).  We conclude with a
 discussion of why we believe Org-mode constitutes a uniquely
 productive environment for authoring mixed prose and code projects
-(Section \ref{points-for}), as well as some limits of the current
-implementation and directions for future work (Section
-\ref{future-work}).
+(Section \ref{discussion}).  This document is itself exported from an
+Org-mode file which is made available online in raw Org-mode syntax
+with executable examples [fn:5].
 
 * Background
   :PROPERTIES:
@@ -378,11 +378,10 @@ structured to represent various types of information, including
 vectors, matrices, source code, and arbitrary pieces of text.  Vector
 and matrix data are represented as tables where the columns are marked
 by vertical bars and rows are optionally separated by dashed lines as
-shown in the following example.  The Emacs calculator, /calc/ ([[David
-Gillespie 1990, http://www.gnu.org/software/emacs/calc.html]]), can be
-used to carry out computations in tables.  This feature is similar to
-spreadsheet applications, but Org-mode uses plain text to represent
-both data and formulas.
+shown in the following example.  The Emacs calculator, /calc/ [fn:3],
+can be used to carry out computations in tables.  This feature is
+similar to spreadsheet applications, but Org-mode uses plain text to
+represent both data and formulas.
 
 #+begin_src org :exports code
   ,| Name 1 | Name 2 | ... | Name N |
@@ -418,7 +417,8 @@ syntax of Org-mode code blocks was extended to facilitate evaluation.
 The results of source code evaluation are written to the document as
 Org-mode constructs, allowing for code and data blocks to interact
 through a simple but powerful variable passing system. Historically,
-this extension of Org-mode was named Babel.
+this extension of Org-mode has been referred to as "Babel" or
+"Org-Babel".
 
 *** Syntax
     :PROPERTIES:
@@ -598,8 +598,7 @@ Org-mode in the usual ways and can be opened from within the document
 and included in exports.
 
 Much more information about controlling the evaluation of code and the
-handling of code results is available in the Org-mode documentation
-(http://orgmode.org/manual/Working-With-Source-Code.html).
+handling of code results is available in the Org-mode documentation [fn:4].
 
 # DONE: provide links to the website/manual/Worg
 
@@ -1259,7 +1258,7 @@ the =*R-climate*= session.
 This pulls the average june temperature in America per year out of the
 database.
 #+source: june-in-america
-#+begin_src sqlite :db climate.sqlite
+#+begin_src sqlite :db climate.sqlite :exports none
   select temps.year, avg(temps.jun)
          from temps, countries
          where countries.code=temps.country
@@ -1269,7 +1268,7 @@ database.
 #+end_src
 
 This plots the average June temperatures in America.
-#+begin_src gnuplot
+#+begin_src gnuplot :exports none
   plot "/tmp/america"
 #+end_src
 
@@ -1313,7 +1312,7 @@ code blocks to a LaTeX file that can be processed in the usual way.
 
 * Discussion
   :PROPERTIES:
-  :CUSTOM_ID: conclusion
+  :CUSTOM_ID: discussion
   :END:
 ** Strengths
    :PROPERTIES:
@@ -1567,11 +1566,11 @@ turn on the listings package, and define the =twocolumn= latex class
   (add-hook 'org-export-latex-final-hook
             (lambda ()
               (replace-regexp "’" "'")))
-  (add-hook 'org-export-latex-final-hook
-            (lambda ()
-                (replace-regexp
-                 "href{David==Gillespie==1990,==\\[\\[http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}\]\]"
-                 "href{David Gillespie 1990, http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}")))
+  ;; (add-hook 'org-export-latex-final-hook
+  ;;           (lambda ()
+  ;;               (replace-regexp
+  ;;                "href{David==Gillespie==1990,==\\[\\[http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}\]\]"
+  ;;                "href{David Gillespie 1990, http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}")))
   (add-hook 'org-export-latex-final-hook
             (lambda ()
               (re-search-forward (regexp-quote "file:pascals-triangle.pdf"))
@@ -1657,4 +1656,9 @@ turn on the listings package, and define the =twocolumn= latex class
 [fn:2] This implementation of Cocktail Sort is adapted from
 http://rosettacode.org/.
 
+[fn:3] David Gillespie 1990,
+http://www.gnu.org/software/emacs/calc.html
 
+[fn:4] http://orgmode.org/manual/Working-With-Source-Code.html
+
+[fn:5] I agree we should do this, possibly along with an HTML export
