@@ -1314,20 +1314,30 @@ code blocks to a LaTeX file that can be processed in the usual way.
   :PROPERTIES:
   :CUSTOM_ID: discussion
   :END:
-** Strengths
-   :PROPERTIES:
-   :CUSTOM_ID: points-for
-   :END:
 
-Org-mode has several features that make it a productive tool for composing
-combined natural and computational language documents.
+There are several features of Org-mode which are crucial for any tool
+which hopes to be used by a community of researchers and developers.
+We will highlight these points here.
 
 - Open source :: Org-mode is /open source/, which means its inner
      workings are publicly visible, and its copyright is owned by the
-     Free Software Foundation \citep{fsf}, which means that Org-mode,
-     and any work deriving from Org-mode, will always be fully open to
-     public scrutiny and modification.  These are *essential*
-     qualities for software tools used for reproducible research.
+     Free Software Foundation \citep{fsf}.  This ensures that
+     Org-mode, and any work deriving from Org-mode, will always be
+     fully open to public scrutiny and modification.  These are
+     *essential* qualities for software tools used for reproducible
+     research.  The transparency required for computational results to
+     be accepted by the scientific community can only be achieved when
+     the workings of each tool in the scientists tool chain is open to
+     inspection and verification.
+
+- Widely Available :: Software used in reproducible research should be
+     readily available and easily installable by readers.  Org-mode is
+     freely available and as of the next major release of Emacs
+     (version 24) Org-mode including all of the facilities discussed
+     herein will be included in the Emacs core.  Emacs is one of the
+     most widely ported non-trivial programs in existence, making the
+     instillation and use of Org-mode possible on an extremely wide
+     variety of user systems.
 
 - Friendly active community :: The Org-mode community is extremely
      friendly and provides ready support to both novice users with
@@ -1335,14 +1345,119 @@ combined natural and computational language documents.
      The development of the extensive facilities described herein
      would not have been possible without this community.
 
-- General :: A main design goal of Org-mode's support for working with
-     source code was pursuit of generality.  As a result, it displays
-     no reproducible research or literate programming bias, supports
-     arbitrary programming languages, and exports to a wide variety of
-     file types, including ASCII, LaTeX, HTML, and DocBook.
+- General and Extensible :: A main design goal of Org-mode's support
+     for working with source code was pursuit of generality.  As a
+     result, it displays no reproducible research or literate
+     programming bias, supports arbitrary programming languages, and
+     exports to a wide variety of file types, including ASCII, LaTeX,
+     HTML, and DocBook.  When asking researchers or software
+     developers to learn a new tool or platform it is important that
+     the tool be able to adopt to new languages or modes of
+     development.
 
 - Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
+
+Through making it possible to adopt literate programming and
+reproducible research practices while retaining a familiar editing
+environment, Org-mode significantly lowers the barrier of entry for
+both of these techniques.  Through encouraging all stages of the
+research and development cycle to take place within a single document
+Org-mode ensures that the code, data, and text relevant to a project
+will be collocated, reducing the burden on the author of compiling
+such pieces after the fact.  Difficulty of use and adoption has served
+as a major barrier to previous literate programming and reproducible
+research systems.  We believe that with its ease of adoption, familiar
+environment, and universal applicability across programming languages,
+Org-mode represents a significant, qualitative advance in literate
+programming and reproducible research tools.
+
+As such we believe Org-mode has the potential to significantly
+increase the widespread expectation that all computational projects
+include /both/ code and prose; code should be accompanied by
+explanatory prose, and any discussion of computational experimental
+results should include the relevant code and data.  It is the authors'
+hope that this work will ultimately help both software developers and
+scientists to communicate and to make their work more accessible.
+
+#+begin_LaTeX
+    \bibliography{babel}
+#+end_LaTeX
+
+** COMMENT Conclusion
+# I'm commenting this out for now, I've included one of the points
+# above, perhaps some other parts of this discussion should be
+# included in the conclusion, but for now I feel that the shorter
+# conclusion above may be sufficient -- Eric
+
+Org-mode simultaneously satisfies the software requirements of
+reproducible research and literate programming; it is in effect both a
+/compendium/ and a /web/.  The Org-mode environment, used in
+combination with a suitable version control tool, satisfies the
+requirements for authoring, auxiliary, transformation, quality control
+and distribution software set out by Gentleman and Temple Lang in
+their formulation of a compendium.  In addition, Org-mode already
+accomplishes three of the four goals of their "future work", namely
+support for /multiple languages/, /conditional chunks/ (where "chunks"
+are blocks of text or code), and /interactivity/, which refers to
+Org-mode's ability to execute code from within the authoring
+environment.
+
+What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
+
+#+begin_quote
+    Metadata Inclusion of programmatically accessible meta-information
+    in documents facilitates both richer interactions and better
+    descriptions of the content. Many scientific documents contain
+    keywords as part of the text. Making these explicitly available
+    to cataloging and indexing software as programmatically
+    extractable elements of the dynamic document will facilitate
+    richer distribution services. Since dynamic documents are
+    software, licensing also becomes pertinent. One may wish to
+    restrict evaluation or access to data within the compendium. This
+    can be done with meta-information such as license key matching or
+    explicit code within the document to verify authorization. Another
+    use of meta-information is the inclusion of digital signatures
+    which can be used to verify the origin and legitimacy of the
+    compendium.
+#+end_quote
+
+I probably don't understand this fully, but it seems to me that it
+would be possible to provide "programmatically accessible
+meta-information."  I implemented a simple OAI interface to my web
+site many years ago--that mostly involved understanding the metadata
+structure known as the Dublin core used by librarians.  TD
+
+Org-mode is a full featured /web/ tool.  It supports both /tangling/
+and /weaving/ of code, as well as a sophisticated code block reference
+system along the lines of =noweb=.  Additionally the executability of
+code blocks in Org-mode allows for interactive development, and
+integration of test suites in a manner not supported in previous
+literate programming systems.
+
+Because Org-mode is distributed with Emacs, it is installed on very
+many computer systems and is widely used.  The Org-mode mailing list
+has more than 1,400 subscribers, and the list receives several dozen
+messages a day.  Although Org-mode is being actively developed, its
+core functions are mature and stable.  Org-mode users rely on it in
+production situations in diverse applications such as time tracking,
+project planning, research note-taking, programming, systems
+management, web site creation, technical documentation, presentation
+graphics, data analysis, and manuscript preparation for publication.
+A comprehensive user manual and various shorter summary documents
+are available in formats for print, computer terminal, and web
+browser.  The official web site, [[http://orgmode.org/]], is supplemented
+by Worg ([[http://orgmode.org/worg/]]), where users jointly edit and
+maintain documentation about Org-mode including the Org-mod FAQ and a
+wide variety of tutorials.  The literate programming and reproducible
+research facilities of Org-mode have their own section of Worg with
+information on supported languages, examples of common use scenarios,
+current developments.
+
+Perhaps here we should discuss the kinds of projects that Org-mode has
+been used to accomplish instead of the following two paragraphs?  I'm
+a bit concerned that "ease of use" contradicts the "complex
+configuration" problems discussed above.  TD
 
 ** COMMENT Directions for future development
    :PROPERTIES:
@@ -1379,107 +1494,6 @@ for a future tool of this type.
 
 This leaves dangling the question of whether and why asynchronous
 evaluation is useful.  TD
-
-** Conclusion
-# I'm commenting this out for now, perhaps some fo this discussion
-# should be included in the conclusion, but for now I feel that the
-# last two paragraphs of this section are a sufficient conclusion --
-# Eric
-
-# Org-mode simultaneously satisfies the software requirements of
-# reproducible research and literate programming; it is in effect both a
-# /compendium/ and a /web/.  The Org-mode environment, used in
-# combination with a suitable version control tool, satisfies the
-# requirements for authoring, auxiliary, transformation, quality control
-# and distribution software set out by Gentleman and Temple Lang in
-# their formulation of a compendium.  In addition, Org-mode already
-# accomplishes three of the four goals of their "future work", namely
-# support for /multiple languages/, /conditional chunks/ (where "chunks"
-# are blocks of text or code), and /interactivity/, which refers to
-# Org-mode's ability to execute code from within the authoring
-# environment.
-
-# What is the fourth goal that Org-mode doesn't accomplish?  Here it is:
-
-# #+begin_quote
-#     Metadata Inclusion of programmatically accessible meta-information
-#     in documents facilitates both richer interactions and better
-#     descriptions of the content. Many scientific documents contain
-#     keywords as part of the text. Making these explicitly available
-#     to cataloging and indexing software as programmatically
-#     extractable elements of the dynamic document will facilitate
-#     richer distribution services. Since dynamic documents are
-#     software, licensing also becomes pertinent. One may wish to
-#     restrict evaluation or access to data within the compendium. This
-#     can be done with meta-information such as license key matching or
-#     explicit code within the document to verify authorization. Another
-#     use of meta-information is the inclusion of digital signatures
-#     which can be used to verify the origin and legitimacy of the
-#     compendium.
-# #+end_quote
-
-# I probably don't understand this fully, but it seems to me that it
-# would be possible to provide "programmatically accessible
-# meta-information."  I implemented a simple OAI interface to my web
-# site many years ago--that mostly involved understanding the metadata
-# structure known as the Dublin core used by librarians.  TD
-
-# Org-mode is a full featured /web/ tool.  It supports both /tangling/
-# and /weaving/ of code, as well as a sophisticated code block reference
-# system along the lines of =noweb=.  Additionally the executability of
-# code blocks in Org-mode allows for interactive development, and
-# integration of test suites in a manner not supported in previous
-# literate programming systems.
-
-# Because Org-mode is distributed with Emacs, it is installed on very
-# many computer systems and is widely used.  The Org-mode mailing list
-# has more than 1,400 subscribers, and the list receives several dozen
-# messages a day.  Although Org-mode is being actively developed, its
-# core functions are mature and stable.  Org-mode users rely on it in
-# production situations in diverse applications such as time tracking,
-# project planning, research note-taking, programming, systems
-# management, web site creation, technical documentation, presentation
-# graphics, data analysis, and manuscript preparation for publication.
-# A comprehensive user manual and various shorter summary documents
-# are available in formats for print, computer terminal, and web
-# browser.  The official web site, [[http://orgmode.org/]], is supplemented
-# by Worg ([[http://orgmode.org/worg/]]), where users jointly edit and
-# maintain documentation about Org-mode including the Org-mod FAQ and a
-# wide variety of tutorials.  The literate programming and reproducible
-# research facilities of Org-mode have their own section of Worg with
-# information on supported languages, examples of common use scenarios,
-# current developments.
-
-# Perhaps here we should discuss the kinds of projects that Org-mode has
-# been used to accomplish instead of the following two paragraphs?  I'm
-# a bit concerned that "ease of use" contradicts the "complex
-# configuration" problems discussed above.  TD
-
-Through making it possible to adopt literate programming and
-reproducible research practices while retaining a familiar editing
-environment, Org-mode significantly lowers the barrier of entry for
-both of these techniques.  Through encouraging all stages of the
-research and development cycle to take place within a single document
-Org-mode ensures that the code, data, and text relevant to a project
-will be collocated, reducing the burden on the author of compiling
-such pieces after the fact.  Difficulty of use and adoption has served
-as a major barrier to previous literate programming and reproducible
-research systems.  We believe that with its ease of adoption, familiar
-environment, and universal applicability across programming languages,
-Org-mode represents a significant, qualitative advance in literate
-programming and reproducible research tools.
-
-As such we believe Org-mode has the potential to significantly
-increase the widespread expectation that all computational projects
-include /both/ code and prose; code should be accompanied by
-explanatory prose, and any discussion of computational experimental
-results should include the relevant code and data.  It is the authors'
-hope that this work will ultimately help both software developers and
-scientists to communicate and to make their work more accessible.
-
-#+begin_LaTeX
-    \bibliography{babel}
-#+end_LaTeX
 
 * Acknowledgements
 TODO
