@@ -1005,9 +1005,7 @@ the =:tangle= header argument.
   ,#+source: cocktail.c
   ,#+begin_src C :noweb tangle :tangle cocktail.c
   ,  #include <stdio.h>
-  
   ,  <<cocktail-sort>>
-  
   ,  <<main>>
   ,#+end_src
 #+end_src
@@ -1144,12 +1142,11 @@ propagate a full local workspace with the data used in the document.
 This example references climate change data from the US National
 Oceanic and Atmospheric Administration (NOAA).
 
-# TODO Two code blocks or one?  TD
-The first two code blocks fetch and parse data from NOAA then write
-the data to file using shell scripts that call a variety of *nix
-tools.  In this instance the base URL for the NOAA data and the name
-of the output file are specified in named =#+results= blocks.  These
-blocks are passed to the shell scripts.
+# DONE Two code blocks or one?  TD: Two, which is now more clean -- Eric
+The first two code blocks fetch and parse data from NOAA using shell
+scripts that call a variety of *nix tools.  In this instance the base
+URL for the NOAA data and the name of the output file are specified in
+named =#+results= blocks.
 
 #+begin_src org :exports code
   ,#+results: url-base
@@ -1163,9 +1160,9 @@ blocks are passed to the shell scripts.
   ,#+begin_src sh  :cache yes :exports none
   ,  curl $base$file \
   ,      |gunzip \
-  ,      |sed 's/-9999/ -9999/g' \
-  ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 \2 ,' \
-  ,      |cut -d , -f 1,3-15
+  ,      |sed 's/-9999/ NULL/g' \
+  ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 ,' \
+  ,      |sed 's/ \+/,/g'
   ,#+end_src
   
   ,#+results: country-code-file
@@ -1175,7 +1172,7 @@ blocks are passed to the shell scripts.
   ,#+headers: :var base=url-base
   ,#+begin_src sh :cache yes :exports none
   ,  curl $base$file |sed 's/ *$//' \
-  ,      |sed 's/ \(.*\)$/,\1/'
+  ,      |sed 's/ \+/,/g'
   ,#+end_src
 #+end_src
  
@@ -1184,26 +1181,26 @@ blocks are passed to the shell scripts.
 #+begin_src sh  :cache yes :exports none
   curl $base$file \
       |gunzip \
-      |sed 's/-9999/ -9999/g' \
-      |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 \2 ,' \
-      |cut -d , -f 1,3-15
+      |sed 's/-9999/ NULL/g' \
+      |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 ,' \
+      |sed 's/ \+/,/g'
 #+end_src
 
 #+source: country-codes
 #+headers: :var base=url-base
 #+begin_src sh :cache yes :exports none
   curl $base$file |sed 's/ *$//' \
-      |sed 's/ \(.*\)$/,\1/'
+      |sed 's/ \+/,/g'
 #+end_src
 
-Next, the output of the first two blocks is cross referenced and used
-to create a local sqlite database of the data.  The choice to store
-the data in the sqlite database, instead of the Org-mode buffer, was
-made because the data are potentially very large, which could make the
-Org-mode buffer unwieldy.
+These first two blocks are called by a third code block in which their
+output is used to create a local database of the combined climate
+data.  In the case of very large data it may be preferable to use an
+external store like a database rather than storing the data as plain
+text in the Org-mode buffer.
 
-# TODO: Check TD's explanation of why sqlite was used, above.
-# TODO: I haven't plugged this into the pipeline yet.
+# DONE: Check TD's explanation of why sqlite was used, above.
+# DONE: I haven't plugged this into the pipeline yet.
 
 #+begin_src org :exports code
   ,#+headers: :var temps=raw-temps
@@ -1229,47 +1226,50 @@ Org-mode buffer unwieldy.
   .import $countries countries
 #+end_src
 
-# DONE It might be useful to name the session something like =foo= to
-# get across the point that session naming is arbitrary TD
-
-Data from the sqlite database are read into R where they are used to
-initialize local variables inside of a /session/ named =*R-climate*=.
-Note that in Org-mode the session can take an arbitrary name.  The
-variables persist in the =*R-climate*= session after the code block
-exits, so they can be manipulated by other code blocks that refer to
-the =*R-climate*= session.
+The =temps-by-year= code block reads data from the sqlite database
+which is used by the =R-init= code block to initialize local variables
+inside of a /session/ named =*R-climate*=.  Note that in Org-mode the
+session can take an arbitrary name.  The variables persist in the
+=*R-climate*= session after the code block exits, so they can be
+manipulated by other code blocks that refer to the =*R-climate*=
+session.
 
 #+begin_src org :exports code
-  ,#+headers: :var temps=raw-temps
-  ,#+headers: :var countries=country-codes
+  ,#+source: temps-by-year
+  ,#+begin_src sqlite :db climate.sqlite
+  ,  select temps.year, avg(temps.jan + temps.feb + temps.mar +
+  ,                temps.apr + temps.may + temps.jun +
+  ,                temps.jul + temps.aug + temps.sep +
+  ,                temps.oct + temps.nov + temps.dec)
+  ,         from temps, countries
+  ,         where countries.code=temps.country
+  ,               and countries.name='UNITED STATES OF AMERICA'
+  ,         group by temps.year;
+  ,#+end_src
+  ,
+  ,#+source: R-init
+  ,#+headers: :var data=temps-by-year
   ,#+begin_src R :session *R-climate*
-  ,  temps <- read.table(datafile, as.is=TRUE)
-  ,  months <- c("Jan","Feb","Mar","Apr",
-  ,              "May","Jun","Jul","Aug",
-  ,              "Sep","Oct","Nov","Dec")
-  ,  colnames(temps) <- c("CountryCode","Station",
-  ,                       "Year", months)
-  ,  temps.split <- split(temps,
-  ,                       temps[c("CountryCode", "Station")],
-  ,                       drop=TRUE)
+  ,  plot(data)
   ,#+end_src
 #+end_src
 
-This pulls the average june temperature in America per year out of the
-database.
-#+source: june-in-america
+#+source: temps-by-year
 #+begin_src sqlite :db climate.sqlite :exports none
-  select temps.year, avg(temps.jun)
+  select temps.year, avg(temps.jan + temps.feb + temps.mar +
+                temps.apr + temps.may + temps.jun +
+                temps.jul + temps.aug + temps.sep +
+                temps.oct + temps.nov + temps.dec)
          from temps, countries
          where countries.code=temps.country
                and countries.name='UNITED STATES OF AMERICA'
-               and temps.jun!=-9999
          group by temps.year;
 #+end_src
 
-This plots the average June temperatures in America.
-#+begin_src gnuplot :exports none
-  plot "/tmp/america"
+#+source: R-init
+#+headers: :var data=temps-by-year
+#+begin_src R :exports none :results silent
+  plot(data)
 #+end_src
 
 Finally the persistent variables in the =*R-climate*= session are used
@@ -1279,6 +1279,7 @@ period 1880-1980, and plot a histogram of the fitted slopes
 parameters.  The figures are written to a pdf file for subsequent use.
 
 #+begin_src org :exports code
+  ,#+source: R-graph
   ,#+begin_src R :session *R-climate* :file mean-temps.pdf
   ,  retain <- function(t)
   ,      t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
@@ -1301,7 +1302,7 @@ code blocks to a LaTeX file that can be processed in the usual way.
 , #+source: latex-eg
 , #+begin_src latex :tangle temperature.tex
 ,   There is a pronounced trend in the climate data (fig.~\ref{fig:climate-trend}).
-  
+,
 ,   \begin{figure}[htb!]
 ,     \includegraphic{mean-temps}
 ,     \caption[Temperature trends]{Temperature trends for the century 1880--1980.}
@@ -1558,6 +1559,185 @@ paper.
 
 #+results: country-code-file
 : v2.slp.country.codes
+
+#+results: temps-by-year
+| 1829 |            262.0 |
+| 1835 |          1221.25 |
+| 1836 | 853.515151515152 |
+| 1837 | 1116.71428571429 |
+| 1838 |           1173.0 |
+| 1839 | 1164.51612903226 |
+| 1840 | 1189.57142857143 |
+| 1841 | 1175.05714285714 |
+| 1842 | 1197.33333333333 |
+| 1843 | 1148.63414634146 |
+| 1844 | 1218.30952380952 |
+| 1845 |          1188.45 |
+| 1846 | 1277.13888888889 |
+| 1847 | 1215.70588235294 |
+| 1848 | 1166.30303030303 |
+| 1849 | 1137.05128205128 |
+| 1850 | 1309.66666666667 |
+| 1851 | 1233.95652173913 |
+| 1852 | 1283.16666666667 |
+| 1853 | 1297.18918918919 |
+| 1854 | 1354.85714285714 |
+| 1855 | 1250.75471698113 |
+| 1856 | 1151.61904761905 |
+| 1857 | 1073.86111111111 |
+| 1858 | 1290.50704225352 |
+| 1859 | 1190.98507462687 |
+| 1860 | 1311.38461538462 |
+| 1861 | 1016.30158730159 |
+| 1862 | 1146.22222222222 |
+| 1863 | 1081.27586206897 |
+| 1864 | 1062.78787878788 |
+| 1865 |       1150.59375 |
+| 1866 | 987.071428571429 |
+| 1867 | 1151.75324675325 |
+| 1868 |  1105.3023255814 |
+| 1869 | 1040.91304347826 |
+| 1870 | 1193.03539823009 |
+| 1871 |  1211.7264957265 |
+| 1872 | 1105.96825396825 |
+| 1873 |  1171.1935483871 |
+| 1874 | 1178.17213114754 |
+| 1875 | 1151.54471544715 |
+| 1876 | 1217.83870967742 |
+| 1877 | 1248.13821138211 |
+| 1878 |  1345.1679389313 |
+| 1879 | 1278.69117647059 |
+| 1880 | 1291.01459854015 |
+| 1881 | 1269.30555555556 |
+| 1882 | 1234.41052631579 |
+| 1883 | 1220.45454545455 |
+| 1884 | 1155.39516129032 |
+| 1885 | 1151.84586466165 |
+| 1886 | 1207.79715302491 |
+| 1887 | 1204.78145695364 |
+| 1888 | 1135.92307692308 |
+| 1889 | 1189.72330097087 |
+| 1890 | 1251.14583333333 |
+| 1891 | 1179.72577319588 |
+| 1892 | 1168.91360294118 |
+| 1893 | 1142.46434494196 |
+| 1894 | 1269.74960876369 |
+| 1895 | 1166.04202898551 |
+| 1896 | 1284.46870653686 |
+| 1897 | 1256.13981358189 |
+| 1898 | 1241.75902061856 |
+| 1899 |        1207.6275 |
+| 1900 | 1293.91414752116 |
+| 1901 | 1239.71666666667 |
+| 1902 | 1269.01754385965 |
+| 1903 | 1189.63697857948 |
+| 1904 | 1185.06182212581 |
+| 1905 | 1228.84673097535 |
+| 1906 | 1269.71175858481 |
+| 1907 | 1216.71931589537 |
+| 1908 | 1291.77308447937 |
+| 1909 | 1242.45411089866 |
+| 1910 |  1281.7880794702 |
+| 1911 | 1299.82439926063 |
+| 1912 | 1188.94606946984 |
+| 1913 | 1284.10062893082 |
+| 1914 |  1287.1865008881 |
+| 1915 | 1273.61355633803 |
+| 1916 | 1210.14433880726 |
+| 1917 | 1135.75955819881 |
+| 1918 | 1259.37583892617 |
+| 1919 | 1253.26210350584 |
+| 1920 | 1191.55223880597 |
+| 1921 | 1379.76796036334 |
+| 1922 | 1277.18189300412 |
+| 1923 | 1257.31203931204 |
+| 1924 | 1178.31479967294 |
+| 1925 |  1292.5402112104 |
+| 1926 | 1264.49351701783 |
+| 1927 | 1280.21872477805 |
+| 1928 | 1269.93130990415 |
+| 1929 | 1207.81463802705 |
+| 1930 | 1282.44250594766 |
+| 1931 |  1399.4937007874 |
+| 1932 | 1273.48629600626 |
+| 1933 | 1338.80594679186 |
+| 1934 | 1397.46540880503 |
+| 1935 | 1281.42733699921 |
+| 1936 | 1293.94053208138 |
+| 1937 |  1267.0977326036 |
+| 1938 | 1371.08522283034 |
+| 1939 |    1365.48828125 |
+| 1940 | 1272.91256830601 |
+| 1941 | 1338.88280647648 |
+| 1942 | 1270.81297709924 |
+| 1943 | 1263.00918133129 |
+| 1944 | 1268.60899390244 |
+| 1945 | 1242.74388379205 |
+| 1946 | 1320.60229007634 |
+| 1947 | 1254.55098934551 |
+| 1948 | 1219.38502269289 |
+| 1949 | 1259.87471698113 |
+| 1950 | 1198.57390648567 |
+| 1951 | 1187.45929798357 |
+| 1952 | 1266.04182225541 |
+| 1953 |   1332.533632287 |
+| 1954 | 1305.88789237668 |
+| 1955 | 1219.34206586826 |
+| 1956 |  1240.3335832084 |
+| 1957 | 1258.90820895522 |
+| 1958 | 1227.83183856502 |
+| 1959 | 1241.74571215511 |
+| 1960 | 1204.14029850746 |
+| 1961 | 1220.71001494768 |
+| 1962 | 1225.58445440957 |
+| 1963 | 1242.80657206871 |
+| 1964 | 1216.43146067416 |
+| 1965 | 1215.91847419596 |
+| 1966 | 1195.15943113772 |
+| 1967 | 1221.43871449925 |
+| 1968 | 1200.59012715034 |
+| 1969 | 1205.64771877337 |
+| 1970 | 1223.32432432432 |
+| 1971 | 1211.97889977393 |
+| 1972 | 1176.85402558315 |
+| 1973 | 1248.94511278195 |
+| 1974 | 1238.62141779789 |
+| 1975 | 1203.70090634441 |
+| 1976 | 1193.40271493213 |
+| 1977 |  1267.9418429003 |
+| 1978 | 1174.13650075415 |
+| 1979 | 1166.82766439909 |
+| 1980 | 1246.21498864497 |
+| 1981 | 1295.98639455782 |
+| 1982 | 1211.67513471901 |
+| 1983 | 1248.40153846154 |
+| 1984 | 1248.37374517375 |
+| 1985 |  1208.1716937355 |
+| 1986 | 1326.70962732919 |
+| 1987 |   1337.576625387 |
+| 1988 | 1288.80945003873 |
+| 1989 | 1234.63403263403 |
+| 1990 | 1347.65571205008 |
+| 1991 |  1382.8961038961 |
+| 1992 | 1333.82906688687 |
+| 1993 | 1261.20646766169 |
+| 1994 |  1338.9165971643 |
+| 1995 | 1329.00758853288 |
+| 1996 |  1262.3852739726 |
+| 1997 |       1313.21875 |
+| 1998 | 1436.98960138648 |
+| 1999 | 1377.69391304348 |
+| 2000 |  1322.9763986014 |
+| 2001 | 1353.86167400881 |
+| 2002 |   1338.047829938 |
+| 2003 | 1308.97857142857 |
+| 2004 | 1300.95784753363 |
+| 2005 | 1324.35164835165 |
+| 2006 | 113.926944971537 |
+| 2007 |           498.75 |
+| 2008 | 365.083333333333 |
+| 2009 | 436.333333333333 |
+| 2010 | 499.583333333333 |
 
 * COMMENT publish
 turn on the listings package, and define the =twocolumn= latex class
