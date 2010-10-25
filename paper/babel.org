@@ -816,31 +816,6 @@ not for inclusion into the exported document, as indicated by the
   ,    end.join("\n")
   ,  end.join("\n")
   ,#+end_src
-  ,
-  ,#+results: ps-to-dot
-  ,#+begin_example
-  ,      "1_1" [label="1"];
-  ,      "2_1" [label="1"]; "1_1"--"2_1";
-  ,      "2_2" [label="1"];"1_1"--"2_2";
-  ,      "3_1" [label="1"]; "2_1"--"3_1";
-  ,      "3_2" [label="2"];"2_1"--"3_2"; "2_2"--"3_2";
-  ,      "3_3" [label="1"];"2_2"--"3_3";
-  ,      "4_1" [label="1"]; "3_1"--"4_1";
-  ,      "4_2" [label="3"];"3_1"--"4_2"; "3_2"--"4_2";
-  ,      "4_3" [label="3"];"3_2"--"4_3"; "3_3"--"4_3";
-  ,      "4_4" [label="1"];"3_3"--"4_4";
-  ,      "5_1" [label="1"]; "4_1"--"5_1";
-  ,      "5_2" [label="4"];"4_1"--"5_2"; "4_2"--"5_2";
-  ,      "5_3" [label="6"];"4_2"--"5_3"; "4_3"--"5_3";
-  ,      "5_4" [label="4"];"4_3"--"5_4"; "4_4"--"5_4";
-  ,      "5_5" [label="1"];"4_4"--"5_5";
-  ,      "6_1" [label="1"]; "5_1"--"6_1";
-  ,      "6_2" [label="5"];"5_1"--"6_2"; "5_2"--"6_2";
-  ,      "6_3" [label="10"];"5_2"--"6_3"; "5_3"--"6_3";
-  ,      "6_4" [label="10"];"5_3"--"6_4"; "5_4"--"6_4";
-  ,      "6_5" [label="5"];"5_4"--"6_5"; "5_5"--"6_5";
-  ,      "6_6" [label="1"];"5_5"--"6_6";
-  ,#+end_example
 #+end_src
 
 #+source: ps-to-dot
@@ -893,9 +868,6 @@ syntax and in exported form (see Figure \ref{pascals-triangle-fig}).
   ,#+end_src
 #+end_src
 
-#+results:
-[[file:pascals-triangle.pdf]]
-
 #+source: ps-to-fig
 #+headers: :file pascals-triangle.pdf :cmdline -Tpdf
 #+begin_src dot :var ps-vals=ps-to-dot :exports none
@@ -912,7 +884,7 @@ syntax and in exported form (see Figure \ref{pascals-triangle-fig}).
   ,    $ps-vals
   ,  }
   ,#+end_src
-  
+  ,
   ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
   ,[[file:pascals-triangle.pdf]]
 #+end_src
@@ -1142,7 +1114,6 @@ propagate a full local workspace with the data used in the document.
 This example references climate change data from the US National
 Oceanic and Atmospheric Administration (NOAA).
 
-# DONE Two code blocks or one?  TD: Two, which is now more clean -- Eric
 The first two code blocks fetch and parse data from NOAA using shell
 scripts that call a variety of *nix tools.  In this instance the base
 URL for the NOAA data and the name of the output file are specified in
@@ -1198,9 +1169,6 @@ output is used to create a local database of the combined climate
 data.  In the case of very large data it may be preferable to use an
 external store like a database rather than storing the data as plain
 text in the Org-mode buffer.
-
-# DONE: Check TD's explanation of why sqlite was used, above.
-# DONE: I haven't plugged this into the pipeline yet.
 
 #+begin_src org :exports code
   ,#+headers: :var temps=raw-temps
@@ -1276,7 +1244,8 @@ Finally the persistent variables in the =*R-climate*= session are used
 to generate figures from the climate data. Here we fit a straight line
 to the July temperatures at each station which has data throughout the
 period 1880-1980, and plot a histogram of the fitted slopes
-parameters.  The figures are written to a pdf file for subsequent use.
+parameters.  The figures are written to a pdf file for incorporation
+into the exported document (see Figure \ref{rig:climate-trend}).
 
 #+begin_src org :exports code
   ,#+source: R-graph
@@ -1289,27 +1258,15 @@ parameters.  The figures are written to a pdf file for subsequent use.
   ,  slopes <- sapply(filtered, fit.july.slope)
   ,  hist(slopes)
   ,#+end_src
+  
+  ,#+Caption: Temperature trends for the century 1880--1980. \label{fig:climate-trend}
+  ,#+results: R-graph
+  ,[[file:mean-temps.pdf]]
 #+end_src
 
-#+results:
+#+Caption: Temperature trends for the century 1880--1980. \label{fig:climate-trend}
+#+results: R-graph
 [[file:mean-temps.pdf]]
-
-The following LaTeX code block summarizes the analysis and presents
-the figures.  The code block is set up to tangle with other source
-code blocks to a LaTeX file that can be processed in the usual way.
-
-#+begin_src org :exports code
-, #+source: latex-eg
-, #+begin_src latex :tangle temperature.tex
-,   There is a pronounced trend in the climate data (fig.~\ref{fig:climate-trend}).
-,
-,   \begin{figure}[htb!]
-,     \includegraphic{mean-temps}
-,     \caption[Temperature trends]{Temperature trends for the century 1880--1980.}
-,     \label{fig:climate-trend}
-,   \end{figure}
-, #+end_src
-#+end_src 
 
 * Discussion
   :PROPERTIES:
@@ -1740,6 +1697,29 @@ paper.
 | 2010 | 499.583333333333 |
 
 * COMMENT publish
+** Org-mode LaTeX export to JSS
+#+source: jss
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'org-export-latex-classes
+               '("jss"
+                 "\\documentclass[article,shortnames]{jss}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;; replace nasty single-quotes returned by R
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (replace-regexp "’" "'")))
+  ;; JSS has its own code formatting style
+  (setq org-export-latex-listings nil)
+  (setq org-export-latex-verbatim-wrap
+        '("\\begin{Code}\n" . "\\end{Code}\n"))
+#+end_src
+
+#+results: jss
+** Original publishing setup
 turn on the listings package, and define the =twocolumn= latex class
 #+begin_src emacs-lisp :results silent
   (require 'org-latex)
@@ -1775,29 +1755,6 @@ turn on the listings package, and define the =twocolumn= latex class
   (setq org-babel-default-header-args:org
         '((:results . "raw silent")))
 #+end_src
-
-** Org-mode LaTeX export to JSS
-#+source: jss
-#+begin_src emacs-lisp :tangle yes
-  (add-to-list 'org-export-latex-classes
-               '("jss"
-                 "\\documentclass[article,shortnames]{jss}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  ;; replace nasty single-quotes returned by R
-  (add-hook 'org-export-latex-final-hook
-            (lambda ()
-              (replace-regexp "’" "'")))
-  ;; JSS has its own code formatting style
-  (setq org-export-latex-listings nil)
-  (setq org-export-latex-verbatim-wrap
-        '("\\begin{Code}\n" . "\\end{Code}\n"))
-#+end_src
-
-#+results: jss
 
 * COMMENT Conflicts with JSS style
 #+begin_latex
@@ -1840,7 +1797,6 @@ turn on the listings package, and define the =twocolumn= latex class
     xleftmargin=.23in
   }
 #+end_latex
-
 
 * Footnotes
 
