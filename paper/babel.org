@@ -922,8 +922,8 @@ syntax and in exported form (see Figure \ref{pascals-triangle-fig}).
 [[file:pascals-triangle.pdf]]
 
 #+source: ps-to-fig
-#+headers: :file pascals-triangle.pdf :exports none
-#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf
+#+headers: :file pascals-triangle.pdf :cmdline -Tpdf
+#+begin_src dot :var ps-vals=ps-to-dot :exports none
   graph {
     $ps-vals
   }
