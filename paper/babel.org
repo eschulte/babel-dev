@@ -1272,7 +1272,7 @@ for a community of researchers and developers.  These include:
      (version 24) Org-mode including all of the facilities discussed
      herein will be included in the Emacs core.  Emacs is one of the
      most widely ported non-trivial programs in existence, making the
-     instillation and use of Org-mode possible on an extremely wide
+     installation and use of Org-mode possible on an extremely wide
      variety of user systems.
 
 - Friendly active community :: The Org-mode community is extremely
