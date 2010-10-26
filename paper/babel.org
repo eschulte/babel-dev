@@ -1,4 +1,4 @@
-# -*- mode: org, org-export-latex-listings: t org-export-latex-image-default-option: "width=0.4\\textwidth" -*-
+# -*- mode: org -*-
 #+TITLE: A Computing Environment for Mixed Natural and Computer Language Documents /DRAFT/
 #+AUTHOR: Eric Schulte\\University of New Mexico \And Dan Davison\\University of Oxford \AND Thomas Dye\\University of Hawai`i \AND Carsten Dominik\\University of Amsterdam and Radboud University Nijmegen
 #+OPTIONS: ^:nil toc:nil H:4
@@ -1701,15 +1701,47 @@ paper.
               (insert "\n#+Caption: Pascal's Triangle \\label{pascals-triangle-fig}")))
   (add-hook 'org-export-latex-final-hook
             (lambda ()
+              (goto-char (point-min))
               (re-search-forward (regexp-quote "results: R-graph"))
               (forward-line -1)
               (insert "\n#+Caption: Temperature trends for the century 1880--1980. \\label{fig:climate-trend}
   ,#+ATTR_LaTeX: width=0.7\\textwidth")))
+  
+  (setq jstatsoft-langs
+        (list
+         "org-mode" "emacs-lisp" "ruby" "haskell"
+         "perl" "python" "R" "sqlite" "dot" "C"))
+  
+  (defun in-code-section ()
+    (interactive)
+    (save-match-data
+      (let ((begin-re (regexp-quote "\\begin{Code}"))
+            (end-re (regexp-quote "\\end{Code}"))
+            bp1 ep1 bp2 ep2)
+        (setq bp1 (save-excursion (re-search-backward begin-re nil t)))
+        (setq ep1 (save-excursion (re-search-backward end-re nil t)))
+        (setq bp2 (save-excursion (re-search-forward begin-re nil t)))
+        (setq ep2 (save-excursion (re-search-forward end-re nil t)))
+        (and bp1 (not (and ep1 (< bp1 ep1)))
+             ep2 (not (and bp2 (> ep2 bp2)))))))
+  
+  (defun do-lang-replace ()
+    (goto-char (point-min))
+    (while (re-search-forward
+            (concat "[\n\r\t ]"
+                    (regexp-opt jstatsoft-langs t)
+                    "[\n\r\t ]")
+            nil t)
+      (unless (in-code-section)
+        (replace-match "\\\\proglang{\\1}" nil nil nil 1))))
+  
+  ;; \proglang{} macro
+  (add-hook 'org-export-latex-final-hook 'do-lang-replace)
   ;; JSS has its own code formatting style
   (setq org-export-latex-listings nil)
   (setq org-export-latex-verbatim-wrap
         '("\\begin{Code}\n" . "\\end{Code}\n"))
-  nil
+  '()
 #+end_src
 
 #+results: jss
