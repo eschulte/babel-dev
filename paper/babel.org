@@ -573,7 +573,7 @@ following two blocks of Haskell code.
   ,| 1 | 2 | 3 | 4 | 5 |
   
   ,#+begin_src haskell
-  ,  zip [1..] (map (\ x -> x + 1) [1, 2, 3])
+  ,  zip [1..] (map (+1) [1, 2, 3])
   ,#+end_src
   
   ,#+results:
@@ -587,7 +587,7 @@ following two blocks of Haskell code.
 #+end_src
 
 #+begin_src haskell :exports none
-  zip [1..] (map (\ x -> x + 1) [1, 2, 3])
+  zip [1..] (map (+1) [1, 2, 3])
 #+end_src
 
 When the result of evaluating a code block is a file, such as an
@@ -733,10 +733,8 @@ blocks.
   ,  (defun pascals-triangle (n)
   ,    (if (= n 0)
   ,        (list (list 1))
-  ,      (let* ((prev-triangle (pascals-triangle
-  ,                             (- n 1)))
-  ,             (prev-row (car (reverse
-  ,                             prev-triangle))))
+  ,      (let* ((prev-triangle (pascals-triangle (- n 1)))
+  ,             (prev-row (car (reverse prev-triangle))))
   ,        (append
   ,         prev-triangle
   ,         (list (map 'list #'+
@@ -761,10 +759,8 @@ blocks.
   (defun pascals-triangle (n)
     (if (= n 0)
         (list (list 1))
-      (let* ((prev-triangle (pascals-triangle
-                             (- n 1)))
-             (prev-row (car (reverse
-                             prev-triangle))))
+      (let* ((prev-triangle (pascals-triangle (- n 1)))
+             (prev-row (car (reverse prev-triangle))))
         (append
          prev-triangle
          (list (map 'list #'+
@@ -801,16 +797,13 @@ not for inclusion into the exported document, as indicated by the
   ,    r.select{|x| x.size > 0}.map do |x|
   ,      c_cnt += 1
   ,      # node
-  ,      r = ("\t\"#{r_cnt}_#{c_cnt}\" "+
-  ,           "[label=\"#{x}\"];")
+  ,      r = ("\t\"#{r_cnt}_#{c_cnt}\" [label=\"#{x}\"];")
   ,      # edges
   ,      if (c_cnt > 1)
-  ,        r = r+("\"#{r_cnt-1}_#{c_cnt-1}\""+
-  ,               "--\"#{r_cnt}_#{c_cnt}\";")
+  ,        r = r+("\"#{r_cnt-1}_#{c_cnt-1}\"--\"#{r_cnt}_#{c_cnt}\";")
   ,      end
   ,      unless (c_cnt == r_cnt)
-  ,        r = r+(" \"#{r_cnt-1}_#{c_cnt}\""+
-  ,               "--\"#{r_cnt}_#{c_cnt}\";")
+  ,        r = r+(" \"#{r_cnt-1}_#{c_cnt}\"--\"#{r_cnt}_#{c_cnt}\";")
   ,      end
   ,      r
   ,    end.join("\n")
@@ -828,16 +821,13 @@ not for inclusion into the exported document, as indicated by the
     r.select{|x| x.size > 0}.map do |x|
       c_cnt += 1
       # node
-      r = ("\t\"#{r_cnt}_#{c_cnt}\" "+
-           "[label=\"#{x}\"];")
+      r = ("\t\"#{r_cnt}_#{c_cnt}\" [label=\"#{x}\"];")
       # edges
       if (c_cnt > 1)
-        r = r+("\"#{r_cnt-1}_#{c_cnt-1}\""+
-               "--\"#{r_cnt}_#{c_cnt}\";")
+        r = r+("\"#{r_cnt-1}_#{c_cnt-1}\"--\"#{r_cnt}_#{c_cnt}\";")
       end
       unless (c_cnt == r_cnt)
-        r = r+(" \"#{r_cnt-1}_#{c_cnt}\""+
-               "--\"#{r_cnt}_#{c_cnt}\";")
+        r = r+(" \"#{r_cnt-1}_#{c_cnt}\"--\"#{r_cnt}_#{c_cnt}\";")
       end
       r
     end.join("\n")
@@ -950,7 +940,7 @@ triangle is correct.
     (if (<= n 2)
         1
       (+ (fib (- n 1)) (fib (- n 2)))))
- 
+   
   (let ((row (if (listp row) row (list row))))
     (if (= (fib n) (reduce #'+ row))
         "pass"
@@ -985,9 +975,7 @@ the =:tangle= header argument.
 #+source: cocktail.c
 #+begin_src C :noweb tangle :tangle cocktail.c yes :exports none
   #include <stdio.h>
-
   <<cocktail-sort>>
-
   <<main>>
 #+end_src
 
@@ -1273,6 +1261,7 @@ into the exported document (Figure \ref{fig:climate-trend}).
 #+end_src
 
 #+Caption: Temperature trends for the century 1880--1980. \label{fig:climate-trend}
+#+ATTR_LaTeX: width=0.5\textwidth
 #+results: R-graph
 [[file:mean-temps.pdf]]
 
