@@ -1108,11 +1108,17 @@ This example demonstrates the ability of code blocks in an Org-mode
 document to reference external data, to construct and use local stores
 of data outside the document, and to maintain persistent state in
 external sessions, all in an automated fashion.  This allows each
-reader of the document to update the document with recent data, and to
+reader of the document to update the document with up-to-date data, and to
 propagate a full local workspace with the data used in the document.
 
 This example references climate change data from the US National
-Oceanic and Atmospheric Administration (NOAA).
+Oceanic and Atmospheric Administration (NOAA).  It is implemented with
+command-line tools commonly available on Unix-like systems, the sqlite
+database, and R.  These software choices were made because one or more
+of the authors currently uses these applications in an Org-mode
+workflow.  It is worth pointing out, however, that at each step of the
+way alternatives exist, one or more of which might substantially
+simplify the example for any particular user.  
 
 The first two code blocks fetch and parse data from NOAA using shell
 scripts that call a variety of *nix tools.  In this instance the base
