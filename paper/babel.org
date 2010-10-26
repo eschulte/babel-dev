@@ -744,7 +744,6 @@ blocks.
   ,  (pascals-triangle n)
   ,#+end_src
   
-  ,#+Caption: Pascal's Triangle \label{pascals-triangle-tab}
   ,#+results: pascals-triangle
   ,| 1 |   |    |    |   |   |
   ,| 1 | 1 |    |    |   |   |
@@ -920,7 +919,6 @@ triangle is correct.
   ,      "fail"))
   ,#+end_src
   ,
-  ,#+Caption: Pascal's Triangle (verified)
   ,#+results: pascals-triangle
   ,| 0 |    1 |    2 |    3 |    4 |    5 |
   ,|---+------+------+------+------+------|
@@ -960,8 +958,6 @@ for input/output; the implementation of the cocktail sort algorithm;
 and the command-line mechanism to accept input and return results.
 These parts are tangled out to the file =cocktail.c=, as indicated by
 the =:tangle= header argument.
-
-#+LATEX: % This doesn't export correctly  TD
 
 #+begin_src org :exports code
   ,#+source: cocktail.c
@@ -1102,61 +1098,46 @@ propagate a full local workspace with the data used in the document.
 This example references climate change data from the US National
 Oceanic and Atmospheric Administration (NOAA).  It is implemented with
 command-line tools commonly available on Unix-like systems, the sqlite
-database, and R.  These software choices were made because one or more
-of the authors currently uses these applications in an Org-mode
-workflow.  It is worth pointing out, however, that at each step of the
-way alternatives exist, one or more of which might substantially
-simplify the example for any particular user.  
+database, and R.  These software choices were made to highlight the
+use of popular data processing tools from within Org-mode.  It is
+worth pointing out, however, that at each step of the way alternatives
+exist, one or more of which might substantially simplify the example
+for any particular user.
 
 The first two code blocks fetch and parse data from NOAA using shell
-scripts that call a variety of *nix tools.  In this instance the base
-URL for the NOAA data and the name of the output file are specified in
-named =#+results= blocks.
+scripts that call a variety of command-line tools.
 
 #+begin_src org :exports code
-  ,#+results: url-base
-  ,: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/
-  , 
-  ,#+results: raw-temps-file
-  ,: v2.mean_adj.Z
-  , 
   ,#+source: raw-temps
-  ,#+headers: :var base=url-base
   ,#+begin_src sh  :cache yes :exports none
-  ,  curl $base$file \
+  ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
   ,      |gunzip \
   ,      |sed 's/-9999/ NULL/g' \
   ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 ,' \
   ,      |sed 's/ \+/,/g'
   ,#+end_src
   
-  ,#+results: country-code-file
-  ,: v2.slp.country.codes
-  
   ,#+source: country-codes
-  ,#+headers: :var base=url-base
   ,#+begin_src sh :cache yes :exports none
-  ,  curl $base$file |sed 's/ *$//' \
+  ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
+  ,      |sed 's/ *$//' \
   ,      |sed 's/ \+/,/g'
   ,#+end_src
 #+end_src
  
 #+source: raw-temps
-#+headers: :var base=url-base
 #+begin_src sh  :cache yes :exports none
-  curl $base$file \
+  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
       |sed 's/-9999/ NULL/g' \
       |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 ,' \
       |sed 's/ \+/,/g'
 #+end_src
 
-#+results[6a300237ec9adc565f638dc1feab9465c77699d9]: raw-temps
-
 #+source: country-codes
-#+headers: :var base=url-base
 #+begin_src sh :cache yes :exports none
-  curl $base$file |sed 's/ *$//' \
+  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
+      |sed 's/ *$//' \
       |sed 's/ \+/,/g'
 #+end_src
 
@@ -1214,7 +1195,7 @@ session.
   ,#+source: R-init
   ,#+headers: :var data=temps-by-year
   ,#+begin_src R :session *R-climate*
-  ,  plot(data)
+  ,  # TODO: This needs to be updated to connect R-graph to the sqlite DB
   ,#+end_src
 #+end_src
 
@@ -1233,7 +1214,7 @@ session.
 #+source: R-init
 #+headers: :var data=temps-by-year
 #+begin_src R :exports none :results silent
-  plot(data)
+  # TODO: This needs to be updated to connect R-graph to the sqlite DB
 #+end_src
 
 Finally the persistent variables in the =*R-climate*= session are used
@@ -1256,12 +1237,13 @@ into the exported document (Figure \ref{fig:climate-trend}).
   ,#+end_src
   
   ,#+Caption: Temperature trends for the century 1880--1980. \label{fig:climate-trend}
+  ,#+ATTR_LaTeX: width=0.7\textwidth
   ,#+results: R-graph
   ,[[file:mean-temps.pdf]]
 #+end_src
 
 #+Caption: Temperature trends for the century 1880--1980. \label{fig:climate-trend}
-#+ATTR_LaTeX: width=0.5\textwidth
+#+ATTR_LaTeX: width=0.7\textwidth
 #+results: R-graph
 [[file:mean-temps.pdf]]
 
@@ -1710,10 +1692,23 @@ paper.
   (add-hook 'org-export-latex-final-hook
             (lambda ()
               (replace-regexp "’" "'")))
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (goto-char (point-min))
+              (re-search-forward (regexp-quote "[[file:pascals-triangle.pdf]]"))
+              (forward-line -1)
+              (insert "\n#+Caption: Pascal's Triangle \\label{pascals-triangle-fig}")))
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (re-search-forward (regexp-quote "results: R-graph"))
+              (forward-line -1)
+              (insert "\n#+Caption: Temperature trends for the century 1880--1980. \\label{fig:climate-trend}
+  ,#+ATTR_LaTeX: width=0.7\\textwidth")))
   ;; JSS has its own code formatting style
   (setq org-export-latex-listings nil)
   (setq org-export-latex-verbatim-wrap
         '("\\begin{Code}\n" . "\\end{Code}\n"))
+  nil
 #+end_src
 
 #+results: jss
