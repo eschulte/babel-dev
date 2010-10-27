@@ -15,8 +15,8 @@
 #+LaTeX_CLASS: jss
 
 * Introduction
-There are a variety of settings in which it is desirable to mix prose
-and code in a single container.
+There are a variety of settings in which it is desirable to mix prose,
+code and computational results in a single container.
 - /Scientific research/ increasingly involves the use of computational
   tools. Successful communication and verification of research results
   requires that this code is distributed together with results and
@@ -28,19 +28,23 @@ and code in a single container.
   of computational tools are severely compromised.
 - In /pedagogical/ environments it is important for descriptions of
   algorithms or techniques to go hand-in-hand with concrete
-  implementations.  These environments range from in-class
-  presentations with accompanying algorithmic implementations, to
-  online tutorials or experiential blogs with accompanying
-  instructions.
+  implementations and example output.  These environments include
+  in-class presentations, published books and articles, online
+  tutorials, and experiential blogs with accompanying instructions.
 
 In each of the situations described above, prose alone in the absence
-of code is typically insufficient.  Similarly, distribution of code
+of code is typically insufficient.  Similarly, code
 without expository prose is a less than ideal medium for communication
 between people. In this paper we describe the plain text markup
 language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
 environment supporting many different approaches to composition and
 application of combined prose and code (Table \ref{grid}). [[latex:proglang][Org-mode]] is
-designed for ease of use and adoption, and aims to be a general
+designed for ease of use and adoption,
+# TODO: I'd like to say something along the lines of Org-mode being a
+# superset of plain text editing. I.e. it isn't some esoteric new
+# activity; you start with writing plain text, and you can gradually
+# add Org-mode elements to it. (DD)
+ and aims to be a general
 solution for authoring projects with mixed computational and natural
 languages.  It supports multiple languages, export targets, and work
 flows.
@@ -65,8 +69,8 @@ With [[latex:proglang][Org-mode]] the entire life cycle of a research or develop
 project can take place within a single document.  With the data,
 code and text of a project stored in a single location which can be
 exported to a variety of formats, the future reproducibility of the
-work is ensured. [[latex:proglang][Org-mode]] encourages the practices of Reproducible Research and
-Literate Programming by greatly reducing the burden
+work is ensured. [[latex:proglang][Org-mode]] encourages these Reproducible Research and
+Literate Programming practices by greatly reducing the burden
 on the author.
 
 We start by reviewing existing approaches to the combined authoring of
