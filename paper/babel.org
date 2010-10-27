@@ -1709,8 +1709,9 @@ paper.
   
   (setq jstatsoft-langs
         (list
-         "org-mode" "emacs-lisp" "ruby" "haskell"
-         "perl" "python" "R" "sqlite" "dot" "C"))
+         "org-mode" "Emacs Lisp" "ruby" "haskell"
+         "perl" "python" "R" "sqlite" "dot" "C" "noweb"
+        "Lisp" "WEB" "cWeb" "Sweave"))
   
   (defun in-code-section ()
     (interactive)
@@ -1733,7 +1734,7 @@ paper.
                     "[\n\r\t ]")
             nil t)
       (unless (in-code-section)
-        (replace-match "\\\\proglang{\\1}" nil nil nil 1))))
+        (replace-match "\\\\proglang{\\1}" t nil nil 1))))
   
   ;; \proglang{} macro
   (add-hook 'org-export-latex-final-hook 'do-lang-replace)
