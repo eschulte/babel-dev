@@ -61,7 +61,7 @@ flows.
 | application | a variety of document   | as well as the tangling of code |
 |             | and slideshow formats   | for external use                |
 
-#+LaTeX: \caption{[[latex:proglang][Org-mode]] enables both the application and composition of code and prose.}
+#+LaTeX: \caption{Org-mode enables both the application and composition of code and prose.}
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
