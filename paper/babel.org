@@ -7,7 +7,7 @@
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{thumbpdf}
-#+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominick}
+#+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik}
 #+LATEX_HEADER: \Shorttitle{Mixed Language Computing}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
 #+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
