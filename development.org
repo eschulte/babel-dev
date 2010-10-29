@@ -7590,6 +7590,27 @@ dot("$(2a,0)$",(2,0),N+E);
 
 Debugger entered--Lisp error: (wrong-type-argument listp b)
 
+
+I'm starting to doubt a fix I made recently:
+
+The general issue we've struck in a couple of places is that something
+like
+
+(length '(a . b))
+
+is an error.
+
+In `org-babel-sha1-hash' I added this 
+				     (when (and v (not (and (sequencep v)
+							    (not (consp v))
+							    (= (length v) 0))))
+
+but I may have been under the impression that consp was nil for a
+regular list, but that is of course not true:
+
+(consp '(a b)) => t
+
+
 ** DONE In-buffer results not being used when sha1 present
    - State "DONE"       from "TODO"       [2010-10-21 Thu 07:53]
    - State "TODO"       from ""           [2010-10-20 Wed 23:04]
