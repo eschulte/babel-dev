@@ -51,17 +51,16 @@ flows.
 
 #+LaTeX: \begin{table*}
 #+ATTR_LaTeX: align=r|c|c
-|             | prose                   | code                            |
-|-------------+-------------------------+---------------------------------|
-|             | natural document        | natural code authoring          |
-| composition | authoring environment   | through Emacs                   |
-|             | through [[latex:proglang][Org-mode]]        | major modes                     |
-|-------------+-------------------------+---------------------------------|
-|             | automated publishing to | in-situ interactive execution   |
-| application | a variety of document   | as well as the tangling of code |
-|             | and slideshow formats   | for external use                |
-
-#+LaTeX: \caption{\proglang{Org-mode} enables both the application and composition of code and prose.}
+|             | prose                   | code                          |
+|-------------+-------------------------+-------------------------------|
+|             | text editing in         | code authoring                |
+| composition | Emacs with additional   | via Emacs                     |
+|             | [[latex:proglang][Org-mode]] features       | language modes                |
+|-------------+-------------------------+-------------------------------|
+|             | automated publishing to | in-situ interactive execution |
+| application | a variety of document   | as well as tangling of code   |
+|             | and slideshow formats   | for external use              |
+#+LaTeX: \caption{\proglang{Org-mode} enables both the composition and application of code and prose.}
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
 
