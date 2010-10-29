@@ -7580,7 +7580,16 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [90/116]
+* Bugs [90/117]
+** TODO elisp can't deal with single cons cell
+   - State "TODO"       from ""           [2010-10-29 Fri 14:53]
+
+#+begin_src emacs-lisp
+'(a . b)
+#+end_src
+
+Debugger entered--Lisp error: (wrong-type-argument listp b)
+
 ** DONE In-buffer results not being used when sha1 present
    - State "DONE"       from "TODO"       [2010-10-21 Thu 07:53]
    - State "TODO"       from ""           [2010-10-20 Wed 23:04]
