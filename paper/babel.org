@@ -1448,6 +1448,10 @@ evaluation is useful.  TD
 * Acknowledgements
 TODO
 * COMMENT Tasks
+** TODO How to obtain Org-mode?
+   Are we going to make any statements regarding inclusion of recent
+   Orgs Org in recent Emacs versions and/or obtaining Org from the
+   website/git/elpa?
 ** TODO include Author information
 The following looks like little much on the title page, I guess leave
 this until there's an actual template for us to use.
