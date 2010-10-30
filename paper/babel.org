@@ -1236,7 +1236,6 @@ standard command-line tools.
       >raw-temps.csv
 #+end_src
 
-#+results[ae8811b1e21ae04fd97a079443e854c7ca0cac4d]: raw-temps
 #+source: country-codes
 #+begin_src sh :cache yes :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
@@ -1244,8 +1243,6 @@ standard command-line tools.
       |sed 's/ \+/,/' \
       >country-codes.csv
 #+end_src
-
-#+results[a9cd53e96c3342b71d96400da58724166b95e68e]: country-codes
 
 Next, the output of the first two blocks is used to create a local
 database of the combined climate data.  In the case of very large data
