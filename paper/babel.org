@@ -14,6 +14,99 @@
 #+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file (tangling). This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
 #+LaTeX_CLASS: jss
 
+* COMMENT How to export this file to LaTeX
+
+Settings required for export to the Journal of Statistical Software
+are found in the =jss= source block.  Run this code block with =C-c
+C-c= before exporting.  When done exporting, run the return-to-default
+code block to set variables and hooks back to their default values.
+
+** Org-mode LaTeX export to JSS
+#+source: jss
+#+begin_src emacs-lisp :tangle yes
+  (require 'org-latex)
+  (org-add-link-type
+   "latex" nil
+   (lambda (path desc format)
+     (cond
+      ((eq format 'html)
+       (format "<span style=\"color:black;\">%s</span>" desc))
+      ((eq format 'latex)
+       (format "\\%s{%s}" path desc)))))
+  
+  (add-to-list 'org-export-latex-classes
+               '("jss"
+                 "\\documentclass[article,shortnames]{jss}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;; replace nasty single-quotes returned by R
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (replace-regexp "’" "'")))
+  ;; JSS has its own code formatting style
+  (setq org-export-latex-listings nil)
+  (setq org-export-latex-verbatim-wrap
+        '("\\begin{Code}\n" . "\\end{Code}\n"))
+  nil
+#+end_src
+
+** Reset to default
+
+#+source: reset-to-default
+#+begin_src emacs-lisp
+  (setq org-export-latex-verbatim-wrap
+        '("\\begin{verbatim}\n" . "\\end{verbatim}\n"))
+  (add-hook 'org-export-latex-final-hook nil)
+  
+#+end_src
+
+#+results: jss
+** Original publishing setup
+turn on the listings package, and define the =twocolumn= latex class
+#+begin_src emacs-lisp :results silent
+  (require 'org-latex)
+  
+  ;; use latex listings for fontified code blocks
+  (set-default 'org-export-latex-listings t)
+  
+  ;; two column export
+  (add-to-list 'org-export-latex-classes
+               '("twocolumn" "\\documentclass[10pt, twocolumn]{article}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  
+  ;; replace nasty single-quotes returned by R
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (replace-regexp "’" "'")))
+  ;; (add-hook 'org-export-latex-final-hook
+  ;;           (lambda ()
+  ;;               (replace-regexp
+  ;;                "href{David==Gillespie==1990,==\\[\\[http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}\]\]"
+  ;;                "href{David Gillespie 1990, http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}")))
+  (add-hook 'org-export-latex-final-hook
+            (lambda ()
+              (re-search-forward (regexp-quote "file:pascals-triangle.pdf"))
+              (forward-line -1)
+              (insert "\n#+Caption: Pascal's Triangle \label{pascals-triangle-fig}")))
+  
+  ;; export the bodies of org-mode blocks
+  (setq org-babel-default-header-args:org
+        '((:results . "raw silent")))
+#+end_src
+
+** HTML publish
+#+begin_src emacs-lisp
+  (defun <language>-mode () (interactive))
+  ;; (setq org-export-htmlize-output-type 'css)
+#+end_src
+
 * Introduction
 There are a variety of settings in which it is desirable to mix prose,
 code and computational results in a single container.
@@ -1672,83 +1765,6 @@ paper.
 | 2008 | 365.083333333333 |
 | 2009 | 436.333333333333 |
 | 2010 | 499.583333333333 |
-
-* COMMENT publish
-** Org-mode LaTeX export to JSS
-#+source: jss
-#+begin_src emacs-lisp :tangle yes
-  (require 'org-latex)
-  (org-add-link-type
-   "latex" nil
-   (lambda (path desc format)
-     (cond
-      ((eq format 'html)
-       (format "<span style=\"color:grey;\">%s</span>" desc))
-      ((eq format 'latex)
-       (format "\\%s{%s}" path desc)))))
-  
-  (add-to-list 'org-export-latex-classes
-               '("jss"
-                 "\\documentclass[article,shortnames]{jss}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  ;; replace nasty single-quotes returned by R
-  (add-hook 'org-export-latex-final-hook
-            (lambda ()
-              (replace-regexp "’" "'")))
-  ;; JSS has its own code formatting style
-  (setq org-export-latex-listings nil)
-  (setq org-export-latex-verbatim-wrap
-        '("\\begin{Code}\n" . "\\end{Code}\n"))
-  nil
-#+end_src
-
-#+results: jss
-** Original publishing setup
-turn on the listings package, and define the =twocolumn= latex class
-#+begin_src emacs-lisp :results silent
-  (require 'org-latex)
-  
-  ;; use latex listings for fontified code blocks
-  (set-default 'org-export-latex-listings t)
-  
-  ;; two column export
-  (add-to-list 'org-export-latex-classes
-               '("twocolumn" "\\documentclass[10pt, twocolumn]{article}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  
-  ;; replace nasty single-quotes returned by R
-  (add-hook 'org-export-latex-final-hook
-            (lambda ()
-              (replace-regexp "’" "'")))
-  ;; (add-hook 'org-export-latex-final-hook
-  ;;           (lambda ()
-  ;;               (replace-regexp
-  ;;                "href{David==Gillespie==1990,==\\[\\[http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}\]\]"
-  ;;                "href{David Gillespie 1990, http://www.gnu.org/software/emacs/calc.html}{http://www.gnu.org/software/emacs/calc.html}")))
-  (add-hook 'org-export-latex-final-hook
-            (lambda ()
-              (re-search-forward (regexp-quote "file:pascals-triangle.pdf"))
-              (forward-line -1)
-              (insert "\n#+Caption: Pascal's Triangle \label{pascals-triangle-fig}")))
-  
-  ;; export the bodies of org-mode blocks
-  (setq org-babel-default-header-args:org
-        '((:results . "raw silent")))
-#+end_src
-
-** HTML publish
-#+begin_src emacs-lisp
-  (defun <language>-mode () (interactive))
-  ;; (setq org-export-htmlize-output-type 'css)
-#+end_src
 
 * COMMENT Conflicts with JSS style
 #+begin_latex
