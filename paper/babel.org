@@ -11,7 +11,7 @@
 #+LATEX_HEADER: \Shorttitle{Mixed Language Computing}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
 #+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
-#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, code extraction (tangling) permits functioning pure code files to be extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
+#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file (tangling). This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
 #+LaTeX_CLASS: jss
 
 * Introduction
@@ -76,7 +76,7 @@ We start by reviewing existing approaches to the combined authoring of
 prose and code, including software tools designed to address one or
 more of the use cases for mixed natural and computer language
 documents (Section \ref{background}).  We then describe the design of
-[[latex:proglang][Org-mode]] (Section \ref{design}), and demonstrate its usage through
+[[latex:proglang][Org-mode]] (Section \ref{design}) and demonstrate its usage through
 three short examples (Section \ref{examples}).  We conclude with a
 discussion of why we believe [[latex:proglang][Org-mode]] constitutes a uniquely
 productive environment for authoring mixed prose and code projects
@@ -97,10 +97,10 @@ approached from two different standpoints.
      maintainers.
 
 - Reproducible Research :: embeds executable code in publications of
-     scholarly work, with the aim of allowing the analysis described
-     in the paper to be re-run by readers.
+     scholarly work, with the aim of allowing readers to re-run the
+     analysis described in the paper.
 
-We discuss each of these approaches in turn including a review of
+We discuss each of these approaches in turn and include a review of
 existing software tools that support each technique.
 
 ** Literate programming
@@ -240,13 +240,12 @@ and extension.
 \attrib{Gentleman and Temple Lang}
 #+end_quote
 
-=Sweave= \citep{sweave} is a modern software tool, written in the
-[[latex:proglang][R]] statistical programming language
-\citep{r-software}, that can be used for reproducible research.
-[[latex:proglang][Sweave]] (and the [[latex:proglang][R]] community at
-large) inspired the work that led to the /compendium/ idea.  The
-recent resurgence in reproducible research owes much to the success of
-both [[latex:proglang][R]] and [[latex:proglang][Sweave]].
+=Sweave= \citep{sweave} is a modern software tool written in the [[latex:proglang][R]]
+statistical programming language \citep{r-software} that can be used
+for reproducible research.  [[latex:proglang][Sweave]] and the [[latex:proglang][R]] community at large
+inspired the work that led to the /compendium/ idea.  The recent
+resurgence in reproducible research owes much to the success of both [[latex:proglang][R]]
+and [[latex:proglang][Sweave]].
 [[latex:proglang][Sweave]] documents consist of code blocks of the
 [[latex:proglang][R]] statistical programming language embedded into
 LaTeX documents.  The [[latex:proglang][R]] functions that make up
@@ -271,9 +270,9 @@ data.
 At the core of [[latex:proglang][Org-mode]] is the Emacs text editor \citep{emacs} and
 [[latex:proglang][Emacs Lisp]]
 \citep{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp that
-supports editing text documents.  The Emacs editor has been under
+supports the editing of text documents.  The Emacs editor has been under
 development since the mid 1970s and is currently at version 23.
-[[latex:proglang][Org-mode]] extends Emacs with a simple, yet powerful markup language
+[[latex:proglang][Org-mode]] extends Emacs with a simple, powerful markup language
 that turns it into a language for creating and parsing
 hierarchically-organized text documents.  It was originally designed
 for keeping notes, maintaining task lists, and planning projects.  Its
@@ -289,15 +288,13 @@ language.  In this way, an [[latex:proglang][Org-mode]] buffer becomes a place w
 different computer languages communicate with one another.  Like
 Emacs, [[latex:proglang][Org-mode]] is extensible: support for new languages can be added
 by the user in a modular fashion through the definition of a small
-number of Emacs Lisp functions.  Additionaly, generally useful code or
-data blocks can be added to a "Library of Babel", from which they can
-be called by any [[latex:proglang][Org-mode]] document.
+number of Emacs Lisp functions.
 
 In the remainder of this section, we first describe [[latex:proglang][Org-mode]], focusing
 on those features that support literate programming and reproducible
 research (Section \ref{org-mode}).  We then describe the syntax of
 code and data blocks (Section \ref{syntax}), evaluation of code blocks
-(Section \ref{code-blocks}), weaving and tangling [[latex:proglang][Org-mode]] documents
+(Section \ref{code-blocks}), weaving and tangling of [[latex:proglang][Org-mode]] documents
 (Section \ref{export}), and language support facilities (Section
 \ref{languages}).
 
@@ -327,7 +324,7 @@ section is a sequence of top-level nodes, each of which is the root
 of a subtree of arbitrary depth.
 Nodes in the outline are single line headings identified by one or
 more asterisks at the beginning of the line.  The number of asterisks
-indicates the hierarchical level of the node, e.g.,
+indicates the hierarchical level of the node.
 
 #+begin_src org :exports code
   ,* First heading
@@ -338,7 +335,7 @@ indicates the hierarchical level of the node, e.g.,
 #+end_src
 
 Each heading line can be followed by arbitrary text,
-giving the document the logical structure of a book or article.  The
+which gives the document the logical structure of a book or article.  The
 hierarchical outline structure can be folded at every node, making it
 possible to expose selected sections for quick access or to provide a
 structural overview of the document.
@@ -371,14 +368,14 @@ around the metadata associated with nodes.  [[latex:proglang][Org-mode]] provide
 facilities to create and modify metadata quickly and efficiently.  It
 also provides facilities to search, sort, and filter headlines, to
 display tabular views of selected headlines, to clock in and out of
-headlines defined as tasks, and many other tools.
+headlines defined as tasks, and more.
 
 The outline structure of documents also defines a hierarchy of
 metadata.  Tags and properties of a node are inherited by its
-sub-nodes and views of the document can be designed that sum or
+sub-nodes, and views of the document can be designed that sum or
 average the properties inherited by a node.  Code blocks live in this
 hierarchy of content and metadata, all of which is accessible to and
-can be modified by the code.
+can be modified by the code blocks.
 
 *** Special document content
 
@@ -399,42 +396,27 @@ represent both data and formulas.
   ,| ...    | ...    | ... | ...    |
 #+end_src
 
-In this paper we focus on the ways in which [[latex:proglang][Org-mode]] supports working
-with source code. Source code in arbitrary languages can be included
-in an [[latex:proglang][Org-mode]] document inside a =#+BEGIN_SRC <LANGUAGE>... #+END_SRC=
-pair.  Such source code blocks were originally added to [[latex:proglang][Org-mode]] in
-order to set verbatim, mono-spaced type when publishing to PDF or
-HTML, as an aid to creating technical documentation. [[latex:proglang][Org-mode]] code
-blocks leverage existing Emacs source code editing modes for
-indentation, coloured syntax highlighting and other language-specific
-functionality.
-
-# Additional markup is provided with wiki-like syntax, which can be
-# applied to any piece of text.
-# 
-# [What are examples of this?]
-#
-# [I removed this as I don't think it's necessary -- Eric]
+In the following section we focus on [[latex:proglang][Org-mode]]'s support for working
+with active source code and data blocks.
 
 ** Code and data block extensions
     :PROPERTIES:
     :CUSTOM_ID: code-blocks
     :END:
-Seubsequently, [[latex:proglang][Org-mode]] gained a naming convention that identifies
-code or data blocks making them remotely callable.  In addition, the
-syntax of [[latex:proglang][Org-mode]] code blocks was extended to facilitate evaluation.
-The results of source code evaluation are written to the document as
-[[latex:proglang][Org-mode]] constructs, allowing for code and data blocks to interact
-through a simple but powerful variable passing system. Historically,
-this extension of [[latex:proglang][Org-mode]] has been referred to as "Babel" or
-"Org-Babel".
+
+Both code and data blocks are /active/ in [[latex:proglang][Org-mode]] documents.  This
+means that code blocks can be evaluated and their results written to
+the document as [[latex:proglang][Org-mode]] constructs.  These blocks can interact with
+both data and code blocks through a simple and powerful variable
+passing system.
 
 *** Syntax
     :PROPERTIES:
     :CUSTOM_ID: syntax
     :END:
 
-# TODO: And #TBLNAME
+# DONE: And #TBLNAME <- I don't think we need to cover all possible
+#                       syntax [Eric]
 
 Data blocks that are preceded by a line that begins with =#+results:=,
 followed by a name unique within the document can be accessed by code
@@ -454,11 +436,11 @@ blocks. These can be /tables/, /example blocks/, or /links/.
   ,[[http://external-data.org]]
 #+end_src
 
-Active code blocks are marked with a =#+srcname:= line, followed by a
+Active code blocks are marked with a =#+source:= line, followed by a
 name unique within the document.  Such blocks are augmented by header
 aguments that control the way [[latex:proglang][Org-mode]] handles evaluation and export.
 #+begin_src org :exports code
-  ,#+srcname: <name>
+  ,#+source: <name>
   ,#+begin_src <language> <header arguments>
   ,  <body>
   ,#+end_src
@@ -512,7 +494,7 @@ sessions.
 scalars, tables, or links.  By default, these are
 inserted in the [[latex:proglang][Org-mode]] buffer as protected text immediately after
 the code block.  In practice, the user has extensive control over how
-evaluation results are handled using header arguments.  
+evaluation results are handled.
 
 At the most basic level, results can be collected from code blocks by
 value or as output.  This behavior is controlled by the =:results=
@@ -530,8 +512,8 @@ header argument.
 These differences can be demonstrated with the following bit of
 [[latex:proglang][perl]] code that yields different results depending
 on the value of the =:results= header argument.  Note that the first
-example uses the default, =:results value=, and returns a scalar.  In
-contrast, the same code yields a string when output is returned.
+example uses the default =:results value= and returns a scalar.  When
+output is returned the same code yields a string 
 
 #+begin_src org :exports code
   ,#+begin_src perl
@@ -569,7 +551,7 @@ print "shouting into the dark!\n";
 $x
 #+end_src
 
-In addition to scalar results, [[latex:proglang][Org-mode]] recognizes vector results and
+[[latex:proglang][Org-mode]] also recognizes vector results and
 inserts them as tables into the buffer as demonstrated in the
 following two blocks of Haskell code.
 
@@ -599,8 +581,8 @@ following two blocks of Haskell code.
   zip [1..] (map (+1) [1, 2, 3])
 #+end_src
 
-When the result of evaluating a code block is a file, such as an
-image, the =:file= header argument can be used to provide a path and
+When the result of evaluating a code block is a file, the =:file=
+header argument can be used to provide a path and
 name for the file.  [[latex:proglang][Org-mode]] saves the results to the named file and
 places a link to it in the document.  These links are handled by
 [[latex:proglang][Org-mode]] in the usual ways and can be opened from within the document
@@ -616,9 +598,7 @@ handling of code results is available in the [[latex:proglang][Org-mode]] docume
 blocks.  The =:var= header argument takes a variable name and a value
 and assigns the value to the named variable inside the code block.
 Values can be literal values, such as scalars or strings, references
-to named data blocks, links, or references to named code blocks.  In
-addition, arguments can be passed to referenced code blocks using a
-traditional function syntax with named arguments.
+to named data blocks, links, or references to named code blocks.
 
 All values passed to variables are served by the Emacs Lisp
 interpreter that is at the core of Emacs.  This argument passing
@@ -651,7 +631,7 @@ code file suitable for execution by a computer.
      be best organized in a document.  Literate programming systems
      like [[latex:proglang][noweb]] solve this problem using code-block references that
      are expanded as part of the tangle process \citep{noweb}.
-     [[latex:proglang][Org-mode]] implements the [[latex:proglang][noweb]] reference system using an
+     [[latex:proglang][Org-mode]] implements the [[latex:proglang][noweb]] reference system using
      identical syntax and functionality.
 
 ** Language support
@@ -668,11 +648,10 @@ added by defining a small number of Emacs Lisp functions named
 according to language, following some simple conventions.  Currently,
 [[latex:proglang][Org-mode]] has support for more than 30 languages.  The ease with which
 support for new languages can be added is evidenced by the fact that
-new language support is increasingly implemented by [[latex:proglang][Org-mode]] users,
-rather than the original authors.
+new language support is increasingly implemented by [[latex:proglang][Org-mode]] users.
 
 ** Safety considerations
-A reproducible research document, by definition, includes code that
+A reproducible research document, includes code that
 can be evaluated.  This potentially gives malicious hackers direct
 access to the reader's computer.  The primary defense in this instance
 is for the reader to recognize malicious code and to choose not to run
@@ -887,11 +866,13 @@ possible to view linked images from within an
   ,#+end_src
   ,
   ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
+  ,#+ATTR_LaTeX: width=0.5\textwidth
   ,[[file:pascals-triangle.pdf]]
 #+end_src
 #+LaTeX: %$
 
 #+Caption: Pascal's Triangle \label{pascals-triangle-fig}
+#+ATTR_LaTeX: width=0.5\textwidth
 [[file:pascals-triangle.pdf]]
 
 #+source: ps-to-fig
@@ -1722,7 +1703,7 @@ paper.
   (setq org-export-latex-listings nil)
   (setq org-export-latex-verbatim-wrap
         '("\\begin{Code}\n" . "\\end{Code}\n"))
-  
+  nil
 #+end_src
 
 #+results: jss
@@ -1824,4 +1805,4 @@ http://www.gnu.org/software/emacs/calc.html
 
 [fn:4] http://orgmode.org/manual/Working-With-Source-Code.html
 
-[fn:5] http://cs.unm.edu/~eschulte/babel-draft/
+[fn:5] http://cs.unm.edu/$\sim$eschulte/babel-draft/
