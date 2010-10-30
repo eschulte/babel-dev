@@ -1203,8 +1203,8 @@ worth pointing out, however, that at each step of the way alternatives
 exist, one or more of which might substantially simplify the example
 for any particular user.
 
-The first two code blocks fetch and parse data from NOAA using shell
-scripts that call a variety of command-line tools.
+The first two code blocks fetch and parse data from NOAA using
+standard command-line tools.
 
 #+begin_src org :exports code
   ,#+source: raw-temps
@@ -1245,12 +1245,12 @@ scripts that call a variety of command-line tools.
       >country-codes.csv
 #+end_src
 
-These first two blocks are called by a third code block in which their
-output is used to create a local database of the combined climate
-data.  In the case of very large data it may be preferable to use an
-external store like a database rather than storing the data as plain
-text in the [[latex:proglang][Org-mode]] buffer.
 #+results[a9cd53e96c3342b71d96400da58724166b95e68e]: country-codes
+
+Next, the output of the first two blocks is used to create a local
+database of the combined climate data.  In the case of very large data
+it may be preferable to use an -external store like a database rather
+than storing the data as plain -text in the [[latex:proglang][Org-mode]] buffer.
 
 #+begin_src org :exports code
   ,#+begin_src sqlite :db climate.sqlite
@@ -1272,13 +1272,12 @@ text in the [[latex:proglang][Org-mode]] buffer.
   .import country-codes.csv countries
 #+end_src
 
-The =temps-by-year= code block reads data from the sqlite database
-which is used by the =R-init= code block to initialize local variables
-inside of a /session/ named =*R-climate*=.  Note that in [[latex:proglang][Org-mode]] the
-session can take an arbitrary name.  The variables persist in the
+The =get-temps= code block reads a subset of the data from the sqlite
+database, and then the =R-init= code block splits the data into a
+separate time series for each weather station, inside of an ESS R
+/session/ named =*R-climate*=. The variables persist in the
 =*R-climate*= session after the code block exits, so they can be
-manipulated by other code blocks that refer to the =*R-climate*=
-session.
+manipulated by other R code blocks using the =*R-climate*= session.
 
 #+begin_src org :exports code
   ,#+source: read-temps
@@ -1312,10 +1311,11 @@ session.
 
 Finally the persistent variables in the =*R-climate*= session are used
 to generate figures from the climate data. Here we fit a straight line
-to the July temperatures at each station which has data throughout the
-period 1880-1980, and plot a histogram of the fitted slopes
-parameters.  The figures are written to a pdf file for incorporation
-into the exported document (Figure \ref{fig:climate-trend}).
+to the July temperatures at each station which has measurements
+spanning the period 1880-1980, and plot a histogram of the fitted
+slope parameters. The figure is written to a pdf file for
+incorporation into the exported document (Figure
+\ref{fig:climate-trend}).
 
 #+begin_src org :exports code
   ,#+source: R-graph
