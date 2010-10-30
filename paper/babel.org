@@ -1227,7 +1227,7 @@ standard command-line tools.
 #+end_src
  
 #+source: raw-temps
-#+begin_src sh  :cache yes :exports none
+#+begin_src sh  :cache yes :exports results :results silent
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
       |sed 's/-9999/ NULL/g' \
@@ -1237,7 +1237,7 @@ standard command-line tools.
 #+end_src
 
 #+source: country-codes
-#+begin_src sh :cache yes :exports none
+#+begin_src sh :cache yes :exports results :results silent
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
       |sed 's/ *$//' \
       |sed 's/ \+/,/' \
@@ -1260,7 +1260,7 @@ than storing the data as plain -text in the [[latex:proglang][Org-mode]] buffer.
   ,#+end_src
 #+end_src
 
-#+begin_src sqlite :db climate.sqlite :exports none :results silent
+#+begin_src sqlite :db climate.sqlite :exports results :results silent
   create table temps (country,station,year,jan,feb,
          mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
   create table countries (code, name);
@@ -1301,7 +1301,7 @@ manipulated by other R code blocks using the =*R-climate*= session.
 
 #+source: R-init
 #+headers: :var temps=read-temps
-#+begin_src R :session *R-climate* :exports none :results silent
+#+begin_src R :session *R-climate* :exports results :results silent
   colnames(temps) <- c("Country","Station", "Year", "Jul")
   temps.split <- split(temps, temps[c("Country", "Station")], drop=TRUE)
 #+end_src
@@ -1332,7 +1332,7 @@ incorporation into the exported document (Figure
   ,[[file:mean-temps.pdf]]
 #+end_src
 
-#+begin_src R :session *R-climate* :file mean-temps.pdf :exports none
+#+begin_src R :session *R-climate* :file mean-temps.pdf :exports results :results silent
   year.range <- c(1880,1980)
   retain <- function(t)
       t$Year[1] <= year.range[1] && t$Year[nrow(t)] >= year.range[2]
