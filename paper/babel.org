@@ -14,6 +14,19 @@
 #+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file (tangling). This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
 #+LaTeX_CLASS: jss
 
+
+* COMMENT Possible titles
+| term                         |     hits |
+|------------------------------+----------|
+| "reproducible research"      |    24700 |
+| "literate programming"       |    74500 |
+| "natural language document"  |    98000 |
+| "computer language document" |        6 |
+| "computer language"          |  2500000 |
+| "programming language"       | 15900000 |
+
+** A New Computing Environment for Literate Programming and Reproducible Research
+
 * COMMENT How to export this file to LaTeX
 
 Settings required for export to the Journal of Statistical Software
