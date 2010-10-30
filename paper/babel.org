@@ -1208,19 +1208,21 @@ scripts that call a variety of command-line tools.
 
 #+begin_src org :exports code
   ,#+source: raw-temps
-  ,#+begin_src sh  :cache yes :exports none
+  ,#+begin_src sh  :cache yes
   ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
   ,      |gunzip \
   ,      |sed 's/-9999/ NULL/g' \
-  ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 ,' \
-  ,      |sed 's/ \+/,/g'
+  ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)[0-9],\1 \2 ,' \
+  ,      |sed 's/ \+/,/g' \
+  ,      >raw-temps.csv
   ,#+end_src
   
   ,#+source: country-codes
-  ,#+begin_src sh :cache yes :exports none
+  ,#+begin_src sh :cache yes
   ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
   ,      |sed 's/ *$//' \
-  ,      |sed 's/ \+/,/g'
+  ,      |sed 's/ \+/,/' \
+  ,      >country-codes.csv
   ,#+end_src
 #+end_src
  
@@ -1229,15 +1231,18 @@ scripts that call a variety of command-line tools.
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
       |sed 's/-9999/ NULL/g' \
-      |sed 's,^\([0-9]\{3\}\)\([0-9]\{9\}\),\1 ,' \
-      |sed 's/ \+/,/g'
+      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)[0-9],\1 \2 ,' \
+      |sed 's/ \+/,/g' \
+      >raw-temps.csv
 #+end_src
 
+#+results[ae8811b1e21ae04fd97a079443e854c7ca0cac4d]: raw-temps
 #+source: country-codes
 #+begin_src sh :cache yes :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
       |sed 's/ *$//' \
-      |sed 's/ \+/,/g'
+      |sed 's/ \+/,/' \
+      >country-codes.csv
 #+end_src
 
 These first two blocks are called by a third code block in which their
@@ -1245,29 +1250,26 @@ output is used to create a local database of the combined climate
 data.  In the case of very large data it may be preferable to use an
 external store like a database rather than storing the data as plain
 text in the [[latex:proglang][Org-mode]] buffer.
+#+results[a9cd53e96c3342b71d96400da58724166b95e68e]: country-codes
 
 #+begin_src org :exports code
-  ,#+headers: :var temps=raw-temps
-  ,#+headers: :var countries=country-codes[1:-1,0:1]
   ,#+begin_src sqlite :db climate.sqlite
-  ,  create table temps (country,year,jan,feb,
+  ,  create table temps (country,station,year,jan,feb,
   ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
   ,  create table countries (code, name);
   ,  .separator ","
-  ,  .import $temps temps
-  ,  .import $countries countries
+  ,  .import raw-temps.csv temps
+  ,  .import country-codes.csv countries
   ,#+end_src
 #+end_src
 
-#+headers: :var temps=raw-temps
-#+headers: :var countries=country-codes[1:-1,0:1]
 #+begin_src sqlite :db climate.sqlite :exports none :results silent
-  create table temps (country,year,jan,feb,
+  create table temps (country,station,year,jan,feb,
          mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
   create table countries (code, name);
   .separator ","
-  .import $temps temps
-  .import $countries countries
+  .import raw-temps.csv temps
+  .import country-codes.csv countries
 #+end_src
 
 The =temps-by-year= code block reads data from the sqlite database
