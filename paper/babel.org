@@ -1281,41 +1281,33 @@ manipulated by other code blocks that refer to the =*R-climate*=
 session.
 
 #+begin_src org :exports code
-  ,#+source: temps-by-year
+  ,#+source: read-temps
   ,#+begin_src sqlite :db climate.sqlite
-  ,  select temps.year, avg(temps.jan + temps.feb + temps.mar +
-  ,                temps.apr + temps.may + temps.jun +
-  ,                temps.jul + temps.aug + temps.sep +
-  ,                temps.oct + temps.nov + temps.dec)
-  ,         from temps, countries
-  ,         where countries.code=temps.country
-  ,               and countries.name='UNITED STATES OF AMERICA'
-  ,         group by temps.year;
+  ,  select temps.country, temps.station, temps.year, temps.jul from temps, countries
+  ,           where countries.code=temps.country
+  ,           and countries.name='UNITED STATES OF AMERICA';
   ,#+end_src
   ,
   ,#+source: R-init
-  ,#+headers: :var data=temps-by-year
+  ,#+headers: :var temps=read-temps
   ,#+begin_src R :session *R-climate*
-  ,  # TODO: This needs to be updated to connect R-graph to the sqlite DB
+  ,  colnames(temps) <- c("Country","Station", "Year", "Jul")
+  ,  temps.split <- split(temps, temps[c("Country", "Station")], drop=TRUE)
   ,#+end_src
 #+end_src
 
-#+source: temps-by-year
+#+source: read-temps
 #+begin_src sqlite :db climate.sqlite :exports none
-  select temps.year, avg(temps.jan + temps.feb + temps.mar +
-                temps.apr + temps.may + temps.jun +
-                temps.jul + temps.aug + temps.sep +
-                temps.oct + temps.nov + temps.dec)
-         from temps, countries
-         where countries.code=temps.country
-               and countries.name='UNITED STATES OF AMERICA'
-         group by temps.year;
+  select temps.country, temps.station, temps.year, temps.jul from temps, countries
+           where countries.code=temps.country
+           and countries.name='UNITED STATES OF AMERICA';
 #+end_src
 
 #+source: R-init
-#+headers: :var data=temps-by-year
-#+begin_src R :exports none :results silent
-  # TODO: This needs to be updated to connect R-graph to the sqlite DB
+#+headers: :var temps=read-temps
+#+begin_src R :session *R-climate* :exports none :results silent
+  colnames(temps) <- c("Country","Station", "Year", "Jul")
+  temps.split <- split(temps, temps[c("Country", "Station")], drop=TRUE)
 #+end_src
 
 Finally the persistent variables in the =*R-climate*= session are used
@@ -1331,19 +1323,30 @@ into the exported document (Figure \ref{fig:climate-trend}).
   ,  retain <- function(t)
   ,      t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
   ,  fit.july.slope <- function(t)
-  ,      with(t, coefficients(lm(Jul ~ Year))["Year"])
+  ,      with(t, coefficients(lm(as.numeric(Jul) ~ Year))["Year"])
   ,  filtered <- temps.split[sapply(temps.split, retain)]
   ,  slopes <- sapply(filtered, fit.july.slope)
   ,  hist(slopes)
   ,#+end_src
   
-  ,#+Caption: Temperature trends for the century 1880--1980. \label{fig:climate-trend}
+  ,#+Caption: Temperature trends between 1880 and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
   ,#+ATTR_LaTeX: width=0.7\textwidth
   ,#+results: R-graph
   ,[[file:mean-temps.pdf]]
 #+end_src
 
-#+Caption: Temperature trends for the century 1880--1980. \label{fig:climate-trend}
+#+begin_src R :session *R-climate* :file mean-temps.pdf :exports none
+  year.range <- c(1880,1980)
+  retain <- function(t)
+      t$Year[1] <= year.range[1] && t$Year[nrow(t)] >= year.range[2]
+  fit.july.slope <- function(t)
+      with(t, coefficients(lm(as.numeric(Jul) ~ Year))["Year"])
+  filtered <- temps.split[sapply(temps.split, retain)]
+  slopes <- sapply(filtered, fit.july.slope)
+  hist(slopes)
+#+end_src
+
+#+Caption: Temperature trends between src_R[:session *R-climate*]{year.range[1]} and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
 #+ATTR_LaTeX: width=0.7\textwidth
 #+results: R-graph
 [[file:mean-temps.pdf]]
