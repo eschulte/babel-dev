@@ -1206,62 +1206,75 @@ for any particular user.
 The first two code blocks fetch and parse data from NOAA using
 standard command-line tools.
 
+# For raw data format see ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme
+
 #+begin_src org :exports code
-  ,#+source: raw-temps
-  ,#+begin_src sh  :cache yes
-  ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
-  ,      |gunzip \
-  ,      |sed 's/-9999/ NULL/g' \
-  ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)[0-9],\1 \2 ,' \
-  ,      |sed 's/ \+/,/g' \
-  ,      >raw-temps.csv
-  ,#+end_src
-  
-  ,#+source: country-codes
-  ,#+begin_src sh :cache yes
-  ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
-  ,      |sed 's/ *$//' \
-  ,      |sed 's/ \+/,/' \
-  ,      >country-codes.csv
-  ,#+end_src
+   ,#+source: raw-temps
+   ,#+headers: :file raw-temps.csv :var file="raw-temps.csv" 
+   ,#+begin_src sh :cache yes :exports results
+   ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
+   ,      |gunzip \
+   ,      |sed 's/-9999/ NA/g' \
+   ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)\([0-9]\),\1 \2 \3 ,' \
+   ,      |sed 's/ \+/,/g' \
+   ,      >$file
+   ,#+end_src
+   ,
+   ,#+results[57a0cffff669c58903c72b7bec08acc082aa80ff]: raw-temps
+   ,[[file:raw-temps.csv]]
+   ,
+   ,
+   ,#+source: country-codes
+   ,#+headers: :file country-codes.csv :var file="country-codes.csv" 
+   ,#+begin_src sh :cache yes :exports results
+   ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
+   ,      |sed 's/ *$//' \
+   ,      |sed 's/ \+/,/' \
+   ,      >$file
+   ,#+end_src
+   ,
+   ,#+results[b5d2b617dfa745e4a1950e9afc33cd2b55004dd7]: country-codes
+   ,[[file:country-codes.csv]]
 #+end_src
  
 #+source: raw-temps
-#+begin_src sh  :cache yes :exports results :results silent
+#+headers: :file raw-temps.csv :var file="raw-temps.csv" 
+#+begin_src sh :cache yes :exports results
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
-      |sed 's/-9999/ NULL/g' \
-      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)[0-9],\1 \2 ,' \
+      |sed 's/-9999/ NA/g' \
+      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)\([0-9]\),\1 \2 \3 ,' \
       |sed 's/ \+/,/g' \
-      >raw-temps.csv
+      >$file
 #+end_src
 
 #+source: country-codes
-#+begin_src sh :cache yes :exports results :results silent
+#+headers: :file country-codes.csv :var file="country-codes.csv" 
+#+begin_src sh :cache yes :exports results
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
       |sed 's/ *$//' \
       |sed 's/ \+/,/' \
-      >country-codes.csv
+      >$file
 #+end_src
 
 Next, the output of the first two blocks is used to create a local
 database of the combined climate data.  In the case of very large data
-it may be preferable to use an -external store like a database rather
-than storing the data as plain -text in the [[latex:proglang][Org-mode]] buffer.
+sets it may be preferable to use an external store like a database
+rather than storing the data as plain text in the [[latex:proglang][Org-mode]] buffer.
 
 #+begin_src org :exports code
-  ,#+begin_src sqlite :db climate.sqlite
-  ,  create table temps (country,station,year,jan,feb,
-  ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
-  ,  create table countries (code, name);
-  ,  .separator ","
-  ,  .import raw-temps.csv temps
-  ,  .import country-codes.csv countries
-  ,#+end_src
+   ,#+begin_src sqlite :db climate.sqlite
+   ,  create table temps (country,station,replicate,year,jan,feb,
+   ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+   ,  create table countries (code, name);
+   ,  .separator ","
+   ,  .import raw-temps.csv temps
+   ,  .import country-codes.csv countries
+   ,#+end_src
 #+end_src
 
 #+begin_src sqlite :db climate.sqlite :exports results :results silent
-  create table temps (country,station,year,jan,feb,
+  create table temps (country,station,replicate,year,jan,feb,
          mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
   create table countries (code, name);
   .separator ","
@@ -1277,33 +1290,37 @@ separate time series for each weather station, inside of an ESS R
 manipulated by other R code blocks using the =*R-climate*= session.
 
 #+begin_src org :exports code
-  ,#+source: read-temps
-  ,#+begin_src sqlite :db climate.sqlite
-  ,  select temps.country, temps.station, temps.year, temps.jul from temps, countries
-  ,           where countries.code=temps.country
-  ,           and countries.name='UNITED STATES OF AMERICA';
-  ,#+end_src
-  ,
-  ,#+source: R-init
-  ,#+headers: :var temps=read-temps
-  ,#+begin_src R :session *R-climate*
-  ,  colnames(temps) <- c("Country","Station", "Year", "Jul")
-  ,  temps.split <- split(temps, temps[c("Country", "Station")], drop=TRUE)
-  ,#+end_src
-#+end_src
-
-#+source: read-temps
-#+begin_src sqlite :db climate.sqlite :exports none
-  select temps.country, temps.station, temps.year, temps.jul from temps, countries
-           where countries.code=temps.country
-           and countries.name='UNITED STATES OF AMERICA';
+   ,#+source: R-init
+   ,#+headers: :var dbname="climate.sqlite"
+   ,#+begin_src R :session *R-climate*
+   ,  library("RSQLite")
+   ,  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
+   ,  query <- paste("SELECT temps.station, temps.year, temps.jul FROM temps, countries",
+   ,                 "WHERE countries.code=temps.country",
+   ,                 "AND countries.name='UNITED STATES OF AMERICA'",
+   ,                 "AND temps.replicate='0'",
+   ,                 "ORDER BY year;")
+   ,  temps <- dbGetQuery(con, query)
+   ,  temps$year <- as.integer(temps$year)
+   ,  temps$jul <- as.numeric(temps$jul)/10
+   ,  temps.by.station <- split(temps, temps$station, drop=TRUE)
+   ,#+end_src
 #+end_src
 
 #+source: R-init
-#+headers: :var temps=read-temps
+#+headers: :var dbname="climate.sqlite"
 #+begin_src R :session *R-climate* :exports results :results silent
-  colnames(temps) <- c("Country","Station", "Year", "Jul")
-  temps.split <- split(temps, temps[c("Country", "Station")], drop=TRUE)
+  library("RSQLite")
+  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
+  query <- paste("SELECT temps.station, temps.year, temps.jul FROM temps, countries",
+                 "WHERE countries.code=temps.country",
+                 "AND countries.name='UNITED STATES OF AMERICA'",
+                 "AND temps.replicate='0'",
+                 "ORDER BY year;")
+  temps <- dbGetQuery(con, query)
+  temps$year <- as.integer(temps$year)
+  temps$jul <- as.numeric(temps$jul)/10
+  temps.by.station <- split(temps, temps$station, drop=TRUE)
 #+end_src
 
 Finally the persistent variables in the =*R-climate*= session are used
@@ -1315,38 +1332,38 @@ incorporation into the exported document (Figure
 \ref{fig:climate-trend}).
 
 #+begin_src org :exports code
-  ,#+source: R-graph
-  ,#+begin_src R :session *R-climate* :file mean-temps.pdf
-  ,  retain <- function(t)
-  ,      t$Year[1] <= 1880 && t$Year[nrow(t)] >= 1980
-  ,  fit.july.slope <- function(t)
-  ,      with(t, coefficients(lm(as.numeric(Jul) ~ Year))["Year"])
-  ,  filtered <- temps.split[sapply(temps.split, retain)]
-  ,  slopes <- sapply(filtered, fit.july.slope)
-  ,  hist(slopes)
-  ,#+end_src
-  
-  ,#+Caption: Temperature trends between 1880 and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
-  ,#+ATTR_LaTeX: width=0.7\textwidth
-  ,#+results: R-graph
-  ,[[file:mean-temps.pdf]]
+   ,#+srcname: R-graph
+   ,#+begin_src R :session *R-climate* :file temp-trends.pdf :exports results
+   ,  include.station <- function(station)
+   ,      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
+   ,  fit.slope <- function(station)
+   ,      with(station, coefficients(lm(jul ~ year))["year"])
+   ,  include <- sapply(temps.by.station, include.station)
+   ,  slopes <- sapply(temps.by.station[include], fit.slope)
+   ,  hist(slopes)
+   ,#+end_src
+   ,
+   ,#+Caption: Temperature trends between 1880 and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
+   ,#+ATTR_LaTeX: width=0.7\textwidth
+   ,#+results: R-graph
+   ,[[file:temp-trends.pdf]]
 #+end_src
 
-#+begin_src R :session *R-climate* :file mean-temps.pdf :exports results :results silent
-  year.range <- c(1880,1980)
-  retain <- function(t)
-      t$Year[1] <= year.range[1] && t$Year[nrow(t)] >= year.range[2]
-  fit.july.slope <- function(t)
-      with(t, coefficients(lm(as.numeric(Jul) ~ Year))["Year"])
-  filtered <- temps.split[sapply(temps.split, retain)]
-  slopes <- sapply(filtered, fit.july.slope)
+#+srcname: R-graph
+#+begin_src R :session *R-climate* :file temp-trends.pdf :exports results
+  include.station <- function(station)
+      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
+  fit.slope <- function(station)
+      with(station, coefficients(lm(jul ~ year))["year"])
+  include <- sapply(temps.by.station, include.station)
+  slopes <- sapply(temps.by.station[include], fit.slope)
   hist(slopes)
 #+end_src
 
-#+Caption: Temperature trends between src_R[:session *R-climate*]{year.range[1]} and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
+#+Caption: Temperature trends between 1880 and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
 #+ATTR_LaTeX: width=0.7\textwidth
 #+results: R-graph
-[[file:mean-temps.pdf]]
+[[file:temp-trends.pdf]]
 
 * Discussion
   :PROPERTIES:
