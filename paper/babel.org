@@ -36,7 +36,7 @@ code block to set variables and hooks back to their default values.
 
 ** Org-mode LaTeX export to JSS
 #+source: jss
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle yes :results silent
   (require 'org-latex)
   (org-add-link-type
    "latex" nil
@@ -186,9 +186,11 @@ documents (Section \ref{background}).  We then describe the design of
 three short examples (Section \ref{examples}).  We conclude with a
 discussion of why we believe [[latex:proglang][Org-mode]] constitutes a uniquely
 productive environment for authoring mixed prose and code projects
-(Section \ref{discussion}).  This document is itself exported from an
-[[latex:proglang][Org-mode]] file which is made available online in raw [[latex:proglang][Org-mode]] syntax
-with executable examples [fn:5].
+(Section \ref{discussion}).  This document is itself written in
+[[latex:proglang][Org-mode]], with the pdf version created by running a single export
+command in the course of which the source code examples are executed
+and the figures generated. The [[latex:proglang][Org-mode]] source is available online
+[fn:5].
 
 * Background
   :PROPERTIES:
@@ -1554,6 +1556,14 @@ evaluation is useful.  TD
 * Acknowledgements
 TODO
 * COMMENT Tasks
+** TODO Get rid of \texttt{SCHEDULED} appearing in pdf
+** TODO Store file names in variables/blocks
+   In the climate example there is some redundancy in that lines like e.g.
+
+#+headers: :file country-codes.csv :var file="country-codes.csv" 
+
+seem suboptimal. Can we store these paths in results blocks / elisp variables?
+
 ** TODO How to obtain Org-mode?
    Are we going to make any statements regarding inclusion of recent
    Orgs Org in recent Emacs versions and/or obtaining Org from the
@@ -1604,8 +1614,11 @@ this until there's an actual template for us to use.
 The document (and anything else needed to recreate the pdf) should be
 made available on the web, and the URL should be published in the
 paper.
-** TODO Implement R examples in RR example
-** TODO Enclose all blocks and results in org blocks
+** STARTED Implement R examples in RR example
+** TODO What are the correct header args for the src blocks?
+   We have "active" src blocks, and inactive copies for export
+   protected within org blocks Do we have the right combination
+   of :results and :exports header args in those two sets of blocks?
 ** TODO Is this indexing correct?
 #+headers: :var countries=country-codes[1:-1,0:1]
 * COMMENT Support
