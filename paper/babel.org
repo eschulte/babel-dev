@@ -874,9 +874,9 @@ blocks.
 The tabular view of Pascal's triangle can be illustrated using the
 [[latex:proglang][dot]] graphing language.  In the following code
 block the =pascals-triangle= table is passed to a block of code in the
-[[latex:proglang][ruby]] language through the variable =ps=.
+[[latex:proglang][python]] language through the variable =ps=.
 [[latex:proglang][Org-mode]] transforms the table into a
-[[latex:proglang][ruby]] array, which the code block uses to construct
+[[latex:proglang][python]] list, which the code block uses to construct
 strings of [[latex:proglang][dot]] commands.  The strings of
 [[latex:proglang][dot]] commands are intended for use by a subsequent
 code block, and not for inclusion into the exported document, as
@@ -884,54 +884,52 @@ indicated by the =:exports none= header argument.
 
 #+begin_src org :exports code
   ,#+source: ps-to-dot
-  ,#+begin_src ruby :var ps=pascals-triangle :exports none
-  ,  r_cnt = 0
-  ,  c_cnt = 0
-  ,  ps.map do |r|
-  ,    r_cnt += 1
-  ,    c_cnt = 0
-  ,    r.select{|x| x.size > 0}.map do |x|
-  ,      c_cnt += 1
-  ,      # node
-  ,      r = ("\t\"#{r_cnt}_#{c_cnt}\" [label=\"#{x}\"];")
-  ,      # edges
-  ,      if (c_cnt > 1)
-  ,        r = r+("\"#{r_cnt-1}_#{c_cnt-1}\"--\"#{r_cnt}_#{c_cnt}\";")
-  ,      end
-  ,      unless (c_cnt == r_cnt)
-  ,        r = r+(" \"#{r_cnt-1}_#{c_cnt}\"--\"#{r_cnt}_#{c_cnt}\";")
-  ,      end
-  ,      r
-  ,    end.join("\n")
-  ,  end.join("\n")
+  ,#+begin_src python :var ps=pascals-triangle :results output :exports none 
+  ,  def node(i, j):
+  ,        return '"%d_%d"' % (i+1, j+1)
+  
+  ,  def edge(i1, j1, i2, j2):
+  ,        return '%s--%s;' % (node(i1, j1), node(i2,j2))
+  
+  ,  def node_with_edges(i, j):
+  ,        line = '%s [label="%d"];' % (node(i, j), ps[i][j])
+  ,        if j > 0:
+  ,              line += edge(i-1, j-1, i, j)
+  ,        if j < len(ps[i])-1:
+  ,              line += edge(i-1, j, i, j)
+  ,        return line 
+  ,    
+  ,  ps = [filter(None, row) for row in ps]
+  ,  print '\n'.join([node_with_edges(i, j)
+  ,                   for i in range(len(ps))
+  ,                   for j in range(len(ps[i]))])
   ,#+end_src
 #+end_src
 
 #+source: ps-to-dot
-#+begin_src ruby :var ps=pascals-triangle :exports none
-  r_cnt = 0
-  c_cnt = 0
-  ps.map do |r|
-    r_cnt += 1
-    c_cnt = 0
-    r.select{|x| x.size > 0}.map do |x|
-      c_cnt += 1
-      # node
-      r = ("\t\"#{r_cnt}_#{c_cnt}\" [label=\"#{x}\"];")
-      # edges
-      if (c_cnt > 1)
-        r = r+("\"#{r_cnt-1}_#{c_cnt-1}\"--\"#{r_cnt}_#{c_cnt}\";")
-      end
-      unless (c_cnt == r_cnt)
-        r = r+(" \"#{r_cnt-1}_#{c_cnt}\"--\"#{r_cnt}_#{c_cnt}\";")
-      end
-      r
-    end.join("\n")
-  end.join("\n")
+#+begin_src python :var ps=pascals-triangle :results output :exports none 
+  def node(i, j):
+        return '"%d_%d"' % (i+1, j+1)
+
+  def edge(i1, j1, i2, j2):
+        return '%s--%s;' % (node(i1, j1), node(i2,j2))
+
+  def node_with_edges(i, j):
+        line = '%s [label="%d"];' % (node(i, j), ps[i][j])
+        if j > 0:
+              line += edge(i-1, j-1, i, j)
+        if j < len(ps[i])-1:
+              line += edge(i-1, j, i, j)
+        return line 
+
+  ps = [filter(None, row) for row in ps]
+  print '\n'.join([node_with_edges(i, j)
+                   for i in range(len(ps))
+                   for j in range(len(ps[i]))])
 #+end_src
 
 The output is passed directly into a block of [[latex:proglang][dot]]
-code by assigning the name of the [[latex:proglang][ruby]] code block
+code by assigning the name of the [[latex:proglang][python]] code block
 to the variable =ps-vals=.  Passing the results of one code block to
 another in this way is called /chaining/; [[latex:proglang][Org-mode]]
 places no limit on the number of code blocks that can be chained
