@@ -866,11 +866,11 @@ blocks.
 #+end_src
 
 *** Drawing Pascal's triangle
-The tabular view of Pascal's triangle can be illustrated using the [[latex:proglang][dot]]
+Pascal's triangle can be better depicted using the [[latex:proglang][dot]]
 graphing language.  In the following code block the =pascals-triangle=
-table is passed to a block of code in the [[latex:proglang][python]] language through the
+table is passed to a block of [[latex:proglang][python]] code through the
 variable =ps=.  [[latex:proglang][Org-mode]] transforms the table into a [[latex:proglang][python]] list,
-which the code block uses to construct strings of [[latex:proglang][dot]] commands.  The
+which the [[latex:proglang][python]] block uses to construct strings of [[latex:proglang][dot]] commands.  The
 strings of [[latex:proglang][dot]] commands are intended for use by a subsequent code
 block, and not for inclusion into the exported document, as indicated
 by the =:exports none= header argument.
