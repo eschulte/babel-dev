@@ -866,21 +866,14 @@ blocks.
 #+end_src
 
 *** Drawing Pascal's triangle
-# I feel like python is more popular than ruby, and would thus be a
-# more motivating code for this example block, however I don't know
-# *any* python, and after a brief attempted python implementation I
-# switched to ruby.
-
-The tabular view of Pascal's triangle can be illustrated using the
-[[latex:proglang][dot]] graphing language.  In the following code
-block the =pascals-triangle= table is passed to a block of code in the
-[[latex:proglang][python]] language through the variable =ps=.
-[[latex:proglang][Org-mode]] transforms the table into a
-[[latex:proglang][python]] list, which the code block uses to construct
-strings of [[latex:proglang][dot]] commands.  The strings of
-[[latex:proglang][dot]] commands are intended for use by a subsequent
-code block, and not for inclusion into the exported document, as
-indicated by the =:exports none= header argument.
+The tabular view of Pascal's triangle can be illustrated using the [[latex:proglang][dot]]
+graphing language.  In the following code block the =pascals-triangle=
+table is passed to a block of code in the [[latex:proglang][python]] language through the
+variable =ps=.  [[latex:proglang][Org-mode]] transforms the table into a [[latex:proglang][python]] list,
+which the code block uses to construct strings of [[latex:proglang][dot]] commands.  The
+strings of [[latex:proglang][dot]] commands are intended for use by a subsequent code
+block, and not for inclusion into the exported document, as indicated
+by the =:exports none= header argument.
 
 #+begin_src org :exports code
   ,#+source: ps-to-dot
@@ -928,20 +921,18 @@ indicated by the =:exports none= header argument.
                    for j in range(len(ps[i]))])
 #+end_src
 
-The output is passed directly into a block of [[latex:proglang][dot]]
-code by assigning the name of the [[latex:proglang][python]] code block
-to the variable =ps-vals=.  Passing the results of one code block to
-another in this way is called /chaining/; [[latex:proglang][Org-mode]]
-places no limit on the number of code blocks that can be chained
-together.  Evaluation propagates backwards through chained code
-blocks.  In this example, the =:file= header argument causes the code
-block to save the image resulting from its evaluation into a file
-named =pascals-triangle.pdf=, and inserts a link to this image into
-the [[latex:proglang][Org-mode]] buffer.  This link will then expand
-to include the contents of the image upon export -- it is also
-possible to view linked images from within an
-[[latex:proglang][Org-mode]] buffer.  The link is shown both in
-[[latex:proglang][Org-mode]] syntax and in exported form (see Figure
+The output is passed directly into a block of [[latex:proglang][dot]] code by assigning
+the name of the [[latex:proglang][python]] code block to the variable =ps-vals=.  Passing
+the results of one code block to another in this way is called
+/chaining/; [[latex:proglang][Org-mode]] places no limit on the number of code blocks that
+can be chained together.  Evaluation propagates backwards through
+chained code blocks.  In this example, the =:file= header argument
+causes the code block to save the image resulting from its evaluation
+into a file named =pascals-triangle.pdf=, and inserts a link to this
+image into the [[latex:proglang][Org-mode]] buffer.  This link will then expand to include
+the contents of the image upon export -- it is also possible to view
+linked images from within an [[latex:proglang][Org-mode]] buffer.  The link is shown both
+in [[latex:proglang][Org-mode]] syntax and in exported form (see Figure
 \ref{pascals-triangle-fig}).
 
 #+begin_src org :exports code
@@ -998,11 +989,11 @@ the triangle is correct.  This can be done in many ways; here, it is
 done with a short block of Emacs Lisp code that takes a row of numbers
 and a number =n= and returns =pass= if the sum of the numbers in the
 row is equal the nth Fibonacci number and returns =fail= otherwise.
-Calls to this code block can be embedded into the
-tabular view of Pascal's triangle using spreadsheet style formulas.
-When the spreadsheet is calculated, it returns =pass= for each of the
-five diagonals, confirming that the implementation of Pascal's
-triangle is correct.
+Calls to this code block can be embedded into the tabular view of
+Pascal's triangle using spreadsheet style formulas.  When the
+spreadsheet is calculated, it returns =pass= for each of the five
+diagonals, confirming that the implementation of Pascal's triangle is
+correct.
 
 #+begin_src org :exports code
   ,#+source: ps-check
