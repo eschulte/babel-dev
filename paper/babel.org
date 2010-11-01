@@ -776,14 +776,20 @@ the reader.
 [[latex:proglang][Org-mode]] has been designed with security measures to protect users
 from the accidental or uninformed execution of code.  By default
 /every/ execution of a code block requires explicit confirmation from
-the user.[fn:1] In addition, it is possible to remove code block
-evaluation from the default =C-c C-c= key binding.  This key binding
-is ubiquitous in [[latex:proglang][Org-mode]], and is typically bound to the function most
-likely to be called from a particular context.  An alternative key
-binding is present for code block evaluation, namely =C-c C-v e=.  The
-three key strokes required for this binding, and the fact that it is
-not used elsewhere in [[latex:proglang][Org-mode]], provides some degree of protection
-against unintended evaluation of code blocks.
+the user[fn:1].
+
+# I'm tempted to leave the following bit out on the basis that it is
+# usage detail rather than high-level [DD]
+
+# In addition, it is possible to remove code block
+# evaluation from the default =C-c C-c= key binding.  This key binding
+# is ubiquitous in [[latex:proglang][Org-mode]], and is typically bound to the function most
+# likely to be called from a particular context.  An alternative key
+# binding is present for code block evaluation, namely =C-c C-v e=.  The
+# three key strokes required for this binding, and the fact that it is
+# not used elsewhere in [[latex:proglang][Org-mode]], provides some degree of protection
+# against unintended evaluation of code blocks.
+
 
 * Examples
    :PROPERTIES:
