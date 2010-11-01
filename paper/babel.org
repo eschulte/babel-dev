@@ -555,7 +555,7 @@ blocks. These can be /tables/, /example blocks/, or /links/.
 
 Active code blocks are marked with a =#+source:= line, followed by a
 name unique within the document.  Such blocks can be augmented by header
-aguments that control the way [[latex:proglang][Org-mode]] handles evaluation and export.
+arguments that control the way [[latex:proglang][Org-mode]] handles evaluation and export.
 #+begin_src org :exports code
   ,#+source: <name>
   ,#+begin_src <language> <header arguments>
@@ -820,11 +820,12 @@ patterns through short examples.  The first example highlights how
 [[latex:proglang][Org-mode]] allows data to flow between tables, code blocks of multiple
 languages, and graphical figures.  The second demonstrates the use of
 traditional literate programming techniques.  The final example
-demonstrates interaction with external data sources, including the
-automated creation and use of local databases from within [[latex:proglang][Org-mode]]
-documents for long-term persistence of potentially large amounts of
-data, and the use of session-based evaluation for short term
-persistence of smaller amounts of data.
+demonstrates the use of [[latex:proglang][Org-mode]] for data analysis. It involves
+interaction with external data sources, automated creation and use of
+local databases from within [[latex:proglang][Org-mode]] documents for long-term
+persistence of potentially large amounts of data, and the use of
+session-based evaluation for short term persistence of smaller amounts
+of data.
 
 ** Data flow --- Pascal's triangle
    :PROPERTIES:
@@ -843,10 +844,10 @@ the example uses a property of the triangle to test the correctness of
 the implementation, using Emacs Lisp code blocks embedded in a tabular
 view of the triangle to test whether the property is satisfied.
 
-*** Calculating Pascal's triangle
-The following Emacs Lisp source block calculates and returns the first
+*** Computing Pascal's triangle
+The following [[latex:proglang][Emacs Lisp]] source block computes and returns the first
 five rows of Pascal's triangle.  [[latex:proglang][Org-mode]] inserts the value returned
-by the Emacs Lisp function into the [[latex:proglang][Org-mode]] document as a table named
+by the [[latex:proglang][Emacs Lisp]] function into the [[latex:proglang][Org-mode]] document as a table named
 =pascals-triangle=.  This table can be referenced by other code
 blocks.
 #+begin_src org :exports code
@@ -1393,8 +1394,8 @@ for a community of researchers and developers.  These include:
 
 - Widely Available :: Software used in reproducible research should be
      readily available and easily installable by readers.  [[latex:proglang][Org-mode]] is
-     freely available and as of the next major release of Emacs
-     (version 24) [[latex:proglang][Org-mode]] including all of the facilities discussed
+     freely available and, as of the next major release of Emacs
+     (version 24), [[latex:proglang][Org-mode]] including all of the facilities discussed
      herein will be included in the Emacs core.  Emacs is one of the
      most widely ported non-trivial programs in existence, making the
      installation and use of [[latex:proglang][Org-mode]] possible on an extremely wide
@@ -1413,7 +1414,7 @@ for a community of researchers and developers.  These include:
      exports to a wide variety of file types, including ASCII, LaTeX,
      HTML, and DocBook.  When asking researchers or software
      developers to learn a new tool or platform it is important that
-     the tool be able to adopt to new languages or modes of
+     the tool be able to adapt to new languages or modes of
      development.
 
 - Integration :: [[latex:proglang][Org-mode]] leverages the sophisticated editing modes
@@ -1421,27 +1422,29 @@ for a community of researchers and developers.  These include:
 
 
 Literate programming and reproducible research systems are typically
-difficult to use and the cost of adoption has kept them from spreading
+prescriptive and difficult to use, and this cost of adoption has kept them from spreading
 more widely through the computing community.  [[latex:proglang][Org-mode]] makes it
 possible to practice literate programming and reproducible research
 while retaining a familiar editing environment, thereby lowering the
 adoption cost of these techniques.  [[latex:proglang][Org-mode]] is designed so that all
 stages of the research and development cycle can be captured in a
 single document.  This design feature makes it possible to collocate
-the code, data, and text relevant to a project, eliminating or
-reducing the burden of compiling disparate pieces of code and text at
+all the code, data, and text relevant to a project, eliminating or
+reducing the burden of assembling dispersed files of code and text at
 the project's end.  We believe that with its ease of adoption,
 familiar environment, and universal applicability across programming
 languages, [[latex:proglang][Org-mode]] represents an advance in literate programming and
 reproducible research tools.
 
-We also believe [[latex:proglang][Org-mode]] has the potential to advance the expectation that
+We also believe that [[latex:proglang][Org-mode]] has the potential to advance the expectation that
 all computational projects include /both/ code and prose; the
-arguments that Knuth advanced for literate programming are still
-salient today, and the meteoric rise of electronic publishing has
+arguments that Knuth advanced for literate programming are no less valid today,
+and the meteoric rise of electronic publishing has
 created a huge opportunity for reproducible research.  [[latex:proglang][Org-mode]] can
 help researchers and software developers communicate their work and
 make it more accessible.
+
+# "Meteoric rise" is unfortunate
 
 #+begin_LaTeX
     \bibliography{babel}
