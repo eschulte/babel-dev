@@ -144,16 +144,14 @@ without expository prose is a less than ideal medium for communication
 between people. In this paper we describe the plain text markup
 language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
 environment supporting many different approaches to composition and
-application of combined prose and code (Table \ref{grid}). [[latex:proglang][Org-mode]] is
-designed for ease of use and adoption,
-# TODO: I'd like to say something along the lines of Org-mode being a
-# superset of plain text editing. I.e. it isn't some esoteric new
-# activity; you start with writing plain text, and you can gradually
-# add Org-mode elements to it. (DD)
- and aims to be a general
-solution for authoring projects with mixed computational and natural
-languages.  It supports multiple languages, export targets, and work
-flows.
+application of combined prose and code (Table \ref{grid}).  Working in
+[[latex:proglang][Org-mode]] is an extension of standard text editing. Thus trivial usage
+of [[latex:proglang][Org-mode]] is nothing more than text editing, from which point the
+user can choose to start including special plain text [[latex:proglang][Org-mode]]
+elements into the document.  [[latex:proglang][Org-mode]] is therefore easy to adopt and
+aims to be a general solution for authoring projects with mixed
+computational and natural languages.  It supports multiple languages,
+export targets, and work flows.
 
 #+LaTeX: \begin{table*}
 #+ATTR_LaTeX: align=r|c|c
