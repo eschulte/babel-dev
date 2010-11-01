@@ -1235,10 +1235,6 @@ standard command-line tools.
    ,      >$file
    ,#+end_src
    ,
-   ,#+results[57a0cffff669c58903c72b7bec08acc082aa80ff]: raw-temps
-   ,[[file:raw-temps.csv]]
-   ,
-   ,
    ,#+source: country-codes
    ,#+headers: :file country-codes.csv :var file="country-codes.csv" 
    ,#+begin_src sh :cache yes :exports results
@@ -1247,9 +1243,6 @@ standard command-line tools.
    ,      |sed 's/ \+/,/' \
    ,      >$file
    ,#+end_src
-   ,
-   ,#+results[b5d2b617dfa745e4a1950e9afc33cd2b55004dd7]: country-codes
-   ,[[file:country-codes.csv]]
 #+end_src
  
 #+source: raw-temps
@@ -1265,7 +1258,7 @@ standard command-line tools.
 
 #+source: country-codes
 #+headers: :file country-codes.csv :var file="country-codes.csv" 
-#+begin_src sh :cache yes :exports results
+#+begin_src sh :exports results
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
       |sed 's/ *$//' \
       |sed 's/ \+/,/' \
@@ -1288,13 +1281,14 @@ rather than storing the data as plain text in the [[latex:proglang][Org-mode]] b
    ,#+end_src
 #+end_src
 
+#+headers: :var raw-temps-file=raw-temps :var country-codes-file=country-codes
 #+begin_src sqlite :db climate.sqlite :exports results :results silent
   create table temps (country,station,replicate,year,jan,feb,
          mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
   create table countries (code, name);
   .separator ","
-  .import raw-temps.csv temps
-  .import country-codes.csv countries
+  .import $raw-temps-file temps
+  .import $country-codes-file countries
 #+end_src
 
 The =get-temps= code block reads a subset of the data from the sqlite
