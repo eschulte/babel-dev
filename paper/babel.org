@@ -597,9 +597,10 @@ Speaks Statistics (ESS) project \citep{ess}.  Thus, both the Org buffer
 and the language-specific session buffers may be used for sharing of
 functions and data structures between blocks. In [[latex:proglang][Org-mode]], [[latex:proglang][R]] code editing and 
 session-based [[latex:proglang][R]] evaluation are implemented using ESS. Therefore [[latex:proglang][Org-mode]] is 
-not a replacement for ESS; rather [[latex:proglang][Org-mode]] provides a feature-rich project managament
-and document authoring environment within which to embed traditional ESS usage.
-Session-based evaluation is similar to the approach to evaluation
+not a replacement for ESS; rather [[latex:proglang][Org-mode]] provides a document authoring and 
+project management environment within which to embed traditional ESS usage.
+
+Session-based evaluation during export to LaTeX is similar to the approach
 taken by [[latex:proglang][Sweave]], in which every code block is evaluated in the same
 persistent session.  In [[latex:proglang][Org-mode]], the =:session= header argument takes
 an optional name, making it possible to maintain multiple distinct
