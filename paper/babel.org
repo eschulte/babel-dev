@@ -576,8 +576,14 @@ in the [[latex:proglang][Org-mode]] buffer immediately following the code block,
 #+end_src
 
 By default, a code block is evaluated in a dedicated system process
-which does not persist after evaluation is complete. In addition, for
-several languages, evaluation may be performed in an interactive
+which does not persist after evaluation is complete. The =:dir= header
+argument can be used to specify the directory associated with the
+system process; if this is a directory on a remote machine then the
+code executes on the remote machine and the results are automatically
+transferred across the network to the local Emacs process.
+
+In addition, for several languages, evaluation may be performed in an
+interactive Emacs
 "session" which persists indefinitely. For example session-based
 evaluation of R code uses R sessions provided by the Emacs
 Speaks Statistics (ESS) project \citep{ess}.  Thus, both the Org buffer
