@@ -893,27 +893,30 @@ block, and not for inclusion into the exported document, as indicated
 by the =:exports none= header argument.
 
 #+begin_src org :exports code
-  ,#+source: ps-to-dot
-  ,#+begin_src python :var ps=pascals-triangle :results output :exports none 
-  ,  def node(i, j):
-  ,        return '"%d_%d"' % (i+1, j+1)
-  
-  ,  def edge(i1, j1, i2, j2):
-  ,        return '%s--%s;' % (node(i1, j1), node(i2,j2))
-  
-  ,  def node_with_edges(i, j):
-  ,        line = '%s [label="%d"];' % (node(i, j), ps[i][j])
-  ,        if j > 0:
-  ,              line += edge(i-1, j-1, i, j)
-  ,        if j < len(ps[i])-1:
-  ,              line += edge(i-1, j, i, j)
-  ,        return line 
-  ,    
-  ,  ps = [filter(None, row) for row in ps]
-  ,  print '\n'.join([node_with_edges(i, j)
-  ,                   for i in range(len(ps))
-  ,                   for j in range(len(ps[i]))])
-  ,#+end_src
+   ,#+source: ps-to-dot
+   ,#+begin_src python :var ps=pascals-triangle :results output :exports none 
+   ,  def node(i, j):
+   ,        return '"%d_%d"' % (i+1, j+1)
+   ,  
+   ,  def edge(i1, j1, i2, j2):
+   ,        return '%s--%s;' % (node(i1, j1), node(i2,j2))
+   ,  
+   ,  def node_with_edges(i, j):
+   ,        line = '%s [label="%d"];' % (node(i, j), ps[i][j])
+   ,        if j > 0:
+   ,              line += edge(i-1, j-1, i, j)
+   ,        if j < len(ps[i])-1:
+   ,              line += edge(i-1, j, i, j)
+   ,        return line 
+   ,  
+   ,  # Eliminate empty table cells
+   ,  ps = [filter(None, row) for row in ps]
+   ,
+   ,  # Output dot commands
+   ,  print '\n'.join([node_with_edges(i, j)
+   ,                   for i in range(len(ps))
+   ,                   for j in range(len(ps[i]))])
+   ,#+end_src
 #+end_src
 
 #+source: ps-to-dot
@@ -931,8 +934,11 @@ by the =:exports none= header argument.
         if j < len(ps[i])-1:
               line += edge(i-1, j, i, j)
         return line 
-
+  
+  # Eliminate empty table cells
   ps = [filter(None, row) for row in ps]
+
+  # Output dot commands
   print '\n'.join([node_with_edges(i, j)
                    for i in range(len(ps))
                    for j in range(len(ps[i]))])
