@@ -11,7 +11,7 @@
 #+LATEX_HEADER: \Shorttitle{Mixed Language Computing}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
 #+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
-#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file (tangling). This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
+#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
 #+LaTeX_CLASS: jss
 
 
@@ -162,8 +162,8 @@ export targets, and work flows.
 |             | [[latex:proglang][Org-mode]] features       | language modes                |
 |-------------+-------------------------+-------------------------------|
 |             | automated publishing to | in-situ interactive execution |
-| application | a variety of document   | as well as tangling of code   |
-|             | and slideshow formats   | for external use              |
+| application | a variety of document   | as well as extraction of code |
+|             | and slideshow formats   | for external execution        |
 #+LaTeX: \caption{\proglang{Org-mode} enables both the composition and application of code and prose.}
 #+LaTeX: \label{grid}
 #+LaTeX: \end{table*}
@@ -318,7 +318,7 @@ computational language documents from a different direction than
 literate programming.  Rather than adding prose to computational
 projects, reproducible research seeks to augment publications of
 scientific research with the computer code used to carry out the
-research.  Where literate programming tangles embedded code into an
+research.  Whereas literate programming extracts embedded code into an
 external file used as input to a compiler or an interpreter, code
 embedded in a reproducible research document is intended to be executed as part
 of the document generation process.  In this way the data, analysis,
@@ -754,6 +754,18 @@ code file suitable for execution by a computer.
      [[latex:proglang][Org-mode]] implements the [[latex:proglang][noweb]] reference system using
      identical syntax and functionality.
 
+** COMMENT Export/Weaving/Tangling terminology
+   What is the relationship of these terms? This crops up at the start
+   of the next para.
+
+*** Scheme A: Weaving and Tangling are types of export
+    - Export
+      - Weaving
+      - Tangling
+*** Scheme B: Weaving and Export are synonyms
+   - Export == Weaving
+   - Tangling something else
+    
 ** Language support
     :PROPERTIES:
     :CUSTOM_ID: languages
