@@ -1333,8 +1333,8 @@ incorporation into the exported document (Figure
    ,      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
    ,  fit.slope <- function(station)
    ,      with(station, coefficients(lm(jul ~ year))["year"])
-   ,  include <- sapply(temps.by.station, include.station)
-   ,  slopes <- sapply(temps.by.station[include], fit.slope)
+   ,  included <- sapply(temps.by.station, include.station)
+   ,  slopes <- sapply(temps.by.station[included], fit.slope)
    ,  hist(slopes)
    ,#+end_src
    ,
@@ -1350,8 +1350,8 @@ incorporation into the exported document (Figure
       station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
   fit.slope <- function(station)
       with(station, coefficients(lm(jul ~ year))["year"])
-  include <- sapply(temps.by.station, include.station)
-  slopes <- sapply(temps.by.station[include], fit.slope)
+  included <- sapply(temps.by.station, include.station)
+  slopes <- sapply(temps.by.station[included], fit.slope)
   hist(slopes)
 #+end_src
 
