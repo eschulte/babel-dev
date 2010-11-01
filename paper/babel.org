@@ -1185,18 +1185,24 @@ remain up-to-date long after its initial composition and publication.
 This example demonstrates the ability of code blocks in an [[latex:proglang][Org-mode]]
 document to reference external data, to construct and use local stores
 of data outside the document, and to maintain persistent state in
-external sessions, all in an automated fashion.  This allows each
-reader of the document to update the document with up-to-date data, and to
+external sessions, all in an automated fashion. This allows each
+reader to recreate the document with up-to-date data, and to
 propagate a full local workspace with the data used in the document.
 
 This example references climate change data from the US National
-Oceanic and Atmospheric Administration (NOAA).  It is implemented with
-command-line tools commonly available on Unix-like systems, the sqlite
-database, and [[latex:proglang][R]].  These software choices were made to highlight the
-use of popular data processing tools from within [[latex:proglang][Org-mode]].  It is
-worth pointing out, however, that at each step of the way alternatives
-exist, one or more of which might substantially simplify the example
-for any particular user.
+Oceanic and Atmospheric Administration (NOAA). The data set is much
+larger (hundreds of thousands of rows) than the Pascal's Triangle
+example above (Section \ref{pascals-triangle}). Accordingly, this
+example demonstrates a different style of working with executable code
+blocks in [[latex:proglang][Org-mode]]: instead of transferring large amounts of data
+between blocks via [[latex:proglang][Org-mode]] tables and [[latex:proglang][emacs-lisp]], we use temporary
+plain text files on disk and a dedicated external database. The
+example is implemented with command-line tools commonly available on
+Unix-like systems, the [[latex:proglang][sqlite]] database, and [[latex:proglang][R]].  These software tools
+were chosen to illustrate the use of popular data processing tools
+from within [[latex:proglang][Org-mode]].  It is worth pointing out, however, that at each
+step of the way alternatives exist, one or more of which might
+substantially simplify the example for any particular user.
 
 The first two code blocks fetch and parse data from NOAA using
 standard command-line tools.
