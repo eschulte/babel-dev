@@ -202,9 +202,9 @@ approached from two different standpoints.
      act of development as one of communication with future
      maintainers.
 
-- Reproducible Research :: embeds executable code in publications of
-     scholarly work, with the aim of allowing readers to re-run the
-     analysis described in the paper.
+- Reproducible Research :: embeds executable code in research reports
+     and publications, with the aim of allowing readers to re-run the
+     analyses described.
 
 We discuss each of these approaches in turn and include a review of
 existing software tools that support each technique.
@@ -221,7 +221,7 @@ beings what we want a computer to do.
 
 The technique of /literate programming/ was introduced by Donald Knuth
 \citep{web} in the early 1980's, not long after he created the TeX
-typesetting software.  The goals of literate programming are to
+typesetting software.  Literate programming has been described as aiming to
 encourage the author of a computational work to approach the project
 "as an essayist, whose main concern is with exposition and excellence
 of style."
@@ -231,8 +231,8 @@ Accordingly, the input files for literate programming tools mix
 sections of computer code with sections of natural language typically
 marked up in TeX or LaTeX.  The literate programming tool provides
 methods to create two types of /view/ into the document; articles of
-typset prose and marked-up code blocks intended for human consumption,
-and computer readable documents of pure source code.  The literate
+typeset prose with marked-up code blocks intended for human consumption,
+and computer-readable documents of pure source code.  The literate
 programming terms for generating these views are /weaving/ and
 /tangling/, respectively.  A common feature of literate programming
 tools is the ability to organize code blocks differently when
@@ -269,25 +269,27 @@ generated the figures.
 \attrib{David L. Donoho}
 #+end_quote
 
-A research project typically produces one or more documents that
-describe or rely upon:
-  - a data collection
-  - computations and code used in data analysis or simulation
+# Needs citation with page number
+
+A research project typically relies upon components such as:
+  - the data being studied
+  - details of calculations and code used in data analysis
   - methodological conventions and assumptions
   - decisions among alternate analytic paths
 
-The documents produced by a research project typically stand apart
+However, the documents produced by a research project typically stand apart
 from the things they describe and rely upon, which makes it difficult
-for other researchers to understand fully or to reproduce the results
-of the research project.
- 
+for other researchers to reproduce the results and to fully understand the conclusions 
+of the research project. This is a major flaw, since reproducibility and accurate
+communication are central to notions of good science.
+
 A software solution to this problem was proposed by Gentleman and
 Temple Lang \citep{compendium}, who "introduce the concept of a
 /compendium/ as both a container for the different elements that make
 up the document and its computations (i.e. text, code, data, ...), and
 as a means for distributing, managing and updating the collection."
 
-They summarize the uses and implications of a compendium:
+They summarize the uses and implications of a compendium as follows:
 
   - it encapsulates the actual work of the author, not just an
     abridged version suitable for publication; 
@@ -310,10 +312,10 @@ They summarize the uses and implications of a compendium:
 computational language documents from a different direction than
 literate programming.  Rather than adding prose to computational
 projects, reproducible research seeks to augment publications of
-scientific research with the computer code used during conduct of the
+scientific research with the computer code used to carry out the
 research.  Where literate programming tangles embedded code into an
 external file used as input to a compiler or an interpreter, code
-embedded in reproducible research is intended to be executed as part
+embedded in a reproducible research document is intended to be executed as part
 of the document generation process.  In this way the data, analysis,
 and figures supporting a publication can be generated from the
 publication itself.
@@ -349,18 +351,16 @@ and extension.
 =Sweave= \citep{sweave} is a modern software tool written in the [[latex:proglang][R]]
 statistical programming language \citep{r-software} that can be used
 for reproducible research.  [[latex:proglang][Sweave]] and the [[latex:proglang][R]] community at large
-inspired the work that led to the /compendium/ idea.  The recent
-resurgence in reproducible research owes much to the success of both [[latex:proglang][R]]
+inspired the work that led to the /compendium/ idea, and the recent
+resurgence of interest in reproducible research owes much to the success of both [[latex:proglang][R]]
 and [[latex:proglang][Sweave]].
-[[latex:proglang][Sweave]] documents consist of code blocks of the
-[[latex:proglang][R]] statistical programming language embedded into
+[[latex:proglang][Sweave]] documents consist of blocks of [[latex:proglang][R]] code embedded in
 LaTeX documents.  The [[latex:proglang][R]] functions that make up
-[[latex:proglang][Sweave]] execute the embedded [[latex:proglang][R]] code and produce a
+[[latex:proglang][Sweave]] execute the embedded [[latex:proglang][R]] code and produce another
 LaTeX document that includes the resulting tables, graphical figures,
 and inline results.  If the [[latex:proglang][Sweave]] document is accompanied by the
-data files used in the statistical computations along with any [[latex:proglang][R]]
-language files that are sourced, then the reader can trace a result
-back to the relevant [[latex:proglang][R]] computations and through to the original
+data files and any other code that is used, then the reader can trace a result
+back to the relevant computations and through to the original
 data.
 
 # It might be useful to start this section with Lisp and how bottom-up
@@ -378,14 +378,13 @@ At the core of [[latex:proglang][Org-mode]] is the Emacs text editor \citep{emac
 \citep{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp that
 supports the editing of text documents.  The Emacs editor has been under
 development since the mid 1970s and is currently at version 23.
-[[latex:proglang][Org-mode]] extends Emacs with a simple, powerful markup language
-that turns it into a language for creating and parsing
-hierarchically-organized text documents.  It was originally designed
-for keeping notes, maintaining task lists, and planning projects.  Its
+[[latex:proglang][Org-mode]] extends Emacs with a simple and powerful markup language
+that turns it into a language for creating, parsing, and interacting with
+hierarchically-organized text documents.  Its
 rich feature set includes text structuring, project management, and a
 publishing system that can export to a variety of formats.  Source
 code and data are located in active blocks, distinct from text
-sections.  Activation means that code and data blocks can be
+sections, where "active" here means that code and data blocks can be
 /evaluated/ to return their contents or their computational results.
 The results of code block evaluation can be written to a named data
 block in the document, where it can be referred to by other code
@@ -396,7 +395,7 @@ Emacs, [[latex:proglang][Org-mode]] is extensible: support for new languages can
 by the user in a modular fashion through the definition of a small
 number of Emacs Lisp functions.
 
-In the remainder of this section, we first describe [[latex:proglang][Org-mode]], focusing
+In the remainder of this section, we first describe [[latex:proglang][Org-mode]] in more detail, focusing
 on those features that support literate programming and reproducible
 research (Section \ref{org-mode}).  We then describe the syntax of
 code and data blocks (Section \ref{syntax}), evaluation of code blocks
@@ -412,10 +411,12 @@ code and data blocks (Section \ref{syntax}), evaluation of code blocks
 [[latex:proglang][Org-mode]] is an Emacs extension that organizes note taking, task
 management, project planning, documentation and authoring.  Its name
 comes from its organizing function and the fact that extensions to
-Emacs are often implemented as /modes/.  A mode in Emacs defines the way a
-user can edit and interact with certain documents.  [[latex:proglang][Org-mode]] documents
-are plain text files, usually with the file name extension /.org/.
-Because Emacs has been ported to a large number of operating systems
+Emacs are often implemented as /modes/---software modules which define
+the way a user can edit and interact with certain classes of
+documents.  [[latex:proglang][Org-mode]] documents are plain text files, usually with the
+file name extension /.org/; working in [[latex:proglang][Org-mode]] starts with
+conventional text editing and incrementally adds [[latex:proglang][Org-mode]]-specific
+features.  Because Emacs has been ported to a large number of operating systems
 [[latex:proglang][Org-mode]] can be run on a wide variety of devices and its plain text
 documents are compatible between arbitrary platforms.
 
@@ -451,13 +452,13 @@ structural overview of the document.
 One of the primary design goals of [[latex:proglang][Org-mode]] was to define a system
 that combines efficient note-taking and brainstorming with a task
 management and project planning system.  A single [[latex:proglang][Org-mode]] document
-can hold both notes and all data necessary to keep track of tasks and
+can hold the notes, together with and all the data necessary to keep track of tasks and
 projects associated with the notes.  This is accomplished by assigning
 metadata to outline nodes using a special syntax.  Metadata for a node
 can include a task state, like =TODO= or =DONE=, a priority, and one
 or more tags, dates, and arbitrary key-value pairs called properties.
-In the following example a top-level node is a task with a "to do"
-state, a priority of A, and tagged for urgent attention at work.  The
+In the following example the top-level node is a task with state =TODO=,
+a priority of =A=, and tagged for urgent attention at work.  The
 task has been scheduled for 18 August 2010 and a property indicates
 that it was delegated to Peter.
 
@@ -473,10 +474,12 @@ The task and project management functionality of [[latex:proglang][Org-mode]] is
 around the metadata associated with nodes.  [[latex:proglang][Org-mode]] provides
 facilities to create and modify metadata quickly and efficiently.  It
 also provides facilities to search, sort, and filter headlines, to
-display tabular views of selected headlines, to clock in and out of
+display chronological views of all headlines with date and time
+metadata, to
+display tabular views of properties at selected headlines, to clock in and out of
 headlines defined as tasks, and more.
 
-The outline structure of documents also defines a hierarchy of
+The outline structure of documents defines a hierarchy of
 metadata.  Tags and properties of a node are inherited by its
 sub-nodes, and views of the document can be designed that sum or
 average the properties inherited by a node.  Code blocks live in this
@@ -502,7 +505,7 @@ represent both data and formulas.
   ,| ...    | ...    | ... | ...    |
 #+end_src
 
-In the following section we focus on [[latex:proglang][Org-mode]]'s support for working
+In the following sections we focus on [[latex:proglang][Org-mode]]'s support for working
 with active source code and data blocks.
 
 ** Code and data block extensions
@@ -525,7 +528,8 @@ passing system.
 #                       syntax [Eric]
 
 Data blocks that are preceded by a line that begins with =#+results:=,
-followed by a name unique within the document can be accessed by code
+and are
+followed by a name unique within the document, can be accessed by code
 blocks. These can be /tables/, /example blocks/, or /links/.
 #+begin_src org :exports code
   ,#+results: tabular-data
@@ -543,7 +547,7 @@ blocks. These can be /tables/, /example blocks/, or /links/.
 #+end_src
 
 Active code blocks are marked with a =#+source:= line, followed by a
-name unique within the document.  Such blocks are augmented by header
+name unique within the document.  Such blocks can be augmented by header
 aguments that control the way [[latex:proglang][Org-mode]] handles evaluation and export.
 #+begin_src org :exports code
   ,#+source: <name>
@@ -592,13 +596,13 @@ Adding a =:session= /header argument/ to a block causes [[latex:proglang][Org-mo
 Session-based evaluation is similar to the approach to evaluation
 taken by [[latex:proglang][Sweave]], in which every code block is evaluated in the same
 persistent session.  In [[latex:proglang][Org-mode]], the =:session= header argument takes
-an optional name, making it possible to maintain multiple disjoint
+an optional name, making it possible to maintain multiple distinct
 sessions.
 
 *** Results
 [[latex:proglang][Org-mode]] returns the results of code block evaluation as strings,
 scalars, tables, or links.  By default, these are
-inserted in the [[latex:proglang][Org-mode]] buffer as protected text immediately after
+inserted in the [[latex:proglang][Org-mode]] buffer as special plain text elements immediately after
 the code block.  In practice, the user has extensive control over how
 evaluation results are handled.
 
@@ -615,11 +619,11 @@ header argument.
      from =STDOUT= incrementally, as they are written by the
      application responsible for code execution.
 
-These differences can be demonstrated with the following bit of
-[[latex:proglang][perl]] code that yields different results depending
+These differences are demonstrated by the following
+[[latex:proglang][perl]] code, which yields different results depending
 on the value of the =:results= header argument.  Note that the first
 example uses the default =:results value= and returns a scalar.  When
-output is returned the same code yields a string 
+output is returned the same code yields a string.
 
 #+begin_src org :exports code
   ,#+begin_src perl
@@ -657,8 +661,8 @@ print "shouting into the dark!\n";
 $x
 #+end_src
 
-[[latex:proglang][Org-mode]] also recognizes vector results and
-inserts them as tables into the buffer as demonstrated in the
+[[latex:proglang][Org-mode]] also recognizes vector and matrix results and
+inserts them as tables into the buffer, as demonstrated by the
 following two blocks of Haskell code.
 
 #+begin_src org :exports code
@@ -705,6 +709,8 @@ blocks.  The =:var= header argument takes a variable name and a value
 and assigns the value to the named variable inside the code block.
 Values can be literal values, such as scalars or strings, references
 to named data blocks, links, or references to named code blocks.
+In the latter case, the value is the result of evaluating the
+referenced code block.
 
 All values passed to variables are served by the Emacs Lisp
 interpreter that is at the core of Emacs.  This argument passing
@@ -718,7 +724,7 @@ input to blocks of code in another language, as shown in Section
     :CUSTOM_ID: export
     :END:
 
-Borrowing terms from the Literate Programming community, [[latex:proglang][Org-mode]]
+Borrowing terms from the Literate Programming literature, [[latex:proglang][Org-mode]]
 supports both /weaving/---the exportation of a mixed code/prose
 document to a prose format suitable for reading by a human---and
 /tangling/---the exportation of a mixed code/prose document to a pure
@@ -757,8 +763,8 @@ support for new languages can be added is evidenced by the fact that
 new language support is increasingly implemented by [[latex:proglang][Org-mode]] users.
 
 ** Safety considerations
-A reproducible research document, includes code that
-can be evaluated.  This potentially gives malicious hackers direct
+A reproducible research document includes code that
+can be evaluated.  This carries the potential of giving a malicious hacker direct
 access to the reader's computer.  The primary defense in this instance
 is for the reader to recognize malicious code and to choose not to run
 it.  This can be a difficult task in a reproducible research document
