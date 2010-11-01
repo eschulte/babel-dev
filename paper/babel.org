@@ -568,13 +568,13 @@ aguments that control the way [[latex:proglang][Org-mode]] handles evaluation an
 When a code block is evaluated, the captured output appears by default
 in the [[latex:proglang][Org-mode]] buffer immediately following the code block, e.g.,
 #+begin_src org :exports code
-  ,#+begin_src ruby
-  ,  require 'date'
-  ,  "This was last evaluated on #{Date.today}"
-  ,#+end_src
-  
-  ,#+results:
-  ,: This was last evaluated on 2010-06-25
+   ,#+begin_src ruby :exports none
+   ,  require 'date'
+   ,  "This was last evaluated on #{Date.today}"
+   ,#+end_src
+   ,
+   ,#+results:
+   ,: This was last evaluated on 2010-11-01
 #+end_src
 
 #+begin_src ruby :exports none
