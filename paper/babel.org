@@ -226,6 +226,8 @@ encourage the author of a computational work to approach the project
 "as an essayist, whose main concern is with exposition and excellence
 of style."
 # need citation with page number
+# I hesitate about including this as I find the quote itself
+# pretentious and thus of questionable style [DD]
 
 Accordingly, the input files for literate programming tools mix
 sections of computer code with sections of natural language typically
@@ -251,12 +253,15 @@ modern descendent of these tools is [[latex:proglang][noweb]]
 primary programs, =notangle= and =noweave=, are both written in
 [[latex:proglang][C]].  Documents produced by =noweave= can be typeset
 with TeX, LaTeX, and [[latex:proglang][troff]] or displayed in a web
-browser as =HTML=.  Software tools such as [[latex:proglang][WEB]],
-[[latex:proglang][cWeb]], and [[latex:proglang][noweb]] enable the
-authoring of both prose and code, but do not provide facilities for
-the execution of code from within documents.  Instead, code intended
-for execution is tangled and the resulting source code files are sent
-to a compiler or interpreter.
+browser as =HTML=.
+# I'm slightly confused here. Is that the same as saying that
+# =noweave= is capable of producing LaTeX, troff and HTML output? Does
+# =noweave= require latex (mixed with code) as /input/?
+Software tools such as [[latex:proglang][WEB]], [[latex:proglang][cWeb]], and [[latex:proglang][noweb]] enable the authoring of
+both prose and code, but do not provide facilities for the execution
+of code from within documents.  Instead, code intended for execution
+is tangled and the resulting source code files are sent to a compiler
+or interpreter.
 
 ** Reproducible research
 #+begin_quote
@@ -498,6 +503,8 @@ can be used to carry out computations in tables.  This feature is
 similar to spreadsheet applications, but [[latex:proglang][Org-mode]] uses plain text to
 represent both data and formulas.
 
+# Replace "calculator" with "mathematical engine" or something? "calculator" sounds very 1980s...
+
 #+begin_src org :exports code
   ,| Name 1 | Name 2 | ... | Name N |
   ,|--------+--------+-----+--------|
@@ -597,6 +604,7 @@ taken by [[latex:proglang][Sweave]], in which every code block is evaluated in t
 persistent session.  In [[latex:proglang][Org-mode]], the =:session= header argument takes
 an optional name, making it possible to maintain multiple distinct
 sessions.
+# Shall we be explicit here that Org-mode is a direct competitor of Sweave?
 
 *** Results
 [[latex:proglang][Org-mode]] returns the results of code block evaluation as strings,
@@ -1554,6 +1562,10 @@ evaluation is useful.  TD
 * Acknowledgements
 TODO
 * COMMENT Tasks
+** TODO Terminological consistency
+   This may be fine as-is, bu for the record:
+*** "Computational" versus "computer" languages
+*** "Prose" versus "natural language"
 ** TODO Get rid of \texttt{SCHEDULED} appearing in pdf
 ** TODO Store file names in variables/blocks
    In the climate example there is some redundancy in that lines like e.g.
