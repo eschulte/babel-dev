@@ -798,18 +798,10 @@ the user[fn:1].
 # not used elsewhere in [[latex:proglang][Org-mode]], provides some degree of protection
 # against unintended evaluation of code blocks.
 
-
 * Examples
    :PROPERTIES:
    :CUSTOM_ID: examples
    :END:
-
-# TODO: Make it so that all code and results are typeset verbatim, along
-# with their header arguments and #+begin_src / #+results elements, as
-# they appear in the Emacs buffer. Show the file link as well as the
-# graphical output. This TODO applies to the Pascal's Triangle and
-# Literate Programming examples (the RR example satisfies this
-# already). (DD)
 
 The following section demonstrates a number of common [[latex:proglang][Org-mode]] usage
 patterns through short examples.  The first example highlights how
@@ -823,6 +815,10 @@ data, and the use of session-based evaluation for short term
 persistence of smaller amounts of data.
 
 ** Data flow --- Pascal's triangle
+   :PROPERTIES:
+   :custom_id: pascals-triangle
+   :END:
+
 # I think this is a terrific example (TD)
 Pascal's triangle is one name for a geometric arrangement of the
 binomial coefficients in a triangle.  The triangle has several
@@ -960,49 +956,33 @@ in [[latex:proglang][Org-mode]] syntax and in exported form (see Figure
 \ref{pascals-triangle-fig}).
 
 #+begin_src org :exports code
-  ,#+source: ps-to-fig
-  ,#+headers: :file pascals-triangle.pdf :cmdline -Tpdf
-  ,#+begin_src dot :var ps-vals=ps-to-dot :exports none
-  ,  graph {
-  ,    $ps-vals
-  ,  }
-  ,#+end_src
-#+end_src
-
-#+source: ps-to-fig
-#+headers: :file pascals-triangle.pdf :cmdline -Tpdf
-#+begin_src dot :var ps-vals=ps-to-dot :exports none
-  graph {
-    $ps-vals
-  }
-#+end_src
-
-#+begin_src org :exports code
-  ,#+source: ps-to-fig
-  ,#+headers: :file pascals-triangle.pdf :exports none
-  ,#+begin_src dot :var ps-vals=ps-to-dot :cmdline -Tpdf
-  ,  graph {
-  ,    $ps-vals
-  ,  }
-  ,#+end_src
-  ,
-  ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
-  ,#+ATTR_LaTeX: width=0.5\textwidth
-  ,[[file:pascals-triangle.pdf]]
+   ,#+source: ps-to-fig
+   ,#+headers: :file pascals-triangle.pdf :cmdline -Tpdf
+   ,#+begin_src dot :var ps-vals=ps-to-dot :exports results
+   ,  graph {
+   ,    $ps-vals
+   ,  }
+   ,#+end_src
+   ,
+   ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
+   ,#+ATTR_LaTeX: width=0.5\textwidth
+   ,#+results: ps-to-fig
+   ,[[file:pascals-triangle.pdf]]
 #+end_src
 #+LaTeX: %$
 
-#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
-#+ATTR_LaTeX: width=0.5\textwidth
-[[file:pascals-triangle.pdf]]
-
 #+source: ps-to-fig
 #+headers: :file pascals-triangle.pdf :cmdline -Tpdf
-#+begin_src dot :var ps-vals=ps-to-dot :exports none
+#+begin_src dot :var ps-vals=ps-to-dot :exports results
   graph {
     $ps-vals
   }
 #+end_src
+
+#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
+#+ATTR_LaTeX: width=0.5\textwidth
+#+results: ps-to-fig
+[[file:pascals-triangle.pdf]]
 
 *** Testing for correctness
 Now that Pascal's triangle has been constructed and a graphic
