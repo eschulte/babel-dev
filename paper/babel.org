@@ -1282,8 +1282,10 @@ rather than storing the data as plain text in the [[latex:proglang][Org-mode]] b
 
 #+headers: :var raw-temps-file=raw-temps :var country-codes-file=country-codes
 #+begin_src sqlite :db climate.sqlite :exports results :results silent
+  drop table if exists temps;
   create table temps (country,station,replicate,year,jan,feb,
          mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+  drop table if exists countries;
   create table countries (code, name);
   .separator ","
   .import $raw-temps-file temps
