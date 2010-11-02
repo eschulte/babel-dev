@@ -1368,7 +1368,7 @@ incorporation into the exported document (Figure
   hist(slopes)
 #+end_src
 
-#+Caption: Temperature trends between 1880 and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
+#+Caption: Temperature trends between 1880 and the present at stations in the USA. \label{fig:climate-trend}
 #+ATTR_LaTeX: width=0.7\textwidth
 #+results: R-graph
 [[file:temp-trends.pdf]]
