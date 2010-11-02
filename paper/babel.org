@@ -1225,33 +1225,33 @@ standard command-line tools.
 #+begin_src org :exports code
    ,#+source: raw-temps
    ,#+headers: :file raw-temps.csv :var file="raw-temps.csv" 
-   ,#+begin_src sh :cache yes :exports results
+   ,#+begin_src sh :exports results
    ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
    ,      |gunzip \
-   ,      |sed 's/-9999/ NA/g' \
-   ,      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)\([0-9]\),\1 \2 \3 ,' \
-   ,      |sed 's/ \+/,/g' \
+   ,      |perl -pe 's/-9999/ NA/g' \
+   ,      |perl -pe 's/^([0-9]{3})([0-9]{8})([0-9])/$1 $2 $3 /' \
+   ,      |perl -pe 's/ +/,/g' \
    ,      >$file
    ,#+end_src
    ,
    ,#+source: country-codes
    ,#+headers: :file country-codes.csv :var file="country-codes.csv" 
-   ,#+begin_src sh :cache yes :exports results
+   ,#+begin_src sh :exports results
    ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
-   ,      |sed 's/ *$//' \
-   ,      |sed 's/ \+/,/' \
+   ,      |perl -pe 's/ *$//' \
+   ,      |perl -pe 's/ +/,/' \
    ,      >$file
    ,#+end_src
 #+end_src
  
 #+source: raw-temps
 #+headers: :file raw-temps.csv :var file="raw-temps.csv" 
-#+begin_src sh :cache yes :exports results
+#+begin_src sh :exports results
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
-      |sed 's/-9999/ NA/g' \
-      |sed 's,^\([0-9]\{3\}\)\([0-9]\{8\}\)\([0-9]\),\1 \2 \3 ,' \
-      |sed 's/ \+/,/g' \
+      |perl -pe 's/-9999/ NA/g' \
+      |perl -pe 's/^([0-9]{3})([0-9]{8})([0-9])/$1 $2 $3 /' \
+      |perl -pe 's/ +/,/g' \
       >$file
 #+end_src
 
@@ -1259,8 +1259,8 @@ standard command-line tools.
 #+headers: :file country-codes.csv :var file="country-codes.csv" 
 #+begin_src sh :exports results
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
-      |sed 's/ *$//' \
-      |sed 's/ \+/,/' \
+      |perl -pe 's/ *$//' \
+      |perl -pe 's/ +/,/' \
       >$file
 #+end_src
 
