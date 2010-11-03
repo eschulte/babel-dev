@@ -1566,7 +1566,8 @@ This leaves dangling the question of whether and why asynchronous
 evaluation is useful.  TD
 
 * Acknowledgements
-TODO
+  - Org-mode mailing list
+  - Counsyl (ES and DD)
 * COMMENT Tasks
 ** TODO Terminological consistency
    This may be fine as-is, bu for the record:
