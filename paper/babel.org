@@ -1248,7 +1248,7 @@ standard command-line tools.
  
 #+source: raw-temps
 #+headers: :file raw-temps.csv :var file="raw-temps.csv" 
-#+begin_src sh :exports results
+#+begin_src sh :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
       |perl -pe 's/-9999/ NA/g' \
@@ -1259,7 +1259,7 @@ standard command-line tools.
 
 #+source: country-codes
 #+headers: :file country-codes.csv :var file="country-codes.csv" 
-#+begin_src sh :exports results
+#+begin_src sh :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
       |perl -pe 's/ *$//' \
       |perl -pe 's/ +/,/' \
@@ -1282,7 +1282,7 @@ rather than storing the data as plain text in the [[latex:proglang][Org-mode]] b
    ,#+end_src
 #+end_src
 
-#+headers: :var raw-temps-file=raw-temps :var country-codes-file=country-codes
+#+headers: :var raw-temps-file="raw-temps.csv" :var country-codes-file="country-codes.csv"
 #+begin_src sqlite :db climate.sqlite :exports results :results silent
   drop table if exists temps;
   create table temps (country,station,replicate,year,jan,feb,
