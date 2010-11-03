@@ -877,19 +877,16 @@ blocks.
 #+end_src
 
 #+source: pascals-triangle
-#+begin_src emacs-lisp :var n=5 :exports none
-  (defun pascals-triangle (n)
-    (if (= n 0)
-        (list (list 1))
-      (let* ((prev-triangle (pascals-triangle (- n 1)))
-             (prev-row (car (reverse prev-triangle))))
-        (append
-         prev-triangle
-         (list (map 'list #'+
-                    (append prev-row '(0))
-                    (append '(0) prev-row)))))))
+#+begin_src python :var n=5 :exports none
+  def pascals_triangle(n):
+      if n == 0:
+          return [[1]]
+      prev_triangle = pascals_triangle(n-1)
+      prev_row = prev_triangle[n-1]
+      this_row = map(sum, zip([0] + prev_row, prev_row + [0]))
+      return prev_triangle + [this_row]
   
-  (pascals-triangle n)
+  return pascals_triangle(5)
 #+end_src
 
 *** Drawing Pascal's triangle
