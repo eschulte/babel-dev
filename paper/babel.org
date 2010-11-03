@@ -1626,16 +1626,17 @@ this until there's an actual template for us to use.
   }
 #+end_src
 
-** TODO URL for Org source of the document
+** STARTED URL for Org source of the document
 The document (and anything else needed to recreate the pdf) should be
 made available on the web, and the URL should be published in the
 paper.
-** STARTED Implement R examples in RR example
+** TODO Org source URL footnote not exporting correctly
+** TODO Implement R examples in RR example
 ** TODO What are the correct header args for the src blocks?
    We have "active" src blocks, and inactive copies for export
    protected within org blocks Do we have the right combination
    of :results and :exports header args in those two sets of blocks?
-** TODO Is this indexing correct?
+** CANCELLED Is this indexing correct?
 #+headers: :var countries=country-codes[1:-1,0:1]
 * COMMENT Support
 ** data for re-running the Climate Data example
