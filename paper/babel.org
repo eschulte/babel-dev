@@ -479,7 +479,7 @@ The task and project management functionality of [[latex:proglang][Org-mode]] is
 around the metadata associated with nodes.  [[latex:proglang][Org-mode]] provides
 facilities to create and modify metadata quickly and efficiently.  It
 also provides facilities to search, sort, and filter headlines, to
-display chronological views of all headlines with date and time
+display a chronological summary of all headlines with date and time
 metadata, to
 display tabular views of properties at selected headlines, to clock in and out of
 headlines defined as tasks, and more.
