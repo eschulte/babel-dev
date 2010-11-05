@@ -1,5 +1,5 @@
 # -*- mode: org -*-
-#+TITLE: A Computing Environment for Mixed Natural and Computer Language Documents /DRAFT/
+#+TITLE: A Multi-Language Computing Environment for Literate Programming and Reproducible Research /DRAFT/
 #+AUTHOR: Eric Schulte\\University of New Mexico \And Dan Davison\\University of Oxford \AND Thomas Dye\\University of Hawai`i \AND Carsten Dominik\\University of Amsterdam and Radboud University Nijmegen
 #+OPTIONS: ^:nil toc:nil H:4
 #+STARTUP: oddeven
@@ -8,7 +8,7 @@
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{thumbpdf}
 #+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik}
-#+LATEX_HEADER: \Shorttitle{Mixed Language Computing}
+#+LATEX_HEADER: \Shorttitle{Multi-Language Computing Environment}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
 #+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
 #+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
@@ -169,12 +169,19 @@ export targets, and work flows.
 #+LaTeX: \end{table*}
 
 With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
-project can take place within a single document.  With the data,
-code and text of a project stored in a single location which can be
-exported to a variety of formats, the future reproducibility of the
-work is ensured. [[latex:proglang][Org-mode]] encourages these Reproducible Research and
-Literate Programming practices by greatly reducing the burden
-on the author.
+project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
+language agnostic and the user can mix languages within a document, it
+is possible to support the widest variety of projects.  These range
+from the single user, who keeps a laboratory notebook
+embedded with calculations in [[latex:proglang][Org-mode,]] to the collaborative
+work-group tasked with engineering a complex system, which uses
+[[latex:proglang][Org-mode]] in conjunction with a modern version control system such as
+[[latex:proglang][git]] to build a central repository of code and documentation.  With the
+data, code and text of a project stored in a single location which can
+be exported to a variety of formats, the future reproducibility of the
+work is ensured. [[latex:proglang][Org-mode]] encourages Reproducible Research and
+Literate Programming practices by greatly reducing the burden on the
+author.
 
 We start by reviewing existing approaches to the combined authoring of
 prose and code, including software tools designed to address one or
