@@ -169,12 +169,19 @@ export targets, and work flows.
 #+LaTeX: \end{table*}
 
 With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
-project can take place within a single document.  With the data,
-code and text of a project stored in a single location which can be
-exported to a variety of formats, the future reproducibility of the
-work is ensured. [[latex:proglang][Org-mode]] encourages these Reproducible Research and
-Literate Programming practices by greatly reducing the burden
-on the author.
+project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
+language agnostic and the user can mix languages within a document, it
+is possible to support the widest variety of projects.  These range
+from the single user, who keeps a laboratory notebook
+embedded with calculations in [[latex:proglang][Org-mode,]] to the collaborative
+work-group tasked with engineering a complex system, which uses
+[[latex:proglang][Org-mode]] in conjunction with a modern version control system such as
+[[latex:proglang][git]] to build a central repository of code and documentation.  With the
+data, code and text of a project stored in a single location which can
+be exported to a variety of formats, the future reproducibility of the
+work is ensured. [[latex:proglang][Org-mode]] encourages Reproducible Research and
+Literate Programming practices by greatly reducing the burden on the
+author.
 
 We start by reviewing existing approaches to the combined authoring of
 prose and code, including software tools designed to address one or
