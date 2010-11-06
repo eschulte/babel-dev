@@ -1121,8 +1121,8 @@ print the results.
       lst[i-1] = atoi(argv[i]);
     sort(lst, argc-1);
     for(i=1;i<argc;i++)
-      printf("%d ", lst[i-1]);
-    printf("\n");
+      printf("%d\n", lst[i-1]);
+    return 0;
   }
 #+end_src
 
