@@ -1201,6 +1201,17 @@ it performs a swap.
   }
 #+end_src
 
+#+call: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
+
+#+results: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
+: 2
+: 3
+: 4
+: 6
+: 7
+: 8
+: 78
+
 ** Reproducible research --- live climate data
 By referencing external data, a work of Reproducible Research can
 remain up-to-date long after its initial composition and publication.
