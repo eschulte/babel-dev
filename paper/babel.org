@@ -714,7 +714,7 @@ places a link to it in the document.  These links are handled by
 and included in exports.
 
 Much more information about controlling the evaluation of code and the
-handling of code results is available in the [[latex:proglang][Org-mode]] documentation [fn:4].
+handling of code results is available in the [[latex:proglang][Org-mode]] documentation.[fn:4]
 
 # DONE: provide links to the website/manual/Worg
 
@@ -803,7 +803,7 @@ the reader.
 [[latex:proglang][Org-mode]] has been designed with security measures to protect users
 from the accidental or uninformed execution of code.  By default
 /every/ execution of a code block requires explicit confirmation from
-the user[fn:1].
+the user.[fn:1]
 
 # I'm tempted to leave the following bit out on the basis that it is
 # usage detail rather than high-level [DD]
@@ -822,17 +822,16 @@ the user[fn:1].
    :CUSTOM_ID: examples
    :END:
 
-The following section demonstrates a number of common [[latex:proglang][Org-mode]] usage
-patterns through short examples.  The first example highlights how
-[[latex:proglang][Org-mode]] allows data to flow between tables, code blocks of multiple
-languages, and graphical figures.  The second demonstrates the use of
-traditional literate programming techniques.  The final example
-demonstrates the use of [[latex:proglang][Org-mode]] for data analysis. It involves
-interaction with external data sources, automated creation and use of
-local databases from within [[latex:proglang][Org-mode]] documents for long-term
-persistence of potentially large amounts of data, and the use of
-session-based evaluation for short term persistence of smaller amounts
-of data.
+The following section demonstrates with short examples a number of
+common [[latex:proglang][Org-mode]] usage patterns.  The first example highlights the flow
+of data between tables, code blocks of multiple languages, and
+graphical figures.  The second demonstrates the use of traditional
+literate programming techniques.  The final example demonstrates the
+use of [[latex:proglang][Org-mode]] for data analysis. It involves interaction with
+external data sources, automated creation and use of local databases
+from within [[latex:proglang][Org-mode]] documents for long-term persistence of
+potentially large amounts of data, and the use of session-based
+evaluation for short term persistence of smaller data sets.
 
 ** Data flow --- Pascal's triangle
    :PROPERTIES:
@@ -852,9 +851,9 @@ the implementation, using Emacs Lisp code blocks embedded in a tabular
 view of the triangle to test whether the property is satisfied.
 
 *** Computing Pascal's triangle
-The following [[latex:proglang][Emacs Lisp]] source block computes and returns the first
+The following [[latex:proglang][Python]] source block computes and returns the first
 five rows of Pascal's triangle.  [[latex:proglang][Org-mode]] inserts the value returned
-by the [[latex:proglang][Emacs Lisp]] function into the [[latex:proglang][Org-mode]] document as a table named
+by the [[latex:proglang][Python]] function into the [[latex:proglang][Org-mode]] document as a table named
 =pascals-triangle=.  This table can be referenced by other code
 blocks.
 #+begin_src org :exports code
@@ -904,9 +903,9 @@ blocks.
 *** Drawing Pascal's triangle
 Pascal's triangle can be better depicted using the [[latex:proglang][dot]]
 graphing language.  In the following code block the =pascals-triangle=
-table is passed to a block of [[latex:proglang][python]] code through the
-variable =ps=.  [[latex:proglang][Org-mode]] transforms the table into a [[latex:proglang][python]] list,
-which the [[latex:proglang][python]] block uses to construct strings of [[latex:proglang][dot]] commands.  The
+table is passed to a block of [[latex:proglang][Python]] code through the
+variable =ps=.  [[latex:proglang][Org-mode]] transforms the table into a [[latex:proglang][Python]] list,
+which the [[latex:proglang][Python]] block uses to construct strings of [[latex:proglang][dot]] commands.  The
 strings of [[latex:proglang][dot]] commands are intended for use by a subsequent code
 block, and not for inclusion into the exported document, as indicated
 by the =:exports none= header argument.
@@ -964,7 +963,7 @@ by the =:exports none= header argument.
 #+end_src
 
 The output is passed directly into a block of [[latex:proglang][dot]] code by assigning
-the name of the [[latex:proglang][python]] code block to the variable =ps-vals=.  Passing
+the name of the [[latex:proglang][Python]] code block to the variable =ps-vals=.  Passing
 the results of one code block to another in this way is called
 /chaining/; [[latex:proglang][Org-mode]] places no limit on the number of code blocks that
 can be chained together.  Evaluation propagates backwards through
@@ -972,7 +971,7 @@ chained code blocks.  In this example, the =:file= header argument
 causes the code block to save the image resulting from its evaluation
 into a file named =pascals-triangle.pdf=, and inserts a link to this
 image into the [[latex:proglang][Org-mode]] buffer.  This link will then expand to include
-the contents of the image upon export -- it is also possible to view
+the contents of the image upon export --- it is also possible to view
 linked images from within an [[latex:proglang][Org-mode]] buffer.  The link is shown both
 in [[latex:proglang][Org-mode]] syntax and in exported form (see Figure
 \ref{pascals-triangle-fig}).
