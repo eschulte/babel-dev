@@ -11,7 +11,7 @@
 #+LATEX_HEADER: \Shorttitle{Multi-Language Computing Environment}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
 #+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
-#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured in, or linked to from, the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
+#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured or linked in the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
 #+LaTeX_CLASS: jss
 
 
@@ -122,7 +122,7 @@ turn on the listings package, and define the =twocolumn= latex class
 
 * Introduction
 There are a variety of settings in which it is desirable to mix prose,
-code and computational results in a single container.
+code, and computational results in a single document.
 - /Scientific research/ increasingly involves the use of computational
   tools. Successful communication and verification of research results
   requires that this code is distributed together with results and
@@ -131,7 +131,7 @@ code and computational results in a single container.
   through both shared code and prose; code provides concrete and
   succinct description and prose provides higher level explanation.
   Without proper documentation the usability and future extensibility
-  of computational tools are severely compromised.
+  of computational tools are compromised.
 - In /pedagogical/ environments it is important for descriptions of
   algorithms or techniques to go hand-in-hand with concrete
   implementations and example output.  These environments include
@@ -153,7 +153,7 @@ aims to be a general solution for authoring projects with mixed
 computational and natural languages.  It supports multiple languages,
 export targets, and work flows.
 
-#+LaTeX: \begin{table*}
+#+LaTeX: \begin{table}
 #+ATTR_LaTeX: align=r|c|c
 |             | prose                   | code                          |
 |-------------+-------------------------+-------------------------------|
@@ -166,7 +166,7 @@ export targets, and work flows.
 |             | and slideshow formats   | for external execution        |
 #+LaTeX: \caption{\proglang{Org-mode} enables both the composition and application of code and prose.}
 #+LaTeX: \label{grid}
-#+LaTeX: \end{table*}
+#+LaTeX: \end{table}
 
 With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
 project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
@@ -179,23 +179,23 @@ work-group tasked with engineering a complex system, which uses
 [[latex:proglang][git]] to build a central repository of code and documentation.  With the
 data, code and text of a project stored in a single location which can
 be exported to a variety of formats, the future reproducibility of the
-work is ensured. [[latex:proglang][Org-mode]] encourages Reproducible Research and
-Literate Programming practices by greatly reducing the burden on the
+work is enhanced without placing a great burden on the
 author.
 
 We start by reviewing existing approaches to the combined authoring of
 prose and code, including software tools designed to address one or
 more of the use cases for mixed natural and computer language
 documents (Section \ref{background}).  We then describe the design of
-[[latex:proglang][Org-mode]] (Section \ref{design}) and demonstrate its usage through
+[[latex:proglang][Org-mode]] (Section \ref{design}) and demonstrate some of its uses with
 three short examples (Section \ref{examples}).  We conclude with a
 discussion of why we believe [[latex:proglang][Org-mode]] constitutes a uniquely
 productive environment for authoring mixed prose and code projects
 (Section \ref{discussion}).  This document is itself written in
-[[latex:proglang][Org-mode]], with the pdf version created by running a single export
-command in the course of which the source code examples are executed
-and the figures generated. The [[latex:proglang][Org-mode]] source is available online
-[fn:5].
+[[latex:proglang][Org-mode]]; the pdf version submitted to the journal was created by
+running a single export command.  This command executed the source
+code examples and generated the figures before exporting its content
+to a LaTeX file marked up according the journal's specification. The
+[[latex:proglang][Org-mode]] source for this paper is available online [fn:5].
 
 * Background
   :PROPERTIES:
@@ -289,17 +289,18 @@ A research project typically relies upon components such as:
   - methodological conventions and assumptions
   - decisions among alternate analytic paths
 
-However, the documents produced by a research project typically stand apart
-from the things they describe and rely upon, which makes it difficult
-for other researchers to reproduce the results and to fully understand the conclusions 
-of the research project. This is a major flaw, since reproducibility and accurate
-communication are central to notions of good science.
+However, the documents produced by a research project typically stand
+apart from the things they describe and rely upon, which makes it
+difficult for other researchers to reproduce the results and to
+understand fully the conclusions of the research project. This
+situation is problematic becasue reproducibility of results and
+accurate communication are both central to notions of good science.
 
-A software solution to this problem was proposed by Gentleman and
-Temple Lang \citep{compendium}, who "introduce the concept of a
-/compendium/ as both a container for the different elements that make
-up the document and its computations (i.e. text, code, data, ...), and
-as a means for distributing, managing and updating the collection."
+A software solution to this problem was proposed by
+\citet{compendium}, who "introduce the concept of a /compendium/ as
+both a container for the different elements that make up the document
+and its computations (i.e. text, code, data, ...), and as a means for
+distributing, managing and updating the collection."
 
 They summarize the uses and implications of a compendium as follows:
 
@@ -355,9 +356,7 @@ science. The tools we have proposed and discussed will allow us to
 move from an era of advertisement to one where our scholarship itself
 is published. This exposes the computations themselves to the
 scientific method and enhances the potential for iterative refinement
-and extension.
-
-\attrib{Gentleman and Temple Lang}
+and extension.  \citep{compendium}
 #+end_quote
 
 =Sweave= \citep{sweave} is a modern software tool written in the [[latex:proglang][R]]
@@ -381,7 +380,7 @@ data.
 # into a language for parsing hierarchical documents, etc., and babel
 # turned it into a language for literate programming and reproducible
 # research. (no attempt to be precise or exhaustive here).
-* Design
+* Design of Org-mode
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
@@ -405,7 +404,7 @@ language.  In this way, an [[latex:proglang][Org-mode]] buffer becomes a place w
 different computer languages communicate with one another.  Like
 Emacs, [[latex:proglang][Org-mode]] is extensible: support for new languages can be added
 by the user in a modular fashion through the definition of a small
-number of Emacs Lisp functions.
+number of [[latex:proglang][Emacs Lisp]] functions.
 
 In the remainder of this section, we first describe [[latex:proglang][Org-mode]] in more detail, focusing
 on those features that support literate programming and reproducible
@@ -415,7 +414,7 @@ code and data blocks (Section \ref{syntax}), evaluation of code blocks
 (Section \ref{export}), and language support facilities (Section
 \ref{languages}).
 
-** Org-mode
+** Structure and content of Org-mode documents
    :PROPERTIES:
    :CUSTOM_ID: org-mode
    :END:
@@ -423,7 +422,7 @@ code and data blocks (Section \ref{syntax}), evaluation of code blocks
 [[latex:proglang][Org-mode]] is an Emacs extension that organizes note taking, task
 management, project planning, documentation and authoring.  Its name
 comes from its organizing function and the fact that extensions to
-Emacs are often implemented as /modes/---software modules which define
+Emacs are often implemented as /modes/---software modules that define
 the way a user can edit and interact with certain classes of
 documents.  [[latex:proglang][Org-mode]] documents are plain text files, usually with the
 file name extension /.org/; working in [[latex:proglang][Org-mode]] starts with
@@ -464,15 +463,15 @@ structural overview of the document.
 One of the primary design goals of [[latex:proglang][Org-mode]] was to define a system
 that combines efficient note-taking and brainstorming with a task
 management and project planning system.  A single [[latex:proglang][Org-mode]] document
-can hold the notes, together with and all the data necessary to keep track of tasks and
-projects associated with the notes.  This is accomplished by assigning
-metadata to outline nodes using a special syntax.  Metadata for a node
-can include a task state, like =TODO= or =DONE=, a priority, and one
-or more tags, dates, and arbitrary key-value pairs called properties.
-In the following example the top-level node is a task with state =TODO=,
-a priority of =A=, and tagged for urgent attention at work.  The
-task has been scheduled for 18 August 2010 and a property indicates
-that it was delegated to Peter.
+can hold the notes together with all the data necessary to keep track
+of tasks and projects associated with the notes.  This is accomplished
+by assigning metadata to outline nodes using a special syntax.
+Metadata for a node can include a task state, like =TODO= or =DONE=, a
+priority, and one or more tags, dates, and arbitrary key-value pairs
+called properties.  In the following example the top-level node is a
+task with state =TODO=, a priority of =A=, and tagged for urgent
+attention at work.  The task has been scheduled for 18 August 2010 and
+a property indicates that it was delegated to Peter.
 
 #+begin_src org :exports code
   ,* TODO [#A] Some task         :@work:urgent:
@@ -505,12 +504,13 @@ structured to represent various types of information, including
 vectors, matrices, source code, and arbitrary pieces of text.  Vector
 and matrix data are represented as tables where the columns are marked
 by vertical bars and rows are optionally separated by dashed lines as
-shown in the following example.  The Emacs calculator, /calc/ [fn:3],
+shown in the following example.  The Emacs mathematical tool, /calc/,[fn:3] 
 can be used to carry out computations in tables.  This feature is
 similar to spreadsheet applications, but [[latex:proglang][Org-mode]] uses plain text to
 represent both data and formulas.
 
 # Replace "calculator" with "mathematical engine" or something? "calculator" sounds very 1980s...
+# GNU's calc page calls calc a "mathematical tool"  TD
 
 #+begin_src org :exports code
   ,| Name 1 | Name 2 | ... | Name N |
@@ -518,9 +518,6 @@ represent both data and formulas.
   ,| Value  | ...    | ... | ...    |
   ,| ...    | ...    | ... | ...    |
 #+end_src
-
-In the following sections we focus on [[latex:proglang][Org-mode]]'s support for working
-with active source code and data blocks.
 
 ** Code and data block extensions
     :PROPERTIES:
@@ -590,29 +587,31 @@ in the [[latex:proglang][Org-mode]] buffer immediately following the code block,
 #+end_src
 
 By default, a code block is evaluated in a dedicated system process
-which does not persist after evaluation is complete. The =:dir= header
+that does not persist after evaluation is complete. The =:dir= header
 argument can be used to specify the directory associated with the
 system process; if this is a directory on a remote machine then the
 code executes on the remote machine and the results are automatically
 transferred across the network to the local Emacs process.
 
-In addition, for several languages, evaluation may be performed in an
-interactive Emacs
-"session" which persists indefinitely. For example session-based
-evaluation of R code uses R sessions provided by the Emacs
-Speaks Statistics (ESS) project \citep{ess}.  Thus, both the Org buffer
-and the language-specific session buffers may be used for sharing of
-functions and data structures between blocks. In [[latex:proglang][Org-mode]], [[latex:proglang][R]] code editing and 
-session-based [[latex:proglang][R]] evaluation are implemented using ESS. Therefore [[latex:proglang][Org-mode]] is 
-not a replacement for ESS; rather [[latex:proglang][Org-mode]] provides a document authoring and 
-project management environment within which to embed traditional ESS usage.
+In addition, evaluation of several languages may be performed in an
+interactive Emacs "session" that persists indefinitely. For example,
+session-based evaluation of R code uses R sessions provided by the
+Emacs Speaks Statistics (ESS) project \citep{ess}.  Thus, both the [[latex:proglang][Org-mode]]
+buffer and the language-specific session buffers may be used to
+share functions and data structures between blocks. In [[latex:proglang][Org-mode]],
+[[latex:proglang][R]] code editing and session-based [[latex:proglang][R]] evaluation are implemented using
+ESS. Therefore [[latex:proglang][Org-mode]] is not a replacement for ESS; rather [[latex:proglang][Org-mode]]
+provides a document authoring and project management environment
+within which to embed traditional ESS usage.
 
 Session-based evaluation during export to LaTeX is similar to the approach
 taken by [[latex:proglang][Sweave]], in which every code block is evaluated in the same
 persistent session.  In [[latex:proglang][Org-mode]], the =:session= header argument takes
 an optional name, making it possible to maintain multiple distinct
-sessions.
-# Shall we be explicit here that Org-mode is a direct competitor of Sweave?
+sessions.  Thus, [[latex:proglang][Org-mode]] builds upon and extends the functionality of [[latex:proglang][Sweave]].
+# Shall we be explicit here that Org-mode is a direct competitor of
+# Sweave?
+# Why not? 
 
 *** Results
 [[latex:proglang][Org-mode]] returns the results of code block evaluation as strings,
@@ -710,8 +709,8 @@ When the result of evaluating a code block is a file, the =:file=
 header argument can be used to provide a path and
 name for the file.  [[latex:proglang][Org-mode]] saves the results to the named file and
 places a link to it in the document.  These links are handled by
-[[latex:proglang][Org-mode]] in the usual ways and can be opened from within the document
-and included in exports.
+[[latex:proglang][Org-mode]] in the usual ways; they can be opened from within the document
+and included in exports with captions and labels for cross-referencing.
 
 Much more information about controlling the evaluation of code and the
 handling of code results is available in the [[latex:proglang][Org-mode]] documentation.[fn:4]
@@ -727,7 +726,7 @@ to named data blocks, links, or references to named code blocks.
 In the latter case, the value is the result of evaluating the
 referenced code block.
 
-All values passed to variables are served by the Emacs Lisp
+All values passed to variables are served by the [[latex:proglang][Emacs Lisp]]
 interpreter that is at the core of Emacs.  This argument passing
 syntax allows for complex chaining of raw values in a document, and
 the results of computations in one computer language can be used as
@@ -783,7 +782,7 @@ agnostic.  The tangling, source code edit, and export features can be
 used for any computer language, even those that are not specifically
 supported; only code evaluation and interaction with live sessions
 require language-specific functions.  Support for new languages can be
-added by defining a small number of Emacs Lisp functions named
+added by defining a small number of [[latex:proglang][Emacs Lisp]] functions named
 according to language, following some simple conventions.  Currently,
 [[latex:proglang][Org-mode]] has support for more than 30 languages.  The ease with which
 support for new languages can be added is evidenced by the fact that
@@ -847,7 +846,7 @@ data flows in [[latex:proglang][Org-mode]].  Data are passed from a code block t
 [[latex:proglang][Org-mode]] table, from an [[latex:proglang][Org-mode]] table to a code block, from one code
 block to another, and from a code block to a graphic figure.  Finally,
 the example uses a property of the triangle to test the correctness of
-the implementation, using Emacs Lisp code blocks embedded in a tabular
+the implementation, using [[latex:proglang][Emacs Lisp]] code blocks embedded in a tabular
 view of the triangle to test whether the property is satisfied.
 
 *** Computing Pascal's triangle
@@ -901,7 +900,7 @@ blocks.
 | 1 | 5 | 10 | 10 | 5 | 1 |
 
 *** Drawing Pascal's triangle
-Pascal's triangle can be better depicted using the [[latex:proglang][dot]]
+A more pleasing representation of Pascal's triangle can created with the [[latex:proglang][dot]]
 graphing language.  In the following code block the =pascals-triangle=
 table is passed to a block of [[latex:proglang][Python]] code through the
 variable =ps=.  [[latex:proglang][Org-mode]] transforms the table into a [[latex:proglang][Python]] list,
@@ -973,7 +972,7 @@ into a file named =pascals-triangle.pdf=, and inserts a link to this
 image into the [[latex:proglang][Org-mode]] buffer.  This link will then expand to include
 the contents of the image upon export --- it is also possible to view
 linked images from within an [[latex:proglang][Org-mode]] buffer.  The link is shown both
-in [[latex:proglang][Org-mode]] syntax and in exported form (see Figure
+in [[latex:proglang][Org-mode]] syntax and in exported form (Figure
 \ref{pascals-triangle-fig}).
 
 #+begin_src org :exports code
@@ -1011,7 +1010,7 @@ representation prepared, it is worth asking whether the triangle
 itself is correct.  Because the sum of successive diagonals of the
 triangle yields the Fibonacci series, it is possible to verify that
 the triangle is correct.  This can be done in many ways; here, it is
-done with a short block of Emacs Lisp code that takes a row of numbers
+done with a short block of [[latex:proglang][Emacs Lisp]] code that takes a row of numbers
 and a number =n= and returns =pass= if the sum of the numbers in the
 row is equal the nth Fibonacci number and returns =fail= otherwise.
 Calls to this code block can be embedded into the tabular view of
@@ -1061,7 +1060,7 @@ correct.
 #+end_src
 
 ** Literate programming --- cocktail sort
-Cocktail Sort [fn:2] is a variation of Bubble Sort in which the
+Cocktail Sort[fn:2] is a variation of Bubble Sort in which the
 direction of array traversal is alternated with each pass.  As a
 result Cocktail Sort is more efficient than Bubble Sort for arrays
 with small elements located at the end of the array.
@@ -1074,7 +1073,7 @@ and the command-line mechanism to accept input and return results.
 These parts are tangled out to the file =cocktail.c=, as indicated by
 the =:tangle= header argument.
 
-#+begin_src org :exports code
+#+begin_src org :exports code :noweb tangle
   ,#+source: cocktail.c
   ,#+begin_src C :noweb tangle :tangle cocktail.c
   ,  #include <stdio.h>
@@ -1202,6 +1201,8 @@ it performs a swap.
 
 #+call: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
 
+# Why don't these results show up in the LaTeX export?  TD
+
 #+results: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
 : 2
 : 3
@@ -1227,7 +1228,7 @@ larger (hundreds of thousands of rows) than the Pascal's Triangle
 example above (Section \ref{pascals-triangle}). Accordingly, this
 example demonstrates a different style of working with executable code
 blocks in [[latex:proglang][Org-mode]]: instead of transferring large amounts of data
-between blocks via [[latex:proglang][Org-mode]] tables and [[latex:proglang][emacs-lisp]], we use temporary
+between blocks via [[latex:proglang][Org-mode]] tables and [[latex:proglang][Emacs Lisp]], we use temporary
 plain text files on disk and a dedicated external database. The
 example is implemented with command-line tools commonly available on
 Unix-like systems, the [[latex:proglang][sqlite]] database, and [[latex:proglang][R]].  These software tools
@@ -1313,10 +1314,10 @@ rather than storing the data as plain text in the [[latex:proglang][Org-mode]] b
 
 The =get-temps= code block reads a subset of the data from the sqlite
 database, and then the =R-init= code block splits the data into a
-separate time series for each weather station, inside of an ESS R
-/session/ named =*R-climate*=. The variables persist in the
+separate time series for each weather station, in an ESS R
+session named =*R-climate*=. The variables persist in the
 =*R-climate*= session after the code block exits, so they can be
-manipulated by other R code blocks using the =*R-climate*= session.
+manipulated by other R code blocks that use the =*R-climate*= session.
 
 #+begin_src org :exports code
    ,#+source: R-init
@@ -1372,7 +1373,8 @@ incorporation into the exported document (Figure
    ,  hist(slopes)
    ,#+end_src
    ,
-   ,#+Caption: Temperature trends between 1880 and the present at src_R[:session *R-climate*]{length(slopes)} stations in the USA \label{fig:climate-trend}
+   ,#+Caption: Temperature trends between 1880 and the present at
+    weather stations in the USA \label{fig:climate-trend}
    ,#+ATTR_LaTeX: width=0.7\textwidth
    ,#+results: R-graph
    ,[[file:temp-trends.pdf]]
@@ -1389,7 +1391,7 @@ incorporation into the exported document (Figure
   hist(slopes)
 #+end_src
 
-#+Caption: Temperature trends between 1880 and the present at stations in the USA. \label{fig:climate-trend}
+#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
 #+ATTR_LaTeX: width=0.7\textwidth
 #+results: R-graph
 [[file:temp-trends.pdf]]
@@ -1402,70 +1404,70 @@ incorporation into the exported document (Figure
 [[latex:proglang][Org-mode]] has several features that make it a potentially useful tool
 for a community of researchers and developers.  These include:
 
-- Open source :: [[latex:proglang][Org-mode]] is /open source/, which means its inner
+- Open source :: [[latex:proglang][Org-mode]] is open source software.  Its inner
      workings are publicly visible, and its copyright is owned by the
      Free Software Foundation \citep{fsf}.  This ensures that
-     [[latex:proglang][Org-mode]], and any work deriving from [[latex:proglang][Org-mode]], will always be
+     [[latex:proglang][Org-mode]] and any work deriving from [[latex:proglang][Org-mode]] will always be
      fully open to public scrutiny and modification.  These are
-     *essential* qualities for software tools used for reproducible
+     essential qualities for software tools used for reproducible
      research.  The transparency required for computational results to
      be accepted by the scientific community can only be achieved when
-     the workings of each tool in the scientists tool chain is open to
+     the workings of each tool in the scientist's tool chain is open to
      inspection and verification.
 
-- Widely Available :: Software used in reproducible research should be
-     readily available and easily installable by readers.  [[latex:proglang][Org-mode]] is
+- Widely available :: Software used in reproducible research should be
+     readily available and easily installed by readers.  [[latex:proglang][Org-mode]] is
      freely available and, as of the next major release of Emacs
      (version 24), [[latex:proglang][Org-mode]] including all of the facilities discussed
      herein will be included in the Emacs core.  Emacs is one of the
-     most widely ported non-trivial programs in existence, making the
-     installation and use of [[latex:proglang][Org-mode]] possible on an extremely wide
+     most widely ported software applications, making possible the
+     installation and use of [[latex:proglang][Org-mode]] on an wide
      variety of user systems.
 
-- Friendly active community :: The [[latex:proglang][Org-mode]] community is extremely
-     friendly and provides ready support to both novice users with
-     basic questions and to developers seeking to extend [[latex:proglang][Org-mode]].
-     The development of the extensive facilities described herein
-     would not have been possible without this community.
+- Active community :: The [[latex:proglang][Org-mode]] community provides ready
+     support to both novice users with basic questions and to
+     developers seeking to extend [[latex:proglang][Org-mode]].  The development of
+     [[latex:proglang][Org-mode]] would not have been possible without the attention and
+     effort of this community.
 
-- General and Extensible :: A main design goal of [[latex:proglang][Org-mode]]'s support
+- General and extensible :: A main design goal of [[latex:proglang][Org-mode]]'s support
      for working with source code was pursuit of generality.  As a
      result, it displays no reproducible research or literate
      programming bias, supports arbitrary programming languages, and
      exports to a wide variety of file types, including ASCII, LaTeX,
-     HTML, and DocBook.  When asking researchers or software
-     developers to learn a new tool or platform it is important that
-     the tool be able to adapt to new languages or modes of
-     development.
+     HTML, and DocBook.  Researchers and software developers who adopt
+     [[latex:proglang][Org-mode]] can be confident that it will be able to adapt to new
+     languages or modes of development.
 
 - Integration :: [[latex:proglang][Org-mode]] leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
 
 
 Literate programming and reproducible research systems are typically
-prescriptive and difficult to use, and this cost of adoption has kept them from spreading
-more widely through the computing community.  [[latex:proglang][Org-mode]] makes it
-possible to practice literate programming and reproducible research
-while retaining a familiar editing environment, thereby lowering the
-adoption cost of these techniques.  [[latex:proglang][Org-mode]] is designed so that all
-stages of the research and development cycle can be captured in a
-single document.  This design feature makes it possible to collocate
-all the code, data, and text relevant to a project, eliminating or
-reducing the burden of assembling dispersed files of code and text at
-the project's end.  We believe that with its ease of adoption,
-familiar environment, and universal applicability across programming
-languages, [[latex:proglang][Org-mode]] represents an advance in literate programming and
-reproducible research tools.
+prescriptive and difficult to use, and this cost of adoption has kept
+them from spreading more widely through the computing community.
+[[latex:proglang][Org-mode]] makes it possible to practice literate programming and
+reproducible research in a plain text editing environment,
+thereby lowering the adoption cost of these techniques.  [[latex:proglang][Org-mode]] is
+designed so that all stages of the research and development cycle can
+be captured in a single document.  This design feature makes it
+possible to collocate all the code, data, and text relevant to a
+project, eliminating or reducing the burden of assembling dispersed
+files of code and text at the project's end.  We believe that with its
+ease of adoption, familiar environment, and universal applicability
+across programming languages, [[latex:proglang][Org-mode]] represents
+an advance in literate programming and reproducible research tools.
 
-We also believe that [[latex:proglang][Org-mode]] has the potential to advance the expectation that
-all computational projects include /both/ code and prose; the
-arguments that Knuth advanced for literate programming are no less valid today,
-and the meteoric rise of electronic publishing has
-created a huge opportunity for reproducible research.  [[latex:proglang][Org-mode]] can
-help researchers and software developers communicate their work and
-make it more accessible.
+We also believe that [[latex:proglang][Org-mode]] has the potential to advance the
+expectation that all computational projects include /both/ code and
+prose; the arguments that Knuth advanced for literate programming are
+no less valid today, and the rise of electronic publishing has created
+new opportunities for distributing reproducible research.  [[latex:proglang][Org-mode]]
+provides researchers and software developers with a powerful tool to
+communicate their work and make it more accessible.
 
 # "Meteoric rise" is unfortunate
+# And has now suffered the fate of most meteors.
 
 #+begin_LaTeX
     \bibliography{babel}
@@ -1569,13 +1571,13 @@ for a future tool of this type.
 
 - virtual machine :: [[latex:proglang][Org-mode]] allows heterogeneous programming
      environments to share data by dropping all shared values to the
-     common denominator of Emacs Lisp.  This works well for [[latex:proglang][Org-mode]]
+     common denominator of [[latex:proglang][Emacs Lisp]].  This works well for [[latex:proglang][Org-mode]]
      as it allows for re-use of many pre-existing Emacs tools for
      evaluation of code in a variety of languages, often making the
      addition of support for new languages trivial.  There are however
-     properties of Emacs Lisp which make it less than ideal as a
+     properties of [[latex:proglang][Emacs Lisp]] which make it less than ideal as a
      medium of data exchange and as a shepherd of evaluation.  Most
-     importantly the Emacs Lisp interpreter is /single threaded/,
+     importantly the [[latex:proglang][Emacs Lisp]] interpreter is /single threaded/,
      which makes the asynchronous evaluation of code blocks needlessly
      complex (in fact this feature does not yet exist in [[latex:proglang][Org-mode]]).
 
@@ -1707,8 +1709,8 @@ paper.
 http://rosettacode.org/.
 
 [fn:3] David Gillespie 1990,
-http://www.gnu.org/software/emacs/calc.html
+http://www.gnu.org/software/emacs/calc.html.
 
-[fn:4] http://orgmode.org/manual/Working-With-Source-Code.html
+[fn:4] http://orgmode.org/manual/Working-With-Source-Code.html.
 
-[fn:5] http://cs.unm.edu/$\sim$eschulte/babel-draft/
+[fn:5] http://cs.unm.edu/$\sim$eschulte/babel-draft/.
