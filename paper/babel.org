@@ -4,6 +4,7 @@
 #+OPTIONS: ^:nil toc:nil H:4
 #+STARTUP: oddeven
 #+STYLE: <link rel="stylesheet" href="http://cs.unm.edu/~eschulte/classes/emacs.css" type="text/css"/>  
+#+LATEX_HEADER: \usepackage{tikz}
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{thumbpdf}
@@ -147,7 +148,7 @@ without expository prose is a less than ideal medium for communication
 between people. In this paper we describe the plain text markup
 language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
 environment supporting many different approaches to composition and
-application of combined prose and code (Table \ref{overview}).  Working in
+application of combined prose and code (Table \ref{fig:overview}).  Working in
 [[latex:proglang][Org-mode]] is an extension of standard text editing. Thus, trivial usage
 of [[latex:proglang][Org-mode]] is nothing more than text editing, from which point the
 user can start to add special plain text [[latex:proglang][Org-mode]]
@@ -156,10 +157,101 @@ aims to be a general solution for authoring projects with mixed
 computational and natural languages.  It supports multiple languages,
 export targets, and work flows.
 
-#+attr_latex: width=\textwidth
-#+Label: overview
-#+Caption: \proglang{Org-mode} enables both the composition and application of code and prose.
-[[file:overview.pdf]]
+#+begin_LaTeX
+  \usetikzlibrary{shapes,arrows,shadows,decorations,decorations.text,through}
+  \tikzstyle{page} = [rectangle, draw, text width=9em,
+  text centered, rounded corners,
+  node distance=3cm, minimum height=1em,
+  font=\tiny,
+  fill=blue!20,
+  general shadow={
+    fill=black!30,
+    shadow xshift=0.25cm,
+    shadow yshift=-0.25cm
+  },
+  very thick,
+  draw=blue]
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[->,>=stealth', shorten >=1pt, auto, scale=0.75]
+      \node [page] (org) at (0,0) {
+        \begin{center}
+          \normalsize{Org-mode}
+        \end{center}
+  \begin{verbatim}
+    ,* Plain Text Markup
+    - prose composition
+    - code composition
+    - data analysis
+  
+    ,#+begin_src sh :tangle run.c
+      int main(){
+        return 0;
+      }
+    ,#+end_src
+  
+    ,#+begin_src R :file fig.pdf
+      plot(data)
+    ,#+end_src
+  
+  \end{verbatim}
+      };
+  
+      \node [page] (htm) at (7,1) {
+        \begin{center}
+          \normalsize{HTML}
+        \end{center}
+  \begin{verbatim}
+    <h1>Plain Text Markup</h1>
+    <ul>
+    <li>prose composition</li>
+    <li>code composition</li>
+    <li>data analysis</li>
+    </ul>
+  \end{verbatim}
+      };
+  
+      \node [page] (tex) at (8,-1) {
+        \begin{center}
+          \normalsize{\LaTeX{}}
+        \end{center}
+  \begin{verbatim}
+    \Section{Plain Text Markup}
+    \begin{itemize}
+    \item prose composition
+    \item code composition
+    \item data analysis
+    \end{itemize}
+  \end{verbatim}
+      };
+  
+      \node [page] (src) at (-7,0) {
+        \begin{center}
+          \normalsize{Source Code}
+        \end{center}
+  \begin{lstlisting}
+    int main(){
+      return 0;
+    }
+  \end{lstlisting}
+      };
+  
+      \node [text width=8em] (code-out) at (3.5,-5) {embedded data and
+        source code in arbitrary languages};
+  
+      \node [text width=8em] (code-out) at (-3.5,-5) {raw output,
+        tabular data, figures, etc\ldots};
+  
+      \path (org) edge [loop below] node {\normalsize{Code Evaluation}}
+      (org); \path (org) edge node {\normalsize{Export}} (4.5,0); \path (org)
+      edge node [above] {\normalsize{Tangle}} (-4.5,0);
+    \end{tikzpicture}
+    \caption{\proglang{Org-mode} enables both the composition and
+      application of code and prose.}
+    \label{fig:overview}
+  \end{figure}
+  
+#+end_LaTeX
 
 With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
 project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
