@@ -47,6 +47,9 @@ code block to set variables and hooks back to their default values.
       ((eq format 'latex)
        (format "\\%s{%s}" path desc)))))
   
+  (setq org-babel-default-header-args:org '((:results . "raw silent")
+                                            (:exports . "code")))
+  
   (add-to-list 'org-export-latex-classes
                '("jss"
                  "\\documentclass[article,shortnames]{jss}"
@@ -444,7 +447,7 @@ Nodes in the outline are single line headings identified by one or
 more asterisks at the beginning of the line.  The number of asterisks
 indicates the hierarchical level of the node.
 
-#+begin_src org :exports code
+#+begin_src org
   ,* First heading
   ,    Some arbitrary text
   ,* Second heading
@@ -473,7 +476,7 @@ task with state =TODO=, a priority of =A=, and tagged for urgent
 attention at work.  The task has been scheduled for 18 August 2010 and
 a property indicates that it was delegated to Peter.
 
-#+begin_src org :exports code
+#+begin_src org
   ,* TODO [#A] Some task         :@work:urgent:
   ,  SCHEDULED: <2010-08-18 Wed>
   ,  :PROPERTIES:
@@ -512,7 +515,7 @@ represent both data and formulas.
 # Replace "calculator" with "mathematical engine" or something? "calculator" sounds very 1980s...
 # GNU's calc page calls calc a "mathematical tool"  TD
 
-#+begin_src org :exports code
+#+begin_src org
   ,| Name 1 | Name 2 | ... | Name N |
   ,|--------+--------+-----+--------|
   ,| Value  | ...    | ... | ...    |
@@ -542,7 +545,7 @@ Data blocks that are preceded by a line that begins with =#+results:=,
 and are
 followed by a name unique within the document, can be accessed by code
 blocks. These can be /tables/, /example blocks/, or /links/.
-#+begin_src org :exports code
+#+begin_src org
   ,#+results: tabular-data
   ,| 1 |  2 |
   ,| 2 |  3 |
@@ -560,7 +563,7 @@ blocks. These can be /tables/, /example blocks/, or /links/.
 Active code blocks are marked with a =#+source:= line, followed by a
 name unique within the document.  Such blocks can be augmented by header
 arguments that control the way [[latex:proglang][Org-mode]] handles evaluation and export.
-#+begin_src org :exports code
+#+begin_src org
   ,#+source: <name>
   ,#+begin_src <language> <header arguments>
   ,  <body>
@@ -571,7 +574,7 @@ arguments that control the way [[latex:proglang][Org-mode]] handles evaluation a
 
 When a code block is evaluated, the captured output appears by default
 in the [[latex:proglang][Org-mode]] buffer immediately following the code block, e.g.,
-#+begin_src org :exports code
+#+begin_src org
    ,#+begin_src ruby :exports none
    ,  require 'date'
    ,  "This was last evaluated on #{Date.today}"
@@ -639,7 +642,7 @@ on the value of the =:results= header argument.  Note that the first
 example uses the default =:results value= and returns a scalar.  When
 output is returned the same code yields a string.
 
-#+begin_src org :exports code
+#+begin_src org
   ,#+begin_src perl
   ,  $x = 8;
   ,  $x = $x + 1;
@@ -679,7 +682,7 @@ $x
 inserts them as tables into the buffer, as demonstrated by the
 following two blocks of Haskell code.
 
-#+begin_src org :exports code
+#+begin_src org
   ,#+begin_src haskell
   ,  [1, 2, 3, 4, 5]
   ,#+end_src
@@ -855,7 +858,7 @@ five rows of Pascal's triangle.  [[latex:proglang][Org-mode]] inserts the value 
 by the [[latex:proglang][Python]] function into the [[latex:proglang][Org-mode]] document as a table named
 =pascals-triangle=.  This table can be referenced by other code
 blocks.
-#+begin_src org :exports code
+#+begin_src org
    ,#+source: pascals-triangle
    ,#+begin_src python :var n=5 :exports none
    ,  def pascals_triangle(n):
@@ -909,7 +912,7 @@ strings of [[latex:proglang][dot]] commands are intended for use by a subsequent
 block, and not for inclusion into the exported document, as indicated
 by the =:exports none= header argument.
 
-#+begin_src org :exports code
+#+begin_src org
    ,#+source: ps-to-dot
    ,#+begin_src python :var ps=pascals-triangle :results output :exports none 
    ,  def node(i, j):
@@ -975,7 +978,7 @@ linked images from within an [[latex:proglang][Org-mode]] buffer.  The link is s
 in [[latex:proglang][Org-mode]] syntax and in exported form (Figure
 \ref{pascals-triangle-fig}).
 
-#+begin_src org :exports code
+#+begin_src org
    ,#+source: ps-to-fig
    ,#+headers: :file pascals-triangle.pdf :cmdline -Tpdf
    ,#+begin_src dot :var ps-vals=ps-to-dot :exports results
@@ -1019,7 +1022,7 @@ spreadsheet is calculated, it returns =pass= for each of the five
 diagonals, confirming that the implementation of Pascal's triangle is
 correct.
 
-#+begin_src org :exports code
+#+begin_src org
   ,#+source: ps-check
   ,#+begin_src emacs-lisp :var row='(1 2 1) :var n=0 :exports code
   ,  (defun fib (n)
@@ -1067,13 +1070,17 @@ with small elements located at the end of the array.
 
 The following example produces a command line executable, =cocktail=,
 that will print its arguments in sorted order.  The =cocktail.c= code
-block combines the three parts of the program: the standard C header
-for input/output; the implementation of the cocktail sort algorithm;
-and the command-line mechanism to accept input and return results.
-These parts are tangled out to the file =cocktail.c=, as indicated by
-the =:tangle= header argument.
+block uses standard literate programming syntax
+(i.e.
+#+begin_LaTeX
+  \verb=<<block-name>>=
+#+end_LaTeX
+) to combine the three parts of the
+program: the standard C header for input/output; the implementation of
+the cocktail sort algorithm; and the command-line mechanism to accept
+input and return results.
 
-#+begin_src org :exports code :noweb tangle
+#+begin_src org :noweb tangle
   ,#+source: cocktail.c
   ,#+begin_src C :noweb tangle :tangle cocktail.c
   ,  #include <stdio.h>
@@ -1094,7 +1101,7 @@ arguments, call the sorting algorithm on the supplied arguments, and
 print the results.
 # DONE: Need to indicate what the arguments to main are about  TD
 
-#+begin_src org :exports code
+#+begin_src org
   ,#+source: main
   ,#+begin_src C
   ,  int main(int argc, char *argv[]) {
@@ -1131,7 +1138,7 @@ The actual swapping of elements is handled by =swap=, which sets the
 the elements are already in sorted order.  This process continues
 until no more swaps have been made and the array is sorted.
 
-#+begin_src org :exports code
+#+begin_src org
   ,#+source: cocktail-sort
   ,#+begin_src C :noweb tangle
   ,  void sort(int *a, unsigned int l)
@@ -1177,7 +1184,7 @@ The =swap= method performs conditional swapping of adjacent array
 elements that are not in sorted order.  It sets the =swapped= flag if
 it performs a swap.
 
-#+begin_src org :exports code
+#+begin_src org
   ,#+source: swap
   ,#+begin_src C
   ,  if ( a[i] > a[i+1] ) {
@@ -1199,18 +1206,26 @@ it performs a swap.
   }
 #+end_src
 
-#+call: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
+In usual literate programming practice these parts can be tangled out
+to the file =cocktail.c=, as indicated by the =:tangle= header
+argument of the =cocktail.c= code block.  Alternately the expanded
+code block can be compiled and evaluated from within the Org-mode file
+using the following =#+call= line.
 
-# Why don't these results show up in the LaTeX export?  TD
+#+begin_src org
+  ,#+call: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
+  ,
+  ,#+results: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
+  ,: 2
+  ,: 3
+  ,: 4
+  ,: 6
+  ,: 7
+  ,: 8
+  ,: 78
+#+end_src
 
-#+results: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
-: 2
-: 3
-: 4
-: 6
-: 7
-: 8
-: 78
+#+call: cocktail.c[:cmdline 8 7 6 3 2 4 78]() :exports none
 
 ** Reproducible research --- live climate data
 By referencing external data, a work of Reproducible Research can
@@ -1242,7 +1257,7 @@ standard command-line tools.
 
 # For raw data format see ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme
 
-#+begin_src org :exports code
+#+begin_src org
    ,#+source: raw-temps
    ,#+headers: :file raw-temps.csv :var file="raw-temps.csv" 
    ,#+begin_src sh :exports results
@@ -1289,7 +1304,7 @@ database of the combined climate data.  In the case of very large data
 sets it may be preferable to use an external store like a database
 rather than storing the data as plain text in the [[latex:proglang][Org-mode]] buffer.
 
-#+begin_src org :exports code
+#+begin_src org
    ,#+begin_src sqlite :db climate.sqlite
    ,  create table temps (country,station,replicate,year,jan,feb,
    ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
@@ -1319,7 +1334,7 @@ session named =*R-climate*=. The variables persist in the
 =*R-climate*= session after the code block exits, so they can be
 manipulated by other R code blocks that use the =*R-climate*= session.
 
-#+begin_src org :exports code
+#+begin_src org
    ,#+source: R-init
    ,#+headers: :var dbname="climate.sqlite"
    ,#+begin_src R :session *R-climate*
@@ -1361,7 +1376,7 @@ slope parameters. The figure is written to a pdf file for
 incorporation into the exported document (Figure
 \ref{fig:climate-trend}).
 
-#+begin_src org :exports code
+#+begin_src org
    ,#+srcname: R-graph
    ,#+begin_src R :session *R-climate* :file temp-trends.pdf :exports results
    ,  include.station <- function(station)
