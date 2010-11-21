@@ -356,7 +356,7 @@ science. The tools we have proposed and discussed will allow us to
 move from an era of advertisement to one where our scholarship itself
 is published. This exposes the computations themselves to the
 scientific method and enhances the potential for iterative refinement
-and extension.  \citet{compendium}
+and extension.  \citep{compendium}
 #+end_quote
 
 =Sweave= \citep{sweave} is a modern software tool written in the [[latex:proglang][R]]
