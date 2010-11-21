@@ -147,7 +147,7 @@ without expository prose is a less than ideal medium for communication
 between people. In this paper we describe the plain text markup
 language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
 environment supporting many different approaches to composition and
-application of combined prose and code (Table \ref{grid}).  Working in
+application of combined prose and code (Table \ref{overview}).  Working in
 [[latex:proglang][Org-mode]] is an extension of standard text editing. Thus, trivial usage
 of [[latex:proglang][Org-mode]] is nothing more than text editing, from which point the
 user can start to add special plain text [[latex:proglang][Org-mode]]
@@ -156,20 +156,10 @@ aims to be a general solution for authoring projects with mixed
 computational and natural languages.  It supports multiple languages,
 export targets, and work flows.
 
-#+LaTeX: \begin{table}
-#+ATTR_LaTeX: align=r|c|c
-|             | prose                   | code                          |
-|-------------+-------------------------+-------------------------------|
-|             | text editing in         | code authoring                |
-| composition | Emacs with additional   | via Emacs                     |
-|             | [[latex:proglang][Org-mode]] features       | language modes                |
-|-------------+-------------------------+-------------------------------|
-|             | automated publishing to | in-situ interactive execution |
-| application | a variety of document   | as well as extraction of code |
-|             | and slideshow formats   | for external execution        |
-#+LaTeX: \caption{\proglang{Org-mode} enables both the composition and application of code and prose.}
-#+LaTeX: \label{grid}
-#+LaTeX: \end{table}
+#+attr_latex: width=\textwidth
+#+Label: overview
+#+Caption: \proglang{Org-mode} enables both the composition and application of code and prose.
+[[file:overview.pdf]]
 
 With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
 project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
