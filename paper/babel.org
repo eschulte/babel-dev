@@ -1271,7 +1271,7 @@ standard command-line tools.
  
 #+source: raw-temps
 #+headers: :file raw-temps.csv :var file="raw-temps.csv" 
-#+begin_src sh :exports results
+#+begin_src sh :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
       |perl -pe 's/-9999/ NA/g' \
@@ -1282,7 +1282,7 @@ standard command-line tools.
 
 #+source: country-codes
 #+headers: :file country-codes.csv :var file="country-codes.csv" 
-#+begin_src sh :exports results
+#+begin_src sh :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
       |perl -pe 's/ *$//' \
       |perl -pe 's/ +/,/' \
@@ -1306,7 +1306,7 @@ rather than storing the data as plain text in the [[latex:proglang][Org-mode]] b
 #+end_src
 
 #+headers: :var raw-temps-file=raw-temps :var country-codes-file=country-codes
-#+begin_src sqlite :db climate.sqlite :exports results :results silent
+#+begin_src sqlite :db climate.sqlite :exports none :results silent
   drop table if exists temps;
   create table temps (country,station,replicate,year,jan,feb,
          mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
@@ -1378,8 +1378,7 @@ incorporation into the exported document (Figure
    ,  hist(slopes)
    ,#+end_src
    ,
-   ,#+Caption: Temperature trends between 1880 and the present at
-    weather stations in the USA \label{fig:climate-trend}
+   ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA \label{fig:climate-trend}
    ,#+ATTR_LaTeX: width=0.7\textwidth
    ,#+results: R-graph
    ,[[file:temp-trends.pdf]]
