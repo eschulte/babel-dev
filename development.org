@@ -3,7 +3,38 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [96/183]
+* Tasks [96/184]
+** TODO separators in the Error buffer
+   - State "TODO"       from ""           [2010-11-26 Fri 13:36]
+: >> - add something visible after every execution, like a separator line or a
+: >>   ^L character (new page, than can easily be displayed as a rule)
+: >
+: > I like this one (above), especially if you could append the date+time to the
+: > formfeed and, ideally, some indication of the source code block responsible
+: > for what follows. The latter is important because I often have multiple
+: > source code blocks with the same language and it would be nice to
+: > distinguish between them in terms of error output. Having the srcname appear
+: > would be great, if it's possible.
+: 
+: I think that what'd be very useful is:
+: 
+: - some kind of separator
+: - some timestamp (à la Org?  with or without seconds)
+: - some language info?
+: - a referrer to the code block (like the =comments= in tangled files)
+: 
+: The separator could even be (why not?) a Org heading: the entire output buffer
+: could be an Org file, allowing for folding of less useful entries, or sparse
+: tree searches:
+: 
+: * 2010-11-23 Tue 22:29:11 sh block
+: /* [[file:~/src/test.org::*Commands][Commands:1]] */
+: Invalid command: ls\r
+: Invalid command: date\r
+: /* Commands:1 ends here */
+: 
+: Just a proposition example... For me, whatever the format...
+
 ** STARTED Resolve references earlier and rewrite of variable assignments 
    - State "STARTED"    from ""           [2010-10-16 Sat 15:40]
 
