@@ -9,7 +9,7 @@
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{thumbpdf}
 #+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik}
-#+LATEX_HEADER: \Shorttitle{Multi-Language Computing Environment}
+#+LATEX_HEADER: \Shorttitle{Computational Environment for Mixed Prose and Code}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
 #+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
 #+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural and computer language documents. In this environment a single hierarchically-organized plain text source file may contain a variety of elements such as code in arbitrary programming languages, raw data, links to external resources, project management data, working notes, and text for publication. Code fragments may be executed in situ with graphical, numerical and text output captured or linked in the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer, DocBook and other formats permits working reports, presentations and manuscripts for publication to be generated from the file. In addition, functioning pure code files can be automatically extracted from the file. This environment is implemented as an extension to the Emacs text editor and provides a rich set of features for authoring both prose and code, as well as sophisticated project management capabilities.}
@@ -148,13 +148,13 @@ without expository prose is a less than ideal medium for communication
 between people. In this paper we describe the plain text markup
 language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
 environment supporting many different approaches to composition and
-application of combined prose and code (Table \ref{fig:overview}).  Working in
+application of combined prose and code (Figure \ref{fig:overview}).  Working in
 [[latex:proglang][Org-mode]] is an extension of standard text editing. Thus, trivial usage
 of [[latex:proglang][Org-mode]] is nothing more than text editing, from which point the
 user can start to add special plain text [[latex:proglang][Org-mode]]
 elements to the document.  [[latex:proglang][Org-mode]] is therefore easy to adopt and
 aims to be a general solution for authoring projects with mixed
-computational and natural languages.  It supports multiple languages,
+computational and natural languages.  It supports multiple programming languages,
 export targets, and work flows.
 
 #+begin_LaTeX
@@ -179,20 +179,20 @@ export targets, and work flows.
           \normalsize{Org-mode}
         \end{center}
   \begin{verbatim}
-    ,* Plain Text Markup
+    * Plain Text Markup
     - prose composition
     - code composition
     - data analysis
   
-    ,#+begin_src sh :tangle run.c
+    #+begin_src sh :tangle run.c
       int main(){
         return 0;
       }
-    ,#+end_src
+    #+end_src
   
-    ,#+begin_src R :file fig.pdf
+    #+begin_src R :file fig.pdf
       plot(data)
-    ,#+end_src
+    #+end_src
   
   \end{verbatim}
       };
@@ -942,7 +942,7 @@ by the [[latex:proglang][Python]] function into the [[latex:proglang][Org-mode]]
 blocks.
 #+begin_src org
    ,#+source: pascals-triangle
-   ,#+begin_src python :var n=5 :exports none
+   ,#+begin_src python :var n=5 :exports none :return pascals_triangle(5)
    ,  def pascals_triangle(n):
    ,      if n == 0:
    ,          return [[1]]
@@ -950,8 +950,6 @@ blocks.
    ,      prev_row = prev_triangle[n-1]
    ,      this_row = map(sum, zip([0] + prev_row, prev_row + [0]))
    ,      return prev_triangle + [this_row]
-   ,  
-   ,  return pascals_triangle(5)
    ,#+end_src
    ,
    ,#+results: pascals-triangle
@@ -964,7 +962,7 @@ blocks.
 #+end_src
 
 #+source: pascals-triangle
-#+begin_src python :var n=5 :exports none
+#+begin_src python :var n=5 :exports none :return pascals_triangle(5)
   def pascals_triangle(n):
       if n == 0:
           return [[1]]
@@ -972,8 +970,6 @@ blocks.
       prev_row = prev_triangle[n-1]
       this_row = map(sum, zip([0] + prev_row, prev_row + [0]))
       return prev_triangle + [this_row]
-  
-  return pascals_triangle(5)
 #+end_src
 
 #+results: pascals-triangle
@@ -1809,4 +1805,4 @@ http://www.gnu.org/software/emacs/calc.html.
 
 [fn:4] http://orgmode.org/manual/Working-With-Source-Code.html.
 
-[fn:5] http://cs.unm.edu/$\sim$eschulte/babel-draft/.
+[fn:5] https://github.com/eschulte/babel-dev/raw/master/paper/babel.org
