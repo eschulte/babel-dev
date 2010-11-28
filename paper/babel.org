@@ -179,20 +179,20 @@ export targets, and work flows.
           \normalsize{Org-mode}
         \end{center}
   \begin{verbatim}
-    * Plain Text Markup
+    ,* Plain Text Markup
     - prose composition
     - code composition
     - data analysis
   
-    #+begin_src sh :tangle run.c
+    ,#+begin_src sh :tangle run.c
       int main(){
         return 0;
       }
-    #+end_src
+    ,#+end_src
   
-    #+begin_src R :file fig.pdf
+    ,#+begin_src R :file fig.pdf
       plot(data)
-    #+end_src
+    ,#+end_src
   
   \end{verbatim}
       };
