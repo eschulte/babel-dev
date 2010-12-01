@@ -1651,4 +1651,4 @@ http://www.gnu.org/software/emacs/calc.html.
 
 [fn:4] http://orgmode.org/manual/Working-With-Source-Code.html.
 
-[fn:5] https://github.com/eschulte/babel-dev/raw/master/paper/babel.org
+[fn:5] https://github.com/eschulte/babel-dev/raw/paper-no-brand/paper/babel.org
