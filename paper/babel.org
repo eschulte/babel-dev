@@ -1453,7 +1453,7 @@ for a community of researchers and developers.  These include:
 Literate programming and reproducible research systems are typically
 prescriptive and difficult to use, and this cost of adoption has kept
 them from spreading more widely through the computing community.
-Org-mode enables users to gradually progress from simple text editing
+Org-mode enables users to progress gradually from simple text editing
 to sophisticated data processing and code evaluation thereby lowering
 the adoption cost of these techniques.  By consolidating all code,
 data, and text of research and development projects Org-mode increases
