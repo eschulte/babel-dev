@@ -1471,7 +1471,8 @@ process.  Org-mode provides researchers and software developers with a
 powerful tool to communicate their work and make it more accessible.
 
 #+begin_LaTeX
-    \bibliography{babel}
+  \bibliographystyle{abbrv}
+  \bibliography{babel}
 #+end_LaTeX
 
 * Footnotes
