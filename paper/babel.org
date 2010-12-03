@@ -323,10 +323,13 @@ scholarship.  The actual scholarship is the complete software
 development environment and complete set of instructions which
 generated the figures.
 
-\attrib{David L. Donoho}
+\attrib{David L. Donoho \cite{donoho}}
 #+end_quote
 
 # Needs citation with page number
+#
+# Just added the citation for the paper, not sure what the proper
+# format would be for adding the page number of the quote (page 5)
 
 A research project typically relies upon components such as:
   - the data being studied
