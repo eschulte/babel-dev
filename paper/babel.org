@@ -1256,7 +1256,7 @@ standard command-line tools.
 #+begin_src org
    ,#+source: raw-temps
    ,#+headers: :file raw-temps.csv :var file="raw-temps.csv" 
-   ,#+begin_src sh :exports results
+   ,#+begin_src sh :exports none
    ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
    ,      |gunzip \
    ,      |perl -pe 's/-9999/ NA/g' \
@@ -1267,7 +1267,7 @@ standard command-line tools.
    ,
    ,#+source: country-codes
    ,#+headers: :file country-codes.csv :var file="country-codes.csv" 
-   ,#+begin_src sh :exports results
+   ,#+begin_src sh :exports none
    ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
    ,      |perl -pe 's/ *$//' \
    ,      |perl -pe 's/ +/,/' \
@@ -1301,13 +1301,16 @@ sets it may be preferable to use an external store like a database
 rather than storing the data as plain text in the Org-mode buffer.
 
 #+begin_src org
-   ,#+begin_src sqlite :db climate.sqlite
+   ,#+headers: :var raw-temps-file=raw-temps :var country-codes-file=country-codes
+   ,#+begin_src sqlite :db climate.sqlite :exports none :results silent
+   ,  drop table if exists temps;
    ,  create table temps (country,station,replicate,year,jan,feb,
    ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+   ,  drop table if exists countries;
    ,  create table countries (code, name);
    ,  .separator ","
-   ,  .import raw-temps.csv temps
-   ,  .import country-codes.csv countries
+   ,  .import $raw-temps-file temps
+   ,  .import $country-codes-file countries
    ,#+end_src
 #+end_src
 
@@ -1333,7 +1336,7 @@ manipulated by other R code blocks that use the =*R-climate*= session.
 #+begin_src org
    ,#+source: R-init
    ,#+headers: :var dbname="climate.sqlite"
-   ,#+begin_src R :session *R-climate*
+   ,#+begin_src R :session *R-climate* :exports results :results silent
    ,  library("RSQLite")
    ,  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
    ,  query <- paste("SELECT temps.station, temps.year, temps.jul FROM temps, countries",
@@ -1383,8 +1386,8 @@ incorporation into the exported document (Figure
    ,  slopes <- sapply(temps.by.station[included], fit.slope)
    ,  hist(slopes)
    ,#+end_src
-   ,
-   ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA \label{fig:climate-trend}
+  
+   ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
    ,#+ATTR_LaTeX: width=0.7\textwidth
    ,#+results: R-graph
    ,[[file:temp-trends.pdf]]
