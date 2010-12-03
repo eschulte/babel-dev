@@ -1684,6 +1684,24 @@ evaluation is useful.  TD
   - Org-mode mailing list
   - Counsyl (ES and DD)
 * COMMENT Tasks
+** TODO Header args
+   If we're going to change header arg semantics a little in babel
+   (making :output :results and :file more coherent, Eric and I have
+   mentioned this at some point recently) then let's try to make sure
+   that blocks in the paper use any new form. E.g. the R block may
+   become
+
+   :output file :file temp-trends.pdf
+
+(in which case an explicit return of the file name as a character string
+would be required?)
+
+   or
+
+   :output graphics :file temp-trends.pdf
+** TODO Lightweight execution pathway?
+   Should the org document have some sort of flag enabling a lightweight
+   execution path that avoids long downloads of data?
 ** TODO Terminological consistency
    This may be fine as-is, bu for the record:
 *** "Computational" versus "computer" languages
@@ -1747,13 +1765,14 @@ The document (and anything else needed to recreate the pdf) should be
 made available on the web, and the URL should be published in the
 paper.
 ** TODO Org source URL footnote not exporting correctly
-** TODO Implement R examples in RR example
+** DONE Implement R examples in RR example
 ** TODO What are the correct header args for the src blocks?
    We have "active" src blocks, and inactive copies for export
    protected within org blocks Do we have the right combination
    of :results and :exports header args in those two sets of blocks?
 ** CANCELLED Is this indexing correct?
 #+headers: :var countries=country-codes[1:-1,0:1]
+
 * COMMENT Conflicts with JSS style
 #+begin_latex
   \lstdefinelanguage{org}
