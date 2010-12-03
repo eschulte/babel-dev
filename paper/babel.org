@@ -1326,12 +1326,12 @@ rather than storing the data as plain text in the Org-mode buffer.
   .import $country-codes-file countries
 #+end_src
 
-The =get-temps= code block reads a subset of the data from the sqlite
-database, and then the =R-init= code block splits the data into a
-separate time series for each weather station, in an ESS R
-session named =*R-climate*=. The variables persist in the
-=*R-climate*= session after the code block exits, so they can be
-manipulated by other R code blocks that use the =*R-climate*= session.
+The =R-init= code block reads a subset of the data from the sqlite
+database and splits the data into a separate time series for each
+weather station, in an ESS R session named =*R-climate*=. The
+variables persist in the =*R-climate*= session after the code block
+exits, so they can be manipulated by other R code blocks that use the
+=*R-climate*= session.
 
 #+begin_src org
    ,#+source: R-init
