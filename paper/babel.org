@@ -341,7 +341,7 @@ However, the documents produced by a research project typically stand
 apart from the things they describe and rely upon, which makes it
 difficult for other researchers to reproduce the results and to
 understand fully the conclusions of the research project. This
-situation is problematic becasue reproducibility of results and
+situation is problematic because reproducibility of results and
 accurate communication are both central to notions of good science.
 
 A software solution to this problem was proposed by
@@ -381,7 +381,7 @@ of the document generation process.  In this way the data, analysis,
 and figures supporting a publication can be generated from the
 publication itself.
 
-Gentleman and Temple Lang propose the adoption of compendia as the
+Gentleman and Lang propose the adoption of compendia as the
 new unit of peer review and distribution of scientific work.
 
 #+begin_quote
@@ -763,8 +763,8 @@ document to a prose format suitable for reading by a human---and
 code file suitable for execution by a computer.
 
 - weaving :: Org-mode provides a sophisticated and full-featured
-     system to export to HTML an number of other target
-     formats, with support for pre-processing code blocks as part of
+     system to export to a number of target formats including HTML and LaTeX,
+     with support for pre-processing code blocks as part of
      the export process.  Using the =:exports= header argument, the
      code of the code block, the results of executing the code block,
      both code and results, or neither can be included in the export.
@@ -1431,8 +1431,8 @@ for a community of researchers and developers.  These include:
      (version 24), Org-mode including all of the facilities discussed
      herein will be included in the Emacs core.  Emacs is one of the
      most widely ported software applications, making possible the
-     installation and use of Org-mode on an wide
-     variety of user systems.
+     installation and use of Org-mode on a wide variety of user
+     systems.
 
 - Active community :: The Org-mode community provides ready
      support to both novice users with basic questions and to
