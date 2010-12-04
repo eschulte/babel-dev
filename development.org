@@ -7612,6 +7612,8 @@ dot("$(2a,0)$",(2,0),N+E);
 
 
 * Bugs [90/118]
+** TODO Multiple #+babel lines don't work
+   - State "TODO"       from ""           [2010-11-17 Wed 21:30]
 ** TODO R tests are broken
    - State "TODO"       from ""           [2010-10-31 Sun 15:04]
 
