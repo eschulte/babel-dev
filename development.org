@@ -7612,6 +7612,15 @@ dot("$(2a,0)$",(2,0),N+E);
 
 
 * Bugs [90/118]
+** TODO python: unicode inserted into buffer incorrectly
+   - State "TODO"       from ""           [2010-12-04 Sat 20:52]
+#+begin_src python :session
+[u'this is unicode'] * 2
+#+end_src
+
+#+results:
+| u | this is unicode | u | this is unicode |
+
 ** TODO Multiple #+babel lines don't work
    - State "TODO"       from ""           [2010-11-17 Wed 21:30]
 ** TODO R tests are broken
@@ -7650,7 +7659,6 @@ but I may have been under the impression that consp was nil for a
 regular list, but that is of course not true:
 
 (consp '(a b)) => t
-
 
 ** DONE In-buffer results not being used when sha1 present
    - State "DONE"       from "TODO"       [2010-10-21 Thu 07:53]
