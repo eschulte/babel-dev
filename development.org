@@ -3,7 +3,21 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [96/184]
+* Tasks [96/185]
+** TODO file-wide language-specific header arguments
+   - State "TODO"       from ""           [2010-12-05 Sun 08:37]
+
+Would be nice to be able to specify file-wide *and* language-specific
+header arguments.  The syntax should read something like...
+
+: #+SH_Headers: results output
+
+or
+
+: #+Babel_SH: results output
+
+or something similar.
+
 ** TODO separators in the Error buffer
    - State "TODO"       from ""           [2010-11-26 Fri 13:36]
 : >> - add something visible after every execution, like a separator line or a
