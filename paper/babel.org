@@ -1680,7 +1680,7 @@ evaluation is useful.  TD
   The following friends and colleagues kindly read and offered
   comments on drafts of the paper: Erik Iverson, Eric S. Fraga, Bill
   White, Nick Dokos, Detlef Steuer, Konrad Hinsen, Christopher Allan
-  Webber, Charles C. Berry.
+  Webber, Charles C. Berry, Sebastien Vauban.
   - Org-mode mailing list
   - Counsyl (ES and DD)
 * COMMENT Tasks
