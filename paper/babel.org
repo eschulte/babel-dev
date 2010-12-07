@@ -1903,3 +1903,20 @@ completely lost.  Could somebody explain?
    - [ ] Fig. 1 source block is C, not sh
 ** [0/1] Charles C. Berry
    - [ ] [[http://journal.r-project.org/][The R Journal]]  [I believe this journal is too R specific, td]
+** [0/10] S. Vauban
+   - [ ] Add "data" to "desirable to mix prose, code, and
+     computational results."  pg. 1
+   - [ ] No commas in front of the Org-mode block in Fig. 1
+   - [ ] Properties of a node inherited by sub-nodes?  pg. 9
+   - [ ] Change "active code block" to "named code block" to bring
+     paper in alignment with code base
+   - [ ] Delete "incrementally" from "collected from STDOUT
+     incrementally" pg. 12
+   - [ ] Change code block name from ps-to-dot to somethat that
+     doesn't make SV think of postscript
+   - [ ] Use linewidth instead of textwidth in the LaTeX_ATTR: pg. 17
+   - [ ] Is var(1 2 1) compliant with "pass" table?
+   - [ ] Handle acronyms in a standard way and list them at end [This
+     is something that I can do relatively easily if it appeals, td]
+   - [ ] Not good for publishing in statistics journal, should go to
+     "another audience."
