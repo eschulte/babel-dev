@@ -1679,7 +1679,8 @@ evaluation is useful.  TD
 * Acknowledgments
   The following friends and colleagues kindly read and offered
   comments on drafts of the paper: Erik Iverson, Eric S. Fraga, Bill
-  White, Nick Dokos, Detlef Steuer, Konrad Hinsen, Christopher Allan Webber.
+  White, Nick Dokos, Detlef Steuer, Konrad Hinsen, Christopher Allan
+  Webber, Charles C. Berry.
   - Org-mode mailing list
   - Counsyl (ES and DD)
 * COMMENT Tasks
@@ -1853,7 +1854,6 @@ http://www.gnu.org/software/emacs/calc.html.
    - [ ] End of section 4.2, You may want to say 1 sentence about what
      the #+call line is doing, since that syntax does not appear elsewhere.
 
-
 ** [0/2] Eric S. Fraga
    - [ ]  [[http://www.springer.com/computer/journal/11086][Programming and Computer Software]] 
    - [ ]  [[http://www.computer.org/portal/web/tse/][IEEE Transactions on Software Engineering]]
@@ -1901,3 +1901,5 @@ completely lost.  Could somebody explain?
      department of Computing in Science and Engineering.
 ** [0/1] Christopher Allan Webber
    - [ ] Fig. 1 source block is C, not sh
+** [0/1] Charles C. Berry
+   - [ ] [[http://journal.r-project.org/][The R Journal]]  [I believe this journal is too R specific, td]
