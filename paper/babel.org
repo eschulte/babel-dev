@@ -1463,6 +1463,14 @@ powerful tool to communicate their work and make it more accessible.
   \bibliography{babel}
 #+end_LaTeX
 
+* Acknowledgments
+  The following friends and colleagues kindly read and offered
+  comments on drafts of the paper: Erik Iverson, Eric S. Fraga, Bill
+  White, Nick Dokos, Detlef Steuer, Konrad Hinsen, Christopher Allan
+  Webber, Charles C. Berry, Sebastien Vauban.
+  - Org-mode mailing list
+  - Counsyl (ES and DD)
+
 * Footnotes
 
 [fn:1] These confirmation requests can be stifled by customizing the
@@ -1477,3 +1485,115 @@ http://www.gnu.org/software/emacs/calc.html.
 [fn:4] http://orgmode.org/manual/Working-With-Source-Code.html.
 
 [fn:5] https://github.com/eschulte/babel-dev/raw/paper-no-brand/paper/babel.org
+
+
+* COMMENT Org-mode list comments
+** [1/6] Erik Iverson
+   - [ ] anything you can add in the intro to give the uninitiated
+         reader ideas about how versatile and organic Org-mode is would be
+         beneficial!
+   - [ ] Figure 1: Consider changing 'export' to 'Weave', as that is the language
+         used to reference this action in section 3.3 of the manuscript.
+         There are also commas before the headlines in Org-mode bubble,
+         I don't know what purpose those serve.
+   - [X] p. 6 becasue
+   - [ ] Section 3.1.3, perhaps mention that Org-mode provides table
+         editing commands to construct tables easily.
+   - [ ] Section 3.2, I would suggest reordering things slightly.
+     - Clearly, the main concept of interest here is that of
+       the code block.  I think these should be introduced
+       immediately in section 3.2.1, so that the reader understands
+       that this is the primary machine to make things happen.
+     - So, section 3.2.1 might start off with code block syntax,
+       followed by a section on data blocks.  I would also say
+       a sentence or two about the syntax of a source code block.
+     - Even though the 4 line skeleton seems natural to us, if
+       we imagine that we haven't seen it before, it might help
+       to have some English text to describe the important
+       information it can contain.
+   - [ ] Section 3.2.2, I would say, "the captured output appears by default in a results block
+         in the Org-mode buffer..."
+   - [ ] Section 3.2.3, Although it is mentioned later, you might
+         briefly mention at the end of this section, that graphical content can be
+         viewed in the Org-mode buffer itself, making Org-mode an
+         'interactive notebook' of sorts.
+   - [ ] Section 3.3, weaving: "export to HTML an number", fix typo
+     [td can't find this]
+   - [ ] I might also add a sentence describing what this means in
+         practice.  That is, that you have a 'write once' org-mode document
+         with prose/code, and with one batch command, you can export to
+         multiple (PDF, HTML, ...) file formats, hiding from your readers
+         the code that was used to generate the numbers and figures in the
+         outputs.  When the analyses change, you only have to update one
+         source document, re-export, and all the targets are updated.
+   - [ ] Section 3.5, I might say "document reader's computer" for
+         clarity
+   - [ ] End of section 4.2, You may want to say 1 sentence about what
+     the #+call line is doing, since that syntax does not appear elsewhere.
+
+** [0/2] Eric S. Fraga
+   - [ ]  [[http://www.springer.com/computer/journal/11086][Programming and Computer Software]] 
+   - [ ]  [[http://www.computer.org/portal/web/tse/][IEEE Transactions on Software Engineering]]
+
+** [3/6] Bill White
+   - [X] becasue
+   - [ ] Gentleman and Temple Lang, pg. 7
+   - [ ] \texttt in source block
+   - [X] Org-mode constructs -> Org-mode results blocks
+   - [ ] get-temps code block referenced but doesn't appear
+   - [X] an wide variety
+   - [ ] 
+
+** [2/5] Nick Dokos
+   - [ ] \texttt in source block
+   - [X] #+ATT -> #+ATTR_LATEX in code block ps-to-fig [OK in this
+     file, td]
+   - [X] propagate -> populate? Yes, td
+   - [ ] sqlite code block: it does not have a #+source attribute
+         (should it?) and the quoted code is out of sync with the  "real"
+         code, missing the "drop table" construct and some header args.  I
+         take it there is no concept of radio-code that would populate the
+         ``#+begin_src org'' block with an up-to-date copy of the real code,
+         is  there?
+   - [ ] missing get-temps code block, pg. 23, sec. 5
+  
+Finally, the questions: in Sec. 4.1.3, I may be missing something
+fundamental, but I don't understand how that works at all. In
+particular, is the table formula complete as it stands? How does it get
+the diagonals? How are these things passed to the code block? Why does
+the code block have values given to the variables? Is it correct as it
+stands, or are things missing? This is the one section where I was
+completely lost.  Could somebody explain?
+
+** [1/3] Detlef Steuer
+   - [ ] Thinks article should have more statistics for JSS
+   - [X] Wants more focus on compendium [I think we're OK here.  After
+     all, the paper itself will be made available as a compendium.  TD]
+   - [ ] stress "always-correctness" of graphs [I don't know what he
+     means here, td]
+
+** [0/2] Konrad Hinsen
+   - [ ] [[http://cise.aip.org/][Computing in Science and Engineering]]
+   - [ ] Short version of article for "Scientific Programming"
+     department of Computing in Science and Engineering.
+** [0/1] Christopher Allan Webber
+   - [ ] Fig. 1 source block is C, not sh
+** [0/1] Charles C. Berry
+   - [ ] [[http://journal.r-project.org/][The R Journal]]  [I believe this journal is too R specific, td]
+** [0/10] S. Vauban
+   - [ ] Add "data" to "desirable to mix prose, code, and
+     computational results."  pg. 1
+   - [ ] No commas in front of the Org-mode block in Fig. 1
+   - [ ] Properties of a node inherited by sub-nodes?  pg. 9
+   - [ ] Change "active code block" to "named code block" to bring
+     paper in alignment with code base
+   - [ ] Delete "incrementally" from "collected from STDOUT
+     incrementally" pg. 12
+   - [ ] Change code block name from ps-to-dot to somethat that
+     doesn't make SV think of postscript
+   - [ ] Use linewidth instead of textwidth in the LaTeX_ATTR: pg. 17
+   - [ ] Is var(1 2 1) compliant with "pass" table?
+   - [ ] Handle acronyms in a standard way and list them at end [This
+     is something that I can do relatively easily if it appeals, td]
+   - [ ] Not good for publishing in statistics journal, should go to
+     "another audience."
