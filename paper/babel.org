@@ -76,7 +76,12 @@ this file to LaTeX.
   ;; replace nasty single-quotes returned by R
   (add-hook 'org-export-latex-final-hook
             (lambda ()
-              (replace-regexp "’" "'")))
+              (replace-regexp "’" "'")
+              (goto-char (point-min))
+              (replace-regexp (regexp-quote "\texttt{SCHEDULED:}") "SCHEDULED:")
+              (goto-char (point-min))
+              (replace-regexp (regexp-quote ",*") "*")
+              (replace-regexp (regexp-quote ",#") "#")))
   
   ;; use latex listings for fontified code blocks
   (set-default 'org-export-latex-listings t)
@@ -86,7 +91,7 @@ this file to LaTeX.
 
 * Introduction
 There are a variety of settings in which it is desirable to mix prose,
-code, and computational results in a single document.
+code, data, and computational results in a single document.
 - /Scientific research/ increasingly involves the use of computational
   tools. Successful communication and verification of research results
   requires that this code is distributed together with results and
@@ -269,7 +274,7 @@ programs: Instead of imagining that our main task is to instruct a
 computer what to do, let us concentrate rather on explaining to human
 beings what we want a computer to do.
 
-\attrib{Donald E. Knuth}
+\attrib{Donald E. Knuth \cite{web}}
 #+end_quote
 
 The technique of /literate programming/ was introduced by Donald Knuth
@@ -326,11 +331,6 @@ generated the figures.
 
 \attrib{David L. Donoho \cite{donoho}}
 #+end_quote
-
-# Needs citation with page number
-#
-# Just added the citation for the paper, not sure what the proper
-# format would be for adding the page number of the quote (page 5)
 
 A research project typically relies upon components such as:
   - the data being studied
@@ -534,10 +534,11 @@ structured to represent various types of information, including
 vectors, matrices, source code, and arbitrary pieces of text.  Vector
 and matrix data are represented as tables where the columns are marked
 by vertical bars and rows are optionally separated by dashed lines as
-shown in the following example.  The Emacs mathematical tool, /calc/,[fn:3] 
-can be used to carry out computations in tables.  This feature is
-similar to spreadsheet applications, but [[latex:proglang][Org-mode]] uses plain text to
-represent both data and formulas.
+shown in the following example.  Org-mode provides a number of
+commands for natural table navigation and editing.  The Emacs
+mathematical tool, /calc/,[fn:3] can be used to carry out computations
+in tables.  This feature is similar to spreadsheet applications, but
+[[latex:proglang][Org-mode]] uses plain text to represent both data and formulas.
 
 #+begin_src org
   ,| Name 1 | Name 2 | ... | Name N |
@@ -651,7 +652,7 @@ header argument.
      function.  This is the default setting.
 
 - =:results output= :: Specifies that the results should be collected
-     from =STDOUT= incrementally, as they are written by the
+     from =STDOUT=, as they are written by the
      application responsible for code execution.
 
 These differences are demonstrated by the following
@@ -810,7 +811,7 @@ new language support is increasingly implemented by Org-mode users.
 ** Safety considerations
 A reproducible research document includes code that
 can be evaluated.  This carries the potential of giving a malicious hacker direct
-access to the reader's computer.  The primary defense in this instance
+access to the document reader's computer.  The primary defense in this instance
 is for the reader to recognize malicious code and to choose not to run
 it.  This can be a difficult task in a reproducible research document
 written in a single computer language, such as one written with
@@ -905,15 +906,15 @@ blocks.
 A more pleasing representation of Pascal's triangle can created with the dot
 graphing language.  In the following code block the =pascals-triangle=
 table is passed to a block of Python code through the
-variable =ps=.  Org-mode transforms the table into a Python list,
+variable =pst=.  Org-mode transforms the table into a Python list,
 which the Python block uses to construct strings of dot commands.  The
 strings of dot commands are intended for use by a subsequent code
 block, and not for inclusion into the exported document, as indicated
 by the =:exports none= header argument.
 
 #+begin_src org
-   ,#+source: ps-to-dot
-   ,#+begin_src python :var ps=pascals-triangle :results output :exports none 
+   ,#+source: pst-to-dot
+   ,#+begin_src python :var pst=pascals-triangle :results output :exports none 
    ,  def node(i, j):
    ,        return '"%d_%d"' % (i+1, j+1)
    ,  
@@ -921,25 +922,25 @@ by the =:exports none= header argument.
    ,        return '%s--%s;' % (node(i1, j1), node(i2,j2))
    ,  
    ,  def node_with_edges(i, j):
-   ,        line = '%s [label="%d"];' % (node(i, j), ps[i][j])
+   ,        line = '%s [label="%d"];' % (node(i, j), pst[i][j])
    ,        if j > 0:
    ,              line += edge(i-1, j-1, i, j)
-   ,        if j < len(ps[i])-1:
+   ,        if j < len(pst[i])-1:
    ,              line += edge(i-1, j, i, j)
    ,        return line 
    ,  
    ,  # Eliminate empty table cells
-   ,  ps = [filter(None, row) for row in ps]
+   ,  pst = [filter(None, row) for row in pst]
    ,
    ,  # Output dot commands
    ,  print '\n'.join([node_with_edges(i, j)
-   ,                   for i in range(len(ps))
-   ,                   for j in range(len(ps[i]))])
+   ,                   for i in range(len(pst))
+   ,                   for j in range(len(pst[i]))])
    ,#+end_src
 #+end_src
 
-#+source: ps-to-dot
-#+begin_src python :var ps=pascals-triangle :results output :exports none 
+#+source: pst-to-dot
+#+begin_src python :var pst=pascals-triangle :results output :exports none 
   def node(i, j):
         return '"%d_%d"' % (i+1, j+1)
 
@@ -947,24 +948,24 @@ by the =:exports none= header argument.
         return '%s--%s;' % (node(i1, j1), node(i2,j2))
 
   def node_with_edges(i, j):
-        line = '%s [label="%d"];' % (node(i, j), ps[i][j])
+        line = '%s [label="%d"];' % (node(i, j), pst[i][j])
         if j > 0:
               line += edge(i-1, j-1, i, j)
-        if j < len(ps[i])-1:
+        if j < len(pst[i])-1:
               line += edge(i-1, j, i, j)
         return line 
   
   # Eliminate empty table cells
-  ps = [filter(None, row) for row in ps]
+  pst = [filter(None, row) for row in pst]
 
   # Output dot commands
   print '\n'.join([node_with_edges(i, j)
-                   for i in range(len(ps))
-                   for j in range(len(ps[i]))])
+                   for i in range(len(pst))
+                   for j in range(len(pst[i]))])
 #+end_src
 
 The output is passed directly into a block of dot code by assigning
-the name of the Python code block to the variable =ps-vals=.  Passing
+the name of the Python code block to the variable =pst-vals=.  Passing
 the results of one code block to another in this way is called
 /chaining/; Org-mode places no limit on the number of code blocks that
 can be chained together.  Evaluation propagates backwards through
@@ -978,31 +979,31 @@ in Org-mode syntax and in exported form (Figure
 \ref{pascals-triangle-fig}).
 
 #+begin_src org
-   ,#+source: ps-to-fig
+   ,#+source: pst-to-fig
    ,#+headers: :file pascals-triangle.pdf :cmdline -Tpdf
-   ,#+begin_src dot :var ps-vals=ps-to-dot :exports results
+   ,#+begin_src dot :var pst-vals=pst-to-dot :exports results
    ,  graph {
-   ,    $ps-vals
+   ,    $pst-vals
    ,  }
    ,#+end_src
    ,
    ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
-   ,#+ATT width=.5\textwidth
-   ,#+results: ps-to-fig
+   ,#+ATT width=.5\linewidth
+   ,#+results: pst-to-fig
    ,[[file:pascals-triangle.pdf]]
 #+end_src
 
-#+source: ps-to-fig
+#+source: pst-to-fig
 #+headers: :file pascals-triangle.pdf :cmdline -Tpdf
-#+begin_src dot :var ps-vals=ps-to-dot :exports results
+#+begin_src dot :var pst-vals=pst-to-dot :exports results
   graph {
-    $ps-vals
+    $pst-vals
   }
 #+end_src
 
 #+Caption: Pascal's Triangle \label{pascals-triangle-fig}
-#+ATT width=.5\textwidth
-#+results: ps-to-fig
+#+ATT width=.5\linewidth
+#+results: pst-to-fig
 [[file:pascals-triangle.pdf]]
 
 *** Testing for correctness
@@ -1021,7 +1022,7 @@ diagonals, confirming that the implementation of Pascal's triangle is
 correct.
 
 #+begin_src org
-  ,#+source: ps-check
+  ,#+source: pst-check
   ,#+begin_src emacs-lisp :var row='(1 2 1) :var n=0 :exports code
   ,  (defun fib (n)
   ,    (if (<= n 2)
@@ -1044,10 +1045,10 @@ correct.
   ,| 1 |    3 |    3 |    1 |      |      |
   ,| 1 |    4 |    6 |    4 |    1 |      |
   ,| 1 |    5 |   10 |   10 |    5 |    1 |
-  ,#+TBLFM: @2$2='(sbe ps-check (row @3$1)...
+  ,#+TBLFM: @2$2='(sbe pst-check (row @3$1)...
 #+end_src
 
-#+source: ps-check
+#+source: pst-check
 #+begin_src emacs-lisp :var row='(1 2 1) :var n=0 :exports none
   (defun fib (n)
     (if (<= n 2)
@@ -1207,7 +1208,10 @@ In usual literate programming practice these parts can be tangled out
 to the file =cocktail.c=, as indicated by the =:tangle= header
 argument of the =cocktail.c= code block.  Alternately the expanded
 code block can be compiled and evaluated from within the Org-mode file
-using the following =#+call= line.
+using the following =#+call= line.  A =#+call:= line syntax can be
+used to call remote code blocks as functions specifying arguments and
+header arguments, the result of the remote code block is inserted
+locally.
 
 #+begin_src org
   ,#+call: cocktail.c[:cmdline 8 7 6 3 2 4 78]()
@@ -1232,7 +1236,7 @@ document to reference external data, to construct and use local stores
 of data outside the document, and to maintain persistent state in
 external sessions, all in an automated fashion. This allows each
 reader to recreate the document with up-to-date data, and to
-propagate a full local workspace with the data used in the document.
+populate a full local workspace with the data used in the document.
 
 This example references climate change data from the US National
 Oceanic and Atmospheric Administration (NOAA). The data set is much
@@ -1389,7 +1393,7 @@ incorporation into the exported document (Figure
    ,#+end_src
   
    ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
-   ,#+ATTR_LaTeX: width=0.7\textwidth
+   ,#+ATTR_LaTeX: width=0.7\linewidth
    ,#+results: R-graph
    ,[[file:temp-trends.pdf]]
 #+end_src
@@ -1406,7 +1410,7 @@ incorporation into the exported document (Figure
 #+end_src
 
 #+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
-#+ATTR_LaTeX: width=0.7\textwidth
+#+ATTR_LaTeX: width=0.7\linewidth
 #+results: R-graph
 [[file:temp-trends.pdf]]
 
@@ -1445,13 +1449,13 @@ for a community of researchers and developers.  These include:
      effort of this community.
 
 - General and extensible :: A main design goal of Org-mode's support
-     for working with source code was pursuit of generality.  As a
-     result, it displays no reproducible research or literate
-     programming bias, supports arbitrary programming languages, and
-     exports to a wide variety of file types, including ASCII, LaTeX,
-     HTML, and DocBook.  Researchers and software developers who adopt
-     Org-mode can be confident that it will be able to adapt to new
-     languages or modes of development.
+     for working with source code was generality.  As a result, it
+     displays no reproducible research or literate programming bias,
+     supports arbitrary programming languages, and exports to a wide
+     variety of file types, including ASCII, LaTeX, HTML, and DocBook.
+     Researchers and software developers who adopt Org-mode can be
+     confident that it will be able to adapt to new languages or modes
+     of development.
 
 - Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
