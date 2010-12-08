@@ -4,7 +4,7 @@
 #+LATEX_HEADER: \usepackage{tikz}
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
-#+LATEX_HEADER: \usepackage{thumbpdf}
+#+LATEX_HEADER: \usepackage{thumbpdf,natbib}
 #+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik}
 #+LATEX_HEADER: \author{Eric Schulte\\University of New Mexico \And Dan Davison\\University of Oxford \AND Thomas Dye\\University of Hawai`i \AND Carsten Dominik\\University of Amsterdam and Radboud University Nijmegen}
 #+LATEX_HEADER: \title{A Multi-Language Computing Environment for Literate Programming and Reproducible Research}
@@ -220,7 +220,7 @@ productive environment for authoring mixed prose and code projects
 running a single export command.  This command executed the source
 code examples and generated the figures before exporting its content
 to a LaTeX file marked up according the journal's specification. The
-[[latex:proglang][Org-mode]] source for this paper is available online [fn:5].
+[[latex:proglang][Org-mode]] source for this paper is available online.[fn:5]
 
 * Background
   :PROPERTIES:
@@ -248,15 +248,15 @@ programs: Instead of imagining that our main task is to instruct a
 computer what to do, let us concentrate rather on explaining to human
 beings what we want a computer to do.
 
-\attrib{Donald E. Knuth \cite{web}}
+\attrib{\citealt{web}}
 #+end_quote
 
 The technique of /literate programming/ was introduced by Donald Knuth
-\cite{web} in the early 1980's, not long after he created the TeX
-typesetting software.  Literate programming has been described as aiming to
-encourage the author of a computational work to approach the project
-"as an essayist, whose main concern is with exposition and excellence
-of style."
+ in the early 1980's, not long after he created the TeX typesetting
+ software \citep{web}.  Literate programming has been described as
+ aiming to encourage the author of a computational work to approach
+ the project "as an essayist, whose main concern is with exposition
+ and excellence of style."
 # need citation with page number
 # I hesitate about including this as I find the quote itself
 # pretentious and thus of questionable style [DD]
@@ -276,12 +276,12 @@ computer.
 
 The original literate programming tool, developed by Knuth, was
 [[latex:proglang][WEB]], which consists of two primary programs,
-=TANGLE= and =WEAVE= \cite{web}.  This system supported the Pascal
+=TANGLE= and =WEAVE= \citep{web}.  This system supported the Pascal
 programming language and produced documents typeset with TeX.
 Somewhat later, Knuth and Silvio Levy produced a C language version,
-[[latex:proglang][cWeb]] \cite{knuth94:_cweb_system_struc_docum}.  A
+[[latex:proglang][cWeb]] \citep{knuth94:_cweb_system_struc_docum}.  A
 modern descendent of these tools is [[latex:proglang][noweb]]
-\cite{noweb} which is designed to be language independent.  Its
+\citep{noweb} which is designed to be language independent.  Its
 primary programs, =notangle= and =noweave=, are both written in
 [[latex:proglang][C]].  Documents produced by =noweave= can be typeset
 with TeX, LaTeX, and [[latex:proglang][troff]] or displayed in a web
@@ -303,7 +303,7 @@ scholarship.  The actual scholarship is the complete software
 development environment and complete set of instructions which
 generated the figures.
 
-\attrib{David L. Donoho \cite{donoho}}
+\attrib{\citealt{donoho}}
 #+end_quote
 
 A research project typically relies upon components such as:
@@ -320,7 +320,7 @@ situation is problematic because reproducibility of results and
 accurate communication are both central to notions of good science.
 
 A software solution to this problem was proposed by
-\cite{compendium}, who "introduce the concept of a /compendium/ as
+\citet{compendium}, who "introduce the concept of a /compendium/ as
 both a container for the different elements that make up the document
 and its computations (i.e. text, code, data, ...), and as a means for
 distributing, managing and updating the collection."
@@ -366,11 +366,11 @@ science. The tools we have proposed and discussed will allow us to
 move from an era of advertisement to one where our scholarship itself
 is published. This exposes the computations themselves to the
 scientific method and enhances the potential for iterative refinement
-and extension.  \cite{compendium}
+and extension.  \citep{compendium}
 #+end_quote
 
-=Sweave= \cite{sweave} is a modern software tool written in the [[latex:proglang][R]]
-statistical programming language \cite{r-software} that can be used
+=Sweave= \citep{sweave} is a modern software tool written in the [[latex:proglang][R]]
+statistical programming language \citep{r-software} that can be used
 for reproducible research.  [[latex:proglang][Sweave]] and the [[latex:proglang][R]] community at large
 inspired the work that led to the /compendium/ idea, and the recent
 resurgence of interest in reproducible research owes much to the success of both [[latex:proglang][R]]
@@ -388,9 +388,9 @@ data.
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
-At the core of [[latex:proglang][Org-mode]] is the Emacs text editor \cite{emacs} and
+At the core of [[latex:proglang][Org-mode]] is the Emacs text editor \citep{emacs} and
 [[latex:proglang][Emacs Lisp]]
-\cite{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp that
+\citep{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp that
 supports the editing of text documents.  The Emacs editor has been under
 development since the mid 1970s and is currently at version 23.
 [[latex:proglang][Org-mode]] extends Emacs with a simple and powerful markup language
@@ -595,7 +595,7 @@ transferred across the network to the local Emacs process.
 In addition, evaluation of several languages may be performed in an
 interactive Emacs "session" that persists indefinitely. For example,
 session-based evaluation of R code uses R sessions provided by the
-Emacs Speaks Statistics (ESS) project \cite{ess}.  Thus, both the [[latex:proglang][Org-mode]]
+Emacs Speaks Statistics (ESS) project \citep{ess}.  Thus, both the [[latex:proglang][Org-mode]]
 buffer and the language-specific session buffers may be used to
 share functions and data structures between blocks. In [[latex:proglang][Org-mode]],
 [[latex:proglang][R]] code editing and session-based [[latex:proglang][R]] evaluation are implemented using
@@ -750,7 +750,7 @@ code file suitable for execution by a computer.
      presented with code differs from the order in which the code may
      be best organized in a document.  Literate programming systems
      like noweb solve this problem using code-block references that
-     are expanded as part of the tangle process \cite{noweb}.
+     are expanded as part of the tangle process \citep{noweb}.
      Org-mode implements the noweb reference system using
      identical syntax and functionality.
 
@@ -962,7 +962,7 @@ in Org-mode syntax and in exported form (Figure
    ,#+end_src
    ,
    ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
-   ,#+ATT width=.5\linewidth
+   ,#+ATTR_LaTeX width=.6\linewidth
    ,#+results: pst-to-fig
    ,[[file:pascals-triangle.pdf]]
 #+end_src
@@ -976,7 +976,7 @@ in Org-mode syntax and in exported form (Figure
 #+end_src
 
 #+Caption: Pascal's Triangle \label{pascals-triangle-fig}
-#+ATT width=.5\linewidth
+#+ATTR_LaTeX: width=0.6\linewidth
 #+results: pst-to-fig
 [[file:pascals-triangle.pdf]]
 
@@ -1402,7 +1402,7 @@ for a community of researchers and developers.  These include:
 
 - Open source :: Org-mode is open source software.  Its inner
      workings are publicly visible, and its copyright is owned by the
-     Free Software Foundation \cite{fsf}.  This ensures that
+     Free Software Foundation \citep{fsf}.  This ensures that
      Org-mode and any work deriving from Org-mode will always be
      fully open to public scrutiny and modification.  These are
      essential qualities for software tools used for reproducible
