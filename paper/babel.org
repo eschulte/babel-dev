@@ -1459,15 +1459,18 @@ makes reproducible research practices essential to the peer review
 process.  Org-mode provides researchers and software developers with a
 powerful tool to communicate their work and make it more accessible.
 
-#+begin_LaTeX
-  \bibliography{babel}
-#+end_LaTeX
-
 * Acknowledgments
+  :PROPERTIES:
+  :custom_id: acknowledgments
+  :END:
 The authors gratefully acknowledge the Org-mode community whose ideas
 and feedback both guided and motivated this work.  Additionally Eric
 Schulte and Dan Davison would like to acknowledge Counsyl for helping
 to support this development.
+
+#+begin_LaTeX
+  \bibliography{babel}
+#+end_LaTeX
 
 * Footnotes
 
