@@ -1464,12 +1464,10 @@ powerful tool to communicate their work and make it more accessible.
 #+end_LaTeX
 
 * Acknowledgments
-  The following friends and colleagues kindly read and offered
-  comments on drafts of the paper: Erik Iverson, Eric S. Fraga, Bill
-  White, Nick Dokos, Detlef Steuer, Konrad Hinsen, Christopher Allan
-  Webber, Charles C. Berry, Sebastien Vauban.
-  - Org-mode mailing list
-  - Counsyl (ES and DD)
+The authors gratefully acknowledge the Org-mode community whose ideas
+and feedback both guided and motivated this work.  Additionally Eric
+Schulte and Dan Davison would like to acknowledge Counsyl for helping
+to support this development.
 
 * Footnotes
 
