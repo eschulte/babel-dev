@@ -1,76 +1,35 @@
-# -*- mode: org -*-
-#+TITLE: A Multi-Language Computing Environment for Literate Programming and Reproducible Research /DRAFT/
-#+AUTHOR: Eric Schulte\\University of New Mexico \and Dan Davison\\University of Oxford \and Thomas Dye\\University of Hawai`i \and Carsten Dominik\\University of Amsterdam and Radboud University Nijmegen
+#+TITLE: A Multi-Language Computing Environment for Literate Programming and Reproducible Research
+#+AUTHOR: Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik
 #+OPTIONS: ^:nil toc:nil H:4
-#+STARTUP: oddeven
 #+LATEX_HEADER: \usepackage{tikz}
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{thumbpdf}
-#+begin_latex
-  \lstdefinelanguage{org}
-  {
-    morekeywords={:results, :session, :var, :noweb, :exports},
-    sensitive=false,
-    morecomment=[l]{\#},
-    morestring=[b]",
-  }
-  \lstdefinelanguage{dot}
-  {
-    morekeywords={graph},
-    sensitive=false,
-  }
-  \hypersetup{
-    linkcolor=blue,
-    pdfborder={0 0 0 0}
-  }
-  \renewcommand\t[1]{{\tt #1}}
-  \newcommand\ATCES{{\sf atce/r}}
-  \newcommand\lt[1]{{\lstinline+#1+}}
-  \definecolor{dkgreen}{rgb}{0,0.5,0}
-  \definecolor{dkred}{rgb}{0.5,0,0}
-  \definecolor{gray}{rgb}{0.5,0.5,0.5}
-  \lstset{basicstyle=\ttfamily\bfseries\scriptsize,
-    morekeywords={virtualinvoke,fucompp,fnstsw,fldl,fstpl,movl},
-    keywordstyle=\color{blue},
-    ndkeywordstyle=\color{red},
-    commentstyle=\color{dkred},
-    stringstyle=\color{dkgreen},
-    numbers=left,
-    numberstyle=\ttfamily\footnotesize\color{gray},
-    stepnumber=1,
-    numbersep=10pt,
-    backgroundcolor=\color{white},
-    tabsize=4,
-    showspaces=false,
-    showstringspaces=false,
-    xleftmargin=.23in
-  }
-#+end_latex
-
-\begin{abstract}
-  We present a new computing environment for authoring mixed natural
-  and computer language documents. In this environment a single
-  hierarchically-organized plain text source file may contain a
-  variety of elements such as code in arbitrary programming languages,
-  raw data, links to external resources, project management data,
-  working notes, and text for publication. Code fragments may be
-  executed in situ with graphical, numerical and text output captured
-  or linked in the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer,
-  DocBook and other formats permits working reports, presentations and
-  manuscripts for publication to be generated from the file. In
-  addition, functioning pure code files can be automatically extracted
-  from the file. This environment is implemented as an extension to
-  the Emacs text editor and provides a rich set of features for
-  authoring both prose and code, as well as sophisticated project
-  management capabilities.
-\end{abstract}
+#+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik}
+#+LATEX_HEADER: \author{Eric Schulte\\University of New Mexico \And Dan Davison\\University of Oxford \AND Thomas Dye\\University of Hawai`i \AND Carsten Dominik\\University of Amsterdam and Radboud University Nijmegen}
+#+LATEX_HEADER: \title{A Multi-Language Computing Environment for Literate Programming and Reproducible Research}
+#+LATEX_HEADER: \Shorttitle{Computational Environment for Mixed Prose and Code}
+#+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
+#+LATEX_HEADER: \Address{Eric Schulte\\Department of Computer Science\\University of New Mexico\\1 University of New Mexico\\Albuquerque, NM 87131\\United States of America\\E-mail: eschulte@cs.unm.edu\\URL: http://cs.unm.edu/$\sim$eschulte/}
+#+LATEX_HEADER: \Abstract{We present a new computing environment for authoring mixed natural   and computer language documents. In this environment a single   hierarchically-organized plain text source file may contain a   variety of elements such as code in arbitrary programming languages,   raw data, links to external resources, project management data,   working notes, and text for publication. Code fragments may be   executed in situ with graphical, numerical and text output captured   or linked in the file. Export to \LaTeX{}, HTML, \LaTeX{} Beamer,   DocBook and other formats permits working reports, presentations and   manuscripts for publication to be generated from the file. In   addition, functioning pure code files can be automatically extracted   from the file. This environment is implemented as an extension to   the Emacs text editor and provides a rich set of features for   authoring both prose and code, as well as sophisticated project   management capabilities.}
+#+LaTeX_CLASS: jss
+#+STARTUP: oddeven
 
 * COMMENT How to export this file to LaTeX
 Evaluate the following code block to configure Org-mode for exporting
 this file to LaTeX.
 
 #+begin_src emacs-lisp :tangle yes :results silent
+  (require 'org-latex)
+  (org-add-link-type
+   "latex" nil
+   (lambda (path desc format)
+     (cond
+      ((eq format 'html)
+       (format "<span style=\"color:black;\">%s</span>" desc))
+      ((eq format 'latex)
+       (format "\\%s{%s}" path desc)))))
+
   (setq org-babel-default-header-args:org '((:results . "raw silent")
                                             (:exports . "code")))
   ;; replace nasty single-quotes returned by R
@@ -85,7 +44,22 @@ this file to LaTeX.
   
   ;; use latex listings for fontified code blocks
   (set-default 'org-export-latex-listings t)
-    
+
+  
+  (add-to-list 'org-export-latex-classes
+               '("jss"
+                 "\\documentclass[article,shortnames]{jss}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  ;; JSS has its own code formatting style
+  (setq org-export-latex-listings nil)
+  (setq org-export-latex-verbatim-wrap
+        '("\\begin{Code}\n" . "\\end{Code}\n"))
+
   :configured
 #+end_src
 
@@ -137,7 +111,7 @@ export targets, and work flows.
     very thick,
     draw=blue]
     \begin{figure}
-      \hspace{-2cm}
+      \centering
       \begin{tikzpicture}[->,>=stealth', shorten >=1pt, auto, scale=0.75]
         \node [page] (org) at (0,0) {
           \begin{center}
@@ -1486,7 +1460,6 @@ process.  Org-mode provides researchers and software developers with a
 powerful tool to communicate their work and make it more accessible.
 
 #+begin_LaTeX
-  \bibliographystyle{abbrv}
   \bibliography{babel}
 #+end_LaTeX
 
