@@ -7625,7 +7625,50 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [90/118]
+* Bugs [90/121]
+** TODO Naming session changes noweb expansion on export
+   :LOGBOOK:
+   - State "TODO"       from ""           [2010-12-08 Wed 06:43]
+   :END:
+
+Reported by Andreas Leha.
+
+I think this might qualify as a bug.  Using the example code below, if
+I don't run R in a session, or if I run R in a session but don't name
+the session, everything works as expected.  The behavior changes for
+me when the session gets a name.
+
+On Dec 7, 2010, at 9:46 AM, Andreas Leha wrote:
+
+Hi Tom,
+
+thanks for the answer and thanks for spotting the typo.  But even with the typo corrected during export the noweb links are still exported.
+
+#+srcname: mod1
+#+begin_src R :tangle no :export code
+  print("mod1")
+#+end_src
+
+#+srcname: mod2
+#+begin_src R :tangle no :export code
+  print("mod2")
+#+end_src
+
+#+srcname: part1
+#+begin_src R :noweb tangle :tangle yes :exports code :session *R*
+  <<mod1>>
+  <<mod2>>
+#+end_src
+
+Result:
+...
+\lstset{language=R}
+\begin{lstlisting}
+print("mod1")
+print("mod2")
+\end{lstlisting}
+...
+
 ** TODO python: unicode inserted into buffer incorrectly
    - State "TODO"       from ""           [2010-12-04 Sat 20:52]
 #+begin_src python :session
