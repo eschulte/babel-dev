@@ -276,10 +276,10 @@ three short examples (Section \ref{examples}).  We conclude with a
 discussion of why we believe [[latex:proglang][Org-mode]] constitutes a uniquely
 productive environment for authoring mixed prose and code projects
 (Section \ref{discussion}).  This document is itself written in
-[[latex:proglang][Org-mode]]; the pdf version submitted to the journal was created by
+[[latex:proglang][Org-mode]]; the version submitted to the journal was created by
 running a single export command.  This command executed the source
-code examples and generated the figures before exporting its content
-to a LaTeX file marked up according the journal's specification. The
+code examples and generated the figures before exporting the content
+to a LaTeX file marked up according to the journal's specification. The
 [[latex:proglang][Org-mode]] source for this paper is available online [fn:5].
 
 * Background
