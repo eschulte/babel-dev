@@ -1360,14 +1360,18 @@ incorporation into the exported document (Figure
 
 #+begin_src org
    ,#+srcname: R-graph
-   ,#+begin_src R :session *R-climate* :file temp-trends.pdf :exports results
+   ,#+headers: :results file :var file="temp-trends.pdf"
+   ,#+begin_src R :session *R-climate* :exports results
    ,  include.station <- function(station)
    ,      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
    ,  fit.slope <- function(station)
    ,      with(station, coefficients(lm(jul ~ year))["year"])
    ,  included <- sapply(temps.by.station, include.station)
    ,  slopes <- sapply(temps.by.station[included], fit.slope)
+   ,  pdf(file)
    ,  hist(slopes)
+   ,  dev.off()
+   ,  file
    ,#+end_src
   
    ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
