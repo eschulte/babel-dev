@@ -71,19 +71,19 @@ code, data, and computational results in a single document.
   requires that this code is distributed together with results and
   explanatory prose.
 - In /software development/ the exchange of ideas is accomplished
-  through both shared code and prose; code provides concrete and
-  succinct description and prose provides higher level explanation.
-  Without proper documentation the usability and future extensibility
-  of computational tools are compromised.
+  through both code and prose; code provides concrete implementation
+  while prose provides higher level explanation.  Without proper
+  documentation, the usability and future extensibility of
+  computational tools are compromised.
 - In /pedagogical/ environments it is important for descriptions of
-  algorithms or techniques to go hand-in-hand with concrete
+  algorithms or techniques to go hand-in-hand with 
   implementations and example output.  These environments include
   in-class presentations, published books and articles, online
   tutorials, and experiential blogs with accompanying instructions.
 
-In each of the situations described above, prose alone in the absence
+In each of the situations described above, prose in the absence
 of code is typically insufficient.  Similarly, code
-without expository prose is a less than ideal medium for communication
+without expository prose is a less-than-ideal medium for communication
 between people. In this paper we describe the plain text markup
 language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
 environment supporting many different approaches to composition and
@@ -175,11 +175,11 @@ export targets, and work flows.
     \end{verbatim}
         };
     
-        \node [text width=8em] (code-out) at (3.5,-5) {embedded data and
+        \node [text width=8em] (code-out) at (3.5,-5) {Embedded data and
           source code in arbitrary languages};
     
-        \node [text width=8em] (code-out) at (-3.5,-5) {raw output,
-          tabular data, figures, etc\ldots};
+        \node [text width=8em] (code-out) at (-3.5,-5) {Raw output,
+          tabular data, figures, etc.};
     
         \path (org) edge [loop below] node {\normalsize{Code Evaluation}} (
         \path (org) edge node {\normalsize{Export}} (5.5,0); 
@@ -196,15 +196,15 @@ export targets, and work flows.
 With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
 project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
 language agnostic and the user can mix languages within a document, it
-is possible to support the widest variety of projects.  These range
-from the single user, who keeps a laboratory notebook
-embedded with calculations in [[latex:proglang][Org-mode,]] to the collaborative
-work-group tasked with engineering a complex system, which uses
+is possible to support a very wide variety of projects.  These range
+from those of a single user, who keeps a laboratory notebook
+with embedded calculations in [[latex:proglang][Org-mode,]] to the collaborative
+work-group tasked with engineering a complex system, using
 [[latex:proglang][Org-mode]] in conjunction with a modern version control system such as
-[[latex:proglang][git]] to build a central repository of code and documentation.  With the
-data, code and text of a project stored in a single location which can
+[[latex:proglang][git]] to build a repository of code and documentation.  With the
+data, code and text of a project stored in the same document, which can
 be exported to a variety of formats, the future reproducibility of the
-work is enhanced without placing a great burden on the
+work is dramatically enhanced without placing a great burden on the
 author.
 
 We start by reviewing existing approaches to the combined authoring of
@@ -216,7 +216,7 @@ three short examples (Section \ref{examples}).  We conclude with a
 discussion of why we believe [[latex:proglang][Org-mode]] constitutes a uniquely
 productive environment for authoring mixed prose and code projects
 (Section \ref{discussion}).  This document is itself written in
-[[latex:proglang][Org-mode]]; the pdf version submitted to the journal was created by
+[[latex:proglang][Org-mode]]; the version submitted to the journal was created by
 running a single export command.  This command executed the source
 code examples and generated the figures before exporting its content
 to a LaTeX file marked up according the journal's specification. The
@@ -253,16 +253,16 @@ beings what we want a computer to do.
 
 The technique of /literate programming/ was introduced by Donald Knuth
  in the early 1980's, not long after he created the TeX typesetting
- software \citep{web}.  Literate programming has been described as
+ software.  Knuth described literate programming as
  aiming to encourage the author of a computational work to approach
  the project "as an essayist, whose main concern is with exposition
- and excellence of style."
+ and excellence of style" \citep{web}.
 # need citation with page number
 # I hesitate about including this as I find the quote itself
 # pretentious and thus of questionable style [DD]
 
 Accordingly, the input files for literate programming tools mix
-sections of computer code with sections of natural language typically
+sections of computer code with sections of natural language, typically
 marked up in TeX or LaTeX.  The literate programming tool provides
 methods to create two types of /view/ into the document; articles of
 typeset prose with marked-up code blocks intended for human consumption,
@@ -738,7 +738,7 @@ input to blocks of code in another language, as shown in Section
 
 Borrowing terms from the Literate Programming literature, Org-mode
 supports both /weaving/---the exportation of a mixed code/prose
-document to a prose format suitable for reading by a human---and
+document to a format suitable for reading by a human---and
 /tangling/---the exportation of a mixed code/prose document to a pure
 code file suitable for execution by a computer.
 
@@ -753,9 +753,9 @@ code file suitable for execution by a computer.
      on export.  Often, the order in which a computer needs to be
      presented with code differs from the order in which the code may
      be best organized in a document.  Literate programming systems
-     like noweb solve this problem using code-block references that
+     like [[latex:proglang][noweb]] solve this problem using code-block references that
      are expanded as part of the tangle process \citep{noweb}.
-     Org-mode implements the noweb reference system using
+     Org-mode implements the [[latex:proglang][noweb]] reference system using
      identical syntax and functionality.
 
 ** COMMENT Export/Weaving/Tangling terminology
@@ -992,9 +992,9 @@ triangle yields the Fibonacci series, it is possible to verify that
 the triangle is correct.  This can be done in many ways; here, it is
 done with a short block of Emacs Lisp code that takes a row of numbers
 and a number =n= and returns =pass= if the sum of the numbers in the
-row is equal the nth Fibonacci number and returns =fail= otherwise.
+row is equal to the nth Fibonacci number and returns =fail= otherwise.
 Calls to this code block can be embedded into the tabular view of
-Pascal's triangle using spreadsheet style formulas.  When the
+Pascal's triangle using spreadsheet-style formulas.  When the
 spreadsheet is calculated, it returns =pass= for each of the five
 diagonals, confirming that the implementation of Pascal's triangle is
 correct.
@@ -1233,7 +1233,7 @@ Unix-like systems, the sqlite database, and R.  These software tools
 were chosen to illustrate the use of popular data processing tools
 from within Org-mode.  It is worth pointing out, however, that at each
 step of the way alternatives exist, one or more of which might
-substantially simplify the example for any particular user.
+simplify the example for any particular user.
 
 The first two code blocks fetch and parse data from NOAA using
 standard command-line tools.
@@ -1377,7 +1377,7 @@ incorporation into the exported document (Figure
    ,  dev.off()
    ,  file
    ,#+end_src
-  
+   ,
    ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
    ,#+ATTR_LaTeX: width=0.7\linewidth
    ,#+results: R-graph
@@ -1455,9 +1455,9 @@ Literate programming and reproducible research systems are typically
 prescriptive and difficult to use, and this cost of adoption has kept
 them from spreading more widely through the computing community.
 Org-mode enables users to progress gradually from simple text editing
-to sophisticated data processing and code evaluation thereby lowering
+to sophisticated data processing and code evaluation, thereby lowering
 the adoption cost of these techniques.  By consolidating all code,
-data, and text of research and development projects Org-mode increases
+data, and text of research and development projects, Org-mode increases
 the likelihood of their retention.  We believe that with its ease of
 adoption, familiar environment, and universal applicability across
 programming languages, Org-mode represents a qualitative advance in
