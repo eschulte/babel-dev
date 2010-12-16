@@ -704,7 +704,11 @@ following two blocks of Haskell code.
 When the result of evaluating a code block is a file, the =:file=
 header argument can be used to provide a path and name for the file.
 Org-mode saves the results to the named file and places a link to it
-in the document.  These links are handled by Org-mode in the usual
+in the document.
+# This area is problematic. I often think of :results file as meaning
+# "interpret the output as a file link", as opposed to "send the
+# output to file".
+  These links are handled by Org-mode in the usual
 ways; they can be opened from within the document and included in
 exports with captions and labels for cross-referencing.
 
