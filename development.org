@@ -3,8 +3,111 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [96/185]
-** TODO file-wide language-specific header arguments
+* Tasks [96/186]
+** PROPOSED Revisit :file and :results file
+   - State "PROPOSED" from "" [2010-12-17 Fri 10:51]
+
+   Here are some related development issues that all concern the
+   details of returning files from code blocks.
+
+   Note that the behavior has changed slightly recently with commit
+   14f4dbd75f.
+   
+*** Email between Eric and Dan
+    Hey Dan,
+
+I believe this has partially been subsumed by a piping discussion on the
+mailing list, so I'll address a couple of dangling questions below and
+respond to the piping issue there.
+
+Dan Davison <dandavison7@gmail.com> writes:
+
+> Hi Eric,
+>
+> OK, so the following is an attempt at working out what I think. Some or
+> much of this may be off target. The below is almost consistent with your
+> proposal, except that mine would be
+>
+> -#+begin_src sh :results output :file current-time
+> +#+begin_src sh :results output file :file current-time
+>    date
+>  #+end_src
+>
+>
+> - ":results output file" should mean that stdout is sent to a file
+>
+> - Eventually that should be true for /all/ languages that can output to
+>   stdout (but I'm happy to start with shell)
+>
+> - ":results value file" should mean that the value is sent to a file
+>   (verbatim from buffer i.e. in Org format? or as csv where appropriate?)
+>
+> - If either of the above are provided then the user is required to
+>   supply :file in order to have a file name (or would we consider a
+>   default output file name?)
+>
+
+Agreed, generally we should allow :results file to save the results to a
+file.  The question then is what do we do if no file name is specified?
+I'd say we could have a system of generating file names, either in the
+temp directory or based on the code block name.  This should probably be
+implemented outside of the language specific handling and in ob.el for
+simplicity and consistency.
+
+>
+> - ":file filename" on its own (without :results file) should mean that a
+>   file link will be returned, but nothing else will be done (no
+>   redirection of output, value or graphics to the file), leaving the
+>   user's code free to send content to that file.
+>
+
+agreed
+
+>
+> - Therefore R will need to be changed. Automagically sending R graphics
+>   to :file was always a bit of a special-case hack. The above suggests
+>   that this should be ":results graphics file :file xxx". In any case I
+>   seem to remember a bug report (Erik Iverson probably) pointing out
+>   that the automatic graphic capture only works for "base" graphics and
+>   not for other fancier form of R graphics).
+[...]
+> (The patch was empty when it got to my gnus.)
+>
+
+and I've since deleted it locally, so this piece of code will be lost...
+
+[...]
+>
+> "Eric Schulte" <schulte.eric@gmail.com> writes:
+>
+>> Hey Dan,
+>>
+>> What do you think about the following change.  I think it's very slick,
+>> but it may not work on Windows systems (I'm not sure how their shell
+>> exec functions works).  But then again, if it's a shell code block, I
+>> don't really know if those work on Windows machines currently.
+>>
+>> With the attached patch, any sh code block with a file specified with
+>> ":results output" and without a session will automatically re-direct its
+>> standard output to the specified file. e.g.
+>>
+>> #+begin_src sh :results output :file current-time
+>>   date
+>> #+end_src
+>>
+>> What do you think?
+>>
+>> Maybe we could also intercept the results of the code block and dump
+>> them to the file.  This would be more portable, but would required that
+>> the data pass through Emacs (although it wouldn't need to be parsed and
+>> could simply be treated as a string).
+>>
+>> -- Eric
+
+*** PROPOSED (e.g.) R should create default file name for graphical output if none supplied
+    - State "PROPOSED"   from ""           [2010-12-17 Fri 10:58]
+      Requested by Stephen Eglen
+** Todo file-wide language-specific header arguments
    - State "TODO"       from ""           [2010-12-05 Sun 08:37]
 
 Would be nice to be able to specify file-wide *and* language-specific
