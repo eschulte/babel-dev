@@ -42,10 +42,6 @@ this file to LaTeX.
               (replace-regexp (regexp-quote ",*") "*")
               (replace-regexp (regexp-quote ",#") "#")))
   
-  ;; use latex listings for fontified code blocks
-  (set-default 'org-export-latex-listings t)
-
-  
   (add-to-list 'org-export-latex-classes
                '("jss"
                  "\\documentclass[article,shortnames]{jss}"
@@ -128,8 +124,9 @@ export targets, and work flows.
           return 0;
         }
       ,#+end_src
-    
-      ,#+begin_src R :results graphics :file fig.pdf
+      
+      ,#+headers: :results graphics
+      ,#+begin_src R :file fig.pdf
         plot(data)
       ,#+end_src
     
@@ -176,7 +173,7 @@ export targets, and work flows.
         };
     
         \node [text width=8em] (code-out) at (3.5,-5) {Embedded data and
-          source code in arbitrary languages};
+          source code in arbitrary\\ languages};
     
         \node [text width=8em] (code-out) at (-3.5,-5) {Raw output,
           tabular data, figures, etc.};
@@ -1482,5 +1479,5 @@ http://www.gnu.org/software/emacs/calc.html.
 
 [fn:4] http://orgmode.org/manual/Working-With-Source-Code.html.
 
-[fn:5] https://github.com/eschulte/babel-dev/raw/paper-no-brand/paper/babel.org
+[fn:5] https://github.com/eschulte/babel-dev/raw/jss/paper/babel.org
 
