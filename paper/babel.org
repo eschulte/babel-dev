@@ -129,7 +129,7 @@ export targets, and work flows.
         }
       ,#+end_src
     
-      ,#+begin_src R :file fig.pdf
+      ,#+begin_src R :results graphics :file fig.pdf
         plot(data)
       ,#+end_src
     
@@ -701,16 +701,11 @@ following two blocks of Haskell code.
   zip [1..] (map (+1) [1, 2, 3])
 #+end_src
 
-When the result of evaluating a code block is a file, the =:file=
-header argument can be used to provide a path and name for the file.
-Org-mode saves the results to the named file and places a link to it
-in the document.
-# This area is problematic. I often think of :results file as meaning
-# "interpret the output as a file link", as opposed to "send the
-# output to file".
-  These links are handled by Org-mode in the usual
-ways; they can be opened from within the document and included in
-exports with captions and labels for cross-referencing.
+When the =:file= header argument is used, Org-mode saves the results
+to the named file and places a link to it in the document. These links
+are handled by Org-mode in the usual ways; they can be opened from
+within the document and included in exports with captions and labels
+for cross-referencing.
 
 Much more information about controlling the evaluation of code and the
 handling of code results is available in the Org-mode documentation.[fn:4]
@@ -1242,44 +1237,40 @@ standard command-line tools.
 
 #+begin_src org
    ,#+source: raw-temps
-   ,#+headers: :file raw-temps.csv :var file="raw-temps.csv" 
+   ,#+headers: :results output :file raw-temps.csv
    ,#+begin_src sh :exports none
    ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
    ,      |gunzip \
    ,      |perl -pe 's/-9999/ NA/g' \
    ,      |perl -pe 's/^([0-9]{3})([0-9]{8})([0-9])/$1 $2 $3 /' \
-   ,      |perl -pe 's/ +/,/g' \
-   ,      >$file
+   ,      |perl -pe 's/ +/,/g'
    ,#+end_src
    ,
    ,#+source: country-codes
-   ,#+headers: :file country-codes.csv :var file="country-codes.csv" 
+   ,#+headers: :results output :file country-codes.csv
    ,#+begin_src sh :exports none
    ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
    ,      |perl -pe 's/ *$//' \
-   ,      |perl -pe 's/ +/,/' \
-   ,      >$file
+   ,      |perl -pe 's/ +/,/'
    ,#+end_src
 #+end_src
  
 #+source: raw-temps
-#+headers: :file raw-temps.csv :var file="raw-temps.csv" 
+#+headers: :results output :file raw-temps.csv
 #+begin_src sh :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
       |gunzip \
       |perl -pe 's/-9999/ NA/g' \
       |perl -pe 's/^([0-9]{3})([0-9]{8})([0-9])/$1 $2 $3 /' \
-      |perl -pe 's/ +/,/g' \
-      >$file
+      |perl -pe 's/ +/,/g'
 #+end_src
 
 #+source: country-codes
-#+headers: :file country-codes.csv :var file="country-codes.csv" 
+#+headers: :results output :file country-codes.csv
 #+begin_src sh :exports none
   curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
       |perl -pe 's/ *$//' \
-      |perl -pe 's/ +/,/' \
-      >$file
+      |perl -pe 's/ +/,/'
 #+end_src
 
 Next, the output of the first two blocks is used to create a local
@@ -1364,7 +1355,7 @@ incorporation into the exported document (Figure
 
 #+begin_src org
    ,#+srcname: R-graph
-   ,#+headers: :results file :var file="temp-trends.pdf"
+   ,#+headers: :results graphics :file temp-trends.pdf
    ,#+begin_src R :session *R-climate* :exports results
    ,  include.station <- function(station)
    ,      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
@@ -1372,10 +1363,7 @@ incorporation into the exported document (Figure
    ,      with(station, coefficients(lm(jul ~ year))["year"])
    ,  included <- sapply(temps.by.station, include.station)
    ,  slopes <- sapply(temps.by.station[included], fit.slope)
-   ,  pdf(file)
    ,  hist(slopes)
-   ,  dev.off()
-   ,  file
    ,#+end_src
    ,
    ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
@@ -1385,7 +1373,7 @@ incorporation into the exported document (Figure
 #+end_src
 
 #+srcname: R-graph
-#+headers: :results file :var file="temp-trends.pdf"
+#+headers: :results graphics :file temp-trends.pdf
 #+begin_src R :session *R-climate* :exports results
   include.station <- function(station)
       station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
@@ -1393,10 +1381,7 @@ incorporation into the exported document (Figure
       with(station, coefficients(lm(jul ~ year))["year"])
   included <- sapply(temps.by.station, include.station)
   slopes <- sapply(temps.by.station[included], fit.slope)
-  pdf(file)
   hist(slopes)
-  dev.off()
-  file
 #+end_src
 
 #+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
