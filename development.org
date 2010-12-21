@@ -4,6 +4,9 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [96/186]
+** PROPOSED code blemish in gnuplot
+   - State "PROPOSED"   from ""           [2010-12-20 Mon 19:09]
+     shouldn't [[file:~/lib/emacs/org/lisp/ob-gnuplot.el::(if%20(member%20"output"%20(split-string%20result-type))][this]] be (eq result-type 'output)
 ** PROPOSED Revisit :file and :results file
    - State "PROPOSED" from "" [2010-12-17 Fri 10:51]
 
