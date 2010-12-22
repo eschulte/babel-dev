@@ -249,14 +249,11 @@ beings what we want a computer to do.
 #+end_quote
 
 The technique of /literate programming/ was introduced by Donald Knuth
- in the early 1980's, not long after he created the TeX typesetting
- software.  Knuth described literate programming as
- aiming to encourage the author of a computational work to approach
- the project "as an essayist, whose main concern is with exposition
- and excellence of style" \citep{web}.
-# need citation with page number
-# I hesitate about including this as I find the quote itself
-# pretentious and thus of questionable style [DD]
+in the early 1980's, not long after he created the TeX typesetting
+software.  Knuth described literate programming as aiming to encourage
+the author of a computational work to approach the project "as an
+essayist, whose main concern is with exposition and excellence of
+style" \citep{web}.
 
 Accordingly, the input files for literate programming tools mix
 sections of computer code with sections of natural language, typically
@@ -271,21 +268,16 @@ tools is the ability to organize code blocks differently when
 material to humans in a different order than code is introduced to the
 computer.
 
-The original literate programming tool, developed by Knuth, was
-[[latex:proglang][WEB]], which consists of two primary programs,
-=TANGLE= and =WEAVE= \citep{web}.  This system supported the Pascal
-programming language and produced documents typeset with TeX.
-Somewhat later, Knuth and Silvio Levy produced a C language version,
-[[latex:proglang][cWeb]] \citep{knuth94:_cweb_system_struc_docum}.  A
-modern descendent of these tools is [[latex:proglang][noweb]]
-\citep{noweb} which is designed to be language independent.  Its
-primary programs, =notangle= and =noweave=, are both written in
-[[latex:proglang][C]].  Documents produced by =noweave= can be typeset
-with TeX, LaTeX, and [[latex:proglang][troff]] or displayed in a web
-browser as =HTML=.
-# I'm slightly confused here. Is that the same as saying that
-# =noweave= is capable of producing LaTeX, troff and HTML output? Does
-# =noweave= require latex (mixed with code) as /input/?
+The original literate programming tool, developed by Knuth, was [[latex:proglang][WEB]],
+which consists of two primary programs, =TANGLE= and =WEAVE=
+\citep{web}.  This system supported the Pascal programming language
+and produced documents typeset with TeX.  Somewhat later, Knuth and
+Silvio Levy produced a C language version, [[latex:proglang][cWeb]]
+\citep{knuth94:_cweb_system_struc_docum}.  A modern descendent of
+these tools is [[latex:proglang][noweb]] \citep{noweb} which is designed to be language
+independent.  Its primary programs, =notangle= and =noweave=, are both
+written in [[latex:proglang][C]].  Documents produced by =noweave= can be typeset with
+TeX, LaTeX, and [[latex:proglang][troff]] or displayed in a web browser as =HTML=.
 Software tools such as [[latex:proglang][WEB]], [[latex:proglang][cWeb]], and [[latex:proglang][noweb]] enable the authoring of
 both prose and code, but do not provide facilities for the execution
 of code from within documents.  Instead, code intended for execution
@@ -348,10 +340,10 @@ projects, reproducible research seeks to augment publications of
 scientific research with the computer code used to carry out the
 research.  Whereas literate programming extracts embedded code into an
 external file used as input to a compiler or an interpreter, code
-embedded in a reproducible research document is intended to be executed as part
-of the document generation process.  In this way the data, analysis,
-and figures supporting a publication can be generated from the
-publication itself.
+embedded in a reproducible research document is intended to be
+executed as part of the document generation process.  In this way the
+data, analysis, and figures supporting a publication can be generated
+from the publication itself.
 
 Gentleman and Lang propose the adoption of compendia as the
 new unit of peer review and distribution of scientific work.
@@ -370,30 +362,27 @@ and extension.  \citep{compendium}
 statistical programming language \citep{r-software} that can be used
 for reproducible research.  [[latex:proglang][Sweave]] and the [[latex:proglang][R]] community at large
 inspired the work that led to the /compendium/ idea, and the recent
-resurgence of interest in reproducible research owes much to the success of both [[latex:proglang][R]]
-and [[latex:proglang][Sweave]].
-[[latex:proglang][Sweave]] documents consist of blocks of [[latex:proglang][R]] code embedded in
-LaTeX documents.  The [[latex:proglang][R]] functions that make up
-[[latex:proglang][Sweave]] execute the embedded [[latex:proglang][R]] code and produce another
-LaTeX document that includes the resulting tables, graphical figures,
-and inline results.  If the [[latex:proglang][Sweave]] document is accompanied by the
-data files and any other code that is used, then the reader can trace a result
-back to the relevant computations and through to the original
-data.
+resurgence of interest in reproducible research owes much to the
+success of both [[latex:proglang][R]] and [[latex:proglang][Sweave]].  [[latex:proglang][Sweave]] documents consist of blocks of [[latex:proglang][R]]
+code embedded in LaTeX documents.  The [[latex:proglang][R]] functions that make up [[latex:proglang][Sweave]]
+execute the embedded [[latex:proglang][R]] code and produce another LaTeX document that
+includes the resulting tables, graphical figures, and inline results.
+If the [[latex:proglang][Sweave]] document is accompanied by the data files and any other
+code that is used, then the reader can trace a result back to the
+relevant computations and through to the original data.
 
 * Design of Org-mode
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
 At the core of [[latex:proglang][Org-mode]] is the Emacs text editor \citep{emacs} and
-[[latex:proglang][Emacs Lisp]]
-\citep{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of Lisp that
-supports the editing of text documents.  The Emacs editor has been under
-development since the mid 1970s and is currently at version 23.
-[[latex:proglang][Org-mode]] extends Emacs with a simple and powerful markup language
-that turns it into a language for creating, parsing, and interacting with
-hierarchically-organized text documents.  Its
-rich feature set includes text structuring, project management, and a
+[[latex:proglang][Emacs Lisp]] \citep{lewis10:_gnu_emacs_lisp_refer_manual}, a dialect of
+Lisp that supports the editing of text documents.  The Emacs editor
+has been under development since the mid 1970s and is currently at
+version 23.  [[latex:proglang][Org-mode]] extends Emacs with a simple and powerful markup
+language that turns it into a language for creating, parsing, and
+interacting with hierarchically-organized text documents.  Its rich
+feature set includes text structuring, project management, and a
 publishing system that can export to a variety of formats.  Source
 code and data are located in active blocks, distinct from text
 sections, where "active" here means that code and data blocks can be
@@ -407,13 +396,13 @@ Emacs, [[latex:proglang][Org-mode]] is extensible: support for new languages can
 by the user in a modular fashion through the definition of a small
 number of [[latex:proglang][Emacs Lisp]] functions.
 
-In the remainder of this section, we first describe [[latex:proglang][Org-mode]] in more detail, focusing
-on those features that support literate programming and reproducible
-research (Section \ref{org-mode}).  We then describe the syntax of
-code and data blocks (Section \ref{syntax}), evaluation of code blocks
-(Section \ref{code-blocks}), weaving and tangling of [[latex:proglang][Org-mode]] documents
-(Section \ref{export}), and language support facilities (Section
-\ref{languages}).
+In the remainder of this section, we first describe [[latex:proglang][Org-mode]] in more
+detail, focusing on those features that support literate programming
+and reproducible research (Section \ref{org-mode}).  We then describe
+the syntax of code and data blocks (Section \ref{syntax}), evaluation
+of code blocks (Section \ref{code-blocks}), weaving and tangling of
+[[latex:proglang][Org-mode]] documents (Section \ref{export}), and language support
+facilities (Section \ref{languages}).
 
 ** Structure and content of Org-mode documents
    :PROPERTIES:
@@ -487,9 +476,9 @@ around the metadata associated with nodes.  [[latex:proglang][Org-mode]] provide
 facilities to create and modify metadata quickly and efficiently.  It
 also provides facilities to search, sort, and filter headlines, to
 display a chronological summary of all headlines with date and time
-metadata, to
-display tabular views of properties at selected headlines, to clock in and out of
-headlines defined as tasks, and more.
+metadata, to display tabular views of properties at selected
+headlines, to clock in and out of headlines defined as tasks, and
+more.
 
 The outline structure of documents defines a hierarchy of
 metadata.  Tags and properties of a node are inherited by its
@@ -535,9 +524,8 @@ passing system.
     :END:
 
 Data blocks that are preceded by a line that begins with =#+results:=,
-and are
-followed by a name unique within the document, can be accessed by code
-blocks. These can be /tables/, /example blocks/, or /links/.
+and are followed by a name unique within the document, can be accessed
+by code blocks. These can be /tables/, /example blocks/, or /links/.
 #+begin_src org
   ,#+results: tabular-data
   ,| 1 |  2 |
@@ -753,18 +741,6 @@ code file suitable for execution by a computer.
      Org-mode implements the [[latex:proglang][noweb]] reference system using
      identical syntax and functionality.
 
-** COMMENT Export/Weaving/Tangling terminology
-   What is the relationship of these terms? This crops up at the start
-   of the next para.
-
-*** Scheme A: Weaving and Tangling are types of export
-    - Export
-      - Weaving
-      - Tangling
-*** Scheme B: Weaving and Export are synonyms
-   - Export == Weaving
-   - Tangling something else
-    
 ** Language support
     :PROPERTIES:
     :CUSTOM_ID: languages
@@ -782,15 +758,15 @@ support for new languages can be added is evidenced by the fact that
 new language support is increasingly implemented by Org-mode users.
 
 ** Safety considerations
-A reproducible research document includes code that
-can be evaluated.  This carries the potential of giving a malicious hacker direct
-access to the document reader's computer.  The primary defense in this instance
-is for the reader to recognize malicious code and to choose not to run
-it.  This can be a difficult task in a reproducible research document
-written in a single computer language, such as one written with
-Sweave, but the difficulty increases if the document is written in
-several computer languages, one or more of which is not understood by
-the reader.
+A reproducible research document includes code that can be evaluated.
+This carries the potential of giving a malicious hacker direct access
+to the document reader's computer.  The primary defense in this
+instance is for the reader to recognize malicious code and to choose
+not to run it.  This can be a difficult task in a reproducible
+research document written in a single computer language, such as one
+written with Sweave, but the difficulty increases if the document is
+written in several computer languages, one or more of which is not
+understood by the reader.
 
 Org-mode has been designed with security measures to protect users
 from the accidental or uninformed execution of code.  By default
@@ -1233,7 +1209,8 @@ simplify the example for any particular user.
 The first two code blocks fetch and parse data from NOAA using
 standard command-line tools.
 
-# For raw data format see ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme
+# For raw data format see
+# ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme
 
 #+begin_src org
    ,#+source: raw-temps
