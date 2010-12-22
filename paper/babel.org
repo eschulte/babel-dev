@@ -106,7 +106,7 @@ export targets, and work flows.
     },
     very thick,
     draw=blue]
-    \begin{figure}
+    \begin{figure}[htb]
       \centering
       \begin{tikzpicture}[->,>=stealth', shorten >=1pt, auto, scale=0.75]
         \node [page] (org) at (0,0) {
@@ -574,13 +574,16 @@ in the [[latex:proglang][Org-mode]] buffer immediately following the code block,
    ,#+end_src
    ,
    ,#+results:
-   ,: This was last evaluated on 2010-11-01
+   ,: This was last evaluated on 2010-12-21
 #+end_src
 
 #+begin_src ruby :exports none
   require 'date'
   "This was last evaluated on #{Date.today}"
 #+end_src
+
+#+results:
+: This was last evaluated on 2010-12-21
 
 By default, a code block is evaluated in a dedicated system process
 that does not persist after evaluation is complete. The =:dir= header
@@ -644,10 +647,10 @@ output is returned the same code yields a string.
   ,: 9
     
   ,#+begin_src perl :results output
-  ,$x = 8;
-  ,$x = $x + 1;
-  ,print "shouting into the dark!\n";
-  ,$x
+  ,  $x = 8;
+  ,  $x = $x + 1;
+  ,  print "shouting into the dark!\n";
+  ,  $x
   ,#+end_src
   
   ,#+results:
@@ -662,10 +665,10 @@ output is returned the same code yields a string.
 #+end_src
 
 #+begin_src perl :results output :exports none
-$x = 8;
-$x = $x + 1;
-print "shouting into the dark!\n";
-$x
+  $x = 8;
+  $x = $x + 1;
+  print "shouting into the dark!\n";
+  $x
 #+end_src
 
 [[latex:proglang][Org-mode]] also recognizes vector and matrix results and
@@ -681,7 +684,7 @@ following two blocks of Haskell code.
   ,| 1 | 2 | 3 | 4 | 5 |
   
   ,#+begin_src haskell
-  ,  zip [1..] (map (+1) [1, 2, 3])
+  ,  zip [1..] $ map (+1) [1, 2, 3]
   ,#+end_src
   
   ,#+results:
@@ -695,7 +698,7 @@ following two blocks of Haskell code.
 #+end_src
 
 #+begin_src haskell :exports none
-  zip [1..] (map (+1) [1, 2, 3])
+  zip [1..] $ map (+1) [1, 2, 3]
 #+end_src
 
 When the =:file= header argument is used, Org-mode saves the results
