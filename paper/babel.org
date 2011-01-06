@@ -311,7 +311,7 @@ accurate communication are both central to notions of good science.
 A software solution to this problem was proposed by
 \citet{compendium}, who "introduce the concept of a /compendium/ as
 both a container for the different elements that make up the document
-and its computations (i.e. text, code, data, ...), and as a means for
+and its computations (i.e., text, code, data, ...), and as a means for
 distributing, managing and updating the collection."
 
 They summarize the uses and implications of a compendium as follows:
@@ -936,7 +936,7 @@ in Org-mode syntax and in exported form (Figure
    ,  }
    ,#+end_src
    ,
-   ,#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
+   ,#+Caption: Pascal's triangle. \label{pascals-triangle-fig}
    ,#+ATTR_LaTeX width=.6\linewidth
    ,#+results: pst-to-fig
    ,[[file:pascals-triangle.pdf]]
@@ -950,7 +950,7 @@ in Org-mode syntax and in exported form (Figure
   }
 #+end_src
 
-#+Caption: Pascal's Triangle \label{pascals-triangle-fig}
+#+Caption: Pascal's triangle. \label{pascals-triangle-fig}
 #+ATTR_LaTeX: width=0.6\linewidth
 #+results: pst-to-fig
 [[file:pascals-triangle.pdf]]
@@ -1023,12 +1023,12 @@ with small elements located at the end of the array.
 The following example produces a command line executable, =cocktail=,
 that will print its arguments in sorted order.  The =cocktail.c= code
 block uses standard literate programming syntax
-(i.e.
+(i.e.,
 #+begin_LaTeX
   \verb=<<block-name>>=
 #+end_LaTeX
 ) to combine the three parts of the
-program: the standard C header for input/output; the implementation of
+program: the standard [[latex:proglang][C]] header for input/output; the implementation of
 the cocktail sort algorithm; and the command-line mechanism to accept
 input and return results.
 
