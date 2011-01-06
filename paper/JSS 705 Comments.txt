@@ -1,0 +1,46 @@
+705 Schulte, Davison, Dye, Dominik
+
+A Multi-Language Computing Environment for Literate Programming and Reproducible Research 
+
+For further instruction on JSS style requirements please see the JSS style
+manual(in particular section 2.1 Style Checklist) at 
+http://www.jstatsoft.org/downloads/JSSstyle.zip
+
+Please see FAQ at: http://www.jstatsoft.org/style
+
+Manuscript:
+o As a reminder, please make sure that:
+  - \proglang, \pkg and \code have been used for highlighting throughout
+the paper (including titles and references), except where explicitly escaped.
+
+o In all cases, code input/output must fit within the normal textwidth of
+the manuscript. Thus, code input should have appropriate line breaks and
+code output should preferably be generated with a suitable width (or
+otherwise edited). As well as figures/tables/text/equations.
+	o Page 2
+
+o In itemized/bullet lists please capitalize the first word of the item. 
+Please also add either a comma/semi-colon/period at the end of each
+item.
+
+o Figure placement (i.e. placement of floating objects): 
+  The {figure} or {table} environment should be close to the first
+  reference in the manuscript. It should first use the "t!" option for
+  placement. If a figure then ends up before the start of its (sub)section,
+  "t!" should be changed to "b!".  e.g., {figure}[b!].
+
+o All captions should appear below the corresponding figure/table. The
+captions should be in sentence style and end with a PERIOD.
+
+o When using "e.g." and "i.e." add a comma after the period to keep LaTeX
+from interpreting them as the end of a sentence, i.e.: "e.g., " and 
+"i.e., ".
+
+References
+  - John Wiley \& Sons (not: Wiley, John Wiley \& Sons Inc.)
+
+Code:
+Please include a standalone replication script of all code/examples
+used within the manuscript
+
+
