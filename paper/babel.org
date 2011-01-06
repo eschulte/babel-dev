@@ -106,7 +106,7 @@ export targets, and work flows.
     },
     very thick,
     draw=blue]
-    \begin{figure}[htb]
+    \begin{figure}[t!]
       \centering
       \begin{tikzpicture}[->,>=stealth', shorten >=1pt, auto, scale=0.75]
         \node [page] (org) at (0,0) {
@@ -226,12 +226,12 @@ to a LaTeX file marked up according the journal's specification. The
 The combined authoring of prose and code has historically been
 approached from two different standpoints.
 
-- Literate Programming :: enhances traditional software development by
+- Literate Programming :: Enhances traditional software development by
      embedding code in explanatory essays and encourages treating the
      act of development as one of communication with future
      maintainers.
 
-- Reproducible Research :: embeds executable code in research reports
+- Reproducible Research :: Embeds executable code in research reports
      and publications, with the aim of allowing readers to re-run the
      analyses described.
 
@@ -296,10 +296,10 @@ generated the figures.
 #+end_quote
 
 A research project typically relies upon components such as:
-  - the data being studied
-  - details of calculations and code used in data analysis
-  - methodological conventions and assumptions
-  - decisions among alternate analytic paths
+  - The data being studied;
+  - Details of calculations and code used in data analysis;
+  - Methodological conventions and assumptions;
+  - Decisions among alternate analytic paths.
 
 However, the documents produced by a research project typically stand
 apart from the things they describe and rely upon, which makes it
@@ -316,20 +316,20 @@ distributing, managing and updating the collection."
 
 They summarize the uses and implications of a compendium as follows:
 
-  - it encapsulates the actual work of the author, not just an
+  - It encapsulates the actual work of the author, not just an
     abridged version suitable for publication; 
 
-  - it can display different levels of detail in /derived documents/; 
+  - It can display different levels of detail in /derived documents/; 
 
-  - the computations included in it can be re-run by an interested
+  - The computations included in it can be re-run by an interested
     reader, potentially with different inputs;
 
-  - it contains explicit computational details that make it easier for
+  - It contains explicit computational details that make it easier for
     an interested reader to adapt and extend the methods;
 
-  - it enables programmatic construction of plots and tables; 
+  - It enables programmatic construction of plots and tables; 
 
-  - its components can be treated as data or inputs to software and
+  - Its components can be treated as data or inputs to software and
     manipulated programmatically in ways perhaps not envisioned by
     the author.
 
@@ -725,14 +725,14 @@ document to a format suitable for reading by a human---and
 /tangling/---the exportation of a mixed code/prose document to a pure
 code file suitable for execution by a computer.
 
-- weaving :: Org-mode provides a sophisticated and full-featured
+- Weaving :: Org-mode provides a sophisticated and full-featured
      system to export to a number of target formats including HTML and LaTeX,
      with support for pre-processing code blocks as part of
      the export process.  Using the =:exports= header argument, the
      code of the code block, the results of executing the code block,
      both code and results, or neither can be included in the export.
 
-- tangling :: Source code in an Org-mode document can be re-arranged
+- Tangling :: Source code in an Org-mode document can be re-arranged
      on export.  Often, the order in which a computer needs to be
      presented with code differs from the order in which the code may
      be best organized in a document.  Literate programming systems
