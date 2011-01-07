@@ -1256,7 +1256,7 @@ sets it may be preferable to use an external store like a database
 rather than storing the data as plain text in the Org-mode buffer.
 
 #+begin_src org
-   ,#+headers: :var raw-temps-file=raw-temps :var country-codes-file=country-codes
+   ,#+headers: :var raw-temps-file=raw-temps :var codes-file=country-codes
    ,#+begin_src sqlite :db climate.sqlite :exports none :results silent
    ,  drop table if exists temps;
    ,  create table temps (country,station,replicate,year,jan,feb,
@@ -1265,11 +1265,11 @@ rather than storing the data as plain text in the Org-mode buffer.
    ,  create table countries (code, name);
    ,  .separator ","
    ,  .import $raw-temps-file temps
-   ,  .import $country-codes-file countries
+   ,  .import $codes-file countries
    ,#+end_src
 #+end_src
 
-#+headers: :var raw-temps-file=raw-temps :var country-codes-file=country-codes
+#+headers: :var raw-temps-file=raw-temps :var codes-file=country-codes
 #+begin_src sqlite :db climate.sqlite :exports none :results silent
   drop table if exists temps;
   create table temps (country,station,replicate,year,jan,feb,
@@ -1278,7 +1278,7 @@ rather than storing the data as plain text in the Org-mode buffer.
   create table countries (code, name);
   .separator ","
   .import $raw-temps-file temps
-  .import $country-codes-file countries
+  .import $codes-file countries
 #+end_src
 
 The =R-init= code block reads a subset of the data from the sqlite
@@ -1309,17 +1309,18 @@ exits, so they can be manipulated by other R code blocks that use the
 #+source: R-init
 #+headers: :var dbname="climate.sqlite"
 #+begin_src R :session *R-climate* :exports results :results silent
-  library("RSQLite")
-  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
-  query <- paste("SELECT temps.station, temps.year, temps.jul FROM temps, countries",
-                 "WHERE countries.code=temps.country",
-                 "AND countries.name='UNITED STATES OF AMERICA'",
-                 "AND temps.replicate='0'",
-                 "ORDER BY year;")
-  temps <- dbGetQuery(con, query)
-  temps$year <- as.integer(temps$year)
-  temps$jul <- as.numeric(temps$jul)/10
-  temps.by.station <- split(temps, temps$station, drop=TRUE)
+    library("RSQLite")
+    con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
+    query <- paste("SELECT temps.station, temps.year, temps.jul", 
+                   "FROM temps, countries",
+                   "WHERE countries.code=temps.country",
+                   "AND countries.name='UNITED STATES OF AMERICA'",
+                   "AND temps.replicate='0'",
+                   "ORDER BY year;")
+    temps <- dbGetQuery(con, query)
+    temps$year <- as.integer(temps$year)
+    temps$jul <- as.numeric(temps$jul)/10
+    temps.by.station <- split(temps, temps$station, drop=TRUE)
 #+end_src
 
 Finally the persistent variables in the =*R-climate*= session are used
