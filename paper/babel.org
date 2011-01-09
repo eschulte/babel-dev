@@ -371,7 +371,7 @@ If the [[latex:proglang][Sweave]] document is accompanied by the data files and 
 code that is used, then the reader can trace a result back to the
 relevant computations and through to the original data.
 
-* Design of [[latex:proglang][Org-mode]]
+* Design of Org-mode
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
@@ -404,7 +404,7 @@ of code blocks (Section \ref{code-blocks}), weaving and tangling of
 [[latex:proglang][Org-mode]] documents (Section \ref{export}), and language support
 facilities (Section \ref{languages}).
 
-** Structure and content of [[latex:proglang][Org-mode]] documents
+** Structure and content of Org-mode documents
    :PROPERTIES:
    :CUSTOM_ID: org-mode
    :END:
