@@ -1294,7 +1294,8 @@ exits, so they can be manipulated by other [[latex:proglang][R]] code blocks tha
    ,#+begin_src R :session *R-climate* :exports results :results silent
    ,  library("RSQLite")
    ,  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
-   ,  query <- paste("SELECT temps.station, temps.year, temps.jul FROM temps, countries",
+   ,  query <- paste("SELECT temps.station, temps.year, temps.jul", 
+   ,                 "FROM temps, countries",
    ,                 "WHERE countries.code=temps.country",
    ,                 "AND countries.name='UNITED STATES OF AMERICA'",
    ,                 "AND temps.replicate='0'",
