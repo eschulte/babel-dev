@@ -937,7 +937,7 @@ in [[latex:proglang][Org-mode]] syntax and in exported form (Figure
    ,#+end_src
    ,
    ,#+Caption: Pascal's triangle. \label{pascals-triangle-fig}
-   ,#+ATTR_LaTeX width=.6\linewidth
+   ,#+ATTR_LaTeX width=.6\linewidth placement={t!}
    ,#+results: pst-to-fig
    ,[[file:pascals-triangle.pdf]]
 #+end_src
@@ -951,7 +951,7 @@ in [[latex:proglang][Org-mode]] syntax and in exported form (Figure
 #+end_src
 
 #+Caption: Pascal's triangle. \label{pascals-triangle-fig}
-#+ATTR_LaTeX: width=0.6\linewidth
+#+ATTR_LaTeX: width=0.6\linewidth placement={t!}
 #+results: pst-to-fig
 [[file:pascals-triangle.pdf]]
 
@@ -1345,7 +1345,7 @@ incorporation into the exported document (Figure
    ,#+end_src
    ,
    ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
-   ,#+ATTR_LaTeX: width=0.7\linewidth
+   ,#+ATTR_LaTeX: width=0.7\linewidth placement={t!}
    ,#+results: R-graph
    ,[[file:temp-trends.pdf]]
 #+end_src
@@ -1363,7 +1363,7 @@ incorporation into the exported document (Figure
 #+end_src
 
 #+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
-#+ATTR_LaTeX: width=0.7\linewidth
+#+ATTR_LaTeX: width=0.7\linewidth placement={t!}
 #+results: R-graph
 [[file:temp-trends.pdf]]
 
