@@ -270,7 +270,7 @@ computer.
 
 The original literate programming tool, developed by Knuth, was [[latex:proglang][WEB]],
 which consists of two primary programs, =TANGLE= and =WEAVE=
-\citep{web}.  This system supported the Pascal programming language
+\citep{web}.  This system supported the [[latex:proglang][Pascal]] programming language
 and produced documents typeset with TeX.  Somewhat later, Knuth and
 Silvio Levy produced a [[latex:proglang][C]] language version, [[latex:proglang][cWeb]]
 \citep{knuth94:_cweb_system_struc_docum}.  A modern descendent of
