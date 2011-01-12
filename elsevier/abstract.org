@@ -1,0 +1,332 @@
+#+TITLE: A Multi-Language Computing Environment for Literate Programming and Reproducible Research
+
+* Abstract
+We present a new computing environment for authoring mixed natural and
+computer language documents. In this environment a single
+hierarchically-organized plain text source file may contain a variety
+of elements such as code in arbitrary programming languages, raw data,
+links to external resources, project management data, working notes,
+and text for publication. Code fragments may be executed in situ with
+graphical, numerical and text output captured or linked in the
+file. Export to \LaTeX{}, \proglang{HTML}, \LaTeX{},
+\proglang{Beamer}, \proglang{DocBook} and other formats permits
+working reports, presentations and manuscripts for publication to be
+generated from the file. In addition, functioning pure code files can
+be automatically extracted from the file. This environment is
+implemented as an extension to the Emacs text editor and provides a
+rich set of features for authoring both prose and code, as well as
+sophisticated project management capabilities.
+
+* Introduction
+There are a variety of settings in which it is desirable to mix prose,
+code, data, and computational results in a single document.
+- /Scientific research/ increasingly involves the use of computational
+  tools. Successful communication and verification of research results
+  requires that this code is distributed together with results and
+  explanatory prose.
+- In /software development/ the exchange of ideas is accomplished
+  through both code and prose; code provides concrete implementation
+  while prose provides higher level explanation.  Without proper
+  documentation, the usability and future extensibility of
+  computational tools are compromised.
+- In /pedagogical/ environments it is important for descriptions of
+  algorithms or techniques to go hand-in-hand with 
+  implementations and example output.  These environments include
+  in-class presentations, published books and articles, online
+  tutorials, and experiential blogs with accompanying instructions.
+
+In each of the situations described above, prose in the absence
+of code is typically insufficient.  Similarly, code
+without expository prose is a less-than-ideal medium for communication
+between people. In this paper we describe the plain text markup
+language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
+environment supporting many different approaches to composition and
+application of combined prose and code (Figure \ref{fig:overview}).  Working in
+[[latex:proglang][Org-mode]] is an extension of standard text editing. Thus, trivial usage
+of [[latex:proglang][Org-mode]] is nothing more than text editing, from which point the
+user can start to add special plain text [[latex:proglang][Org-mode]]
+elements to the document.  [[latex:proglang][Org-mode]] is therefore easy to adopt and
+aims to be a general solution for authoring projects with mixed
+computational and natural languages.  It supports multiple programming languages,
+export targets, and work flows.
+
+With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
+project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
+language agnostic and the user can mix languages within a document, it
+is possible to support a very wide variety of projects.  These range
+from those of a single user, who keeps a laboratory notebook
+with embedded calculations in [[latex:proglang][Org-mode,]] to the collaborative
+work-group tasked with engineering a complex system, using
+[[latex:proglang][Org-mode]] in conjunction with a modern version control system such as
+[[latex:proglang][git]] to build a repository of code and documentation.  With the
+data, code and text of a project stored in the same document, which can
+be exported to a variety of formats, the future reproducibility of the
+work is dramatically enhanced without placing a great burden on the
+author.
+
+We start by reviewing existing approaches to the combined authoring of
+prose and code, including software tools designed to address one or
+more of the use cases for mixed natural and computer language
+documents (Section \ref{background}).  We then describe the design of
+[[latex:proglang][Org-mode]] (Section \ref{design}) and demonstrate some of its uses with
+three short examples (Section \ref{examples}).  We conclude with a
+discussion of why we believe [[latex:proglang][Org-mode]] constitutes a uniquely
+productive environment for authoring mixed prose and code projects
+(Section \ref{discussion}).  This document is itself written in
+[[latex:proglang][Org-mode]]; the version submitted to the journal was created by
+running a single export command.  This command executed the source
+code examples and generated the figures before exporting its content
+to a LaTeX file marked up according the journal's specification. The
+[[latex:proglang][Org-mode]] source for this paper is available online.[fn:5]
+
+* Example: Reproducible research --- live climate data
+By referencing external data, a work of Reproducible Research can
+remain up-to-date long after its initial composition and publication.
+This example demonstrates the ability of code blocks in an [[latex:proglang][Org-mode]]
+document to reference external data, to construct and use local stores
+of data outside the document, and to maintain persistent state in
+external sessions, all in an automated fashion. This allows each
+reader to recreate the document with up-to-date data, and to
+populate a full local workspace with the data used in the document.
+
+This example references climate change data from the US National
+Oceanic and Atmospheric Administration (NOAA). The data set is
+relatively large (hundreds of thousands of rows). Accordingly, this
+example demonstrates a particular style of working with executable
+code blocks in [[latex:proglang][Org-mode]]: instead of transferring large amounts of data
+between blocks via [[latex:proglang][Org-mode]] tables and [[latex:proglang][Emacs Lisp]], we use temporary
+plain text files on disk and a dedicated external database. The
+example is implemented with command-line tools commonly available on
+Unix-like systems, the [[latex:proglang][sqlite]] database, and [[latex:proglang][R]]. These software tools
+were chosen to illustrate the use of popular data processing tools
+from within [[latex:proglang][Org-mode]].
+
+The first two code blocks fetch and parse data from NOAA using
+standard command-line tools.
+
+# For raw data format see
+# ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.temperature.readme
+
+#+begin_src org
+   ,#+source: raw-temps
+   ,#+headers: :results output :file raw-temps.csv
+   ,#+begin_src sh :exports none
+   ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
+   ,      |gunzip \
+   ,      |perl -pe 's/-9999/ NA/g' \
+   ,      |perl -pe 's/^([0-9]{3})([0-9]{8})([0-9])/$1 $2 $3 /' \
+   ,      |perl -pe 's/ +/,/g'
+   ,#+end_src
+   ,
+   ,#+source: country-codes
+   ,#+headers: :results output :file country-codes.csv
+   ,#+begin_src sh :exports none
+   ,  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
+   ,      |perl -pe 's/ *$//' \
+   ,      |perl -pe 's/ +/,/'
+   ,#+end_src
+#+end_src
+ 
+#+source: raw-temps
+#+headers: :results output :file raw-temps.csv
+#+begin_src sh :exports none
+  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
+      |gunzip \
+      |perl -pe 's/-9999/ NA/g' \
+      |perl -pe 's/^([0-9]{3})([0-9]{8})([0-9])/$1 $2 $3 /' \
+      |perl -pe 's/ +/,/g'
+#+end_src
+
+#+source: country-codes
+#+headers: :results output :file country-codes.csv
+#+begin_src sh :exports none
+  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
+      |perl -pe 's/ *$//' \
+      |perl -pe 's/ +/,/'
+#+end_src
+
+Next, the output of the first two blocks is used to create a local
+database of the combined climate data.  In the case of very large data
+sets it may be preferable to use an external store like a database
+rather than storing the data as plain text in the [[latex:proglang][Org-mode]] buffer.
+
+#+begin_src org
+   ,#+headers: :var raw-temps-file=raw-temps :var codes-file=country-codes
+   ,#+begin_src sqlite :db climate.sqlite :exports none :results silent
+   ,  drop table if exists temps;
+   ,  create table temps (country,station,replicate,year,jan,feb,
+   ,         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+   ,  drop table if exists countries;
+   ,  create table countries (code, name);
+   ,  .separator ","
+   ,  .import $raw-temps-file temps
+   ,  .import $codes-file countries
+   ,#+end_src
+#+end_src
+
+#+headers: :var raw-temps-file=raw-temps :var codes-file=country-codes
+#+begin_src sqlite :db climate.sqlite :exports none :results silent
+  drop table if exists temps;
+  create table temps (country,station,replicate,year,jan,feb,
+         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
+  drop table if exists countries;
+  create table countries (code, name);
+  .separator ","
+  .import $raw-temps-file temps
+  .import $codes-file countries
+#+end_src
+
+The =R-init= code block reads a subset of the data from the [[latex:proglang][sqlite]]
+database and splits the data into a separate time series for each
+weather station, in an ESS [[latex:proglang][R]] session named =*R-climate*=. The
+variables persist in the =*R-climate*= session after the code block
+exits, so they can be manipulated by other [[latex:proglang][R]] code blocks that use the
+=*R-climate*= session.
+
+#+begin_src org
+   ,#+source: R-init
+   ,#+headers: :var dbname="climate.sqlite"
+   ,#+begin_src R :session *R-climate* :exports results :results silent
+   ,  library("RSQLite")
+   ,  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
+   ,  query <- paste("SELECT temps.station, temps.year, temps.jul", 
+   ,                 "FROM temps, countries",
+   ,                 "WHERE countries.code=temps.country",
+   ,                 "AND countries.name='UNITED STATES OF AMERICA'",
+   ,                 "AND temps.replicate='0'",
+   ,                 "ORDER BY year;")
+   ,  temps <- dbGetQuery(con, query)
+   ,  temps$year <- as.integer(temps$year)
+   ,  temps$jul <- as.numeric(temps$jul)/10
+   ,  temps.by.station <- split(temps, temps$station, drop=TRUE)
+   ,#+end_src
+#+end_src
+
+#+source: R-init
+#+headers: :var dbname="climate.sqlite"
+#+begin_src R :session *R-climate* :exports results :results silent
+    library("RSQLite")
+    con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
+    query <- paste("SELECT temps.station, temps.year, temps.jul", 
+                   "FROM temps, countries",
+                   "WHERE countries.code=temps.country",
+                   "AND countries.name='UNITED STATES OF AMERICA'",
+                   "AND temps.replicate='0'",
+                   "ORDER BY year;")
+    temps <- dbGetQuery(con, query)
+    temps$year <- as.integer(temps$year)
+    temps$jul <- as.numeric(temps$jul)/10
+    temps.by.station <- split(temps, temps$station, drop=TRUE)
+#+end_src
+
+Finally the persistent variables in the =*R-climate*= session are used
+to generate figures from the climate data. Here we fit a straight line
+to the July temperatures at each station which has measurements
+spanning the period 1880-1980, and plot a histogram of the fitted
+slope parameters. The figure is written to a pdf file for
+incorporation into the exported document (Figure
+\ref{fig:climate-trend}).
+
+#+begin_src org
+   ,#+srcname: R-graph
+   ,#+headers: :results graphics :file temp-trends.pdf
+   ,#+begin_src R :session *R-climate* :exports results
+   ,  include.station <- function(station)
+   ,      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
+   ,  fit.slope <- function(station)
+   ,      with(station, coefficients(lm(jul ~ year))["year"])
+   ,  included <- sapply(temps.by.station, include.station)
+   ,  slopes <- sapply(temps.by.station[included], fit.slope)
+   ,  hist(slopes)
+   ,#+end_src
+   ,
+   ,#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
+   ,#+ATTR_LaTeX: width=0.7\linewidth placement={t!}
+   ,#+results: R-graph
+   ,[[file:temp-trends.pdf]]
+#+end_src
+
+#+srcname: R-graph
+#+headers: :results graphics :file temp-trends.pdf
+#+begin_src R :session *R-climate* :exports results
+  include.station <- function(station)
+      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
+  fit.slope <- function(station)
+      with(station, coefficients(lm(jul ~ year))["year"])
+  included <- sapply(temps.by.station, include.station)
+  slopes <- sapply(temps.by.station[included], fit.slope)
+  hist(slopes)
+#+end_src
+
+#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
+#+ATTR_LaTeX: width=0.7\linewidth placement={t!}
+#+results: R-graph
+[[file:temp-trends.pdf]]
+
+* Discussion
+  :PROPERTIES:
+  :CUSTOM_ID: discussion
+  :END:
+
+[[latex:proglang][Org-mode]] has several features that make it a potentially useful tool
+for a community of researchers and developers.  These include:
+
+- Open source :: [[latex:proglang][Org-mode]] is open source software.  Its inner
+     workings are publicly visible, and its copyright is owned by the
+     Free Software Foundation \citep{fsf}.  This ensures that
+     [[latex:proglang][Org-mode]] and any work deriving from [[latex:proglang][Org-mode]] will always be
+     fully open to public scrutiny and modification.  These are
+     essential qualities for software tools used for reproducible
+     research.  The transparency required for computational results to
+     be accepted by the scientific community can only be achieved when
+     the workings of each tool in the scientist's tool chain is open to
+     inspection and verification.
+
+- Widely available :: Software used in reproducible research should be
+     readily available and easily installed by readers.  [[latex:proglang][Org-mode]] is
+     freely available and, as of the next major release of Emacs
+     (version 24), [[latex:proglang][Org-mode]] including all of the facilities discussed
+     herein will be included in the Emacs core.  Emacs is one of the
+     most widely ported software applications, making possible the
+     installation and use of [[latex:proglang][Org-mode]] on a wide variety of user
+     systems.
+
+- Active community :: The [[latex:proglang][Org-mode]] community provides ready
+     support to both novice users with basic questions and to
+     developers seeking to extend [[latex:proglang][Org-mode]].  The development of
+     [[latex:proglang][Org-mode]] would not have been possible without the attention and
+     effort of this community.
+
+- General and extensible :: A main design goal of [[latex:proglang][Org-mode]]'s support
+     for working with source code was generality.  As a result, it
+     displays no reproducible research or literate programming bias,
+     supports arbitrary programming languages, and exports to a wide
+     variety of file types, including ASCII, LaTeX, [[latex:proglang][HTML]], and DocBook.
+     Researchers and software developers who adopt [[latex:proglang][Org-mode]] can be
+     confident that it will be able to adapt to new languages or modes
+     of development.
+
+- Integration :: [[latex:proglang][Org-mode]] leverages the sophisticated editing modes
+     available in Emacs for both natural and computational languages.
+
+
+Literate programming and reproducible research systems are typically
+prescriptive and difficult to use, and this cost of adoption has kept
+them from spreading more widely through the computing community.
+[[latex:proglang][Org-mode]] enables users to progress gradually from simple text editing
+to sophisticated data processing and code evaluation, thereby lowering
+the adoption cost of these techniques.  By consolidating all code,
+data, and text of research and development projects, [[latex:proglang][Org-mode]] increases
+the likelihood of their retention.  We believe that with its ease of
+adoption, familiar environment, and universal applicability across
+programming languages, [[latex:proglang][Org-mode]] represents a qualitative advance in
+literate programming and reproducible research tools.
+
+[[latex:proglang][Org-mode]] has the potential to advance the expectation that all
+computational projects include /both/ code and prose; the arguments
+that Knuth advanced for literate programming are no less valid today,
+and the pervasive use of computational tools in scientific research
+makes reproducible research practices essential to the peer review
+process.  [[latex:proglang][Org-mode]] provides researchers and software developers with a
+powerful tool to communicate their work and make it more accessible.
+
