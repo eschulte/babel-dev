@@ -3,11 +3,12 @@
 #+OPTIONS:    H:3 num:nil toc:1 \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:nil LaTeX:nil skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: oddeven hideblocks
 
-* Tasks [96/186]
+* Tasks [97/188]
 ** PROPOSED code blemish in gnuplot
    - State "PROPOSED"   from ""           [2010-12-20 Mon 19:09]
      shouldn't [[file:~/lib/emacs/org/lisp/ob-gnuplot.el::(if%20(member%20"output"%20(split-string%20result-type))][this]] be (eq result-type 'output)
-** PROPOSED Revisit :file and :results file
+** DONE Revisit :file and :results file
+   - State "DONE"       from "PROPOSED"   [2011-01-14 Fri 22:08]
    - State "PROPOSED" from "" [2010-12-17 Fri 10:51]
 
    Here are some related development issues that all concern the
@@ -107,9 +108,9 @@ and I've since deleted it locally, so this piece of code will be lost...
 >>
 >> -- Eric
 
-*** PROPOSED (e.g.) R should create default file name for graphical output if none supplied
-    - State "PROPOSED"   from ""           [2010-12-17 Fri 10:58]
-      Requested by Stephen Eglen
+** PROPOSED (e.g.) R should create default file name for graphical output if none supplied
+   - State "PROPOSED"   from ""           [2010-12-17 Fri 10:58]
+     Requested by Stephen Eglen
 ** Todo file-wide language-specific header arguments
    - State "TODO"       from ""           [2010-12-05 Sun 08:37]
 
