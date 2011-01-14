@@ -7732,7 +7732,18 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [90/122]
+* Bugs [90/123]
+** TODO python prep-session failure
+   - State "TODO"       from ""           [2011-01-14 Fri 22:10]
+     
+   C-u C-c C-v z on a python block using a session results in
+   
+   - first time :: ansi-color-filter-apply: Marker does not point anywhere
+   - subsequent times :: check-face: Not a face: nil
+
+   The latter error is thrown in org-babel-comint-wait-for-output, in
+   which (face-at-point) somehow starts returning nil.
+
 ** TODO Naming session changes noweb expansion on export
    :LOGBOOK:
    - State "TODO"       from ""           [2010-12-08 Wed 06:43]
