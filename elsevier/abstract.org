@@ -286,7 +286,7 @@ for a community of researchers and developers.  These include:
 
 - Open source :: Org-mode is open source software.  Its inner workings
      are publicly visible, and its copyright is owned by the Free
-     Software Foundation fsf.  This ensures that Org-mode and any work
+     Software Foundation FSF.  This ensures that Org-mode and any work
      deriving from Org-mode will always be fully open to public
      scrutiny and modification.  These are essential qualities for
      software tools used for reproducible research.  The transparency
