@@ -122,16 +122,18 @@ Executable Paper Grand Challenge Website
     taken on the ‘executable paper?’
     #+end_quote
 
-    In addition to its facilities for reproducible research, Org-mode
-    already provides an extremely sophisticated task-management
-    framework. Indeed, that was its primary purpose. See
-    - http://orgmode.org/manual/TODO-Items.html
-    - http://orgmode.org/manual/Dates-and-Times.html
-    - http://orgmode.org/manual/Agenda-Views.html
+    The issue of tracking provenance has been solved in the world of
+    open-source software collaboration through the use of modern VC
+    systems such as git and bzr.  This is a proof not only of the
+    ability of such tools to handle complicated real-world usage
+    scenarios, but also of their usability, and practicality even
+    among large widely disparate groups of collaborators.  Many
+    researchers are already familiar with the use of such tools so
+    their re-use for scientific collaboration would not require
+    researchers to learn a new tool.
 
-    The project-management features are written in Emacs-lisp and may be
-    extended and customized arbitrarily by means of additional
-    Emacs-lisp.
+    Given that Org-mode documents are plain text they integrate
+    seamlessly with such tools.
 
 ** Design of Org-mode
 At the core of Org-mode is the Emacs text editor and Emacs Lisp, a
