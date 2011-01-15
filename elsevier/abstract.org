@@ -1,4 +1,4 @@
-#+TITLE: A Multi-Language Computing Environment for Literate Programming and Reproducible Research
+#+TITLE: A Multi-Language Environment for Authoring and Evaluating Executable Papers
 #+AUTHOR: Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik
 #+OPTIONS: ^:nil toc:nil H:4 num:nil
 
@@ -16,14 +16,18 @@ to be generated from the file. In addition, functioning pure code
 files can be automatically extracted from the file. This environment
 is implemented as an extension to the Emacs text editor and provides a
 rich set of features for authoring both prose and code, as well as
-sophisticated project management capabilities.
+sophisticated project management capabilities. The practicality and
+usability of this environment is evinced by its large and increasing
+user base including both researchers and software developers.
 
 The source for this document is a plain text org-mode document. The
-pdf is created by opening the source document in emacs and executing
-the function `org-export-as-pdf'.
+embedded source code is evaluated, and the pdf is created by opening
+the source document in Emacs and executing the function
+`org-export-as-pdf'.
 
 The technology described in this paper already exists in a mature
-form, and is fully described at the following locations:
+form, is included as part of GNU Emacs, and is fully described at the
+following locations:
 - http://orgmode.org/
 - http://orgmode.org/manual/index.html
 - http://orgmode.org/manual/Working-With-Source-Code.html
@@ -67,13 +71,24 @@ Executable Paper Grand Challenge Website
     the reviewer?
     #+end_quote
 
-    Org-mode already possesses a dedicated unit testing/validation
-    frameworks (https://github.com/ohler/ert).
+    Both data and executable source code may be embedded in Org-mode
+    documents in special blocks offset using a natural plain text
+    syntax.  These blocks can be accessed programatically, and a
+    number of functions are provided for evaluating all or part of the
+    source code embedded in an Org-mode document.
 
-    The functioning of the entire system is exposed via
-    easily-modifiable Emacs-lisp code, permitting existing validation
-    systems to be extended and customized arbitrarily.
-    
+    Using this syntax Org-mode provides for all code and data used in
+    the generation of results, figures and tables to be packaged as
+    part of the distributed work of research, enabling readers to
+    re-run all computation/analysis presented in the paper and to
+    inspect the source code and mathematical analysis responsible for
+    the results.
+
+    Importantly Org-mode is open-source under the GNU General Public
+    License and its copyright is owned by the Free Software Foundation
+    ensuring that every aspect Org-mode's evaluation system will
+    remain open for inspection and verification.
+
 *** Copyright/licensing
     Org-mode is Free and Open Source software. As long as a clear
     distinction exists between what is a client project, and what is
