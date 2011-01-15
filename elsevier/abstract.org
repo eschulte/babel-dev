@@ -111,11 +111,22 @@ Executable Paper Grand Challenge Website
 
 *** Size
     #+begin_quote
-    Data for the executable paper may be maintained in the plain text
-    Org-mode document itself, or alternatively may be maintained in
-    dedicated external data stores.
+    How do we manage very large file sizes?
     #+end_quote
+    
+    Org-mode documents are organized as hierarchical outlines.
+    Sections of the outline can be individually folded to hide them
+    and all nested subsections from view or expanded to be made
+    visible for editing and reading.  In this way large hierarchical
+    text files can be navigated in a manner similar to a file system,
+    and the user need only expose the portion of the file of interest.
 
+    Org-mode provides a simple link syntax which can be used to
+    reference external data, and embedded code blocks can be used to
+    reference data stored either locally or remotely in files or
+    databases (a number of common database languages include SQL and
+    SQLite are supported by Org-mode).
+    
 *** Provenance
     #+begin_quote
     How to support registering and tracking of actions
