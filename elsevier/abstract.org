@@ -349,7 +349,7 @@ more accessible.
 #+end_LaTeX
 
 * COMMENT Publication Setup
-Run the following before exporting to use the Elsavier LaTeX Template.
+Run the following before exporting to use the Elsevier LaTeX Template.
 #+begin_src emacs-lisp
   (add-to-list 'org-export-latex-classes
                '("elsarticle"
