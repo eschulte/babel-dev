@@ -8,8 +8,8 @@ of elements such as code in arbitrary programming languages, raw data,
 links to external resources, project management data, working notes,
 and text for publication. Code fragments may be executed in situ with
 graphical, numerical and text output captured or linked in the
-file. Export to \LaTeX{}, \proglang{HTML}, \LaTeX{},
-\proglang{Beamer}, \proglang{DocBook} and other formats permits
+file. Export to \LaTeX{}, HTML, \LaTeX{},
+Beamer, DocBook and other formats permits
 working reports, presentations and manuscripts for publication to be
 generated from the file. In addition, functioning pure code files can
 be automatically extracted from the file. This environment is
@@ -39,50 +39,49 @@ In each of the situations described above, prose in the absence
 of code is typically insufficient.  Similarly, code
 without expository prose is a less-than-ideal medium for communication
 between people. In this paper we describe the plain text markup
-language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
+language Org-mode, with a focus on its provision of a unified
 environment supporting many different approaches to composition and
 application of combined prose and code (Figure \ref{fig:overview}).  Working in
-[[latex:proglang][Org-mode]] is an extension of standard text editing. Thus, trivial usage
-of [[latex:proglang][Org-mode]] is nothing more than text editing, from which point the
-user can start to add special plain text [[latex:proglang][Org-mode]]
-elements to the document.  [[latex:proglang][Org-mode]] is therefore easy to adopt and
+Org-mode is an extension of standard text editing. Thus, trivial usage
+of Org-mode is nothing more than text editing, from which point the
+user can start to add special plain text Org-mode
+elements to the document.  Org-mode is therefore easy to adopt and
 aims to be a general solution for authoring projects with mixed
 computational and natural languages.  It supports multiple programming languages,
 export targets, and work flows.
 
-With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
-project can take place within a single document.  Because [[latex:proglang][Org-mode]] is
+With Org-mode the entire life cycle of a research or development
+project can take place within a single document.  Because Org-mode is
 language agnostic and the user can mix languages within a document, it
 is possible to support a very wide variety of projects.  These range
-from those of a single user, who keeps a laboratory notebook
-with embedded calculations in [[latex:proglang][Org-mode,]] to the collaborative
-work-group tasked with engineering a complex system, using
-[[latex:proglang][Org-mode]] in conjunction with a modern version control system such as
-[[latex:proglang][git]] to build a repository of code and documentation.  With the
-data, code and text of a project stored in the same document, which can
-be exported to a variety of formats, the future reproducibility of the
-work is dramatically enhanced without placing a great burden on the
-author.
+from those of a single user, who keeps a laboratory notebook with
+embedded calculations in Org-mode, to the collaborative work-group
+tasked with engineering a complex system, using Org-mode in
+conjunction with a modern version control system such as git to build
+a repository of code and documentation.  With the data, code and text
+of a project stored in the same document, which can be exported to a
+variety of formats, the future reproducibility of the work is
+dramatically enhanced without placing a great burden on the author.
 
 We start by reviewing existing approaches to the combined authoring of
 prose and code, including software tools designed to address one or
 more of the use cases for mixed natural and computer language
 documents (Section \ref{background}).  We then describe the design of
-[[latex:proglang][Org-mode]] (Section \ref{design}) and demonstrate some of its uses with
+Org-mode (Section \ref{design}) and demonstrate some of its uses with
 three short examples (Section \ref{examples}).  We conclude with a
-discussion of why we believe [[latex:proglang][Org-mode]] constitutes a uniquely
+discussion of why we believe Org-mode constitutes a uniquely
 productive environment for authoring mixed prose and code projects
 (Section \ref{discussion}).  This document is itself written in
-[[latex:proglang][Org-mode]]; the version submitted to the journal was created by
+Org-mode; the version submitted to the journal was created by
 running a single export command.  This command executed the source
 code examples and generated the figures before exporting its content
 to a LaTeX file marked up according the journal's specification. The
-[[latex:proglang][Org-mode]] source for this paper is available online.[fn:5]
+Org-mode source for this paper is available online.[fn:5]
 
 * Example: Reproducible research --- live climate data
 By referencing external data, a work of Reproducible Research can
 remain up-to-date long after its initial composition and publication.
-This example demonstrates the ability of code blocks in an [[latex:proglang][Org-mode]]
+This example demonstrates the ability of code blocks in an Org-mode
 document to reference external data, to construct and use local stores
 of data outside the document, and to maintain persistent state in
 external sessions, all in an automated fashion. This allows each
@@ -93,13 +92,13 @@ This example references climate change data from the US National
 Oceanic and Atmospheric Administration (NOAA). The data set is
 relatively large (hundreds of thousands of rows). Accordingly, this
 example demonstrates a particular style of working with executable
-code blocks in [[latex:proglang][Org-mode]]: instead of transferring large amounts of data
-between blocks via [[latex:proglang][Org-mode]] tables and [[latex:proglang][Emacs Lisp]], we use temporary
+code blocks in Org-mode: instead of transferring large amounts of data
+between blocks via Org-mode tables and Emacs Lisp, we use temporary
 plain text files on disk and a dedicated external database. The
 example is implemented with command-line tools commonly available on
-Unix-like systems, the [[latex:proglang][sqlite]] database, and [[latex:proglang][R]]. These software tools
+Unix-like systems, the sqlite database, and R. These software tools
 were chosen to illustrate the use of popular data processing tools
-from within [[latex:proglang][Org-mode]].
+from within Org-mode.
 
 The first two code blocks fetch and parse data from NOAA using
 standard command-line tools.
@@ -148,7 +147,7 @@ standard command-line tools.
 Next, the output of the first two blocks is used to create a local
 database of the combined climate data.  In the case of very large data
 sets it may be preferable to use an external store like a database
-rather than storing the data as plain text in the [[latex:proglang][Org-mode]] buffer.
+rather than storing the data as plain text in the Org-mode buffer.
 
 #+begin_src org
    ,#+headers: :var raw-temps-file=raw-temps :var codes-file=country-codes
@@ -176,11 +175,11 @@ rather than storing the data as plain text in the [[latex:proglang][Org-mode]] b
   .import $codes-file countries
 #+end_src
 
-The =R-init= code block reads a subset of the data from the [[latex:proglang][sqlite]]
+The =R-init= code block reads a subset of the data from the sqlite
 database and splits the data into a separate time series for each
-weather station, in an ESS [[latex:proglang][R]] session named =*R-climate*=. The
+weather station, in an ESS R session named =*R-climate*=. The
 variables persist in the =*R-climate*= session after the code block
-exits, so they can be manipulated by other [[latex:proglang][R]] code blocks that use the
+exits, so they can be manipulated by other R code blocks that use the
 =*R-climate*= session.
 
 #+begin_src org
@@ -268,13 +267,13 @@ incorporation into the exported document (Figure
   :CUSTOM_ID: discussion
   :END:
 
-[[latex:proglang][Org-mode]] has several features that make it a potentially useful tool
+Org-mode has several features that make it a potentially useful tool
 for a community of researchers and developers.  These include:
 
-- Open source :: [[latex:proglang][Org-mode]] is open source software.  Its inner
+- Open source :: Org-mode is open source software.  Its inner
      workings are publicly visible, and its copyright is owned by the
      Free Software Foundation \citep{fsf}.  This ensures that
-     [[latex:proglang][Org-mode]] and any work deriving from [[latex:proglang][Org-mode]] will always be
+     Org-mode and any work deriving from Org-mode will always be
      fully open to public scrutiny and modification.  These are
      essential qualities for software tools used for reproducible
      research.  The transparency required for computational results to
@@ -283,50 +282,50 @@ for a community of researchers and developers.  These include:
      inspection and verification.
 
 - Widely available :: Software used in reproducible research should be
-     readily available and easily installed by readers.  [[latex:proglang][Org-mode]] is
+     readily available and easily installed by readers.  Org-mode is
      freely available and, as of the next major release of Emacs
-     (version 24), [[latex:proglang][Org-mode]] including all of the facilities discussed
+     (version 24), Org-mode including all of the facilities discussed
      herein will be included in the Emacs core.  Emacs is one of the
      most widely ported software applications, making possible the
-     installation and use of [[latex:proglang][Org-mode]] on a wide variety of user
+     installation and use of Org-mode on a wide variety of user
      systems.
 
-- Active community :: The [[latex:proglang][Org-mode]] community provides ready
+- Active community :: The Org-mode community provides ready
      support to both novice users with basic questions and to
-     developers seeking to extend [[latex:proglang][Org-mode]].  The development of
-     [[latex:proglang][Org-mode]] would not have been possible without the attention and
+     developers seeking to extend Org-mode.  The development of
+     Org-mode would not have been possible without the attention and
      effort of this community.
 
-- General and extensible :: A main design goal of [[latex:proglang][Org-mode]]'s support
+- General and extensible :: A main design goal of Org-mode's support
      for working with source code was generality.  As a result, it
      displays no reproducible research or literate programming bias,
      supports arbitrary programming languages, and exports to a wide
-     variety of file types, including ASCII, LaTeX, [[latex:proglang][HTML]], and DocBook.
-     Researchers and software developers who adopt [[latex:proglang][Org-mode]] can be
+     variety of file types, including ASCII, LaTeX, HTML, and DocBook.
+     Researchers and software developers who adopt Org-mode can be
      confident that it will be able to adapt to new languages or modes
      of development.
 
-- Integration :: [[latex:proglang][Org-mode]] leverages the sophisticated editing modes
+- Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
 
 
 Literate programming and reproducible research systems are typically
 prescriptive and difficult to use, and this cost of adoption has kept
 them from spreading more widely through the computing community.
-[[latex:proglang][Org-mode]] enables users to progress gradually from simple text editing
+Org-mode enables users to progress gradually from simple text editing
 to sophisticated data processing and code evaluation, thereby lowering
 the adoption cost of these techniques.  By consolidating all code,
-data, and text of research and development projects, [[latex:proglang][Org-mode]] increases
+data, and text of research and development projects, Org-mode increases
 the likelihood of their retention.  We believe that with its ease of
 adoption, familiar environment, and universal applicability across
-programming languages, [[latex:proglang][Org-mode]] represents a qualitative advance in
+programming languages, Org-mode represents a qualitative advance in
 literate programming and reproducible research tools.
 
-[[latex:proglang][Org-mode]] has the potential to advance the expectation that all
+Org-mode has the potential to advance the expectation that all
 computational projects include /both/ code and prose; the arguments
 that Knuth advanced for literate programming are no less valid today,
 and the pervasive use of computational tools in scientific research
 makes reproducible research practices essential to the peer review
-process.  [[latex:proglang][Org-mode]] provides researchers and software developers with a
+process.  Org-mode provides researchers and software developers with a
 powerful tool to communicate their work and make it more accessible.
 
