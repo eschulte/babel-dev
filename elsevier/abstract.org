@@ -1,5 +1,6 @@
 #+TITLE: A Multi-Language Environment for Authoring and Evaluating Executable Papers
 #+AUTHOR: Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik
+#+LaTeX_CLASS: elsarticle
 #+OPTIONS: ^:nil toc:nil H:4 num:nil
 
 * Abstract
@@ -238,20 +239,19 @@ exits, so they can be manipulated by other R code blocks that use the
 =*R-climate*= session.
 
 #+source: R-init
-#+headers: :var dbname="climate.sqlite"
 #+begin_src R :session *R-climate* :exports code :results silent
-    library("RSQLite")
-    con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
-    query <- paste("SELECT temps.station, temps.year, temps.jul", 
-                   "FROM temps, countries",
-                   "WHERE countries.code=temps.country",
-                   "AND countries.name='UNITED STATES OF AMERICA'",
-                   "AND temps.replicate='0'",
-                   "ORDER BY year;")
-    temps <- dbGetQuery(con, query)
-    temps$year <- as.integer(temps$year)
-    temps$jul <- as.numeric(temps$jul)/10
-    temps.by.station <- split(temps, temps$station, drop=TRUE)
+  library("RSQLite")
+  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
+  query <- paste("SELECT temps.station, temps.year, temps.jul", 
+                 "FROM temps, countries",
+                 "WHERE countries.code=temps.country",
+                 "AND countries.name='UNITED STATES OF AMERICA'",
+                 "AND temps.replicate='0'",
+                 "ORDER BY year;")
+  temps <- dbGetQuery(con, query)
+  temps$year <- as.integer(temps$year)
+  temps$jul <- as.numeric(temps$jul)/10
+  temps.by.station <- split(temps, temps$station, drop=TRUE)
 #+end_src
 
 Finally the persistent variables in the =*R-climate*= session are used
@@ -263,7 +263,7 @@ incorporation into the exported document.
 
 #+srcname: R-graph
 #+headers: :results graphics :file temp-trends.pdf
-#+begin_src R :session *R-climate* :exports both
+#+begin_src R :session *R-climate* :exports both :cache yes
   include.station <- function(station)
       station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
   fit.slope <- function(station)
@@ -275,7 +275,7 @@ incorporation into the exported document.
 
 #+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
 #+ATTR_LaTeX: width=0.6\linewidth placement={t!}
-#+results: R-graph
+#+results[8f392da35bf3b238369f4c4a32c533d801956edf]: R-graph
 [[file:temp-trends.pdf]]
 
 ** Discussion
@@ -346,3 +346,16 @@ more accessible.
 #+begin_LaTeX
     \bibliography{babel}
 #+end_LaTeX
+
+* COMMENT Publication Setup
+Run the following before exporting to use the Elsavier LaTeX Template.
+#+begin_src emacs-lisp
+  (add-to-list 'org-export-latex-classes
+               '("elsarticle"
+                 "\\documentclass{elsarticle}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+end_src
