@@ -18,12 +18,12 @@ is implemented as an extension to the Emacs text editor and provides a
 rich set of features for authoring both prose and code, as well as
 sophisticated project management capabilities. The practicality and
 usability of this environment is evinced by its large and increasing
-user base including both researchers and software developers.
+user base, including researchers and software developers.
 
-The source for this document is a plain text org-mode document. The
-embedded source code is evaluated, and the pdf is created by opening
-the source document in Emacs and executing the function
-`org-export-as-pdf'.
+This document was created with Org-mode.  A reader can reproduce this
+document by opening the Org-mode source file in Emacs and executing
+the function =org-export-as-pdf=.  This function evaluates the source
+code embedded in the Org-mode document and creates pdf output.
 
 The technology described in this paper already exists in a mature
 form, is included as part of GNU Emacs, and is fully described at the
@@ -47,9 +47,11 @@ Executable Paper Grand Challenge Website
     can be repeated and manipulated?
     #+end_quote
 
-    Over the last two years, precisely these features have been added
-    to Org-mode (which was originally a document authoring, note-taking
-    and project-management environment). See
+    Org-mode documents are executable.  Active source code blocks can
+    be configured to evaluate equations, or create tables and graphs.
+    Reviewers and readers can verify the correctness of the source
+    code and can manipulate the result space simply by editing one or more
+    source code blocks and re-evaluating.   See
     - http://orgmode.org/manual/Working-With-Source-Code.html
     - http://orgmode.org/worg/org-contrib/babel/
 
@@ -71,11 +73,11 @@ Executable Paper Grand Challenge Website
     the reviewer?
     #+end_quote
 
-    Both data and executable source code may be embedded in Org-mode
-    documents in special blocks offset using a natural plain text
-    syntax.  These blocks can be accessed programatically, and a
-    number of functions are provided for evaluating all or part of the
-    source code embedded in an Org-mode document.
+    Data and executable source code can be embedded in Org-mode
+    documents in blocks marked with a simple plain text syntax.  These
+    blocks can be accessed programatically, and a number of functions
+    are provided for evaluating all or part of the source code
+    embedded in an Org-mode document.
 
     Using this syntax Org-mode provides for all code and data used in
     the generation of results, figures and tables to be packaged as
@@ -84,7 +86,7 @@ Executable Paper Grand Challenge Website
     inspect the source code and mathematical analysis responsible for
     the results.
 
-    Importantly Org-mode is open-source under the GNU General Public
+    Importantly, Org-mode is open-source under the GNU General Public
     License and its copyright is owned by the Free Software Foundation
     ensuring that every aspect Org-mode's evaluation system will
     remain open for inspection and verification.
@@ -102,10 +104,11 @@ Executable Paper Grand Challenge Website
     community?
     #+end_quote
 
-    The computations defined in the executable paper may be executed on
+    The computations defined in the executable paper can be executed on
     the local machine, or on any machine which can be accessed over the
     network. The results of remote computations are retrieved over the
-    network and stored in the local document as normal. See
+    network and stored in the local document, where they are accessed
+    and manipulated as usual. See
 
     - http://orgmode.org/org.html#dir
 
@@ -134,14 +137,12 @@ Executable Paper Grand Challenge Website
     #+end_quote
 
     The issue of tracking provenance has been solved in the world of
-    open-source software collaboration through the use of modern VC
-    systems such as git and bzr.  This is a proof not only of the
-    ability of such tools to handle complicated real-world usage
-    scenarios, but also of their usability, and practicality even
-    among large widely disparate groups of collaborators.  Many
-    researchers are already familiar with the use of such tools so
-    their re-use for scientific collaboration would not require
-    researchers to learn a new tool.
+    open-source software collaboration through the use of modern
+    version control systems such as =git= and =bzr=.  These tools
+    handle complicated real-world usage scenarios involving large,
+    disparate groups of collaborators.  Many researchers are already
+    familiar with the use of such tools so their re-use for scientific
+    collaboration would not require researchers to learn a new tool.
 
     Given that Org-mode documents are plain text they integrate
     seamlessly with such tools.
