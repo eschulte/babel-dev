@@ -187,7 +187,8 @@ out by country.
 
 The output of the first code block is then passed as a variable named
 =data= to the second code block containing gnuplot code, which is used
-to graph part of this data for inclusion in a published document.
+to graph part of this data for inclusion in a published document (see
+Figure \ref{fig:top-10}).
 
 #+source: plot-Olympic-data
 #+begin_src gnuplot :var data=Olympic-data :exports both :file medals.png
@@ -204,6 +205,7 @@ to graph part of this data for inclusion in a published document.
 
 #+Caption: Medals won by country for the top 10 countries in the 2008 Summer Olympics.
 #+Attr_LaTeX: width=0.8\textwidth
+#+label: fig:top-10
 #+results: plot-Olympic-data
 [[file:medals.png]]
 
@@ -217,14 +219,13 @@ calculated over all countries in the original data.
   cor(data[2],data[3])
 #+end_src
 
-#+Caption: Correlation between number of gold and silver medals won by country in the 2008 Summer Olympics.
-#+results: medal-correlation
 : 0.852203545046365
 
 ** Discussion
 
-Org-mode has several features that make it a potentially useful tool
-for a community of researchers and developers.  These include:
+In addition to those features already mentioned, Org-mode has several
+properties that make it a potentially useful tool for the scientific
+community.  These include:
 
 - Open source :: Org-mode is open source software.  Its inner workings
      are publicly visible, and its copyright is owned by the Free
@@ -236,15 +237,6 @@ for a community of researchers and developers.  These include:
      scientific community can only be achieved when the workings of
      each tool in the scientist's tool chain is open to inspection and
      verification.
-
-- Widely available :: Software used in reproducible research should be
-     readily available and easily installed by readers.  Org-mode is
-     freely available and, as of the next major release of Emacs
-     (version 24), Org-mode including all of the facilities discussed
-     herein will be included in the Emacs core.  Emacs is one of the
-     most widely ported software applications, making possible the
-     installation and use of Org-mode on a wide variety of user
-     systems.
 
 - Active community :: The Org-mode community provides ready
      support to both novice users with basic questions and to
@@ -264,31 +256,18 @@ for a community of researchers and developers.  These include:
 - Integration :: Org-mode leverages the sophisticated editing modes
      available in Emacs for both natural and computational languages.
 
-
-Literate programming and reproducible research systems are typically
-prescriptive and difficult to use, and this cost of adoption has kept
-them from spreading more widely through the computing community.
-Org-mode enables users to progress gradually from simple text editing
-to sophisticated data processing and code evaluation, thereby lowering
-the adoption cost of these techniques.  By consolidating all code,
-data, and text of research and development projects, Org-mode increases
-the likelihood of their retention.  We believe that with its ease of
-adoption, familiar environment, and universal applicability across
-programming languages, Org-mode represents a qualitative advance in
-literate programming and reproducible research tools.
-
-Org-mode has the potential to advance the expectation that all
-computational projects include /both/ code and prose; the arguments
-that Knuth advanced in the early 1980s for literate programming are no
-less valid today, and the pervasive use of computational tools in
-scientific research makes reproducible research practices essential to
-the peer review process.  Org-mode provides researchers and software
-developers with a powerful tool to communicate their work and make it
-more accessible.
-
-#+begin_LaTeX
-    \bibliography{babel}
-#+end_LaTeX
+Reproducible research systems are typically prescriptive and difficult
+to use, and this cost of adoption has kept them from spreading more
+widely through the scientific community.  Org-mode enables users to
+progress gradually from simple text editing to sophisticated data
+processing and code evaluation, thereby lowering the adoption cost of
+these techniques.  By consolidating all code, data, and text of
+research and development projects, Org-mode increases the likelihood
+of their retention.  We believe that with its ease of adoption,
+familiar environment, and universal applicability across programming
+languages, Org-mode represents a qualitative advance in reproducible
+research tools and provides researchers with a powerful tool to
+communicate their work and make it more accessible.
 
 * COMMENT Publication Setup
 Run the following before exporting to use the Elsevier LaTeX Template.
