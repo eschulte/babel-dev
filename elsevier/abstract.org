@@ -170,25 +170,56 @@ by the user in a modular fashion through the definition of a small
 number of Emacs Lisp functions.
 
 ** Reproducible Research Example
+The following demonstration of a simplified reproducible workflow
+makes use of a number of features of Org-mode documents.  The first
+code block named =Olympic-data= contains a shell script, and is used
+to access and process remote and possibly live data available on the
+web -- in this case the medals won in the 2008 summer Olympics broken
+out by country.
 
-#+source: Olympic-data-top-10
-#+begin_src sh
+#+source: Olympic-data
+#+begin_src sh :exports code
   curl http://databaseolympics.com/games/gamesyear.htm?g=47 \
       |grep "<tr class=cl2>"|perl -pi -e "s/<\/tr>/\n/g" \
       |cut -c65-|perl -pi -e "s/<\/?(td|a)[^>]*>/,/g" \
-      |tr -s "," ","|head
+      |tr -s "," ","
 #+end_src
 
-#+source: plot-Olympic-data-top-10
-#+begin_src gnuplot :var data=Olympic-data :results silent
+The output of the first code block is then passed as a variable named
+=data= to the second code block containing gnuplot code, which is used
+to graph part of this data for inclusion in a published document.
+
+#+source: plot-Olympic-data
+#+begin_src gnuplot :var data=Olympic-data :exports both :file medals.png
+  set term png
+  set output 'medals.png'
   set title '2008 Olympics Medals Awarded by Country'
   set xtic rotate by -45
   set style data histograms
   set style fill solid 1.0 border -1
-  plot data using 2:xtic(1) title 'Goal Medals', \
-       data using 3:xtic(1) title 'Silver Medals', \
-       data using 3:xtic(1) title 'Bronze Medals'
+  plot "< head $data" using 2:xtic(1) title 'Goal Medals', \
+       "< head $data" using 3:xtic(1) title 'Silver Medals', \
+       "< head $data" using 3:xtic(1) title 'Bronze Medals'
 #+end_src
+
+#+Caption: Medals won by country for the top 10 countries in the 2008 Summer Olympics.
+#+Attr_LaTeX: width=0.8\textwidth
+#+results: plot-Olympic-data
+[[file:medals.png]]
+
+Finally a third code block contains R code used to analyze the and
+display the results as a table in the published document.  In this
+case the correlation between number of Gold and Silver medals won it
+calculated over all countries in the original data.
+
+#+source: medal-correlation
+#+begin_src R :var data=Olympic-data :exports both
+  cor(data[2],data[3])
+#+end_src
+
+#+Caption: Correlation between number of gold and silver medals won by country in the 2008 Summer Olympics.
+#+results: medal-correlation
+: 0.852203545046365
 
 ** Discussion
 
