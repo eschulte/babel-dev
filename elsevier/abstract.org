@@ -169,115 +169,26 @@ Emacs, Org-mode is extensible: support for new languages can be added
 by the user in a modular fashion through the definition of a small
 number of Emacs Lisp functions.
 
-** Example: Reproducible research --- live climate data
-To illustrate the use of Org-mode for reproducible academic research,
-we include the following example of performing analysis of climate data.
+** Reproducible Research Example
 
-By referencing external data, a work of Reproducible Research can
-remain up-to-date long after its initial composition and publication.
-This example demonstrates the ability of code blocks in an Org-mode
-document to reference external data, to construct and use local stores
-of data outside the document, and to maintain persistent state in
-external sessions, all in an automated fashion. This allows each
-reader to recreate the document with up-to-date data, and to
-populate a full local workspace with the data used in the document.
-
-This example references climate change data from the US National
-Oceanic and Atmospheric Administration (NOAA). The data set is
-relatively large (hundreds of thousands of rows). Accordingly, this
-example demonstrates a particular style of working with executable
-code blocks in Org-mode: instead of transferring large amounts of data
-between blocks via Org-mode tables and Emacs Lisp, we use temporary
-plain text files on disk and a dedicated external database. The
-example is implemented with command-line tools commonly available on
-Unix-like systems, the sqlite database, and R. These software tools
-were chosen to illustrate the use of popular data processing tools
-from within Org-mode.
-
-The first two code blocks fetch and parse data from NOAA using
-standard command-line tools.
-
-#+source: raw-temps
-#+headers: :results output :file raw-temps.csv
-#+begin_src sh :exports code
-  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.mean_adj.Z \
-      |gunzip \
-      |perl -pe 's/-9999/ NA/g' \
-      |perl -pe 's/^([0-9]{3})([0-9]{8})([0-9])/$1 $2 $3 /' \
-      |perl -pe 's/ +/,/g'
+#+source: Olympic-data-top-10
+#+begin_src sh
+  curl http://databaseolympics.com/games/gamesyear.htm?g=47 \
+      |grep "<tr class=cl2>"|perl -pi -e "s/<\/tr>/\n/g" \
+      |cut -c65-|perl -pi -e "s/<\/?(td|a)[^>]*>/,/g" \
+      |tr -s "," ","|head
 #+end_src
 
-#+source: country-codes
-#+headers: :results output :file country-codes.csv
-#+begin_src sh :exports code
-  curl ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v2/v2.slp.country.codes \
-      |perl -pe 's/ *$//' \
-      |perl -pe 's/ +/,/'
+#+source: plot-Olympic-data-top-10
+#+begin_src gnuplot :var data=Olympic-data :results silent
+  set title '2008 Olympics Medals Awarded by Country'
+  set xtic rotate by -45
+  set style data histograms
+  set style fill solid 1.0 border -1
+  plot data using 2:xtic(1) title 'Goal Medals', \
+       data using 3:xtic(1) title 'Silver Medals', \
+       data using 3:xtic(1) title 'Bronze Medals'
 #+end_src
-
-Next, the output of the first two blocks is used to create a local
-database of the combined climate data.  In the case of very large data
-sets it may be preferable to use an external store like a database
-rather than storing the data as plain text in the Org-mode buffer.
-
-#+headers: :var raw-temps-file=raw-temps :var codes-file=country-codes
-#+begin_src sqlite :db climate.sqlite :exports code :results silent
-  drop table if exists temps;
-  create table temps (country,station,replicate,year,jan,feb,
-         mar,apr,may,jun,jul,aug,sep,oct,nov,dec);
-  drop table if exists countries;
-  create table countries (code, name);
-  .separator ","
-  .import $raw-temps-file temps
-  .import $codes-file countries
-#+end_src
-
-The =R-init= code block reads a subset of the data from the sqlite
-database and splits the data into a separate time series for each
-weather station, in an ESS R session named =*R-climate*=. The
-variables persist in the =*R-climate*= session after the code block
-exits, so they can be manipulated by other R code blocks that use the
-=*R-climate*= session.
-
-#+source: R-init
-#+begin_src R :session *R-climate* :exports code :results silent
-  library("RSQLite")
-  con <- dbConnect(dbDriver("SQLite"), dbname=dbname)
-  query <- paste("SELECT temps.station, temps.year, temps.jul", 
-                 "FROM temps, countries",
-                 "WHERE countries.code=temps.country",
-                 "AND countries.name='UNITED STATES OF AMERICA'",
-                 "AND temps.replicate='0'",
-                 "ORDER BY year;")
-  temps <- dbGetQuery(con, query)
-  temps$year <- as.integer(temps$year)
-  temps$jul <- as.numeric(temps$jul)/10
-  temps.by.station <- split(temps, temps$station, drop=TRUE)
-#+end_src
-
-Finally the persistent variables in the =*R-climate*= session are used
-to generate figures from the climate data. Here we fit a straight line
-to the July temperatures at each station which has measurements
-spanning the period 1880-1980, and plot a histogram of the fitted
-slope parameters. The figure is written to a pdf file for
-incorporation into the exported document.
-
-#+srcname: R-graph
-#+headers: :results graphics :file temp-trends.pdf
-#+begin_src R :session *R-climate* :exports both :cache yes
-  include.station <- function(station)
-      station$year[1] <= 1880 && station$year[nrow(station)] >= 1980
-  fit.slope <- function(station)
-      with(station, coefficients(lm(jul ~ year))["year"])
-  included <- sapply(temps.by.station, include.station)
-  slopes <- sapply(temps.by.station[included], fit.slope)
-  hist(slopes)
-#+end_src
-
-#+Caption: Temperature trends between 1880 and the present at weather stations in the USA. \label{fig:climate-trend}
-#+ATTR_LaTeX: width=0.6\linewidth placement={t!}
-#+results[8f392da35bf3b238369f4c4a32c533d801956edf]: R-graph
-[[file:temp-trends.pdf]]
 
 ** Discussion
 
