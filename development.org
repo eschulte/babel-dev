@@ -4,6 +4,8 @@
 #+STARTUP: oddeven hideblocks
 
 * Tasks [97/188]
+** TODO Manual: explain that initial evaluation is needed to use :cache with export
+   - State "TODO"       from ""           [2011-02-03 Thu 10:34]
 ** PROPOSED code blemish in gnuplot
    - State "PROPOSED"   from ""           [2010-12-20 Mon 19:09]
      shouldn't [[file:~/lib/emacs/org/lisp/ob-gnuplot.el::(if%20(member%20"output"%20(split-string%20result-type))][this]] be (eq result-type 'output)
@@ -7732,7 +7734,61 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [90/123]
+* Bugs [90/128]
+** PROPOSED lob-one-liners export bug?
+   - State "PROPOSED"   from ""           [2011-02-01 Tue 15:05]
+Debugger entered--Lisp error: (wrong-type-argument stringp nil)
+  replace-match(nil t t)
+  (while (and (< (point) end) (re-search-forward org-babel-lob-one-liner-regexp nil t)) (setq replacement (let ((lob-info (org-babel-lob-get-info))) (save-match-data (org-babel-exp-do-export (list "emacs-lisp" "results" (org-babel-merge-params org-babel-default-header-args (org-babel-params-from-buffer) (org-babel-params-from-properties) (org-babel-parse-header-arguments ...)) (car (last lob-info))) (quote lob))))) (setq end (+ end (- (length replacement) (length (match-string 0))))) (replace-match replacement t t))
+  (save-excursion (goto-char start) (while (and (< (point) end) (re-search-forward org-babel-lob-one-liner-regexp nil t)) (setq replacement (let ((lob-info (org-babel-lob-get-info))) (save-match-data (org-babel-exp-do-export (list "emacs-lisp" "results" (org-babel-merge-params org-babel-default-header-args ... ... ...) (car ...)) (quote lob))))) (setq end (+ end (- (length replacement) (length (match-string 0))))) (replace-match replacement t t)))
+  (let (replacement) (save-excursion (goto-char start) (while (and (< (point) end) (re-search-forward org-babel-lob-one-liner-regexp nil t)) (setq replacement (let ((lob-info (org-babel-lob-get-info))) (save-match-data (org-babel-exp-do-export (list "emacs-lisp" "results" ... ...) (quote lob))))) (setq end (+ end (- (length replacement) (length (match-string 0))))) (replace-match replacement t t))))
+  org-babel-exp-lob-one-liners(1 574)
+  funcall(org-babel-exp-lob-one-liners 1 574)
+  (lambda (pair) (funcall (second pair) start end))((lob org-babel-exp-lob-one-liners))
+  mapcar((lambda (pair) (funcall (second pair) start end)) ((lob org-babel-exp-lob-one-liners) (src org-babel-exp-inline-src-blocks)))
+  (catch (quote --cl-block-interblock--) (mapcar (lambda (pair) (funcall (second pair) start end)) org-export-interblocks))
+  (cl-block-wrapper (catch (quote --cl-block-interblock--) (mapcar (lambda (pair) (funcall (second pair) start end)) org-export-interblocks)))
+  (block interblock (mapcar (lambda (pair) (funcall (second pair) start end)) org-export-interblocks))
+  interblock(1 574)
+  (progn (interblock start (match-beginning 0)))
+  (unwind-protect (progn (interblock start (match-beginning 0))) (set-match-data save-match-data-internal (quote evaporate)))
+  (let ((save-match-data-internal (match-data))) (unwind-protect (progn (interblock start (match-beginning 0))) (set-match-data save-match-data-internal (quote evaporate))))
+  (save-match-data (interblock start (match-beginning 0)))
+  (while (re-search-forward "^\\([ 	]*\\)#\\+begin_\\(\\S-+\\)[ 	]*\\(.*\\)?[
+\n]\\([^
+** TODO sbe failing when results are in buffer
+   - State "TODO"       from ""           [2011-01-31 Mon 16:10]
+   sbe: Invalid function: ("Variant" "TP" "FP" "TN" "FN" "MOD" "TOT" "MODW" "TOTW")
+
+   looks like some a level of quoting is missing.
+** TODO #+call / sbe with :rownames / :colnames
+   - State "TODO"       from ""           [2011-01-31 Mon 17:50]
+
+   Need to find a minimal exampe for this. Try using #+call to call a
+   block which uses :rownames yes :colnames yes and also pulls in a
+   table as input using :var tab=block-that-returns-a-table.
+
+#+srcname: block-that-returns-a-table
+#+begin_src emacs-lisp
+'((1 2 3) (4 5 6))
+#+end_src
+
+#+srcname: main-block
+#+begin_src emacs-lisp :rownames yes :colnames yes :var tab=block-that-returns-a-table
+tab
+#+end_src
+
+#+call: main-block()
+
+#+results: main-block()
+: nil
+
+
+(sbe "main-block")
+   
+
+** TODO export not honoring org-src-lang-modes mappings
+   - State "TODO"       from ""           [2011-01-21 Fri 17:16]
 ** TODO python prep-session failure
    - State "TODO"       from ""           [2011-01-14 Fri 22:10]
      
@@ -7800,6 +7856,8 @@ print("mod2")
    - State "TODO"       from ""           [2010-11-17 Wed 21:30]
 ** TODO :exports both in #+babel does not work
    - State "TODO"       from ""           [2010-12-04 Sat 22:34]
+** TODO exports results in header line doesn't work
+   - State "TODO"       from ""           [2011-01-20 Thu 13:15]
 ** TODO R tests are broken
    - State "TODO"       from ""           [2010-10-31 Sun 15:04]
 
