@@ -18,7 +18,7 @@
 
    Note that the behavior has changed slightly recently with commit
    14f4dbd75f.
-   
+
 *** Email between Eric and Dan
     Hey Dan,
 
@@ -138,27 +138,27 @@ or something similar.
 : > source code blocks with the same language and it would be nice to
 : > distinguish between them in terms of error output. Having the srcname appear
 : > would be great, if it's possible.
-: 
+:
 : I think that what'd be very useful is:
-: 
+:
 : - some kind of separator
 : - some timestamp (à la Org?  with or without seconds)
 : - some language info?
 : - a referrer to the code block (like the =comments= in tangled files)
-: 
+:
 : The separator could even be (why not?) a Org heading: the entire output buffer
 : could be an Org file, allowing for folding of less useful entries, or sparse
 : tree searches:
-: 
+:
 : * 2010-11-23 Tue 22:29:11 sh block
 : /* [[file:~/src/test.org::*Commands][Commands:1]] */
 : Invalid command: ls\r
 : Invalid command: date\r
 : /* Commands:1 ends here */
-: 
+:
 : Just a proposition example... For me, whatever the format...
 
-** STARTED Resolve references earlier and rewrite of variable assignments 
+** STARTED Resolve references earlier and rewrite of variable assignments
    - State "STARTED"    from ""           [2010-10-16 Sat 15:40]
 
 *** TODO Newlines
@@ -186,7 +186,7 @@ or something similar.
 
 *** TODO I don't think ocaml prep-session loads the variables
     - State "TODO"       from ""           [2010-10-16 Sat 18:26]
-*** TODO Error in recent scheme change? 
+*** TODO Error in recent scheme change?
     - State "TODO"       from ""           [2010-10-16 Sat 18:40]
     I changed org-babel-expand-body:scheme so that it applied the (mapcar #'cdr
     onto the (org-babel-get-header params :var). OK?
@@ -7786,14 +7786,14 @@ tab
 
 
 (sbe "main-block")
-   
+
 ** TODO export not honoring org-src-lang-modes mappings
    - State "TODO"       from ""           [2011-01-21 Fri 17:16]
 ** TODO python prep-session failure
    - State "TODO"       from ""           [2011-01-14 Fri 22:10]
-     
+
    C-u C-c C-v z on a python block using a session results in
-   
+
    - first time :: ansi-color-filter-apply: Marker does not point anywhere
    - subsequent times :: check-face: Not a face: nil
 
@@ -7885,7 +7885,7 @@ like
 
 is an error.
 
-In `org-babel-sha1-hash' I added this 
+In `org-babel-sha1-hash' I added this
 				     (when (and v (not (and (sequencep v)
 							    (not (consp v))
 							    (= (length v) 0))))
