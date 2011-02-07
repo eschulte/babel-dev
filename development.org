@@ -7734,8 +7734,9 @@ dot("$(2a,0)$",(2,0),N+E);
 *** DONE sh
 
 
-* Bugs [90/128]
-** PROPOSED lob-one-liners export bug?
+* Bugs [91/128]
+** DONE lob-one-liners export bug?
+   - State "DONE"       from "PROPOSED"   [2011-02-07 Mon 22:30]
    - State "PROPOSED"   from ""           [2011-02-01 Tue 15:05]
 Debugger entered--Lisp error: (wrong-type-argument stringp nil)
   replace-match(nil t t)
@@ -7786,7 +7787,6 @@ tab
 
 (sbe "main-block")
    
-
 ** TODO export not honoring org-src-lang-modes mappings
    - State "TODO"       from ""           [2011-01-21 Fri 17:16]
 ** TODO python prep-session failure
