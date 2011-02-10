@@ -250,7 +250,6 @@ export targets, and work flows.
       application of code and prose.}
     \label{fig:overview}
   \end{figure}
-  
 #+end_LaTeX
 
 With [[latex:proglang][Org-mode]] the entire life cycle of a research or development
