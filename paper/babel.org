@@ -447,16 +447,19 @@ and extension.  \citep{compendium}
 statistical programming language \citep{r-software} that can be used
 for reproducible research.  [[latex:proglang][Sweave]] and the [[latex:proglang][R]] community at large
 inspired the work that led to the /compendium/ idea, and the recent
-resurgence of interest in reproducible research owes much to the success of both [[latex:proglang][R]]
-and [[latex:proglang][Sweave]].
-[[latex:proglang][Sweave]] documents consist of blocks of [[latex:proglang][R]] code embedded in
-LaTeX documents.  The [[latex:proglang][R]] functions that make up
-[[latex:proglang][Sweave]] execute the embedded [[latex:proglang][R]] code and produce another
-LaTeX document that includes the resulting tables, graphical figures,
-and inline results.  If the [[latex:proglang][Sweave]] document is accompanied by the
-data files and any other code that is used, then the reader can trace a result
-back to the relevant computations and through to the original
-data.
+resurgence of interest in reproducible research owes much to the
+success of both [[latex:proglang][R]] and [[latex:proglang][Sweave]].  [[latex:proglang][Sweave]] documents consist of blocks of [[latex:proglang][R]]
+code embedded in LaTeX documents.  The [[latex:proglang][R]] functions that make up [[latex:proglang][Sweave]]
+execute the embedded [[latex:proglang][R]] code and produce another LaTeX document that
+includes the resulting tables, graphical figures, and inline results.
+If the [[latex:proglang][Sweave]] document is accompanied by the data files and any other
+code that is used, then the reader can trace a result back to the
+relevant computations and through to the original data.  The [[latex:proglang][Sweave]]
+approach to reproducible research has spawned similar tools, some of
+which support statistical languages other then [[latex:proglang][R]], and which target
+document preparation systems other than LaTeX, including Open Document
+Format and Microsoft Word
+\citep{Lenth:2007:SLP,baier07:_excel,kuhn10:_odfweav_packag,lenth09:_statw_users_manual}.
 
 # It might be useful to start this section with Lisp and how bottom-up
 # programming changes the language to suit the problem.  So emacs
@@ -1573,7 +1576,7 @@ communicate their work and make it more accessible.
 # And has now suffered the fate of most meteors.
 
 #+begin_LaTeX
-    \bibliography{babel,babel2}
+    \bibliography{babel,babel2,jstatsoft}
 #+end_LaTeX
 
 ** COMMENT Conclusion
@@ -1951,7 +1954,10 @@ completely lost.  Could somebody explain?
    - [ ] Not good for publishing in statistics journal, should go to
      "another audience."
 * COMMENT JSS Review
-** References are on the thin side
+** TODO References are on the thin side
+   :LOGBOOK:
+   - State "STARTED"    from ""           [2011-05-22 Sun 14:53]
+   :END:
 *** The Org Mode 7 Reference Manual: Organize Your Life with GNU Emacs
     :PROPERTIES:
     :TITLE:    The Org Mode 7 Reference Manual: Organize Your Life with GNU Emacs
@@ -1963,7 +1969,46 @@ completely lost.  Could somebody explain?
     :NOTE:     with contributions by David O`Toole, Bastien Guerry, Philip Rooke, Dan Davison, Eric Schulte, and Thomas Dye
     :CUSTOM_ID: dominik10:_org_mode_refer_manual
     :END:
-
-** Need to refer to documentation
+*** StatWeave User's Manual
+    :PROPERTIES:
+    :TITLE:    StatWeave User's Manual
+    :TYPE:     manual
+    :AUTHOR:   Russell V. Lenth
+    :ORGANIZATION: University of Iowa
+    :URL: http://www.stat.uiowa.edu/~rlenth/StatWeave/StatWeave-manual.pdf
+    :MONTH:    Feb
+    :YEAR:     2009
+    :NOTE:     Accessed May 22, 2011
+    :CUSTOM_ID: lenth09:_statw_users_manual
+    :END:
+*** The OdfWeave Package
+    :PROPERTIES:
+    :TITLE:    The OdfWeave Package
+    :TYPE:     manual
+    :AUTHOR:   Max Kuhn
+    :ORGANIZATION: R Project
+    :MONTH:    Dec
+    :URL: http://cran.r-project.org/web/packages/odfWeave/vignettes/odfWeave.pdf
+    :YEAR:     2010
+    :NOTE:     Accessed May 22, 2011
+    :CUSTOM_ID: kuhn10:_odfweav_packag
+    :END:
+*** Excel :: COM :: R
+    :PROPERTIES:
+    :TITLE:    Excel :: COM :: R
+    :TYPE:     article
+    :AUTHOR:   Thomas Baier and Erich Neuwirth
+    :JOURNAL:  Computational Statistics
+    :YEAR:     2007
+    :VOLUME:   22
+    :NUMBER:   1
+    :PAGES:    91--108
+    :MONTH:    April
+    :CUSTOM_ID: baier07:_excel
+    :END:
+** DONE Need to refer to documentation
+   :LOGBOOK:
+   - State "DONE"       from ""           [2011-05-22 Sun 14:51]
+   :END:
   TD added the heading [[Where%20to%20find%20information%20about%20Org-mode][Where to find information about Org-mode]]
 
