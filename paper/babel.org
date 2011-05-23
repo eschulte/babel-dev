@@ -8,6 +8,7 @@
 #+LATEX_HEADER: \usepackage{attrib}
 #+LATEX_HEADER: \usepackage{mathpazo}
 #+LATEX_HEADER: \usepackage{thumbpdf}
+#+LATEX_HEADER: \usepackage{listings}
 #+LATEX_HEADER: \Plainauthor{Eric Schulte, Dan Davison, Thomas Dye, Carsten Dominik}
 #+LATEX_HEADER: \Shorttitle{Computational Environment for Mixed Prose and Code}
 #+LATEX_HEADER: \Keywords{emacs, lisp, org-mode, literate programming, reproducible research, compendium, web}
