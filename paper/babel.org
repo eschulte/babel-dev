@@ -143,19 +143,19 @@ code, and computational results in a single document.
   tutorials, and experiential blogs with accompanying instructions.
 
 In each of the situations described above, prose alone in the absence
-of code is typically insufficient.  Similarly, code
-without expository prose is a less than ideal medium for communication
-between people. In this paper we describe the plain text markup
-language [[latex:proglang][Org-mode]], with a focus on its provision of a unified
-environment supporting many different approaches to composition and
-application of combined prose and code (Figure \ref{fig:overview}).  Working in
-[[latex:proglang][Org-mode]] is an extension of standard text editing. Thus, trivial usage
-of [[latex:proglang][Org-mode]] is nothing more than text editing, from which point the
-user can start to add special plain text [[latex:proglang][Org-mode]]
-elements to the document.  [[latex:proglang][Org-mode]] is therefore easy to adopt and
-aims to be a general solution for authoring projects with mixed
-computational and natural languages.  It supports multiple programming languages,
-export targets, and work flows.
+of code is typically insufficient.  Similarly, code without expository
+prose is a less than ideal medium for communication between people. In
+this paper we describe the plain text markup language [[latex:proglang][Org-mode]], with a
+focus on its provision of a unified environment supporting many
+different approaches to composition and application of combined prose
+and code (Figure \ref{fig:overview}).  Working in [[latex:proglang][Org-mode]] is an
+extension of standard text editing. Thus, trivial usage of [[latex:proglang][Org-mode]] is
+nothing more than text editing, from which point the user can start to
+add special plain text [[latex:proglang][Org-mode]] elements to the document.  [[latex:proglang][Org-mode]] is
+therefore easy to adopt and aims to be a general solution for
+authoring projects with mixed computational and natural languages.  It
+supports multiple programming languages, export targets, and work
+flows.
 
 #+begin_LaTeX
   \usetikzlibrary{shapes,arrows,shadows,decorations,decorations.text,through}
@@ -900,6 +900,18 @@ the user.[fn:1]
 # not used elsewhere in [[latex:proglang][Org-mode]], provides some degree of protection
 # against unintended evaluation of code blocks.
 
+** Where to find information about Org-mode
+The official web site for [[latex:proglang][Org-mode]] is maintained by one of us (CD) at
+[[http://orgmode.org/]].  The site contains links to the [[http://orgmode.org/index.html#sec-3_1][standard
+distribution]], the [[http://orgmode.org/index.html#sec-3_2][development version]], and to [[http://orgmode.org/index.html#sec-3_3][alternative
+distributions]] for a variety of operating systems.  Documentation is
+available as a book \citep{dominik10:_org_mode_refer_manual} and in a
+[[http://orgmode.org/index.html#sec-4_1][variety of formats]] on-line. There is an [[http://orgmode.org/guide/index.html][on-line compact guide]] that can
+be downloaded as a 40 page introduction to [[latex:proglang][Org-mode]], a [[http://orgmode.org/orgcard.pdf][reference card]],
+a list of[[http://orgmode.org/worg/org-faq.html][ frequently asked questions]], more than 4 dozen [[http://orgmode.org/worg/org-tutorials/index.html][tutorials]], and
+a few [[http://orgmode.org/worg/org-tutorials/org-screencasts/index.html][screencasts]].  An active mailing list, emacs-orgmode@gnu.org, has
+a [[http://news.gmane.org/gmane.emacs.orgmode][web interface]].
+
 * Examples
    :PROPERTIES:
    :CUSTOM_ID: examples
@@ -1515,11 +1527,11 @@ for a community of researchers and developers.  These include:
      installation and use of [[latex:proglang][Org-mode]] on a wide
      variety of user systems.
 
-- Active community :: The [[latex:proglang][Org-mode]] community provides ready
-     support to both novice users with basic questions and to
-     developers seeking to extend [[latex:proglang][Org-mode]].  The development of
-     [[latex:proglang][Org-mode]] would not have been possible without the attention and
-     effort of this community.
+- Active community :: The [[latex:proglang][Org-mode]] community
+     provides ready support to both novice users with basic questions
+     and to developers seeking to extend [[latex:proglang][Org-mode]].
+     The development of [[latex:proglang][Org-mode]] would not have
+     been possible without the attention and effort of this community.
 
 - General and extensible :: A main design goal of [[latex:proglang][Org-mode]]'s support
      for working with source code was pursuit of generality.  As a
@@ -1561,7 +1573,7 @@ communicate their work and make it more accessible.
 # And has now suffered the fate of most meteors.
 
 #+begin_LaTeX
-    \bibliography{babel}
+    \bibliography{babel,babel2}
 #+end_LaTeX
 
 ** COMMENT Conclusion
@@ -1938,3 +1950,20 @@ completely lost.  Could somebody explain?
      is something that I can do relatively easily if it appeals, td]
    - [ ] Not good for publishing in statistics journal, should go to
      "another audience."
+* COMMENT JSS Review
+** References are on the thin side
+*** The Org Mode 7 Reference Manual: Organize Your Life with GNU Emacs
+    :PROPERTIES:
+    :TITLE:    The Org Mode 7 Reference Manual: Organize Your Life with GNU Emacs
+    :TYPE:     book
+    :AUTHOR:   Carsten Dominik
+    :PUBLISHER: Network Theory
+    :YEAR:     2010
+    :ADDRESS:  UK
+    :NOTE:     with contributions by David O`Toole, Bastien Guerry, Philip Rooke, Dan Davison, Eric Schulte, and Thomas Dye
+    :CUSTOM_ID: dominik10:_org_mode_refer_manual
+    :END:
+
+** Need to refer to documentation
+  TD added the heading [[Where%20to%20find%20information%20about%20Org-mode][Where to find information about Org-mode]]
+
