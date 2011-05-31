@@ -780,15 +780,16 @@ the user.[fn:1]
 
 ** Where to find information about Org-mode
 The official web site for [[latex:proglang][Org-mode]] is maintained by one of us (CD) at
-[[http://orgmode.org/]].  The site contains links to the [[http://orgmode.org/index.html#sec-3_1][standard
-distribution]], the [[http://orgmode.org/index.html#sec-3_2][development version]], and to [[http://orgmode.org/index.html#sec-3_3][alternative
-distributions]] for a variety of operating systems.  Documentation is
-available as a book \citep{dominik10:_org_mode_refer_manual} and in a
-[[http://orgmode.org/index.html#sec-4_1][variety of formats]] on-line. There is an [[http://orgmode.org/guide/index.html][on-line compact guide]] that can
-be downloaded as a 40 page introduction to [[latex:proglang][Org-mode]], a [[http://orgmode.org/orgcard.pdf][reference card]],
-a list of[[http://orgmode.org/worg/org-faq.html][ frequently asked questions]], more than 4 dozen [[http://orgmode.org/worg/org-tutorials/index.html][tutorials]], and
-a few [[http://orgmode.org/worg/org-tutorials/org-screencasts/index.html][screencasts]].  An active mailing list, emacs-orgmode@gnu.org, has
-a [[http://news.gmane.org/gmane.emacs.orgmode][web interface]].
+[[http://orgmode.org/]].  The site contains links to: the [[http://orgmode.org/index.html#sec-3_1][standard
+distribution]] distributed with Emacs, the [[http://orgmode.org/index.html#sec-3_2][development version]], and to
+[[http://orgmode.org/index.html#sec-3_3][alternative distributions]] packaged with a variety of operating systems.
+Documentation is available as a book
+\citep{dominik10:_org_mode_refer_manual} and in a [[http://orgmode.org/index.html#sec-4_1][variety of formats]]
+on-line. There is an [[http://orgmode.org/guide/index.html][on-line compact guide]] that can be downloaded as a
+40 page introduction to [[latex:proglang][Org-mode]], a [[http://orgmode.org/orgcard.pdf][reference card]], a list of
+[[http://orgmode.org/worg/org-faq.html][frequently asked questions]], more than 4 dozen [[http://orgmode.org/worg/org-tutorials/index.html][tutorials]], and a few
+[[http://orgmode.org/worg/org-tutorials/org-screencasts/index.html][screencasts]].  An active mailing list, emacs-orgmode@gnu.org, has a [[http://news.gmane.org/gmane.emacs.orgmode][web
+interface]].
 
 * Examples
    :PROPERTIES:
