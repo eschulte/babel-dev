@@ -29,7 +29,7 @@ this file to LaTeX.
        (format "<span style=\"color:black;\">%s</span>" desc))
       ((eq format 'latex)
        (format "\\%s{%s}" path desc)))))
-
+  
   (setq org-babel-default-header-args:org '((:results . "raw silent")
                                             (:exports . "code")))
   ;; replace nasty single-quotes returned by R
@@ -50,12 +50,12 @@ this file to LaTeX.
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
+  
   ;; JSS has its own code formatting style
   (setq org-export-latex-listings nil)
   (setq org-export-latex-verbatim-wrap
         '("\\begin{Code}\n" . "\\end{Code}\n"))
-
+  
   :configured
 #+end_src
 
@@ -201,7 +201,7 @@ work-group tasked with engineering a complex system, using
 [[latex:proglang][git]] to build a repository of code and documentation.  With the
 data, code and text of a project stored in the same document, which can
 be exported to a variety of formats, the future reproducibility of the
-work is dramatically enhanced without placing a great burden on the
+work is enhanced without placing a great burden on the
 author.
 
 We start by reviewing existing approaches to the combined authoring of
@@ -369,7 +369,12 @@ execute the embedded [[latex:proglang][R]] code and produce another LaTeX docume
 includes the resulting tables, graphical figures, and inline results.
 If the [[latex:proglang][Sweave]] document is accompanied by the data files and any other
 code that is used, then the reader can trace a result back to the
-relevant computations and through to the original data.
+relevant computations and through to the original data.  The [[latex:proglang][Sweave]]
+approach to reproducible research has spawned similar tools, some of
+which support statistical languages other then [[latex:proglang][R]], and which target
+document preparation systems other than LaTeX, including Open Document
+Format and Microsoft Word
+\citep{Lenth:2007:SLP,baier07:_excel,kuhn10:_odfweav_packag,lenth09:_statw_users_manual}.
 
 * Design of Org-mode
   :PROPERTIES:
@@ -772,6 +777,18 @@ understood by the reader.
 from the accidental or uninformed execution of code.  By default
 /every/ execution of a code block requires explicit confirmation from
 the user.[fn:1]
+
+** Where to find information about Org-mode
+The official web site for [[latex:proglang][Org-mode]] is maintained by one of us (CD) at
+[[http://orgmode.org/]].  The site contains links to the [[http://orgmode.org/index.html#sec-3_1][standard
+distribution]], the [[http://orgmode.org/index.html#sec-3_2][development version]], and to [[http://orgmode.org/index.html#sec-3_3][alternative
+distributions]] for a variety of operating systems.  Documentation is
+available as a book \citep{dominik10:_org_mode_refer_manual} and in a
+[[http://orgmode.org/index.html#sec-4_1][variety of formats]] on-line. There is an [[http://orgmode.org/guide/index.html][on-line compact guide]] that can
+be downloaded as a 40 page introduction to [[latex:proglang][Org-mode]], a [[http://orgmode.org/orgcard.pdf][reference card]],
+a list of[[http://orgmode.org/worg/org-faq.html][ frequently asked questions]], more than 4 dozen [[http://orgmode.org/worg/org-tutorials/index.html][tutorials]], and
+a few [[http://orgmode.org/worg/org-tutorials/org-screencasts/index.html][screencasts]].  An active mailing list, emacs-orgmode@gnu.org, has
+a [[http://news.gmane.org/gmane.emacs.orgmode][web interface]].
 
 * Examples
    :PROPERTIES:
@@ -1462,4 +1479,62 @@ http://www.gnu.org/software/emacs/calc.html.
 [fn:4] http://orgmode.org/manual/Working-With-Source-Code.html.
 
 [fn:5] https://github.com/eschulte/babel-dev/raw/jss/paper/babel.org
+* COMMENT JSS Review
+** TODO References are on the thin side
+   :LOGBOOK:
+   - State "STARTED"    from ""           [2011-05-22 Sun 14:53]
+   :END:
+*** The Org Mode 7 Reference Manual: Organize Your Life with GNU Emacs
+    :PROPERTIES:
+    :TITLE:    The Org Mode 7 Reference Manual: Organize Your Life with GNU Emacs
+    :TYPE:     book
+    :AUTHOR:   Carsten Dominik
+    :PUBLISHER: Network Theory
+    :YEAR:     2010
+    :ADDRESS:  UK
+    :NOTE:     with contributions by David O`Toole, Bastien Guerry, Philip Rooke, Dan Davison, Eric Schulte, and Thomas Dye
+    :CUSTOM_ID: dominik10:_org_mode_refer_manual
+    :END:
+*** StatWeave User's Manual
+    :PROPERTIES:
+    :TITLE:    StatWeave User's Manual
+    :TYPE:     manual
+    :AUTHOR:   Russell V. Lenth
+    :ORGANIZATION: University of Iowa
+    :URL: http://www.stat.uiowa.edu/~rlenth/StatWeave/StatWeave-manual.pdf
+    :MONTH:    Feb
+    :YEAR:     2009
+    :NOTE:     Accessed May 22, 2011
+    :CUSTOM_ID: lenth09:_statw_users_manual
+    :END:
+*** The OdfWeave Package
+    :PROPERTIES:
+    :TITLE:    The OdfWeave Package
+    :TYPE:     manual
+    :AUTHOR:   Max Kuhn
+    :ORGANIZATION: R Project
+    :MONTH:    Dec
+    :URL: http://cran.r-project.org/web/packages/odfWeave/vignettes/odfWeave.pdf
+    :YEAR:     2010
+    :NOTE:     Accessed May 22, 2011
+    :CUSTOM_ID: kuhn10:_odfweav_packag
+    :END:
+*** Excel :: COM :: R
+    :PROPERTIES:
+    :TITLE:    Excel :: COM :: R
+    :TYPE:     article
+    :AUTHOR:   Thomas Baier and Erich Neuwirth
+    :JOURNAL:  Computational Statistics
+    :YEAR:     2007
+    :VOLUME:   22
+    :NUMBER:   1
+    :PAGES:    91--108
+    :MONTH:    April
+    :CUSTOM_ID: baier07:_excel
+    :END:
+** DONE Need to refer to documentation
+   :LOGBOOK:
+   - State "DONE"       from ""           [2011-05-22 Sun 14:51]
+   :END:
+  TD added the heading [[Where%20to%20find%20information%20about%20Org-mode][Where to find information about Org-mode]]
 
