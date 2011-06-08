@@ -613,12 +613,12 @@ At the most basic level, results can be collected from code blocks by
 value or as output.  This behavior is controlled by the =:results=
 header argument.
 
-- =:results value= :: Specifies that the code block should be treated
+- Header =:results value= :: Specifies that the code block should be treated
      as a function, and the results should be equal to the value of
      the last expression in the block, like the return value of a
      function.  This is the default setting.
 
-- =:results output= :: Specifies that the results should be collected
+- Header =:results output= :: Specifies that the results should be collected
      from =STDOUT=, as they are written by the
      application responsible for code execution.
 
