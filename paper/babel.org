@@ -376,7 +376,7 @@ document preparation systems other than LaTeX, including Open Document
 Format and Microsoft Word
 \citep{Lenth:2007:SLP,baier07:_excel,kuhn10:_odfweav_packag,lenth09:_statw_users_manual}.
 
-* Design of [[latex:proglang][Org-mode]]
+* Design of Org-mode
   :PROPERTIES:
   :CUSTOM_ID: design
   :END:
@@ -409,7 +409,7 @@ of code blocks (Section \ref{code-blocks}), weaving and tangling of
 [[latex:proglang][Org-mode]] documents (Section \ref{export}), and language support
 facilities (Section \ref{languages}).
 
-** Structure and content of [[latex:proglang][Org-mode]] documents
+** Structure and content of Org-mode documents
    :PROPERTIES:
    :CUSTOM_ID: org-mode
    :END:
@@ -778,7 +778,7 @@ from the accidental or uninformed execution of code.  By default
 /every/ execution of a code block requires explicit confirmation from
 the user.[fn:1]
 
-** Where to find information about [[latex:proglang][Org-mode]]
+** Where to find information about Org-mode
 The official web site for [[latex:proglang][Org-mode]] is maintained by one of us (CD) at
 [[http://orgmode.org/]].  The site contains links to: the [[http://orgmode.org/index.html#sec-3_1][standard
 distribution]] distributed with Emacs, the [[http://orgmode.org/index.html#sec-3_2][development version]], and to
